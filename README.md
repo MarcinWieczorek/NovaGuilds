@@ -1,0 +1,2 @@
+# NovaGuilds
+Minecraft guilds plugin
