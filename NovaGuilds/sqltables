@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS `novaguilds_guilds` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tag` tinytext NOT NULL,
+  `name` tinytext NOT NULL,
+  `leader` tinytext NOT NULL,
+  `spawn` tinytext NOT NULL,
+  `money` double NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin2 ROW_FORMAT=COMPACT;
+
+CREATE TABLE IF NOT EXISTS `novaguilds_players` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` tinytext NOT NULL,
+  `name` tinytext NOT NULL,
+  `guild` tinytext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin2 ROW_FORMAT=COMPACT;
+
+CREATE TABLE IF NOT EXISTS `novaguilds_regions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `loc_1` tinytext NOT NULL,
+  `loc_2` tinytext NOT NULL,
+  `guild` tinytext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin2 ROW_FORMAT=COMPACT;

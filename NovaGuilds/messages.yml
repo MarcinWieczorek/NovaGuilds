@@ -1,0 +1,160 @@
+chat:
+ prefix: "&6[&5NovaGuilds&6] &3"
+ nopermissions: "&cYou don't have enought permissions to do this."
+ unknowncmd: "&cUnknown command."
+ 
+ admin:
+  rgbypass:
+   toggled: "Region bypass toggled. Currently: &c{BYPASS}"
+   toggledother: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
+ 
+ reload:
+  reloading: "Reloading NovaGuilds..."
+  config: "Config reloaded!"
+  messages: "Messages reloaded!"
+  mysql: "MySQL reloaded!"
+  players: "Players loaded!"
+  guilds: "Guilds loaded!"
+  regions: "Regions loaded!"
+  newmsgfile: "New messages file created!"
+  reloaded: "NovaGuilds reloaded!"
+  
+ usage:
+  ng:
+   broadcast: "&c/ng bc <message>"
+ commands:
+  g:
+   - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
+   - "&5* &7/g &cwithdraw &6<amount> &2- &3Withdraw money from guild's bank"
+   - "&5* &7/g &cleader &6<playername> &2- &3Set guild's leader"
+   - "&5* &7/g &ckick &6<playername> &2- &3Kick a player from the guild"
+   - "&5* &7/g &chome &2- &3TP to guild's home"
+   - "&5* &7/g &chome set &2- &3Set guild's home"
+   - "&5* &7/g &cinfo &2- &3Guild's info. &9/gi"
+   - "&5* &7/g &cleave &2- &3Leave the guild"
+   - "&5* &7/g &cbuyregion &2- &3Buy selected area"
+
+ teampvp: "You cannot hurt your teammates"
+ noguild: "No guild"
+ 
+ guild:
+  namenotexist: "Could not find a guild with this name"
+  notinguild: "You don't have a guild"
+  abandoned: "guild abandoned successfully"
+  notleader: "You are not the leader"
+  notenoughtmoney: "There is not enought money in guild's bank."
+  setspawnpoint: "Guild's home set!"
+  tp: "Teleported to guild's home"
+  hasregionalready: "Your guild already has a region. Resize or delete current one."
+  guildatlocsp: "You cannot set the spawnpoint at someone's guild location!"
+  joined: "You have joined the guild!"
+  leader:
+   success: "{PLAYERNAME} is now the leader!"
+   samenick: "You already are the leader!"
+   notsameguild: "This player is not in your guild."
+   notifynewleader: "You are now the leader of {GUILDNAME}"
+  leave:
+   isleader: "The leader cannot leave the guild. &c/abandon"
+   left: "You left the guild."
+  bank:
+   enteramount: "Please give the amount. &c/g pay &c&l<amount>"
+   pay:
+    paid: "You've paid &2$&c{AMOUNT} &3to guild's bank."
+    notenought: "You don't have enought money."
+   withdraw:
+    notleader: "Only leaders can withdraw money."
+    success: "You took &2$&c{AMOUNT} &3from guild's bank."
+    notenought: "There is not enought money in the bank."
+  
+ player:
+  entername: "Enter player's name"
+  notexists: "This player does not exist."
+  hasguild: "That player already has a guild."
+  hasnoguild: "That player doesn't have a guild"
+  alreadyinvited: "This player is already invited to that guild."
+  invited: "Player has been invited to the guild."
+  invitedtonothing: "You aren't invited to any guild."
+  notinvitedtoguild: "You aren't invited to this guild!"
+  uvebeeninvited: "You have been invited to guild {GUILDNAME}"
+  ureinvitedto: "List of guilds you've been invited to:"
+  
+ region:
+  cannotinteract: "You cannot interact here"
+  cannotridemob: "You cannot ride this mob, its protected!"
+  cannotattackmob: "You cannot attack this mob"
+  noregionhere: "There's not guild here."
+  regionhere: "There's other guild's region!"
+  toosmall: "Selected area is too small. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
+  toobig: "Selected area is too big. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
+  size: "Selected area's size: &c{SIZE} &3blocks"
+  price: "Buying this area will cost you: &c${PRICE}"
+  confirm: "&cSneak &3and &cRight click &3to &fconfirm"
+  cnotafford: "You can't afford this claim. You need &c${NEEDMORE} &3more"
+  overlaps: "This area overlaps other guild's region"
+  notvalid: "Area you selected is not valid. Try again."
+  created: "Region created successfully"
+  selectsuccess: "Area selected. &c/ng rg buy"
+  areanotselected: "Please select the area"
+  mustveguild: "You need a guild to buy this area. &c/create"
+  tool:
+   toggledmode: "Region Mode toggled."
+   modes:
+    check: "Check Mode"
+    select: "Select Mode"
+  
+  
+ createguild:
+  notenoughtmoney: "Not enought money"
+  itemlist: "&c{AMOUNT} {ITEMNAME}"
+  itemlistsep: ", "
+  noitems: "You don't have required items!"
+  tagexists: "tag exists"
+  nameexists: "name exists"
+  hasguild: "You already have a guild"
+  success: "Guild created"
+  regionhere: "You can't create a guild where another guild exists"
+ 
+ guildinfo:
+  playerseparator: ", "
+  leaderprefix: "*"
+  playercolor:
+   online: "&a"
+   offline: "&f"
+  info:
+   - "&4*** &3Guild information &4***"
+   - " &c* &2Name: &6{GUILDNAME}"
+   - " &c* &2Tag: &6{TAG}"
+   - " &c* &2Leader: &6{LEADER}"
+   - " &c* &2Location: &6{SP_X},{SP_Y},{SP_Z}"
+   - " &c* &2Players: {PLAYERS}"
+   - " &c* &2Money: &6{MONEY}"
+   
+#broadcast messages:
+broadcast:
+ guild:
+  joined: "Player &c{PLAYER} &3joined &a{GUILDNAME}"
+  left: "Player &c{PLAYER} &3left &a{GUILDNAME}"
+  created: "Player &c{PLAYER} &3created guild &a{GUILDNAME}"
+  abandoned: "Player &c{PLAYER} &3abandoned &a{GUILDNAME}"
+  setleader: "Player &c{PLAYERNAME} &3is now the leader of &a{GUILDNAME}"
+ pvp:
+  killed: "Player {TAG1}&c{PLAYER1} &3was slain by {TAG2}&c{PLAYER2}"
+  
+holographicdisplays:
+ locations:
+  topguilds: 
+ topguilds:
+  toprows: 5
+  header: "&2Guilds &cTOP5"
+  row: "&6[&2{N}&6] &a{GUILDNAME}"
+  
+items:
+ tool:
+  lore:
+   - "&cLeft Click + SHIFT"
+   - "&6To toggle the mode"
+   - "&e****&2Check Mode&e****"
+   - "&6Right click to check"
+   - "&e****&2Select Mode&e***"
+   - "&cLeft/Right"
+   - "&6click to select"

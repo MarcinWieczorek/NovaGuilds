@@ -1,0 +1,105 @@
+#true=mysql, false=sqlite
+usemysql: false
+mysql:
+ host: 
+ port: 
+ database: 
+ username: 
+ password: 
+ prefix: novaguilds_
+
+debug: false
+ 
+tabapi: 
+ enabled: true
+ colortags: true
+ rankprefix: false
+ 
+tagapi: 
+ enabled: true
+ colortags: true
+ rankprefix: false
+ 
+usevault: true
+
+holographicdisplays:
+ enabled: true
+ 
+takeover:
+ endercrystal:
+  enabled: true
+  explosionpower: 50
+  #seconds
+  time: 100
+  #cooldown in seconds
+  cooldown: 0.1
+  requireguild: false
+  requirewar: false
+ 
+raid:
+ enabled: true
+ minonline: 1
+ minonlineenemy: 1
+ 
+killing:
+ moneyforkill: 5%
+ moneyforrevenge: 10%
+ 
+ 
+guild:
+ tag: "&a{RANK}{TAG} &r"
+ createmoney: 0
+ createitems:
+  - dirt 1 
+
+region:
+ #price per block
+ pricepb: 1
+ createprice: 100
+ minsize: 10
+ maxsize: 100
+ tool:
+  item: STICK
+  
+ denyinteract:
+  - WOODEN_DOOR
+  - LEVER
+  - DISPENSER
+  - STONE_BUTTON
+  - WOOD_BUTTON
+  - DROPPER
+  - HOPPER
+  - FENCE_GATE
+  - REDSTONE_COMPARATOR_OFF
+  - REDSTONE_COMPARATOR_ON
+  - REDSTONE_REPEATER
+  - TRAP_DOOR
+  - CHEST
+  - ANVIL
+  - ENCHANTMENT_TABLE
+  - WORKBENCH
+  - FURNACE
+  - DIODE_BLOCK_ON
+  - DIODE_BLOCK_OFF
+  - WOOD_PLATE
+  - STONE_PLATE
+  - IRON_PLATE
+  - GOLD_PLATE
+  - ENDER_CHEST
+  - ENDER_PORTAL_FRAME
+  - NOTE_BLOCK
+  - JUKEBOX
+  - BEACON
+ denyuse:
+  - LAVA_BUCKET
+  - WATER_BUCKET
+  - BUCKET
+ denymobdamage:
+  - PIG
+  - COW
+  - SHEEP
+  - HORSE
+  - WOLF
+  - OCELOT
+ denyriding:
+  - HORSE

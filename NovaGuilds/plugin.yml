@@ -1,0 +1,115 @@
+name: NovaGuilds
+main: co.marcin.NovaGuilds.NovaGuilds
+author: Marcin Wieczorek
+description: The best guilds plugin!
+website: http://novaguilds.marcin.co/
+version: 5
+softdepend: [Vault, TagAPI, TabAPI]
+commands:
+   novaguilds:
+      description: Main NovaGuilds command
+      usage: /novaguilds
+      aliases: [ng]
+   nga:
+      description: Admin commands
+      usage: /nga [cmd]
+   guild:
+      description: NovaGuilds Guild command
+      usage: /guild <cmd> [params]
+      permission: novaguilds.guild.access
+      permission-message: No permissions
+      aliases: [g]
+   gi:
+      description: NovaGuilds Guild Info
+      usage: /gi <tag>
+      permission: novaguilds.guild.info
+      permission-message: No permissions
+      aliases: [guildinfo]
+   create:
+      description: Create a guild
+      usage: /create <tag> <name>
+      permission: novaguilds.guild.create
+      permission-message: No permissions
+   nghome:
+      description: Guilds home
+      usage: /nghome
+      permission: novaguilds.guild.home
+      permission-message: No permissions
+   abandon:
+      description: Abandon guild
+      usage: /abandon
+      permission: novaguilds.guild.abandon
+      permission-message: No permissions
+   invite:
+      description: Invite to guild
+      usage: /invite <player>
+      permission: novaguilds.guild.invite
+      permission-message: No permissions
+   join:
+      description: join a guild
+      usage: /join [name]
+      permission: novaguilds.guild.join
+      permission-message: No permissions
+   leave:
+      description: leave the guild
+      usage: /leave
+      permission: novaguilds.guild.leave
+      permission-message: No permissions
+
+permissions:
+    novaguilds.region.create:
+        default: op
+    novaguilds.region.buy.free:
+        default: op
+    novaguilds.region.resize:
+        default: op
+    novaguilds.region.delete:
+        default: op
+    novaguilds.guild.home:
+        default: op
+    novaguilds.guild.create:
+        default: op
+    novaguilds.guild.abandon:
+        default: op
+    novaguilds.guild.info:
+        default: op
+    novaguilds.guild.leave:
+        default: op
+    novaguilds.tool.get:
+        default: op
+    novaguilds.tool.check:
+        default: op
+    novaguilds.admin.access:
+        default: op
+    novaguilds.admin.player.add:
+        default: op
+    novaguilds.admin.player.kick:
+        default: op
+    novaguilds.admin.player.leader:
+        default: op
+    novaguilds.admin.guild.abandon:
+        default: op
+    novaguilds.admin.guild.tp:
+        default: op
+    novaguilds.admin.guild.tp.other:
+        default: op
+    novaguilds.admin.guild.money:
+        default: op
+    novaguilds.admin.guild.fullinfo:
+        default: op
+    novaguilds.admin.guild.rename:
+        default: op
+    novaguilds.admin.guild.settag:
+        default: op
+    novaguilds.admin.region.remove:
+        default: op
+    novaguilds.admin.region.resize:
+        default: op
+    novaguilds.admin.region.bypass:
+        default: op
+    novaguilds.admin.region.other:
+        default: op
+    novaguilds.admin.reload:
+        default: op
+    novaguilds.admin.save:
+        default: op
