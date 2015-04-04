@@ -2,11 +2,17 @@ chat:
  prefix: "&6[&5NovaGuilds&6] &3"
  nopermissions: "&cYou don't have enought permissions to do this."
  unknowncmd: "&cUnknown command."
+ invalidparam: "&cInvalid command param"
  
  admin:
   rgbypass:
    toggled: "Region bypass toggled. Currently: &c{BYPASS}"
    toggledother: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
+  save:
+   players: "Players saved."
+   guilds: "Guilds saved."
+   regions: "Regions saved."
+   all: "All data saved. (Players, Regions, Guilds)"
  
  reload:
   reloading: "Reloading NovaGuilds..."
@@ -23,6 +29,29 @@ chat:
   ng:
    broadcast: "&c/ng bc <message>"
  commands:
+  admin:
+   main:
+    header: "Admin commands:"
+    items:
+     - "&5* &7/nga &crg &2- &3Region commands"
+     - "&5* &7/nga &cg &2- &3Guild commands"
+     - "&5* &7/nga &creload &2- &3Reload &6[&5NovaGuilds&6]"
+     - "&5* &7/nga &csave &6[players/guilds/regions] &2- &3Save data"
+   region:
+    header: "Admin region commands:"
+    items:
+     - "&5* &7/nga &crg &6list &2- &3Region list"
+   guild:
+    header: "Guild commands for admins"
+    items:
+     - "&5* &7/nga &cg &6tp &c<guild> &2- &3TP to guild's home"
+     - "&5* &7/nga &cg &6abandon &c<guild> &2- &3abandon the guild"
+     - "&5* &7/nga &cg &6setname &c<guild> &c<name> &2- &3Rename the guild"
+     - "&5* &7/nga &cg &6settag &c<guild> &c<tag> &2- &3Set the tag"
+     - "&5* &7/nga &cg &6kick &c<player> &2- &3Kick player from guild"
+     - "&5* &7/nga &cg &6invite &c<guild> &c<player> &2- &3Invite somebody to a guild"
+     - "&5* &7/nga &cg &6promote &c<player> &2- &3Promote player to leader rank"
+     - "&5* &7/nga &cg &6list &2- &3List all guilds"
   g:
    - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
    - "&5* &7/g &cwithdraw &6<amount> &2- &3Withdraw money from guild's bank"
@@ -33,11 +62,22 @@ chat:
    - "&5* &7/g &cinfo &2- &3Guild's info. &9/gi"
    - "&5* &7/g &cleave &2- &3Leave the guild"
    - "&5* &7/g &cbuyregion &2- &3Buy selected area"
+   - "&5* &7/g &cally &6<guildname> &2- &3Invite to an ally"
 
  teampvp: "You cannot hurt your teammates"
+ allypvp: "You cannot hurt your allies."
  noguild: "No guild"
  
  guild:
+  ally:
+   samename: "You cannot be allies with your own guild!"
+   alreadyally: "You already are allies!"
+   alreadyinvited: "You already invited that guild to an ally"
+   invited: "You invited &a{ALLYNAME} &3to an ally."
+   accepted: "You accepted ally invitation with {ALLYNAME}"
+   newinvite: "Guild &a{GUILDNAME} &3invited you to an ally."
+   
+  entername: "Enter guild's name"
   namenotexist: "Could not find a guild with this name"
   notinguild: "You don't have a guild"
   abandoned: "guild abandoned successfully"
@@ -49,7 +89,7 @@ chat:
   guildatlocsp: "You cannot set the spawnpoint at someone's guild location!"
   joined: "You have joined the guild!"
   leader:
-   success: "{PLAYERNAME} is now the leader!"
+   success: "&a{PLAYERNAME} &3is now the leader!"
    samenick: "You already are the leader!"
    notsameguild: "This player is not in your guild."
    notifynewleader: "You are now the leader of {GUILDNAME}"
@@ -96,6 +136,9 @@ chat:
   selectsuccess: "Area selected. &c/ng rg buy"
   areanotselected: "Please select the area"
   mustveguild: "You need a guild to buy this area. &c/create"
+  list:
+   header: "Region list:"
+   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Region Mode toggled."
    modes:
@@ -106,7 +149,7 @@ chat:
  createguild:
   notenoughtmoney: "Not enought money"
   itemlist: "&c{AMOUNT} {ITEMNAME}"
-  itemlistsep: ", "
+  itemlistsep: "&f, "
   noitems: "You don't have required items!"
   tagexists: "tag exists"
   nameexists: "name exists"
@@ -137,6 +180,7 @@ broadcast:
   created: "Player &c{PLAYER} &3created guild &a{GUILDNAME}"
   abandoned: "Player &c{PLAYER} &3abandoned &a{GUILDNAME}"
   setleader: "Player &c{PLAYERNAME} &3is now the leader of &a{GUILDNAME}"
+  allied: "&a{GUILDNAME} &3and &a{ALLYNAME} &3are allies now!"
  pvp:
   killed: "Player {TAG1}&c{PLAYER1} &3was slain by {TAG2}&c{PLAYER2}"
   

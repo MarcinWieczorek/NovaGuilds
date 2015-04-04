@@ -111,7 +111,7 @@ public class GuildManager {
 			
 			plugin.guilds.put(guild.getName().toLowerCase(),guild);
 			plugin.getPlayerManager().getPlayerByName(guild.getLeaderName()).setGuild(guild);
-			plugin.savePlayer(plugin.getPlayerManager().getPlayerByName(guild.getLeaderName()));
+			plugin.getPlayerManager().updateLocalPlayer(plugin.getPlayerManager().getPlayerByName(guild.getLeaderName()));
 		}
 		catch(SQLException e) {
 			plugin.info(e.getMessage());
@@ -141,7 +141,7 @@ public class GuildManager {
 				}
 			}
 			
-			plugin.info(guild.getAllyInvitations().toString());
+			if(plugin.DEBUG) plugin.info(guild.getAllyInvitations().toString());
 			if(guild.getAllyInvitations().size() > 0) {
 				for(String allyinv : guild.getAllyInvitations()) {
 					if(!alliesinv.equals("")) alliesinv += ";";
@@ -186,7 +186,7 @@ public class GuildManager {
 				NovaPlayer np = players.get(i);
 				np.setGuild(null);
 				np.setHasGuild(false);
-				plugin.savePlayer(np);
+				plugin.getPlayerManager().updateLocalPlayer(np);
 				plugin.players.remove(np.getName().toLowerCase());
 				plugin.players.put(np.getName().toLowerCase(),np);
 			}

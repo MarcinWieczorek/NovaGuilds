@@ -109,6 +109,10 @@ public final class Utils {
 
 	
 	public static String[] parseArgs(String[] args, int cut) {
+		if(args.length==0) {
+			return args;
+		}
+		
 		String[] newargs = new String[args.length-cut];
 		
 		int index = 0;

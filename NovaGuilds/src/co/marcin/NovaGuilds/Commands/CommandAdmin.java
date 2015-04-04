@@ -18,9 +18,13 @@ public class CommandAdmin implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		String[] newargs = Utils.parseArgs(args,1);
 		if(sender.hasPermission("novaguilds.admin.access")) {
 			if(args.length>0) {
-				if(args[0].equalsIgnoreCase("region") || args[0].equalsIgnoreCase("rg")) {
+				if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { //guilds
+					new CommandAdminGuild(plugin).onCommand(sender, cmd, label, newargs);
+				}
+				if(args[0].equalsIgnoreCase("region") || args[0].equalsIgnoreCase("rg")) { //regions
 					if(args.length>1) {
 						if(args[1].equalsIgnoreCase("bypass")) { //togglebypass
 							if(args.length==2) {
@@ -66,7 +70,11 @@ public class CommandAdmin implements CommandExecutor {
 						}
 					}
 					else {
-						plugin.sendPrefixMessage(plugin.senderToPlayer(sender),"NovaGuilds Admin: Region commands");
+						plugin.sendMessagesMsg(sender, "chat.commands.admin.region.header");
+						
+						for(String citem : plugin.getMessages().getStringList("chat.commands.admin.region.items")) {
+							sender.sendMessage(Utils.fixColors(citem));
+						}
 					}
 				}
 				else if(args[0].equalsIgnoreCase("reload")) { //reload
@@ -82,7 +90,11 @@ public class CommandAdmin implements CommandExecutor {
 				}
 			}
 			else {
-				plugin.sendPrefixMessage(plugin.senderToPlayer(sender),"NovaGuilds Admin info");
+				plugin.sendMessagesMsg(sender, "chat.commands.admin.main.header");
+				
+				for(String citem : plugin.getMessages().getStringList("chat.commands.admin.main.items")) {
+					sender.sendMessage(Utils.fixColors(citem));
+				}
 			}
 		}
 		else {

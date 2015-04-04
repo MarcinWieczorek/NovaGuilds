@@ -19,8 +19,6 @@ public class ChatListener implements Listener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		//if(p.hasPermission("novaguilds.notag")) {
-		
 		String msg = event.getMessage();
 		
 		Player player = event.getPlayer();
@@ -101,6 +99,10 @@ public class ChatListener implements Listener {
 
 			tag = Utils.replace(tag,"{RANK}",rank);
 			
+		}
+		
+		if(player.hasPermission("novaguilds.chat.notag")) {
+			tag = "";
 		}
 		
 		String format = event.getFormat();

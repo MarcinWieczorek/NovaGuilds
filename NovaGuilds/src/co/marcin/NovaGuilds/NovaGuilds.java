@@ -380,36 +380,6 @@ public class NovaGuilds extends JavaPlugin {
 		return true;
 	}
 	
-	
-	
-	public void savePlayer(NovaPlayer player) {
-		if(player == null) {
-			if(DEBUG) info("savePlayer error, null player.");
-			return;
-		}
-		
-		MySQLreload();
-		
-		String guildname;
-		if(!player.hasGuild()) {
-			guildname = "";
-		}
-		else {
-			guildname = player.getGuild().getName();
-		}
-    	
-    	Statement statement;
-		try {
-			statement = c.createStatement();
-			
-			String sql = "UPDATE `"+sqlp+"players` SET `guild`='"+guildname+"' WHERE `name`='"+player.getName()+"'";
-			statement.executeUpdate(sql);
-		}
-		catch(SQLException e) {
-			info(e.getMessage());
-		}
-	}
-	
 	public String getTabName(Player player) {
 		String tag = "";
 		String guildtag = "";
@@ -484,7 +454,7 @@ public class NovaGuilds extends JavaPlugin {
 						tabName = p.getName();
 					}
 					
-					info(y+" - "+getTabName(p));
+					if(DEBUG) info(y+" - "+getTabName(p));
 					TabAPI.setTabString(this,p2,x,y,tabName);
 					y++;
 					

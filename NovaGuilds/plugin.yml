@@ -3,7 +3,7 @@ main: co.marcin.NovaGuilds.NovaGuilds
 author: Marcin Wieczorek
 description: The best guilds plugin!
 website: http://novaguilds.marcin.co/
-version: 5
+version: 7
 softdepend: [Vault, TagAPI, TabAPI]
 commands:
    novaguilds:
@@ -107,9 +107,13 @@ permissions:
         default: op
     novaguilds.admin.region.bypass:
         default: op
-    novaguilds.admin.region.other:
+    novaguilds.admin.region.bypass.other:
+        default: op
+    novaguilds.admin.region.list:
         default: op
     novaguilds.admin.reload:
         default: op
     novaguilds.admin.save:
+        default: op
+    novaguilds.chat.notag:
         default: op
