@@ -38,6 +38,12 @@ public class CommandGuildAlly implements CommandExecutor {
 										vars.put("GUILDNAME",guild.getName());
 										vars.put("ALLYNAME",allyguild.getName());
 										
+										for(NovaPlayer allyP : allyguild.getPlayers()) {
+											if(allyP.isOnline()) {
+												plugin.sendMessagesMsg(allyP.getPlayer(),"chat.guild.ally.newinvite",vars);
+											}
+										}
+										
 										if(guild.isInvitedToAlly(allyname)) { //Accepting
 											allyguild.addAlly(guild.getName());
 											guild.addAlly(allyguild.getName());
@@ -49,24 +55,23 @@ public class CommandGuildAlly implements CommandExecutor {
 											plugin.broadcastMessage("broadcast.guild.allied",vars);
 											
 											plugin.sendMessagesMsg(sender,"chat.guild.ally.accepted",vars);
-											
-											for(NovaPlayer allyP : allyguild.getPlayers()) {
-												if(allyP.isOnline()) {
-													plugin.sendMessagesMsg(allyP.getPlayer(),"chat.guild.ally.newinvite",vars);
-												}
-											}
 										}
 										else { //Inviting
 											if(!allyguild.isInvitedToAlly(guild.getName())) {
 												allyguild.addAllyInvitation(guild.getName());
 												
-												plugin.getGuildManager().saveGuildLocal(guild);
 												plugin.getGuildManager().saveGuildLocal(allyguild);
 												
 												plugin.sendMessagesMsg(sender,"chat.guild.ally.invited",vars);
+												plugin.broadcastGuild(allyguild,"chat.guild.ally.notifyguild",vars);
 											}
-											else {
-												plugin.sendMessagesMsg(sender,"chat.guild.ally.alreadyinvited");
+											else { //cancel inv
+												allyguild.removeAllyInvitation(guild.getName());
+												
+												plugin.getGuildManager().saveGuildLocal(allyguild);
+												
+												plugin.sendMessagesMsg(sender,"chat.guild.ally.canceled",vars);
+												plugin.broadcastGuild(allyguild,"chat.guild.ally.notifyguildcanceled",vars);
 											}
 										}
 									}

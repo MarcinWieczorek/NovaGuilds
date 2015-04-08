@@ -24,6 +24,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.kitteh.tag.TagAPI;
 import org.mcsg.double0negative.tabapi.TabAPI;
 
@@ -32,19 +33,20 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
 import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
-
 import co.marcin.NovaGuilds.Commands.CommandAdmin;
-import co.marcin.NovaGuilds.Commands.CommandCreateGuild;
 import co.marcin.NovaGuilds.Commands.CommandGuild;
 import co.marcin.NovaGuilds.Commands.CommandGuildAbandon;
+import co.marcin.NovaGuilds.Commands.CommandGuildCreate;
 import co.marcin.NovaGuilds.Commands.CommandGuildHome;
 import co.marcin.NovaGuilds.Commands.CommandGuildInfo;
+import co.marcin.NovaGuilds.Commands.CommandGuildInvite;
 import co.marcin.NovaGuilds.Commands.CommandGuildJoin;
 import co.marcin.NovaGuilds.Commands.CommandGuildLeave;
 import co.marcin.NovaGuilds.Commands.CommandNovaGuilds;
-import co.marcin.NovaGuilds.Commands.CommandPlayerInvite;
 import co.marcin.NovaGuilds.Listeners.ChatListener;
+import co.marcin.NovaGuilds.Listeners.DeathListener;
 import co.marcin.NovaGuilds.Listeners.LoginListener;
+import co.marcin.NovaGuilds.Listeners.MoveListener;
 import co.marcin.NovaGuilds.Listeners.PvpListener;
 import co.marcin.NovaGuilds.Listeners.RegionInteractListener;
 import co.marcin.NovaGuilds.Listeners.ToolListener;
@@ -75,6 +77,7 @@ public class NovaGuilds extends JavaPlugin {
 	public boolean useHolographicDisplays;
 	
 	public boolean useMySQL;
+	public String lang;
 	
 	public HashMap<String,NovaPlayer> players = new HashMap<String,NovaPlayer>();
 	public HashMap<String,NovaGuild> guilds = new HashMap<String,NovaGuild>();
@@ -83,7 +86,9 @@ public class NovaGuilds extends JavaPlugin {
 	private GuildManager guildManager = new GuildManager(this);
 	private RegionManager regionManager = new RegionManager(this);
 	private PlayerManager playerManager = new PlayerManager(this);
+	
 	public int progress = 0;
+	public long savePeriod = 15; //minutes
 	
 	//Database
 	public MySQL MySQL;
@@ -98,6 +103,8 @@ public class NovaGuilds extends JavaPlugin {
 		saveDefaultConfig();
 		config = getConfig();
 		sqlp = config.getString("mysql.prefix");
+		savePeriod = config.getLong("saveperiod");
+		lang = config.getString("lang");
 		
 		useVault = config.getBoolean("usevault");
 		useTabAPI = config.getBoolean("tabapi.enabled");
@@ -148,13 +155,17 @@ public class NovaGuilds extends JavaPlugin {
 		}
 		
 		//messages.yml
-		messagesFile = new File(getDataFolder(), "messages.yml");
-        if(!messagesFile.exists()) {
-				saveResource("messages.yml", false);
-				info("New messages file created");
-        }
-        
-        messages = YamlConfiguration.loadConfiguration(messagesFile);
+		File langsDir = new File(getDataFolder(),"lang/");
+		if(!langsDir.exists()) {
+			langsDir.mkdir();
+			//saveResource("lang", false);
+			info("Language dir created");
+		}
+		
+		if(!loadMessages()) {
+            return;
+		}
+		
 		prefix = messages.getString("chat.prefix");
 		info("Messages loaded");
         
@@ -176,16 +187,14 @@ public class NovaGuilds extends JavaPlugin {
 		getCommand("nga").setExecutor(new CommandAdmin(this));
 		
 		getCommand("abandon").setExecutor(new CommandGuildAbandon(this));
-		//getCommand("guilds").setExecutor(new CommandGuildList(this));
 		getCommand("guild").setExecutor(new CommandGuild(this));
 		getCommand("gi").setExecutor(new CommandGuildInfo(this));
-		getCommand("create").setExecutor(new CommandCreateGuild(this));
+		getCommand("create").setExecutor(new CommandGuildCreate(this));
 		getCommand("nghome").setExecutor(new CommandGuildHome(this));
 		getCommand("join").setExecutor(new CommandGuildJoin(this));
 		getCommand("leave").setExecutor(new CommandGuildLeave(this));
 		
-		getCommand("invite").setExecutor(new CommandPlayerInvite(this));
-		//getCommand("ngkick").setExecutor(new CommandPlayerKick(this));
+		getCommand("invite").setExecutor(new CommandGuildInvite(this));
 		
 		try {
 			if(useMySQL) {
@@ -236,15 +245,22 @@ public class NovaGuilds extends JavaPlugin {
 			
 			//Listeners
 			pm.registerEvents(new LoginListener(this),this);
-			pm.registerEvents(new PvpListener(this),this);
 			pm.registerEvents(new ToolListener(this),this);
 			pm.registerEvents(new RegionInteractListener(this),this);
+			pm.registerEvents(new MoveListener(this),this);
 			pm.registerEvents(new ChatListener(this),this);
+
+			pm.registerEvents(new PvpListener(this),this);
+			pm.registerEvents(new DeathListener(this),this);
 			info("Listeners activated");
 			
 			//Tablist update
 			updateTabAll();
 			updateTagAll();
+			
+			//save scheduler
+			runScheduler();
+			info("Save scheduler is running");
 			
 			info("#"+pdf.getVersion()+" Enabled");
 		}
@@ -545,9 +561,10 @@ public class NovaGuilds extends JavaPlugin {
 			
 			tag = Utils.replace(tag,"{RANK}",rank);
 			
-			if(getConfig().getBoolean("tagapi.allycolor.enabled")) {
-				tabName = getConfig().getString("tagapi.allycolor.color") + tabName;
-			}
+			//TODO ally colors
+//			if(getConfig().getBoolean("tagapi.allycolor.enabled")) {
+//				tabName = getConfig().getString("tagapi.allycolor.color") + tabName;
+//			}
 			
 			tabName = tag + tabName;
 		}
@@ -555,54 +572,117 @@ public class NovaGuilds extends JavaPlugin {
 		return Utils.fixColors(tabName);
 	}
 	
+	//MESSAGES
+	
+	public boolean loadMessages() {
+		messagesFile = new File(getDataFolder()+"/lang", lang+".yml");
+        if(!messagesFile.exists()) {
+        	if(getResource("lang/"+lang+".yml") != null) {
+				saveResource("lang/"+lang+".yml", false);
+				info("New messages file created: "+lang+".yml");
+        	}
+        	else {
+        		info("Couldn't find language file: "+lang+".yml");
+        		getServer().getPluginManager().disablePlugin(this);
+	            return false;
+        	}
+        }
+        
+        messages = YamlConfiguration.loadConfiguration(messagesFile);
+        return true;
+	}
+	
+	//set string from file
+	public String getMessagesString(String path) {
+		String msg = getMessages().getString(path);
+		
+		if(msg == null || !(msg instanceof String)) {
+			return path;
+		}
+				
+		return msg;
+	}
+	
+	//get messages
 	public FileConfiguration getMessages() {
 		return messages;
 	}
 	
+	//set messages
 	public void setMessages(FileConfiguration msgs) {
 		messages = msgs;
 	}
 	
+	public void setMessagesFile(File msgFile) {
+		messagesFile = msgFile;
+	}
+	
+	public void loadMessagesFile(File msgFile) {
+		messagesFile = msgFile;
+		
+		if(!messagesFile.exists()) {
+    		saveResource("lang/"+lang+".yml", false);
+    		info("New messages file created");
+	    }
+
+		setMessages(YamlConfiguration.loadConfiguration(messagesFile));
+	}
+	
+	//send string with prefix to a player
 	public void sendPrefixMessage(Player p, String msg) {
 		p.sendMessage(Utils.fixColors(prefix+msg));
 	}
 	
+	//send message from file with prefix to a player
 	public void sendMessagesMsg(Player p, String path) {
-		p.sendMessage(Utils.fixColors(prefix+messages.getString(path)));
+		p.sendMessage(Utils.fixColors(prefix+getMessagesString(path)));
 	}
 	
+	//send message from file with prefix and vars to a player
 	public void sendMessagesMsg(Player p, String path, HashMap<String,String> vars) {
-		String msg = messages.getString(path);
+		String msg = getMessagesString(path);
 		msg = replaceMessage(msg,vars);
 		p.sendMessage(Utils.fixColors(prefix+msg));
 	}
 	
 	public void sendMessagesMsg(CommandSender sender, String path) {
-		sender.sendMessage(Utils.fixColors(prefix+messages.getString(path)));
+		sender.sendMessage(Utils.fixColors(prefix+getMessagesString(path)));
 	}
 	
 	public void sendMessagesMsg(CommandSender sender, String path, HashMap<String,String> vars) {
-		String msg = messages.getString(path);
+		String msg = getMessagesString(path);
 		msg = replaceMessage(msg,vars);
 		sender.sendMessage(Utils.fixColors(prefix+msg));
 	}
 	
+	//broadcast string to all players
 	public void broadcast(String msg) {
 		for(Player p : getServer().getOnlinePlayers()) {
 			sendPrefixMessage(p, msg);
 		}
 	}
 	
+	//broadcast message from file to all players
 	public void broadcastMessage(String path) {
 		broadcastMessage(path,null);
 	}
 	
 	public void broadcastMessage(String path,HashMap<String,String> vars) {
-		String msg = getMessages().getString(path);
+		String msg = getMessagesString(path);
 		msg = replaceMessage(msg,vars);
 		
 		for(Player p : getServer().getOnlinePlayers()) {
 			sendPrefixMessage(p, msg);
+		}
+	}
+	
+	public void broadcastGuild(NovaGuild guild, String path,HashMap<String,String> vars) {
+		String msg = getMessagesString(path);
+		msg = replaceMessage(msg,vars);
+		
+		for(NovaPlayer p : guild.getPlayers()) {
+			if(p.isOnline())
+				sendPrefixMessage(p.getPlayer(), msg);
 		}
 	}
 	
@@ -618,6 +698,7 @@ public class NovaGuilds extends JavaPlugin {
 		return msg;
 	}
 	
+	//convert sender to player
 	public Player senderToPlayer(CommandSender sender) {
 		return getServer().getPlayer(sender.getName());
 	}
@@ -644,5 +725,18 @@ public class NovaGuilds extends JavaPlugin {
 		sql = Utils.replace(sql,"{SQLPREFIX}",sqlp);
 		statement = c.createStatement();
 		statement.executeUpdate(sql);
+	}
+	
+	public void runScheduler() {
+		BukkitScheduler scheduler = getServer().getScheduler();
+		scheduler.scheduleSyncRepeatingTask(this, new Runnable() {
+			@Override
+			public void run() {
+				getRegionManager().saveAll();
+				getGuildManager().saveAll();
+				getPlayerManager().saveAll();
+				info("Saved data.");
+			}
+		}, 0L, 20L * 60 * savePeriod);
 	}
 }

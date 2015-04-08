@@ -1,0 +1,251 @@
+chat:
+ prefix: "&6[&5NovaGuilds&6] &3"
+ nopermissions: "&cYou don't have enought permissions to do this."
+ unknowncmd: "&cUnknown command."
+ invalidparam: "&cInvalid command param"
+ 
+ admin:
+  guild:
+   abandon: "&a{GUILDNAME} &3abandoned."
+   kick: ""
+   invited: "Invited player &c{PLAYERNAME} &3to &a{GUILDNAME}"
+   teleported: "Teleported to home of &a{GUILDNAME}"
+   teleportedother: "Teleported &c{PLAYERNAME} to home of &a{GUILDNAME}"
+   settag: "Tag changed to &a{TAG}"
+   setname:
+    enternewname: "Enter new name"
+    success: "Guild's name changed."
+  rgbypass:
+   toggled: "Region bypass toggled. Currently: &c{BYPASS}"
+   toggledother: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
+  save:
+   players: "Players saved."
+   guilds: "Guilds saved."
+   regions: "Regions saved."
+   all: "All data saved. (Players, Regions, Guilds)"
+ 
+ reload:
+  reloading: "Reloading NovaGuilds..."
+  config: "Config reloaded!"
+  messages: "Messages reloaded!"
+  mysql: "MySQL reloaded!"
+  players: "Players loaded!"
+  guilds: "Guilds loaded!"
+  regions: "Regions loaded!"
+  newmsgfile: "New messages file created!"
+  reloaded: "NovaGuilds reloaded!"
+  
+ usage:
+  nga:
+   guild:
+    tp: "&7/nga &cg &6tp &c<guild> &6[player]"
+  ng:
+   broadcast: "&c/ng bc <message>"
+ commands:
+  admin:
+   main:
+    header: "Admin commands:"
+    items:
+     - "&5* &7/nga &crg &2- &3Region commands"
+     - "&5* &7/nga &cg &2- &3Guild commands"
+     - "&5* &7/nga &creload &2- &3Reload &6[&5NovaGuilds&6]"
+     - "&5* &7/nga &csave &6[players/guilds/regions] &2- &3Save data"
+   region:
+    header: "Admin region commands:"
+    items:
+     - "&5* &7/nga &crg &6list &2- &3Region list"
+   guild:
+    header: "Guild commands for admins"
+    items:
+     - "&5* &7/nga &cg &6tp &c<guild> &6[player] &2- &3TP to guild's home"
+     - "&5* &7/nga &cg &6abandon &c<guild> &2- &3abandon the guild"
+     - "&5* &7/nga &cg &6setname &c<guild> &c<name> &2- &3Rename the guild"
+     - "&5* &7/nga &cg &6settag &c<guild> &c<tag> &2- &3Set the tag"
+     - "&5* &7/nga &cg &6kick &c<player> &2- &3Kick player from guild"
+     - "&5* &7/nga &cg &6invite &c<guild> &c<player> &2- &3Invite somebody to a guild"
+     - "&5* &7/nga &cg &6promote &c<player> &2- &3Promote player to leader rank"
+     - "&5* &7/nga &cg &6list &2- &3List all guilds"
+  guild:
+   hasguild:
+    - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
+    - "&5* &7/g &cwithdraw &6<amount> &2- &3Withdraw money from guild's bank"
+    - "&5* &7/g &cleader &6<playername> &2- &3Set guild's leader"
+    - "&5* &7/g &ckick &6<playername> &2- &3Kick a player from the guild"
+    - "&5* &7/g &chome &2- &3TP to guild's home"
+    - "&5* &7/g &chome set &2- &3Set guild's home"
+    - "&5* &7/g &cinfo &2- &3Guild's info. &9/gi"
+    - "&5* &7/g &cleave &2- &3Leave the guild"
+    - "&5* &7/g &cbuyregion &2- &3Buy selected area"
+    - "&5* &7/g &cally &6<guildname> &2- &3Invite to an ally"
+    - "&5* &7/g &cabandon &6<guildname> &2- &3abandon your guild"
+    - "&5* &7/g &cinvite &6<playername> &2- &3invite player to your guild"
+   noguild:
+    - "&5* &7/g &ccreate &6<tag> <name> &2- &3Create a guild"
+    - "&5* &7/g &cjoin &6[guildname] &2- &3Join a guild"
+
+ teampvp: "You cannot hurt your teammates"
+ allypvp: "You cannot hurt your allies."
+ noguild: "No guild"
+ 
+ guild:
+  ally:
+   samename: "You cannot be allies with your own guild!"
+   alreadyally: "You already are allies!"
+   alreadyinvited: "You already invited that guild to an ally"
+   invited: "You invited &a{ALLYNAME} &3to an ally."
+   accepted: "You accepted ally invitation with &a{ALLYNAME}"
+   newinvite: "Guild &a{GUILDNAME} &3invited you to an ally."
+   notifyguild: "Guild &a{GUILDNAME} &3invited you to an ally."
+   notifyguildcanceled: "Guild &a{GUILDNAME} &3canceled their ally invitation"
+   canceled: "&3Canceled ally invitation with guild &a{GUILDNAME}"
+   
+  entername: "Enter guild's name"
+  entertag: "Please give new tag"
+  namenotexist: "Could not find a guild with this name"
+  notinguild: "You don't have a guild"
+  abandoned: "guild abandoned successfully"
+  notleader: "You are not the leader"
+  notenoughtmoney: "There is not enought money in guild's bank."
+  setspawnpoint: "Guild's home set!"
+  tp: "Teleported to guild's home"
+  hasregionalready: "Your guild already has a region. Resize or delete current one."
+  guildatlocsp: "You cannot set the spawnpoint at someone's guild location!"
+  joined: "You have joined the guild!"
+  explosionatregion: "There was an explosion in your guild's region!"
+  leader:
+   success: "&a{PLAYERNAME} &3is now the leader!"
+   samenick: "You already are the leader!"
+   notsameguild: "This player is not in your guild."
+   notifynewleader: "You are now the leader of &a{GUILDNAME}"
+  leave:
+   isleader: "The leader cannot leave the guild. &c/abandon"
+   left: "You left the guild."
+  bank:
+   enteramount: "Please give the amount. &c/g pay &c&l<amount>"
+   pay:
+    paid: "You've paid &2$&c{AMOUNT} &3to guild's bank."
+    notenought: "You don't have enought money."
+   withdraw:
+    notleader: "Only leaders can withdraw money."
+    success: "You took &2$&c{AMOUNT} &3from guild's bank."
+    notenought: "There is not enought money in the bank."
+  
+ player:
+  entername: "Enter player's name"
+  notexists: "This player does not exist."
+  notonline: "This player is not online"
+  hasguild: "That player already has a guild."
+  hasnoguild: "That player doesn't have a guild"
+  alreadyinvited: "This player is already invited to that guild."
+  invited: "Player has been invited to the guild."
+  invitedtonothing: "You aren't invited to any guild."
+  notinvitedtoguild: "You aren't invited to this guild!"
+  uvebeeninvited: "You have been invited to guild &a{GUILDNAME}"
+  ureinvitedto: "List of guilds you've been invited to:"
+  
+ region:
+  cannotinteract: "You cannot interact here"
+  cannotridemob: "You cannot ride this mob, its protected!"
+  cannotattackmob: "You cannot attack this mob"
+  noregionhere: "There's not guild here."
+  regionhere: "There's other guild's region!"
+  toosmall: "Selected area is too small. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
+  toobig: "Selected area is too big. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
+  size: "Selected area's size: &c{SIZE} &3blocks"
+  price: "Buying this area will cost you: &c${PRICE}"
+  confirm: "&cSneak &3and &cRight click &3to &fconfirm"
+  cnotafford: "You can't afford this claim. You need &c${NEEDMORE} &3more"
+  overlaps: "This area overlaps other guild's region"
+  notvalid: "Area you selected is not valid. Try again."
+  created: "Region created successfully"
+  selectsuccess: "Area selected. &c/ng rg buy"
+  areanotselected: "Please select the area"
+  mustveguild: "You need a guild to buy this area. &c/create"
+  entered: "You entered the region of guild &a{GUILDNAME}"
+  exited: "You exited the region of guild &a{GUILDNAME}"
+  belongsto: "This region belongs to &a{GUILDNAME}"
+  list:
+   header: "Region list:"
+   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
+  tool:
+   toggledmode: "Region Mode toggled. Currently: &c{MODE}"
+   modes:
+    check: "Check Mode"
+    select: "Select Mode"
+  
+  
+ createguild:
+  notenoughtmoney: "Not enought money"
+  itemlist: "&c{AMOUNT} {ITEMNAME}"
+  itemlistsep: "&f, "
+  noitems: "You don't have required items!"
+  tagexists: "There is a guild with this tag."
+  nameexists: "There is a guild with this name"
+  hasguild: "You already have a guild"
+  success: "Guild created"
+  regionhere: "You can't create a guild where another guild exists"
+  tag:
+   tooshort: "The tag is too short!"
+   toolong: "The tag is too long!"
+  name:
+   tooshort: "The name is too short!"
+   toolong: "The name is too long!"
+ 
+ guildinfo:
+  playerseparator: ", "
+  leaderprefix: "*"
+  playercolor:
+   online: "&a"
+   offline: "&f"
+  fullinfo:
+   - "&4*** &3Guild information &4***"
+   - " &c* &2Name: &6{GUILDNAME}"
+   - " &c* &2Tag: &6{TAG}"
+   - " &c* &2Leader: &6{LEADER}"
+   - " &c* &2Location: &6{SP_X},{SP_Y},{SP_Z}"
+   - " &c* &2Players: {PLAYERS}"
+   - " &c* &2Money: &6{MONEY}"
+   - " &c* &2Points: &6{POINTS}"
+  info:
+   - "&4*** &3Guild information &4***"
+   - " &c* &2Name: &6{GUILDNAME}"
+   - " &c* &2Tag: &6{TAG}"
+   - " &c* &2Leader: &6{LEADER}"
+   - " &c* &2Players: {PLAYERS}"
+   - " &c* &2Points: &6{POINTS}"
+   
+#broadcast messages:
+broadcast:
+ admin:
+  guild:
+   abandon: "Admin &c{PLAYERNAME} abandoned guild &a{GUILDNAME}"
+ guild:
+  joined: "Player &c{PLAYER} &3joined &a{GUILDNAME}"
+  left: "Player &c{PLAYER} &3left &a{GUILDNAME}"
+  created: "Player &c{PLAYER} &3created guild &a{GUILDNAME}"
+  abandoned: "Player &c{PLAYER} &3abandoned &a{GUILDNAME}"
+  setleader: "Player &c{PLAYERNAME} &3is now the leader of &a{GUILDNAME}"
+  allied: "&a{GUILDNAME} &3and &a{ALLYNAME} &3are allies now!"
+  kicked: "Player &c{PLAYERNAME} &3has been kicked from &a{GUILDNAME}"
+ pvp:
+  killed: "Player {TAG1}&c{PLAYER1} &3was slain by {TAG2}&c{PLAYER2}"
+  
+holographicdisplays:
+ locations:
+  topguilds: 
+ topguilds:
+  toprows: 5
+  header: "&2Guilds &cTOP5"
+  row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
+  
+items:
+ tool:
+  name: "&5NovaGuilds &6Tool"
+  lore:
+   - "&cLeft Click + SHIFT"
+   - "&6To toggle the mode"
+   - "&e****&2Check Mode&e****"
+   - "&6Right click to check"
+   - "&e****&2Select Mode&e***"
+   - "&cLeft/Right"
+   - "&6click to select"

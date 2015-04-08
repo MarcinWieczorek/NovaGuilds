@@ -15,6 +15,7 @@ public class NovaGuild {
 	private String leadername;
 	private Location spawnpoint;
 	private double money = 0;
+	private int points;
 	
 	private List<NovaPlayer> players = new ArrayList<NovaPlayer>();
 	private List<String> allies = new ArrayList<String>();
@@ -23,6 +24,10 @@ public class NovaGuild {
 	//getters
 	public String getName() {
 		return name;
+	}
+	
+	public int getPoints() {
+		return points;
 	}
 	
 	public List<String> getAllies() {
@@ -98,6 +103,9 @@ public class NovaGuild {
 		allies_invited = ai;
 	}
 	
+	public void setPoints(int p) {
+		points = p;
+	}
 	
 	//check
 	public boolean isInvitedToAlly(String guildname) {
@@ -141,6 +149,10 @@ public class NovaGuild {
 		money += m;
 	}
 	
+	public void addPoints(int p) {
+		points += p;
+	}
+	
 	public void removePlayer(NovaPlayer p) {
 		if(players.contains(p))
 			players.remove(p);
@@ -153,6 +165,10 @@ public class NovaGuild {
 	
 	public void takeMoney(double m) {
 		money -= m;
+	}
+	
+	public void takePoints(int p) {
+		points -= p;
 	}
 
 	public void removeAllyInvitation(String allyname) {

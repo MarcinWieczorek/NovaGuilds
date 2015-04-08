@@ -84,6 +84,7 @@ public class RegionManager {
 				novaRegion.setCorner(0,c1);
 				novaRegion.setCorner(1,c2);
 				novaRegion.setWorld(world);
+				novaRegion.setId(res.getInt("id"));
 				
 				novaRegion.setGuildName(res.getString("guild"));
 				

@@ -38,6 +38,10 @@ public class GuildManager {
 		return null;
 	}
 	
+	public NovaGuild getGuildByPlayer(NovaPlayer nPlayer) {
+		return getGuildByName(nPlayer.getGuild().getName());
+	}
+	
 	public Set<Entry<String, NovaGuild>> getGuilds() {
 		return plugin.guilds.entrySet();
 	}
@@ -85,6 +89,7 @@ public class GuildManager {
 				novaGuild.setRegion(plugin.regions.get(novaGuild.getName().toLowerCase()));
 				novaGuild.setAllies(allies);
 				novaGuild.setAllyInvitations(alliesinv);
+				novaGuild.setPoints(res.getInt("points"));
 				
 				plugin.guilds.put(res.getString("name").toLowerCase(), novaGuild);
 			}
@@ -106,12 +111,13 @@ public class GuildManager {
 				spawnpointcoords = Utils.parseDBLocation(guild.getSpawnPoint());
 			}
 			
-			String sql = "INSERT INTO `"+plugin.sqlp+"guilds` VALUES(0,'"+guild.getTag()+"','"+guild.getName()+"','"+guild.getLeaderName()+"','"+spawnpointcoords+"','','',0);";
+			String sql = "INSERT INTO `"+plugin.sqlp+"guilds` VALUES(0,'"+guild.getTag()+"','"+guild.getName()+"','"+guild.getLeaderName()+"','"+spawnpointcoords+"','','',0,0);";
 			statement.execute(sql);
 			
 			plugin.guilds.put(guild.getName().toLowerCase(),guild);
-			plugin.getPlayerManager().getPlayerByName(guild.getLeaderName()).setGuild(guild);
-			plugin.getPlayerManager().updateLocalPlayer(plugin.getPlayerManager().getPlayerByName(guild.getLeaderName()));
+			NovaPlayer leader = plugin.getPlayerManager().getPlayerByName(guild.getLeaderName());
+			leader.setGuild(guild);
+			plugin.getPlayerManager().updateLocalPlayer(leader);
 		}
 		catch(SQLException e) {
 			plugin.info(e.getMessage());
@@ -149,7 +155,7 @@ public class GuildManager {
 				}
 			}
 			
-			String sql = "UPDATE `"+plugin.sqlp+"guilds` SET `tag`='"+guild.getTag()+"', `name`='"+guild.getName()+"', `leader`='"+guild.getLeaderName()+"', `spawn`='"+spawnpointcoords+"', money='"+guild.getMoney()+"', `allies`='"+allies+"', `alliesinv`='"+alliesinv+"' WHERE `id`="+guild.getId();
+			String sql = "UPDATE `"+plugin.sqlp+"guilds` SET `tag`='"+guild.getTag()+"', `name`='"+guild.getName()+"', `leader`='"+guild.getLeaderName()+"', `spawn`='"+spawnpointcoords+"', money='"+guild.getMoney()+"', `allies`='"+allies+"', `alliesinv`='"+alliesinv+"', points="+guild.getPoints()+" WHERE `id`="+guild.getId();
 			statement.executeUpdate(sql);
 		}
 		catch(SQLException e) {
@@ -179,22 +185,25 @@ public class GuildManager {
 			String sql = "DELETE FROM `"+plugin.sqlp+"guilds` WHERE `id`="+guild.getId();
 			statement.executeUpdate(sql);
 			
-			List<NovaPlayer> players = guild.getPlayers();
-			int i=0;
-			
-			for(i=0;i<players.size();i++) {
-				NovaPlayer np = players.get(i);
+			for(NovaPlayer np : guild.getPlayers()) {
 				np.setGuild(null);
 				np.setHasGuild(false);
 				plugin.getPlayerManager().updateLocalPlayer(np);
-				plugin.players.remove(np.getName().toLowerCase());
-				plugin.players.put(np.getName().toLowerCase(),np);
+				plugin.info(np.getName());
 			}
-			
+			plugin.info(guild.getName());
+			plugin.info(exists(guild.getName())+"");
 			plugin.guilds.remove(guild.getName().toLowerCase());
 		}
 		catch(SQLException e) {
 			plugin.info(e.getMessage());
 		}
+	}
+	
+	public void changeName(NovaGuild guild, String newname) {
+		plugin.guilds.remove(guild.getName());
+		plugin.guilds.put(newname, guild);
+		guild.setName(newname);
+		saveGuild(guild);
 	}
 }

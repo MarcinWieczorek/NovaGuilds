@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import co.marcin.NovaGuilds.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 import co.marcin.NovaGuilds.NovaRegion;
@@ -186,7 +187,13 @@ public class RegionInteractListener implements Listener {
 		NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(loc);
 		
 		if(rgatloc instanceof NovaRegion) {
-			plugin.info("Explosion at region!");
+			NovaGuild guild = plugin.getGuildManager().getGuildByName(rgatloc.getGuildName());
+			
+			for(NovaPlayer nP : guild.getPlayers()) {
+				if(nP.isOnline()) {
+					plugin.sendMessagesMsg(nP.getPlayer(),"chat.guild.explosionatregion");
+				}
+			}
 		}
 	}
 }

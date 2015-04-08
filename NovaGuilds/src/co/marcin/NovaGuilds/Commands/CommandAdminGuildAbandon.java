@@ -12,10 +12,10 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 import co.marcin.NovaGuilds.Utils;
 
-public class CommandGuildAbandon implements CommandExecutor {
+public class CommandAdminGuildAbandon implements CommandExecutor {
 	private static NovaGuilds plugin;
 	
-	public CommandGuildAbandon(NovaGuilds novaGuilds) {
+	public CommandAdminGuildAbandon(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
 	}
 
@@ -37,16 +37,8 @@ public class CommandGuildAbandon implements CommandExecutor {
 				plugin.getGuildManager().deleteGuild(guild);
 				plugin.updateTabAll();
 				plugin.updateTagPlayerToAll(plugin.senderToPlayer(sender));
-				
-				//delete guild from players
-				for(NovaPlayer nP : guild.getPlayers()) {
-					nP.setGuild(null);
-					nP.setHasGuild(false);
-					plugin.getPlayerManager().updateLocalPlayer(nP);
-				}
 
-				plugin.sendMessagesMsg(sender,"chat.guild.abandoned");
-				
+				sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.guild.abandoned")));
 				HashMap<String,String> vars = new HashMap<String,String>();
 				vars.put("PLAYER",sender.getName());
 				vars.put("GUILDNAME",guild.getName());

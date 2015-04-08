@@ -1,5 +1,7 @@
 package co.marcin.NovaGuilds.Listeners;
 
+import java.util.HashMap;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -38,8 +40,19 @@ public class ToolListener implements Listener {
 				
 				event.setCancelled(true);
 				nPlayer.setRegionMode(!nPlayer.regionMode());
+				
+				String mode = "";
+				if(nPlayer.regionMode()) {
+					mode = plugin.getMessages().getString("chat.region.tool.modes.select");
+				}
+				else {
+					mode = plugin.getMessages().getString("chat.region.tool.modes.check");
+				}
+				
 				plugin.getPlayerManager().updateLocalPlayer(nPlayer);
-				plugin.sendMessagesMsg(player,"chat.region.tool.toggledmode");
+				HashMap<String,String> vars = new HashMap<String,String>();
+				vars.put("MODE",mode);
+				plugin.sendMessagesMsg(event.getPlayer(),"chat.region.tool.toggledmode", vars);
 				if(plugin.DEBUG) plugin.info("toggle="+plugin.getPlayerManager().getPlayerByName(player.getName()).regionMode());
 				
 				if(nPlayer.getSelectedLocation(0)!=null && nPlayer.getSelectedLocation(1)!=null) {
@@ -74,7 +87,9 @@ public class ToolListener implements Listener {
 					
 					if(rgatloc instanceof NovaRegion) {
 						plugin.getRegionManager().highlightRegion(player,rgatloc);
-						player.sendMessage(Utils.fixColors(plugin.prefix+plugin.getGuildManager().getGuildByName(rgatloc.getGuildName()).getName()));
+						HashMap<String,String> vars = new HashMap<String,String>();
+						vars.put("GUILDNAME",rgatloc.getGuildName());
+						plugin.sendMessagesMsg(event.getPlayer(),"chat.region.belongsto", vars);
 						nPlayer.setSelectedRegion(rgatloc);
 					}
 					else {

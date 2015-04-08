@@ -46,12 +46,37 @@ public class CommandGuild implements CommandExecutor {
 			else if(command.equals("ally")) {
 				new CommandGuildAlly(plugin).onCommand(sender, cmd, label, newargs);
 			}
-			
+			else if(command.equals("kick")) {
+				new CommandGuildKick(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else if(command.equals("abandon")) {
+				new CommandGuildAbandon(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else if(command.equals("invite")) {
+				new CommandGuildInvite(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else if(command.equals("join")) {
+				new CommandGuildJoin(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else if(command.equals("create")) {
+				new CommandGuildCreate(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else {
+				plugin.sendMessagesMsg(sender, "chat.unknowncmd");
+			}
 		}
 		else {
-			List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.g");
-			for(int i=0;i < cmdlist.size();i++) {
-				sender.sendMessage(Utils.fixColors(cmdlist.get(i)));
+			if(plugin.getPlayerManager().getPlayerBySender(sender).hasGuild()) {
+				List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.guild.hasguild");
+				for(String cmdinfo : cmdlist) {
+					sender.sendMessage(Utils.fixColors(cmdinfo));
+				}
+			}
+			else {
+				List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.guild.noguild");
+				for(String cmdinfo : cmdlist) {
+					sender.sendMessage(Utils.fixColors(cmdinfo));
+				}
 			}
 		}
 		return true;

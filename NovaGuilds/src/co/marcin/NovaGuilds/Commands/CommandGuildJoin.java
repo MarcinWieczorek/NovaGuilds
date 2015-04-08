@@ -23,12 +23,16 @@ public class CommandGuildJoin implements CommandExecutor {
 		List<String> invitedTo = nPlayer.getInvitedTo();
 		
 		if(!nPlayer.hasGuild()) {
-			sender.sendMessage("1");
-			if(invitedTo.size() > 0) {sender.sendMessage("2");
+			if(invitedTo.size() > 0) {
 				String guildname;
 				
-				if(invitedTo.size()==1) {sender.sendMessage("3");
-					guildname = invitedTo.get(0);
+				if(invitedTo.size()==1) {
+					if(args.length == 0) {
+						guildname = invitedTo.get(0);
+					}
+					else {
+						guildname = args[0];
+					}
 				}
 				else {
 					if(args.length == 0) {
@@ -41,7 +45,6 @@ public class CommandGuildJoin implements CommandExecutor {
 				}
 				
 				if(plugin.getGuildManager().exists(guildname)) {
-					sender.sendMessage("4");
 					NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 					
 					if(nPlayer.isInvitedTo(guild)) {

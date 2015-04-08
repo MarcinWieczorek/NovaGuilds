@@ -28,7 +28,7 @@ public class CommandToolGet implements CommandExecutor {
 			if(tool != null) {
 				ItemStack stick = new ItemStack(tool, 1);
 				ItemMeta meta = stick.getItemMeta();
-		        meta.setDisplayName(Utils.fixColors("&5NovaGuilds &6Tool"));
+		        meta.setDisplayName(Utils.fixColors(plugin.getMessages().getString("items.tool.name")));
 		       
 		        List<String> lorecodes = plugin.getMessages().getStringList("items.tool.lore");
 		        List<String> lore = new ArrayList<String>();

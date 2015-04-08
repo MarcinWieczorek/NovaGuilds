@@ -1,8 +1,10 @@
 package co.marcin.NovaGuilds.Commands;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,6 +49,23 @@ public class CommandNovaGuilds implements CommandExecutor {
 			else if(args[0].equalsIgnoreCase("tool")) { //TOOL
 				new CommandToolGet(plugin).onCommand(sender, cmd, label, args);
 			}
+			else if(args[0].equalsIgnoreCase("test")) { //tests
+				if(!plugin.DEBUG) return false;
+				String group = "default";
+				
+				for(String s : plugin.getConfig().getConfigurationSection("guild.create").getKeys(false)) {
+					if(sender.hasPermission("novaguilds.guild.group."+s) || s.equalsIgnoreCase("default")) {
+						group = s;
+						break;
+					}
+				}
+				
+				sender.sendMessage(group);
+				sender.sendMessage("money: "+plugin.getConfig().getInt("guild.create."+group+".money"));
+				for(String item : plugin.getConfig().getStringList("guild.create."+group+".items")) {
+					sender.sendMessage(" * "+item);
+				}
+			}
 			else if(args[0].equalsIgnoreCase("bc")) { //BROADCAST
 				if(!plugin.DEBUG) return false;
 				if(args.length > 1) {
@@ -71,19 +90,28 @@ public class CommandNovaGuilds implements CommandExecutor {
 				if(!plugin.DEBUG) return false;
 				if(args.length>1) { //GUILDINFO
 					if(args[1].equalsIgnoreCase("top")) {
-						Player player = plugin.senderToPlayer(sender);
-						Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());
-						hologram.appendTextLine(Utils.fixColors(plugin.getMessages().getString("holographicdisplays.topguilds.header")));
+						Statement statement;
 						
-						int i = 1;
-						for(Entry<String, NovaGuild> guild : plugin.getGuildManager().getGuilds()) {
-							String rowmsg = plugin.getMessages().getString("holographicdisplays.topguilds.row");
-							rowmsg = Utils.replace(rowmsg, "{GUILDNAME}",guild.getValue().getName());
-							rowmsg = Utils.replace(rowmsg, "{N}",i+"");
-							hologram.appendTextLine(Utils.fixColors(rowmsg));
-							i++;
-							if(i>plugin.getMessages().getInt("holographicdisplays.topguilds.toprows"))
-								break;
+						try {
+							statement = plugin.c.createStatement();
+							
+							Player player = plugin.senderToPlayer(sender);
+							Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());
+							hologram.appendTextLine(Utils.fixColors(plugin.getMessages().getString("holographicdisplays.topguilds.header")));
+							
+							ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessages().getInt("holographicdisplays.topguilds.toprows"));
+							
+							int i=1;
+							while(res.next()) {
+								String rowmsg = plugin.getMessages().getString("holographicdisplays.topguilds.row");
+								rowmsg = Utils.replace(rowmsg, "{GUILDNAME}",res.getString("name"));
+								rowmsg = Utils.replace(rowmsg, "{N}",i+"");
+								rowmsg = Utils.replace(rowmsg, "{POINTS}",res.getString("points"));
+								hologram.appendTextLine(Utils.fixColors(rowmsg));
+								i++;
+							}
+						} catch (SQLException e) {
+							e.printStackTrace();
 						}
 						return true;
 					}

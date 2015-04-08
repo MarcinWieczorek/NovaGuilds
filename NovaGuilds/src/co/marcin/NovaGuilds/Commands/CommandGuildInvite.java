@@ -11,10 +11,10 @@ import co.marcin.NovaGuilds.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
-public class CommandPlayerInvite implements CommandExecutor {
+public class CommandGuildInvite implements CommandExecutor {
 	public NovaGuilds plugin;
 	
-	public CommandPlayerInvite(NovaGuilds novaGuilds) {
+	public CommandGuildInvite(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
 	}
 	

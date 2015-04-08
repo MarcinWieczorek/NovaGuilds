@@ -5,20 +5,19 @@ import java.io.File;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.Utils;
 
-public class CommandReload implements CommandExecutor {
+public class CommandAdminReload implements CommandExecutor {
 	private final NovaGuilds plugin;
 	 
-	public CommandReload(NovaGuilds plugin) {
+	public CommandAdminReload(NovaGuilds plugin) {
 		this.plugin = plugin; // Store the plugin in situations where you need it.
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("novaguilds.reload")) {
+		if(sender.hasPermission("novaguilds.admin.reload")) {
 			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.reloading")));
 			
 			plugin.saveDefaultConfig();
@@ -29,16 +28,8 @@ public class CommandReload implements CommandExecutor {
 			plugin.sqlp = plugin.config.getString("mysql.prefix");
 			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.mysql")));
 			
-			File messagesFile = new File(plugin.getDataFolder(), "messages.yml");
-	        if(!messagesFile.exists()) {
-	        		plugin.saveResource("messages.yml", false);
-	        		plugin.setMessages(YamlConfiguration.loadConfiguration(messagesFile));
-	        		
-	        		plugin.info("New messages file created");
-	        		sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.newmsgfile")));
-	        }
-	        
-	        plugin.setMessages(YamlConfiguration.loadConfiguration(messagesFile));
+			File msgFile = new File(plugin.getDataFolder()+"/lang",plugin.lang+".yml");
+	        plugin.loadMessagesFile(msgFile);
 	        
 			plugin.prefix = plugin.getMessages().getString("chat.prefix");
 			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.messages")));
@@ -56,6 +47,9 @@ public class CommandReload implements CommandExecutor {
 			
 			return true;
 		}
-		return false;
+		else {
+			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+		}
+		return true;
 	}
 }

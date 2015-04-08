@@ -26,7 +26,6 @@ public class LoginListener implements Listener {
 		plugin.MySQLreload();
 		Statement statement;
 		Player player = event.getPlayer();
-		
 		if(!plugin.getPlayerManager().exists(player.getName())) {
 			try {
 				statement = plugin.c.createStatement();

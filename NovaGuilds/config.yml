@@ -9,6 +9,7 @@ mysql:
  prefix: novaguilds_
 
 debug: false
+lang: en-en
  
 tabapi: 
  enabled: true
@@ -27,6 +28,9 @@ usevault: true
 
 holographicdisplays:
  enabled: true
+ 
+#Save period in minutes
+saveperiod: 10
  
 chat:
  ally:
@@ -66,9 +70,31 @@ killing:
  
 guild:
  tag: "&a{RANK}{TAG} &r"
- createmoney: 0
- createitems:
-  - dirt 1 
+ startpoints: 1000
+ settings:
+  tag:
+   color: true
+   min: 2
+   max: 6
+  name:
+   min: 4
+   max: 10
+ 
+ killpoints: 5
+ deathpoints: 5
+ 
+ #permissions: novaguilds.group.GROUP
+ #there's no need for admin group. novaguilds.group.admin for no items required
+ create:
+  groups:
+   default: #this is default
+    money: 0
+    items:
+     - dirt 1
+   vip: #novaguilds.group.vip
+    money: 0
+    items:
+     - cobblestone 5
 
 region:
  #price per block

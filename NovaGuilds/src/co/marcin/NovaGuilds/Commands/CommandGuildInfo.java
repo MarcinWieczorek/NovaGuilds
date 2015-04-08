@@ -1,6 +1,7 @@
 package co.marcin.NovaGuilds.Commands;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -23,6 +24,7 @@ public class CommandGuildInfo implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		String guildname;
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 		
 		if(args.length>0) {
 			guildname = args[0];
@@ -33,9 +35,8 @@ public class CommandGuildInfo implements CommandExecutor {
 				return true;
 			}
 			
-			NovaPlayer nplayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
-			if(nplayer.hasGuild()) {
-				guildname = nplayer.getGuild().getName();
+			if(nPlayer.hasGuild()) {
+				guildname = nPlayer.getGuild().getName();
 			}
 			else {
 				plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
@@ -50,7 +51,14 @@ public class CommandGuildInfo implements CommandExecutor {
 		}
 		
 		if(guild != null) {
-			List<String> guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.info");
+			List<String> guildinfomsg = new ArrayList<String>();
+			
+			if((nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
+				guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.fullinfo");
+			}
+			else {
+				guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.info");
+			}
 			
 			sender.sendMessage(Utils.fixColors(plugin.prefix+guildinfomsg.get(0)));
 			
@@ -98,6 +106,7 @@ public class CommandGuildInfo implements CommandExecutor {
 				gmsg = Utils.replace(gmsg,"{TAG}",tagmsg);
 				gmsg = Utils.replace(gmsg,"{MONEY}",guild.getMoney()+"");
 				gmsg = Utils.replace(gmsg,"{PLAYERS}",players);
+				gmsg = Utils.replace(gmsg,"{POINTS}",guild.getPoints()+"");
 				
 				if(gmsg.contains("{SP_X}") || gmsg.contains("{SP_Y}") || gmsg.contains("{SP_Z}")) {
 					Location sp = guild.getSpawnPoint();
