@@ -109,14 +109,6 @@ public class PlayerManager {
 				}
 				
 				String guildname = res.getString("guild").toLowerCase();
-				NovaGuild guild;
-				if(guildname.isEmpty()) {
-					guild = null;
-				}
-				else {
-					guild = plugin.getGuildManager().getGuildByName(guildname);
-					guild.addPlayer(novaplayer);
-				}
 				
 				String invitedTo = res.getString("invitedto");
 				List<String> invitedToList = new ArrayList<String>();;
@@ -124,15 +116,32 @@ public class PlayerManager {
 					invitedToList.addAll(Arrays.asList(invitedTo.split(";")));
 					//invitedToList = Arrays.asList(invitedTo.split(";"));
 				}
-				
-				novaplayer.setGuild(guild);
+
 				UUID uuid = UUID.fromString(res.getString("uuid"));
-				if(guildname.isEmpty()) novaplayer.setHasGuild(false);
+
+				if(guildname.isEmpty()) {
+					novaplayer.setHasGuild(false);
+				}
+
 				novaplayer.setUUID(uuid);
 				novaplayer.setName(res.getString("name"));
 				novaplayer.setInvitedTo(invitedToList);
+
+				NovaGuild guild = null;
+				if(!guildname.isEmpty()) {
+					guild = plugin.getGuildManager().getGuildByName(guildname);
+					guild.addPlayer(novaplayer);
+					plugin.getGuildManager().saveGuildLocal(guild);
+					novaplayer.setGuild(guild);
+				}
+
 				plugin.players.put(res.getString("name").toLowerCase(), novaplayer);
 			}
+
+			for(Entry<String, NovaGuild> guild : plugin.getGuildManager().getGuilds()) {
+				plugin.info(guild.getValue().players_nick.toString());
+			}
+
 			plugin.info("Players loaded from database");
 		} catch (SQLException e) {
 			plugin.info(e.getMessage());

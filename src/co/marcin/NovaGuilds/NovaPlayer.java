@@ -20,7 +20,7 @@ public class NovaPlayer {
 	private NovaRegion selectedRegion;
 	
 	//Region selecting
-	private Location[] regionSelectedLocations = {null,null};
+	private Location[] regionSelectedLocations = new Location[2];
 	
 	//getters
 	public Player getPlayer() {

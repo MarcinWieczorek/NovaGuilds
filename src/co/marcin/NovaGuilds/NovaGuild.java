@@ -18,6 +18,7 @@ public class NovaGuild {
 	private int points;
 	
 	private List<NovaPlayer> players = new ArrayList<NovaPlayer>();
+	public List<String> players_nick = new ArrayList<String>();
 	private List<String> allies = new ArrayList<String>();
 	private List<String> allies_invited = new ArrayList<String>();
 	
@@ -143,6 +144,7 @@ public class NovaGuild {
 	
 	public void addPlayer(NovaPlayer p) {
 		players.add(p);
+		players_nick.add(p.getName());
 	}
 	
 	public void addMoney(double m) {
@@ -174,5 +176,9 @@ public class NovaGuild {
 	public void removeAllyInvitation(String allyname) {
 		if(allies_invited.contains(allyname.toLowerCase()))
 			allies_invited.remove(allyname.toLowerCase());
+	}
+
+	public boolean isMember(NovaPlayer nPlayer) {
+		return players_nick.contains(nPlayer.getName());
 	}
 }

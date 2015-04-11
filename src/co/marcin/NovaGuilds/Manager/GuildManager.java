@@ -39,7 +39,10 @@ public class GuildManager {
 	}
 	
 	public NovaGuild getGuildByPlayer(NovaPlayer nPlayer) {
-		return getGuildByName(nPlayer.getGuild().getName());
+		if(nPlayer.hasGuild()) {
+			return getGuildByName(nPlayer.getGuild().getName());
+		}
+		return null;
 	}
 	
 	public Set<Entry<String, NovaGuild>> getGuilds() {
@@ -58,7 +61,7 @@ public class GuildManager {
 			statement = plugin.c.createStatement();
 			
 			plugin.players.clear();
-			ResultSet res = statement.executeQuery("SELECT * FROM `"+plugin.sqlp+"guilds`");
+			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.sqlp + "guilds`");
 			while(res.next()) {
 				String spawnpoint_coord = res.getString("spawn");
 				
@@ -90,7 +93,7 @@ public class GuildManager {
 				novaGuild.setAllies(allies);
 				novaGuild.setAllyInvitations(alliesinv);
 				novaGuild.setPoints(res.getInt("points"));
-				
+
 				plugin.guilds.put(res.getString("name").toLowerCase(), novaGuild);
 			}
 			plugin.info("Guilds loaded from database");
@@ -142,15 +145,20 @@ public class GuildManager {
 			
 			if(guild.getAllies().size() > 0) {
 				for(String ally : guild.getAllies()) {
-					if(!allies.equals("")) allies += ";";
+					if(!allies.equals("")) {
+						allies += ";";
+					}
+
 					allies += ally;
 				}
 			}
-			
-			if(plugin.DEBUG) plugin.info(guild.getAllyInvitations().toString());
+
 			if(guild.getAllyInvitations().size() > 0) {
 				for(String allyinv : guild.getAllyInvitations()) {
-					if(!alliesinv.equals("")) alliesinv += ";";
+					if(!alliesinv.equals("")) {
+						alliesinv += ";";
+					}
+
 					alliesinv = alliesinv + allyinv;
 				}
 			}

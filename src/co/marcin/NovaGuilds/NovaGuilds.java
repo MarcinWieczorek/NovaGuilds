@@ -158,7 +158,6 @@ public class NovaGuilds extends JavaPlugin {
 		File langsDir = new File(getDataFolder(),"lang/");
 		if(!langsDir.exists()) {
 			langsDir.mkdir();
-			//saveResource("lang", false);
 			info("Language dir created");
 		}
 		
@@ -172,13 +171,13 @@ public class NovaGuilds extends JavaPlugin {
 		//Version check
         String latest = Utils.getContent("http://novaguilds.marcin.co/latest.info");
         info("You're using version: v"+pdf.getVersion());
-        info("Latest version of the plugin is: v"+latest);
+        info("Latest build of the plugin is: #"+latest);
         
         if(pdf.getVersion().equalsIgnoreCase(latest)) {
-        	info("Your plugin version is the latest one");
+        	info("Your plugin build is the latest one");
         }
         else {
-        	info("You should update your plugin to v"+latest+"!");
+        	info("You should update your plugin to #"+latest+"!");
         }
 		
 		//command executors

@@ -38,7 +38,7 @@ public class CommandAdminGuild implements CommandExecutor {
 				new CommandAdminGuildInvite(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else if(args[0].equalsIgnoreCase("promote")) { //promote to leader
-				
+				new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else if(args[0].equalsIgnoreCase("list")) { //list guilds
 				new CommandGuildList(plugin).onCommand(sender, cmd, label, newargs);
