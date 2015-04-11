@@ -9,6 +9,8 @@ import co.marcin.NovaGuilds.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
+import java.util.HashMap;
+
 public class CommandAdminGuildInvite implements CommandExecutor {
 	public NovaGuilds plugin;
 	
@@ -63,7 +65,8 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		plugin.sendMessagesMsg(sender,"chat.player.invited");
 		
 		if(nPlayer.getPlayer() instanceof Player) {
-				plugin.sendMessagesMsg(nPlayer.getPlayer(),"chat.player.uvebeeninvited");
+			HashMap<String,String> vars = new HashMap<String, String>();
+			plugin.sendMessagesMsg(nPlayer.getPlayer(),"chat.player.uvebeeninvited",vars);
 		}
 	
 		return true;

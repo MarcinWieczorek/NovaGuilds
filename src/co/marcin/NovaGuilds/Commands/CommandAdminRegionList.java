@@ -10,13 +10,13 @@ import org.bukkit.command.CommandSender;
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaRegion;
 
-public class CommandRegionList implements CommandExecutor {
+public class CommandAdminRegionList implements CommandExecutor {
 	public NovaGuilds plugin;
-	
-	public CommandRegionList(NovaGuilds pl) {
+
+	public CommandAdminRegionList(NovaGuilds pl) {
 		plugin = pl;
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(sender.hasPermission("novaguilds.region.list")) {
 			plugin.sendMessagesMsg(sender,"chat.region.list.header");

@@ -56,7 +56,7 @@ public class CommandAdminRegion implements CommandExecutor {
 				}
 			}
 			else if(args[0].equalsIgnoreCase("list")) { //list regions
-				new CommandRegionList(plugin).onCommand(sender, cmd, label, args);
+				new CommandAdminRegionList(plugin).onCommand(sender, cmd, label, args);
 			}
 			else {
 				plugin.sendMessagesMsg(sender, "chat.unknowncmd");
