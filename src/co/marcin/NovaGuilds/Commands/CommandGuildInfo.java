@@ -43,21 +43,25 @@ public class CommandGuildInfo implements CommandExecutor {
 				return true;
 			}
 		}
-		
+
+		//searching by name
 		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
-		
+
+		//searching by tag
 		if(guild == null) {
 			guild = plugin.getGuildManager().getGuildByTag(guildname);
 		}
+
+		//searching by player
+		if(guild == null) {
+			guild = plugin.getGuildManager().getGuildByPlayer(args[0]);
+		}
 		
 		if(guild != null) {
-			List<String> guildinfomsg = new ArrayList<String>();
+			List<String> guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.info");
 			
-			if((nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
+			if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
 				guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.fullinfo");
-			}
-			else {
-				guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.info");
 			}
 			
 			sender.sendMessage(Utils.fixColors(plugin.prefix+guildinfomsg.get(0)));

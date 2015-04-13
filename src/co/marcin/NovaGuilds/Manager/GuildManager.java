@@ -3,6 +3,8 @@ package co.marcin.NovaGuilds.Manager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -44,6 +46,16 @@ public class GuildManager {
 		}
 		return null;
 	}
+
+	public NovaGuild getGuildByPlayer(String playername) {
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
+
+		if(nPlayer == null) {
+			return null;
+		}
+
+		return plugin.getGuildManager().getGuildByPlayer(nPlayer);
+	}
 	
 	public Set<Entry<String, NovaGuild>> getGuilds() {
 		return plugin.guilds.entrySet();
@@ -78,9 +90,17 @@ public class GuildManager {
 						spawnpoint.setYaw(yaw);
 					}
 				}
-				
-				List<String> allies = Utils.semicolonToList(res.getString("allies"));
-				List<String> alliesinv = Utils.semicolonToList(res.getString("alliesinv"));
+
+				List<String> allies = new ArrayList<>();
+				List<String> alliesinv = new ArrayList<>();
+
+				if(!res.getString("allies").isEmpty()) {
+					allies = Utils.semicolonToList(res.getString("allies"));
+				}
+
+				if(!res.getString("alliesinv").isEmpty()) {
+					alliesinv = Utils.semicolonToList(res.getString("alliesinv"));
+				}
 				
 				NovaGuild novaGuild = new NovaGuild();
 				novaGuild.setId(res.getInt("id"));
@@ -117,7 +137,7 @@ public class GuildManager {
 			String sql = "INSERT INTO `"+plugin.sqlp+"guilds` VALUES(0,'"+guild.getTag()+"','"+guild.getName()+"','"+guild.getLeaderName()+"','"+spawnpointcoords+"','','',0,0);";
 			statement.execute(sql);
 			
-			plugin.guilds.put(guild.getName().toLowerCase(),guild);
+			plugin.guilds.put(guild.getName().toLowerCase(), guild);
 			NovaPlayer leader = plugin.getPlayerManager().getPlayerByName(guild.getLeaderName());
 			leader.setGuild(guild);
 			plugin.getPlayerManager().updateLocalPlayer(leader);
@@ -173,14 +193,20 @@ public class GuildManager {
 	
 	public void saveGuildLocal(NovaGuild guild) {
 		if(plugin.guilds.containsValue(guild)) {
-			plugin.guilds.replace(guild.getName().toLowerCase(),guild);
+			//TODO
+//			plugin.guilds.remove(guild.getName().toLowerCase());
+//			plugin.guilds.put(guild.getName().toLowerCase(),guild);
+
+			plugin.guilds_changes.put(guild.getName().toLowerCase(),guild);
 		}
 	}
 	
 	public void saveAll() {
-		for(Entry<String, NovaGuild> g : getGuilds()) {
+		for(Entry<String, NovaGuild> g : plugin.guilds.entrySet()) {
 			saveGuild(g.getValue());
 		}
+
+		applyChanges();
 	}
 	
 	public void deleteGuild(NovaGuild guild) {
@@ -213,5 +239,15 @@ public class GuildManager {
 		plugin.guilds.put(newname, guild);
 		guild.setName(newname);
 		saveGuild(guild);
+	}
+
+	public void applyChanges() {
+		for(Entry<String,NovaGuild> entry : plugin.guilds_changes.entrySet()) {
+			NovaGuild guild = entry.getValue();
+			plugin.guilds.remove(guild.getName().toLowerCase());
+			plugin.guilds.put(guild.getName().toLowerCase(),guild);
+		}
+
+		plugin.guilds_changes.clear();
 	}
 }

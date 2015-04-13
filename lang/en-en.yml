@@ -3,9 +3,14 @@ chat:
  nopermissions: "&cYou don't have enought permissions to do this."
  unknowncmd: "&cUnknown command."
  invalidparam: "&cInvalid command param"
+ cmdfromconsole: "You cannot perform this command from the Console"
+ enterinteger: "Please enter an integer."
  
  admin:
   guild:
+   bank:
+    paid: "You paid &c${MONEY} &3to &a{GUILDNAME}&3's bank."
+    withdrew: "You tok &c${MONEY} &3from &a{GUILDNAME}&3's bank."
    abandon: "&a{GUILDNAME} &3abandoned."
    kick: ""
    invited: "Invited player &c{PLAYERNAME} &3to &a{GUILDNAME}"
@@ -15,9 +20,14 @@ chat:
    setname:
     enternewname: "Enter new name"
     success: "Guild's name changed."
-  rgbypass:
-   toggled: "Region bypass toggled. Currently: &c{BYPASS}"
-   toggledother: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
+  region:
+   rgbypass:
+    toggled: "Region bypass toggled. Currently: &c{BYPASS}"
+    toggledother: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
+   delete:
+    success: "Successfully deleted guild's region."
+   teleport:
+    success: "Teleported you to selected region."
   save:
    players: "Players saved."
    guilds: "Guilds saved."
@@ -38,6 +48,9 @@ chat:
  usage:
   nga:
    guild:
+    bank:
+     pay: "&7/nga &cg &6pay &c<guild/tag> &6<money>"
+     withdraw: "&7/nga &cg &6withdraw &c<guild/tag> &6<money>"
     tp: "&7/nga &cg &6tp &c<guild> &6[player]"
   ng:
    broadcast: "&c/ng bc <message>"
@@ -54,6 +67,7 @@ chat:
     header: "Admin region commands:"
     items:
      - "&5* &7/nga &crg &6list &2- &3Region list"
+     - "&5* &7/nga &crg &6del &c<guildname> &2- &3Delete region"
    guild:
     header: "Guild commands for admins"
     items:
@@ -65,6 +79,8 @@ chat:
      - "&5* &7/nga &cg &6invite &c<guild> &c<player> &2- &3Invite somebody to a guild"
      - "&5* &7/nga &cg &6promote &c<player> &2- &3Promote player to leader rank"
      - "&5* &7/nga &cg &6list &2- &3List all guilds"
+     - "&5* &7/nga &cg &6pay &c<guild/tag> &2- &3Pay money to guild's bank"
+     - "&5* &7/nga &cg &6withdraw &c<guild/tag> &2- &3Take money from guild's bank"
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
@@ -99,6 +115,7 @@ chat:
    notifyguildcanceled: "Guild &a{GUILDNAME} &3canceled their ally invitation"
    canceled: "&3Canceled ally invitation with guild &a{GUILDNAME}"
    
+  hasnoregion: "This guild has no region"
   entername: "Enter guild's name"
   entertag: "Please give new tag"
   namenotexist: "Could not find a guild with this name"

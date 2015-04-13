@@ -17,10 +17,10 @@ public class NovaGuild {
 	private double money = 0;
 	private int points;
 	
-	private List<NovaPlayer> players = new ArrayList<NovaPlayer>();
-	public List<String> players_nick = new ArrayList<String>();
-	private List<String> allies = new ArrayList<String>();
-	private List<String> allies_invited = new ArrayList<String>();
+	private List<NovaPlayer> players = new ArrayList<>();
+	public List<String> players_nick = new ArrayList<>();
+	private List<String> allies = new ArrayList<>();
+	private List<String> allies_invited = new ArrayList<>();
 	
 	//getters
 	public String getName() {

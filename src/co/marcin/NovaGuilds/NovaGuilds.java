@@ -56,7 +56,7 @@ import co.marcin.NovaGuilds.Manager.RegionManager;
 
 public class NovaGuilds extends JavaPlugin {
 	private final Logger log = Logger.getLogger("Minecraft");
-	private final String logprefix = "[NovaGuilds] ";
+	private static final String logprefix = "[NovaGuilds] ";
 	public PluginDescriptionFile pdf = this.getDescription();
 	public PluginManager pm = getServer().getPluginManager();
 	public String prefix;
@@ -79,9 +79,12 @@ public class NovaGuilds extends JavaPlugin {
 	public boolean useMySQL;
 	public String lang;
 	
-	public HashMap<String,NovaPlayer> players = new HashMap<String,NovaPlayer>();
-	public HashMap<String,NovaGuild> guilds = new HashMap<String,NovaGuild>();
-	public HashMap<String,NovaRegion> regions = new HashMap<String,NovaRegion>();
+	public HashMap<String,NovaPlayer> players = new HashMap<>();
+	public HashMap<String,NovaGuild> guilds = new HashMap<>();
+	public HashMap<String,NovaRegion> regions = new HashMap<>();
+
+	public HashMap<String,NovaPlayer> players_changes = new HashMap<>();
+	public HashMap<String,NovaGuild> guilds_changes = new HashMap<>();
 	
 	private GuildManager guildManager = new GuildManager(this);
 	private RegionManager regionManager = new RegionManager(this);
@@ -94,7 +97,6 @@ public class NovaGuilds extends JavaPlugin {
 	public MySQL MySQL;
 	public SQLite sqlite;
 	public Connection c = null;
-	public Statement statement;
 	
 	private FileConfiguration messages = null;
 	private File messagesFile;
@@ -115,7 +117,7 @@ public class NovaGuilds extends JavaPlugin {
 		
 		//HolographicDisplays
 		if(useHolographicDisplays) {
-			if (!setupEconomy() ) {
+			if (!checkHolographicDisplays() ) {
 	            log.severe(String.format("[%s] - Disabled due to no HolographicDisplays dependency found!", pdf.getName()));
 	            getServer().getPluginManager().disablePlugin(this);
 	            return;
@@ -213,7 +215,7 @@ public class NovaGuilds extends JavaPlugin {
 			if(!rs.next()) {
 				info("Couldn't find tables in the base. Creating...");
 				String[] SQLCreateCode = getSQLCreateCode(useMySQL);
-				if(!SQLCreateCode.equals("")) {
+				if(SQLCreateCode.length != 0) {
 					try {
 						for(String tableCode : SQLCreateCode) {
 							createTable(tableCode);
@@ -373,51 +375,42 @@ public class NovaGuilds extends JavaPlugin {
     }
 	
 	public boolean checkTabAPI() {
-		if(getServer().getPluginManager().getPlugin("TabAPI") == null) {
-            return false;
-        }
-		return true;
+		return !(getServer().getPluginManager().getPlugin("TabAPI") == null);
 	}
 	
 	//tagAPI
 	public boolean checkTagAPI() {
-		if(getServer().getPluginManager().getPlugin("TagAPI") == null) {
-            return false;
-        }
-		return true;
+		return !(getServer().getPluginManager().getPlugin("TagAPI") == null);
 	}
 	
 	//HolographicDisplays
 	public boolean checkHolographicDisplays() {
-		if(!getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
-	        return false;
-	    }
-		return true;
+		return getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
 	}
-	
+
 	public String getTabName(Player player) {
-		String tag = "";
-		String guildtag = "";
+		String tag;
+		String guildtag;
 		String rank = "";
 		NovaPlayer nplayer = getPlayerManager().getPlayerByName(player.getName());
 		String tabName = player.getName();
-		
+
 		if(nplayer.hasGuild()) {
 			tag = config.getString("guild.tag");
 			guildtag = nplayer.getGuild().getTag();
-			
+
 			if(!config.getBoolean("tabapi.colortags")) {
 				guildtag = Utils.removeColors(guildtag);
 			}
-			
+
 			tag = Utils.replace(tag,"{TAG}",guildtag);
-			
+
 			if(config.getBoolean("tabapi.rankprefix")) {
 				if(nplayer.getGuild().getLeaderName().equalsIgnoreCase(player.getName())) {
 					rank = messages.getString("chat.guildinfo.leaderprefix");
 				}
 			}
-			
+
 			tag = Utils.replace(tag,"{RANK}",rank);
 			tag = Utils.fixColors(tag);
 			tabName = tag + tabName;
@@ -453,8 +446,8 @@ public class NovaGuilds extends JavaPlugin {
 	
 	public void updateTabAll() {
 		if(checkTabAPI()) {
-			int x=0;
-			int y=0;
+			int x;
+			int y;
 			String tabName;
 			
 			for(Player p2 : getServer().getOnlinePlayers()) {
@@ -487,8 +480,8 @@ public class NovaGuilds extends JavaPlugin {
 	//update exclude
 	public void updateTabAll(Player excludeplayer) {
 		if(checkTabAPI()) {
-			int x=0;
-			int y=0;
+			int x;
+			int y;
 			String tabName;
 			
 			for(Player p2 : getServer().getOnlinePlayers()) {
@@ -524,36 +517,36 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	public void updateTagPlayerToAll(Player p) {
-		Set<Player> set = new HashSet<Player>(Arrays.asList(getServer().getOnlinePlayers()));
+		Set<Player> set = new HashSet<>(Arrays.asList(getServer().getOnlinePlayers()));
 		TagAPI.refreshPlayer(p, set);
 	}
 	
 	public void updateTagAll() {
 		for(Player p: getServer().getOnlinePlayers()) {
-			Set<Player> set = new HashSet<Player>(Arrays.asList(getServer().getOnlinePlayers()));
+			Set<Player> set = new HashSet<>(Arrays.asList(getServer().getOnlinePlayers()));
 			TagAPI.refreshPlayer(p, set);
 		}
 	}
 	
 	public String getTag(Player player) {
-		String tag = "";
-		String guildtag = "";
+		String tag;
+		String guildTag;
 		String rank = "";
-		NovaPlayer nplayer = getPlayerManager().getPlayerByName(player.getName());
+		NovaPlayer nPlayer = getPlayerManager().getPlayerByName(player.getName());
 		String tabName = player.getName();
 		
-		if(nplayer.hasGuild()) {
+		if(nPlayer.hasGuild()) {
 			tag = config.getString("guild.tag");
-			guildtag = nplayer.getGuild().getTag();
+			guildTag = nPlayer.getGuild().getTag();
 			
 			if(!config.getBoolean("tabapi.colortags")) {
-				guildtag = Utils.removeColors(guildtag);
+				guildTag = Utils.removeColors(guildTag);
 			}
 			
-			tag = Utils.replace(tag,"{TAG}",guildtag);
+			tag = Utils.replace(tag,"{TAG}",guildTag);
 			
 			if(config.getBoolean("tabapi.rankprefix")) {
-				if(nplayer.getGuild().getLeaderName().equalsIgnoreCase(player.getName())) {
+				if(nPlayer.getGuild().getLeaderName().equalsIgnoreCase(player.getName())) {
 					rank = messages.getString("chat.guildinfo.leaderprefix");
 				}
 			}
@@ -608,12 +601,8 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	//set messages
-	public void setMessages(FileConfiguration msgs) {
-		messages = msgs;
-	}
-	
-	public void setMessagesFile(File msgFile) {
-		messagesFile = msgFile;
+	public void setMessages(FileConfiguration msg) {
+		messages = msg;
 	}
 	
 	public void loadMessagesFile(File msgFile) {
@@ -731,8 +720,8 @@ public class NovaGuilds extends JavaPlugin {
 		scheduler.scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
 			public void run() {
-				getRegionManager().saveAll();
 				getGuildManager().saveAll();
+				getRegionManager().saveAll();
 				getPlayerManager().saveAll();
 				info("Saved data.");
 			}

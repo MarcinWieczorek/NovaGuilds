@@ -97,7 +97,7 @@ permissions:
         default: op
     novaguilds.admin.guild.kick:
         default: op
-    novaguilds.admin.region.remove:
+    novaguilds.admin.region.delete:
         default: op
     novaguilds.admin.region.resize:
         default: op

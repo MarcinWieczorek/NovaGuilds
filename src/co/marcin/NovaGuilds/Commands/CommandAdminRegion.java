@@ -1,13 +1,10 @@
 package co.marcin.NovaGuilds.Commands;
 
-import java.util.HashMap;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
 import co.marcin.NovaGuilds.Utils;
 
 public class CommandAdminRegion implements CommandExecutor {
@@ -19,41 +16,13 @@ public class CommandAdminRegion implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length>0) {
-			if(args[0].equalsIgnoreCase("bypass")) { //togglebypass
-				if(args.length==1) {
-					if(sender.hasPermission("novaguilds.admin.region.bypass")) {
-						NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
-						
-						nPlayer.toggleBypass();
-						plugin.getPlayerManager().updateLocalPlayer(nPlayer);
-						HashMap<String,String> vars = new HashMap<String,String>();
-						vars.put("BYPASS",nPlayer.getBypass()+"");
-						plugin.sendMessagesMsg(sender,"chat.admin.rgbypass.toggled",vars);
-					}
-					else {
-						plugin.sendMessagesMsg(sender,"chat.nopermissions");
-					}
-				}
-				else { //for other
-					if(sender.hasPermission("novaguilds.admin.region.bypass.other")) {
-						NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(args[1]);
+			String[] newargs = Utils.parseArgs(args,1);
 
-						if(nPlayer == null) {
-							plugin.sendMessagesMsg(sender,"chat.player.notexists");
-							return true;
-						}
-						
-						nPlayer.toggleBypass();
-						plugin.getPlayerManager().updateLocalPlayer(nPlayer);
-						HashMap<String,String> vars = new HashMap<String,String>();
-						vars.put("PLAYER",nPlayer.getName());
-						vars.put("BYPASS",nPlayer.getBypass()+"");
-						plugin.sendMessagesMsg(sender,"chat.admin.rgbypass.toggledother",vars);
-					}
-					else {
-						plugin.sendMessagesMsg(sender,"chat.nopermissions");
-					}
-				}
+			if(args[0].equalsIgnoreCase("bypass")) { //togglebypass
+				new CommandAdminRegionBypass(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else if(args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del")) { //remove region
+				new CommandAdminRegionDelete(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else if(args[0].equalsIgnoreCase("list")) { //list regions
 				new CommandAdminRegionList(plugin).onCommand(sender, cmd, label, args);

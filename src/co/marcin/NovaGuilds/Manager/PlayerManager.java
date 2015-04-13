@@ -78,13 +78,18 @@ public class PlayerManager {
 	}
 	
 	public void updateLocalPlayer(NovaPlayer nPlayer) {
-		plugin.players.replace(nPlayer.getName().toLowerCase(),nPlayer);
+//		plugin.players.remove(nPlayer.getName().toLowerCase());
+//		plugin.players.put(nPlayer.getName().toLowerCase(), nPlayer);
+
+		plugin.players_changes.put(nPlayer.getName().toLowerCase(),nPlayer);
 	}
 	
 	public void saveAll() {
 		for(Entry<String, NovaPlayer> nP : getPlayers()) {
 			updatePlayer(nP.getValue());
 		}
+
+		applyChanges();
 	}
 	
 	//load
@@ -166,5 +171,15 @@ public class PlayerManager {
 		catch (SQLException e) {
 			plugin.info("SQLException: "+e.getMessage());
 		}
+	}
+
+	public void applyChanges() {
+		for(Entry<String,NovaPlayer> entry : plugin.players_changes.entrySet()) {
+			NovaPlayer nPlayer = entry.getValue();
+			plugin.players.remove(nPlayer.getName().toLowerCase());
+			plugin.players.put(nPlayer.getName().toLowerCase(),nPlayer);
+		}
+
+		plugin.players_changes.clear();
 	}
 }

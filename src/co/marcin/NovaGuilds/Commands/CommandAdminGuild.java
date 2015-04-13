@@ -43,6 +43,12 @@ public class CommandAdminGuild implements CommandExecutor {
 			else if(args[0].equalsIgnoreCase("list")) { //list guilds
 				new CommandGuildList(plugin).onCommand(sender, cmd, label, newargs);
 			}
+			else if(args[0].equalsIgnoreCase("pay")) { //list guilds
+				new CommandAdminGuildBankPay(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else if(args[0].equalsIgnoreCase("withdraw")) { //list guilds
+				new CommandAdminGuildBankWithdraw(plugin).onCommand(sender, cmd, label, newargs);
+			}
 			else {
 				plugin.sendMessagesMsg(sender, "chat.unknowncmd");
 			}

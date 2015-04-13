@@ -65,16 +65,18 @@ public class ChatListener implements Listener {
 							nP.getPlayer().sendMessage(format+msg);
 						}
 					}
-					
-					for(String allyname : guild.getAllies()) {
-						NovaGuild allyguild = plugin.getGuildManager().getGuildByName(allyname);
-						for(NovaPlayer nP : allyguild.getPlayers()) {
-							if(nP.isOnline()) {
-								nP.getPlayer().sendMessage(format+msg);
+
+					if(guild.getAllies().size() > 0) {
+						for(String allyname : guild.getAllies()) {
+							NovaGuild allyguild = plugin.getGuildManager().getGuildByName(allyname);
+							for(NovaPlayer nP : allyguild.getPlayers()) {
+								if(nP.isOnline()) {
+									nP.getPlayer().sendMessage(format + msg);
+								}
 							}
 						}
 					}
-					
+
 					event.setCancelled(true);
 				}
 			}

@@ -134,7 +134,7 @@ public class RegionManager {
 			String loc1 = Utils.parseDBLocationCoords2D(region.getCorner(0));
 			String loc2 = Utils.parseDBLocationCoords2D(region.getCorner(1));
 			
-			String sql = "UPDATE `"+plugin.sqlp+"regions` SET `loc_1`='"+loc1+"', `loc_2`='"+loc2+"', `guild`='"+region.getGuildName()+"', `world`='"+region.getWorld()+"' WHERE `id`="+region.getId();
+			String sql = "UPDATE `"+plugin.sqlp+"regions` SET `loc_1`='"+loc1+"', `loc_2`='"+loc2+"', `guild`='"+region.getGuildName()+"', `world`='"+region.getWorld().getName()+"' WHERE `id`="+region.getId();
 			statement.executeUpdate(sql);
 		}
 		catch(SQLException e) {
@@ -190,7 +190,7 @@ public class RegionManager {
 	
 	@SuppressWarnings("deprecation")
 	public void setCorner(Player player, Location location) {
-		player.sendBlockChange(location,Material.EMERALD_BLOCK,(byte) 0);
+		player.sendBlockChange(location, Material.EMERALD_BLOCK, (byte) 0);
 	}
 	
 	//set corner with material
@@ -299,7 +299,6 @@ public class RegionManager {
 			"toobig", //2
 			"toosmall", //3
 			"overlaps", //4
-			"" //5
 		};
 		
 		int x1 = Utils.fixX(l1.getBlockX());

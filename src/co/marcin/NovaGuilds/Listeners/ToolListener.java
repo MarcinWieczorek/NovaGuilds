@@ -31,6 +31,7 @@ public class ToolListener implements Listener {
 		if(player.getItemInHand().getType().equals(tool)) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
 			Location pointedlocation = player.getTargetBlock(null, 200).getLocation();
+			pointedlocation.setWorld(player.getWorld());
 			
 			//Change RegionMode
 			if((event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) && player.isSneaking()) {
