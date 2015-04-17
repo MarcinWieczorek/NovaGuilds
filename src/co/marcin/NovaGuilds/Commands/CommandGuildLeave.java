@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
 public class CommandGuildLeave implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 	
 	public CommandGuildLeave(NovaGuilds pl) {
 		plugin = pl;
@@ -42,7 +42,7 @@ public class CommandGuildLeave implements CommandExecutor {
 			plugin.getGuildManager().saveGuildLocal(guild);
 			plugin.sendMessagesMsg(sender,"chat.guild.leave.left");
 			
-			HashMap<String,String> vars = new HashMap<String,String>();
+			HashMap<String,String> vars = new HashMap<>();
 			vars.put("PLAYER",sender.getName());
 			vars.put("GUILDNAME",guild.getName());
 			plugin.broadcastMessage("broadcast.guild.left", vars);

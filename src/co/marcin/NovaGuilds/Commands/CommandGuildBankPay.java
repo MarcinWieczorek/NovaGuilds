@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaPlayer;
 import co.marcin.NovaGuilds.Utils;
 
 public class CommandGuildBankPay implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 	
 	public CommandGuildBankPay(NovaGuilds pl) {
 		plugin = pl;
@@ -38,7 +38,7 @@ public class CommandGuildBankPay implements CommandExecutor {
 						guild.addMoney(money);
 						plugin.econ.withdrawPlayer(sender.getName(),money);
 						plugin.getGuildManager().saveGuildLocal(guild);
-						HashMap<String,String> vars = new HashMap<String,String>();
+						HashMap<String,String> vars = new HashMap<>();
 						vars.put("AMOUNT",money+"");
 						plugin.sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);
 					}

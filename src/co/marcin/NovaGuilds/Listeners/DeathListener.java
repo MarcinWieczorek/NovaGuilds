@@ -2,6 +2,7 @@ package co.marcin.NovaGuilds.Listeners;
 
 import java.util.HashMap;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +22,7 @@ public class DeathListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
+
 		if(event.getEntity().getKiller() instanceof Player) {
 			Player player = event.getEntity();
 			Player attacker = event.getEntity().getKiller();
@@ -41,7 +43,7 @@ public class DeathListener implements Listener {
 				tag2 = Utils.replace(tagscheme, "{TAG}",novaPlayerAttacker.getGuild().getTag());
 			}
 			
-			HashMap<String,String> vars = new HashMap<String,String>();
+			HashMap<String,String> vars = new HashMap<>();
 			vars.put("PLAYER1",player.getName());
 			vars.put("PLAYER2",attacker.getName());
 			vars.put("TAG1",tag1);

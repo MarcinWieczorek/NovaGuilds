@@ -38,7 +38,7 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 						plugin.updateTabAll();
 						plugin.updateTagAll();
 						
-						HashMap<String,String> vars = new HashMap<String,String>();
+						HashMap<String,String> vars = new HashMap<>();
 						vars.put("TAG",newtag);
 						plugin.sendMessagesMsg(sender,"chat.admin.guild.settag",vars);
 					}

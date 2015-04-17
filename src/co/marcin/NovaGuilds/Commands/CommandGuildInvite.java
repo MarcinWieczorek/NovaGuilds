@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
 public class CommandGuildInvite implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 	
 	public CommandGuildInvite(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
@@ -37,7 +37,7 @@ public class CommandGuildInvite implements CommandExecutor {
 							
 							if(inPlayer.getPlayer() instanceof Player) {
 								if(inPlayer.getPlayer().isOnline()) {
-									HashMap<String, String> vars = new HashMap<String,String>();
+									HashMap<String, String> vars = new HashMap<>();
 									vars.put("GUILDNAME",guild.getName());
 									plugin.sendMessagesMsg(inPlayer.getPlayer(),"chat.player.uvebeeninvited",vars);
 								}

@@ -28,7 +28,7 @@ public class MoveListener implements Listener {
 		//entering
 		if(fromRegion == null) {
 			if(toRegion != null) {
-				HashMap<String,String> vars = new HashMap<String,String>();
+				HashMap<String,String> vars = new HashMap<>();
 				vars.put("GUILDNAME",toRegion.getGuildName());
 				plugin.sendMessagesMsg(event.getPlayer(),"chat.region.entered", vars);
 			}
@@ -37,7 +37,7 @@ public class MoveListener implements Listener {
 		//exiting
 		if(fromRegion != null) {
 			if(toRegion == null) {
-				HashMap<String,String> vars = new HashMap<String,String>();
+				HashMap<String,String> vars = new HashMap<>();
 				vars.put("GUILDNAME",fromRegion.getGuildName());
 				plugin.sendMessagesMsg(event.getPlayer(),"chat.region.exited", vars);
 			}

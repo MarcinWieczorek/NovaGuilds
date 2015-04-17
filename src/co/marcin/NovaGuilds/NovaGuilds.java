@@ -119,6 +119,7 @@ public class NovaGuilds extends JavaPlugin {
 		if(useHolographicDisplays) {
 			if (!checkHolographicDisplays() ) {
 	            log.severe(String.format("[%s] - Disabled due to no HolographicDisplays dependency found!", pdf.getName()));
+				useHolographicDisplays = false;
 	            getServer().getPluginManager().disablePlugin(this);
 	            return;
 	        }
@@ -159,8 +160,9 @@ public class NovaGuilds extends JavaPlugin {
 		//messages.yml
 		File langsDir = new File(getDataFolder(),"lang/");
 		if(!langsDir.exists()) {
-			langsDir.mkdir();
-			info("Language dir created");
+			if(langsDir.mkdir()) {
+				info("Language dir created");
+			}
 		}
 		
 		if(!loadMessages()) {
@@ -280,9 +282,12 @@ public class NovaGuilds extends JavaPlugin {
 		getRegionManager().saveAll();
 		getPlayerManager().saveAll();
 		info("Saved all data");
-		
-		for(Hologram h: HologramsAPI.getHolograms(this)) {
-			h.delete();
+
+		//removing holographic displays
+		if(useHolographicDisplays) {
+			for(Hologram h : HologramsAPI.getHolograms(this)) {
+				h.delete();
+			}
 		}
 		
 		for(Player p : getServer().getOnlinePlayers()) {
@@ -321,25 +326,6 @@ public class NovaGuilds extends JavaPlugin {
 			}
 		}
     }
-	
-	public void reload() {
-		saveDefaultConfig();
-		config = getConfig();
-		prefix = config.getString("prefix");
-		sqlp = config.getString("mysql.prefix");
-		
-		messagesFile = new File(getDataFolder(), "messages.yml");
-        if(!messagesFile.exists()) {
-				saveResource("messages.yml", false);
-				info("New messages file created");
-        }
-        
-        messages = YamlConfiguration.loadConfiguration(messagesFile);
-        info("Messages loaded");
-		
-		getGuildManager().loadGuilds();
-		getPlayerManager().loadPlayers();
-	}
 	
 	public void info(String msg) {
 		log.info(logprefix+msg);
@@ -618,7 +604,11 @@ public class NovaGuilds extends JavaPlugin {
 	
 	//send string with prefix to a player
 	public void sendPrefixMessage(Player p, String msg) {
-		p.sendMessage(Utils.fixColors(prefix+msg));
+		p.sendMessage(Utils.fixColors(prefix + msg));
+	}
+
+	public void sendPrefixMessage(CommandSender sender, String msg) {
+		sender.sendMessage(Utils.fixColors(prefix + msg));
 	}
 	
 	//send message from file with prefix to a player

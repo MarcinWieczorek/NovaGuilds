@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
 public class CommandAdminGuildKick  implements CommandExecutor {
-	public NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandAdminGuildKick(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
@@ -31,7 +31,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayerByName(args[0]);
 		NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayerKick);
 		
-		if(!(nPlayerKick instanceof NovaPlayer)) { //no player
+		if(nPlayerKick == null) { //no player
 			plugin.sendMessagesMsg(sender,"chat.player.notexists");
 			return true;
 		}
@@ -42,7 +42,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		
 		plugin.getPlayerManager().updateLocalPlayer(nPlayerKick);
 		
-		HashMap<String,String> vars = new HashMap<String,String>();
+		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
 		vars.put("GUILDNAME",guild.getName());
 		plugin.broadcastMessage("broadcast.guild.kicked", vars);

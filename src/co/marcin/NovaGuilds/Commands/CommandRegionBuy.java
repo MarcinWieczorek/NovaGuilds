@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaPlayer;
 import co.marcin.NovaGuilds.NovaRegion;
 
 public class CommandRegionBuy implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 	
 	public CommandRegionBuy(NovaGuilds pl) {
 		plugin = pl;

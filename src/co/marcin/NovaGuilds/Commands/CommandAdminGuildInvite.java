@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaPlayer;
 import java.util.HashMap;
 
 public class CommandAdminGuildInvite implements CommandExecutor {
-	public NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandAdminGuildInvite(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
@@ -36,7 +36,7 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		String guildname = args[0];
 		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 		
-		if(!(guild instanceof NovaGuild)) {
+		if(!(guild != null)) {
 			plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
 			return true;
 		}
@@ -44,7 +44,7 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		String playername = args[1];
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
 		
-		if(!(nPlayer instanceof NovaPlayer)) { //noplayer
+		if(!(nPlayer != null)) { //noplayer
 			plugin.sendMessagesMsg(sender,"chat.player.notexists");
 			return true;
 		}
@@ -64,8 +64,8 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		plugin.getPlayerManager().updatePlayer(nPlayer);
 		plugin.sendMessagesMsg(sender,"chat.player.invited");
 		
-		if(nPlayer.getPlayer() instanceof Player) {
-			HashMap<String,String> vars = new HashMap<String, String>();
+		if(nPlayer.getPlayer() != null) {
+			HashMap<String,String> vars = new HashMap<>();
 			plugin.sendMessagesMsg(nPlayer.getPlayer(),"chat.player.uvebeeninvited",vars);
 		}
 	

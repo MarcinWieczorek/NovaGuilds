@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.Utils;
 
 public class CommandGuild implements CommandExecutor {
-	public NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandGuild(NovaGuilds pl) {
 		plugin = pl;
@@ -60,6 +60,9 @@ public class CommandGuild implements CommandExecutor {
 			}
 			else if(command.equals("create")) {
 				new CommandGuildCreate(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else if(command.equals("war")) {
+				new CommandGuildWar(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else {
 				plugin.sendMessagesMsg(sender, "chat.unknowncmd");

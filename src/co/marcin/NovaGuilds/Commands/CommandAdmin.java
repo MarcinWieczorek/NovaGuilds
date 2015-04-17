@@ -8,7 +8,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.Utils;
 
 public class CommandAdmin implements CommandExecutor {
-	NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandAdmin(NovaGuilds pl) {
 		plugin = pl;

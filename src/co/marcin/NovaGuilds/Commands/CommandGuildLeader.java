@@ -33,7 +33,7 @@ public class CommandGuildLeader implements CommandExecutor {
 								guild.setLeaderName(newLeader.getName());
 								plugin.getGuildManager().saveGuild(guild);
 								
-								HashMap<String,String> vars = new HashMap<String,String>();
+								HashMap<String,String> vars = new HashMap<>();
 								vars.put("PLAYERNAME",newLeader.getName());
 								vars.put("GUILDNAME",guild.getName());
 								plugin.sendMessagesMsg(sender,"chat.guild.leader.success", vars);

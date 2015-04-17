@@ -15,7 +15,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.Utils;
 
 public class CommandToolGet implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 	
 	public CommandToolGet(NovaGuilds pl) {
 		plugin = pl;
@@ -31,7 +31,7 @@ public class CommandToolGet implements CommandExecutor {
 		        meta.setDisplayName(Utils.fixColors(plugin.getMessages().getString("items.tool.name")));
 		       
 		        List<String> lorecodes = plugin.getMessages().getStringList("items.tool.lore");
-		        List<String> lore = new ArrayList<String>();
+		        List<String> lore = new ArrayList<>();
 		        
 		        for(String l : lorecodes) {
 		        	lore.add(Utils.fixColors(l));

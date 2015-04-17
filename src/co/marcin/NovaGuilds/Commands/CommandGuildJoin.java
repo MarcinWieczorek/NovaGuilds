@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
 public class CommandGuildJoin implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 	
 	public CommandGuildJoin(NovaGuilds pl) {
 		plugin = pl;
@@ -56,7 +56,7 @@ public class CommandGuildJoin implements CommandExecutor {
 						plugin.updateTab(nPlayer.getPlayer());
 						plugin.sendMessagesMsg(sender,"chat.guild.joined");
 						
-						HashMap<String,String> vars = new HashMap<String,String>();
+						HashMap<String,String> vars = new HashMap<>();
 						vars.put("PLAYER",sender.getName());
 						vars.put("GUILDNAME",guild.getName());
 						plugin.broadcastMessage("broadcast.guild.joined", vars);

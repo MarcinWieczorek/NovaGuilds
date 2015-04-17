@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
 public class CommandGuildKick  implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 	
 	public CommandGuildKick(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
@@ -60,7 +60,7 @@ public class CommandGuildKick  implements CommandExecutor {
 		
 		plugin.getPlayerManager().updateLocalPlayer(nPlayerKick);
 		
-		HashMap<String,String> vars = new HashMap<String,String>();
+		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
 		vars.put("GUILDNAME",guild.getName());
 		plugin.broadcastMessage("broadcast.guild.kicked", vars);

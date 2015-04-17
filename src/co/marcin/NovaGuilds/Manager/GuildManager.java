@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -39,6 +38,12 @@ public class GuildManager {
 		}
 		return null;
 	}
+
+	public String getRealName(String name) {
+		if(plugin.guilds.containsKey(name.toLowerCase()))
+			return plugin.guilds.get(name.toLowerCase()).getName();
+		return null;
+	}
 	
 	public NovaGuild getGuildByPlayer(NovaPlayer nPlayer) {
 		if(nPlayer.hasGuild()) {
@@ -55,6 +60,30 @@ public class GuildManager {
 		}
 
 		return plugin.getGuildManager().getGuildByPlayer(nPlayer);
+	}
+
+	/*
+	* Find by player/tag/guildname
+	* @Param: String mixed
+	* */
+	public NovaGuild getGuildFind(String mixed) {
+		NovaGuild guild = getGuildByTag(mixed);
+
+		if(guild == null) {
+			guild = getGuildByName(mixed);
+		}
+		
+		if(guild == null) {
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(mixed);
+			
+			if(nPlayer == null) {
+				return null;
+			}
+			
+			guild = getGuildByPlayer(nPlayer);
+		}
+
+		return guild;
 	}
 	
 	public Set<Entry<String, NovaGuild>> getGuilds() {
@@ -101,18 +130,33 @@ public class GuildManager {
 				if(!res.getString("alliesinv").isEmpty()) {
 					alliesinv = Utils.semicolonToList(res.getString("alliesinv"));
 				}
+
+				List<String> wars = new ArrayList<>();
+				List<String> nowarinv = new ArrayList<>();
+
+				if(!res.getString("war").isEmpty()) {
+					wars = Utils.semicolonToList(res.getString("war"));
+				}
+
+				if(!res.getString("nowarinv").isEmpty()) {
+					nowarinv = Utils.semicolonToList(res.getString("nowarinv"));
+				}
 				
 				NovaGuild novaGuild = new NovaGuild();
 				novaGuild.setId(res.getInt("id"));
 				novaGuild.setMoney(res.getDouble("money"));
+				novaGuild.setPoints(res.getInt("points"));
 				novaGuild.setName(res.getString("name"));
 				novaGuild.setTag(res.getString("tag"));
 				novaGuild.setLeaderName(res.getString("leader"));
 				novaGuild.setSpawnPoint(spawnpoint);
 				novaGuild.setRegion(plugin.regions.get(novaGuild.getName().toLowerCase()));
+
 				novaGuild.setAllies(allies);
 				novaGuild.setAllyInvitations(alliesinv);
-				novaGuild.setPoints(res.getInt("points"));
+
+				novaGuild.setWars(wars);
+				novaGuild.setNoWarInvitations(nowarinv);
 
 				plugin.guilds.put(res.getString("name").toLowerCase(), novaGuild);
 			}
@@ -133,8 +177,25 @@ public class GuildManager {
 			if(guild.getSpawnPoint() != null) {
 				spawnpointcoords = Utils.parseDBLocation(guild.getSpawnPoint());
 			}
+
+			int startpoints = plugin.getConfig().getInt("guild.startpoints");
+			int startmoney = plugin.getConfig().getInt("guild.startmoney");
 			
-			String sql = "INSERT INTO `"+plugin.sqlp+"guilds` VALUES(0,'"+guild.getTag()+"','"+guild.getName()+"','"+guild.getLeaderName()+"','"+spawnpointcoords+"','','',0,0);";
+			String sql = "INSERT INTO `"+plugin.sqlp+"guilds` " +
+					"VALUES(" +
+					"0," + //id
+					"'"+guild.getTag()+"'," + //tag
+					"'"+guild.getName()+"'," + //name
+					"'"+guild.getLeaderName()+"'," + //leader
+					"'"+spawnpointcoords+"'," + //home
+					"''," + //allies
+					"''," + //allies invitations
+					"''," + //wars
+					"''," + //no war invitations
+					startmoney + "," + //money
+					startpoints + //points
+					");";
+
 			statement.execute(sql);
 			
 			plugin.guilds.put(guild.getName().toLowerCase(), guild);
@@ -159,7 +220,8 @@ public class GuildManager {
 			if(guild.getSpawnPoint() != null) {
 				spawnpointcoords = Utils.parseDBLocation(guild.getSpawnPoint());
 			}
-			
+
+			//ALLIES
 			String allies = "";
 			String alliesinv = "";
 			
@@ -182,8 +244,43 @@ public class GuildManager {
 					alliesinv = alliesinv + allyinv;
 				}
 			}
+
+			//WARS
+			String wars = "";
+			String nowar_inv = "";
+
+			if(guild.getWars().size() > 0) {
+				for(String war : guild.getWars()) {
+					if(!wars.equals("")) {
+						wars += ";";
+					}
+
+					wars += war;
+				}
+			}
+
+			if(guild.getNoWarInvitations().size() > 0) {
+				for(String nowarinv : guild.getNoWarInvitations()) {
+					if(!nowar_inv.equals("")) {
+						nowar_inv += ";";
+					}
+
+					nowar_inv = nowar_inv + nowarinv;
+				}
+			}
 			
-			String sql = "UPDATE `"+plugin.sqlp+"guilds` SET `tag`='"+guild.getTag()+"', `name`='"+guild.getName()+"', `leader`='"+guild.getLeaderName()+"', `spawn`='"+spawnpointcoords+"', money='"+guild.getMoney()+"', `allies`='"+allies+"', `alliesinv`='"+alliesinv+"', points="+guild.getPoints()+" WHERE `id`="+guild.getId();
+			String sql = "UPDATE `"+plugin.sqlp+"guilds` SET " +
+					"`tag`='"+guild.getTag()+"', " +
+					"`name`='"+guild.getName()+"', " +
+					"`leader`='"+guild.getLeaderName()+"', " +
+					"`spawn`='"+spawnpointcoords+"', " +
+					"`allies`='"+allies+"', " +
+					"`alliesinv`='"+alliesinv+"', " +
+					"`war`='"+wars+"', " +
+					"`nowarinv`='"+nowar_inv+"', " +
+					"`money`='"+guild.getMoney()+"', " +
+					"`points`="+guild.getPoints()+" " +
+					"WHERE `id`="+guild.getId();
 			statement.executeUpdate(sql);
 		}
 		catch(SQLException e) {

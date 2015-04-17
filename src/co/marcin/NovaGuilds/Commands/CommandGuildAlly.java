@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
 public class CommandGuildAlly implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 	
 	public CommandGuildAlly(NovaGuilds pl) {
 		plugin = pl;
@@ -32,10 +32,15 @@ public class CommandGuildAlly implements CommandExecutor {
 
 						if(!allyname.equalsIgnoreCase(guild.getName())) {
 							if(guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
+								HashMap<String,String> vars = new HashMap<>();
+								vars.put("GUILDNAME",guild.getName());
+								vars.put("ALLYNAME",allyguild.getName());
+
 								if(!guild.isAlly(allyguild)) {
-									HashMap<String,String> vars = new HashMap<String,String>();
-									vars.put("GUILDNAME",guild.getName());
-									vars.put("ALLYNAME",allyguild.getName());
+									if(guild.isWarWith(allyguild)) {
+										plugin.sendMessagesMsg(sender,"chat.guild.ally.war");
+										return true;
+									}
 
 									for(NovaPlayer allyP : allyguild.getPlayers()) {
 										if(allyP.isOnline()) {
@@ -75,7 +80,13 @@ public class CommandGuildAlly implements CommandExecutor {
 									}
 								}
 								else { //UN-ALLY
+									guild.removeAlly(allyname);
+									allyguild.removeAlly(guild.getName());
 
+									plugin.getGuildManager().saveGuildLocal(guild);
+									plugin.getGuildManager().saveGuildLocal(allyguild);
+
+									plugin.broadcastMessage("broadcast.guild.endally",vars);
 								}
 							}
 							else {

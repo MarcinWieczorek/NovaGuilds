@@ -51,7 +51,7 @@ public class ToolListener implements Listener {
 				}
 				
 				plugin.getPlayerManager().updateLocalPlayer(nPlayer);
-				HashMap<String,String> vars = new HashMap<String,String>();
+				HashMap<String,String> vars = new HashMap<>();
 				vars.put("MODE",mode);
 				plugin.sendMessagesMsg(event.getPlayer(),"chat.region.tool.toggledmode", vars);
 				if(plugin.DEBUG) plugin.info("toggle="+plugin.getPlayerManager().getPlayerByName(player.getName()).regionMode());
@@ -88,7 +88,7 @@ public class ToolListener implements Listener {
 					
 					if(rgatloc instanceof NovaRegion) {
 						plugin.getRegionManager().highlightRegion(player,rgatloc);
-						HashMap<String,String> vars = new HashMap<String,String>();
+						HashMap<String,String> vars = new HashMap<>();
 						vars.put("GUILDNAME",rgatloc.getGuildName());
 						plugin.sendMessagesMsg(event.getPlayer(),"chat.region.belongsto", vars);
 						nPlayer.setSelectedRegion(rgatloc);

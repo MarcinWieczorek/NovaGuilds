@@ -25,7 +25,7 @@ import co.marcin.NovaGuilds.NovaRegion;
 import co.marcin.NovaGuilds.Utils;
 
 public class CommandNovaGuilds implements CommandExecutor {
-	NovaGuilds plugin;
+	final NovaGuilds plugin;
 	
 	public CommandNovaGuilds(NovaGuilds pl) {
 		plugin = pl;
@@ -181,7 +181,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 								}
 							}
 							
-							if(skipmsg==false) {
+							if(!skipmsg) {
 								hologram.appendTextLine(Utils.fixColors(gmsg));
 							}
 						}

@@ -93,6 +93,7 @@ chat:
     - "&5* &7/g &cleave &2- &3Leave the guild"
     - "&5* &7/g &cbuyregion &2- &3Buy selected area"
     - "&5* &7/g &cally &6<guildname> &2- &3Invite to an ally"
+    - "&5* &7/g &cwar &6[guildname] &2- &3War!"
     - "&5* &7/g &cabandon &6<guildname> &2- &3abandon your guild"
     - "&5* &7/g &cinvite &6<playername> &2- &3invite player to your guild"
    noguild:
@@ -105,6 +106,7 @@ chat:
  
  guild:
   ally:
+   war: "First you need to end the war with that guild."
    samename: "You cannot be allies with your own guild!"
    alreadyally: "You already are allies!"
    alreadyinvited: "You already invited that guild to an ally"
@@ -115,6 +117,7 @@ chat:
    notifyguildcanceled: "Guild &a{GUILDNAME} &3canceled their ally invitation"
    canceled: "&3Canceled ally invitation with guild &a{GUILDNAME}"
    
+  couldnotfind: "Couldn't find the guild."
   hasnoregion: "This guild has no region"
   entername: "Enter guild's name"
   entertag: "Please give new tag"
@@ -129,6 +132,16 @@ chat:
   guildatlocsp: "You cannot set the spawnpoint at someone's guild location!"
   joined: "You have joined the guild!"
   explosionatregion: "There was an explosion in your guild's region!"
+  
+  war:
+   ally: "First you need to end your ally with that guild."
+   yourguildwar: "You cannot start a war with yourself!"
+   list:
+    nowars: "No wars."
+    header: "List of wars:"
+    item: "&c{GUILDNAME}"
+    separator: "&f, "
+  
   leader:
    success: "&a{PLAYERNAME} &3is now the leader!"
    samenick: "You already are the leader!"
@@ -209,11 +222,13 @@ chat:
    toolong: "The name is too long!"
  
  guildinfo:
-  playerseparator: ", "
+  playerseparator: "&f, "
   leaderprefix: "*"
   playercolor:
    online: "&a"
    offline: "&f"
+  ally: "&5{GUILDNAME}"
+  war: "&c{GUILDNAME}"
   fullinfo:
    - "&4*** &3Guild information &4***"
    - " &c* &2Name: &6{GUILDNAME}"
@@ -221,6 +236,8 @@ chat:
    - " &c* &2Leader: &6{LEADER}"
    - " &c* &2Location: &6{SP_X},{SP_Y},{SP_Z}"
    - " &c* &2Players: {PLAYERS}"
+   - " &c* &2Allies: {ALLIES}"
+   - " &c* &2Wars: {WARS}"
    - " &c* &2Money: &6{MONEY}"
    - " &c* &2Points: &6{POINTS}"
   info:
@@ -229,6 +246,8 @@ chat:
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Leader: &6{LEADER}"
    - " &c* &2Players: {PLAYERS}"
+   - " &c* &2Allies: {ALLIES}"
+   - " &c* &2Wars: {WARS}"
    - " &c* &2Points: &6{POINTS}"
    
 #broadcast messages:
@@ -237,12 +256,14 @@ broadcast:
   guild:
    abandon: "Admin &c{PLAYERNAME} abandoned guild &a{GUILDNAME}"
  guild:
+  war: "Guild &a{GUILD1} &3has started a &cwar &3with &a{GUILD2}"
   joined: "Player &c{PLAYER} &3joined &a{GUILDNAME}"
   left: "Player &c{PLAYER} &3left &a{GUILDNAME}"
   created: "Player &c{PLAYER} &3created guild &a{GUILDNAME}"
   abandoned: "Player &c{PLAYER} &3abandoned &a{GUILDNAME}"
   setleader: "Player &c{PLAYERNAME} &3is now the leader of &a{GUILDNAME}"
   allied: "&a{GUILDNAME} &3and &a{ALLYNAME} &3are allies now!"
+  endally: "&a{GUILDNAME} &3and &a{ALLYNAME} &3ended their ally!"
   kicked: "Player &c{PLAYERNAME} &3has been kicked from &a{GUILDNAME}"
  pvp:
   killed: "Player {TAG1}&c{PLAYER1} &3was slain by {TAG2}&c{PLAYER2}"

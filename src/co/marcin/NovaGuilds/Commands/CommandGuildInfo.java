@@ -1,7 +1,5 @@
 package co.marcin.NovaGuilds.Commands;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -59,6 +57,7 @@ public class CommandGuildInfo implements CommandExecutor {
 		
 		if(guild != null) {
 			List<String> guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.info");
+			String separator = plugin.getMessages().getString("chat.guildinfo.playerseparator");
 			
 			if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
 				guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.fullinfo");
@@ -79,7 +78,7 @@ public class CommandGuildInfo implements CommandExecutor {
 					NovaPlayer nplayer = gplayers.get(i);
 					Player p = plugin.getServer().getPlayer(nplayer.getName());
 					
-					if(p instanceof Player &&p.isOnline()) {
+					if(p != null && p.isOnline()) {
 						pcolor = plugin.getMessages().getString("chat.guildinfo.playercolor.online");
 					}
 					else {
@@ -93,8 +92,32 @@ public class CommandGuildInfo implements CommandExecutor {
 					
 					players += pcolor+leaderp+nplayer.getName();
 					
-					if(i<gplayers.size()-1) players += plugin.getMessages().getString("chat.guildinfo.playerseparator");
+					if(i<gplayers.size()-1) players += separator;
 				}
+			}
+
+			//allies
+			String allies = "";
+			if(!guild.getAllies().isEmpty()) {
+				String allyformat = plugin.getMessagesString("chat.guildinfo.ally");
+				for(String ally : guild.getAllies()) {
+					ally = Utils.replace(allyformat,"{GUILDNAME}",ally);
+					allies = allies + ally + separator;
+				}
+
+				allies = allies.substring(0,allies.length()-separator.length());
+			}
+
+			//wars
+			String wars = "";
+			if(!guild.getWars().isEmpty()) {
+				String warformat = plugin.getMessagesString("chat.guildinfo.war");
+				for(String war : guild.getWars()) {
+					war = Utils.replace(warformat,"{GUILDNAME}",war);
+					wars = wars + war + separator;
+				}
+
+				wars = wars.substring(0,wars.length()-separator.length());
 			}
 			
 			for(i=1;i < guildinfomsg.size();i++) {
@@ -123,8 +146,27 @@ public class CommandGuildInfo implements CommandExecutor {
 						skipmsg = true;
 					}
 				}
+
+				if(gmsg.contains("{ALLIES}")) {
+					if(allies.isEmpty()) {
+						skipmsg = true;
+					}
+					else {
+						gmsg = Utils.replace(gmsg,"{ALLIES}",allies);
+					}
+				}
+
+				//displaying wars
+				if(gmsg.contains("{WARS}")) {
+					if(wars.isEmpty()) {
+						skipmsg = true;
+					}
+					else {
+						gmsg = Utils.replace(gmsg,"{WARS}",wars);
+					}
+				}
 				
-				if(skipmsg==false) {
+				if(!skipmsg) {
 					sender.sendMessage(Utils.fixColors(gmsg));
 				}
 			}

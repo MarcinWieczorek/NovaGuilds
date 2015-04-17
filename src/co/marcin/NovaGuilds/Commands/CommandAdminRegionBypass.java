@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandAdminRegionBypass implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 
 	public CommandAdminRegionBypass(NovaGuilds pl) {
 		plugin = pl;
@@ -27,7 +27,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 
 				nPlayer.toggleBypass();
 				plugin.getPlayerManager().updateLocalPlayer(nPlayer);
-				HashMap<String,String> vars = new HashMap<String,String>();
+				HashMap<String,String> vars = new HashMap<>();
 				vars.put("BYPASS",nPlayer.getBypass()+"");
 				plugin.sendMessagesMsg(sender,"chat.admin.rgbypass.toggled",vars);
 			}
@@ -46,7 +46,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 
 				nPlayer.toggleBypass();
 				plugin.getPlayerManager().updateLocalPlayer(nPlayer);
-				HashMap<String,String> vars = new HashMap<String,String>();
+				HashMap<String,String> vars = new HashMap<>();
 				vars.put("PLAYER",nPlayer.getName());
 				vars.put("BYPASS",nPlayer.getBypass()+"");
 				plugin.sendMessagesMsg(sender,"chat.admin.rgbypass.toggledother",vars);

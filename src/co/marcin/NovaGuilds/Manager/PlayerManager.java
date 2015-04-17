@@ -116,7 +116,7 @@ public class PlayerManager {
 				String guildname = res.getString("guild").toLowerCase();
 				
 				String invitedTo = res.getString("invitedto");
-				List<String> invitedToList = new ArrayList<String>();;
+				List<String> invitedToList = new ArrayList<>();
 				if(!invitedTo.equals("")) {
 					invitedToList.addAll(Arrays.asList(invitedTo.split(";")));
 					//invitedToList = Arrays.asList(invitedTo.split(";"));
@@ -138,6 +138,10 @@ public class PlayerManager {
 					guild.addPlayer(novaplayer);
 					plugin.getGuildManager().saveGuildLocal(guild);
 					novaplayer.setGuild(guild);
+
+					if(guild.isLeader(novaplayer.getName())) {
+						novaplayer.setLeader(true);
+					}
 				}
 
 				plugin.players.put(res.getString("name").toLowerCase(), novaplayer);

@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminRegionDelete implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 
 	public CommandAdminRegionDelete(NovaGuilds pl) {
 		plugin = pl;
@@ -33,7 +33,7 @@ public class CommandAdminRegionDelete implements CommandExecutor {
 
 		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 
-		if(!(guild instanceof NovaGuild)) {
+		if(guild == null) {
 			plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
 			return true;
 		}

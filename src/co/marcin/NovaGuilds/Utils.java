@@ -7,6 +7,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -67,13 +68,17 @@ public final class Utils {
 			encoding = encoding == null ? "UTF-8" : encoding;
 			body = toString(in, encoding);
 		}
-		catch (TimeoutException e) {}
-		catch (Exception e) {}
+		catch (TimeoutException e) {
+			Logger.getLogger("Minecraft").info(e.getMessage());
+		}
+		catch (Exception e) {
+			Logger.getLogger("Minecraft").info(e.getMessage());
+		}
 			    
 		return body;
 	}
 		  
-	public static String toString(InputStream in, String encoding) throws Exception {
+	private static String toString(InputStream in, String encoding) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buf = new byte[8192];
 		int len = 0;
@@ -127,7 +132,7 @@ public final class Utils {
 	}
 	
 	public static List<String> semicolonToList(String str) {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		String[] split = str.split(";");
 		
 		for(String s : split) {

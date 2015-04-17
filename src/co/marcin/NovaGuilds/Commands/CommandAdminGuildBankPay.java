@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandAdminGuildBankPay implements CommandExecutor {
-	public NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandAdminGuildBankPay(NovaGuilds pl) {
 		plugin = pl;

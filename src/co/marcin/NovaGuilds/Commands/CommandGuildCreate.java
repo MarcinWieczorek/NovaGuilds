@@ -81,7 +81,7 @@ public class CommandGuildCreate implements CommandExecutor {
 						}
 						
 						//items required
-						List<ItemStack> items = new ArrayList<ItemStack>();
+						List<ItemStack> items = new ArrayList<>();
 						List<String> itemstr = plugin.getConfig().getStringList("guild.create.groups."+group+".items");
 						PlayerInventory inventory = player.getInventory();
 						boolean hasitems = true;
@@ -134,8 +134,8 @@ public class CommandGuildCreate implements CommandExecutor {
 							}
 						}
 							
-						if(hasitems==true) { //ALL PASSED
-							if(hasMoney==true) {
+						if(hasitems) { //ALL PASSED
+							if(hasMoney) {
 								//Guild object
 								NovaGuild newguild = new NovaGuild();
 								newguild.setName(guildname);
@@ -160,7 +160,7 @@ public class CommandGuildCreate implements CommandExecutor {
 								//messages
 								sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.createguild.success")));
 								
-								HashMap<String,String> vars = new HashMap<String,String>();
+								HashMap<String,String> vars = new HashMap<>();
 								vars.put("GUILDNAME",newguild.getName());
 								vars.put("PLAYER",sender.getName());
 								plugin.broadcastMessage("broadcast.guild.created", vars);

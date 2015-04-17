@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandAdminGuildSetLeader implements CommandExecutor {
-    public NovaGuilds plugin;
+    public final NovaGuilds plugin;
 
     public CommandAdminGuildSetLeader(NovaGuilds pl) {
         plugin = pl;
@@ -17,35 +17,33 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(args.length == 0) {
-            sender.sendMessage("1");
+            //TODO messages
             return true;
         }
 
         String playername = args[0];
 
         if(!plugin.getPlayerManager().exists(playername)) {
-            sender.sendMessage("2");
+
             return true;
         }
 
         NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
 
-        if(nPlayer == null) sender.sendMessage("7");
-
         if(!nPlayer.hasGuild()) {
-            sender.sendMessage("6");
+
             return true;
         }
 
         NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayer);
 
         if(!guild.isMember(nPlayer)) {
-            sender.sendMessage("3");
+
             return true;
         }
 
         if(guild.getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
-            sender.sendMessage("4");
+
             return true;
         }
 
@@ -62,7 +60,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         if(nPlayer.isOnline()) {
             plugin.updateTagPlayerToAll(nPlayer.getPlayer());
         }
-        sender.sendMessage("5");
+
         return true;
     }
 }

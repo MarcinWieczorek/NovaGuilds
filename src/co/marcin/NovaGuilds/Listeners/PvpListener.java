@@ -49,7 +49,6 @@ public class PvpListener implements Listener {
 							if(event.getDamager().getType().equals(EntityType.ARROW)) {
 								event.getDamager().remove();
 							}
-							return;
 						}
 						else if(novaPlayerAttacker.getGuild().isAlly(novaPlayer.getGuild())) {
 							attacker.sendMessage(Utils.fixColors(pl.prefix+pl.getMessages().getString("chat.allypvp")));
@@ -59,7 +58,6 @@ public class PvpListener implements Listener {
 							if(event.getDamager().getType().equals(EntityType.ARROW)) {
 								event.getDamager().remove();
 							}
-							return;
 						}
 					}
 				}

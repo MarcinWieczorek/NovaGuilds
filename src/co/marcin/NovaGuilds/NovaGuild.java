@@ -19,8 +19,12 @@ public class NovaGuild {
 	
 	private List<NovaPlayer> players = new ArrayList<>();
 	public List<String> players_nick = new ArrayList<>();
+
 	private List<String> allies = new ArrayList<>();
 	private List<String> allies_invited = new ArrayList<>();
+
+	private List<String> war = new ArrayList<>();
+	private List<String> nowar_inv = new ArrayList<>();
 	
 	//getters
 	public String getName() {
@@ -37,6 +41,14 @@ public class NovaGuild {
 	
 	public List<String> getAllyInvitations() {
 		return allies_invited;
+	}
+
+	public List<String> getWars() {
+		return war;
+	}
+
+	public List<String> getNoWarInvitations() {
+		return nowar_inv;
 	}
 	
 	public String getTag() {
@@ -97,11 +109,35 @@ public class NovaGuild {
 	}
 	
 	public void setAllies(List<String> a) {
-		allies = a;
+		allies.clear();
+
+		for(String ally : a) {
+			allies.add(ally.toLowerCase());
+		}
 	}
 	
 	public void setAllyInvitations(List<String> ai) {
-		allies_invited = ai;
+		allies_invited.clear();
+
+		for(String allyinv : ai) {
+			allies_invited.add(allyinv.toLowerCase());
+		}
+	}
+
+	public void setWars(List<String> w) {
+		war.clear();
+
+		for(String warr : w) {
+			war.add(warr.toLowerCase());
+		}
+	}
+
+	public void setNoWarInvitations(List<String> nwi) {
+		nowar_inv.clear();
+
+		for(String nowar : nwi) {
+			nowar_inv.add(nowar.toLowerCase());
+		}
 	}
 	
 	public void setPoints(int p) {
@@ -112,7 +148,11 @@ public class NovaGuild {
 	public boolean isInvitedToAlly(String guildname) {
 		return allies_invited.contains(guildname.toLowerCase());
 	}
-	
+
+	public boolean isWarWith(NovaGuild guild) {
+		return war.contains(guild.getName().toLowerCase());
+	}
+
 	public boolean isLeader(String playername) {
 		return leadername.equals(playername);
 	}
@@ -141,7 +181,19 @@ public class NovaGuild {
 	public void addAllyInvitation(String guildname) {
 		allies_invited.add(guildname.toLowerCase());
 	}
-	
+
+	public void addWar(String guildname) {
+		war.add(guildname.toLowerCase());
+	}
+
+	public void addWar(NovaGuild guild) {
+		war.add(guild.getName().toLowerCase());
+	}
+
+	public void addNoWarInvitation(String guildname) {
+		nowar_inv.add(guildname.toLowerCase());
+	}
+
 	public void addPlayer(NovaPlayer p) {
 		players.add(p);
 		players_nick.add(p.getName());
@@ -163,6 +215,16 @@ public class NovaGuild {
 	public void removeAlly(String guildname) {
 		if(allies.contains(guildname.toLowerCase()))
 			allies.remove(guildname.toLowerCase());
+	}
+
+	public void removeWar(String guildname) {
+		if(war.contains(guildname.toLowerCase()))
+			war.remove(guildname.toLowerCase());
+	}
+
+	public void removeNoWarInvitation(String guildname) {
+		if(nowar_inv.contains(guildname.toLowerCase()))
+			nowar_inv.remove(guildname.toLowerCase());
 	}
 	
 	public void takeMoney(double m) {

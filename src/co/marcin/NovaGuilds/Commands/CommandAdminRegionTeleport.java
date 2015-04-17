@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandAdminRegionTeleport implements CommandExecutor {
-	public NovaGuilds plugin;
+	public final NovaGuilds plugin;
 
 	public CommandAdminRegionTeleport(NovaGuilds pl) {
 		plugin = pl;

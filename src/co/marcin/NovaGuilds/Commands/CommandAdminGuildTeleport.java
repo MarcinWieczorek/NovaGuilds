@@ -62,7 +62,7 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 							player.teleport(home);
 						}
 						
-						HashMap<String,String> vars = new HashMap<String,String>();
+						HashMap<String,String> vars = new HashMap<>();
 						vars.put("GUILDNAME",guild.getName());
 						plugin.sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
 					}

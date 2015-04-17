@@ -31,7 +31,7 @@ public class NovaPlayer {
 		return novaGuild;
 	}
 	
-	public boolean getLeader() {
+	public boolean isLeader() {
 		return leader;
 	}
 	
@@ -105,6 +105,10 @@ public class NovaPlayer {
 	
 	public void setOnline(boolean b) {
 		isonline = b;
+	}
+
+	public void setLeader(boolean b) {
+		leader = b;
 	}
 	
 	//check stuff
