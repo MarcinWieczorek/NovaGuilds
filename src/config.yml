@@ -1,14 +1,14 @@
 #true=mysql, false=sqlite
-usemysql: false
+usemysql: true
 mysql:
- host: 
- port: 
- database: 
- username: 
- password: 
+ host:
+ port: 3306
+ database:
+ username:
+ password:
  prefix: novaguilds_
 
-debug: false
+debug: true
 lang: en-en
  
 tabapi: 
@@ -71,6 +71,7 @@ killing:
 guild:
  tag: "&a{RANK}{TAG} &r"
  startpoints: 1000
+ startmoney: 0
  settings:
   tag:
    color: true
