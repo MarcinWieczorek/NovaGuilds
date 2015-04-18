@@ -8,7 +8,7 @@ mysql:
  password:
  prefix: novaguilds_
 
-debug: true
+debug: false
 lang: en-en
  
 tabapi: 

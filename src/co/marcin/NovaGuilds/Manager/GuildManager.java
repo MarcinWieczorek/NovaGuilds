@@ -8,12 +8,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import co.marcin.NovaGuilds.*;
 import org.bukkit.Location;
-
-import co.marcin.NovaGuilds.NovaGuild;
-import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
 
 public class GuildManager {
 	private NovaGuilds plugin;
@@ -37,6 +33,10 @@ public class GuildManager {
 			}
 		}
 		return null;
+	}
+
+	public NovaGuild getGuildByRegion(NovaRegion rgatploc) {
+		return getGuildByName(rgatploc.getGuildName());
 	}
 
 	public String getRealName(String name) {

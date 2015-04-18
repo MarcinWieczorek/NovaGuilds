@@ -41,7 +41,7 @@ public class CommandAdminGuild implements CommandExecutor {
 				new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else if(args[0].equalsIgnoreCase("list")) { //list guilds
-				new CommandGuildList(plugin).onCommand(sender, cmd, label, newargs);
+				new CommandAdminGuildList(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else if(args[0].equalsIgnoreCase("pay")) { //list guilds
 				new CommandAdminGuildBankPay(plugin).onCommand(sender, cmd, label, newargs);

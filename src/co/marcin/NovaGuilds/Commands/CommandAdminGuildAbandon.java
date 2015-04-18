@@ -20,36 +20,35 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!(sender instanceof Player)) {
-			plugin.info("Consoles cant have guilds!");
+		if(!sender.hasPermission("novaguilds.admin.guild.abandon")) {
+			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
-		
-		NovaPlayer nplayer = plugin.getPlayerManager().getPlayerByName(sender.getName()); 
-		if(nplayer.hasGuild()) {
-			NovaGuild guild = nplayer.getGuild();
-			
-			if(guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
-				if(guild.hasRegion()) {
-					plugin.getRegionManager().removeRegion(guild.getRegion());
-				}
-				
-				plugin.getGuildManager().deleteGuild(guild);
-				plugin.updateTabAll();
-				plugin.updateTagPlayerToAll(plugin.senderToPlayer(sender));
 
-				sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.guild.abandoned")));
-				HashMap<String,String> vars = new HashMap<>();
-				vars.put("PLAYER",sender.getName());
-				vars.put("GUILDNAME",guild.getName());
-				plugin.broadcastMessage("broadcast.guild.abandoned", vars);
+		if(args.length == 0) {
+			plugin.sendMessagesMsg(sender,"chat.usage.nga.guild.abandon");
+			return true;
+		}
+
+		String guildname = args[0];
+		NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
+
+		if(guild != null) {
+			if(guild.hasRegion()) {
+				plugin.getRegionManager().removeRegion(guild.getRegion());
 			}
-			else {
-				sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.guild.notleader")));
-			}
+
+			plugin.getGuildManager().deleteGuild(guild);
+			plugin.updateTabAll();
+			plugin.updateTagAll();
+
+			HashMap<String,String> vars = new HashMap<>();
+			vars.put("PLAYERNAME",sender.getName());
+			vars.put("GUILDNAME",guild.getName());
+			plugin.broadcastMessage("broadcast.admin.guild.abandon", vars);
 		}
 		else {
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.guild.notinguild")));
+			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.guild.couldnotfind")));
 		}
 		return true;
 	}

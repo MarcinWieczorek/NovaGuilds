@@ -25,9 +25,9 @@ public class CommandGuildAbandon implements CommandExecutor {
 			return true;
 		}
 		
-		NovaPlayer nplayer = plugin.getPlayerManager().getPlayerByName(sender.getName()); 
-		if(nplayer.hasGuild()) {
-			NovaGuild guild = nplayer.getGuild();
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
+		if(nPlayer.hasGuild()) {
+			NovaGuild guild = nPlayer.getGuild();
 			
 			if(guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
 				if(guild.hasRegion()) {

@@ -44,10 +44,15 @@ public class RegionInteractListener implements Listener {
 			NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getClickedBlock().getLocation());
 			
 			if(rgatploc instanceof NovaRegion) {
-				NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
-				
-				if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
-					if(!novaplayer.getBypass()) {
+				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
+				NovaGuild guild = plugin.getGuildManager().getGuildByRegion(rgatploc);
+
+				boolean isally = guild.isAlly(nPlayer.getGuild());
+				plugin.info(isally+" "+guild.getName()+" "+nPlayer.getGuild().getName());
+
+				// (has no guild) OR (has guild AND (not his guild AND not ally)
+				if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && (!nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()) && !isally))) {
+					if(!nPlayer.getBypass()) {
 						boolean isok = true;
 						
 						if(denyinteract.contains(clickedblockname)) {

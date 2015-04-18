@@ -141,4 +141,19 @@ public final class Utils {
 		
 		return list;
 	}
+
+	public static String join(List<String> items, String pattern, String separator) {
+		String joined = "";
+
+		if(items.size() > 0) {
+			for(String row : items) {
+				row = replace(pattern,"{GUILDNAME}",row);
+				joined = joined + row + separator;
+			}
+
+			joined = joined.substring(0,joined.length()-separator.length());
+		}
+
+		return joined;
+	}
 }

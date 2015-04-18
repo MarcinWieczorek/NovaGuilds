@@ -8,9 +8,13 @@ chat:
  
  admin:
   guild:
+   list:
+    header: "List of all guilds:"
+    page: "&7-- &cPage &7{PAGE} &cof &7{PAGES} -- &c/nga g list {NEXT} &7--"
+    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Leader: &c{PLAYERNAME}"
    bank:
     paid: "You paid &c${MONEY} &3to &a{GUILDNAME}&3's bank."
-    withdrew: "You tok &c${MONEY} &3from &a{GUILDNAME}&3's bank."
+    withdrew: "You took &c${MONEY} &3from &a{GUILDNAME}&3's bank."
    abandon: "&a{GUILDNAME} &3abandoned."
    kick: ""
    invited: "Invited player &c{PLAYERNAME} &3to &a{GUILDNAME}"
@@ -48,6 +52,7 @@ chat:
  usage:
   nga:
    guild:
+    abandon: "&5* &7/nga &cg &6abandon &c<guild> &2- &3abandon the guild"
     bank:
      pay: "&7/nga &cg &6pay &c<guild/tag> &6<money>"
      withdraw: "&7/nga &cg &6withdraw &c<guild/tag> &6<money>"
@@ -136,9 +141,12 @@ chat:
   war:
    ally: "First you need to end your ally with that guild."
    yourguildwar: "You cannot start a war with yourself!"
+   nowarinv: "You asked guild &a{GUILDNAME} &3to stop the war"
+   nowarinvnotify: "&a{GUILDNAME} &3asked you to stop the war"
    list:
     nowars: "No wars."
-    header: "List of wars:"
+    warsheader: "List of wars:"
+    nowarinvheader: "List of invitations to stop the war:"
     item: "&c{GUILDNAME}"
     separator: "&f, "
   
@@ -254,9 +262,10 @@ chat:
 broadcast:
  admin:
   guild:
-   abandon: "Admin &c{PLAYERNAME} abandoned guild &a{GUILDNAME}"
+   abandon: "Admin &c{PLAYERNAME} &3abandoned guild &a{GUILDNAME}"
  guild:
   war: "Guild &a{GUILD1} &3has started a &cwar &3with &a{GUILD2}"
+  nowar: "Guild &a{GUILD1} &3and &a{GUILD2} &3have stopped the war"
   joined: "Player &c{PLAYER} &3joined &a{GUILDNAME}"
   left: "Player &c{PLAYER} &3left &a{GUILDNAME}"
   created: "Player &c{PLAYER} &3created guild &a{GUILDNAME}"

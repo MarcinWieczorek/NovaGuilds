@@ -153,6 +153,10 @@ public class NovaGuild {
 		return war.contains(guild.getName().toLowerCase());
 	}
 
+	public boolean isNoWarInvited(NovaGuild guild) {
+		return nowar_inv.contains(guild.getName().toLowerCase());
+	}
+
 	public boolean isLeader(String playername) {
 		return leadername.equals(playername);
 	}
@@ -190,8 +194,8 @@ public class NovaGuild {
 		war.add(guild.getName().toLowerCase());
 	}
 
-	public void addNoWarInvitation(String guildname) {
-		nowar_inv.add(guildname.toLowerCase());
+	public void addNoWarInvitation(NovaGuild guild) {
+		nowar_inv.add(guild.getName().toLowerCase());
 	}
 
 	public void addPlayer(NovaPlayer p) {
@@ -217,14 +221,14 @@ public class NovaGuild {
 			allies.remove(guildname.toLowerCase());
 	}
 
-	public void removeWar(String guildname) {
-		if(war.contains(guildname.toLowerCase()))
-			war.remove(guildname.toLowerCase());
+	public void removeWar(NovaGuild guild) {
+		if(war.contains(guild.getName().toLowerCase()))
+			war.remove(guild.getName().toLowerCase());
 	}
 
-	public void removeNoWarInvitation(String guildname) {
-		if(nowar_inv.contains(guildname.toLowerCase()))
-			nowar_inv.remove(guildname.toLowerCase());
+	public void removeNoWarInvitation(NovaGuild guild) {
+		if(nowar_inv.contains(guild.getName().toLowerCase()))
+			nowar_inv.remove(guild.getName().toLowerCase());
 	}
 	
 	public void takeMoney(double m) {

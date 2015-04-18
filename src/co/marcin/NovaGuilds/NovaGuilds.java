@@ -1,6 +1,7 @@
 package co.marcin.NovaGuilds;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import net.milkbowl.vault.Metrics;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Location;
@@ -264,7 +266,10 @@ public class NovaGuilds extends JavaPlugin {
 			//save scheduler
 			runScheduler();
 			info("Save scheduler is running");
-			
+
+			//metrics
+			setupMetrics();
+
 			info("#"+pdf.getVersion()+" Enabled");
 		}
 		catch (SQLException e) {
@@ -503,6 +508,9 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	public void updateTagPlayerToAll(Player p) {
+		if(p == null)
+			return;
+
 		Set<Player> set = new HashSet<>(Arrays.asList(getServer().getOnlinePlayers()));
 		TagAPI.refreshPlayer(p, set);
 	}
@@ -716,5 +724,14 @@ public class NovaGuilds extends JavaPlugin {
 				info("Saved data.");
 			}
 		}, 0L, 20L * 60 * savePeriod);
+	}
+
+	public void setupMetrics() {
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+		} catch (IOException e) {
+			// Failed to submit the stats :-(
+		}
 	}
 }
