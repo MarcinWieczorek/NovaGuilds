@@ -18,11 +18,11 @@ import org.bukkit.inventory.meta.BookMeta;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.NovaRegion;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaRegion;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandNovaGuilds implements CommandExecutor {
 	final NovaGuilds plugin;
@@ -83,7 +83,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			}
 			else if(args[0].equalsIgnoreCase("admin")) { //Admin commands
 				if(sender.hasPermission("NovaGuilds.admin.access")) {
-					new CommandAdmin(plugin).onCommand(sender, cmd, label, Utils.parseArgs(args,1));
+					new CommandAdmin(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 				}
 			}
 			else if(args[0].equalsIgnoreCase("hd")) { //HolographicDisplays
@@ -97,17 +97,17 @@ public class CommandNovaGuilds implements CommandExecutor {
 							
 							Player player = plugin.senderToPlayer(sender);
 							Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());
-							hologram.appendTextLine(Utils.fixColors(plugin.getMessages().getString("holographicdisplays.topguilds.header")));
+							hologram.appendTextLine(StringUtils.fixColors(plugin.getMessages().getString("holographicdisplays.topguilds.header")));
 							
 							ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessages().getInt("holographicdisplays.topguilds.toprows"));
 							
 							int i=1;
 							while(res.next()) {
 								String rowmsg = plugin.getMessages().getString("holographicdisplays.topguilds.row");
-								rowmsg = Utils.replace(rowmsg, "{GUILDNAME}",res.getString("name"));
-								rowmsg = Utils.replace(rowmsg, "{N}",i+"");
-								rowmsg = Utils.replace(rowmsg, "{POINTS}",res.getString("points"));
-								hologram.appendTextLine(Utils.fixColors(rowmsg));
+								rowmsg = StringUtils.replace(rowmsg, "{GUILDNAME}", res.getString("name"));
+								rowmsg = StringUtils.replace(rowmsg, "{N}", i + "");
+								rowmsg = StringUtils.replace(rowmsg, "{POINTS}", res.getString("points"));
+								hologram.appendTextLine(StringUtils.fixColors(rowmsg));
 								i++;
 							}
 						} catch (SQLException e) {
@@ -160,21 +160,21 @@ public class CommandNovaGuilds implements CommandExecutor {
 							String tagmsg = plugin.config.getString("guild.tag");
 							String gmsg = guildinfomsg.get(i);
 							
-							tagmsg = Utils.replace(tagmsg,"{TAG}",guild.getTag());
-							tagmsg = Utils.replace(tagmsg,"{RANK}","");
+							tagmsg = StringUtils.replace(tagmsg, "{TAG}", guild.getTag());
+							tagmsg = StringUtils.replace(tagmsg, "{RANK}", "");
 							
-							gmsg = Utils.replace(gmsg,"{GUILDNAME}",guild.getName());
-							gmsg = Utils.replace(gmsg,"{LEADER}",guild.getLeaderName());
-							gmsg = Utils.replace(gmsg,"{TAG}",tagmsg);
-							gmsg = Utils.replace(gmsg,"{MONEY}",guild.getMoney()+"");
-							gmsg = Utils.replace(gmsg,"{PLAYERS}",players);
+							gmsg = StringUtils.replace(gmsg, "{GUILDNAME}", guild.getName());
+							gmsg = StringUtils.replace(gmsg, "{LEADER}", guild.getLeaderName());
+							gmsg = StringUtils.replace(gmsg, "{TAG}", tagmsg);
+							gmsg = StringUtils.replace(gmsg, "{MONEY}", guild.getMoney() + "");
+							gmsg = StringUtils.replace(gmsg, "{PLAYERS}", players);
 							
 							if(gmsg.contains("{SP_X}") || gmsg.contains("{SP_Y}") || gmsg.contains("{SP_Z}")) {
 								Location sp = guild.getSpawnPoint();
 								if(sp != null) {
-									gmsg = Utils.replace(gmsg,"{SP_X}",sp.getBlockX()+"");
-									gmsg = Utils.replace(gmsg,"{SP_Y}",sp.getBlockY()+"");
-									gmsg = Utils.replace(gmsg,"{SP_Z}",sp.getBlockZ()+"");
+									gmsg = StringUtils.replace(gmsg, "{SP_X}", sp.getBlockX() + "");
+									gmsg = StringUtils.replace(gmsg, "{SP_Y}", sp.getBlockY() + "");
+									gmsg = StringUtils.replace(gmsg, "{SP_Z}", sp.getBlockZ() + "");
 								}
 								else {
 									skipmsg = true;
@@ -182,7 +182,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 							}
 							
 							if(!skipmsg) {
-								hologram.appendTextLine(Utils.fixColors(gmsg));
+								hologram.appendTextLine(StringUtils.fixColors(gmsg));
 							}
 						}
 					}
@@ -197,7 +197,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				}
 			}
 			else if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { // command /g
-					new CommandGuild(plugin).onCommand(sender, cmd, label, Utils.parseArgs(args,1));
+					new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 			}
 			else if(args[0].equalsIgnoreCase("rg")) { //REGION
 				if(args[1].equalsIgnoreCase("buy")) { //create
@@ -273,12 +273,12 @@ public class CommandNovaGuilds implements CommandExecutor {
 				"Latest plugin build: &6#&c{LATEST}"
 			};
 			
-			sender.sendMessage(Utils.fixColors(plugin.prefix+"NovaGuilds Information"));
-			String latest = Utils.getContent("http://NovaGuilds.marcin.co/latest.info");
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + "NovaGuilds Information"));
+			String latest = StringUtils.getContent("http://NovaGuilds.marcin.co/latest.info");
 			
 			for(int i=0;i<info.length;i++) {
-				info[i] = Utils.replace(info[i],"{LATEST}",latest);
-				sender.sendMessage(Utils.fixColors("&2"+info[i]));
+				info[i] = StringUtils.replace(info[i], "{LATEST}", latest);
+				sender.sendMessage(StringUtils.fixColors("&2" + info[i]));
 			}
 		}
 		

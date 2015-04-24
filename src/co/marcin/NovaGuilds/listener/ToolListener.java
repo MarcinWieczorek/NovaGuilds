@@ -11,9 +11,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.NovaRegion;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaRegion;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class ToolListener implements Listener {
 	private final NovaGuilds plugin;
@@ -94,7 +94,7 @@ public class ToolListener implements Listener {
 						nPlayer.setSelectedRegion(rgatloc);
 					}
 					else {
-						player.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.noregionhere")));
+						player.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.noregionhere")));
 						nPlayer.setSelectedRegion(null);
 					}
 				}
@@ -145,13 +145,13 @@ public class ToolListener implements Listener {
 									data = (byte)14;
 									int regionsize = plugin.getRegionManager().checkRegionSize(sl1, sl2);
 									String sizemsg = plugin.getMessages().getString("chat.region.size");
-									sizemsg = Utils.replace(sizemsg,"{SIZE}",regionsize+"");
+									sizemsg = StringUtils.replace(sizemsg, "{SIZE}", regionsize + "");
 		
 									int createprice = plugin.getConfig().getInt("region.createprice");
 									int price = plugin.getConfig().getInt("region.pricepb") * regionsize + createprice;
 									
 									String pricemsg = plugin.getMessages().getString("chat.region.price");
-									pricemsg = Utils.replace(pricemsg,"{PRICE}",price+"");
+									pricemsg = StringUtils.replace(pricemsg, "{PRICE}", price + "");
 									
 									plugin.sendPrefixMessage(player, sizemsg);
 									plugin.sendPrefixMessage(player, pricemsg);
@@ -159,7 +159,7 @@ public class ToolListener implements Listener {
 									double guildBalance = nPlayer.getGuild().getMoney();
 									if(guildBalance < price) {
 										String cnotaffordmsg = plugin.getMessages().getString("chat.region.cnotafford");
-										cnotaffordmsg = Utils.replace(cnotaffordmsg,"{NEEDMORE}",price-guildBalance+"");
+										cnotaffordmsg = StringUtils.replace(cnotaffordmsg, "{NEEDMORE}", price - guildBalance + "");
 										plugin.sendPrefixMessage(player, cnotaffordmsg);
 									}
 									else {
@@ -172,12 +172,12 @@ public class ToolListener implements Listener {
 							}
 							else if(validSelect.equals("toosmall")) {
 								String msg = plugin.getMessages().getString("chat.region.toosmall");
-								msg = Utils.replace(msg,"{MINSIZE}",plugin.getConfig().getInt("region.minsize")+"");
+								msg = StringUtils.replace(msg, "{MINSIZE}", plugin.getConfig().getInt("region.minsize") + "");
 								plugin.sendPrefixMessage(player,msg);
 							}
 							else if(validSelect.equals("toobig")) {
 								String msg = plugin.getMessages().getString("chat.region.toobig");
-								msg = Utils.replace(msg,"{MAXSIZE}",plugin.getConfig().getInt("region.maxsize")+"");
+								msg = StringUtils.replace(msg, "{MAXSIZE}", plugin.getConfig().getInt("region.maxsize") + "");
 								plugin.sendPrefixMessage(player,msg);
 							}
 							else if(validSelect.equals("overlaps")) {

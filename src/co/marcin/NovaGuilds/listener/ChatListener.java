@@ -5,10 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class ChatListener implements Listener {
 	private final NovaGuilds plugin;
@@ -32,10 +32,10 @@ public class ChatListener implements Listener {
 			tag = plugin.config.getString("guild.tag");
 			
 			if(guild.getLeaderName().equalsIgnoreCase(player.getName())) {
-				rank = Utils.fixColors(plugin.getMessages().getString("chat.guildinfo.leaderprefix"));
+				rank = StringUtils.fixColors(plugin.getMessages().getString("chat.guildinfo.leaderprefix"));
 			}
 			
-			tag = Utils.fixColors(Utils.replace(tag,"{TAG}",nplayer.getGuild().getTag()));
+			tag = StringUtils.fixColors(StringUtils.replace(tag, "{TAG}", nplayer.getGuild().getTag()));
 			
 			String prefix_guildchat = plugin.getConfig().getString("chat.guild.prefix");
 			String prefix_allychat = plugin.getConfig().getString("chat.ally.prefix");
@@ -43,20 +43,20 @@ public class ChatListener implements Listener {
 			if(msg.startsWith(prefix_allychat)) { //ally chat
 				if(plugin.getConfig().getBoolean("chat.ally.enabled")) {
 					if(!plugin.getConfig().getBoolean("chat.ally.colortags")) {
-						tag = Utils.removeColors(tag);
+						tag = StringUtils.removeColors(tag);
 					}
 					
 					if(plugin.getConfig().getBoolean("chat.ally.leaderprefix")) {
-						tag = Utils.replace(tag,"{RANK}",rank);
+						tag = StringUtils.replace(tag, "{RANK}", rank);
 					}
 					else {
-						tag = Utils.replace(tag,"{RANK}","");
+						tag = StringUtils.replace(tag, "{RANK}", "");
 					}
 					
 					String format = plugin.getConfig().getString("chat.ally.format");
-					format = Utils.replace(format, "{TAG}",tag);
-					format = Utils.replace(format, "{PLAYERNAME}",nplayer.getName());
-					format = Utils.fixColors(format);
+					format = StringUtils.replace(format, "{TAG}", tag);
+					format = StringUtils.replace(format, "{PLAYERNAME}", nplayer.getName());
+					format = StringUtils.fixColors(format);
 					
 					msg = msg.substring(prefix_allychat.length(),msg.length());
 					
@@ -83,8 +83,8 @@ public class ChatListener implements Listener {
 			else if(msg.startsWith(prefix_guildchat)) { //guild chat
 				if(plugin.getConfig().getBoolean("chat.guild.enabled")) {
 					String format = plugin.getConfig().getString("chat.guild.format");
-					format = Utils.replace(format, "{PLAYERNAME}",nplayer.getName());
-					format = Utils.fixColors(format);
+					format = StringUtils.replace(format, "{PLAYERNAME}", nplayer.getName());
+					format = StringUtils.fixColors(format);
 					
 					msg = msg.substring(prefix_guildchat.length(),msg.length());
 					
@@ -99,7 +99,7 @@ public class ChatListener implements Listener {
 			}
 			
 
-			tag = Utils.replace(tag,"{RANK}",rank);
+			tag = StringUtils.replace(tag, "{RANK}", rank);
 			
 		}
 		
@@ -108,7 +108,7 @@ public class ChatListener implements Listener {
 		}
 		
 		String format = event.getFormat();
-		format = Utils.replace(format,"{TAG}",tag);
+		format = StringUtils.replace(format, "{TAG}", tag);
 		event.setFormat(format);
 	}
 }

@@ -19,11 +19,11 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.NovaRegion;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaRegion;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class RegionInteractListener implements Listener {
 	private final NovaGuilds plugin;
@@ -67,7 +67,7 @@ public class RegionInteractListener implements Listener {
 							event.setCancelled(true);
 							
 							if(!clickedblockname.contains("_PLATE")) {
-								event.getPlayer().sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotinteract")));
+								event.getPlayer().sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotinteract")));
 							}
 						}
 					}
@@ -86,7 +86,7 @@ public class RegionInteractListener implements Listener {
 			if(!novaplayer.getBypass()) {
 				if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 					event.setCancelled(true);
-					event.getPlayer().sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotinteract")));
+					event.getPlayer().sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotinteract")));
 				}
 			}
 		}
@@ -102,7 +102,7 @@ public class RegionInteractListener implements Listener {
 			if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!novaplayer.getBypass()) {
 					event.setCancelled(true);
-					event.getPlayer().sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotinteract")));
+					event.getPlayer().sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotinteract")));
 				}
 			}
 		}
@@ -140,7 +140,7 @@ public class RegionInteractListener implements Listener {
 						if(!novaplayer.getBypass()) {
 							if(!(event.getEntity().getPassenger() instanceof Player)) {
 								event.setCancelled(true);
-								player.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotattackmob")));
+								player.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotattackmob")));
 								
 								if(arrow != null) {
 									arrow.remove();
@@ -165,7 +165,7 @@ public class RegionInteractListener implements Listener {
 				if(!novaplayer.getBypass()) {
 					if(denyriding.contains(mob.getType().name())) {
 						event.setCancelled(true);
-						event.getPlayer().sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotridemob")));
+						event.getPlayer().sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotridemob")));
 					}
 				}
 			}

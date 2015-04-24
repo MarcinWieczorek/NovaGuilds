@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaRegion;
+import co.marcin.NovaGuilds.basic.NovaRegion;
 
 public class MoveListener implements Listener {
 	private final NovaGuilds plugin;

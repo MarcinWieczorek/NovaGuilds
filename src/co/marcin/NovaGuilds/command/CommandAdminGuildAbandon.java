@@ -6,9 +6,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandAdminGuildAbandon implements CommandExecutor {
 	private static NovaGuilds plugin;
@@ -38,7 +38,7 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 
 			plugin.getGuildManager().deleteGuild(guild);
 			plugin.updateTabAll();
-			plugin.updateTagAll();
+			plugin.tagUtils.updateTagAll();
 
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("PLAYERNAME",sender.getName());
@@ -46,7 +46,7 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 			plugin.broadcastMessage("broadcast.admin.guild.abandon", vars);
 		}
 		else {
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.guild.couldnotfind")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.guild.couldnotfind")));
 		}
 		return true;
 	}

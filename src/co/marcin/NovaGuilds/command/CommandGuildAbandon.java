@@ -7,10 +7,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandGuildAbandon implements CommandExecutor {
 	private static NovaGuilds plugin;
@@ -36,7 +36,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 				
 				plugin.getGuildManager().deleteGuild(guild);
 				plugin.updateTabAll();
-				plugin.updateTagPlayerToAll(plugin.senderToPlayer(sender));
+				plugin.tagUtils.updateTagPlayerToAll(plugin.senderToPlayer(sender));
 				
 				//delete guild from players
 				for(NovaPlayer nP : guild.getPlayers()) {
@@ -53,11 +53,11 @@ public class CommandGuildAbandon implements CommandExecutor {
 				plugin.broadcastMessage("broadcast.guild.abandoned", vars);
 			}
 			else {
-				sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.guild.notleader")));
+				sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.guild.notleader")));
 			}
 		}
 		else {
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.guild.notinguild")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.guild.notinguild")));
 		}
 		return true;
 	}

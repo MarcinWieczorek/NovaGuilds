@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandGuildCreate implements CommandExecutor {
 	public final NovaGuilds plugin;
@@ -38,9 +38,9 @@ public class CommandGuildCreate implements CommandExecutor {
 		String guildname = args[1];
 		
 		//remove colors
-		guildname = Utils.removeColors(guildname);
+		guildname = StringUtils.removeColors(guildname);
 		if(!plugin.getConfig().getBoolean("guild.settings.tag.color")) {
-			tag = Utils.removeColors(tag);
+			tag = StringUtils.removeColors(tag);
 		}
 			
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
@@ -55,7 +55,7 @@ public class CommandGuildCreate implements CommandExecutor {
 							return true;
 						}
 						
-						if(Utils.removeColors(tag).length() < plugin.getConfig().getInt("guild.settings.tag.min")) { //too short
+						if(StringUtils.removeColors(tag).length() < plugin.getConfig().getInt("guild.settings.tag.min")) { //too short
 							plugin.sendMessagesMsg(sender,"chat.createguild.tag.tooshort");
 							return true;
 						}
@@ -155,10 +155,10 @@ public class CommandGuildCreate implements CommandExecutor {
 								
 								//update tag and tabs
 								plugin.updateTabAll();
-								plugin.updateTagPlayerToAll(plugin.senderToPlayer(sender));
+								plugin.tagUtils.updateTagPlayerToAll(plugin.senderToPlayer(sender));
 								
 								//messages
-								sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.createguild.success")));
+								sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.success")));
 								
 								HashMap<String,String> vars = new HashMap<>();
 								vars.put("GUILDNAME",newguild.getName());
@@ -167,40 +167,40 @@ public class CommandGuildCreate implements CommandExecutor {
 							}
 							else {
 								String rmmsg = plugin.getMessages().getString("chat.createguild.notenoughtmoney");
-								rmmsg = Utils.replace(rmmsg,"{REQUIREDMONEY}",requiredmoney+"");
-								sender.sendMessage(Utils.fixColors(plugin.prefix+rmmsg));
+								rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", requiredmoney + "");
+								sender.sendMessage(StringUtils.fixColors(plugin.prefix + rmmsg));
 							}
 						}
 						else {
 							String itemlist = "";
 							for(i=0;i<items.size();i++) {
 								String itemrow = plugin.getMessages().getString("chat.createguild.itemlist");
-								itemrow = Utils.replace(itemrow,"{ITEMNAME}",items.get(i).getType().name());
-								itemrow = Utils.replace(itemrow,"{AMOUNT}",items.get(i).getAmount()+"");
+								itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", items.get(i).getType().name());
+								itemrow = StringUtils.replace(itemrow, "{AMOUNT}", items.get(i).getAmount() + "");
 								
 								itemlist += itemrow;
 								
 								if(i<items.size()-1) itemlist+= plugin.getMessages().getString("chat.createguild.itemlistsep");
 							}
 							
-							sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.createguild.noitems")));
-							sender.sendMessage(Utils.fixColors(itemlist));
+							sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.noitems")));
+							sender.sendMessage(StringUtils.fixColors(itemlist));
 						}
 					}
 					else { //region at loc
-						sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.createguild.regionhere")));
+						sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.regionhere")));
 					}
 				}
 				else { //tag exists
-					sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.createguild.tagexists")));
+					sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.tagexists")));
 				}
 			}
 			else { //name exists
-				sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.createguild.nameexists")));
+				sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.nameexists")));
 			}
 		}
 		else { //has guild already
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.createguild.hasguild")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.hasguild")));
 		}
 		return true;
 	}

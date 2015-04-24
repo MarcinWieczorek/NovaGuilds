@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds;
+package co.marcin.NovaGuilds.basic;
 
 import java.util.List;
 import java.util.UUID;

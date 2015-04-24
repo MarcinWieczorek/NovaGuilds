@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandAdminGuild implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -15,7 +15,7 @@ public class CommandAdminGuild implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		String[] newargs = Utils.parseArgs(args,1);
+		String[] newargs = StringUtils.parseArgs(args, 1);
 		
 		//TODO permissions
 		if(args.length>0) {
@@ -57,7 +57,7 @@ public class CommandAdminGuild implements CommandExecutor {
 			plugin.sendMessagesMsg(sender, "chat.commands.admin.guild.header");
 			
 			for(String citem : plugin.getMessages().getStringList("chat.commands.admin.guild.items")) {
-				sender.sendMessage(Utils.fixColors(citem));
+				sender.sendMessage(StringUtils.fixColors(citem));
 			}
 		}
 		return true;

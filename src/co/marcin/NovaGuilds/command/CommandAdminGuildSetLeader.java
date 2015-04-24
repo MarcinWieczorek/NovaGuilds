@@ -1,8 +1,8 @@
 package co.marcin.NovaGuilds.command;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -52,13 +52,13 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         guild.setLeaderName(nPlayer.getName());
 
         if(oldleader != null) {
-            plugin.updateTagPlayerToAll(oldleader);
+            plugin.tagUtils.updateTagPlayerToAll(oldleader);
         }
 
         plugin.getGuildManager().saveGuildLocal(guild);
 
         if(nPlayer.isOnline()) {
-            plugin.updateTagPlayerToAll(nPlayer.getPlayer());
+            plugin.tagUtils.updateTagPlayerToAll(nPlayer.getPlayer());
         }
 
         return true;

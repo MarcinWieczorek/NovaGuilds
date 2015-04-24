@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandAdminReload implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -18,32 +18,32 @@ public class CommandAdminReload implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(sender.hasPermission("NovaGuilds.admin.reload")) {
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.reloading")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.reload.reloading")));
 			
 			plugin.saveDefaultConfig();
 			plugin.config = plugin.getConfig();
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.config")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.reload.config")));
 			
 			
 			plugin.sqlp = plugin.config.getString("mysql.prefix");
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.mysql")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.reload.mysql")));
 			
 			File msgFile = new File(plugin.getDataFolder()+"/lang",plugin.lang+".yml");
 	        plugin.loadMessagesFile(msgFile);
 	        
 			plugin.prefix = plugin.getMessages().getString("chat.prefix");
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.messages")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.reload.messages")));
 			
 			plugin.getRegionManager().loadRegions();
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.regions")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.reload.regions")));
 			
 			plugin.getGuildManager().loadGuilds();
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.guilds")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.reload.guilds")));
 			
 			plugin.getPlayerManager().loadPlayers();
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.players")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.reload.players")));
 			
-			sender.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.reload.reloaded")));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.reload.reloaded")));
 			
 			return true;
 		}

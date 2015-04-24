@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandAdminRegion implements CommandExecutor {
 	public final NovaGuilds plugin;
@@ -16,7 +16,7 @@ public class CommandAdminRegion implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length>0) {
-			String[] newargs = Utils.parseArgs(args,1);
+			String[] newargs = StringUtils.parseArgs(args, 1);
 
 			if(args[0].equalsIgnoreCase("bypass")) { //togglebypass
 				new CommandAdminRegionBypass(plugin).onCommand(sender, cmd, label, newargs);
@@ -35,7 +35,7 @@ public class CommandAdminRegion implements CommandExecutor {
 			plugin.sendMessagesMsg(sender, "chat.commands.admin.region.header");
 			
 			for(String citem : plugin.getMessages().getStringList("chat.commands.admin.region.items")) {
-				sender.sendMessage(Utils.fixColors(citem));
+				sender.sendMessage(StringUtils.fixColors(citem));
 			}
 		}
 		return true;

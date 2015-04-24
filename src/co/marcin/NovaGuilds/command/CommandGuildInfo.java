@@ -8,10 +8,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandGuildInfo implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -63,7 +63,7 @@ public class CommandGuildInfo implements CommandExecutor {
 				guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.fullinfo");
 			}
 			
-			sender.sendMessage(Utils.fixColors(plugin.prefix+guildinfomsg.get(0)));
+			sender.sendMessage(StringUtils.fixColors(plugin.prefix + guildinfomsg.get(0)));
 			
 			int i;
 			List<NovaPlayer> gplayers = guild.getPlayers();
@@ -101,7 +101,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			if(!guild.getAllies().isEmpty()) {
 				String allyformat = plugin.getMessagesString("chat.guildinfo.ally");
 				for(String ally : guild.getAllies()) {
-					ally = Utils.replace(allyformat,"{GUILDNAME}",ally);
+					ally = StringUtils.replace(allyformat, "{GUILDNAME}", ally);
 					allies = allies + ally + separator;
 				}
 
@@ -113,7 +113,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			if(!guild.getWars().isEmpty()) {
 				String warformat = plugin.getMessagesString("chat.guildinfo.war");
 				for(String war : guild.getWars()) {
-					war = Utils.replace(warformat,"{GUILDNAME}",war);
+					war = StringUtils.replace(warformat, "{GUILDNAME}", war);
 					wars = wars + war + separator;
 				}
 
@@ -125,22 +125,22 @@ public class CommandGuildInfo implements CommandExecutor {
 				String tagmsg = plugin.config.getString("guild.tag");
 				String gmsg = guildinfomsg.get(i);
 				
-				tagmsg = Utils.replace(tagmsg,"{TAG}",guild.getTag());
-				tagmsg = Utils.replace(tagmsg,"{RANK}","");
+				tagmsg = StringUtils.replace(tagmsg, "{TAG}", guild.getTag());
+				tagmsg = StringUtils.replace(tagmsg, "{RANK}", "");
 				
-				gmsg = Utils.replace(gmsg,"{GUILDNAME}",guild.getName());
-				gmsg = Utils.replace(gmsg,"{LEADER}",guild.getLeaderName());
-				gmsg = Utils.replace(gmsg,"{TAG}",tagmsg);
-				gmsg = Utils.replace(gmsg,"{MONEY}",guild.getMoney()+"");
-				gmsg = Utils.replace(gmsg,"{PLAYERS}",players);
-				gmsg = Utils.replace(gmsg,"{POINTS}",guild.getPoints()+"");
+				gmsg = StringUtils.replace(gmsg, "{GUILDNAME}", guild.getName());
+				gmsg = StringUtils.replace(gmsg, "{LEADER}", guild.getLeaderName());
+				gmsg = StringUtils.replace(gmsg, "{TAG}", tagmsg);
+				gmsg = StringUtils.replace(gmsg, "{MONEY}", guild.getMoney() + "");
+				gmsg = StringUtils.replace(gmsg, "{PLAYERS}", players);
+				gmsg = StringUtils.replace(gmsg, "{POINTS}", guild.getPoints() + "");
 				
 				if(gmsg.contains("{SP_X}") || gmsg.contains("{SP_Y}") || gmsg.contains("{SP_Z}")) {
 					Location sp = guild.getSpawnPoint();
 					if(sp != null) {
-						gmsg = Utils.replace(gmsg,"{SP_X}",sp.getBlockX()+"");
-						gmsg = Utils.replace(gmsg,"{SP_Y}",sp.getBlockY()+"");
-						gmsg = Utils.replace(gmsg,"{SP_Z}",sp.getBlockZ()+"");
+						gmsg = StringUtils.replace(gmsg, "{SP_X}", sp.getBlockX() + "");
+						gmsg = StringUtils.replace(gmsg, "{SP_Y}", sp.getBlockY() + "");
+						gmsg = StringUtils.replace(gmsg, "{SP_Z}", sp.getBlockZ() + "");
 					}
 					else {
 						skipmsg = true;
@@ -152,7 +152,7 @@ public class CommandGuildInfo implements CommandExecutor {
 						skipmsg = true;
 					}
 					else {
-						gmsg = Utils.replace(gmsg,"{ALLIES}",allies);
+						gmsg = StringUtils.replace(gmsg, "{ALLIES}", allies);
 					}
 				}
 
@@ -162,12 +162,12 @@ public class CommandGuildInfo implements CommandExecutor {
 						skipmsg = true;
 					}
 					else {
-						gmsg = Utils.replace(gmsg,"{WARS}",wars);
+						gmsg = StringUtils.replace(gmsg, "{WARS}", wars);
 					}
 				}
 				
 				if(!skipmsg) {
-					sender.sendMessage(Utils.fixColors(gmsg));
+					sender.sendMessage(StringUtils.fixColors(gmsg));
 				}
 			}
 		}

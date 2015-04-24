@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds;
+package co.marcin.NovaGuilds.basic;
 
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -7,9 +7,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class CommandGuildLeave implements CommandExecutor {
 	public final NovaGuilds plugin;
@@ -48,7 +48,7 @@ public class CommandGuildLeave implements CommandExecutor {
 			plugin.broadcastMessage("broadcast.guild.left", vars);
 			
 			plugin.updateTabAll();
-			plugin.updateTagPlayerToAll(plugin.senderToPlayer(sender));
+			plugin.tagUtils.updateTagAll();
 		}
 		else {
 			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");

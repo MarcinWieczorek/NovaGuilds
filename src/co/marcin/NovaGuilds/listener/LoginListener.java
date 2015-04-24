@@ -1,16 +1,13 @@
 package co.marcin.NovaGuilds.listener;
 
-import java.sql.Statement;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.kitteh.tag.AsyncPlayerReceiveNameTagEvent;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class LoginListener implements Listener {
 	private final NovaGuilds plugin;
@@ -21,11 +18,12 @@ public class LoginListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		plugin.MySQLreload();
-		Statement statement;
+		plugin.MySQLreload(); //TODO check this
 		Player player = event.getPlayer();
 
-		plugin.getPlayerManager().addPlayer(player);
+		if(!plugin.getPlayerManager().exists(player.getName())) {
+			plugin.getPlayerManager().addPlayer(player);
+		}
 		
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
 		
@@ -46,12 +44,5 @@ public class LoginListener implements Listener {
 		nPlayer.setOnline(false);
 		plugin.getPlayerManager().updateLocalPlayer(nPlayer);
 		plugin.updateTabAll(event.getPlayer());
-	}
-	
-	//TagAPI
-	@EventHandler
-	public void onNameTag(AsyncPlayerReceiveNameTagEvent event) {
-		event.setTag(plugin.getTag(event.getNamedPlayer()));
-		//plugin.updateTagPlayerToAll(event.getNamedPlayer());
 	}
 }

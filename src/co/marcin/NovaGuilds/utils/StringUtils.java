@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds;
+package co.marcin.NovaGuilds.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
-public final class Utils {
+public final class StringUtils {
 	public static String replace(String text, String searchString, String replacement) {
 		if((text == null) || (text.isEmpty()) || (searchString.isEmpty()) || (replacement == null)) {
 			return text;

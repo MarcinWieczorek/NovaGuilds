@@ -7,10 +7,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class DeathListener implements Listener {
 	private final NovaGuilds plugin;
@@ -32,14 +32,14 @@ public class DeathListener implements Listener {
 			String tag1 = "";
 			String tag2 = "";
 			String tagscheme = plugin.getConfig().getString("guild.tag");
-			tagscheme = Utils.replace(tagscheme, "{RANK}","");
+			tagscheme = StringUtils.replace(tagscheme, "{RANK}", "");
 			
 			if(novaPlayer.hasGuild()) {
-				tag1 = Utils.replace(tagscheme, "{TAG}",novaPlayer.getGuild().getTag());
+				tag1 = StringUtils.replace(tagscheme, "{TAG}", novaPlayer.getGuild().getTag());
 			}
 
 			if(novaPlayerAttacker.hasGuild()) {
-				tag2 = Utils.replace(tagscheme, "{TAG}",novaPlayerAttacker.getGuild().getTag());
+				tag2 = StringUtils.replace(tagscheme, "{TAG}", novaPlayerAttacker.getGuild().getTag());
 			}
 			
 			HashMap<String,String> vars = new HashMap<>();

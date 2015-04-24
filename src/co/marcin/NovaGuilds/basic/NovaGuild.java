@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds;
+package co.marcin.NovaGuilds.basic;
 
 import java.util.ArrayList;
 import java.util.List;

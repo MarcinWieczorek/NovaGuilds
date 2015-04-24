@@ -1,8 +1,8 @@
 package co.marcin.NovaGuilds.command;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.utils.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +27,7 @@ public class CommandAdminGuildList implements CommandExecutor {
 
 		int page = 1;
 		if(args.length == 1) {
-			if(Utils.isNumeric(args[0])) {
+			if(StringUtils.isNumeric(args[0])) {
 				page = Integer.parseInt(args[0]);
 			}
 		}
@@ -51,10 +51,10 @@ public class CommandAdminGuildList implements CommandExecutor {
 
 		if(size>perpage) {
 			String pagemsg = plugin.getMessagesString("chat.admin.guild.list.page");
-			pagemsg = Utils.replace(pagemsg,"{PAGE}",page+"");
-			pagemsg = Utils.replace(pagemsg,"{NEXT}",page+1+"");
-			pagemsg = Utils.replace(pagemsg,"{PAGES}",pages_number+"");
-			plugin.sendMessagesMsg(sender,Utils.fixColors(pagemsg));
+			pagemsg = StringUtils.replace(pagemsg, "{PAGE}", page + "");
+			pagemsg = StringUtils.replace(pagemsg, "{NEXT}", page + 1 + "");
+			pagemsg = StringUtils.replace(pagemsg, "{PAGES}", pages_number + "");
+			plugin.sendMessagesMsg(sender, StringUtils.fixColors(pagemsg));
 		}
 
 		for(Map.Entry<String, NovaGuild> row : plugin.getGuildManager().getGuilds()) {
@@ -64,10 +64,10 @@ public class CommandAdminGuildList implements CommandExecutor {
 			}
 
 			if(display) {
-				String rowmsg = Utils.replace(rowformat, "{GUILDNAME}", row.getValue().getName());
-				rowmsg = Utils.replace(rowmsg, "{PLAYERNAME}", row.getValue().getLeaderName());
-				rowmsg = Utils.replace(rowmsg, "{TAG}", row.getValue().getTag());
-				sender.sendMessage(Utils.fixColors(rowmsg));
+				String rowmsg = StringUtils.replace(rowformat, "{GUILDNAME}", row.getValue().getName());
+				rowmsg = StringUtils.replace(rowmsg, "{PLAYERNAME}", row.getValue().getLeaderName());
+				rowmsg = StringUtils.replace(rowmsg, "{TAG}", row.getValue().getTag());
+				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
 				if(i >= perpage)
 					break;
