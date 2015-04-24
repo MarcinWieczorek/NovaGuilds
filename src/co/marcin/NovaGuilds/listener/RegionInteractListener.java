@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.Listeners;
+package co.marcin.NovaGuilds.listener;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import co.marcin.NovaGuilds.NovaRegion;
 import co.marcin.NovaGuilds.Utils;
 
 public class RegionInteractListener implements Listener {
-	private NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public RegionInteractListener(NovaGuilds pl) {
 		plugin = pl;

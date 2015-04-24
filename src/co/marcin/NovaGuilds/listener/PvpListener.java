@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.Listeners;
+package co.marcin.NovaGuilds.listener;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaPlayer;
 import co.marcin.NovaGuilds.Utils;
 
 public class PvpListener implements Listener {
-	private NovaGuilds pl;
+	private final NovaGuilds pl;
 	
 	public PvpListener(NovaGuilds novaGuilds) {
 		pl = novaGuilds;

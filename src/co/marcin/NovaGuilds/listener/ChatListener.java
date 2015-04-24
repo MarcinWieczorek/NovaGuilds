@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.Listeners;
+package co.marcin.NovaGuilds.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -103,7 +103,7 @@ public class ChatListener implements Listener {
 			
 		}
 		
-		if(player.hasPermission("novaguilds.chat.notag")) {
+		if(player.hasPermission("NovaGuilds.chat.notag")) {
 			tag = "";
 		}
 		

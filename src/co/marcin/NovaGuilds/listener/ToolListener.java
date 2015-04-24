@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.Listeners;
+package co.marcin.NovaGuilds.listener;
 
 import java.util.HashMap;
 
@@ -16,7 +16,7 @@ import co.marcin.NovaGuilds.NovaRegion;
 import co.marcin.NovaGuilds.Utils;
 
 public class ToolListener implements Listener {
-	private NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public ToolListener(NovaGuilds pl) {
 		plugin = pl;
@@ -35,7 +35,7 @@ public class ToolListener implements Listener {
 			
 			//Change RegionMode
 			if((event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) && player.isSneaking()) {
-				if(!player.hasPermission("novaguilds.tool.check") || !player.hasPermission("novaguilds.region.create")) {
+				if(!player.hasPermission("NovaGuilds.tool.check") || !player.hasPermission("NovaGuilds.region.create")) {
 					return;
 				}
 				
@@ -78,7 +78,7 @@ public class ToolListener implements Listener {
 			if(!nPlayer.regionMode()) { //CHECK MODE
 				
 				if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-					if(!player.hasPermission("novaguilds.tool.check")) { //permissions check
+					if(!player.hasPermission("NovaGuilds.tool.check")) { //permissions check
 						return;
 					}
 					
@@ -101,7 +101,7 @@ public class ToolListener implements Listener {
 			}
 			else { //CREATE MODE
 				if(!event.getAction().equals(Action.PHYSICAL)) {
-					if(!player.hasPermission("novaguilds.region.create")) {
+					if(!player.hasPermission("NovaGuilds.region.create")) {
 						return;
 					}
 					

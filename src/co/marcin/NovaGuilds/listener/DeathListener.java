@@ -1,8 +1,7 @@
-package co.marcin.NovaGuilds.Listeners;
+package co.marcin.NovaGuilds.listener;
 
 import java.util.HashMap;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +13,7 @@ import co.marcin.NovaGuilds.NovaPlayer;
 import co.marcin.NovaGuilds.Utils;
 
 public class DeathListener implements Listener {
-	private NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public DeathListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;

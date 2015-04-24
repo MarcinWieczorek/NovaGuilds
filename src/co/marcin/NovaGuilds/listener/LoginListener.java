@@ -1,8 +1,6 @@
-package co.marcin.NovaGuilds.Listeners;
+package co.marcin.NovaGuilds.listener;
 
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.UUID;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +13,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaPlayer;
 
 public class LoginListener implements Listener {
-	private NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public LoginListener(NovaGuilds plugin) {
 		this.plugin = plugin;
@@ -26,21 +24,8 @@ public class LoginListener implements Listener {
 		plugin.MySQLreload();
 		Statement statement;
 		Player player = event.getPlayer();
-		if(!plugin.getPlayerManager().exists(player.getName())) {
-			try {
-				statement = plugin.c.createStatement();
-				
-				UUID uuid = player.getUniqueId();
-				String playername = player.getName();
-				
-				statement.executeUpdate("INSERT INTO `"+plugin.sqlp+"players` VALUES(0,'"+uuid+"','"+playername+"','','')");
-				plugin.info("New player "+player.getName()+" added to the database");
-				plugin.getPlayerManager().loadPlayers();
-			}
-			catch (SQLException e) {
-				plugin.info("SQLException: "+e.getMessage());
-			}
-		}
+
+		plugin.getPlayerManager().addPlayer(player);
 		
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
 		

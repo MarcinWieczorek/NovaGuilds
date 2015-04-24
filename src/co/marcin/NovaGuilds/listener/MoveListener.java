@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.Listeners;
+package co.marcin.NovaGuilds.listener;
 
 import java.util.HashMap;
 
@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.NovaRegion;
 
 public class MoveListener implements Listener {
-	private NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public MoveListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
