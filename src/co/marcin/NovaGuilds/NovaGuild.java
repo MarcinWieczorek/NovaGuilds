@@ -174,7 +174,7 @@ public class NovaGuild {
 	}
 	
 	public boolean isAlly(NovaGuild guild) {
-		return allies.contains(guild.getName().toLowerCase());
+		return guild != null && allies.contains(guild.getName().toLowerCase());
 	}
 	
 	//add/remove

@@ -35,39 +35,41 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
 import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
-import co.marcin.NovaGuilds.Commands.CommandAdmin;
-import co.marcin.NovaGuilds.Commands.CommandGuild;
-import co.marcin.NovaGuilds.Commands.CommandGuildAbandon;
-import co.marcin.NovaGuilds.Commands.CommandGuildCreate;
-import co.marcin.NovaGuilds.Commands.CommandGuildHome;
-import co.marcin.NovaGuilds.Commands.CommandGuildInfo;
-import co.marcin.NovaGuilds.Commands.CommandGuildInvite;
-import co.marcin.NovaGuilds.Commands.CommandGuildJoin;
-import co.marcin.NovaGuilds.Commands.CommandGuildLeave;
-import co.marcin.NovaGuilds.Commands.CommandNovaGuilds;
-import co.marcin.NovaGuilds.Listeners.ChatListener;
-import co.marcin.NovaGuilds.Listeners.DeathListener;
-import co.marcin.NovaGuilds.Listeners.LoginListener;
-import co.marcin.NovaGuilds.Listeners.MoveListener;
-import co.marcin.NovaGuilds.Listeners.PvpListener;
-import co.marcin.NovaGuilds.Listeners.RegionInteractListener;
-import co.marcin.NovaGuilds.Listeners.ToolListener;
-import co.marcin.NovaGuilds.Manager.GuildManager;
-import co.marcin.NovaGuilds.Manager.PlayerManager;
-import co.marcin.NovaGuilds.Manager.RegionManager;
+import co.marcin.NovaGuilds.command.CommandAdmin;
+import co.marcin.NovaGuilds.command.CommandGuild;
+import co.marcin.NovaGuilds.command.CommandGuildAbandon;
+import co.marcin.NovaGuilds.command.CommandGuildCreate;
+import co.marcin.NovaGuilds.command.CommandGuildHome;
+import co.marcin.NovaGuilds.command.CommandGuildInfo;
+import co.marcin.NovaGuilds.command.CommandGuildInvite;
+import co.marcin.NovaGuilds.command.CommandGuildJoin;
+import co.marcin.NovaGuilds.command.CommandGuildLeave;
+import co.marcin.NovaGuilds.command.CommandNovaGuilds;
+import co.marcin.NovaGuilds.listener.ChatListener;
+import co.marcin.NovaGuilds.listener.DeathListener;
+import co.marcin.NovaGuilds.listener.LoginListener;
+import co.marcin.NovaGuilds.listener.MoveListener;
+import co.marcin.NovaGuilds.listener.PvpListener;
+import co.marcin.NovaGuilds.listener.RegionInteractListener;
+import co.marcin.NovaGuilds.listener.ToolListener;
+import co.marcin.NovaGuilds.manager.GuildManager;
+import co.marcin.NovaGuilds.manager.PlayerManager;
+import co.marcin.NovaGuilds.manager.RegionManager;
 
 public class NovaGuilds extends JavaPlugin {
 	private final Logger log = Logger.getLogger("Minecraft");
 	private static final String logprefix = "[NovaGuilds] ";
-	public PluginDescriptionFile pdf = this.getDescription();
-	public PluginManager pm = getServer().getPluginManager();
+	public final PluginDescriptionFile pdf = this.getDescription();
+	public final PluginManager pm = getServer().getPluginManager();
 	public String prefix;
 	public String sqlp;
 	public FileConfiguration config;
-	public boolean DEBUG = getConfig().getBoolean("debug");
+	public final boolean DEBUG = getConfig().getBoolean("debug");
 	
 	private long MySQLReconnectStamp = System.currentTimeMillis();
-	
+
+	//TODO kickowanie z admina dubluje userów gildii
+
 	//Vault
 	public Economy econ = null;
     //public static Permission perms = null;
@@ -175,7 +177,7 @@ public class NovaGuilds extends JavaPlugin {
 		info("Messages loaded");
         
 		//Version check
-        String latest = Utils.getContent("http://novaguilds.marcin.co/latest.info");
+        String latest = Utils.getContent("http://NovaGuilds.marcin.co/latest.info");
         info("You're using version: v"+pdf.getVersion());
         info("Latest build of the plugin is: #"+latest);
         
@@ -187,7 +189,7 @@ public class NovaGuilds extends JavaPlugin {
         }
 		
 		//command executors
-		getCommand("novaguilds").setExecutor(new CommandNovaGuilds(this));
+		getCommand("NovaGuilds").setExecutor(new CommandNovaGuilds(this));
 		getCommand("ng").setExecutor(new CommandNovaGuilds(this));
 		getCommand("nga").setExecutor(new CommandAdmin(this));
 		
@@ -691,7 +693,7 @@ public class NovaGuilds extends JavaPlugin {
 	
 	//true=mysql, false=sqlite
 	public String[] getSQLCreateCode(boolean mysql) {
-		String url = "http://novaguilds.marcin.co/sqltables.txt";
+		String url = "http://NovaGuilds.marcin.co/sqltables.txt";
 		String sql = Utils.getContent(url);
 		
 		int index;
@@ -729,6 +731,25 @@ public class NovaGuilds extends JavaPlugin {
 	public void setupMetrics() {
 		try {
 			Metrics metrics = new Metrics(this);
+			Metrics.Graph weaponsUsedGraph = metrics.createGraph("Guilds and users");
+
+			weaponsUsedGraph.addPlotter(new Metrics.Plotter("Guilds") {
+
+				@Override
+				public int getValue() {
+					return getGuildManager().getGuilds().size(); // Number of players who used a diamond sword
+				}
+
+			});
+
+			weaponsUsedGraph.addPlotter(new Metrics.Plotter("Users") {
+
+				@Override
+				public int getValue() {
+					return getPlayerManager().getPlayers().size();
+				}
+
+			});
 			metrics.start();
 		} catch (IOException e) {
 			// Failed to submit the stats :-(
