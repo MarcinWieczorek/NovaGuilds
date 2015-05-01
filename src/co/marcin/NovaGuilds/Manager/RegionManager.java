@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.Manager;
+package co.marcin.NovaGuilds.manager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,18 +6,18 @@ import java.sql.Statement;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import co.marcin.NovaGuilds.*;
+import co.marcin.NovaGuilds.basic.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaRegion;
+import co.marcin.NovaGuilds.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import co.marcin.NovaGuilds.NovaGuild;
-import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaRegion;
-import co.marcin.NovaGuilds.Utils;
-
 public class RegionManager {
-	private NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public RegionManager(NovaGuilds pl) {
 		plugin = pl;
@@ -72,11 +72,6 @@ public class RegionManager {
 				String loc2 = res.getString("loc_2");
 				String[] loc2_split = loc2.split(";");
 				
-				novaRegion.setX1(Integer.parseInt(loc1_split[0]));
-				novaRegion.setZ1(Integer.parseInt(loc1_split[1]));
-				novaRegion.setX2(Integer.parseInt(loc2_split[0]));
-				novaRegion.setZ2(Integer.parseInt(loc2_split[1]));
-				
 				World world = plugin.getServer().getWorld(res.getString("world"));
 				Location c1 = new Location(world,Integer.parseInt(loc1_split[0]),0,Integer.parseInt(loc1_split[1]));
 				Location c2 = new Location(world,Integer.parseInt(loc2_split[0]),0,Integer.parseInt(loc2_split[1]));
@@ -103,12 +98,16 @@ public class RegionManager {
 		try {
 			statement = plugin.c.createStatement();
 			
-			String loc1 = Utils.parseDBLocationCoords2D(region.getCorner(0));
-			String loc2 = Utils.parseDBLocationCoords2D(region.getCorner(1));
+			String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
+			String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
 			
 			if(guild == null) {
 				plugin.info("addRegion w/o guild attempt");
 				return;
+			}
+
+			if(region.getWorld() == null) {
+				region.setWorld(plugin.getServer().getWorlds().get(0));
 			}
 			
 			String sql = "INSERT INTO `"+plugin.sqlp+"regions` VALUES(0,'"+loc1+"','"+loc2+"','"+guild.getName()+"','"+guild.getSpawnPoint().getWorld().getName()+"');";
@@ -117,7 +116,7 @@ public class RegionManager {
 			guild.setRegion(region);
 			plugin.getGuildManager().saveGuildLocal(guild);
 			region.setGuildName(guild.getName());
-			plugin.regions.put(guild.getName().toLowerCase(),region);
+			plugin.regions.put(guild.getName().toLowerCase(), region);
 		}
 		catch(SQLException e) {
 			plugin.info(e.getMessage());
@@ -131,8 +130,8 @@ public class RegionManager {
 		try {
 			statement = plugin.c.createStatement();
 			
-			String loc1 = Utils.parseDBLocationCoords2D(region.getCorner(0));
-			String loc2 = Utils.parseDBLocationCoords2D(region.getCorner(1));
+			String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
+			String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
 			
 			String sql = "UPDATE `"+plugin.sqlp+"regions` SET `loc_1`='"+loc1+"', `loc_2`='"+loc2+"', `guild`='"+region.getGuildName()+"', `world`='"+region.getWorld().getName()+"' WHERE `id`="+region.getId();
 			statement.executeUpdate(sql);
@@ -227,10 +226,10 @@ public class RegionManager {
 		int xs;
 		int zs;
 		
-		int x1 = Utils.fixX(l1.getBlockX());
-		int x2 = Utils.fixX(l2.getBlockX());
-		int z1 = Utils.fixX(l1.getBlockZ());
-		int z2 = Utils.fixX(l2.getBlockZ());
+		int x1 = StringUtils.fixX(l1.getBlockX());
+		int x2 = StringUtils.fixX(l2.getBlockX());
+		int z1 = StringUtils.fixX(l1.getBlockZ());
+		int z2 = StringUtils.fixX(l2.getBlockZ());
 		
 		int t;
 		
@@ -301,10 +300,10 @@ public class RegionManager {
 			"overlaps", //4
 		};
 		
-		int x1 = Utils.fixX(l1.getBlockX());
-		int x2 = Utils.fixX(l2.getBlockX());
-		int z1 = Utils.fixX(l1.getBlockZ());
-		int z2 = Utils.fixX(l2.getBlockZ());
+		int x1 = StringUtils.fixX(l1.getBlockX());
+		int x2 = StringUtils.fixX(l2.getBlockX());
+		int z1 = StringUtils.fixX(l1.getBlockZ());
+		int z2 = StringUtils.fixX(l2.getBlockZ());
 		
 		int dif_x = Math.abs(x1 - x2) +1;
 		int dif_z = Math.abs(z1 - z2) +1;
@@ -329,10 +328,10 @@ public class RegionManager {
 	}
 	
 	public int checkRegionSize(Location l1, Location l2) {
-		int x1 = Utils.fixX(l1.getBlockX());
-		int x2 = Utils.fixX(l2.getBlockX());
-		int z1 = Utils.fixX(l1.getBlockZ());
-		int z2 = Utils.fixX(l2.getBlockZ());
+		int x1 = StringUtils.fixX(l1.getBlockX());
+		int x2 = StringUtils.fixX(l2.getBlockX());
+		int z1 = StringUtils.fixX(l1.getBlockZ());
+		int z2 = StringUtils.fixX(l2.getBlockZ());
 		
 		int dif_x = Math.abs(x1 - x2) +1;
 		int dif_z = Math.abs(z1 - z2) +1;
@@ -341,10 +340,10 @@ public class RegionManager {
 	}
 	
 	public NovaRegion regionInsideArea(Location l1, Location l2) {
-		int x1 = Utils.fixX(l1.getBlockX());
-		int x2 = Utils.fixX(l2.getBlockX());
-		int z1 = Utils.fixX(l1.getBlockZ());
-		int z2 = Utils.fixX(l2.getBlockZ());
+		int x1 = StringUtils.fixX(l1.getBlockX());
+		int x2 = StringUtils.fixX(l2.getBlockX());
+		int z1 = StringUtils.fixX(l1.getBlockZ());
+		int z2 = StringUtils.fixX(l2.getBlockZ());
 		
 		boolean i1;
 		boolean i2;
@@ -378,5 +377,25 @@ public class RegionManager {
 		}
 		
 		return null;
+	}
+
+	public boolean canBuild(Player player, Location location) {
+		NovaRegion region = getRegionAtLocation(location);
+
+		if(region == null)
+			return true;
+
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+
+		if(nPlayer == null)
+			return true;
+
+		if(!nPlayer.hasGuild())
+			return true;
+
+		if(nPlayer.getBypass())
+			return true;
+
+		return nPlayer.getGuild().getName().equalsIgnoreCase(region.getGuildName());
 	}
 }
