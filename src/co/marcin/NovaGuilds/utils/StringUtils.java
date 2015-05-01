@@ -1,18 +1,16 @@
-package co.marcin.NovaGuilds;
+package co.marcin.NovaGuilds.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeoutException;
+import java.util.*;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
-public final class Utils {
+public final class StringUtils {
 	public static String replace(String text, String searchString, String replacement) {
 		if((text == null) || (text.isEmpty()) || (searchString.isEmpty()) || (replacement == null)) {
 			return text;
@@ -47,8 +45,8 @@ public final class Utils {
 	}
 	
 	public static String fixColors(String msg) {
-		if (msg == null) {
-			return msg;
+		if(msg == null) {
+			return null;
 		}
 		
 		return ChatColor.translateAlternateColorCodes('&', msg);
@@ -67,9 +65,6 @@ public final class Utils {
 			String encoding = con.getContentEncoding();
 			encoding = encoding == null ? "UTF-8" : encoding;
 			body = toString(in, encoding);
-		}
-		catch (TimeoutException e) {
-			Logger.getLogger("Minecraft").info(e.getMessage());
 		}
 		catch (Exception e) {
 			Logger.getLogger("Minecraft").info(e.getMessage());
@@ -134,10 +129,8 @@ public final class Utils {
 	public static List<String> semicolonToList(String str) {
 		List<String> list = new ArrayList<>();
 		String[] split = str.split(";");
-		
-		for(String s : split) {
-			list.add(s);
-		}
+
+		Collections.addAll(list, split);
 		
 		return list;
 	}
@@ -155,5 +148,123 @@ public final class Utils {
 		}
 
 		return joined;
+	}
+
+	public String Capslock(String message) {
+		String ch;
+		int countChars = 0;
+		int countCharsCaps = 0;
+		int countWords = 1;
+
+		int wordcount = 0;
+		int charactercount = 6;
+		int percentage = 40;
+
+		countChars = message.length();
+		if(countChars > 0) {
+			if(countChars > charactercount) {
+				for(int i = 0; i < countChars; i++) {
+					char c = message.charAt(i);
+					ch = Character.toString(c);
+					if(ch.matches("[A-Z]")) {
+						countCharsCaps++;
+					}
+					if(c == ' ') {
+						countWords++;
+					}
+				}
+				if(countWords >= wordcount) {
+					if(100/countChars*countCharsCaps >= percentage) {
+						message = message.toLowerCase();
+					}
+				}
+			}
+		}
+		return message;
+	}
+
+	public static String replaceMap(String msg, HashMap<String,String> vars) {
+		for(Map.Entry<String, String> entry : vars.entrySet()) {
+			msg = replace(msg,"{"+entry.getKey()+"}",entry.getValue());
+		}
+
+		return msg;
+	}
+
+	public static String secondsToString(long lseconds) {
+		int year = 31536000;
+		int day = 86400;
+		int hour = 3600;
+		int minute = 60;
+
+		int seconds = Integer.parseInt(lseconds+"");
+
+		int years = seconds / year;
+		seconds = seconds % year;
+
+		int days = seconds / day;
+		seconds = seconds % day;
+
+		int hours = seconds / hour;
+		seconds = seconds % hour;
+
+		int minutes = seconds / minute;
+		seconds = seconds % minute;
+
+		String str_years="", str_days="", str_hours="", str_seconds="", str_minutes="";
+
+		if(years > 0) {
+			String formYear = "year";
+
+			if(years > 1) {
+				formYear = "years";
+			}
+
+			str_years = years + " "+formYear+" ";
+		}
+
+		if(days > 0) {
+			String formDay = "day";
+
+			if(days > 1) {
+				formDay = "days";
+			}
+
+			str_days = days + " "+formDay+" ";
+		}
+
+		if(hours > 0) {
+			String formHour = "hour";
+
+			if(hours > 1) {
+				formHour = "hours";
+			}
+
+			str_hours = hours + " "+formHour+" ";
+		}
+
+		if(minutes > 0) {
+			String formMinute = "minute";
+
+			if(minutes > 1) {
+				formMinute = "minutes";
+			}
+
+			str_minutes = minutes + " "+formMinute+" ";
+		}
+
+		if(seconds > 0) {
+			String formSecond = "second";
+
+			if(seconds > 1) {
+				formSecond = "seconds";
+			}
+
+			str_seconds = seconds + " "+formSecond+" ";
+		}
+
+		String str = str_years + str_days + str_hours + str_minutes + str_seconds;
+
+		return str;
 	}
 }

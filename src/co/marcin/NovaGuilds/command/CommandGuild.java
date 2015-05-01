@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandGuild implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -20,7 +20,7 @@ public class CommandGuild implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length>0) {
 			String command = args[0].toLowerCase();
-			String[] newargs = Utils.parseArgs(args,1);
+			String[] newargs = StringUtils.parseArgs(args, 1);
 			
 			if(command.equals("pay")) {
 				new CommandGuildBankPay(plugin).onCommand(sender, cmd, label, newargs);
@@ -72,13 +72,13 @@ public class CommandGuild implements CommandExecutor {
 			if(plugin.getPlayerManager().getPlayerBySender(sender).hasGuild()) {
 				List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.guild.hasguild");
 				for(String cmdinfo : cmdlist) {
-					sender.sendMessage(Utils.fixColors(cmdinfo));
+					sender.sendMessage(StringUtils.fixColors(cmdinfo));
 				}
 			}
 			else {
 				List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.guild.noguild");
 				for(String cmdinfo : cmdlist) {
-					sender.sendMessage(Utils.fixColors(cmdinfo));
+					sender.sendMessage(StringUtils.fixColors(cmdinfo));
 				}
 			}
 		}

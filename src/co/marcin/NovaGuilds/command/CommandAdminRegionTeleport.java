@@ -1,12 +1,16 @@
 package co.marcin.NovaGuilds.command;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaRegion;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaRegion;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public class CommandAdminRegionTeleport implements CommandExecutor {
 	public final NovaGuilds plugin;
@@ -27,10 +31,27 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		}
 
 		String guildname = args[0];
+		String playername = "";
+		NovaPlayer nPlayerOther = null;
 
-		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
+		if(args.length > 1) { //other
+			playername = args[1];
 
-		if(!(guild instanceof NovaGuild)) {
+			 nPlayerOther = plugin.getPlayerManager().getPlayerByName(playername);
+			if(nPlayerOther == null) {
+				plugin.sendMessagesMsg(sender,"chat.player.notexists");
+				return true;
+			}
+
+			if(!nPlayerOther.isOnline()) {
+				plugin.sendMessagesMsg(sender,"chat.player.notonline");
+				return true;
+			}
+		}
+
+		NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
+
+		if(guild == null) {
 			plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
 			return true;
 		}
@@ -42,14 +63,27 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 
 		NovaRegion region = plugin.getRegionManager().getRegionByGuild(guild);
 
-		if(!(sender instanceof Player)) {
+		if(!(sender instanceof Player) && nPlayerOther == null) {
 			plugin.sendMessagesMsg(sender,"chat.cmdfromconsole");
 			return true;
 		}
 
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("GUILDNAME",guild.getName());
+
+		Location location = region.getCorner(0);
+		location.setY(location.getWorld().getHighestBlockYAt(location));
+
 		Player player = plugin.senderToPlayer(sender);
-		player.teleport(region.getCorner(0));
-		plugin.sendMessagesMsg(sender,"chat.admin.region.teleported");
+		String othermsg = "";
+		if(nPlayerOther != null) {
+			player = nPlayerOther.getPlayer();
+			plugin.sendMessagesMsg(player,"chat.admin.region.teleport.notifyother",vars);
+			othermsg = "other";
+		}
+
+		player.teleport(location);
+		plugin.sendMessagesMsg(sender,"chat.admin.region.teleport.success"+othermsg,vars);
 		return true;
 	}
 }

@@ -4,10 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.NovaRegion;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaRegion;
 
 public class CommandAdminGuildSetName implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -37,7 +37,7 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 		
 		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 		
-		if(!(guild instanceof NovaGuild)) { //guild doesn't exist
+		if(guild == null) { //guild doesn't exist
 			plugin.sendMessagesMsg(sender, "chat.guild.namenotexist");
 			return true;
 		}

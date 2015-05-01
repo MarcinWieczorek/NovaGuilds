@@ -6,9 +6,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class CommandAdminGuildKick  implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -49,7 +49,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		
 		//tab/tag
 		plugin.updateTabAll();
-		plugin.updateTagAll();
+		plugin.tagUtils.updateTagAll();
 		
 		return true;
 	}

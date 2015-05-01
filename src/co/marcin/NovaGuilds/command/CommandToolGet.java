@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandToolGet implements CommandExecutor {
 	public final NovaGuilds plugin;
@@ -28,13 +28,13 @@ public class CommandToolGet implements CommandExecutor {
 			if(tool != null) {
 				ItemStack stick = new ItemStack(tool, 1);
 				ItemMeta meta = stick.getItemMeta();
-		        meta.setDisplayName(Utils.fixColors(plugin.getMessages().getString("items.tool.name")));
+		        meta.setDisplayName(StringUtils.fixColors(plugin.getMessages().getString("items.tool.name")));
 		       
 		        List<String> lorecodes = plugin.getMessages().getStringList("items.tool.lore");
 		        List<String> lore = new ArrayList<>();
 		        
 		        for(String l : lorecodes) {
-		        	lore.add(Utils.fixColors(l));
+		        	lore.add(StringUtils.fixColors(l));
 		        }
 		        
 		        meta.setLore(lore);

@@ -1,12 +1,14 @@
 package co.marcin.NovaGuilds.command;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public class CommandAdminGuildSetLeader implements CommandExecutor {
     public final NovaGuilds plugin;
@@ -16,50 +18,60 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(args.length == 0) {
-            //TODO messages
+        if(args.length == 0) { //no leader
+            plugin.sendMessagesMsg(sender,"chat.player.entername");
             return true;
         }
 
         String playername = args[0];
 
-        if(!plugin.getPlayerManager().exists(playername)) {
+        HashMap<String,String> vars = new HashMap<>();
 
+        if(!plugin.getPlayerManager().exists(playername)) { //invalid player
+            plugin.sendMessagesMsg(sender,"chat.player.notexists");
             return true;
         }
 
         NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
+        vars.put("PLAYERNAME",nPlayer.getName());
 
-        if(!nPlayer.hasGuild()) {
-
+        if(!nPlayer.hasGuild()) { //has no guild
+            plugin.sendMessagesMsg(sender,"chat.player.hasnoguild");
             return true;
         }
 
         NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayer);
+        vars.put("GUILDNAME", guild.getName());
 
-        if(!guild.isMember(nPlayer)) {
-
+        if(!guild.isMember(nPlayer)) { //is not member
+            plugin.sendMessagesMsg(sender,"chat.admin.guild.setleader.notinguild",vars);
             return true;
         }
 
-        if(guild.getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
-
+        if(guild.getLeaderName().equalsIgnoreCase(nPlayer.getName())) { //already leader
+            plugin.sendMessagesMsg(sender,"chat.admin.guild.setleader.alreadyleader",vars);
             return true;
         }
 
         Player oldleader = plugin.getServer().getPlayer(guild.getLeaderName());
 
         guild.setLeaderName(nPlayer.getName());
+        nPlayer.setLeader(true);
+        plugin.getPlayerManager().getPlayerByPlayer(oldleader).setLeader(false);
 
         if(oldleader != null) {
-            plugin.updateTagPlayerToAll(oldleader);
+            plugin.tagUtils.updateTagPlayerToAll(oldleader);
         }
 
         plugin.getGuildManager().saveGuildLocal(guild);
 
         if(nPlayer.isOnline()) {
-            plugin.updateTagPlayerToAll(nPlayer.getPlayer());
+            plugin.tagUtils.updateTagPlayerToAll(nPlayer.getPlayer());
         }
+
+
+        plugin.sendMessagesMsg(sender,"chat.admin.guild.setleader.success",vars);
+        plugin.broadcastMessage("broadcast.guild.newleader",vars);
 
         return true;
     }

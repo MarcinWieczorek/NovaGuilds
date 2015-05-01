@@ -6,13 +6,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandGuildBankWithdraw implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandGuildBankWithdraw(NovaGuilds pl) {
 		plugin = pl;
@@ -31,8 +31,8 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 			if(nPlayer.hasGuild()) {
 				NovaGuild guild = plugin.getGuildManager().getGuildByName(nPlayer.getGuild().getName());
 				
-				if(guild.getLeaderName().equals(sender.getName())) {
-					if(marg != null && Utils.isNumeric(marg)) {
+				if(nPlayer.isLeader()) {
+					if(marg != null && StringUtils.isNumeric(marg)) {
 						Double money = Double.parseDouble(marg);
 						
 						if(guild.getMoney() >= money) {

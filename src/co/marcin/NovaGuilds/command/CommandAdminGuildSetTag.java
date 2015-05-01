@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
 
 public class CommandAdminGuildSetTag implements CommandExecutor {
@@ -29,14 +29,14 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 				
 				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 				
-				if(guild instanceof NovaGuild) {
+				if(guild != null) {
 					if(plugin.getGuildManager().getGuildByTag(newtag) == null) {
 						guild.setTag(newtag);
 						
 						plugin.getGuildManager().saveGuildLocal(guild);
 						
 						plugin.updateTabAll();
-						plugin.updateTagAll();
+						plugin.tagUtils.updateTagAll();
 						
 						HashMap<String,String> vars = new HashMap<>();
 						vars.put("TAG",newtag);

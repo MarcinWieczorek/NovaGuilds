@@ -1,9 +1,9 @@
 package co.marcin.NovaGuilds.command;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.utils.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CommandGuildWar implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandGuildWar(NovaGuilds pl) {
 		plugin = pl;
@@ -101,6 +101,8 @@ public class CommandGuildWar implements CommandExecutor {
 				vars.put("GUILD1",guild.getName());
 				vars.put("GUILD2",cmdGuild.getName());
 				plugin.broadcastMessage("broadcast.guild.war",vars);
+
+				plugin.tagUtils.updateTagAll();
 			}
 		}
 		else { //List wars
@@ -109,7 +111,7 @@ public class CommandGuildWar implements CommandExecutor {
 			String guildnameformat = plugin.getMessagesString("chat.guild.war.list.item");
 
 			if(guild.getWars().size() > 0) {
-				String warsstr = Utils.join(guild.getWars(),guildnameformat,separator);
+				String warsstr = StringUtils.join(guild.getWars(), guildnameformat, separator);
 				plugin.sendPrefixMessage(sender,warsstr);
 			}
 			else {
@@ -119,7 +121,7 @@ public class CommandGuildWar implements CommandExecutor {
 			if(!guild.getNoWarInvitations().isEmpty()) {
 				plugin.sendMessagesMsg(sender,"chat.guild.war.list.nowarinvheader");
 
-				String nowarinvs = Utils.join(guild.getNoWarInvitations(),guildnameformat,separator);
+				String nowarinvs = StringUtils.join(guild.getNoWarInvitations(), guildnameformat, separator);
 
 				plugin.sendPrefixMessage(sender,nowarinvs);
 			}

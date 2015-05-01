@@ -1,14 +1,14 @@
 package co.marcin.NovaGuilds.command;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaRegion;
+import co.marcin.NovaGuilds.basic.NovaRegion;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminRegionDelete implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandAdminRegionDelete(NovaGuilds pl) {
 		plugin = pl;

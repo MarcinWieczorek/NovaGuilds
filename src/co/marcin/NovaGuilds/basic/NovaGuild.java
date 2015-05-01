@@ -1,8 +1,9 @@
-package co.marcin.NovaGuilds;
+package co.marcin.NovaGuilds.basic;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import co.marcin.NovaGuilds.NovaGuilds;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,6 +17,9 @@ public class NovaGuild {
 	private Location spawnpoint;
 	private double money = 0;
 	private int points;
+	private NovaRaid raid;
+	private long timeRest;
+	private int lives;
 	
 	private List<NovaPlayer> players = new ArrayList<>();
 	public List<String> players_nick = new ArrayList<>();
@@ -78,7 +82,19 @@ public class NovaGuild {
 	public double getMoney() {
 		return money;
 	}
-	
+
+	public NovaRaid getRaid() {
+		return raid;
+	}
+
+	public long getTimeRest() {
+		return timeRest;
+	}
+
+	public int getLives() {
+		return lives;
+	}
+
 	//setters
 	public void setName(String n) {
 		name = n;
@@ -143,6 +159,22 @@ public class NovaGuild {
 	public void setPoints(int p) {
 		points = p;
 	}
+
+	public void updateTimeRest() {
+		timeRest = NovaGuilds.systemSeconds();
+	}
+
+	public void setLives(int l) {
+		lives = l;
+	}
+
+	public void setTimeRest(long timeRest) {
+		this.timeRest = timeRest;
+	}
+
+	public void isNotRaid() {
+		raid = null;
+	}
 	
 	//check
 	public boolean isInvitedToAlly(String guildname) {
@@ -176,7 +208,11 @@ public class NovaGuild {
 	public boolean isAlly(NovaGuild guild) {
 		return guild != null && allies.contains(guild.getName().toLowerCase());
 	}
-	
+
+	public boolean isRaid() {
+		return !(raid == null);
+	}
+
 	//add/remove
 	public void addAlly(String guildname) {
 		allies.add(guildname.toLowerCase());
@@ -234,6 +270,10 @@ public class NovaGuild {
 	public void takeMoney(double m) {
 		money -= m;
 	}
+
+	public void takeLive() {
+		lives--;
+	}
 	
 	public void takePoints(int p) {
 		points -= p;
@@ -242,6 +282,10 @@ public class NovaGuild {
 	public void removeAllyInvitation(String allyname) {
 		if(allies_invited.contains(allyname.toLowerCase()))
 			allies_invited.remove(allyname.toLowerCase());
+	}
+
+	public void createRaid(NovaGuild attacker) {
+		raid = new NovaRaid(attacker,this);
 	}
 
 	public boolean isMember(NovaPlayer nPlayer) {

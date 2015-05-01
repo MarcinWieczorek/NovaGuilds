@@ -4,9 +4,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 import java.util.HashMap;
 
@@ -65,6 +65,7 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		
 		if(nPlayer.getPlayer() != null) {
 			HashMap<String,String> vars = new HashMap<>();
+			vars.put("GUILDNAME",guild.getName());
 			plugin.sendMessagesMsg(nPlayer.getPlayer(),"chat.player.uvebeeninvited",vars);
 		}
 	

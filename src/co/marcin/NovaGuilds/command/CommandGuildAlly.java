@@ -6,9 +6,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class CommandGuildAlly implements CommandExecutor {
 	public final NovaGuilds plugin;
@@ -28,10 +28,10 @@ public class CommandGuildAlly implements CommandExecutor {
 					NovaGuild guild = nPlayer.getGuild();
 
 					if(plugin.getGuildManager().exists(allyname)) {
-						NovaGuild allyguild = plugin.getGuildManager().getGuildByName(allyname);
+						NovaGuild allyguild = plugin.getGuildManager().getGuildFind(allyname);
 
 						if(!allyname.equalsIgnoreCase(guild.getName())) {
-							if(guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
+							if(guild.isLeader(sender)) {
 								HashMap<String,String> vars = new HashMap<>();
 								vars.put("GUILDNAME",guild.getName());
 								vars.put("ALLYNAME",allyguild.getName());
@@ -59,6 +59,9 @@ public class CommandGuildAlly implements CommandExecutor {
 										plugin.broadcastMessage("broadcast.guild.allied",vars);
 
 										plugin.sendMessagesMsg(sender,"chat.guild.ally.accepted",vars);
+
+										//tags
+										plugin.tagUtils.updateTagAll();
 									}
 									else { //Inviting
 										if(!allyguild.isInvitedToAlly(guild.getName())) {
@@ -87,6 +90,8 @@ public class CommandGuildAlly implements CommandExecutor {
 									plugin.getGuildManager().saveGuildLocal(allyguild);
 
 									plugin.broadcastMessage("broadcast.guild.endally",vars);
+
+									plugin.tagUtils.updateTagAll();
 								}
 							}
 							else {

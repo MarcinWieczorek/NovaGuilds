@@ -8,8 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class PvpListener implements Listener {
 	private final NovaGuilds pl;
@@ -42,7 +42,7 @@ public class PvpListener implements Listener {
 				if(!novaPlayerAttacker.getName().equals(novaPlayer.getName())) {
 					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {
 						if(novaPlayerAttacker.getGuild().equals(novaPlayer.getGuild())) {
-							attacker.sendMessage(Utils.fixColors(pl.prefix+pl.getMessages().getString("chat.teampvp")));
+							attacker.sendMessage(StringUtils.fixColors(pl.prefix + pl.getMessages().getString("chat.teampvp")));
 							event.setCancelled(true);
 							
 							//remove the arrow
@@ -51,7 +51,7 @@ public class PvpListener implements Listener {
 							}
 						}
 						else if(novaPlayerAttacker.getGuild().isAlly(novaPlayer.getGuild())) {
-							attacker.sendMessage(Utils.fixColors(pl.prefix+pl.getMessages().getString("chat.allypvp")));
+							attacker.sendMessage(StringUtils.fixColors(pl.prefix + pl.getMessages().getString("chat.allypvp")));
 							event.setCancelled(true);
 							
 							//remove the arrow

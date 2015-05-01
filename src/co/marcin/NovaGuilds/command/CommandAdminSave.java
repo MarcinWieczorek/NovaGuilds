@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import co.marcin.NovaGuilds.NovaGuilds;
 
 public class CommandAdminSave implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandAdminSave(NovaGuilds pl) {
 		plugin = pl;

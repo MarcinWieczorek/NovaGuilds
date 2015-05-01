@@ -3,7 +3,6 @@ package co.marcin.NovaGuilds.listener;
 import java.util.List;
 
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
@@ -19,11 +18,11 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
-import co.marcin.NovaGuilds.NovaRegion;
-import co.marcin.NovaGuilds.Utils;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaRegion;
+import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class RegionInteractListener implements Listener {
 	private final NovaGuilds plugin;
@@ -34,7 +33,7 @@ public class RegionInteractListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		if(event.getClickedBlock() instanceof Block) {
+		if(event.getClickedBlock() != null) {
 			List<String> denyinteract = plugin.config.getStringList("region.denyinteract");
 			List<String> denyuse = plugin.config.getStringList("region.denyuse");
 			
@@ -43,7 +42,7 @@ public class RegionInteractListener implements Listener {
 			
 			NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getClickedBlock().getLocation());
 			
-			if(rgatploc instanceof NovaRegion) {
+			if(rgatploc != null) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 				NovaGuild guild = plugin.getGuildManager().getGuildByRegion(rgatploc);
 
@@ -67,7 +66,7 @@ public class RegionInteractListener implements Listener {
 							event.setCancelled(true);
 							
 							if(!clickedblockname.contains("_PLATE")) {
-								event.getPlayer().sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotinteract")));
+								event.getPlayer().sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotinteract")));
 							}
 						}
 					}
@@ -80,13 +79,13 @@ public class RegionInteractListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent event) { //BREAKING
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getBlock().getLocation());
 		
-		if(rgatploc instanceof NovaRegion) {
+		if(rgatploc != null) {
 			NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 			
 			if(!novaplayer.getBypass()) {
 				if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 					event.setCancelled(true);
-					event.getPlayer().sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotinteract")));
+					event.getPlayer().sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotinteract")));
 				}
 			}
 		}
@@ -96,13 +95,13 @@ public class RegionInteractListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent event) { //PLACING
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getBlock().getLocation());
 		
-		if(rgatploc instanceof NovaRegion) {
+		if(rgatploc != null) {
 			NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 			
 			if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!novaplayer.getBypass()) {
 					event.setCancelled(true);
-					event.getPlayer().sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotinteract")));
+					event.getPlayer().sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotinteract")));
 				}
 			}
 		}
@@ -112,7 +111,7 @@ public class RegionInteractListener implements Listener {
 	public void onEntityDamage(EntityDamageByEntityEvent event) {
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getEntity().getLocation());
 		
-		if(rgatploc instanceof NovaRegion) {
+		if(rgatploc != null) {
 			DamageCause cause = event.getCause();
 			boolean playercaused = false;
 			Player player = null;
@@ -140,7 +139,7 @@ public class RegionInteractListener implements Listener {
 						if(!novaplayer.getBypass()) {
 							if(!(event.getEntity().getPassenger() instanceof Player)) {
 								event.setCancelled(true);
-								player.sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotattackmob")));
+								player.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotattackmob")));
 								
 								if(arrow != null) {
 									arrow.remove();
@@ -159,13 +158,13 @@ public class RegionInteractListener implements Listener {
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
 		
-		if(rgatploc instanceof NovaRegion) {
+		if(rgatploc != null) {
 			NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 			if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!novaplayer.getBypass()) {
 					if(denyriding.contains(mob.getType().name())) {
 						event.setCancelled(true);
-						event.getPlayer().sendMessage(Utils.fixColors(plugin.prefix+plugin.getMessages().getString("chat.region.cannotridemob")));
+						event.getPlayer().sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotridemob")));
 					}
 				}
 			}
@@ -191,7 +190,7 @@ public class RegionInteractListener implements Listener {
 		Location loc = event.getLocation();
 		NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(loc);
 		
-		if(rgatloc instanceof NovaRegion) {
+		if(rgatloc != null) {
 			NovaGuild guild = plugin.getGuildManager().getGuildByName(rgatloc.getGuildName());
 			
 			for(NovaPlayer nP : guild.getPlayers()) {
