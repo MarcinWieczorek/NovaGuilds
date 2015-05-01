@@ -22,20 +22,20 @@ public class ChatListener implements Listener {
 		String msg = event.getMessage();
 		
 		Player player = event.getPlayer();
-		NovaPlayer nplayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
 		
 		String tag = "";
 		String rank = "";
-		
-		if(nplayer.hasGuild()) {
-			NovaGuild guild = nplayer.getGuild(); 
+
+		if(nPlayer.hasGuild()) {
+			NovaGuild guild = nPlayer.getGuild();
 			tag = plugin.config.getString("guild.tag");
 			
 			if(guild.getLeaderName().equalsIgnoreCase(player.getName())) {
 				rank = StringUtils.fixColors(plugin.getMessages().getString("chat.guildinfo.leaderprefix"));
 			}
 			
-			tag = StringUtils.fixColors(StringUtils.replace(tag, "{TAG}", nplayer.getGuild().getTag()));
+			tag = StringUtils.fixColors(StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag()));
 			
 			String prefix_guildchat = plugin.getConfig().getString("chat.guild.prefix");
 			String prefix_allychat = plugin.getConfig().getString("chat.ally.prefix");
@@ -55,7 +55,7 @@ public class ChatListener implements Listener {
 					
 					String format = plugin.getConfig().getString("chat.ally.format");
 					format = StringUtils.replace(format, "{TAG}", tag);
-					format = StringUtils.replace(format, "{PLAYERNAME}", nplayer.getName());
+					format = StringUtils.replace(format, "{PLAYERNAME}", nPlayer.getName());
 					format = StringUtils.fixColors(format);
 					
 					msg = msg.substring(prefix_allychat.length(),msg.length());
@@ -83,7 +83,7 @@ public class ChatListener implements Listener {
 			else if(msg.startsWith(prefix_guildchat)) { //guild chat
 				if(plugin.getConfig().getBoolean("chat.guild.enabled")) {
 					String format = plugin.getConfig().getString("chat.guild.format");
-					format = StringUtils.replace(format, "{PLAYERNAME}", nplayer.getName());
+					format = StringUtils.replace(format, "{PLAYERNAME}", nPlayer.getName());
 					format = StringUtils.fixColors(format);
 					
 					msg = msg.substring(prefix_guildchat.length(),msg.length());

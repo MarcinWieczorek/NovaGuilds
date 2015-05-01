@@ -3,7 +3,6 @@ package co.marcin.NovaGuilds.listener;
 import java.util.List;
 
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
@@ -34,7 +33,7 @@ public class RegionInteractListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		if(event.getClickedBlock() instanceof Block) {
+		if(event.getClickedBlock() != null) {
 			List<String> denyinteract = plugin.config.getStringList("region.denyinteract");
 			List<String> denyuse = plugin.config.getStringList("region.denyuse");
 			
@@ -43,7 +42,7 @@ public class RegionInteractListener implements Listener {
 			
 			NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getClickedBlock().getLocation());
 			
-			if(rgatploc instanceof NovaRegion) {
+			if(rgatploc != null) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 				NovaGuild guild = plugin.getGuildManager().getGuildByRegion(rgatploc);
 
@@ -80,7 +79,7 @@ public class RegionInteractListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent event) { //BREAKING
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getBlock().getLocation());
 		
-		if(rgatploc instanceof NovaRegion) {
+		if(rgatploc != null) {
 			NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 			
 			if(!novaplayer.getBypass()) {
@@ -96,7 +95,7 @@ public class RegionInteractListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent event) { //PLACING
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getBlock().getLocation());
 		
-		if(rgatploc instanceof NovaRegion) {
+		if(rgatploc != null) {
 			NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 			
 			if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
@@ -112,7 +111,7 @@ public class RegionInteractListener implements Listener {
 	public void onEntityDamage(EntityDamageByEntityEvent event) {
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getEntity().getLocation());
 		
-		if(rgatploc instanceof NovaRegion) {
+		if(rgatploc != null) {
 			DamageCause cause = event.getCause();
 			boolean playercaused = false;
 			Player player = null;
@@ -159,7 +158,7 @@ public class RegionInteractListener implements Listener {
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
 		
-		if(rgatploc instanceof NovaRegion) {
+		if(rgatploc != null) {
 			NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 			if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!novaplayer.getBypass()) {
@@ -191,7 +190,7 @@ public class RegionInteractListener implements Listener {
 		Location loc = event.getLocation();
 		NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(loc);
 		
-		if(rgatloc instanceof NovaRegion) {
+		if(rgatloc != null) {
 			NovaGuild guild = plugin.getGuildManager().getGuildByName(rgatloc.getGuildName());
 			
 			for(NovaPlayer nP : guild.getPlayers()) {

@@ -16,22 +16,32 @@ tabapi:
  colortags: true
  rankprefix: false
  
-tagapi: 
+ tabinfo:
+  enabled: false
+  requirepermissions: false
+
+tagapi:
  enabled: true
  colortags: true
  rankprefix: false
  allycolor:
   enabled: true
   color: "&5"
- 
+ guildcolor:
+  enabled: true
+  color: "&a"
+ warcolor:
+  enabled: true
+  color: "&c"
+
 usevault: true
 
 holographicdisplays:
  enabled: true
- 
+
 #Save period in minutes
 saveperiod: 10
- 
+
 chat:
  ally:
   prefix: "!!"
@@ -46,7 +56,7 @@ chat:
   leaderprefix: true
   format: "&6[&7Guild&6] &8{PLAYERNAME}&6:&r "
   msgprefix: "&6"
- 
+
 takeover:
  endercrystal:
   enabled: true
@@ -57,21 +67,24 @@ takeover:
   cooldown: 0.1
   requireguild: false
   requirewar: false
- 
+
 raid:
  enabled: true
  minonline: 1
  minonlineenemy: 1
- 
+
+ #time guild has to rest in seconds (24h)
+ timerest: 86400
+
 killing:
  moneyforkill: 5%
  moneyforrevenge: 10%
- 
- 
+
 guild:
  tag: "&a{RANK}{TAG} &r"
  startpoints: 1000
  startmoney: 0
+ startlives: 2
  settings:
   tag:
    color: true
@@ -80,10 +93,10 @@ guild:
   name:
    min: 4
    max: 10
- 
+
  killpoints: 5
  deathpoints: 5
- 
+
  #permissions: novaguilds.group.GROUP
  #there's no need for admin group. novaguilds.group.admin for no items required
  create:
@@ -105,7 +118,7 @@ region:
  maxsize: 100
  tool:
   item: STICK
-  
+
  denyinteract:
   - WOODEN_DOOR
   - LEVER
@@ -135,10 +148,12 @@ region:
   - NOTE_BLOCK
   - JUKEBOX
   - BEACON
+  - ITEM_FRAME
  denyuse:
   - LAVA_BUCKET
   - WATER_BUCKET
   - BUCKET
+  - ITEM_FRAME
  denymobdamage:
   - PIG
   - COW

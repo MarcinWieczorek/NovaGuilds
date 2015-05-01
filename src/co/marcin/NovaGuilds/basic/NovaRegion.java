@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public class NovaRegion {
-	private Location[] corners = {null,null};
+	private final Location[] corners = new Location[2];
 	
 	private String guildname;
 	private int id;

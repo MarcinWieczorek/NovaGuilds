@@ -65,6 +65,7 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		
 		if(nPlayer.getPlayer() != null) {
 			HashMap<String,String> vars = new HashMap<>();
+			vars.put("GUILDNAME",guild.getName());
 			plugin.sendMessagesMsg(nPlayer.getPlayer(),"chat.player.uvebeeninvited",vars);
 		}
 	

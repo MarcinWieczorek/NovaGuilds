@@ -50,7 +50,11 @@ public class CommandAdminGuildList implements CommandExecutor {
 		boolean display = false;
 
 		if(size>perpage) {
-			String pagemsg = plugin.getMessagesString("chat.admin.guild.list.page");
+			String pagemsg = plugin.getMessagesString("chat.admin.guild.list.page.nonext");
+			if(pages_number > page) {
+				pagemsg = plugin.getMessagesString("chat.admin.guild.list.page.hasnext");
+			}
+
 			pagemsg = StringUtils.replace(pagemsg, "{PAGE}", page + "");
 			pagemsg = StringUtils.replace(pagemsg, "{NEXT}", page + 1 + "");
 			pagemsg = StringUtils.replace(pagemsg, "{PAGES}", pages_number + "");
@@ -58,7 +62,11 @@ public class CommandAdminGuildList implements CommandExecutor {
 		}
 
 		for(Map.Entry<String, NovaGuild> row : plugin.getGuildManager().getGuilds()) {
-			if(i>(page-1)*perpage || page==1) {
+			plugin.info(i+"");
+			plugin.info(display+"");
+			plugin.info(i+1+">"+(page-1)*perpage);
+
+			if((i+1>(page-1)*perpage || page==1) && display==false) {
 				display = true;
 				i=0;
 			}
@@ -69,8 +77,10 @@ public class CommandAdminGuildList implements CommandExecutor {
 				rowmsg = StringUtils.replace(rowmsg, "{TAG}", row.getValue().getTag());
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
-				if(i >= perpage)
+				if(i+1 >= perpage) {
+					plugin.info("break");
 					break;
+				}
 			}
 
 			i++;

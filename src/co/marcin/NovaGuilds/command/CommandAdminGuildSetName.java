@@ -37,7 +37,7 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 		
 		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 		
-		if(!(guild instanceof NovaGuild)) { //guild doesn't exist
+		if(guild == null) { //guild doesn't exist
 			plugin.sendMessagesMsg(sender, "chat.guild.namenotexist");
 			return true;
 		}

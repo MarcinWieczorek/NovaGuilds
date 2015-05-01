@@ -134,6 +134,7 @@ public class CommandGuildInfo implements CommandExecutor {
 				gmsg = StringUtils.replace(gmsg, "{MONEY}", guild.getMoney() + "");
 				gmsg = StringUtils.replace(gmsg, "{PLAYERS}", players);
 				gmsg = StringUtils.replace(gmsg, "{POINTS}", guild.getPoints() + "");
+				gmsg = StringUtils.replace(gmsg, "{LIVES}", guild.getLives() + "");
 				
 				if(gmsg.contains("{SP_X}") || gmsg.contains("{SP_Y}") || gmsg.contains("{SP_Z}")) {
 					Location sp = guild.getSpawnPoint();

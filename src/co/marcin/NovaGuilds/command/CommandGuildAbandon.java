@@ -29,7 +29,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 		if(nPlayer.hasGuild()) {
 			NovaGuild guild = nPlayer.getGuild();
 			
-			if(guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
+			if(nPlayer.isLeader()) {
 				if(guild.hasRegion()) {
 					plugin.getRegionManager().removeRegion(guild.getRegion());
 				}

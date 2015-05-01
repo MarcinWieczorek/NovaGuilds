@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.basic.NovaRegion;
 import org.bukkit.entity.Player;
 
 public class CommandRegionBuy implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandRegionBuy(NovaGuilds pl) {
 		plugin = pl;

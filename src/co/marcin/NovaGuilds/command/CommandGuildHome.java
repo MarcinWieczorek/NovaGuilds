@@ -1,6 +1,5 @@
 package co.marcin.NovaGuilds.command;
 
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,18 +17,23 @@ public final NovaGuilds plugin;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		NovaPlayer nplayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
-		
-		if(nplayer.hasGuild()) {
+		if(!(sender instanceof Player)) {
+			plugin.sendMessagesMsg(sender,"chat.consolesender");
+			return true;
+		}
+
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+
+		if(nPlayer.hasGuild()) {
 			Player player = plugin.getServer().getPlayer(sender.getName());
 			
 			if(args.length>0 && args[0].equalsIgnoreCase("set")) {
-				if(nplayer.getGuild().getLeaderName().equals(sender.getName())) {
+				if(nPlayer.isLeader()) {
 					NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
 					//player.getWorld().spawnEntity(player.getLocation(), EntityType.ENDER_CRYSTAL);
 					
-					if(rgatloc == null || rgatloc.getGuildName().equals(nplayer.getGuild().getName())) {
-						nplayer.getGuild().setSpawnPoint(player.getLocation());
+					if(rgatloc == null || rgatloc.getGuildName().equals(nPlayer.getGuild().getName())) {
+						nPlayer.getGuild().setSpawnPoint(player.getLocation());
 						plugin.sendMessagesMsg(sender,"chat.guild.setspawnpoint");
 					}
 					else {
@@ -43,8 +47,8 @@ public final NovaGuilds plugin;
 				return true;
 			}
 			
-			if(nplayer.getGuild().getSpawnPoint() instanceof Location) {
-				player.teleport(nplayer.getGuild().getSpawnPoint());
+			if(nPlayer.getGuild().getSpawnPoint() != null) {
+				player.teleport(nPlayer.getGuild().getSpawnPoint());
 				plugin.sendMessagesMsg(sender,"chat.guild.tp");
 			}
 		}

@@ -15,20 +15,20 @@ public class CommandAdmin implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		String[] newargs = StringUtils.parseArgs(args, 1);
+		String[] newArgs = StringUtils.parseArgs(args, 1);
 		if(sender.hasPermission("NovaGuilds.admin.access")) {
 			if(args.length>0) {
 				if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { //guilds
-					new CommandAdminGuild(plugin).onCommand(sender, cmd, label, newargs);
+					new CommandAdminGuild(plugin).onCommand(sender, cmd, label, newArgs);
 				}
 				else if(args[0].equalsIgnoreCase("region") || args[0].equalsIgnoreCase("rg")) { //regions
-					new CommandAdminRegion(plugin).onCommand(sender, cmd, label, newargs);
+					new CommandAdminRegion(plugin).onCommand(sender, cmd, label, newArgs);
 				}
 				else if(args[0].equalsIgnoreCase("reload")) { //reload
 					new CommandAdminReload(plugin).onCommand(sender, cmd, label, args);
 				}
 				else if(args[0].equalsIgnoreCase("save")) { //reload
-					new CommandAdminSave(plugin).onCommand(sender, cmd, label, newargs);
+					new CommandAdminSave(plugin).onCommand(sender, cmd, label, newArgs);
 				}
 				else {
 					plugin.sendMessagesMsg(sender,"chat.unknowncmd");
@@ -37,8 +37,8 @@ public class CommandAdmin implements CommandExecutor {
 			else {
 				plugin.sendMessagesMsg(sender, "chat.commands.admin.main.header");
 				
-				for(String citem : plugin.getMessages().getStringList("chat.commands.admin.main.items")) {
-					sender.sendMessage(StringUtils.fixColors(citem));
+				for(String cItem : plugin.getMessages().getStringList("chat.commands.admin.main.items")) {
+					sender.sendMessage(StringUtils.fixColors(cItem));
 				}
 			}
 		}

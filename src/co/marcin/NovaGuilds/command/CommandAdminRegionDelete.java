@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminRegionDelete implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandAdminRegionDelete(NovaGuilds pl) {
 		plugin = pl;

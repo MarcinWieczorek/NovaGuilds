@@ -8,7 +8,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandAdminRegion implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandAdminRegion(NovaGuilds pl) {
 		plugin = pl;
@@ -25,7 +25,10 @@ public class CommandAdminRegion implements CommandExecutor {
 				new CommandAdminRegionDelete(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else if(args[0].equalsIgnoreCase("list")) { //list regions
-				new CommandAdminRegionList(plugin).onCommand(sender, cmd, label, args);
+				new CommandAdminRegionList(plugin).onCommand(sender, cmd, label, newargs);
+			}
+			else if(args[0].equalsIgnoreCase("tp")) { //list regions
+				new CommandAdminRegionTeleport(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else {
 				plugin.sendMessagesMsg(sender, "chat.unknowncmd");

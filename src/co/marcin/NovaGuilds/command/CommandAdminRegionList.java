@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaRegion;
 
 public class CommandAdminRegionList implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandAdminRegionList(NovaGuilds pl) {
 		plugin = pl;

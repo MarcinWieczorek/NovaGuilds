@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CommandGuildWar implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandGuildWar(NovaGuilds pl) {
 		plugin = pl;

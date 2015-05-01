@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class CommandGuildKick  implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandGuildKick(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
@@ -19,38 +19,43 @@ public class CommandGuildKick  implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("NovaGuilds.guild.kick")) {
-
+			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 		
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 		
 		if(!nPlayer.hasGuild()) {
-			
+			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
 			return true;
 		}
 		
 		NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayer);
 		
 		if(!guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
-
+			plugin.sendMessagesMsg(sender,"chat.guild.notleader");
 			return true;
 		}
 		
 		if(args.length == 0) {
-
+			plugin.sendMessagesMsg(sender,"chat.player.entername");
 			return true;
 		}
 		
 		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayerByName(args[0]);
 		
-		if(!(nPlayerKick instanceof NovaPlayer)) {
-
+		if(nPlayerKick == null) {
+			plugin.sendMessagesMsg(sender,"chat.player.notexists");
 			return true;
 		}
 		
 		if(!nPlayerKick.getGuild().getName().equalsIgnoreCase(guild.getName())) {
+			plugin.sendMessagesMsg(sender,"chat.player.notinyourguild");
+			return true;
+		}
 
+		if(nPlayer.getName().equalsIgnoreCase(nPlayerKick.getName())) {
+			plugin.sendMessagesMsg(sender,"chat.guild.kickyourself");
 			return true;
 		}
 		

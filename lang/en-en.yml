@@ -10,7 +10,9 @@ chat:
   guild:
    list:
     header: "List of all guilds:"
-    page: "&7-- &cPage &7{PAGE} &cof &7{PAGES} -- &c/nga g list {NEXT} &7--"
+    page: 
+     hasnext: "&7-- &cPage &7{PAGE} &cof &7{PAGES} -- &c/nga g list {NEXT} &7--"
+     nonext: "&7-- &cPage &7{PAGE} &cof &7{PAGES} --"
     item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Leader: &c{PLAYERNAME}"
    bank:
     paid: "You paid &c${MONEY} &3to &a{GUILDNAME}&3's bank."
@@ -19,19 +21,26 @@ chat:
    kick: ""
    invited: "Invited player &c{PLAYERNAME} &3to &a{GUILDNAME}"
    teleported: "Teleported to home of &a{GUILDNAME}"
-   teleportedother: "Teleported &c{PLAYERNAME} to home of &a{GUILDNAME}"
+   teleportedother: "Teleported &c{PLAYERNAME} &3to home of &a{GUILDNAME}"
    settag: "Tag changed to &a{TAG}"
    setname:
     enternewname: "Enter new name"
     success: "Guild's name changed."
+   setleader: 
+    notinguild: "This player is not in guild &a{GUILDNAME}"
+    alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
+    success: "New leader set!"
   region:
    rgbypass:
     toggled: "Region bypass toggled. Currently: &c{BYPASS}"
     toggledother: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
+    notifyother: "Your region bypass has been toggled. Currently: &c{BYPASS}"
    delete:
     success: "Successfully deleted guild's region."
    teleport:
-    success: "Teleported you to selected region."
+    success: "Teleported you to &a{GUILDNAME}&3's region."
+    successother: "Teleported player &c{PLAYERNAME} &3to &a{GUILDNAME}&3's region"
+    notifyother: "You have been teleported to &a{GUILDNAME}&3's region"
   save:
    players: "Players saved."
    guilds: "Guilds saved."
@@ -59,6 +68,9 @@ chat:
     tp: "&7/nga &cg &6tp &c<guild> &6[player]"
   ng:
    broadcast: "&c/ng bc <message>"
+  guild:
+   create: "&5* &7/create &c<tag> &6<name> &2- &3Create a guild"
+   invite: "&5* &7/invite &c<playername> &2- &3Invite player to the guild"
  commands:
   admin:
    main:
@@ -73,6 +85,7 @@ chat:
     items:
      - "&5* &7/nga &crg &6list &2- &3Region list"
      - "&5* &7/nga &crg &6del &c<guildname> &2- &3Delete region"
+     - "&5* &7/nga &crg &6tp &c<guildname> &2- &3Delete region"
    guild:
     header: "Guild commands for admins"
     items:
@@ -109,6 +122,9 @@ chat:
  allypvp: "You cannot hurt your allies."
  noguild: "No guild"
  
+ raid:
+  resting: "You have to wait &c{TIMEREST} &3before attacking this guild."
+ 
  guild:
   ally:
    war: "First you need to end the war with that guild."
@@ -136,7 +152,8 @@ chat:
   hasregionalready: "Your guild already has a region. Resize or delete current one."
   guildatlocsp: "You cannot set the spawnpoint at someone's guild location!"
   joined: "You have joined the guild!"
-  explosionatregion: "There was an explosion in your guild's region!"
+  explosionatregion: "There was an explosion at your guild's region!"
+  kickyourself: "You cannot kick yourself from the guild!"
   
   war:
    ally: "First you need to end your ally with that guild."
@@ -180,6 +197,7 @@ chat:
   notinvitedtoguild: "You aren't invited to this guild!"
   uvebeeninvited: "You have been invited to guild &a{GUILDNAME}"
   ureinvitedto: "List of guilds you've been invited to:"
+  notinyourguild: "That player is not in your guild!"
   
  region:
   cannotinteract: "You cannot interact here"
@@ -201,6 +219,8 @@ chat:
   mustveguild: "You need a guild to buy this area. &c/create"
   entered: "You entered the region of guild &a{GUILDNAME}"
   exited: "You exited the region of guild &a{GUILDNAME}"
+  notifyguild:
+   entered: "Player &c{PLAYERNAME} &3entered your guild's region!"
   belongsto: "This region belongs to &a{GUILDNAME}"
   list:
    header: "Region list:"
@@ -242,6 +262,7 @@ chat:
    - " &c* &2Name: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Leader: &6{LEADER}"
+   - " &c* &2Lives: &6{LIVES}"
    - " &c* &2Location: &6{SP_X},{SP_Y},{SP_Z}"
    - " &c* &2Players: {PLAYERS}"
    - " &c* &2Allies: {ALLIES}"
@@ -253,6 +274,7 @@ chat:
    - " &c* &2Name: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Leader: &6{LEADER}"
+   - " &c* &2Lives: &6{LIVES}"
    - " &c* &2Players: {PLAYERS}"
    - " &c* &2Allies: {ALLIES}"
    - " &c* &2Wars: {WARS}"
@@ -261,6 +283,7 @@ chat:
 #broadcast messages:
 broadcast:
  admin:
+  autosave: "Saved plugin data."
   guild:
    abandon: "Admin &c{PLAYERNAME} &3abandoned guild &a{GUILDNAME}"
  guild:
@@ -274,6 +297,7 @@ broadcast:
   allied: "&a{GUILDNAME} &3and &a{ALLYNAME} &3are allies now!"
   endally: "&a{GUILDNAME} &3and &a{ALLYNAME} &3ended their ally!"
   kicked: "Player &c{PLAYERNAME} &3has been kicked from &a{GUILDNAME}"
+  newleader: "Player &c{PLAYERNAME} &3is now the leader of &a{GUILDNAME}"
  pvp:
   killed: "Player {TAG1}&c{PLAYER1} &3was slain by {TAG2}&c{PLAYER2}"
   
@@ -296,3 +320,13 @@ items:
    - "&e****&2Select Mode&e***"
    - "&cLeft/Right"
    - "&6click to select"
+   
+tablist:
+ pattern:
+  - "{SERVERNAME}"
+  - "GuildsSPLIT{GUILDNUMBER}"
+  - "Players onlineSPLIT{PLAYERSONLINE}"
+  - "Your guildSPLIT{GUILDNAME}"
+  
+barapi:
+ warprogress: "Your guild is under attack!"

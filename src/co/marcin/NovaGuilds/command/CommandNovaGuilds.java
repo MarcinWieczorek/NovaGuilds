@@ -12,6 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
@@ -25,7 +26,7 @@ import co.marcin.NovaGuilds.basic.NovaRegion;
 import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandNovaGuilds implements CommandExecutor {
-	final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandNovaGuilds(NovaGuilds pl) {
 		plugin = pl;
@@ -50,7 +51,11 @@ public class CommandNovaGuilds implements CommandExecutor {
 				new CommandToolGet(plugin).onCommand(sender, cmd, label, args);
 			}
 			else if(args[0].equalsIgnoreCase("test")) { //tests
-				if(!plugin.DEBUG) return false;
+				new CommandGuildTop(plugin).onCommand(sender, cmd, label, args);
+				if(plugin.DEBUG) return true;
+				Inventory inv = plugin.getServer().createInventory(null, 9, "Cobblex!");
+				plugin.senderToPlayer(sender).openInventory(inv);
+				if(plugin.DEBUG) return true;
 				String group = "default";
 				
 				for(String s : plugin.getConfig().getConfigurationSection("guild.create").getKeys(false)) {

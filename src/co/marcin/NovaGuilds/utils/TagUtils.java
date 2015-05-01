@@ -5,7 +5,6 @@ import co.marcin.NovaGuilds.basic.NovaPlayer;
 import org.bukkit.entity.Player;
 import org.kitteh.tag.TagAPI;
 
-import javax.swing.text.html.HTML;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

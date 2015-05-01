@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class CommandPlayerInvite implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandPlayerInvite(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;

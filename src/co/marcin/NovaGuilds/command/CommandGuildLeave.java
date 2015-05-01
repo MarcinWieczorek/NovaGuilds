@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class CommandGuildLeave implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandGuildLeave(NovaGuilds pl) {
 		plugin = pl;

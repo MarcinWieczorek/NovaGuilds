@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
 
 public class CommandAdminGuildTeleport implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandAdminGuildTeleport(NovaGuilds pl) {
 		plugin = pl;
@@ -21,6 +21,7 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		//args:
 		// 0 - guildname
+		// 1 - other player
 		
 		if(!(sender instanceof Player)) {
 			plugin.info("You cannot tp to a guild from the console!");
@@ -33,18 +34,21 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 				
 				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 				
-				if(guild instanceof NovaGuild) {
+				if(guild != null) {
 					Location home = guild.getSpawnPoint();
 					
-					if(home instanceof Location) {
+					if(home != null) {
 						Player player = null;
+
+						HashMap<String,String> vars = new HashMap<>();
+						vars.put("GUILDNAME",guild.getName());
 						
 						if(args.length==2) {
 							String playername = args[1];
 							
 							if(plugin.getPlayerManager().exists(playername)) {
 								player = plugin.getServer().getPlayer(playername);
-								if(!(player instanceof Player)) {
+								if(player == null) {
 									plugin.sendMessagesMsg(sender,"chat.player.notonline");
 									return true;
 								}
@@ -60,11 +64,12 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 						
 						if(player != null) {
 							player.teleport(home);
+							vars.put("PLAYERNAME",player.getName());
+							plugin.sendMessagesMsg(sender, "chat.admin.guild.teleportedother", vars);
 						}
-						
-						HashMap<String,String> vars = new HashMap<>();
-						vars.put("GUILDNAME",guild.getName());
-						plugin.sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
+						else {
+							plugin.sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
+						}
 					}
 				}
 				else {

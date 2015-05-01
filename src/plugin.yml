@@ -3,8 +3,8 @@ main: co.marcin.NovaGuilds.NovaGuilds
 author: Marcin Wieczorek
 description: The best guilds plugin!
 website: http://novaguilds.marcin.co/
-version: 9
-softdepend: [Vault, TagAPI, TabAPI]
+version: 10
+softdepend: [Vault, TagAPI, TabAPI, BarAPI]
 commands:
    novaguilds:
       description: Main NovaGuilds command
@@ -81,6 +81,8 @@ permissions:
         default: op
     novaguilds.admin.access:
         default: op
+    novaguilds.admin.guild.access:
+        default: op
     novaguilds.admin.guild.abandon:
         default: op
     novaguilds.admin.guild.tp:
@@ -108,6 +110,10 @@ permissions:
     novaguilds.admin.region.bypass.other:
         default: op
     novaguilds.admin.region.list:
+        default: op
+    novaguilds.admin.region.tp:
+        default: op
+    novaguilds.admin.region.tp.other:
         default: op
     novaguilds.admin.reload:
         default: op

@@ -18,7 +18,7 @@ import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandGuildCreate implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandGuildCreate(NovaGuilds pl) {
 		plugin = pl;
@@ -26,7 +26,10 @@ public class CommandGuildCreate implements CommandExecutor {
 
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(args.length != 2) return false;
+		if(args.length != 2) {
+			plugin.sendUsageMessage(sender,"guild.create");
+			return true;
+		}
 		
 		if(!(sender instanceof Player)) {
 			plugin.info("You cannot create a guild from the console!");

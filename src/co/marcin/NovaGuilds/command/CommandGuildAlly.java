@@ -31,7 +31,7 @@ public class CommandGuildAlly implements CommandExecutor {
 						NovaGuild allyguild = plugin.getGuildManager().getGuildFind(allyname);
 
 						if(!allyname.equalsIgnoreCase(guild.getName())) {
-							if(guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
+							if(guild.isLeader(sender)) {
 								HashMap<String,String> vars = new HashMap<>();
 								vars.put("GUILDNAME",guild.getName());
 								vars.put("ALLYNAME",allyguild.getName());

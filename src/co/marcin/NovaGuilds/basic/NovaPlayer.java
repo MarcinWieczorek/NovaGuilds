@@ -18,9 +18,11 @@ public class NovaPlayer {
 	private boolean bypass;
 	private boolean isonline;
 	private NovaRegion selectedRegion;
+	private NovaRegion atRegion;
+	private NovaRaid partRaid;
 	
 	//Region selecting
-	private Location[] regionSelectedLocations = new Location[2];
+	private final Location[] regionSelectedLocations = new Location[2];
 	
 	//getters
 	public Player getPlayer() {
@@ -58,7 +60,22 @@ public class NovaPlayer {
 	public boolean getBypass() {
 		return bypass;
 	}
-	
+
+	public NovaRegion getAtRegion() {
+		return atRegion;
+	}
+
+	/*
+	* Get raid the player is taking part in
+	* */
+	public NovaRaid getPartRaid() {
+		return partRaid;
+	}
+
+	public boolean isPartRaid() {
+		return !(partRaid == null);
+	}
+
 	//setters
 	public void setGuild(NovaGuild guild) {
 		novaGuild = guild;
@@ -109,6 +126,10 @@ public class NovaPlayer {
 
 	public void setLeader(boolean b) {
 		leader = b;
+	}
+
+	public void setAtRegion(NovaRegion region) {
+		atRegion = region;
 	}
 	
 	//check stuff
