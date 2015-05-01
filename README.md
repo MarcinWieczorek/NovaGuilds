@@ -6,15 +6,16 @@ NovaGuilds is my own guilds plugin, still in development, but I want to hear you
 Please leave feedback!<br/><br/>
 <b>Vault</b> is required!<br/>
 <b>TabAPI</b> is required unless you turn it off in config!<br/>
-<b>TagAPI</b> is required unless you turn it off in config!
+<b>TagAPI</b> is required unless you turn it off in config!<br/>
+<b>BarAPI</b> is required unless you turn it off in config!<br/>
+<b>HolographicDisplays</b> is required unless you turn it off in config!<br/>
 <br/><br/><br/>
 
-<h1>Bukkit</h1><br/>
-<center>
-<a href="http://dev.bukkit.org/bukkit-plugins/novaguilds/">
-    <img src="https://cdn3.iconfinder.com/data/icons/minecraft-icons/128/bucket_lava.png" />
+<h1>Source</h1><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/MarcinWieczorek/NovaGuilds">
+    <img src="http://kosz.marcin.co/githublogo.png" />
 </a>
-</center>
 <br/><br/><br/>
 
 <h2><b>Setup</b></h2>
@@ -46,16 +47,16 @@ Please leave feedback!<br/><br/>
     <li>Broadcast messages</li>
     <li>Pay/withdraw money to/from guild's bank</li>
     <li>Allies</li>
+    <li>Wars</li>
+    <li>Language support</li>
+    <li>Guild/Ally chat</li>
 </ul>
 
 <br/>
 <h2><b>Planned features</b></h2>
 <ul>
-    <li>Guild/Ally chat</li>
     <li>MORE Admin commands</li>
-    <li>Language support</li>
     <li>BarApi for cool stuff</li>
-    <li>Wars stuff</li>
     <li>HolographicDisplays tops (maybe, would be cool!)</li>
     <li>tops</li>
     <li>Autoupdate to latest build (?)</li>
@@ -211,7 +212,6 @@ Please leave feedback!<br/><br/>
     <tr>
         <td>novaguilds.admin.guild.abandon</td>
         <td>Abandon any guild</td>
-        <td>Not implemented</td>
     </tr>
     <tr>
         <td>novaguilds.admin.guild.tp</td>
@@ -224,12 +224,10 @@ Please leave feedback!<br/><br/>
     <tr>
         <td>novaguilds.admin.guild.money</td>
         <td>Manage money of any guild</td>
-        <td>Not implemented</td>
     </tr>
     <tr>
         <td>novaguilds.admin.guild.fullinfo</td>
         <td>Show guild's full info</td>
-        <td>Not implemented</td>
     </tr>
     <tr>
         <td>novaguilds.admin.guild.setname</td>
@@ -242,12 +240,10 @@ Please leave feedback!<br/><br/>
     <tr>
         <td>novaguilds.admin.guild.list</td>
         <td>Show all guilds</td>
-        <td>Not implemented</td>
     </tr>
     <tr>
         <td>novaguilds.admin.region.remove</td>
         <td>Remove any region</td>
-        <td>Not implemented</td>
     </tr>
     <tr>
         <td>novaguilds.admin.region.list</td>
