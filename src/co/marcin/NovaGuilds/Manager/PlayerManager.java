@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.Manager;
+package co.marcin.NovaGuilds.manager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,12 +15,12 @@ import org.bukkit.entity.Player;
 
 import com.google.common.base.Joiner;
 
-import co.marcin.NovaGuilds.NovaGuild;
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.NovaPlayer;
+import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class PlayerManager {
-	public NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public PlayerManager(NovaGuilds pl) {
 		plugin = pl;
@@ -31,14 +31,21 @@ public class PlayerManager {
 	}
 	
 	public NovaPlayer getPlayerByName(String playername) {
-		if(exists(playername)) {
-			return plugin.players.get(playername.toLowerCase());
-		}
-		return null;
+		addIfNotExists(playername);
+
+		return plugin.players.get(playername.toLowerCase());
 	}
 	
 	public NovaPlayer getPlayerBySender(CommandSender sender) {
+		addIfNotExists(sender.getName());
+
 		return getPlayerByName(sender.getName());
+	}
+
+	public NovaPlayer getPlayerByPlayer(Player player) {
+		addIfNotExists(player.getName());
+
+		return getPlayerByName(player.getName());
 	}
 	
 	public Set<Entry<String, NovaPlayer>> getPlayers() {
@@ -78,18 +85,14 @@ public class PlayerManager {
 	}
 	
 	public void updateLocalPlayer(NovaPlayer nPlayer) {
-//		plugin.players.remove(nPlayer.getName().toLowerCase());
-//		plugin.players.put(nPlayer.getName().toLowerCase(), nPlayer);
-
-		plugin.players_changes.put(nPlayer.getName().toLowerCase(),nPlayer);
+		if(plugin.DEBUG) return;
+		plugin.players_changes.put(nPlayer.getName().toLowerCase(), nPlayer);
 	}
 	
 	public void saveAll() {
 		for(Entry<String, NovaPlayer> nP : getPlayers()) {
 			updatePlayer(nP.getValue());
 		}
-
-		applyChanges();
 	}
 	
 	//load
@@ -101,12 +104,12 @@ public class PlayerManager {
 			statement = plugin.c.createStatement();
 			
 			plugin.players.clear();
-			ResultSet res = statement.executeQuery("SELECT * FROM `"+plugin.sqlp+"players`");
+			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.sqlp + "players`");
 			while(res.next()) {
 				NovaPlayer novaplayer = new NovaPlayer();
 				Player player = plugin.getServer().getPlayerExact(res.getString("name"));
 				
-				if(player instanceof Player) {
+				if(player != null) {
 					if(player.isOnline()) {
 						novaplayer.setPlayer(player);
 						novaplayer.setOnline(true);
@@ -136,7 +139,6 @@ public class PlayerManager {
 				if(!guildname.isEmpty()) {
 					guild = plugin.getGuildManager().getGuildByName(guildname);
 					guild.addPlayer(novaplayer);
-					plugin.getGuildManager().saveGuildLocal(guild);
 					novaplayer.setGuild(guild);
 
 					if(guild.isLeader(novaplayer.getName())) {
@@ -145,10 +147,6 @@ public class PlayerManager {
 				}
 
 				plugin.players.put(res.getString("name").toLowerCase(), novaplayer);
-			}
-
-			for(Entry<String, NovaGuild> guild : plugin.getGuildManager().getGuilds()) {
-				plugin.info(guild.getValue().players_nick.toString());
 			}
 
 			plugin.info("Players loaded from database");
@@ -177,13 +175,20 @@ public class PlayerManager {
 		}
 	}
 
-	public void applyChanges() {
-		for(Entry<String,NovaPlayer> entry : plugin.players_changes.entrySet()) {
-			NovaPlayer nPlayer = entry.getValue();
-			plugin.players.remove(nPlayer.getName().toLowerCase());
-			plugin.players.put(nPlayer.getName().toLowerCase(),nPlayer);
-		}
+	public void addIfNotExists(String playername) {
+		Player player = plugin.getServer().getPlayerExact(playername);
 
-		plugin.players_changes.clear();
+		if(player != null) {
+			if(!plugin.players.containsKey(player.getName().toLowerCase())) {
+				addPlayer(player);
+			}
+		}
+	}
+
+	public boolean isGuildMate(Player player1, Player player2) {
+		NovaPlayer nPlayer1 = getPlayerByPlayer(player1);
+		NovaPlayer nPlayer2 = getPlayerByPlayer(player2);
+
+		return nPlayer1.getGuild().getName().equalsIgnoreCase(nPlayer2.getGuild().getName());
 	}
 }
