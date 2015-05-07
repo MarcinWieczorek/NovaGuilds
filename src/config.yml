@@ -10,18 +10,18 @@ mysql:
 
 debug: false
 lang: en-en
- 
-tabapi: 
- enabled: true
+
+tabapi:
+ enabled: false
  colortags: true
  rankprefix: false
- 
+
  tabinfo:
   enabled: false
   requirepermissions: false
 
 tagapi:
- enabled: true
+ enabled: false
  colortags: true
  rankprefix: false
  allycolor:
@@ -37,7 +37,7 @@ tagapi:
 usevault: true
 
 holographicdisplays:
- enabled: true
+ enabled: false
 
 #Save period in minutes
 saveperiod: 10
@@ -76,6 +76,9 @@ raid:
  #time guild has to rest in seconds (24h)
  timerest: 86400
 
+ #Inactive time after which the raid is over. seconds.
+ timeinactive: 10
+
 killing:
  moneyforkill: 5%
  moneyforrevenge: 10%
@@ -85,6 +88,7 @@ guild:
  startpoints: 1000
  startmoney: 0
  startlives: 2
+ fromspawn: 100
  settings:
   tag:
    color: true

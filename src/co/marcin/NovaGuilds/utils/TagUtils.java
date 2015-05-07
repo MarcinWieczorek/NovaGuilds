@@ -2,12 +2,11 @@ package co.marcin.NovaGuilds.utils;
 
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.kitteh.tag.TagAPI;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 public class TagUtils {
 	private final NovaGuilds plugin;
@@ -16,27 +15,11 @@ public class TagUtils {
 		plugin = novaGuilds;
 	}
 
-	public void updateTagPlayerToAll(Player p) {
-		if(p == null)
-			return;
-
-		Set<Player> set = new HashSet<>(Arrays.asList(plugin.getServer().getOnlinePlayers()));
-		TagAPI.refreshPlayer(p, set);
-	}
-
-	public void updateTagAll() {
-		for(Player p: plugin.getServer().getOnlinePlayers()) {
-			Set<Player> set = new HashSet<>(Arrays.asList(plugin.getServer().getOnlinePlayers()));
-			TagAPI.refreshPlayer(p, set);
-		}
-	}
-
-	public String getTag(Player namedplayer,Player player) {
-		String tag;
+	public String getTag(Player namedplayer) { //TODO deleted second arg Player player
+		String tag = "";
 		String guildTag;
 		String rank = "";
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(namedplayer.getName());
-		String tabName = namedplayer.getName();
 
 		if(nPlayer.hasGuild()) {
 			tag = plugin.getConfig().getString("guild.tag");
@@ -56,29 +39,66 @@ public class TagUtils {
 
 			tag = StringUtils.replace(tag, "{RANK}", rank);
 
-			//TODO ally colors
-			NovaPlayer nPlayerReceiver = plugin.getPlayerManager().getPlayerByPlayer(player);
-			if(nPlayerReceiver.hasGuild()) {
-				if(nPlayerReceiver.getGuild().isAlly(nPlayer.getGuild())) {
-					if(plugin.getConfig().getBoolean("tagapi.allycolor.enabled")) {
-						tabName = plugin.getConfig().getString("tagapi.allycolor.color") + tabName;
-					}
-				}
-				else if(plugin.getPlayerManager().isGuildMate(player,namedplayer)) {
-					if(plugin.getConfig().getBoolean("tagapi.guildcolor.enabled")) {
-						tabName = plugin.getConfig().getString("tagapi.guildcolor.color") + tabName;
-					}
-				}
-				else if(nPlayer.getGuild().isWarWith(nPlayerReceiver.getGuild())) {
-					if(plugin.getConfig().getBoolean("tagapi.warcolor.enabled")) {
-						tabName = plugin.getConfig().getString("tagapi.warcolor.color") + tabName;
-					}
-				}
-			}
+			//TODO: ally/war colors
+//			NovaPlayer nPlayerReceiver = plugin.getPlayerManager().getPlayerByPlayer(player);
+//			if(nPlayerReceiver.hasGuild()) {
+//				if(nPlayerReceiver.getGuild().isAlly(nPlayer.getGuild())) {
+//					if(plugin.getConfig().getBoolean("tagapi.allycolor.enabled")) {
+//						tabName = plugin.getConfig().getString("tagapi.allycolor.color") + tabName;
+//					}
+//				}
+//				else if(plugin.getPlayerManager().isGuildMate(player,namedplayer)) {
+//					if(plugin.getConfig().getBoolean("tagapi.guildcolor.enabled")) {
+//						tabName = plugin.getConfig().getString("tagapi.guildcolor.color") + tabName;
+//					}
+//				}
+//				else if(nPlayer.getGuild().isWarWith(nPlayerReceiver.getGuild())) {
+//					if(plugin.getConfig().getBoolean("tagapi.warcolor.enabled")) {
+//						tabName = plugin.getConfig().getString("tagapi.warcolor.color") + tabName;
+//					}
+//				}
+//			}
 
-			tabName = tag + tabName;
+			//TODO: using chat permissions
+			if(namedplayer.hasPermission("novaguilds.chat.notag")) {
+				tag = "";
+			}
 		}
 
-		return StringUtils.fixColors(tabName);
+		return StringUtils.fixColors(tag);
+	}
+
+	private static void setPrefix(OfflinePlayer player, String tag, Player p) {
+		Scoreboard board = p.getScoreboard();
+		Team team;
+		if (board.getPlayerTeam(player) == null) {
+			team = board.registerNewTeam(player.getName());
+			team.addPlayer(player);
+		} else {
+			team = board.getPlayerTeam(player);
+		}
+		team.setPrefix(StringUtils.fixColors(tag));
+	}
+
+//
+	public void updatePrefix(Player p) {
+		for(Player of : Bukkit.getOnlinePlayers()) {
+				setPrefix(of, getTag(of), p);
+		}
+
+//		for (Player on : Bukkit.getOnlinePlayers()) {
+//			setPrefix(UserManager.getUser(p.getName()).getOfflinePlayer(), getPrefixFor(UserManager.getUser(p.getName()), UserManager.getUser(on.getName())), p);
+//		}
+//
+//		Authentication.User user = UserManager.getUser(p.getName());
+//		Objective obj = p.getScoreboard().registerNewObjective("Punkty", "dummy");
+//		obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
+//		obj.setDisplayName("RANK - "+user.getRanking().getPoints());
+	}
+
+	public void refreshAll() {
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			updatePrefix(player);
+		}
 	}
 }

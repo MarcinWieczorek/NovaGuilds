@@ -76,7 +76,7 @@ public final class StringUtils {
 	private static String toString(InputStream in, String encoding) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buf = new byte[8192];
-		int len = 0;
+		int len;
 		
 		while ((len = in.read(buf)) != -1) {
 			baos.write(buf, 0, len);
@@ -86,7 +86,7 @@ public final class StringUtils {
 	}
 	
 	public static String parseDBLocation(Location l) {
-		return l.getWorld().getName()+";"+l.getBlockX()+";"+l.getBlockY()+";"+l.getBlockZ()+";"+Math.round(l.getYaw());
+		return l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ() + ";" + Math.round(l.getYaw());
 	}
 	
 	public static String parseDBLocationCoords2D(Location l) {
@@ -95,11 +95,10 @@ public final class StringUtils {
 	
 	public static int fixX(int x) {
 		if(x<0) {
-			return x++;
+			return x+1;
 		}
-		else {
-			return x;
-		}
+
+		return x;
 	}
 	
 	public static boolean isNumeric(String str) {
@@ -150,19 +149,32 @@ public final class StringUtils {
 		return joined;
 	}
 
+	public static String join(String[] items, String separator) {
+		String joined = "";
+
+		if(items.length > 0) {
+			for(String row : items) {
+				joined = joined + row + separator;
+			}
+
+			joined = joined.substring(0,joined.length()-separator.length());
+		}
+
+		return joined;
+	}
+
 	public String Capslock(String message) {
 		String ch;
-		int countChars = 0;
 		int countCharsCaps = 0;
 		int countWords = 1;
 
-		int wordcount = 0;
-		int charactercount = 6;
+		int wordCount = 0;
+		int characterCount = 6;
 		int percentage = 40;
 
-		countChars = message.length();
+		int countChars = message.length();
 		if(countChars > 0) {
-			if(countChars > charactercount) {
+			if(countChars > characterCount) {
 				for(int i = 0; i < countChars; i++) {
 					char c = message.charAt(i);
 					ch = Character.toString(c);
@@ -173,7 +185,7 @@ public final class StringUtils {
 						countWords++;
 					}
 				}
-				if(countWords >= wordcount) {
+				if(countWords >= wordCount) {
 					if(100/countChars*countCharsCaps >= percentage) {
 						message = message.toLowerCase();
 					}
@@ -263,8 +275,46 @@ public final class StringUtils {
 			str_seconds = seconds + " "+formSecond+" ";
 		}
 
-		String str = str_years + str_days + str_hours + str_minutes + str_seconds;
+		return str_years + str_days + str_hours + str_minutes + str_seconds;
+	}
 
-		return str;
+	public static int StringToSeconds(String str) {
+		String[] spacexp = str.split(" ");
+		int seconds = 0;
+
+		for(String word : spacexp) {
+			if(word.endsWith("s")) {
+				word = word.substring(0, word.length() - 1);
+				if(isNumeric(word))
+					seconds += Integer.parseInt(word);
+			}
+
+			if(word.endsWith("m")) {
+				word = word.substring(0,word.length()-1);
+				if(isNumeric(word))
+					seconds += Integer.parseInt(word)*60;
+			}
+
+			if(word.endsWith("h")) {
+				word = word.substring(0,word.length()-1);
+				if(isNumeric(word))
+					seconds += Integer.parseInt(word)*60*60;
+			}
+
+			if(word.endsWith("d")) {
+				word = word.substring(0,word.length()-1);
+				if(isNumeric(word))
+					seconds += Integer.parseInt(word)*60*60*24;
+			}
+
+			if(word.endsWith("y")) {
+				word = word.substring(0,word.length()-1);
+				if(isNumeric(word))
+					seconds += Integer.parseInt(word)*60*60*24*365;
+			}
+		}
+
+
+		return seconds;
 	}
 }

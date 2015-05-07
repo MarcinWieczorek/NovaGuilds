@@ -25,7 +25,7 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 			marg = args[0];
 		}
 		
-		if(sender.hasPermission("NovaGuilds.guild.bank.withdraw")) {
+		if(sender.hasPermission("novaguilds.guild.bank.withdraw")) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
 			
 			if(nPlayer.hasGuild()) {

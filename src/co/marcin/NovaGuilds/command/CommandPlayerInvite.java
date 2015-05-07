@@ -31,7 +31,6 @@ public class CommandPlayerInvite implements CommandExecutor {
 						NovaGuild guild = nPlayer.getGuild();
 						if(!inPlayer.isInvitedTo(guild)) {
 							plugin.getPlayerManager().addInvitation(inPlayer, guild);
-							plugin.getPlayerManager().updateLocalPlayer(inPlayer);
 							plugin.getPlayerManager().updatePlayer(inPlayer);
 							plugin.sendMessagesMsg(sender,"chat.player.invited");
 							

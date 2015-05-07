@@ -19,7 +19,7 @@ public class CommandRegionBuy implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("NovaGuilds.region.create")) {
+		if(sender.hasPermission("novaguilds.region.create")) {
 			if(!(sender instanceof Player)) {
 				//TODO cmdsender msg
 				return false;
@@ -48,6 +48,7 @@ public class CommandRegionBuy implements CommandExecutor {
 									region.setCorner(0,nPlayer.getSelectedLocation(0));
 									region.setCorner(1,nPlayer.getSelectedLocation(1));
 									region.setWorld(nPlayer.getPlayer().getWorld());
+									region.setGuild(nPlayer.getGuild());
 									
 									plugin.getRegionManager().addRegion(region, guild);
 									guild.takeMoney(price);

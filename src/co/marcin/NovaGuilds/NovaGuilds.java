@@ -2,6 +2,7 @@ package co.marcin.NovaGuilds;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -11,12 +12,15 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.basic.NovaRegion;
 import co.marcin.NovaGuilds.listener.*;
+import co.marcin.NovaGuilds.runnable.RunnableAutoSave;
+import co.marcin.NovaGuilds.runnable.RunnableRaid;
 import co.marcin.NovaGuilds.utils.StringUtils;
 import co.marcin.NovaGuilds.utils.TagUtils;
 import me.confuser.barapi.BarAPI;
@@ -28,12 +32,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.mcsg.double0negative.tabapi.TabAPI;
+import org.dynmap.DynmapAPI;
+import org.dynmap.DynmapCore;
+import org.dynmap.markers.Marker;
+import org.dynmap.markers.MarkerAPI;
+import org.dynmap.markers.MarkerIcon;
+import org.dynmap.markers.MarkerSet;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -61,7 +71,6 @@ public class NovaGuilds extends JavaPlugin {
 	private final PluginManager pm = getServer().getPluginManager();
 	public String prefix;
 	public String sqlp;
-	public FileConfiguration config;
 	public final boolean DEBUG = getConfig().getBoolean("debug");
 	
 	private long MySQLReconnectStamp = System.currentTimeMillis();
@@ -77,6 +86,8 @@ public class NovaGuilds extends JavaPlugin {
 	public boolean useTagAPI;
 	public boolean useVault;
 	public boolean useHolographicDisplays;
+	private boolean useDynmap;
+	private boolean useBarAPI;
 	
 	public boolean useMySQL;
 	public String lang;
@@ -91,10 +102,10 @@ public class NovaGuilds extends JavaPlugin {
 	private final GuildManager guildManager = new GuildManager(this);
 	private final RegionManager regionManager = new RegionManager(this);
 	private final PlayerManager playerManager = new PlayerManager(this);
-	
-	public int progress = 0;
+
 	public long timeRest;
-	public long savePeriod = 15; //minutes
+	public long savePeriod; //minutes
+	public long timeInactive;
 
 	public TagUtils tagUtils;
 
@@ -109,39 +120,45 @@ public class NovaGuilds extends JavaPlugin {
 	
 	private FileConfiguration messages = null;
 	private File messagesFile;
-	
+	public double distanceFromSpawn;
+
 	public void onEnable() {
 		saveDefaultConfig();
-		config = getConfig();
-		sqlp = config.getString("mysql.prefix");
-		savePeriod = config.getLong("saveperiod");
-		lang = config.getString("lang");
+		sqlp = getConfig().getString("mysql.prefix");
+		savePeriod = getConfig().getLong("saveperiod");
+		lang = getConfig().getString("lang");
+
 		timeRest = getConfig().getLong("raid.timerest");
+		distanceFromSpawn = getConfig().getLong("guild.fromspawn");
+		timeInactive = getConfig().getLong("raid.timeinactive");
+		//TODO
 		
-		useVault = config.getBoolean("usevault");
-		useTabAPI = config.getBoolean("tabapi.enabled");
-		useTagAPI = config.getBoolean("tagapi.enabled");
-		useHolographicDisplays = config.getBoolean("holographicdisplays.enabled");
-		
+		useVault = getConfig().getBoolean("usevault");
+		useTabAPI = getConfig().getBoolean("tabapi.enabled");
+		useTagAPI = getConfig().getBoolean("tagapi.enabled");
+		useHolographicDisplays = getConfig().getBoolean("holographicdisplays.enabled");
+		useDynmap = getConfig().getBoolean("dynmap.enabled");
+		useBarAPI = getConfig().getBoolean("barapi.enabled");
+
 		useMySQL = getConfig().getBoolean("usemysql");
 
 		tagUtils = new TagUtils(this);
 
 		//HolographicDisplays
 		if(useHolographicDisplays) {
-			if (!checkHolographicDisplays() ) {
-	            log.severe(String.format("[%s] - Disabled due to no HolographicDisplays dependency found!", pdf.getName()));
+			if(!checkHolographicDisplays()) {
+				info("Couldn't find HolographicDisplays plugin, disabling this feature.");
 				useHolographicDisplays = false;
-	            getServer().getPluginManager().disablePlugin(this);
-	            return;
-	        }
-			info("HolographicDisplays hooked");
+			}
+			else {
+				info("HolographicDisplays hooked");
+			}
 		}
 		
 		
 		//Vault Economy
 		if(useVault) {
-			if (!setupEconomy() ) {
+			if(!setupEconomy() ) {
 	            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", pdf.getName()));
 	            getServer().getPluginManager().disablePlugin(this);
 	            return;
@@ -152,21 +169,43 @@ public class NovaGuilds extends JavaPlugin {
 		//TabAPI
 		if(useTabAPI) {
 			if(!checkTabAPI()) {
-				log.severe(String.format("[%s] - Disabled due to no TabAPI dependency found!", pdf.getName()));
-	            getServer().getPluginManager().disablePlugin(this);
-	            return;
+				info("Couldn't find TabAPI plugin, disabling this feature.");
+				useTabAPI = false;
 			}
-			info("TabAPI hooked");
+			else {
+				info("TabAPI hooked");
+			}
 		}
 		
-		//TabAPI
+		//TagAPI
 		if(useTagAPI) {
 			if(!checkTagAPI()) {
-				log.severe(String.format("[%s] - Disabled due to no TagAPI dependency found!", pdf.getName()));
-	            getServer().getPluginManager().disablePlugin(this);
-	            return;
+				info("Couldn't find TagAPI plugin, disabling this feature.");
+				useTagAPI = false;
+			} else {
+				info("TagAPI hooked");
 			}
-			info("TagAPI hooked");
+		}
+
+		//BarAPI
+		if(useBarAPI) {
+			if(!checkBarAPI()) {
+				info("Couldn't find BarAPI plugin, disabling this feature.");
+				useBarAPI = false;
+			} else {
+				info("BarAPI hooked");
+			}
+		}
+
+		//TODO tests only
+		//Dynmap
+		if(useDynmap) {
+			if(!checkBarAPI()) {
+				info("Couldn't find Dynmap plugin, disabling this feature.");
+				useBarAPI = false;
+			} else {
+				info("Dynmap hooked");
+			}
 		}
 		
 		//messages.yml
@@ -186,18 +225,31 @@ public class NovaGuilds extends JavaPlugin {
         
 		//Version check
         String latest = StringUtils.getContent("http://NovaGuilds.marcin.co/latest.info");
-        info("You're using version: v"+pdf.getVersion());
+        info("You're using build: #"+pdf.getVersion());
         info("Latest build of the plugin is: #"+latest);
-        
-        if(pdf.getVersion().equalsIgnoreCase(latest)) {
+
+		int latestint = 0;
+		if(StringUtils.isNumeric(latest)) {
+			latestint = Integer.parseInt(latest);
+		}
+
+		int version = 0;
+		if(StringUtils.isNumeric(pdf.getVersion())) {
+			version = Integer.parseInt(pdf.getVersion());
+		}
+
+        if(version == latestint) {
         	info("Your plugin build is the latest one");
+        }
+        else if(version > latestint) {
+	        info("You are using unreleased build #"+version);
         }
         else {
         	info("You should update your plugin to #"+latest+"!");
         }
 		
 		//command executors
-		getCommand("NovaGuilds").setExecutor(new CommandNovaGuilds(this));
+		getCommand("novaguilds").setExecutor(new CommandNovaGuilds(this));
 		getCommand("ng").setExecutor(new CommandNovaGuilds(this));
 		getCommand("nga").setExecutor(new CommandAdmin(this));
 		
@@ -257,9 +309,30 @@ public class NovaGuilds extends JavaPlugin {
 			getRegionManager().loadRegions();
 			getGuildManager().loadGuilds();
 			getPlayerManager().loadPlayers();
+
+			//dynmap
+			if(useDynmap) {
+				DynmapAPI dynmap = (DynmapAPI) pm.getPlugin("dynmap");
+
+				if(dynmap != null) {
+					MarkerAPI markerapi = dynmap.getMarkerAPI();
+
+					InputStream stream = getClass().getResourceAsStream("/images/dynmap-clock.png");
+					MarkerIcon icon = markerapi.createMarkerIcon("ng.clock", "ng.clock", stream);
+
+					MarkerSet markerSet = markerapi.createMarkerSet("ngset", "label", null, false);
+
+					if(markerSet != null) {
+						for(NovaGuild guild : guilds.values()) {
+							Location sp = guild.getSpawnPoint();
+							markerSet.createMarker("guild." + guild.getId(), guild.getName(), sp.getWorld().getName(), sp.getX(), sp.getY(), sp.getZ(), icon, false);
+						}
+					}
+				}
+			}
 			
 			//Listeners
-			pm.registerEvents(new LoginListener(this),this);
+			pm.registerEvents(new LoginListener(this), this);
 			pm.registerEvents(new ToolListener(this),this);
 			pm.registerEvents(new RegionInteractListener(this),this);
 			pm.registerEvents(new MoveListener(this),this);
@@ -269,16 +342,18 @@ public class NovaGuilds extends JavaPlugin {
 			pm.registerEvents(new DeathListener(this),this);
 
 			new ReceiveNameTagListener(this);
-			info("Listeners activated");
-			
-			//Tablist update
-			updateTabAll();
-			tagUtils.updateTagAll();
 
-			//TODO test
-			for(Player p : getServer().getOnlinePlayers()) {
-				sendTablistInfo(p);
-			}
+			//custom events
+			new GuildEventListener(this);
+			info("Listeners activated");
+
+
+
+			//Tablist update
+			tagUtils.refreshAll();
+			//TODO deprecated
+//			updateTabAll();
+//			tagUtils.updateTagAll();
 			
 			//save scheduler
 			runSaveScheduler();
@@ -335,7 +410,7 @@ public class NovaGuilds extends JavaPlugin {
 		info("#"+pdf.getVersion()+" Disabled");
 	}
 	
-	public void MySQLreload() {
+	public void mysqlReload() {
 		if(!useMySQL) return;
 		long stamp = System.currentTimeMillis();
 		
@@ -382,7 +457,7 @@ public class NovaGuilds extends JavaPlugin {
         
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         
-        if (rsp == null) {
+        if(rsp == null) {
             return false;
         }
         
@@ -398,7 +473,17 @@ public class NovaGuilds extends JavaPlugin {
 	private boolean checkTagAPI() {
 		return !(getServer().getPluginManager().getPlugin("TagAPI") == null);
 	}
-	
+
+	//Vault
+	private boolean checkVault() {
+		return !(getServer().getPluginManager().getPlugin("Vault") == null);
+	}
+
+	//BarAPI
+	private boolean checkBarAPI() {
+		return !(getServer().getPluginManager().getPlugin("BarAPI") == null);
+	}
+
 	//HolographicDisplays
 	public boolean checkHolographicDisplays() {
 		return getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
@@ -412,16 +497,16 @@ public class NovaGuilds extends JavaPlugin {
 		String tabName = player.getName();
 
 		if(nplayer.hasGuild()) {
-			tag = config.getString("guild.tag");
+			tag = getConfig().getString("guild.tag");
 			guildtag = nplayer.getGuild().getTag();
 
-			if(!config.getBoolean("tabapi.colortags")) {
+			if(!getConfig().getBoolean("tabapi.colortags")) {
 				guildtag = StringUtils.removeColors(guildtag);
 			}
 
 			tag = StringUtils.replace(tag, "{TAG}", guildtag);
 
-			if(config.getBoolean("tabapi.rankprefix")) {
+			if(getConfig().getBoolean("tabapi.rankprefix")) {
 				if(nplayer.getGuild().getLeaderName().equalsIgnoreCase(player.getName())) {
 					rank = messages.getString("chat.guildinfo.leaderprefix");
 				}
@@ -436,100 +521,103 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	public void updateTab(Player player) {
-		int x=0;
-		int y=0;
-		String tabName;
-		for(Player p : getServer().getOnlinePlayers()) {
-			if(useTabAPI) {
-				tabName = getTabName(p);
-			}
-			else {
-				tabName = p.getName();
-			}
-			
-			if(DEBUG) info(y+" - "+getTabName(p));
-			TabAPI.setTabString(this,player,x,y,tabName);
-			y++;
-			
-			if(y >= TabAPI.getVertSize()) {
-				x++;
-				y=0;
-				if(DEBUG) info(">>>");
-			}
-		}
-		TabAPI.updateAll();
+		//TODO: remove all
+//		int x=0;
+//		int y=0;
+//		String tabName;
+//		for(Player p : getServer().getOnlinePlayers()) {
+//			if(useTabAPI) {
+//				tabName = getTabName(p);
+//			}
+//			else {
+//				tabName = p.getName();
+//			}
+//
+//			if(DEBUG) info(y+" - "+getTabName(p));
+//			TabAPI.setTabString(this,player,x,y,tabName);
+//			y++;
+//
+//			if(y >= TabAPI.getVertSize()) {
+//				x++;
+//				y=0;
+//				if(DEBUG) info(">>>");
+//			}
+//		}
+//		TabAPI.updateAll();
 	}
 	
 	public void updateTabAll() {
-		if(checkTabAPI()) {
-			int x;
-			int y;
-			String tabName;
-			
-			for(Player p2 : getServer().getOnlinePlayers()) {
-				TabAPI.clearTab(p2);
-				x=0;
-				y=0;
-				for(Player p : getServer().getOnlinePlayers()) {
-					if(useTabAPI) {
-						tabName = getTabName(p);
-					}
-					else {
-						tabName = p.getName();
-					}
-					
-					if(DEBUG) info(y+" - "+getTabName(p));
-					TabAPI.setTabString(this,p2,x,y,tabName);
-					y++;
-					
-					if(y >= TabAPI.getVertSize()) {
-						x++;
-						y=0;
-						if(DEBUG) info(">>>");
-					}
-				}
-			}
-			TabAPI.updateAll();
-		}
+		//TODO remove
+//		if(checkTabAPI()) {
+//			int x;
+//			int y;
+//			String tabName;
+//
+//			for(Player p2 : getServer().getOnlinePlayers()) {
+//				TabAPI.clearTab(p2);
+//				x=0;
+//				y=0;
+//				for(Player p : getServer().getOnlinePlayers()) {
+//					if(useTabAPI) {
+//						tabName = getTabName(p);
+//					}
+//					else {
+//						tabName = p.getName();
+//					}
+//
+//					if(DEBUG) info(y+" - "+getTabName(p));
+//					TabAPI.setTabString(this,p2,x,y,tabName);
+//					y++;
+//
+//					if(y >= TabAPI.getVertSize()) {
+//						x++;
+//						y=0;
+//						if(DEBUG) info(">>>");
+//					}
+//				}
+//			}
+//			TabAPI.updateAll();
+//		}
 	}
 	
 	//update exclude
 	public void updateTabAll(Player excludeplayer) {
-		if(checkTabAPI()) {
-			int x;
-			int y;
-			String tabName;
-			
-			for(Player p2 : getServer().getOnlinePlayers()) {
-				TabAPI.clearTab(p2);
-				TabAPI.resetTabList(p2);
-				x=0;
-				y=0;
-				for(Player p : getServer().getOnlinePlayers()) {
-					
-					if(!p.equals(excludeplayer)) {
-						if(useTabAPI) {
-							tabName = getTabName(p);
-						}
-						else {
-							tabName = p.getName();
-						}
-						
-						if(DEBUG) info(y+" - "+getTabName(p));
-						TabAPI.setTabString(this,p2,x,y,tabName);
-						y++;
-						
-						if(y >= TabAPI.getVertSize()) {
-							x++;
-							y=0;
-							if(DEBUG) info(">>>");
-						}
-					}
-					else if(DEBUG) info("exclude: "+p.getName());
-				}
-			}
-			TabAPI.updateAll();
-		}
+		//TODO remove
+//		if(checkTabAPI()) {
+//			int x;
+//			int y;
+//			String tabName;
+//
+//			for(Player p2 : getServer().getOnlinePlayers()) {
+//				TabAPI.clearTab(p2);
+//				TabAPI.resetTabList(p2);
+//				x=0;
+//				y=0;
+//				for(Player p : getServer().getOnlinePlayers()) {
+//
+//					if(!p.equals(excludeplayer)) {
+//						if(useTabAPI) {
+//							tabName = getTabName(p);
+//						}
+//						else {
+//							tabName = p.getName();
+//						}
+//
+//						if(DEBUG) info(y+" - "+getTabName(p));
+//						TabAPI.setTabString(this,p2,x,y,tabName);
+//						y++;
+//
+//						if(y >= TabAPI.getVertSize()) {
+//							x++;
+//							y=0;
+//							if(DEBUG) info(">>>");
+//						}
+//					}
+//					else if(DEBUG) info("exclude: "+p.getName());
+//				}
+//			}
+//			TabAPI.updateAll();
+//		}
 	}
 	
 	//MESSAGES
@@ -683,7 +771,7 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	public void createTable(String sql) throws SQLException {
-		MySQLreload();
+		mysqlReload();
 		Statement statement;
 		sql = StringUtils.replace(sql, "{SQLPREFIX}", sqlp);
 		statement = c.createStatement();
@@ -691,84 +779,43 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	public void runSaveScheduler() {
-		BukkitScheduler scheduler = getServer().getScheduler();
-		scheduler.scheduleSyncRepeatingTask(this, new Runnable() {
-			@Override
-			public void run() {
-				getGuildManager().saveAll();
-				getRegionManager().saveAll();
-				getPlayerManager().saveAll();
-				info("Saved data.");
-
-			}
-		}, 0L, 20L * 60 * savePeriod);
+		Runnable task = new RunnableAutoSave(this);
+		worker.schedule(task, savePeriod, TimeUnit.MINUTES);
 	}
 
 	public void setupMetrics() {
-		try {
-			Metrics metrics = new Metrics(this);
-			Metrics.Graph weaponsUsedGraph = metrics.createGraph("Guilds and users");
+		if(checkVault()) {
+			try {
+				Metrics metrics = new Metrics(this);
+				Metrics.Graph weaponsUsedGraph = metrics.createGraph("Guilds and users");
 
-			weaponsUsedGraph.addPlotter(new Metrics.Plotter("Guilds") {
+				weaponsUsedGraph.addPlotter(new Metrics.Plotter("Guilds") {
 
-				@Override
-				public int getValue() {
-					return getGuildManager().getGuilds().size(); // Number of players who used a diamond sword
-				}
-
-			});
-
-			weaponsUsedGraph.addPlotter(new Metrics.Plotter("Users") {
-
-				@Override
-				public int getValue() {
-					return getPlayerManager().getPlayers().size();
-				}
-
-			});
-			metrics.start();
-		} catch (IOException e) {
-			// Failed to submit the stats :-(
-		}
-	}
-
-	public void sendTablistInfo(Player player) {
-		if(checkTabAPI()) {
-			if(getConfig().getBoolean("tabapi.tabinfo.enabled")) {
-				int x;
-				int y;
-
-				TabAPI.clearTab(player);
-				TabAPI.resetTabList(player);
-				x = 0;
-				y = 0;
-				if(DEBUG) info(TabAPI.getHorizSize() + "/" + TabAPI.getVertSize());
-				List<String> rows = getMessages().getStringList("tablist.pattern");
-				for(String inforow : rows) {
-					inforow = StringUtils.replace(inforow, "{GUILDNUMBER}", getGuildManager().getGuilds().size() + "");
-					inforow = StringUtils.replace(inforow, "{PLAYERSONLINE}", getServer().getOnlinePlayers().length + "");
-					//inforow = StringUtils.replace(inforow,"{}",);
-
-					String left = inforow;
-					String right = null;
-
-					if(inforow.contains("SPLIT")) {
-						String[] split = inforow.split("SPLIT");
-						left = split[0];
-						right = split[1];
+					@Override
+					public int getValue() {
+						return getGuildManager().getGuilds().size();
 					}
 
-					if(DEBUG) info(x + " - " + left + ":" + right);
-					TabAPI.setTabString(this, player, x, y, left);
-					x++;
+				});
 
-					if(right != null) {
-						TabAPI.setTabString(this, player, x, y + 1, right);
+				weaponsUsedGraph.addPlotter(new Metrics.Plotter("Users") {
+
+					@Override
+					public int getValue() {
+						return getPlayerManager().getPlayers().size();
 					}
-				}
 
-				TabAPI.updatePlayer(player);
+				});
+
+				metrics.start();
 			}
+			catch(IOException e) {
+				info("Failed to update stats!");
+				info(e.getMessage());
+			}
+		}
+		else {
+			info("Vault is not enabled, failed to setup Metrics");
 		}
 	}
 
@@ -776,19 +823,25 @@ public class NovaGuilds extends JavaPlugin {
 		sender.sendMessage(StringUtils.fixColors(getMessagesString("chat.usage."+path)));
 	}
 
-	public void setWarBar(NovaGuild guild, float percent) {
-		String msg = getMessagesString("barapi.warprogress");
-		for(NovaPlayer nPlayer : guild.getPlayers()) {
-			if(nPlayer.isOnline()) {
-				BarAPI.setMessage(nPlayer.getPlayer(), msg, percent);
+	public void setWarBar(NovaGuild guild, float percent, NovaGuild defender) {
+		if(useBarAPI) {
+			String msg = getMessagesString("barapi.warprogress");
+			msg = StringUtils.replace(msg, "{DEFENDER}", defender.getName());
+
+			for(NovaPlayer nPlayer : guild.getPlayers()) {
+				if(nPlayer.isOnline()) {
+					BarAPI.setMessage(nPlayer.getPlayer(), StringUtils.fixColors(msg), percent);
+				}
 			}
 		}
 	}
 
 	public void resetWarBar(NovaGuild guild) {
-		for(NovaPlayer nPlayer : guild.getPlayers()) {
-			if(nPlayer.isOnline()) {
-				BarAPI.removeBar(nPlayer.getPlayer());
+		if(useBarAPI) {
+			for(NovaPlayer nPlayer : guild.getPlayers()) {
+				if(nPlayer.isOnline()) {
+					BarAPI.removeBar(nPlayer.getPlayer());
+				}
 			}
 		}
 	}

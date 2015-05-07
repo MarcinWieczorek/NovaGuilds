@@ -59,8 +59,6 @@ commands:
 permissions:
     novaguilds.region.create:
         default: op
-    novaguilds.region.buy.free:
-        default: op
     novaguilds.region.resize:
         default: op
     novaguilds.region.delete:
@@ -118,6 +116,8 @@ permissions:
     novaguilds.admin.reload:
         default: op
     novaguilds.admin.save:
+        default: op
+    novaguilds.admin.save.notify:
         default: op
     novaguilds.chat.notag:
         default: false

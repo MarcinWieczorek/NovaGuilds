@@ -51,10 +51,9 @@ public class CommandGuildJoin implements CommandExecutor {
 						guild.addPlayer(nPlayer);
 						nPlayer.setGuild(guild);
 						nPlayer.deleteInvitation(guild);
-						plugin.getPlayerManager().updateLocalPlayer(nPlayer);
 						plugin.getPlayerManager().updatePlayer(nPlayer);
 						plugin.updateTab(nPlayer.getPlayer());
-						plugin.tagUtils.updateTagAll();
+						plugin.tagUtils.refreshAll();
 						plugin.sendMessagesMsg(sender,"chat.guild.joined");
 						
 						HashMap<String,String> vars = new HashMap<>();

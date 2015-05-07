@@ -22,11 +22,10 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length==0) {
-			if(sender.hasPermission("NovaGuilds.admin.region.bypass")) {
+			if(sender.hasPermission("novaguilds.admin.region.bypass")) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
 
 				nPlayer.toggleBypass();
-				plugin.getPlayerManager().updateLocalPlayer(nPlayer);
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("BYPASS",nPlayer.getBypass()+"");
 				plugin.sendMessagesMsg(sender,"chat.admin.region.rgbypass.toggled",vars);
@@ -36,7 +35,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 			}
 		}
 		else { //for other
-			if(sender.hasPermission("NovaGuilds.admin.region.bypass.other")) {
+			if(sender.hasPermission("novaguilds.admin.region.bypass.other")) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(args[0]);
 
 				if(nPlayer == null) {
@@ -45,7 +44,6 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 				}
 
 				nPlayer.toggleBypass();
-				plugin.getPlayerManager().updateLocalPlayer(nPlayer);
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("PLAYER",nPlayer.getName());
 				vars.put("BYPASS",nPlayer.getBypass()+"");

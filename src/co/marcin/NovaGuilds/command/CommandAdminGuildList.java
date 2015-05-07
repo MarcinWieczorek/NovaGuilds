@@ -20,7 +20,7 @@ public class CommandAdminGuildList implements CommandExecutor {
 	* List of guilds
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.admin.guild.list")) {
+		if(!sender.hasPermission("novaguilds.admin.guild.list")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}

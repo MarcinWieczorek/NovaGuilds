@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.basic.NovaRaid;
+import co.marcin.NovaGuilds.runnable.RunnableRaid;
 import co.marcin.NovaGuilds.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -43,80 +44,34 @@ public class MoveListener implements Listener {
 
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
 				nPlayer.setAtRegion(toRegion);
-				plugin.getPlayerManager().updateLocalPlayer(nPlayer);
 
 				//TODO add config
-				if(!nPlayer.getGuild().getName().equalsIgnoreCase(toRegion.getGuildName())) {
-					NovaGuild guild = plugin.getGuildManager().getGuildByRegion(toRegion);
+				if(nPlayer.hasGuild()) {
+					if(!nPlayer.getGuild().getName().equalsIgnoreCase(toRegion.getGuildName())) {
+						final NovaGuild guildDefender = plugin.getGuildManager().getGuildByRegion(toRegion);
 
-					if(nPlayer.getGuild().isWarWith(guild)) {
-						if(!guild.isRaid()) {
-							if(NovaGuilds.systemSeconds() - plugin.timeRest > guild.getTimeRest()) {
-								guild.createRaid(nPlayer.getGuild());
-								plugin.guildRaids.add(guild);
-							}
-							else {
-								long timeWait = plugin.timeRest - (NovaGuilds.systemSeconds() - guild.getTimeRest());
-								vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
+						if(nPlayer.getGuild().isWarWith(guildDefender)) {
+							if(!guildDefender.isRaid()) {
+								if(NovaGuilds.systemSeconds() - plugin.timeRest > guildDefender.getTimeRest()) {
+									guildDefender.createRaid(nPlayer.getGuild());
+									plugin.guildRaids.add(guildDefender);
+								} else {
+									long timeWait = plugin.timeRest - (NovaGuilds.systemSeconds() - guildDefender.getTimeRest());
+									vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
 
-								plugin.sendMessagesMsg(player, "chat.raid.resting", vars);
-							}
-						}
-
-						if(guild.isRaid()) {
-							guild.getRaid().addPlayerOccupying(nPlayer);
-							Runnable task = new Runnable() {
-								public void run() {
-									for(NovaGuild guild : plugin.guildRaids) {
-										NovaRaid raid = guild.getRaid();
-										plugin.setWarBar(guild, raid.getProgress());
-										NovaPlayer nPlayer = guild.getRaid().getPlayersOccupying().get(0);
-										plugin.setWarBar(nPlayer.getGuild(), guild.getRaid().getProgress());
-										plugin.info(guild.getName() + " scheduler working " + plugin.guildRaids.size());
-
-										//stepping progress
-										for(int count = 0; count < raid.getPlayersOccupyingCount(); count++) {
-											raid.stepProgress();
-										}
-
-										if(guild.getRaid().getPlayersOccupyingCount() > 0) {
-											raid.updateInactiveTime();
-										}
-
-										//TODO: can be done better
-										if(raid.systemSeconds() - raid.getInactiveTime() > 10) {
-											raid.finish();
-											plugin.info("inactive for 10 seconds, removing.");
-										}
-
-										if(raid.isProgressFinished()) {
-											raid.finish();
-										}
-
-										if(raid.getFinished()) {
-											plugin.broadcast("Raid finished! " + raid.getGuildAttacker().getName() + " vs " + guild.getName());
-											plugin.resetWarBar(guild);
-											plugin.resetWarBar(nPlayer.getGuild());
-											guild.takeLive();
-											guild.updateTimeRest();
-											plugin.guildRaids.remove(guild);
-											guild.isNotRaid();
-										}
-									}
-
-									if(plugin.guildRaids.size() > 0 && plugin.isEnabled()) {
-										plugin.worker.schedule(this, 1, TimeUnit.SECONDS);
-									} else {
-										plugin.info("size: " + plugin.guildRaids.size());
-										plugin.info("enabled: " + plugin.isEnabled());
-									}
+									plugin.sendMessagesMsg(player, "chat.raid.resting", vars);
 								}
-							};
-							plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
-						}
-					}
+							}
 
-					plugin.broadcastGuild(plugin.getGuildManager().getGuildByRegion(toRegion), "chat.region.notifyguild.entered", vars);
+							if(guildDefender.isRaid()) {
+								guildDefender.getRaid().addPlayerOccupying(nPlayer);
+								Runnable task = new RunnableRaid(plugin);
+								plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+							}
+						}
+
+						plugin.broadcastGuild(plugin.getGuildManager().getGuildByRegion(toRegion), "chat.region.notifyguild.entered", vars);
+					}
 				}
 			}
 		}
@@ -131,16 +86,18 @@ public class MoveListener implements Listener {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(event.getPlayer());
 				NovaGuild guild = plugin.getGuildManager().getGuildByRegion(fromRegion);
 
-				if(nPlayer.getGuild().isWarWith(guild)) {
-					if(guild.isRaid()) {
-						guild.getRaid().removePlayerOccupying(nPlayer);
+				if(nPlayer.hasGuild()) {
+					if(nPlayer.getGuild().isWarWith(guild)) {
+						if(guild.isRaid()) {
+							guild.getRaid().removePlayerOccupying(nPlayer);
 
-						if(guild.getRaid().getPlayersOccupyingCount() == 0) {
-							guild.getRaid().resetProgress();
-							plugin.resetWarBar(guild);
-							plugin.resetWarBar(nPlayer.getGuild());
-							plugin.info("progress: "+guild.getRaid().getProgress());
-							guild.getRaid().updateInactiveTime();
+							if(guild.getRaid().getPlayersOccupyingCount() == 0) {
+								guild.getRaid().resetProgress();
+								plugin.resetWarBar(guild);
+								plugin.resetWarBar(nPlayer.getGuild());
+								if(plugin.DEBUG) plugin.info("progress: " + guild.getRaid().getProgress());
+								guild.getRaid().updateInactiveTime();
+							}
 						}
 					}
 				}

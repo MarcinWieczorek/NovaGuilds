@@ -18,7 +18,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.admin.guild.kick")) {
+		if(!sender.hasPermission("novaguilds.admin.guild.kick")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
@@ -35,12 +35,20 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 			plugin.sendMessagesMsg(sender,"chat.player.notexists");
 			return true;
 		}
+
+		if(!nPlayerKick.hasGuild()) {
+			plugin.sendMessagesMsg(sender,"chat.player.hasnoguild");
+			return true;
+		}
+
+		if(nPlayerKick.isLeader()) {
+			plugin.sendMessagesMsg(sender,"chat.admin.kick.leader");
+			return true;
+		}
 		
 		//all passed
 		nPlayerKick.setGuild(null);
 		nPlayerKick.setHasGuild(false);
-		
-		plugin.getPlayerManager().updateLocalPlayer(nPlayerKick);
 		
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
@@ -49,7 +57,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		
 		//tab/tag
 		plugin.updateTabAll();
-		plugin.tagUtils.updateTagAll();
+		plugin.tagUtils.refreshAll();
 		
 		return true;
 	}

@@ -41,7 +41,7 @@ public class CommandGuildLeader implements CommandExecutor {
 								
 								//Tab and tags
 								plugin.updateTabAll();
-								plugin.tagUtils.updateTagAll();
+								plugin.tagUtils.refreshAll();
 							}
 							else {
 								plugin.sendMessagesMsg(sender,"chat.guild.leader.notsameguild");

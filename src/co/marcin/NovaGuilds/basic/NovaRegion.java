@@ -9,6 +9,7 @@ public class NovaRegion {
 	private String guildname;
 	private int id;
 	private World world;
+	private NovaGuild guild;
 	
 	public World getWorld() {
 		return world;
@@ -38,6 +39,11 @@ public class NovaRegion {
 
 	public void setGuildName(String name) {
 		guildname = name;
+	}
+
+	public void setGuild(NovaGuild guild) {
+		this.guild = guild;
+		guildname = guild.getName();
 	}
 	
 	public void setCorner(int index,Location l) {

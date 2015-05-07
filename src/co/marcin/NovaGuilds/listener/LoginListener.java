@@ -23,8 +23,10 @@ public class LoginListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		plugin.MySQLreload(); //TODO check this
 		Player player = event.getPlayer();
+
+		//create scoreboard
+		player.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
 
 		if(!plugin.getPlayerManager().exists(player.getName())) {
 			plugin.getPlayerManager().addPlayer(player);
@@ -34,9 +36,8 @@ public class LoginListener implements Listener {
 
 		nPlayer.setPlayer(player);
 		nPlayer.setOnline(true);
-		plugin.getPlayerManager().updateLocalPlayer(nPlayer);
 
-		//adding to raid
+		//adding to raid TODO: not tested
 		if(nPlayer.hasGuild()) {
 			NovaRegion rgAtLocation = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
 
@@ -55,14 +56,15 @@ public class LoginListener implements Listener {
 		
 		//TabAPI
 		plugin.updateTabAll();
-		plugin.sendTablistInfo(player); //TODO test
+		plugin.tagUtils.updatePrefix(player);
+		//plugin.sendTablistInfo(player); //TODO test
 	}
 	
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
 		nPlayer.setOnline(false);
-		plugin.getPlayerManager().updateLocalPlayer(nPlayer);
+		nPlayer.setPlayer(null);
 		plugin.updateTabAll(event.getPlayer());
 
 		//remove player from raid

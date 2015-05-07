@@ -18,7 +18,7 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.admin.guild.setname")) { //no perms
+		if(!sender.hasPermission("novaguilds.admin.guild.setname")) { //no perms
 			return true;
 		}
 		
@@ -59,7 +59,6 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		
 		//all passed
 		plugin.getPlayerManager().addInvitation(nPlayer, guild);
-		plugin.getPlayerManager().updateLocalPlayer(nPlayer);
 		plugin.getPlayerManager().updatePlayer(nPlayer);
 		plugin.sendMessagesMsg(sender,"chat.player.invited");
 		
