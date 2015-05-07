@@ -55,7 +55,7 @@ public class RegionManager {
 	}
 	
 	public void loadRegions() {
-		plugin.MySQLreload();
+		plugin.mysqlReload();
     	
     	Statement statement;
 		try {
@@ -64,26 +64,32 @@ public class RegionManager {
 			plugin.regions.clear();
 			ResultSet res = statement.executeQuery("SELECT * FROM `"+plugin.sqlp+"regions`");
 			while(res.next()) {
-				NovaRegion novaRegion = new NovaRegion();
-				
-				String loc1 = res.getString("loc_1");
-				String[] loc1_split = loc1.split(";");
-
-				String loc2 = res.getString("loc_2");
-				String[] loc2_split = loc2.split(";");
-				
 				World world = plugin.getServer().getWorld(res.getString("world"));
-				Location c1 = new Location(world,Integer.parseInt(loc1_split[0]),0,Integer.parseInt(loc1_split[1]));
-				Location c2 = new Location(world,Integer.parseInt(loc2_split[0]),0,Integer.parseInt(loc2_split[1]));
-				
-				novaRegion.setCorner(0,c1);
-				novaRegion.setCorner(1,c2);
-				novaRegion.setWorld(world);
-				novaRegion.setId(res.getInt("id"));
-				
-				novaRegion.setGuildName(res.getString("guild"));
-				
-				plugin.regions.put(res.getString("guild").toLowerCase(), novaRegion);
+
+				if(world != null) {
+					NovaRegion novaRegion = new NovaRegion();
+
+					String loc1 = res.getString("loc_1");
+					String[] loc1_split = loc1.split(";");
+
+					String loc2 = res.getString("loc_2");
+					String[] loc2_split = loc2.split(";");
+
+					Location c1 = new Location(world, Integer.parseInt(loc1_split[0]), 0, Integer.parseInt(loc1_split[1]));
+					Location c2 = new Location(world, Integer.parseInt(loc2_split[0]), 0, Integer.parseInt(loc2_split[1]));
+
+					novaRegion.setCorner(0, c1);
+					novaRegion.setCorner(1, c2);
+					novaRegion.setWorld(world);
+					novaRegion.setId(res.getInt("id"));
+
+					novaRegion.setGuildName(res.getString("guild"));
+
+					plugin.regions.put(res.getString("guild").toLowerCase(), novaRegion);
+				}
+				else {
+					plugin.info("Failed loading region for guild "+res.getString("guild")+", world does not exist.");
+				}
 			}
 			plugin.info("Regions loaded from database");
 		} catch (SQLException e) {
@@ -92,7 +98,7 @@ public class RegionManager {
 	}
 	
 	public void addRegion(NovaRegion region, NovaGuild guild) {
-		plugin.MySQLreload();
+		plugin.mysqlReload();
     	
     	Statement statement;
 		try {
@@ -114,7 +120,6 @@ public class RegionManager {
 			statement.execute(sql);
 			
 			guild.setRegion(region);
-			plugin.getGuildManager().saveGuildLocal(guild);
 			region.setGuildName(guild.getName());
 			plugin.regions.put(guild.getName().toLowerCase(), region);
 		}
@@ -124,20 +129,27 @@ public class RegionManager {
 	}
 	
 	public void saveRegion(NovaRegion region) {
-		plugin.MySQLreload();
-    	
-    	Statement statement;
-		try {
-			statement = plugin.c.createStatement();
-			
-			String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
-			String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
-			
-			String sql = "UPDATE `"+plugin.sqlp+"regions` SET `loc_1`='"+loc1+"', `loc_2`='"+loc2+"', `guild`='"+region.getGuildName()+"', `world`='"+region.getWorld().getName()+"' WHERE `id`="+region.getId();
-			statement.executeUpdate(sql);
-		}
-		catch(SQLException e) {
-			plugin.info(e.getMessage());
+		plugin.mysqlReload();
+
+		if(region != null) {
+			Statement statement;
+			try {
+				statement = plugin.c.createStatement();
+
+				String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
+				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
+
+				String sql = "UPDATE `" + plugin.sqlp + "regions` SET " +
+						"`loc_1`='" + loc1 + "', " +
+						"`loc_2`='" + loc2 + "', " +
+						"`guild`='" + region.getGuildName() + "', " +
+						"`world`='" + region.getWorld().getName() + "' " +
+						"WHERE `id`=" + region.getId();
+				statement.executeUpdate(sql);
+			}
+			catch(SQLException e) {
+				plugin.info(e.getMessage());
+			}
 		}
 	}
 	
@@ -149,7 +161,7 @@ public class RegionManager {
 	
 	//delete region
 	public void removeRegion(NovaRegion region) {
-		plugin.MySQLreload();
+		plugin.mysqlReload();
     	
     	Statement statement;
 		try {
