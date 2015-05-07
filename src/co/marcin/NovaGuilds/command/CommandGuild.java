@@ -64,6 +64,9 @@ public class CommandGuild implements CommandExecutor {
 			else if(command.equals("war")) {
 				new CommandGuildWar(plugin).onCommand(sender, cmd, label, newargs);
 			}
+			else if(command.equals("compass")) {
+				new CommandGuildCompass(plugin).onCommand(sender, cmd, label, newargs);
+			}
 			else {
 				plugin.sendMessagesMsg(sender, "chat.unknowncmd");
 			}

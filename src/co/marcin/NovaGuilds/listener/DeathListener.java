@@ -52,13 +52,11 @@ public class DeathListener implements Listener {
 			if(novaPlayer.hasGuild()) {
 				NovaGuild guildVictim = plugin.getGuildManager().getGuildByPlayer(novaPlayer);
 				guildVictim.takePoints(plugin.getConfig().getInt("guild.deathpoints"));
-				plugin.getGuildManager().saveGuildLocal(guildVictim);
 			}
 			
 			if(novaPlayerAttacker.hasGuild()) {
 				NovaGuild guildAttacker = plugin.getGuildManager().getGuildByPlayer(novaPlayerAttacker);
 				guildAttacker.addPoints(plugin.getConfig().getInt("guild.killpoints"));
-				plugin.getGuildManager().saveGuildLocal(guildAttacker);
 			}
 			
 			//disable death message

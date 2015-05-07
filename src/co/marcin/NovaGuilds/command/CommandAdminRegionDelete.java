@@ -19,7 +19,7 @@ public class CommandAdminRegionDelete implements CommandExecutor {
 	* args[0] - guild name
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.admin.region.delete")) {
+		if(!sender.hasPermission("novaguilds.admin.region.delete")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
@@ -47,7 +47,6 @@ public class CommandAdminRegionDelete implements CommandExecutor {
 
 		plugin.getRegionManager().removeRegion(region);
 		guild.setRegion(null);
-		plugin.getGuildManager().saveGuildLocal(guild);
 		plugin.sendMessagesMsg(sender,"chat.admin.region.delete.success");
 		return true;
 	}

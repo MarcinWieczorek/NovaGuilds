@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import co.marcin.NovaGuilds.event.GuildCreateEvent;
+import co.marcin.NovaGuilds.event.GuildRemoveEvent;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +28,11 @@ public class CommandGuildCreate implements CommandExecutor {
 
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if(!sender.hasPermission("novaguilds.guild.create")) {
+			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			return true;
+		}
+
 		if(args.length != 2) {
 			plugin.sendUsageMessage(sender,"guild.create");
 			return true;
@@ -47,6 +54,7 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 			
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+		HashMap<String,String> vars = new HashMap<>();
 		
 		if(!nPlayer.hasGuild()) {
 			if(plugin.getGuildManager().getGuildByName(guildname) == null) {
@@ -73,11 +81,18 @@ public class CommandGuildCreate implements CommandExecutor {
 							plugin.sendMessagesMsg(sender,"chat.createguild.name.tooshort");
 							return true;
 						}
+
+						//distance from spawn
+						if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < plugin.distanceFromSpawn) {
+							vars.put("DISTANCE",plugin.distanceFromSpawn+"");
+							plugin.sendMessagesMsg(sender,"chat.createguild.tooclosespawn",vars);
+							return true;
+						}
 						
 						String group = "default";
 						
 						for(String s : plugin.getConfig().getConfigurationSection("guild.create.groups").getKeys(false)) {
-							if(sender.hasPermission("NovaGuilds.group."+s)) {
+							if(sender.hasPermission("novaguilds.group."+s)) {
 								group = s;
 								break;
 							}
@@ -93,13 +108,13 @@ public class CommandGuildCreate implements CommandExecutor {
 						
 						double requiredmoney = plugin.getConfig().getInt("guild.create."+group+".money"); 
 						
-						if(requiredmoney>0 || sender.hasPermission("NovaGuilds.group.admin")) {
+						if(requiredmoney>0 || sender.hasPermission("novaguilds.group.admin")) {
 							if(plugin.econ.getBalance(player.getName()) < requiredmoney) {
 								hasMoney = false;
 							}
 						}
 						
-						if(itemstr.size()==0 || sender.hasPermission("NovaGuilds.group.admin")) {
+						if(itemstr.size()==0 || sender.hasPermission("novaguilds.group.admin")) {
 							hasitems=true;
 							if(plugin.DEBUG) plugin.info("no items required");
 						}
@@ -140,13 +155,13 @@ public class CommandGuildCreate implements CommandExecutor {
 						if(hasitems) { //ALL PASSED
 							if(hasMoney) {
 								//Guild object
-								NovaGuild newguild = new NovaGuild();
-								newguild.setName(guildname);
-								newguild.setTag(tag);
-								newguild.setLeaderName(sender.getName());
-								newguild.setSpawnPoint(player.getLocation());
-								newguild.addPlayer(nPlayer);
-								plugin.getGuildManager().addGuild(newguild);
+								NovaGuild newGuild = new NovaGuild();
+								newGuild.setName(guildname);
+								newGuild.setTag(tag);
+								newGuild.setLeaderName(sender.getName());
+								newGuild.setSpawnPoint(player.getLocation());
+								newGuild.addPlayer(nPlayer);
+								plugin.getGuildManager().addGuild(newGuild);
 								
 								//taking money away
 								plugin.econ.withdrawPlayer(sender.getName(),requiredmoney);
@@ -158,15 +173,17 @@ public class CommandGuildCreate implements CommandExecutor {
 								
 								//update tag and tabs
 								plugin.updateTabAll();
-								plugin.tagUtils.updateTagPlayerToAll(plugin.senderToPlayer(sender));
+								plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
 								
 								//messages
 								sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.success")));
-								
-								HashMap<String,String> vars = new HashMap<>();
-								vars.put("GUILDNAME",newguild.getName());
+
+								vars.put("GUILDNAME", newGuild.getName());
 								vars.put("PLAYER",sender.getName());
 								plugin.broadcastMessage("broadcast.guild.created", vars);
+
+								//fire event
+								plugin.getServer().getPluginManager().callEvent(new GuildCreateEvent(newGuild));
 							}
 							else {
 								String rmmsg = plugin.getMessages().getString("chat.createguild.notenoughtmoney");

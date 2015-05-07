@@ -19,7 +19,7 @@ public class CommandGuildList implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { //TODO
-		if(sender.hasPermission("NovaGuilds.admin.guild.list")) {
+		if(sender.hasPermission("novaguilds.admin.guild.list")) {
 			for(Entry<String, NovaGuild> e : plugin.getGuildManager().getGuilds()) {
 				NovaGuild guild = e.getValue();
 				sender.sendMessage(StringUtils.fixColors(guild.getName()));

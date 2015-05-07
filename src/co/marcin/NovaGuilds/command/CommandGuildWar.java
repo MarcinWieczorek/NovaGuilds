@@ -19,7 +19,7 @@ public class CommandGuildWar implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.guild.war")) {
+		if(!sender.hasPermission("novaguilds.guild.war")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
@@ -69,7 +69,6 @@ public class CommandGuildWar implements CommandExecutor {
 				}
 				else { //inviting to no-war
 					cmdGuild.addNoWarInvitation(guild);
-					plugin.getGuildManager().saveGuildLocal(cmdGuild);
 					vars.put("GUILDNAME", cmdGuild.getName());
 					plugin.sendMessagesMsg(sender, "chat.guild.war.nowarinv", vars);
 
@@ -93,16 +92,13 @@ public class CommandGuildWar implements CommandExecutor {
 				guild.addWar(cmdGuild);
 				cmdGuild.addWar(guild);
 
-				plugin.getGuildManager().saveGuildLocal(guild);
-				plugin.getGuildManager().saveGuildLocal(cmdGuild);
-
 				//broadcasts
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("GUILD1",guild.getName());
 				vars.put("GUILD2",cmdGuild.getName());
 				plugin.broadcastMessage("broadcast.guild.war",vars);
 
-				plugin.tagUtils.updateTagAll();
+				plugin.tagUtils.refreshAll();
 			}
 		}
 		else { //List wars

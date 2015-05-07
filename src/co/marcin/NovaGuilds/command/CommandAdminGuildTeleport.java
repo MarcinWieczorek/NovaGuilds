@@ -28,11 +28,11 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 			return true;
 		}
 		
-		if(sender.hasPermission("NovaGuilds.admin.guild.tp")) {
+		if(sender.hasPermission("novaguilds.admin.guild.tp")) {
 			if(args.length>0) {
 				String guildname = args[0];
 				
-				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
+				NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
 				
 				if(guild != null) {
 					Location home = guild.getSpawnPoint();

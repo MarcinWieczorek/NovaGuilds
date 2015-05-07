@@ -14,7 +14,7 @@ public class CommandAdminSave implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("NovaGuilds.admin.save")) {
+		if(sender.hasPermission("novaguilds.admin.save")) {
 			if(args.length == 1) {
 				if(args[0].equalsIgnoreCase("players")) {
 					plugin.getPlayerManager().saveAll();

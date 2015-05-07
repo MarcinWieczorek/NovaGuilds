@@ -16,7 +16,7 @@ public class CommandAdmin implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		String[] newArgs = StringUtils.parseArgs(args, 1);
-		if(sender.hasPermission("NovaGuilds.admin.access")) {
+		if(sender.hasPermission("novaguilds.admin.access")) {
 			if(args.length>0) {
 				if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { //guilds
 					new CommandAdminGuild(plugin).onCommand(sender, cmd, label, newArgs);

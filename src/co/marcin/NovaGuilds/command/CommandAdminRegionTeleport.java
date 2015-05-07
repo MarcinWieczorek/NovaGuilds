@@ -20,7 +20,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.admin.region.delete")) {
+		if(!sender.hasPermission("novaguilds.admin.region.delete")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}

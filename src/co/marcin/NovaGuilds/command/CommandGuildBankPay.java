@@ -25,7 +25,7 @@ public class CommandGuildBankPay implements CommandExecutor {
 			marg = args[0];
 		}
 		
-		if(sender.hasPermission("NovaGuilds.guild.bank.pay")) {
+		if(sender.hasPermission("novaguilds.guild.bank.pay")) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
 			
 			if(nPlayer.hasGuild()) {
@@ -37,7 +37,6 @@ public class CommandGuildBankPay implements CommandExecutor {
 					if(plugin.econ.getBalance(sender.getName()) >= money) {
 						guild.addMoney(money);
 						plugin.econ.withdrawPlayer(sender.getName(),money);
-						plugin.getGuildManager().saveGuildLocal(guild);
 						HashMap<String,String> vars = new HashMap<>();
 						vars.put("AMOUNT",money+"");
 						plugin.sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);

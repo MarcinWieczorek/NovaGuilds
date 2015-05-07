@@ -2,6 +2,7 @@ package co.marcin.NovaGuilds.command;
 
 import java.util.HashMap;
 
+import co.marcin.NovaGuilds.event.GuildRemoveEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,13 +37,12 @@ public class CommandGuildAbandon implements CommandExecutor {
 				
 				plugin.getGuildManager().deleteGuild(guild);
 				plugin.updateTabAll();
-				plugin.tagUtils.updateTagPlayerToAll(plugin.senderToPlayer(sender));
+				plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
 				
 				//delete guild from players
 				for(NovaPlayer nP : guild.getPlayers()) {
 					nP.setGuild(null);
 					nP.setHasGuild(false);
-					plugin.getPlayerManager().updateLocalPlayer(nP);
 				}
 
 				plugin.sendMessagesMsg(sender,"chat.guild.abandoned");
@@ -51,6 +51,9 @@ public class CommandGuildAbandon implements CommandExecutor {
 				vars.put("PLAYER",sender.getName());
 				vars.put("GUILDNAME",guild.getName());
 				plugin.broadcastMessage("broadcast.guild.abandoned", vars);
+
+				//fire event
+				plugin.getServer().getPluginManager().callEvent(new GuildRemoveEvent(guild));
 			}
 			else {
 				sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.guild.notleader")));

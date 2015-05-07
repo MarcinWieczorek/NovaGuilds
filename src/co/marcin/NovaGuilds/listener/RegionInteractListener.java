@@ -34,8 +34,8 @@ public class RegionInteractListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if(event.getClickedBlock() != null) {
-			List<String> denyinteract = plugin.config.getStringList("region.denyinteract");
-			List<String> denyuse = plugin.config.getStringList("region.denyuse");
+			List<String> denyinteract = plugin.getConfig().getStringList("region.denyinteract");
+			List<String> denyuse = plugin.getConfig().getStringList("region.denyuse");
 			
 			String clickedblockname = event.getClickedBlock().getType().name();
 			String useditemname = event.getPlayer().getItemInHand().getType().name();
@@ -47,7 +47,7 @@ public class RegionInteractListener implements Listener {
 				NovaGuild guild = plugin.getGuildManager().getGuildByRegion(rgatploc);
 
 				boolean isally = guild.isAlly(nPlayer.getGuild());
-				plugin.info(isally+" "+guild.getName()+" "+nPlayer.getGuild().getName());
+				if(plugin.DEBUG) plugin.info(isally+" "+guild.getName()+" "+nPlayer.getGuild().getName());
 
 				// (has no guild) OR (has guild AND (not his guild AND not ally)
 				if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && (!nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()) && !isally))) {
@@ -154,7 +154,7 @@ public class RegionInteractListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-		List<String> denyriding = plugin.config.getStringList("region.denyriding");
+		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
 		
@@ -168,20 +168,6 @@ public class RegionInteractListener implements Listener {
 					}
 				}
 			}
-		}
-		
-		if(event.getRightClicked().getType().name().equals("ENDER_CRYSTAL")) {
-			if(plugin.progress >= 10) {
-				plugin.progress = 0;
-				plugin.sendPrefixMessage(event.getPlayer(),"Success!");
-				EnderCrystal crystal = (EnderCrystal) event.getRightClicked();
-				crystal.getWorld().createExplosion(crystal.getLocation(),100L);
-				crystal.remove();
-				return;
-			}
-			
-			plugin.sendPrefixMessage(event.getPlayer(),"Progress: "+plugin.progress);
-			plugin.progress++;
 		}
 	}
 	

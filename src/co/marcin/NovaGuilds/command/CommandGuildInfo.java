@@ -59,7 +59,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			List<String> guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.info");
 			String separator = plugin.getMessages().getString("chat.guildinfo.playerseparator");
 			
-			if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("NovaGuilds.admin.guild.fullinfo")) {
+			if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
 				guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.fullinfo");
 			}
 			
@@ -122,7 +122,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			
 			for(i=1;i < guildinfomsg.size();i++) {
 				boolean skipmsg = false;
-				String tagmsg = plugin.config.getString("guild.tag");
+				String tagmsg = plugin.getConfig().getString("guild.tag");
 				String gmsg = guildinfomsg.get(i);
 				
 				tagmsg = StringUtils.replace(tagmsg, "{TAG}", guild.getTag());

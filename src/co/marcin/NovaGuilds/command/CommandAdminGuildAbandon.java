@@ -18,7 +18,7 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.admin.guild.abandon")) {
+		if(!sender.hasPermission("novaguilds.admin.guild.abandon")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
@@ -38,7 +38,7 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 
 			plugin.getGuildManager().deleteGuild(guild);
 			plugin.updateTabAll();
-			plugin.tagUtils.updateTagAll();
+			plugin.tagUtils.refreshAll();
 
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("PLAYERNAME",sender.getName());

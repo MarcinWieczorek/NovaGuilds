@@ -17,7 +17,7 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.admin.guild.setname")) {
+		if(!sender.hasPermission("novaguilds.admin.guild.setname")) {
 			plugin.sendMessagesMsg(sender, "chat.nopermissions");
 			return true;
 		}
@@ -69,9 +69,9 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 		plugin.getGuildManager().changeName(guild, newname);
 		
 		//update players
+		//TODO: probably is not useful, does nothing
 		for(NovaPlayer nP : guild.getPlayers()) {
 			nP.setGuild(guild);
-			plugin.getPlayerManager().updateLocalPlayer(nP);
 		}
 		
 		plugin.sendMessagesMsg(sender, "chat.admin.guild.setname.success");

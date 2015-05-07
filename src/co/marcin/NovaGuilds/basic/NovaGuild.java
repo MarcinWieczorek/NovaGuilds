@@ -177,8 +177,8 @@ public class NovaGuild {
 	}
 	
 	//check
-	public boolean isInvitedToAlly(String guildname) {
-		return allies_invited.contains(guildname.toLowerCase());
+	public boolean isInvitedToAlly(NovaGuild guild) {
+		return allies_invited.contains(guild.getName().toLowerCase());
 	}
 
 	public boolean isWarWith(NovaGuild guild) {
@@ -214,16 +214,12 @@ public class NovaGuild {
 	}
 
 	//add/remove
-	public void addAlly(String guildname) {
-		allies.add(guildname.toLowerCase());
+	public void addAlly(NovaGuild guild) {
+		allies.add(guild.getName().toLowerCase());
 	}
 	
-	public void addAllyInvitation(String guildname) {
-		allies_invited.add(guildname.toLowerCase());
-	}
-
-	public void addWar(String guildname) {
-		war.add(guildname.toLowerCase());
+	public void addAllyInvitation(NovaGuild guild) {
+		allies_invited.add(guild.getName().toLowerCase());
 	}
 
 	public void addWar(NovaGuild guild) {
@@ -234,9 +230,11 @@ public class NovaGuild {
 		nowar_inv.add(guild.getName().toLowerCase());
 	}
 
-	public void addPlayer(NovaPlayer p) {
-		players.add(p);
-		players_nick.add(p.getName());
+	public void addPlayer(NovaPlayer nPlayer) {
+		if(!players.contains(nPlayer)) {
+			players.add(nPlayer);
+			players_nick.add(nPlayer.getName());
+		}
 	}
 	
 	public void addMoney(double m) {
@@ -247,14 +245,14 @@ public class NovaGuild {
 		points += p;
 	}
 	
-	public void removePlayer(NovaPlayer p) {
-		if(players.contains(p))
-			players.remove(p);
+	public void removePlayer(NovaPlayer nPlayer) {
+		if(players.contains(nPlayer))
+			players.remove(nPlayer);
 	}
 	
-	public void removeAlly(String guildname) {
-		if(allies.contains(guildname.toLowerCase()))
-			allies.remove(guildname.toLowerCase());
+	public void removeAlly(NovaGuild guild) {
+		if(allies.contains(guild.getName().toLowerCase()))
+			allies.remove(guild.getName().toLowerCase());
 	}
 
 	public void removeWar(NovaGuild guild) {
@@ -279,9 +277,9 @@ public class NovaGuild {
 		points -= p;
 	}
 
-	public void removeAllyInvitation(String allyname) {
-		if(allies_invited.contains(allyname.toLowerCase()))
-			allies_invited.remove(allyname.toLowerCase());
+	public void removeAllyInvitation(NovaGuild guild) {
+		if(allies_invited.contains(guild.getName().toLowerCase()))
+			allies_invited.remove(guild.getName().toLowerCase());
 	}
 
 	public void createRaid(NovaGuild attacker) {

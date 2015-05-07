@@ -22,7 +22,7 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 	*  1 - money
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("NovaGuilds.admin.guild.bank.pay")) {
+		if(!sender.hasPermission("novaguilds.admin.guild.bank.pay")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
@@ -54,8 +54,6 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 		}
 
 		guild.addMoney(money);
-
-		plugin.getGuildManager().saveGuildLocal(guild);
 
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("MONEY",money_str);

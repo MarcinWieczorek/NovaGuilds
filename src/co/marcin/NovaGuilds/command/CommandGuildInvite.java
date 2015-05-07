@@ -18,6 +18,11 @@ public class CommandGuildInvite implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if(!sender.hasPermission("novaguilds.guild.invite")) {
+			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			return true;
+		}
+
 		if(args.length == 1) {
 			String playername = args[0];
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
@@ -31,7 +36,6 @@ public class CommandGuildInvite implements CommandExecutor {
 							NovaGuild guild = nPlayer.getGuild();
 							if(!inPlayer.isInvitedTo(guild)) { //if he's not invited
 								plugin.getPlayerManager().addInvitation(inPlayer, guild);
-								plugin.getPlayerManager().updateLocalPlayer(inPlayer);
 								plugin.getPlayerManager().updatePlayer(inPlayer);
 								plugin.sendMessagesMsg(sender, "chat.player.invited");
 

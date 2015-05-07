@@ -18,7 +18,7 @@ public class CommandAdminRegionList implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("NovaGuilds.region.list")) {
+		if(sender.hasPermission("novaguilds.region.list")) {
 			plugin.sendMessagesMsg(sender,"chat.region.list.header");
 			HashMap<String,String> vars = new HashMap<>();
 			for(Entry<String, NovaRegion> r : plugin.getRegionManager().getRegions()) {

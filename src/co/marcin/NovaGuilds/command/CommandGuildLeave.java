@@ -39,7 +39,6 @@ public class CommandGuildLeave implements CommandExecutor {
 			nPlayer.setHasGuild(false);
 			plugin.getPlayerManager().updatePlayer(nPlayer);
 			guild.removePlayer(nPlayer);
-			plugin.getGuildManager().saveGuildLocal(guild);
 			plugin.sendMessagesMsg(sender,"chat.guild.leave.left");
 			
 			HashMap<String,String> vars = new HashMap<>();
@@ -48,7 +47,7 @@ public class CommandGuildLeave implements CommandExecutor {
 			plugin.broadcastMessage("broadcast.guild.left", vars);
 			
 			plugin.updateTabAll();
-			plugin.tagUtils.updateTagAll();
+			plugin.tagUtils.refreshAll();
 		}
 		else {
 			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");

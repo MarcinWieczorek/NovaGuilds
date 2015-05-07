@@ -17,7 +17,7 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("NovaGuilds.admin.guild.settag")) {
+		if(sender.hasPermission("novaguilds.admin.guild.settag")) {
 			if(args.length>0) {
 				String guildname = args[0];
 				if(args.length==1) {
@@ -33,10 +33,8 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 					if(plugin.getGuildManager().getGuildByTag(newtag) == null) {
 						guild.setTag(newtag);
 						
-						plugin.getGuildManager().saveGuildLocal(guild);
-						
 						plugin.updateTabAll();
-						plugin.tagUtils.updateTagAll();
+						plugin.tagUtils.refreshAll();
 						
 						HashMap<String,String> vars = new HashMap<>();
 						vars.put("TAG",newtag);

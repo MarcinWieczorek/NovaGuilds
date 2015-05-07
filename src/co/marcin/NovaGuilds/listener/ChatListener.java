@@ -27,9 +27,9 @@ public class ChatListener implements Listener {
 		String tag = "";
 		String rank = "";
 
-		if(nPlayer.hasGuild()) {
+		if(nPlayer.hasGuild() && !player.hasPermission("novaguilds.chat.notag")) {
 			NovaGuild guild = nPlayer.getGuild();
-			tag = plugin.config.getString("guild.tag");
+			tag = plugin.getConfig().getString("guild.tag");
 			
 			if(guild.getLeaderName().equalsIgnoreCase(player.getName())) {
 				rank = StringUtils.fixColors(plugin.getMessages().getString("chat.guildinfo.leaderprefix"));
@@ -102,11 +102,7 @@ public class ChatListener implements Listener {
 			tag = StringUtils.replace(tag, "{RANK}", rank);
 			
 		}
-		
-		if(player.hasPermission("NovaGuilds.chat.notag")) {
-			tag = "";
-		}
-		
+
 		String format = event.getFormat();
 		format = StringUtils.replace(format, "{TAG}", tag);
 		event.setFormat(format);

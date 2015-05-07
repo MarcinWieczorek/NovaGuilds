@@ -22,7 +22,7 @@ public class CommandToolGet implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("NovaGuilds.tool.get")) {
+		if(sender.hasPermission("novaguilds.tool.get")) {
 			Material tool = Material.getMaterial(plugin.getConfig().getString("region.tool.item").toUpperCase());
 			
 			if(tool != null) {

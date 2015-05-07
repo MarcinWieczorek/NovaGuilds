@@ -3,6 +3,7 @@ package co.marcin.NovaGuilds.command;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,11 +56,12 @@ public class CommandNovaGuilds implements CommandExecutor {
 				if(plugin.DEBUG) return true;
 				Inventory inv = plugin.getServer().createInventory(null, 9, "Cobblex!");
 				plugin.senderToPlayer(sender).openInventory(inv);
-				if(plugin.DEBUG) return true;
+
+				//test groups
 				String group = "default";
 				
 				for(String s : plugin.getConfig().getConfigurationSection("guild.create").getKeys(false)) {
-					if(sender.hasPermission("NovaGuilds.guild.group."+s) || s.equalsIgnoreCase("default")) {
+					if(sender.hasPermission("novaguilds.guild.group."+s) || s.equalsIgnoreCase("default")) {
 						group = s;
 						break;
 					}
@@ -87,7 +89,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				}
 			}
 			else if(args[0].equalsIgnoreCase("admin")) { //Admin commands
-				if(sender.hasPermission("NovaGuilds.admin.access")) {
+				if(sender.hasPermission("novaguilds.admin.access")) {
 					new CommandAdmin(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 				}
 			}
@@ -133,16 +135,16 @@ public class CommandNovaGuilds implements CommandExecutor {
 						List<NovaPlayer> gplayers = guild.getPlayers();
 						String leader = guild.getLeaderName();
 						String players = "";
-						String pcolor = "";
+						String pcolor;
 						String leaderp; //String to insert to playername (leader prefix)
 						String leaderprefix = plugin.getMessages().getString("chat.guildinfo.leaderprefix"); //leader prefix
 						
 						if(gplayers.size()>0) {
 							for(i=0;i<gplayers.size();i++) {
-								NovaPlayer nplayer = gplayers.get(i);
-								Player p = plugin.getServer().getPlayer(nplayer.getName());
+								NovaPlayer nPlayer = gplayers.get(i);
+								Player p = plugin.getServer().getPlayer(nPlayer.getName());
 								
-								if(p instanceof Player &&p.isOnline()) {
+								if(p != null && p.isOnline()) {
 									pcolor = plugin.getMessages().getString("chat.guildinfo.playercolor.online");
 								}
 								else {
@@ -150,11 +152,11 @@ public class CommandNovaGuilds implements CommandExecutor {
 								}
 								
 								leaderp = "";
-								if(nplayer.getName().equalsIgnoreCase(leader)) {
+								if(nPlayer.getName().equalsIgnoreCase(leader)) {
 									leaderp = leaderprefix;
 								}
 								
-								players += pcolor+leaderp+nplayer.getName();
+								players += pcolor+leaderp+nPlayer.getName();
 								
 								if(i<gplayers.size()-1) players += plugin.getMessages().getString("chat.guildinfo.playerseparator");
 							}
@@ -162,7 +164,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						
 						for(i=0;i < guildinfomsg.size();i++) {
 							boolean skipmsg = false;
-							String tagmsg = plugin.config.getString("guild.tag");
+							String tagmsg = plugin.getConfig().getString("guild.tag");
 							String gmsg = guildinfomsg.get(i);
 							
 							tagmsg = StringUtils.replace(tagmsg, "{TAG}", guild.getTag());
@@ -204,10 +206,27 @@ public class CommandNovaGuilds implements CommandExecutor {
 			else if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { // command /g
 					new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 			}
+			else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { // command /g
+				ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+				BookMeta bm = (BookMeta)book.getItemMeta();
+				plugin.loadMessages();
+				List<String> pages = plugin.getMessages().getStringList("book.help.pages");
+				List<String> pagesColor = new ArrayList<>();
+				for(String page : pages) {
+					pagesColor.add(StringUtils.fixColors(page));
+				}
+
+				bm.setPages(pagesColor);
+				bm.setAuthor("CTRL");
+				bm.setTitle(StringUtils.fixColors(plugin.getMessages().getString("book.help.title")));
+				book.setItemMeta(bm);
+				Player player = plugin.getServer().getPlayer(sender.getName());
+				player.getInventory().setItem(8, book);
+			}
 			else if(args[0].equalsIgnoreCase("rg")) { //REGION
 				if(args[1].equalsIgnoreCase("buy")) { //create
 					if(!plugin.DEBUG) return true;
-					if(sender.hasPermission("NovaGuilds.region.create")) {
+					if(sender.hasPermission("novaguilds.region.create")) {
 						NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
 						
 						if(nPlayer.hasGuild()) {

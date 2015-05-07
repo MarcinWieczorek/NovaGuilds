@@ -8,6 +8,8 @@ chat:
  
  admin:
   guild:
+   timerest:
+    set: "Guild's resting time set."
    list:
     header: "List of all guilds:"
     page: 
@@ -18,7 +20,8 @@ chat:
     paid: "You paid &c${MONEY} &3to &a{GUILDNAME}&3's bank."
     withdrew: "You took &c${MONEY} &3from &a{GUILDNAME}&3's bank."
    abandon: "&a{GUILDNAME} &3abandoned."
-   kick: ""
+   kick:
+    leader: "You can't kick the leader. You have to abandon the guild."
    invited: "Invited player &c{PLAYERNAME} &3to &a{GUILDNAME}"
    teleported: "Teleported to home of &a{GUILDNAME}"
    teleportedother: "Teleported &c{PLAYERNAME} &3to home of &a{GUILDNAME}"
@@ -46,6 +49,7 @@ chat:
    guilds: "Guilds saved."
    regions: "Regions saved."
    all: "All data saved. (Players, Regions, Guilds)"
+   autosave: "AutoSave completed."
  
  reload:
   reloading: "Reloading NovaGuilds..."
@@ -62,6 +66,7 @@ chat:
   nga:
    guild:
     abandon: "&5* &7/nga &cg &6abandon &c<guild> &2- &3abandon the guild"
+    lives: "&5* &7/nga &cg &6lives &c<lives> &2- &3set lives"
     bank:
      pay: "&7/nga &cg &6pay &c<guild/tag> &6<money>"
      withdraw: "&7/nga &cg &6withdraw &c<guild/tag> &6<money>"
@@ -99,6 +104,8 @@ chat:
      - "&5* &7/nga &cg &6list &2- &3List all guilds"
      - "&5* &7/nga &cg &6pay &c<guild/tag> &2- &3Pay money to guild's bank"
      - "&5* &7/nga &cg &6withdraw &c<guild/tag> &2- &3Take money from guild's bank"
+     - "&5* &7/nga &cg &6timerest &c<guild/tag> &6<time> &2- &3Set rest time. (1y 1d 1m 1h 1s)"
+     - "&5* &7/nga &cg &6lives &c<lives> &2- &3set lives"
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
@@ -109,14 +116,17 @@ chat:
     - "&5* &7/g &chome set &2- &3Set guild's home"
     - "&5* &7/g &cinfo &2- &3Guild's info. &9/gi"
     - "&5* &7/g &cleave &2- &3Leave the guild"
-    - "&5* &7/g &cbuyregion &2- &3Buy selected area"
     - "&5* &7/g &cally &6<guildname> &2- &3Invite to an ally"
     - "&5* &7/g &cwar &6[guildname] &2- &3War!"
     - "&5* &7/g &cabandon &6<guildname> &2- &3abandon your guild"
     - "&5* &7/g &cinvite &6<playername> &2- &3invite player to your guild"
+    - "&5* &7/g &ccompass &2- &3Let the compass point your guild's home!"
+    - "&5* &7/g &cbuyregion &2- &3Buy selected area"
+    - "&5* &7/ng &ctool &2- &3Check or select area with the tool!"
    noguild:
     - "&5* &7/g &ccreate &6<tag> <name> &2- &3Create a guild"
     - "&5* &7/g &cjoin &6[guildname] &2- &3Join a guild"
+    - "&5* &7/gi &c[guild/tag/player] &2- &3Join a guild"
 
  teampvp: "You cannot hurt your teammates"
  allypvp: "You cannot hurt your allies."
@@ -126,6 +136,8 @@ chat:
   resting: "You have to wait &c{TIMEREST} &3before attacking this guild."
  
  guild:
+  compasstarget: "The compass is now pointing your guild's home."
+ 
   ally:
    war: "First you need to end the war with that guild."
    samename: "You cannot be allies with your own guild!"
@@ -214,7 +226,7 @@ chat:
   overlaps: "This area overlaps other guild's region"
   notvalid: "Area you selected is not valid. Try again."
   created: "Region created successfully"
-  selectsuccess: "Area selected. &c/ng rg buy"
+  selectsuccess: "Area selected. &c/g buyregion"
   areanotselected: "Please select the area"
   mustveguild: "You need a guild to buy this area. &c/create"
   entered: "You entered the region of guild &a{GUILDNAME}"
@@ -242,6 +254,7 @@ chat:
   hasguild: "You already have a guild"
   success: "Guild created"
   regionhere: "You can't create a guild where another guild exists"
+  tooclosespawn: "You must go {DISTANCE} blocks away from spawn!"
   tag:
    tooshort: "The tag is too short!"
    toolong: "The tag is too long!"
@@ -298,6 +311,11 @@ broadcast:
   endally: "&a{GUILDNAME} &3and &a{ALLYNAME} &3ended their ally!"
   kicked: "Player &c{PLAYERNAME} &3has been kicked from &a{GUILDNAME}"
   newleader: "Player &c{PLAYERNAME} &3is now the leader of &a{GUILDNAME}"
+  destroyed: "Guild &a{GUILDNAME} &3has been destroyed!"
+  raid:
+   finished: 
+    attackerwon: "Raid finished! &a{ATTACKER} &3vs &a{DEFENDER}&3! Attacker won."
+    defenderwon: "Raid finished! &a{ATTACKER} &3vs &a{DEFENDER}&3! Defender won."
  pvp:
   killed: "Player {TAG1}&c{PLAYER1} &3was slain by {TAG2}&c{PLAYER2}"
   
@@ -328,5 +346,12 @@ tablist:
   - "Players onlineSPLIT{PLAYERSONLINE}"
   - "Your guildSPLIT{GUILDNAME}"
   
+#no prefix, start with color
 barapi:
- warprogress: "Your guild is under attack!"
+ warprogress: "&3Guild &a{DEFENDER} &3is under attack!"
+ 
+book:
+ help:
+  title: "NovaGuilds Tutorial"
+  pages:
+   - "&6[&5NovaGuilds&6] &3HELP"
