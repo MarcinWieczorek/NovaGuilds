@@ -54,12 +54,10 @@ public class PlayerManager {
 	
 	public void addInvitation(NovaPlayer nPlayer, NovaGuild guild) {
 		nPlayer.addInvitation(guild);
-		updateLocalPlayer(nPlayer);
 	}
 	
 	public void updatePlayer(NovaPlayer nPlayer) {
-		updateLocalPlayer(nPlayer);
-		plugin.MySQLreload();
+		plugin.mysqlReload();
     	
     	Statement statement;
 		try {
@@ -76,17 +74,16 @@ public class PlayerManager {
 			List<String> invitedto = nPlayer.getInvitedTo();
 			String joined = Joiner.on(";").join(invitedto);
 			
-			String sql = "UPDATE `"+plugin.sqlp+"players` SET `invitedto`='"+joined+"', `guild`='"+guildname+"' WHERE `uuid`='"+nPlayer.getUUID()+"'";
+			String sql = "UPDATE `"+plugin.sqlp+"players` SET " +
+					"`invitedto`='"+joined+"', " +
+					"`guild`='"+guildname+"' " +
+					"WHERE `uuid`='"+nPlayer.getUUID()+"'";
+
 			statement.executeUpdate(sql);
 		}
 		catch(SQLException e) {
 			plugin.info(e.getMessage());
 		}
-	}
-	
-	public void updateLocalPlayer(NovaPlayer nPlayer) {
-		if(plugin.DEBUG) return;
-		plugin.players_changes.put(nPlayer.getName().toLowerCase(), nPlayer);
 	}
 	
 	public void saveAll() {
@@ -97,7 +94,7 @@ public class PlayerManager {
 	
 	//load
 	public void loadPlayers() {
-    	plugin.MySQLreload();
+    	plugin.mysqlReload();
     	
     	Statement statement;
 		try {
@@ -135,14 +132,16 @@ public class PlayerManager {
 				novaplayer.setName(res.getString("name"));
 				novaplayer.setInvitedTo(invitedToList);
 
-				NovaGuild guild = null;
 				if(!guildname.isEmpty()) {
-					guild = plugin.getGuildManager().getGuildByName(guildname);
-					guild.addPlayer(novaplayer);
-					novaplayer.setGuild(guild);
+					NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 
-					if(guild.isLeader(novaplayer.getName())) {
-						novaplayer.setLeader(true);
+					if(guild != null) {
+						guild.addPlayer(novaplayer);
+						novaplayer.setGuild(guild);
+
+						if(guild.isLeader(novaplayer.getName())) {
+							novaplayer.setLeader(true);
+						}
 					}
 				}
 
@@ -157,7 +156,7 @@ public class PlayerManager {
 	
 	//add a player
 	public void addPlayer(Player player) {
-		plugin.MySQLreload();
+		plugin.mysqlReload();
 		Statement statement;
 		
 		try {
@@ -167,7 +166,9 @@ public class PlayerManager {
 			String playername = player.getName();
 			
 			statement.executeUpdate("INSERT INTO `"+plugin.sqlp+"players` VALUES(0,'"+uuid+"','"+playername+"','','')");
-			plugin.info("New player "+player.getName()+" added to the database");
+			plugin.info("New player " + player.getName() + " added to the database");
+
+			//TODO load only 1 player instead of all
 			plugin.getPlayerManager().loadPlayers();
 		}
 		catch (SQLException e) {
