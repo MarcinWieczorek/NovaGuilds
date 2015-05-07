@@ -100,7 +100,7 @@ public class GuildManager {
 	}
 	
 	public void loadGuilds() {
-		plugin.MySQLreload();
+		plugin.mysqlReload();
     	
     	Statement statement;
 		try {
@@ -112,60 +112,70 @@ public class GuildManager {
 				String spawnpoint_coord = res.getString("spawn");
 				
 				Location spawnpoint = null;
-				if(!spawnpoint_coord.equals("")) {
+				if(!spawnpoint_coord.isEmpty()) {
 					String[] spawnpoint_split = spawnpoint_coord.split(";");
 					if(spawnpoint_split.length==5) { //LENGTH
 						String worldname = spawnpoint_split[0];
-						int x = Integer.parseInt(spawnpoint_split[1]);
-						int y = Integer.parseInt(spawnpoint_split[2]);
-						int z = Integer.parseInt(spawnpoint_split[3]);
-						float yaw = Float.parseFloat(spawnpoint_split[4]);
-						spawnpoint = new Location(plugin.getServer().getWorld(worldname),x,y,z);
-						spawnpoint.setYaw(yaw);
+
+						if(plugin.getServer().getWorld(worldname) != null) {
+							int x = Integer.parseInt(spawnpoint_split[1]);
+							int y = Integer.parseInt(spawnpoint_split[2]);
+							int z = Integer.parseInt(spawnpoint_split[3]);
+							float yaw = Float.parseFloat(spawnpoint_split[4]);
+							spawnpoint = new Location(plugin.getServer().getWorld(worldname), x, y, z);
+							spawnpoint.setYaw(yaw);
+						}
 					}
 				}
 
-				List<String> allies = new ArrayList<>();
-				List<String> alliesinv = new ArrayList<>();
+				//load guild only if there is a spawnpoint.
+				//error protection if a world has been deleted
+				if(spawnpoint != null) {
+					List<String> allies = new ArrayList<>();
+					List<String> alliesinv = new ArrayList<>();
 
-				if(!res.getString("allies").isEmpty()) {
-					allies = StringUtils.semicolonToList(res.getString("allies"));
+					if(!res.getString("allies").isEmpty()) {
+						allies = StringUtils.semicolonToList(res.getString("allies"));
+					}
+
+					if(!res.getString("alliesinv").isEmpty()) {
+						alliesinv = StringUtils.semicolonToList(res.getString("alliesinv"));
+					}
+
+					List<String> wars = new ArrayList<>();
+					List<String> nowarinv = new ArrayList<>();
+
+					if(!res.getString("war").isEmpty()) {
+						wars = StringUtils.semicolonToList(res.getString("war"));
+					}
+
+					if(!res.getString("nowarinv").isEmpty()) {
+						nowarinv = StringUtils.semicolonToList(res.getString("nowarinv"));
+					}
+
+					NovaGuild novaGuild = new NovaGuild();
+					novaGuild.setId(res.getInt("id"));
+					novaGuild.setMoney(res.getDouble("money"));
+					novaGuild.setPoints(res.getInt("points"));
+					novaGuild.setName(res.getString("name"));
+					novaGuild.setTag(res.getString("tag"));
+					novaGuild.setLeaderName(res.getString("leader"));
+					novaGuild.setLives(res.getInt("lives"));
+					novaGuild.setTimeRest(res.getLong("timerest"));
+					novaGuild.setSpawnPoint(spawnpoint);
+					novaGuild.setRegion(plugin.regions.get(novaGuild.getName().toLowerCase()));
+
+					novaGuild.setAllies(allies);
+					novaGuild.setAllyInvitations(alliesinv);
+
+					novaGuild.setWars(wars);
+					novaGuild.setNoWarInvitations(nowarinv);
+
+					plugin.guilds.put(res.getString("name").toLowerCase(), novaGuild);
 				}
-
-				if(!res.getString("alliesinv").isEmpty()) {
-					alliesinv = StringUtils.semicolonToList(res.getString("alliesinv"));
+				else {
+					plugin.info("Failed loading guild "+res.getString("name")+", world does not exist");
 				}
-
-				List<String> wars = new ArrayList<>();
-				List<String> nowarinv = new ArrayList<>();
-
-				if(!res.getString("war").isEmpty()) {
-					wars = StringUtils.semicolonToList(res.getString("war"));
-				}
-
-				if(!res.getString("nowarinv").isEmpty()) {
-					nowarinv = StringUtils.semicolonToList(res.getString("nowarinv"));
-				}
-				
-				NovaGuild novaGuild = new NovaGuild();
-				novaGuild.setId(res.getInt("id"));
-				novaGuild.setMoney(res.getDouble("money"));
-				novaGuild.setPoints(res.getInt("points"));
-				novaGuild.setName(res.getString("name"));
-				novaGuild.setTag(res.getString("tag"));
-				novaGuild.setLeaderName(res.getString("leader"));
-				novaGuild.setLives(res.getInt("lives"));
-				novaGuild.setTimeRest(res.getLong("timerest"));
-				novaGuild.setSpawnPoint(spawnpoint);
-				novaGuild.setRegion(plugin.regions.get(novaGuild.getName().toLowerCase()));
-
-				novaGuild.setAllies(allies);
-				novaGuild.setAllyInvitations(alliesinv);
-
-				novaGuild.setWars(wars);
-				novaGuild.setNoWarInvitations(nowarinv);
-
-				plugin.guilds.put(res.getString("name").toLowerCase(), novaGuild);
 			}
 			plugin.info("Guilds loaded from database");
 		} catch (SQLException e) {
@@ -174,7 +184,7 @@ public class GuildManager {
 	}
 	
 	public void addGuild(NovaGuild guild) {
-		plugin.MySQLreload();
+		plugin.mysqlReload();
     	
     	Statement statement;
 		try {
@@ -212,7 +222,6 @@ public class GuildManager {
 			NovaPlayer leader = plugin.getPlayerManager().getPlayerByName(guild.getLeaderName());
 			leader.setGuild(guild);
 			leader.setLeader(true);
-			plugin.getPlayerManager().updateLocalPlayer(leader);
 		}
 		catch(SQLException e) {
 			plugin.info(e.getMessage());
@@ -220,8 +229,7 @@ public class GuildManager {
 	}
 	
 	public void saveGuild(NovaGuild guild) {
-		plugin.MySQLreload();
-    	saveGuildLocal(guild);
+		plugin.mysqlReload();
 		
     	Statement statement;
 		try {
@@ -302,26 +310,14 @@ public class GuildManager {
 		}
 	}
 	
-	public void saveGuildLocal(NovaGuild guild) {
-		if(plugin.guilds.containsValue(guild)) {
-			//TODO
-//			plugin.guilds.remove(guild.getName().toLowerCase());
-//			plugin.guilds.put(guild.getName().toLowerCase(),guild);
-			if(plugin.DEBUG) return;
-			plugin.guilds_changes.put(guild.getName().toLowerCase(),guild);
-		}
-	}
-	
 	public void saveAll() {
 		for(Entry<String, NovaGuild> g : plugin.guilds.entrySet()) {
 			saveGuild(g.getValue());
 		}
-
-		applyChanges();
 	}
 	
 	public void deleteGuild(NovaGuild guild) {
-		plugin.MySQLreload();
+		plugin.mysqlReload();
     	
     	Statement statement;
 		try {
@@ -330,14 +326,45 @@ public class GuildManager {
 			String sql = "DELETE FROM `"+plugin.sqlp+"guilds` WHERE `id`="+guild.getId();
 			statement.executeUpdate(sql);
 			
+			//remove players
 			for(NovaPlayer np : guild.getPlayers()) {
 				np.setGuild(null);
 				np.setHasGuild(false);
-				plugin.getPlayerManager().updateLocalPlayer(np);
 				plugin.info(np.getName());
 			}
-			plugin.info(guild.getName());
-			plugin.info(exists(guild.getName())+"");
+
+			//remove guild invitations
+			for(NovaPlayer nPlayer : plugin.players.values()) {
+				if(nPlayer.isInvitedTo(guild)) {
+					nPlayer.deleteInvitation(guild);
+				}
+			}
+
+			//remove allies and wars
+			for(NovaGuild nGuild : plugin.guilds.values()) {
+				//ally
+				if(nGuild.isAlly(guild)) {
+					nGuild.removeAlly(guild);
+				}
+
+				//ally invitation
+				if(nGuild.isInvitedToAlly(guild)) {
+					nGuild.removeAllyInvitation(guild);
+				}
+
+				//war
+				if(nGuild.isWarWith(guild)) {
+					nGuild.removeWar(guild);
+				}
+
+				//no war invitation
+				if(nGuild.isNoWarInvited(guild)) {
+					nGuild.removeNoWarInvitation(guild);
+				}
+			}
+
+			if(plugin.DEBUG) plugin.info(guild.getName());
+			if(plugin.DEBUG) plugin.info(exists(guild.getName())+"");
 			plugin.guilds.remove(guild.getName().toLowerCase());
 		}
 		catch(SQLException e) {
@@ -350,16 +377,6 @@ public class GuildManager {
 		plugin.guilds.put(newname, guild);
 		guild.setName(newname);
 		saveGuild(guild);
-	}
-
-	public void applyChanges() {
-		for(Entry<String,NovaGuild> entry : plugin.guilds_changes.entrySet()) {
-			NovaGuild guild = entry.getValue();
-			plugin.guilds.remove(guild.getName().toLowerCase());
-			plugin.guilds.put(guild.getName().toLowerCase(),guild);
-		}
-
-		plugin.guilds_changes.clear();
 	}
 
 	public List<NovaRaid> getRaidsTakingPart(NovaGuild guild) {
