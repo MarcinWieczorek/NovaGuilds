@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.manager;
+package co.marcin.NovaGuilds.Manager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -174,6 +174,10 @@ public class PlayerManager {
 		catch (SQLException e) {
 			plugin.info("SQLException: "+e.getMessage());
 		}
+	}
+
+	public void addIfNotExists(Player player) {
+		addIfNotExists(player.getName());
 	}
 
 	public void addIfNotExists(String playername) {

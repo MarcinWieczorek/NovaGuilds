@@ -1,8 +1,9 @@
-package co.marcin.NovaGuilds.manager;
+package co.marcin.NovaGuilds.Manager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collection;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -34,8 +35,7 @@ public class RegionManager {
 		int x = l.getBlockX();
 		int z = l.getBlockZ();
 		
-		for(Entry<String, NovaRegion> e : getRegions()) {
-			NovaRegion r = e.getValue();
+		for(NovaRegion r : getRegions()) {
 			
 			Location c1 = r.getCorner(0);
 			Location c2 = r.getCorner(1);
@@ -50,7 +50,11 @@ public class RegionManager {
 		return null;
 	}
 	
-	public Set<Entry<String, NovaRegion>> getRegions() {
+	public Collection<NovaRegion> getRegions() {
+		return plugin.regions.values();
+	}
+
+	public Set<Entry<String, NovaRegion>> getRegionsEntrySet() {
 		return plugin.regions.entrySet();
 	}
 	
@@ -154,8 +158,8 @@ public class RegionManager {
 	}
 	
 	public void saveAll() {
-		for(Entry<String, NovaRegion> r : getRegions()) {
-			saveRegion(r.getValue());
+		for(NovaRegion r : getRegions()) {
+			saveRegion(r);
 		}
 	}
 	
@@ -303,7 +307,7 @@ public class RegionManager {
 	}
 	
 	public String checkRegionSelect(Location l1, Location l2) {
-		int i = 0;
+		int i;
 		String[] returns = {
 			"invalid", //0
 			"valid", //1
@@ -366,9 +370,9 @@ public class RegionManager {
 		boolean ov2;
 		boolean overlaps;
 		
-		for(Entry<String, NovaRegion> r: getRegions()) {
-			Location c1 = r.getValue().getCorner(0);
-			Location c2 = r.getValue().getCorner(1);
+		for(NovaRegion region: getRegions()) {
+			Location c1 = region.getCorner(0);
+			Location c2 = region.getCorner(1);
 			
 			//c1
 			i1 = (c1.getBlockX() <= x1 && c1.getBlockX() >= x2) || (c1.getBlockX() >= x1 && c1.getBlockX() <= x2);
@@ -384,7 +388,7 @@ public class RegionManager {
 			overlaps = ov1 || ov2;
 			
 			if(overlaps) {
-				return r.getValue();
+				return region;
 			}
 		}
 		
