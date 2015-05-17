@@ -62,6 +62,8 @@ public class CommandGuildKick  implements CommandExecutor {
 		//all passed
 		nPlayerKick.setGuild(null);
 		nPlayerKick.setHasGuild(false);
+
+		nPlayer.getGuild().removePlayer(nPlayerKick);
 		
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
@@ -69,7 +71,6 @@ public class CommandGuildKick  implements CommandExecutor {
 		plugin.broadcastMessage("broadcast.guild.kicked", vars);
 		
 		//tab/tag
-		plugin.updateTabAll();
 		plugin.tagUtils.refreshAll();
 		
 		return true;

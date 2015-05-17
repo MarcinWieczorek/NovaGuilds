@@ -30,30 +30,33 @@ public class CommandGuildAbandon implements CommandExecutor {
 		if(nPlayer.hasGuild()) {
 			NovaGuild guild = nPlayer.getGuild();
 			
-			if(nPlayer.isLeader()) {
-				if(guild.hasRegion()) {
-					plugin.getRegionManager().removeRegion(guild.getRegion());
-				}
-				
-				plugin.getGuildManager().deleteGuild(guild);
-				plugin.updateTabAll();
-				plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
-				
-				//delete guild from players
-				for(NovaPlayer nP : guild.getPlayers()) {
-					nP.setGuild(null);
-					nP.setHasGuild(false);
-				}
-
-				plugin.sendMessagesMsg(sender,"chat.guild.abandoned");
-				
-				HashMap<String,String> vars = new HashMap<>();
-				vars.put("PLAYER",sender.getName());
-				vars.put("GUILDNAME",guild.getName());
-				plugin.broadcastMessage("broadcast.guild.abandoned", vars);
-
+			if(nPlayer.isLeader()) { //All passed
 				//fire event
-				plugin.getServer().getPluginManager().callEvent(new GuildRemoveEvent(guild));
+				GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
+				plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
+
+				//if event is not cancelled
+				if(!guildRemoveEvent.isCancelled()) {
+					if(guild.hasRegion()) {
+						plugin.getRegionManager().removeRegion(guild.getRegion());
+					}
+
+					plugin.getGuildManager().deleteGuild(guild);
+					plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
+
+					//delete guild from players
+					for(NovaPlayer nP : guild.getPlayers()) {
+						nP.setGuild(null);
+						nP.setHasGuild(false);
+					}
+
+					plugin.sendMessagesMsg(sender, "chat.guild.abandoned");
+
+					HashMap<String, String> vars = new HashMap<>();
+					vars.put("PLAYER", sender.getName());
+					vars.put("GUILDNAME", guild.getName());
+					plugin.broadcastMessage("broadcast.guild.abandoned", vars);
+				}
 			}
 			else {
 				sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.guild.notleader")));

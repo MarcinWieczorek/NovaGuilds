@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class CommandGuildJoin implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandGuildJoin(NovaGuilds pl) {
 		plugin = pl;
@@ -52,7 +52,6 @@ public class CommandGuildJoin implements CommandExecutor {
 						nPlayer.setGuild(guild);
 						nPlayer.deleteInvitation(guild);
 						plugin.getPlayerManager().updatePlayer(nPlayer);
-						plugin.updateTab(nPlayer.getPlayer());
 						plugin.tagUtils.refreshAll();
 						plugin.sendMessagesMsg(sender,"chat.guild.joined");
 						

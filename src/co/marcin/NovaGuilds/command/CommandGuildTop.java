@@ -19,14 +19,13 @@ public class CommandGuildTop implements CommandExecutor {
 		plugin = pl;
 	}
 
-	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.top")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 
-		Set<Map.Entry<String, NovaGuild>> guilds = plugin.getGuildManager().getGuilds();
+		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
 
 		if(guilds.size() == 0) {
 			sender.sendMessage("no guilds"); //TODO

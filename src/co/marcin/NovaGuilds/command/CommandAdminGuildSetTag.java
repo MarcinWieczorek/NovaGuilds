@@ -11,50 +11,39 @@ import co.marcin.NovaGuilds.NovaGuilds;
 
 public class CommandAdminGuildSetTag implements CommandExecutor {
 	private final NovaGuilds plugin;
-	 
-	public CommandAdminGuildSetTag(NovaGuilds plugin) {
+	private final NovaGuild guild;
+
+	public CommandAdminGuildSetTag(NovaGuilds plugin, NovaGuild guild) {
 		this.plugin = plugin;
+		this.guild = guild;
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("novaguilds.admin.guild.settag")) {
-			if(args.length>0) {
-				String guildname = args[0];
-				if(args.length==1) {
-					plugin.sendMessagesMsg(sender,"chat.guild.entertag");
-					return true;
-				}
-			
-				String newtag = args[1];
-				
-				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
-				
-				if(guild != null) {
-					if(plugin.getGuildManager().getGuildByTag(newtag) == null) {
-						guild.setTag(newtag);
-						
-						plugin.updateTabAll();
-						plugin.tagUtils.refreshAll();
-						
-						HashMap<String,String> vars = new HashMap<>();
-						vars.put("TAG",newtag);
-						plugin.sendMessagesMsg(sender,"chat.admin.guild.settag",vars);
-					}
-					else {
-						plugin.sendMessagesMsg(sender,"chat.guild.tagexists");
-					}
-				}
-				else {
-					plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
-				}
-			}
-			else {
-				plugin.sendMessagesMsg(sender,"chat.guild.entername");
-			}
-		}
-		else {
+		if(!sender.hasPermission("novaguilds.admin.guild.settag")) {
 			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			return true;
 		}
+
+		if(args.length==0) {
+			plugin.sendMessagesMsg(sender,"chat.guild.entertag");
+			return true;
+		}
+
+		String newtag = args[0];
+
+		if(plugin.getGuildManager().getGuildFind(newtag) != null) {
+			plugin.sendMessagesMsg(sender,"chat.guild.tagexists");
+			return true;
+		}
+
+		//all passed
+		guild.setTag(newtag);
+
+		plugin.tagUtils.refreshAll();
+
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("TAG",newtag);
+		plugin.sendMessagesMsg(sender,"chat.admin.guild.settag",vars);
 		return true;
 	}
 }

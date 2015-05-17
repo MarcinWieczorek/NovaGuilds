@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.marcin.NovaGuilds.event.GuildCreateEvent;
-import co.marcin.NovaGuilds.event.GuildRemoveEvent;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -42,7 +41,7 @@ public class CommandGuildCreate implements CommandExecutor {
 			plugin.info("You cannot create a guild from the console!");
 			return true;
 		}
-		Player player = plugin.getServer().getPlayer(sender.getName());
+		Player player = plugin.senderToPlayer(sender);
 
 		String tag = args[0];
 		String guildname = args[1];
@@ -104,9 +103,9 @@ public class CommandGuildCreate implements CommandExecutor {
 						PlayerInventory inventory = player.getInventory();
 						boolean hasitems = true;
 						boolean hasMoney = true;
-						int i=0;
+						int i;
 						
-						double requiredmoney = plugin.getConfig().getInt("guild.create."+group+".money"); 
+						double requiredmoney = plugin.getConfig().getInt("guild.create.groups."+group+".money");
 						
 						if(requiredmoney>0 || sender.hasPermission("novaguilds.group.admin")) {
 							if(plugin.econ.getBalance(player.getName()) < requiredmoney) {
@@ -116,7 +115,7 @@ public class CommandGuildCreate implements CommandExecutor {
 						
 						if(itemstr.size()==0 || sender.hasPermission("novaguilds.group.admin")) {
 							hasitems=true;
-							if(plugin.DEBUG) plugin.info("no items required");
+							plugin.debug("no items required");
 						}
 						else {
 							ItemStack stack;
@@ -162,6 +161,9 @@ public class CommandGuildCreate implements CommandExecutor {
 								newGuild.setSpawnPoint(player.getLocation());
 								newGuild.addPlayer(nPlayer);
 								plugin.getGuildManager().addGuild(newGuild);
+
+								//nPlayer
+								nPlayer.setGuild(newGuild);
 								
 								//taking money away
 								plugin.econ.withdrawPlayer(sender.getName(),requiredmoney);
@@ -172,7 +174,6 @@ public class CommandGuildCreate implements CommandExecutor {
 								}
 								
 								//update tag and tabs
-								plugin.updateTabAll();
 								plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
 								
 								//messages

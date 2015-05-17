@@ -1,11 +1,15 @@
 package co.marcin.NovaGuilds.command;
 
+import co.marcin.NovaGuilds.basic.NovaGuild;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandAdminGuild implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -16,55 +20,81 @@ public class CommandAdminGuild implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		String[] newArgs = StringUtils.parseArgs(args, 1);
+		String[] newArgs2 = StringUtils.parseArgs(args, 2);
+
+		List<String> noguildcmds = new ArrayList<>();
+		noguildcmds.add("list");
+		noguildcmds.add("kick");
+		noguildcmds.add("promote");
 
 		if(sender.hasPermission("novaguilds.admin.guild.access")) {
-			if(args.length > 0) {
-				if(args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("teleport")) { //TP to guild
-					new CommandAdminGuildTeleport(plugin).onCommand(sender, cmd, label, newArgs);
+			//command list
+			if(args.length == 0) {
+				plugin.sendMessagesMsg(sender, "chat.commands.admin.guild.header");
+
+				for(String cItem : plugin.getMessages().getStringList("chat.commands.admin.guild.items")) {
+					sender.sendMessage(StringUtils.fixColors(cItem));
 				}
-				else if(args[0].equalsIgnoreCase("abandon")) { //abandon
-					new CommandAdminGuildAbandon(plugin).onCommand(sender, cmd, label, newArgs);
+
+				return true;
+			}
+
+			String subCmd = args[0];
+			NovaGuild guild = null;
+			if(!noguildcmds.contains(subCmd)) {
+				guild = plugin.getGuildManager().getGuildFind(args[0]);
+
+				if(args.length > 1) {
+					subCmd = args[1];
 				}
-				else if(args[0].equalsIgnoreCase("setname")) { //set name
-					new CommandAdminGuildSetName(plugin).onCommand(sender, cmd, label, newArgs);
+			}
+
+			if(guild != null || noguildcmds.contains(subCmd)) {
+				if(subCmd.equalsIgnoreCase("tp") || subCmd.equalsIgnoreCase("teleport")) { //TP to guild
+					new CommandAdminGuildTeleport(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("settag")) { //set tag
-					new CommandAdminGuildSetTag(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("abandon")) { //abandon
+					new CommandAdminGuildAbandon(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("kick")) { //kick from guild
-					new CommandAdminGuildKick(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("setname")) { //set name
+					new CommandAdminGuildSetName(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("invite")) { //invite somebody to a guild
-					new CommandAdminGuildInvite(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("settag")) { //set tag
+					new CommandAdminGuildSetTag(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("promote")) { //promote to leader
-					new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("kick")) { //kick from guild
+					new CommandAdminGuildKick(plugin).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("list")) { //list guilds
-					new CommandAdminGuildList(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("invite")) { //invite somebody to a guild
+					new CommandAdminGuildInvite(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("pay")) { //list guilds
-					new CommandAdminGuildBankPay(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("promote")) { //promote to leader
+					new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("withdraw")) { //list guilds
-					new CommandAdminGuildBankWithdraw(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("list")) { //list guilds
+					new CommandAdminGuildList(plugin).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("timerest")) { //list guilds
-					new CommandAdminGuildSetTimerest(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("pay")) { //list guilds
+					new CommandAdminGuildBankPay(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(args[0].equalsIgnoreCase("lives")) { //list guilds
-					new CommandAdminGuildSetLives(plugin).onCommand(sender, cmd, label, newArgs);
+				else if(subCmd.equalsIgnoreCase("withdraw")) { //list guilds
+					new CommandAdminGuildBankWithdraw(plugin,guild).onCommand(sender, cmd, label, newArgs2);
+				}
+				else if(subCmd.equalsIgnoreCase("timerest")) { //list guilds
+					new CommandAdminGuildSetTimerest(plugin,guild).onCommand(sender, cmd, label, newArgs2);
+				}
+				else if(subCmd.equalsIgnoreCase("liveregentime")) { //list guilds
+					new CommandAdminGuildSetLiveRegenerationTime(plugin,guild).onCommand(sender, cmd, label, newArgs2);
+				}
+				else if(subCmd.equalsIgnoreCase("lives")) { //list guilds
+					new CommandAdminGuildSetLives(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
 				else {
 					plugin.sendMessagesMsg(sender, "chat.unknowncmd");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender, "chat.commands.admin.guild.header");
-
-				for(String citem : plugin.getMessages().getStringList("chat.commands.admin.guild.items")) {
-					sender.sendMessage(StringUtils.fixColors(citem));
-				}
+				plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
 			}
 		}
 		else {

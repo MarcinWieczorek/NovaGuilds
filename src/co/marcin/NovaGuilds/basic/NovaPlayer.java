@@ -84,6 +84,10 @@ public class NovaPlayer {
 			hasGuild = false;
 			return;
 		}
+
+		if(guild.isLeader(this)) {
+			leader = true;
+		}
 		
 		hasGuild = true;
 	}
@@ -147,11 +151,6 @@ public class NovaPlayer {
 	
 	public boolean regionMode() {
 		return regionMode;
-	}
-	
-	//Case sensitive!
-	public boolean isInvitedTo(String guildname) {
-		return invitedTo.contains(guildname);
 	}
 	
 	//add stuff

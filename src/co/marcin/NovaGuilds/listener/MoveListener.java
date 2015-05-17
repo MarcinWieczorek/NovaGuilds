@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
-import co.marcin.NovaGuilds.basic.NovaRaid;
 import co.marcin.NovaGuilds.runnable.RunnableRaid;
 import co.marcin.NovaGuilds.utils.StringUtils;
 import org.bukkit.Location;
@@ -95,7 +94,7 @@ public class MoveListener implements Listener {
 								guild.getRaid().resetProgress();
 								plugin.resetWarBar(guild);
 								plugin.resetWarBar(nPlayer.getGuild());
-								if(plugin.DEBUG) plugin.info("progress: " + guild.getRaid().getProgress());
+								plugin.debug("progress: " + guild.getRaid().getProgress());
 								guild.getRaid().updateInactiveTime();
 							}
 						}

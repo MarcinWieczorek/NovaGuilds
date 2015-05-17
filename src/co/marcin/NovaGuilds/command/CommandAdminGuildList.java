@@ -7,10 +7,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public class CommandAdminGuildList implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandAdminGuildList(NovaGuilds pl) {
 		plugin = pl;
@@ -61,24 +61,28 @@ public class CommandAdminGuildList implements CommandExecutor {
 			plugin.sendMessagesMsg(sender, StringUtils.fixColors(pagemsg));
 		}
 
-		for(Map.Entry<String, NovaGuild> row : plugin.getGuildManager().getGuilds()) {
-			plugin.info(i+"");
-			plugin.info(display+"");
-			plugin.info(i+1+">"+(page-1)*perpage);
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+			plugin.debug(i+"");
+			plugin.debug(display+"");
+			plugin.debug(i+1+">"+(page-1)*perpage);
 
-			if((i+1>(page-1)*perpage || page==1) && display==false) {
+			if((i+1>(page-1)*perpage || page==1) && !display) {
 				display = true;
 				i=0;
 			}
 
 			if(display) {
-				String rowmsg = StringUtils.replace(rowformat, "{GUILDNAME}", row.getValue().getName());
-				rowmsg = StringUtils.replace(rowmsg, "{PLAYERNAME}", row.getValue().getLeaderName());
-				rowmsg = StringUtils.replace(rowmsg, "{TAG}", row.getValue().getTag());
+				HashMap<String,String> vars = new HashMap<>();
+				vars.put("GUILDNAME", guild.getName());
+				vars.put("PLAYERNAME", guild.getLeaderName());
+				vars.put("TAG", guild.getTag());
+				vars.put("PLAYERSCOUNT", guild.getPlayers().size()+"");
+
+				String rowmsg = StringUtils.replaceMap(rowformat,vars);
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
 				if(i+1 >= perpage) {
-					plugin.info("break");
+					plugin.debug("break");
 					break;
 				}
 			}

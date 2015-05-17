@@ -24,7 +24,7 @@ public class CommandAdminReload implements CommandExecutor {
 
 			//plugin's vars from config
 			plugin.sqlp = plugin.getConfig().getString("mysql.prefix");
-			plugin.savePeriod = plugin.getConfig().getLong("saveperiod");
+			plugin.savePeriod = plugin.getConfig().getInt("saveperiod");
 			plugin.lang = plugin.getConfig().getString("lang");
 
 			plugin.timeRest = plugin.getConfig().getLong("raid.timerest");

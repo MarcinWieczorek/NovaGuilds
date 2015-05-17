@@ -11,9 +11,11 @@ import java.util.HashMap;
 
 public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 	private final NovaGuilds plugin;
+	private final NovaGuild guild;
 
-	public CommandAdminGuildBankWithdraw(NovaGuilds pl) {
+	public CommandAdminGuildBankWithdraw(NovaGuilds pl, NovaGuild guild) {
 		plugin = pl;
+		this.guild = guild;
 	}
 
 	/*
@@ -27,13 +29,12 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 			return true;
 		}
 
-		if(args.length != 2) { //invalid arguments
+		if(args.length != 1) { //invalid arguments
 			plugin.sendMessagesMsg(sender,"chat.usage.nga.guild.bank.withdraw");
 			return true;
 		}
 
-		String guildname = args[0];
-		String money_str = args[1];
+		String money_str = args[0];
 
 		if(!StringUtils.isNumeric(money_str)) { //money not int
 			plugin.sendMessagesMsg(sender,"chat.enterinteger");
@@ -41,17 +42,6 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 		}
 
 		double money = Double.parseDouble(money_str);
-
-		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
-
-		if(guild == null) { //trying to find by tag
-			guild = plugin.getGuildManager().getGuildByTag(guildname);
-		}
-
-		if(guild == null) { //still no guild
-			plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
-			return true;
-		}
 
 		if(guild.getMoney() < money) { //guild has not enought money
 			plugin.sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenought");

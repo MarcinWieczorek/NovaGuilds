@@ -12,7 +12,7 @@ import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandGuildBankPay implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandGuildBankPay(NovaGuilds pl) {
 		plugin = pl;

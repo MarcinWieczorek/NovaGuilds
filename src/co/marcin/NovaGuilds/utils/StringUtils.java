@@ -94,11 +94,12 @@ public final class StringUtils {
 	}
 	
 	public static int fixX(int x) {
-		if(x<0) {
-			return x+1;
-		}
-
 		return x;
+//		if(x<0) {
+//			return x+1;
+//		}
+//
+//		return x;
 	}
 	
 	public static boolean isNumeric(String str) {
@@ -108,7 +109,7 @@ public final class StringUtils {
 
 	
 	public static String[] parseArgs(String[] args, int cut) {
-		if(args.length==0) {
+		if(args.length==0 || args.length < cut) {
 			return args;
 		}
 		
@@ -123,6 +124,12 @@ public final class StringUtils {
 		}
 		
 		return newargs;
+	}
+
+	public static int randInt(int min, int max) {
+		Random rand = new Random();
+
+		return rand.nextInt((max - min) + 1) + min;
 	}
 	
 	public static List<String> semicolonToList(String str) {

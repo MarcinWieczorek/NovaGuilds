@@ -11,9 +11,11 @@ import java.util.HashMap;
 
 public class CommandAdminGuildBankPay implements CommandExecutor {
 	private final NovaGuilds plugin;
+	private final NovaGuild guild;
 
-	public CommandAdminGuildBankPay(NovaGuilds pl) {
+	public CommandAdminGuildBankPay(NovaGuilds pl, NovaGuild guild) {
 		plugin = pl;
+		this.guild = guild;
 	}
 
 	/*
@@ -27,13 +29,12 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 			return true;
 		}
 
-		if(args.length != 2) {
+		if(args.length != 1) {
 			plugin.sendMessagesMsg(sender,"chat.usage.nga.guild.bank.pay");
 			return true;
 		}
 
-		String guildname = args[0];
-		String money_str = args[1];
+		String money_str = args[0];
 
 		if(!StringUtils.isNumeric(money_str)) {
 			plugin.sendMessagesMsg(sender,"chat.enterinteger");
@@ -41,17 +42,6 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 		}
 
 		double money = Double.parseDouble(money_str);
-
-		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
-
-		if(guild == null) {
-			guild = plugin.getGuildManager().getGuildByTag(guildname);
-		}
-
-		if(guild == null) {
-			plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
-			return true;
-		}
 
 		guild.addMoney(money);
 

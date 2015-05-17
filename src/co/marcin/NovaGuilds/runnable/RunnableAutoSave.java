@@ -22,5 +22,7 @@ public class RunnableAutoSave implements Runnable {
 				plugin.sendMessagesMsg(player,"chat.admin.save.autosave");
 			}
 		}
+
+		plugin.runSaveScheduler();
 	}
 }

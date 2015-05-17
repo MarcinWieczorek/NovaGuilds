@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,7 +46,7 @@ public class RegionInteractListener implements Listener {
 				NovaGuild guild = plugin.getGuildManager().getGuildByRegion(rgatploc);
 
 				boolean isally = guild.isAlly(nPlayer.getGuild());
-				if(plugin.DEBUG) plugin.info(isally+" "+guild.getName()+" "+nPlayer.getGuild().getName());
+				plugin.debug(isally+" "+guild.getName()+" "+nPlayer.getGuild().getName());
 
 				// (has no guild) OR (has guild AND (not his guild AND not ally)
 				if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && (!nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()) && !isally))) {
@@ -132,18 +131,16 @@ public class RegionInteractListener implements Listener {
 			}
 			
 			if(playercaused) {
-				if(player != null) {
-					NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(player.getName());
-				
-					if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
-						if(!novaplayer.getBypass()) {
-							if(!(event.getEntity().getPassenger() instanceof Player)) {
-								event.setCancelled(true);
-								player.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotattackmob")));
-								
-								if(arrow != null) {
-									arrow.remove();
-								}
+				NovaPlayer novaplayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+
+				if(!novaplayer.hasGuild() || (novaplayer.hasGuild() && !novaplayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
+					if(!novaplayer.getBypass()) {
+						if(!(event.getEntity().getPassenger() instanceof Player)) {
+							event.setCancelled(true);
+							player.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.cannotattackmob")));
+
+							if(arrow != null) {
+								arrow.remove();
 							}
 						}
 					}

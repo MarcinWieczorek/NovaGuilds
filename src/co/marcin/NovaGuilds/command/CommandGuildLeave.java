@@ -45,8 +45,7 @@ public class CommandGuildLeave implements CommandExecutor {
 			vars.put("PLAYER",sender.getName());
 			vars.put("GUILDNAME",guild.getName());
 			plugin.broadcastMessage("broadcast.guild.left", vars);
-			
-			plugin.updateTabAll();
+
 			plugin.tagUtils.refreshAll();
 		}
 		else {

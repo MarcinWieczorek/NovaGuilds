@@ -6,17 +6,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.basic.NovaRegion;
 import co.marcin.NovaGuilds.utils.StringUtils;
-import org.bukkit.inventory.ItemStack;
 
 public class ToolListener implements Listener {
 	private final NovaGuilds plugin;
@@ -35,7 +32,7 @@ public class ToolListener implements Listener {
 
 		if(player.getItemInHand().getType().equals(tool)) {
 			if(player.getItemInHand().hasItemMeta() && player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(toolname)) {
-				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
 				Location pointedlocation = player.getTargetBlock(null, 200).getLocation();
 				pointedlocation.setWorld(player.getWorld());
 
@@ -48,7 +45,7 @@ public class ToolListener implements Listener {
 					event.setCancelled(true);
 					nPlayer.setRegionMode(!nPlayer.regionMode());
 
-					String mode = "";
+					String mode;
 					if(nPlayer.regionMode()) {
 						mode = plugin.getMessages().getString("chat.region.tool.modes.select");
 					} else {
@@ -58,8 +55,7 @@ public class ToolListener implements Listener {
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("MODE", mode);
 					plugin.sendMessagesMsg(event.getPlayer(), "chat.region.tool.toggledmode", vars);
-					if(plugin.DEBUG)
-						plugin.info("toggle=" + plugin.getPlayerManager().getPlayerByName(player.getName()).regionMode());
+					plugin.debug("toggle=" + plugin.getPlayerManager().getPlayerByName(player.getName()).regionMode());
 
 					if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
 						plugin.getRegionManager().sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
@@ -144,46 +140,53 @@ public class ToolListener implements Listener {
 								String validSelect = plugin.getRegionManager().checkRegionSelect(sl1, sl2);
 								byte data = Byte.parseByte("15");
 
-								if(validSelect.equals("valid")) { //valid
-									if(nPlayer.hasGuild()) {
-										data = (byte) 14;
-										int regionsize = plugin.getRegionManager().checkRegionSize(sl1, sl2);
-										String sizemsg = plugin.getMessages().getString("chat.region.size");
-										sizemsg = StringUtils.replace(sizemsg, "{SIZE}", regionsize + "");
+								switch(validSelect) {
+									case "valid":  //valid
+										if(nPlayer.hasGuild()) {
+											data = (byte) 14;
+											int regionsize = plugin.getRegionManager().checkRegionSize(sl1, sl2);
+											String sizemsg = plugin.getMessages().getString("chat.region.size");
+											sizemsg = StringUtils.replace(sizemsg, "{SIZE}", regionsize + "");
 
-										int createprice = plugin.getConfig().getInt("region.createprice");
-										int price = plugin.getConfig().getInt("region.pricepb") * regionsize + createprice;
+											int createprice = plugin.getConfig().getInt("region.createprice");
+											int price = plugin.getConfig().getInt("region.pricepb") * regionsize + createprice;
 
-										String pricemsg = plugin.getMessages().getString("chat.region.price");
-										pricemsg = StringUtils.replace(pricemsg, "{PRICE}", price + "");
+											String pricemsg = plugin.getMessages().getString("chat.region.price");
+											pricemsg = StringUtils.replace(pricemsg, "{PRICE}", price + "");
 
-										plugin.sendPrefixMessage(player, sizemsg);
-										plugin.sendPrefixMessage(player, pricemsg);
+											plugin.sendPrefixMessage(player, sizemsg);
+											plugin.sendPrefixMessage(player, pricemsg);
 
-										double guildBalance = nPlayer.getGuild().getMoney();
-										if(guildBalance < price) {
-											String cnotaffordmsg = plugin.getMessages().getString("chat.region.cnotafford");
-											cnotaffordmsg = StringUtils.replace(cnotaffordmsg, "{NEEDMORE}", price - guildBalance + "");
-											plugin.sendPrefixMessage(player, cnotaffordmsg);
+											double guildBalance = nPlayer.getGuild().getMoney();
+											if(guildBalance < price) {
+												String cnotaffordmsg = plugin.getMessages().getString("chat.region.cnotafford");
+												cnotaffordmsg = StringUtils.replace(cnotaffordmsg, "{NEEDMORE}", price - guildBalance + "");
+												plugin.sendPrefixMessage(player, cnotaffordmsg);
+											} else {
+												plugin.sendMessagesMsg(player, "chat.region.selectsuccess");
+											}
 										} else {
-											plugin.sendMessagesMsg(player, "chat.region.selectsuccess");
+											plugin.sendMessagesMsg(player, "chat.region.mustveguild");
 										}
-									} else {
-										plugin.sendMessagesMsg(player, "chat.region.mustveguild");
+										break;
+									case "toosmall": {
+										String msg = plugin.getMessages().getString("chat.region.toosmall");
+										msg = StringUtils.replace(msg, "{MINSIZE}", plugin.getConfig().getInt("region.minsize") + "");
+										plugin.sendPrefixMessage(player, msg);
+										break;
 									}
-								} else if(validSelect.equals("toosmall")) {
-									String msg = plugin.getMessages().getString("chat.region.toosmall");
-									msg = StringUtils.replace(msg, "{MINSIZE}", plugin.getConfig().getInt("region.minsize") + "");
-									plugin.sendPrefixMessage(player, msg);
-								} else if(validSelect.equals("toobig")) {
-									String msg = plugin.getMessages().getString("chat.region.toobig");
-									msg = StringUtils.replace(msg, "{MAXSIZE}", plugin.getConfig().getInt("region.maxsize") + "");
-									plugin.sendPrefixMessage(player, msg);
-								} else if(validSelect.equals("overlaps")) {
-									//TODO
-									//NovaRegion rgoverlaped = plugin.getRegionManager().regionInsideArea(sl1,sl2);
-									//plugin.getRegionManager().highlightRegion(player, rgoverlaped);
-									plugin.sendMessagesMsg(player, "chat.region.overlaps");
+									case "toobig": {
+										String msg = plugin.getMessages().getString("chat.region.toobig");
+										msg = StringUtils.replace(msg, "{MAXSIZE}", plugin.getConfig().getInt("region.maxsize") + "");
+										plugin.sendPrefixMessage(player, msg);
+										break;
+									}
+									case "overlaps":
+										//TODO
+										//NovaRegion rgoverlaped = plugin.getRegionManager().regionInsideArea(sl1,sl2);
+										//plugin.getRegionManager().highlightRegion(player, rgoverlaped);
+										plugin.sendMessagesMsg(player, "chat.region.overlaps");
+										break;
 								}
 
 								plugin.getRegionManager().sendSquare(player, sl1, sl2, Material.WOOL, data);
@@ -196,40 +199,6 @@ public class ToolListener implements Listener {
 					}
 				}
 			}
-		}
-	}
-
-	//TODO: test cobblex
-	@EventHandler(priority = EventPriority.HIGH)
-	public void onInventoryInteract(InventoryInteractEvent event) {
-		plugin.info("inv interact event");
-		if(event.getWhoClicked() instanceof Player) {
-			Player player = (Player) event.getWhoClicked();
-
-			if(event.getInventory().getName().equalsIgnoreCase("CobbleX!")) {
-				ItemStack[] items = event.getInventory().getContents();
-				boolean hasitems = true;
-
-				for(ItemStack is : items) {
-					if(is.getType() != Material.COBBLESTONE || is.getAmount() != 64) {
-						hasitems = false;
-					}
-				}
-
-				if(hasitems) {
-					player.sendMessage("cobblex!");
-					player.closeInventory();
-				}
-				else {
-					player.sendMessage("no cobblex");
-				}
-			}
-			else {
-				player.sendMessage("inv no cobblex");
-			}
-		}
-		else {
-			plugin.info("no player inv");
 		}
 	}
 }

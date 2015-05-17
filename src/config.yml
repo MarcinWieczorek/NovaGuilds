@@ -16,10 +16,6 @@ tabapi:
  colortags: true
  rankprefix: false
 
- tabinfo:
-  enabled: false
-  requirepermissions: false
-
 tagapi:
  enabled: false
  colortags: true
@@ -42,6 +38,21 @@ holographicdisplays:
 #Save period in minutes
 saveperiod: 10
 
+#after the raid is over and this time the guild will get +1 live
+liveregenerationtime: 24h
+
+aliases:
+ guild:
+  - g
+  - gildia
+ create:
+  - zaloz
+ invite:
+  - zapros
+ abandon:
+  - rozwiaz
+
+
 chat:
  ally:
   prefix: "!!"
@@ -56,17 +67,6 @@ chat:
   leaderprefix: true
   format: "&6[&7Guild&6] &8{PLAYERNAME}&6:&r "
   msgprefix: "&6"
-
-takeover:
- endercrystal:
-  enabled: true
-  explosionpower: 50
-  #seconds
-  time: 100
-  #cooldown in seconds
-  cooldown: 0.1
-  requireguild: false
-  requirewar: false
 
 raid:
  enabled: true
@@ -101,16 +101,33 @@ guild:
  killpoints: 5
  deathpoints: 5
 
+ #/g effect
+ effects:
+  - JUMP
+  - INCREASE_DAMAGE
+  - HEAL
+
  #permissions: novaguilds.group.GROUP
  #there's no need for admin group. novaguilds.group.admin for no items required
  create:
   groups:
    default: #this is default
+    #teleport delay in seconds
+    tpdelay: 5
+    effectprice: 100
     money: 0
+    region:
+     create: 100
+     ppb: 1
     items:
      - dirt 1
    vip: #novaguilds.group.vip
+    tpdelay: 3
+    effectprice: 100
     money: 0
+    region:
+     create: 0
+     ppb: 0.5
     items:
      - cobblestone 5
 

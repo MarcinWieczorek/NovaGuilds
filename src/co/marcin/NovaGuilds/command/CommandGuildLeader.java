@@ -32,6 +32,9 @@ public class CommandGuildLeader implements CommandExecutor {
 								//set guild leader
 								guild.setLeaderName(newLeader.getName());
 								plugin.getGuildManager().saveGuild(guild);
+
+								newLeader.setLeader(true);
+								nPlayer.setLeader(false);
 								
 								HashMap<String,String> vars = new HashMap<>();
 								vars.put("PLAYERNAME",newLeader.getName());
@@ -40,7 +43,6 @@ public class CommandGuildLeader implements CommandExecutor {
 								plugin.broadcastMessage("broadcast.guild.setleader", vars);
 								
 								//Tab and tags
-								plugin.updateTabAll();
 								plugin.tagUtils.refreshAll();
 							}
 							else {

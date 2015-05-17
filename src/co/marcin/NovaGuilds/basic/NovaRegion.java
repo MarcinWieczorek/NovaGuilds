@@ -23,6 +23,10 @@ public class NovaRegion {
 		return guildname;
 	}
 
+	public NovaGuild getGuild() {
+		return guild;
+	}
+
 	public Location getCorner(int index) {
 		return corners[index];
 	}

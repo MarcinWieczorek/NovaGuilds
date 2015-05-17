@@ -19,17 +19,17 @@ public class NovaGuild {
 	private int points;
 	private NovaRaid raid;
 	private long timeRest;
+	private long lostLiveTime;
 	private int lives;
 	
 	private List<NovaPlayer> players = new ArrayList<>();
-	public List<String> players_nick = new ArrayList<>();
 
 	private List<String> allies = new ArrayList<>();
 	private List<String> allies_invited = new ArrayList<>();
 
 	private List<String> war = new ArrayList<>();
 	private List<String> nowar_inv = new ArrayList<>();
-	
+
 	//getters
 	public String getName() {
 		return name;
@@ -66,6 +66,20 @@ public class NovaGuild {
 	public List<NovaPlayer> getPlayers() {
 		return players;
 	}
+
+	public List<Player> getOnlinePlayers() {
+		List<Player> list = new ArrayList<>();
+
+		for(NovaPlayer nPlayer : getPlayers()) {
+			if(nPlayer.isOnline()) {
+				if(nPlayer.getPlayer() != null) {
+					list.add(nPlayer.getPlayer());
+				}
+			}
+		}
+
+		return list;
+	}
 	
 	public String getLeaderName() {
 		return leadername;
@@ -93,6 +107,10 @@ public class NovaGuild {
 
 	public int getLives() {
 		return lives;
+	}
+
+	public long getLostLiveTime() {
+		return lostLiveTime;
 	}
 
 	//setters
@@ -164,6 +182,18 @@ public class NovaGuild {
 		timeRest = NovaGuilds.systemSeconds();
 	}
 
+	public void updateLostLive() {
+		lostLiveTime = NovaGuilds.systemSeconds();
+	}
+
+	public void setLostLiveTime(long t) {
+		lostLiveTime = t;
+	}
+
+	public void resetLostLiveTime() {
+		lostLiveTime = 0;
+	}
+
 	public void setLives(int l) {
 		lives = l;
 	}
@@ -192,9 +222,9 @@ public class NovaGuild {
 	public boolean isLeader(String playername) {
 		return leadername.equals(playername);
 	}
-	
-	public boolean isLeader(Player player) {
-		return leadername.equals(player.getName());
+
+	public boolean isLeader(NovaPlayer nPlayer) {
+		return leadername.equalsIgnoreCase(nPlayer.getName());
 	}
 	
 	public boolean isLeader(CommandSender sender) {
@@ -233,7 +263,6 @@ public class NovaGuild {
 	public void addPlayer(NovaPlayer nPlayer) {
 		if(!players.contains(nPlayer)) {
 			players.add(nPlayer);
-			players_nick.add(nPlayer.getName());
 		}
 	}
 	
@@ -246,8 +275,9 @@ public class NovaGuild {
 	}
 	
 	public void removePlayer(NovaPlayer nPlayer) {
-		if(players.contains(nPlayer))
+		if(players.contains(nPlayer)) {
 			players.remove(nPlayer);
+		}
 	}
 	
 	public void removeAlly(NovaGuild guild) {
@@ -272,6 +302,10 @@ public class NovaGuild {
 	public void takeLive() {
 		lives--;
 	}
+
+	public void addLive() {
+		lives++;
+	}
 	
 	public void takePoints(int p) {
 		points -= p;
@@ -287,6 +321,6 @@ public class NovaGuild {
 	}
 
 	public boolean isMember(NovaPlayer nPlayer) {
-		return players_nick.contains(nPlayer.getName());
+		return players.contains(nPlayer);
 	}
 }

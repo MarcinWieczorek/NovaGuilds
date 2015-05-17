@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CommandAdminRegionTeleport implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandAdminRegionTeleport(NovaGuilds pl) {
 		plugin = pl;
@@ -31,7 +31,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		}
 
 		String guildname = args[0];
-		String playername = "";
+		String playername;
 		NovaPlayer nPlayerOther = null;
 
 		if(args.length > 1) { //other

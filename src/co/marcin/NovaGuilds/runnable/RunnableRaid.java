@@ -21,7 +21,7 @@ public class RunnableRaid implements Runnable {
 			plugin.setWarBar(guild, raid.getProgress(), raid.getGuildDefender());
 			NovaPlayer nPlayer = raid.getPlayersOccupying().get(0);
 			plugin.setWarBar(nPlayer.getGuild(), raid.getProgress(), raid.getGuildDefender());
-			if(plugin.DEBUG) plugin.info(guild.getName() + " scheduler working " + plugin.guildRaids.size());
+			plugin.debug(guild.getName() + " scheduler working " + plugin.guildRaids.size());
 
 			//stepping progress
 			for(int count = 0; count < raid.getPlayersOccupyingCount(); count++) {
@@ -39,9 +39,9 @@ public class RunnableRaid implements Runnable {
 			}
 
 			//TODO: can be done better
-			if(raid.systemSeconds() - raid.getInactiveTime() > plugin.timeInactive) {
+			if(NovaGuilds.systemSeconds() - raid.getInactiveTime() > plugin.timeInactive) {
 				raid.finish();
-				if(plugin.DEBUG) plugin.info("inactive for 10 seconds, removing.");
+				plugin.debug("inactive for 10 seconds, removing.");
 				plugin.broadcastMessage("broadcast.guild.raid.finished.defenderwon", vars);
 			}
 
@@ -57,6 +57,7 @@ public class RunnableRaid implements Runnable {
 				plugin.resetWarBar(nPlayer.getGuild());
 				guild.takeLive();
 				guild.updateTimeRest();
+				guild.updateLostLive();
 				plugin.guildRaids.remove(guild);
 				guild.isNotRaid();
 
@@ -75,8 +76,8 @@ public class RunnableRaid implements Runnable {
 			plugin.worker.schedule(this, 1, TimeUnit.SECONDS);
 		}
 		else {
-			if(plugin.DEBUG) plugin.info("size: " + plugin.guildRaids.size());
-			if(plugin.DEBUG) plugin.info("enabled: " + plugin.isEnabled());
+			plugin.debug("size: " + plugin.guildRaids.size());
+			plugin.debug("enabled: " + plugin.isEnabled());
 		}
 	}
 }

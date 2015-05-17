@@ -1,26 +1,24 @@
 package co.marcin.NovaGuilds.basic;
 
+import co.marcin.NovaGuilds.NovaGuilds;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class NovaRaid {
 	private NovaGuild guildAttacker;
 	private NovaGuild guildDefender;
-	private long startTime = systemSeconds();
-	private long inactiveTime = systemSeconds();
+	private final long startTime = NovaGuilds.systemSeconds();
+	private long inactiveTime = NovaGuilds.systemSeconds();
 	private int killsAttacker;
 	private int killsDefender;
 	private int progress;
 	private boolean finished;
-	private List<NovaPlayer> playersOccupying = new ArrayList<>();
+	private final List<NovaPlayer> playersOccupying = new ArrayList<>();
 
 	public NovaRaid(NovaGuild guildAttacker, NovaGuild guildDefender) {
 		this.guildAttacker = guildAttacker;
 		this.guildDefender = guildDefender;
-	}
-
-	public NovaRaid() {
-
 	}
 
 	public NovaGuild getGuildAttacker() {
@@ -91,8 +89,8 @@ public class NovaRaid {
 	public void stepProgress() {
 		if(progress < 100) {
 			//TODO: tests
-			progress += 10;
-			//progress++;
+			//progress += 10;
+			progress++;
 		}
 	}
 
@@ -105,7 +103,7 @@ public class NovaRaid {
 	}
 
 	public void updateInactiveTime() {
-		inactiveTime = systemSeconds();
+		inactiveTime = NovaGuilds.systemSeconds();
 	}
 
 	//add/remove
@@ -117,10 +115,5 @@ public class NovaRaid {
 
 	public void removePlayerOccupying(NovaPlayer nPlayer) {
 		playersOccupying.remove(nPlayer);
-	}
-
-	//Utils
-	public long systemSeconds() {
-		return System.currentTimeMillis() / 1000;
 	}
 }

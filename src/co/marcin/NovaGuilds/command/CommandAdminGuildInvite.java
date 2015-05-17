@@ -12,9 +12,11 @@ import java.util.HashMap;
 
 public class CommandAdminGuildInvite implements CommandExecutor {
 	private final NovaGuilds plugin;
-	
-	public CommandAdminGuildInvite(NovaGuilds novaGuilds) {
+	private final NovaGuild guild;
+
+	public CommandAdminGuildInvite(NovaGuilds novaGuilds, NovaGuild guild) {
 		plugin = novaGuilds;
+		this.guild = guild;
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -22,25 +24,12 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 			return true;
 		}
 		
-		if(args.length == 0) { //no guild name
-			plugin.sendMessagesMsg(sender,"chat.guild.entername");
-			return true;
-		}
-		
-		if(args.length == 1) { //no player name
+		if(args.length == 0) { //no player name
 			plugin.sendMessagesMsg(sender,"chat.player.entername");
 			return true;
 		}
 		
-		String guildname = args[0];
-		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
-		
-		if(guild == null) {
-			plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
-			return true;
-		}
-		
-		String playername = args[1];
+		String playername = args[0];
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
 		
 		if(nPlayer == null) { //noplayer

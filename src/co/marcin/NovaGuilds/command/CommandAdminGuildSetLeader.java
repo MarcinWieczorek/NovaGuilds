@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CommandAdminGuildSetLeader implements CommandExecutor {
-    public final NovaGuilds plugin;
+    private final NovaGuilds plugin;
 
     public CommandAdminGuildSetLeader(NovaGuilds pl) {
         plugin = pl;

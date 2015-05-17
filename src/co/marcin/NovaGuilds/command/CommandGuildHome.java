@@ -10,7 +10,7 @@ import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.basic.NovaRegion;
 
 public class CommandGuildHome implements CommandExecutor {
-public final NovaGuilds plugin;
+private final NovaGuilds plugin;
 	
 	public CommandGuildHome(NovaGuilds pl) {
 		plugin = pl;
@@ -30,7 +30,6 @@ public final NovaGuilds plugin;
 			if(args.length>0 && args[0].equalsIgnoreCase("set")) {
 				if(nPlayer.isLeader()) {
 					NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
-					//player.getWorld().spawnEntity(player.getLocation(), EntityType.ENDER_CRYSTAL);
 					
 					if(rgatloc == null || rgatloc.getGuildName().equals(nPlayer.getGuild().getName())) {
 						nPlayer.getGuild().setSpawnPoint(player.getLocation());
@@ -48,7 +47,8 @@ public final NovaGuilds plugin;
 			}
 			
 			if(nPlayer.getGuild().getSpawnPoint() != null) {
-				player.teleport(nPlayer.getGuild().getSpawnPoint());
+				//player.teleport(nPlayer.getGuild().getSpawnPoint());
+				plugin.delayedTeleport(player,nPlayer.getGuild().getSpawnPoint());
 				plugin.sendMessagesMsg(sender,"chat.guild.tp");
 			}
 		}

@@ -3,6 +3,7 @@ package co.marcin.NovaGuilds.listener;
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.basic.NovaRaid;
 import co.marcin.NovaGuilds.basic.NovaRegion;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,19 +21,21 @@ public class LoginListener implements Listener {
 	public LoginListener(NovaGuilds plugin) {
 		this.plugin = plugin;
 	}
-	
+
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 
-		//create scoreboard
-		player.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
+		//adding player
+		plugin.getPlayerManager().addIfNotExists(player);
 
-		if(!plugin.getPlayerManager().exists(player.getName())) {
-			plugin.getPlayerManager().addPlayer(player);
-		}
-		
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+
+		//scoreboard
+		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+
+
 
 		nPlayer.setPlayer(player);
 		nPlayer.setOnline(true);
@@ -55,17 +58,15 @@ public class LoginListener implements Listener {
 		}
 		
 		//TabAPI
-		plugin.updateTabAll();
 		plugin.tagUtils.updatePrefix(player);
 		//plugin.sendTablistInfo(player); //TODO test
 	}
 	
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(event.getPlayer().getName());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(event.getPlayer());
 		nPlayer.setOnline(false);
 		nPlayer.setPlayer(null);
-		plugin.updateTabAll(event.getPlayer());
 
 		//remove player from raid
 		if(nPlayer.isPartRaid()) {

@@ -7,16 +7,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminGuildSetTimerest implements CommandExecutor {
+public class CommandAdminGuildSetLiveRegenerationTime implements CommandExecutor {
 	private final NovaGuilds plugin;
 	private final NovaGuild guild;
 
-	public CommandAdminGuildSetTimerest(NovaGuilds pl, NovaGuild guild) {
+	public CommandAdminGuildSetLiveRegenerationTime(NovaGuilds pl, NovaGuild guild) {
 		plugin = pl;
 		this.guild = guild;
 	}
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.guild.timerest")) {
+		if(!sender.hasPermission("novaguilds.admin.guild.liveregenerationtime")) {
 			plugin.sendMessagesMsg(sender, "chat.nopermissions");
 			return true;
 		}
@@ -29,9 +30,10 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 		int iseconds = StringUtils.StringToSeconds(timeString);
 		long seconds = Long.parseLong(iseconds+"");
 
-		long newtimerest = NovaGuilds.systemSeconds() - (plugin.timeRest - seconds);
+		long newregentime = NovaGuilds.systemSeconds() + (seconds - plugin.liveRegenerationTime);
+		plugin.debug("newregentime: "+newregentime);
 
-		guild.setTimeRest(newtimerest);
+		guild.setLostLiveTime(newregentime);
 		plugin.sendMessagesMsg(sender,"chat.admin.guild.timerest.set");
 
 		return true;

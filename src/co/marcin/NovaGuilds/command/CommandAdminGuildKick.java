@@ -56,7 +56,6 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		plugin.broadcastMessage("broadcast.guild.kicked", vars);
 		
 		//tab/tag
-		plugin.updateTabAll();
 		plugin.tagUtils.refreshAll();
 		
 		return true;

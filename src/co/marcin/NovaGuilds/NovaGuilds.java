@@ -2,25 +2,26 @@ package co.marcin.NovaGuilds;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import co.marcin.NovaGuilds.basic.NovaGroup;
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.basic.NovaRegion;
 import co.marcin.NovaGuilds.listener.*;
+import co.marcin.NovaGuilds.manager.CustomCommandManager;
 import co.marcin.NovaGuilds.runnable.RunnableAutoSave;
-import co.marcin.NovaGuilds.runnable.RunnableRaid;
+import co.marcin.NovaGuilds.runnable.RunnableLiveRegeneration;
+import co.marcin.NovaGuilds.runnable.RunnableTeleportRequest;
 import co.marcin.NovaGuilds.utils.StringUtils;
 import co.marcin.NovaGuilds.utils.TagUtils;
 import me.confuser.barapi.BarAPI;
@@ -32,18 +33,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.dynmap.DynmapAPI;
-import org.dynmap.DynmapCore;
-import org.dynmap.markers.Marker;
-import org.dynmap.markers.MarkerAPI;
-import org.dynmap.markers.MarkerIcon;
-import org.dynmap.markers.MarkerSet;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -79,43 +72,40 @@ public class NovaGuilds extends JavaPlugin {
 
 	//Vault
 	public Economy econ = null;
-    //public static Permission perms = null;
-    //public static Chat chat = null;
 
 	public boolean useTabAPI;
 	public boolean useTagAPI;
 	public boolean useVault;
 	public boolean useHolographicDisplays;
-	private boolean useDynmap;
 	private boolean useBarAPI;
 	
-	public boolean useMySQL;
+	private boolean useMySQL;
 	public String lang;
 	
-	public HashMap<String,NovaPlayer> players = new HashMap<>();
-	public HashMap<String,NovaGuild> guilds = new HashMap<>();
-	public HashMap<String,NovaRegion> regions = new HashMap<>();
-
-	public HashMap<String,NovaPlayer> players_changes = new HashMap<>();
-	public HashMap<String,NovaGuild> guilds_changes = new HashMap<>();
+	public final HashMap<String,NovaPlayer> players = new HashMap<>();
+	public final HashMap<String,NovaGuild> guilds = new HashMap<>();
+	public final HashMap<String,NovaRegion> regions = new HashMap<>();
+	public final HashMap<String,NovaGroup> groups = new HashMap<>();
 	
 	private final GuildManager guildManager = new GuildManager(this);
 	private final RegionManager regionManager = new RegionManager(this);
 	private final PlayerManager playerManager = new PlayerManager(this);
+	private final CustomCommandManager commandManager = new CustomCommandManager(this);
 
 	public long timeRest;
-	public long savePeriod; //minutes
+	public int savePeriod; //minutes
 	public long timeInactive;
+	public long liveRegenerationTime; //minutes
 
 	public TagUtils tagUtils;
 
 	//TODO: test scheduler
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
-	public List<NovaGuild> guildRaids = new ArrayList<>();
+	public final List<NovaGuild> guildRaids = new ArrayList<>();
 
 	//Database
-	public MySQL MySQL;
-	public SQLite sqlite;
+	private MySQL MySQL;
+	private SQLite sqlite;
 	public Connection c = null;
 	
 	private FileConfiguration messages = null;
@@ -125,22 +115,27 @@ public class NovaGuilds extends JavaPlugin {
 	public void onEnable() {
 		saveDefaultConfig();
 		sqlp = getConfig().getString("mysql.prefix");
-		savePeriod = getConfig().getLong("saveperiod");
+		savePeriod = getConfig().getInt("saveperiod");
 		lang = getConfig().getString("lang");
 
 		timeRest = getConfig().getLong("raid.timerest");
 		distanceFromSpawn = getConfig().getLong("guild.fromspawn");
 		timeInactive = getConfig().getLong("raid.timeinactive");
+
+		String liveRegenerationString = getConfig().getString("liveregenerationtime");
+		liveRegenerationTime = StringUtils.StringToSeconds(liveRegenerationString);
 		//TODO
 		
 		useVault = getConfig().getBoolean("usevault");
 		useTabAPI = getConfig().getBoolean("tabapi.enabled");
 		useTagAPI = getConfig().getBoolean("tagapi.enabled");
 		useHolographicDisplays = getConfig().getBoolean("holographicdisplays.enabled");
-		useDynmap = getConfig().getBoolean("dynmap.enabled");
 		useBarAPI = getConfig().getBoolean("barapi.enabled");
 
 		useMySQL = getConfig().getBoolean("usemysql");
+
+		//loading groups
+		loadGroups();
 
 		tagUtils = new TagUtils(this);
 
@@ -165,27 +160,6 @@ public class NovaGuilds extends JavaPlugin {
 	        }
 			info("Vault's Economy hooked");
 		}
-		
-		//TabAPI
-		if(useTabAPI) {
-			if(!checkTabAPI()) {
-				info("Couldn't find TabAPI plugin, disabling this feature.");
-				useTabAPI = false;
-			}
-			else {
-				info("TabAPI hooked");
-			}
-		}
-		
-		//TagAPI
-		if(useTagAPI) {
-			if(!checkTagAPI()) {
-				info("Couldn't find TagAPI plugin, disabling this feature.");
-				useTagAPI = false;
-			} else {
-				info("TagAPI hooked");
-			}
-		}
 
 		//BarAPI
 		if(useBarAPI) {
@@ -194,17 +168,6 @@ public class NovaGuilds extends JavaPlugin {
 				useBarAPI = false;
 			} else {
 				info("BarAPI hooked");
-			}
-		}
-
-		//TODO tests only
-		//Dynmap
-		if(useDynmap) {
-			if(!checkBarAPI()) {
-				info("Couldn't find Dynmap plugin, disabling this feature.");
-				useBarAPI = false;
-			} else {
-				info("Dynmap hooked");
 			}
 		}
 		
@@ -224,7 +187,7 @@ public class NovaGuilds extends JavaPlugin {
 		info("Messages loaded");
         
 		//Version check
-        String latest = StringUtils.getContent("http://NovaGuilds.marcin.co/latest.info");
+        String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
         info("You're using build: #"+pdf.getVersion());
         info("Latest build of the plugin is: #"+latest);
 
@@ -309,27 +272,6 @@ public class NovaGuilds extends JavaPlugin {
 			getRegionManager().loadRegions();
 			getGuildManager().loadGuilds();
 			getPlayerManager().loadPlayers();
-
-			//dynmap
-			if(useDynmap) {
-				DynmapAPI dynmap = (DynmapAPI) pm.getPlugin("dynmap");
-
-				if(dynmap != null) {
-					MarkerAPI markerapi = dynmap.getMarkerAPI();
-
-					InputStream stream = getClass().getResourceAsStream("/images/dynmap-clock.png");
-					MarkerIcon icon = markerapi.createMarkerIcon("ng.clock", "ng.clock", stream);
-
-					MarkerSet markerSet = markerapi.createMarkerSet("ngset", "label", null, false);
-
-					if(markerSet != null) {
-						for(NovaGuild guild : guilds.values()) {
-							Location sp = guild.getSpawnPoint();
-							markerSet.createMarker("guild." + guild.getId(), guild.getName(), sp.getWorld().getName(), sp.getX(), sp.getY(), sp.getZ(), icon, false);
-						}
-					}
-				}
-			}
 			
 			//Listeners
 			pm.registerEvents(new LoginListener(this), this);
@@ -341,23 +283,20 @@ public class NovaGuilds extends JavaPlugin {
 			pm.registerEvents(new PvpListener(this),this);
 			pm.registerEvents(new DeathListener(this),this);
 
-			new ReceiveNameTagListener(this);
-
 			//custom events
 			new GuildEventListener(this);
 			info("Listeners activated");
 
-
-
 			//Tablist update
 			tagUtils.refreshAll();
-			//TODO deprecated
-//			updateTabAll();
-//			tagUtils.updateTagAll();
 			
 			//save scheduler
 			runSaveScheduler();
 			info("Save scheduler is running");
+
+			//live regeneration task
+			runLiveRegenerationTask();
+			info("Live regeneration task is running");
 
 			//metrics
 			setupMetrics();
@@ -384,8 +323,10 @@ public class NovaGuilds extends JavaPlugin {
 		worker.shutdown();
 
 		//reset barapi
-		for(Player player : getServer().getOnlinePlayers()) {
-			BarAPI.removeBar(player);
+		if(useBarAPI) {
+			for(Player player : getServer().getOnlinePlayers()) {
+				BarAPI.removeBar(player);
+			}
 		}
 
 		//removing holographic displays
@@ -404,6 +345,10 @@ public class NovaGuilds extends JavaPlugin {
 				getRegionManager().sendSquare(p,l1,l2,null,(byte)0);
 				getRegionManager().resetCorner(p,l1);
 				getRegionManager().resetCorner(p,l2);
+
+				if(nPlayer.getSelectedRegion() != null) {
+					getRegionManager().resetHighlightRegion(p,nPlayer.getSelectedRegion());
+				}
 			}
 		}
 		
@@ -435,6 +380,12 @@ public class NovaGuilds extends JavaPlugin {
 	public void info(String msg) {
 		log.info(logprefix+msg);
 	}
+
+	public void debug(String msg) {
+		if(DEBUG) {
+			log.info(logprefix + "[DEBUG] " + msg);
+		}
+	}
 	
 	//Managers
 	public GuildManager getGuildManager() {
@@ -447,6 +398,10 @@ public class NovaGuilds extends JavaPlugin {
 
 	public PlayerManager getPlayerManager() {
 		return playerManager;
+	}
+
+	public CustomCommandManager getCommandManager() {
+		return commandManager;
 	}
 	
 	//Vault economy
@@ -464,15 +419,6 @@ public class NovaGuilds extends JavaPlugin {
         econ = rsp.getProvider();
         return econ != null;
     }
-	
-	private boolean checkTabAPI() {
-		return !(getServer().getPluginManager().getPlugin("TabAPI") == null);
-	}
-	
-	//tagAPI
-	private boolean checkTagAPI() {
-		return !(getServer().getPluginManager().getPlugin("TagAPI") == null);
-	}
 
 	//Vault
 	private boolean checkVault() {
@@ -489,137 +435,6 @@ public class NovaGuilds extends JavaPlugin {
 		return getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
 	}
 
-	public String getTabName(Player player) {
-		String tag;
-		String guildtag;
-		String rank = "";
-		NovaPlayer nplayer = getPlayerManager().getPlayerByName(player.getName());
-		String tabName = player.getName();
-
-		if(nplayer.hasGuild()) {
-			tag = getConfig().getString("guild.tag");
-			guildtag = nplayer.getGuild().getTag();
-
-			if(!getConfig().getBoolean("tabapi.colortags")) {
-				guildtag = StringUtils.removeColors(guildtag);
-			}
-
-			tag = StringUtils.replace(tag, "{TAG}", guildtag);
-
-			if(getConfig().getBoolean("tabapi.rankprefix")) {
-				if(nplayer.getGuild().getLeaderName().equalsIgnoreCase(player.getName())) {
-					rank = messages.getString("chat.guildinfo.leaderprefix");
-				}
-			}
-
-			tag = StringUtils.replace(tag, "{RANK}", rank);
-			tag = StringUtils.fixColors(tag);
-			tabName = tag + tabName;
-		}
-		
-		return tabName;
-	}
-	
-	public void updateTab(Player player) {
-		//TODO: remove all
-//		int x=0;
-//		int y=0;
-//		String tabName;
-//		for(Player p : getServer().getOnlinePlayers()) {
-//			if(useTabAPI) {
-//				tabName = getTabName(p);
-//			}
-//			else {
-//				tabName = p.getName();
-//			}
-//
-//			if(DEBUG) info(y+" - "+getTabName(p));
-//			TabAPI.setTabString(this,player,x,y,tabName);
-//			y++;
-//
-//			if(y >= TabAPI.getVertSize()) {
-//				x++;
-//				y=0;
-//				if(DEBUG) info(">>>");
-//			}
-//		}
-//		TabAPI.updateAll();
-	}
-	
-	public void updateTabAll() {
-		//TODO remove
-//		if(checkTabAPI()) {
-//			int x;
-//			int y;
-//			String tabName;
-//
-//			for(Player p2 : getServer().getOnlinePlayers()) {
-//				TabAPI.clearTab(p2);
-//				x=0;
-//				y=0;
-//				for(Player p : getServer().getOnlinePlayers()) {
-//					if(useTabAPI) {
-//						tabName = getTabName(p);
-//					}
-//					else {
-//						tabName = p.getName();
-//					}
-//
-//					if(DEBUG) info(y+" - "+getTabName(p));
-//					TabAPI.setTabString(this,p2,x,y,tabName);
-//					y++;
-//
-//					if(y >= TabAPI.getVertSize()) {
-//						x++;
-//						y=0;
-//						if(DEBUG) info(">>>");
-//					}
-//				}
-//			}
-//			TabAPI.updateAll();
-//		}
-	}
-	
-	//update exclude
-	public void updateTabAll(Player excludeplayer) {
-		//TODO remove
-//		if(checkTabAPI()) {
-//			int x;
-//			int y;
-//			String tabName;
-//
-//			for(Player p2 : getServer().getOnlinePlayers()) {
-//				TabAPI.clearTab(p2);
-//				TabAPI.resetTabList(p2);
-//				x=0;
-//				y=0;
-//				for(Player p : getServer().getOnlinePlayers()) {
-//
-//					if(!p.equals(excludeplayer)) {
-//						if(useTabAPI) {
-//							tabName = getTabName(p);
-//						}
-//						else {
-//							tabName = p.getName();
-//						}
-//
-//						if(DEBUG) info(y+" - "+getTabName(p));
-//						TabAPI.setTabString(this,p2,x,y,tabName);
-//						y++;
-//
-//						if(y >= TabAPI.getVertSize()) {
-//							x++;
-//							y=0;
-//							if(DEBUG) info(">>>");
-//						}
-//					}
-//					else if(DEBUG) info("exclude: "+p.getName());
-//				}
-//			}
-//			TabAPI.updateAll();
-//		}
-	}
-	
 	//MESSAGES
 	
 	public boolean loadMessages() {
@@ -689,7 +504,7 @@ public class NovaGuilds extends JavaPlugin {
 	//send message from file with prefix and vars to a player
 	public void sendMessagesMsg(Player p, String path, HashMap<String,String> vars) {
 		String msg = getMessagesString(path);
-		msg = replaceMessage(msg,vars);
+		msg = StringUtils.replaceMap(msg, vars);
 		p.sendMessage(StringUtils.fixColors(prefix + msg));
 	}
 	
@@ -699,7 +514,7 @@ public class NovaGuilds extends JavaPlugin {
 	
 	public void sendMessagesMsg(CommandSender sender, String path, HashMap<String,String> vars) {
 		String msg = getMessagesString(path);
-		msg = replaceMessage(msg,vars);
+		msg = StringUtils.replaceMap(msg, vars);
 		sender.sendMessage(StringUtils.fixColors(prefix + msg));
 	}
 	
@@ -721,7 +536,7 @@ public class NovaGuilds extends JavaPlugin {
 
 	public void broadcastMessage(String path,HashMap<String,String> vars) {
 		String msg = getMessagesString(path);
-		msg = replaceMessage(msg,vars);
+		msg = StringUtils.replaceMap(msg, vars);
 		
 		for(Player p : getServer().getOnlinePlayers()) {
 			sendPrefixMessage(p, msg);
@@ -730,7 +545,7 @@ public class NovaGuilds extends JavaPlugin {
 	
 	public void broadcastGuild(NovaGuild guild, String path,HashMap<String,String> vars) {
 		String msg = getMessagesString(path);
-		msg = replaceMessage(msg,vars);
+		msg = StringUtils.replaceMap(msg, vars);
 		
 		for(NovaPlayer p : guild.getPlayers()) {
 			if(p.isOnline())
@@ -738,17 +553,17 @@ public class NovaGuilds extends JavaPlugin {
 		}
 	}
 	
-	public String replaceMessage(String msg, HashMap<String,String> vars) {
-		if(vars != null) {
-			if(vars.size() > 0) {
-				for(Entry<String, String> e : vars.entrySet()) {
-					msg = StringUtils.replace(msg, "{" + e.getKey() + "}", e.getValue());
-				}
-			}
-		}
-		
-		return msg;
-	}
+//	public String replaceMessage(String msg, HashMap<String,String> vars) {
+//		if(vars != null) {
+//			if(vars.size() > 0) {
+//				for(Entry<String, String> e : vars.entrySet()) {
+//					msg = StringUtils.replace(msg, "{" + e.getKey() + "}", e.getValue());
+//				}
+//			}
+//		}
+//
+//		return msg;
+//	}
 	
 	//convert sender to player
 	public Player senderToPlayer(CommandSender sender) {
@@ -756,8 +571,8 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	//true=mysql, false=sqlite
-	public String[] getSQLCreateCode(boolean mysql) {
-		String url = "http://NovaGuilds.marcin.co/sqltables.txt";
+	private String[] getSQLCreateCode(boolean mysql) {
+		String url = "http://novaguilds.marcin.co/sqltables.txt";
 		String sql = StringUtils.getContent(url);
 		
 		int index;
@@ -770,7 +585,7 @@ public class NovaGuilds extends JavaPlugin {
 		return types[index].split("--");
 	}
 	
-	public void createTable(String sql) throws SQLException {
+	private void createTable(String sql) throws SQLException {
 		mysqlReload();
 		Statement statement;
 		sql = StringUtils.replace(sql, "{SQLPREFIX}", sqlp);
@@ -783,7 +598,12 @@ public class NovaGuilds extends JavaPlugin {
 		worker.schedule(task, savePeriod, TimeUnit.MINUTES);
 	}
 
-	public void setupMetrics() {
+	public void runLiveRegenerationTask() {
+		Runnable task = new RunnableLiveRegeneration(this);
+		worker.schedule(task,30,TimeUnit.MINUTES);
+	}
+
+	private void setupMetrics() {
 		if(checkVault()) {
 			try {
 				Metrics metrics = new Metrics(this);
@@ -844,6 +664,48 @@ public class NovaGuilds extends JavaPlugin {
 				}
 			}
 		}
+	}
+
+	public void loadGroups() {
+		Set<String> groupsNames = getConfig().getConfigurationSection("guild.create.groups").getKeys(false);
+
+		for(String groupName : groupsNames) {
+			groups.put(groupName, new NovaGroup(this, groupName));
+		}
+	}
+
+	public NovaGroup getGroup(Player player) {
+		String groupName = "default";
+
+		for(String name : groups.keySet()) {
+			if(player.hasPermission("novaguilds.group."+name)) {
+				groupName = name;
+				break;
+			}
+		}
+
+		return getGroup(groupName);
+	}
+
+	public NovaGroup getGroup(String groupName) {
+		if(groups.containsKey(groupName)) {
+			return groups.get(groupName);
+		}
+
+		return null;
+	}
+
+	public void delayedTeleport(Player player, Location location) {
+		Runnable task = new RunnableTeleportRequest(player,location);
+		worker.schedule(task,getGroup(player).getTeleportDelay(),TimeUnit.SECONDS);
+
+		sendDelayedTeleportMessage(player);
+	}
+
+	public void sendDelayedTeleportMessage(Player player) {
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("DELAY",getGroup(player).getTeleportDelay()+"");
+		sendMessagesMsg(player,"chat.delayedteleport",vars);
 	}
 
 	//Utils

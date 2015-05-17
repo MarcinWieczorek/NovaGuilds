@@ -11,7 +11,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 
 public class CommandGuildAlly implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandGuildAlly(NovaGuilds pl) {
 		plugin = pl;

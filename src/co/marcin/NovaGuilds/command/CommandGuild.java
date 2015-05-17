@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.utils.StringUtils;
+import org.bukkit.entity.Player;
 
 public class CommandGuild implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -21,68 +22,73 @@ public class CommandGuild implements CommandExecutor {
 		if(args.length>0) {
 			String command = args[0].toLowerCase();
 			String[] newargs = StringUtils.parseArgs(args, 1);
-			
-			if(command.equals("pay")) {
-				new CommandGuildBankPay(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("withdraw")) {
-				new CommandGuildBankWithdraw(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("leader")) {
-				new CommandGuildLeader(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("info")) {
-				new CommandGuildInfo(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("leave")) {
-				new CommandGuildLeave(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("home")) {
-				new CommandGuildHome(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("buyregion")) {
-				new CommandRegionBuy(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("ally")) {
-				new CommandGuildAlly(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("kick")) {
-				new CommandGuildKick(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("abandon")) {
-				new CommandGuildAbandon(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("invite")) {
-				new CommandGuildInvite(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("join")) {
-				new CommandGuildJoin(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("create")) {
-				new CommandGuildCreate(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("war")) {
-				new CommandGuildWar(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(command.equals("compass")) {
-				new CommandGuildCompass(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else {
-				plugin.sendMessagesMsg(sender, "chat.unknowncmd");
+
+			switch(command) {
+				case "pay":
+					new CommandGuildBankPay(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "withdraw":
+					new CommandGuildBankWithdraw(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "leader":
+					new CommandGuildLeader(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "info":
+					new CommandGuildInfo(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "leave":
+					new CommandGuildLeave(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "home":
+					new CommandGuildHome(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "buyregion":
+					new CommandRegionBuy(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "ally":
+					new CommandGuildAlly(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "kick":
+					new CommandGuildKick(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "abandon":
+					new CommandGuildAbandon(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "invite":
+					new CommandGuildInvite(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "join":
+					new CommandGuildJoin(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "create":
+					new CommandGuildCreate(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "war":
+					new CommandGuildWar(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "compass":
+					new CommandGuildCompass(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "effect":
+					new CommandGuildEffect(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				default:
+					plugin.sendMessagesMsg(sender, "chat.unknowncmd");
+					plugin.info("cmd = " + command);
+					break;
 			}
 		}
 		else {
-			if(plugin.getPlayerManager().getPlayerBySender(sender).hasGuild()) {
-				List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.guild.hasguild");
-				for(String cmdinfo : cmdlist) {
-					sender.sendMessage(StringUtils.fixColors(cmdinfo));
+			List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.guild.noguild");
+
+			if(sender instanceof Player) {
+				if(plugin.getPlayerManager().getPlayerBySender(sender).hasGuild()) {
+					cmdlist = plugin.getMessages().getStringList("chat.commands.guild.hasguild");
 				}
 			}
-			else {
-				List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.guild.noguild");
-				for(String cmdinfo : cmdlist) {
-					sender.sendMessage(StringUtils.fixColors(cmdinfo));
-				}
+
+			for(String cmdinfo : cmdlist) {
+				sender.sendMessage(StringUtils.fixColors(cmdinfo));
 			}
 		}
 		return true;

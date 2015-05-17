@@ -15,7 +15,7 @@ import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandToolGet implements CommandExecutor {
-	public final NovaGuilds plugin;
+	private final NovaGuilds plugin;
 	
 	public CommandToolGet(NovaGuilds pl) {
 		plugin = pl;
