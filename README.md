@@ -1,12 +1,8 @@
-<a href="http://mexxio.pl/">
-    <img title="Erwin Nowak :: Graphic & Web Designer" src="http://vpx.pl/i/2015/03/30/9ffe2b15da8dc757975dd7dca086e176.png" />
-</a>
+<img src="http://novaguilds.marcin.co/img/newlogo.png" />
 
 NovaGuilds is my own guilds plugin, still in development, but I want to hear your opinions and ideas.<br/>
 Please leave feedback!<br/><br/>
 <b>Vault</b> is required!<br/>
-<b>TabAPI</b> is required unless you turn it off in config!<br/>
-<b>TagAPI</b> is required unless you turn it off in config!<br/>
 <b>BarAPI</b> is required unless you turn it off in config!<br/>
 <b>HolographicDisplays</b> is required unless you turn it off in config!<br/>
 <br/><br/><br/>
@@ -22,7 +18,8 @@ Please leave feedback!<br/><br/>
 <ul>
     <li>Download latest version</li>
     <li>Put it in your plugins/ directory</li>
-    <li>Also put there Vault and TabAPI if necessary</li>
+    <li>Also put there Vault</li>
+    <li>Add BarAPI and HolographicDisplays plugins if you need.</li>
     <li>Restart/reload the server</li>
     <li>Edit <b>config.yml</b> to setup your database</li>
     <li>Add <b>{TAG}</b> to players chat message/prefix (I recommend Essentials config)</li>
@@ -50,6 +47,7 @@ Please leave feedback!<br/><br/>
     <li>Wars</li>
     <li>Language support</li>
     <li>Guild/Ally chat</li>
+    <li>Configurable command names</li>
 </ul>
 
 <br/>
@@ -70,7 +68,6 @@ Please leave feedback!<br/><br/>
 <h2><b>Undocumented features (bugs)</b></h2>
 <ul>
     <li>Nothing is tested, and thank god if anything works</li>
-    <li>I realised one thing requires serious changes but it works fine for now.</li>
     <li>/join is not finished (I don't remember if I fixed it)</li>
 </ul>
 
@@ -150,11 +147,6 @@ Please leave feedback!<br/><br/>
     <tr>
         <td>novaguilds.region.create</td>
         <td>Create a region</td>
-    </tr>
-    <tr>
-        <td>novaguilds.region.buy.free</td>
-        <td>Buy regions for free</td>
-        <td>Not implemented</td>
     </tr>
     <tr>
         <td>novaguilds.region.resize</td>
