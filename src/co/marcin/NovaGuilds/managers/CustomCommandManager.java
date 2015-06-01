@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.Manager;
+package co.marcin.NovaGuilds.managers;
 
 import co.marcin.NovaGuilds.NovaGuilds;
 import org.bukkit.configuration.ConfigurationSection;
