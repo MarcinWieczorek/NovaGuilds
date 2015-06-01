@@ -13,7 +13,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
@@ -51,28 +50,6 @@ public class CommandNovaGuilds implements CommandExecutor {
 			else if(args[0].equalsIgnoreCase("tool")) { //TOOL
 				new CommandToolGet(plugin).onCommand(sender, cmd, label, args);
 			}
-			else if(args[0].equalsIgnoreCase("test")) { //tests
-				new CommandGuildTop(plugin).onCommand(sender, cmd, label, args);
-				if(plugin.DEBUG) return true;
-				Inventory inv = plugin.getServer().createInventory(null, 9, "Cobblex!");
-				plugin.senderToPlayer(sender).openInventory(inv);
-
-				//test groups
-				String group = "default";
-				
-				for(String s : plugin.getConfig().getConfigurationSection("guild.create").getKeys(false)) {
-					if(sender.hasPermission("novaguilds.guild.group."+s) || s.equalsIgnoreCase("default")) {
-						group = s;
-						break;
-					}
-				}
-				
-				sender.sendMessage(group);
-				sender.sendMessage("money: "+plugin.getConfig().getInt("guild.create."+group+".money"));
-				for(String item : plugin.getConfig().getStringList("guild.create."+group+".items")) {
-					sender.sendMessage(" * "+item);
-				}
-			}
 			else if(args[0].equalsIgnoreCase("bc")) { //BROADCAST
 				if(!plugin.DEBUG) return false;
 				if(args.length > 1) {
@@ -94,19 +71,18 @@ public class CommandNovaGuilds implements CommandExecutor {
 				}
 			}
 			else if(args[0].equalsIgnoreCase("group")) { //Admin commands
-				sender.sendMessage(plugin.getGroup("default").getCreateGuildMoney()+"");
-				sender.sendMessage(plugin.getGroup("default").getCreateRegionMoney()+"");
-				sender.sendMessage(plugin.getGroup("default").getPricePerBlock()+"");
-				sender.sendMessage(plugin.getGroup("default").getName());
-				sender.sendMessage(plugin.getGroup("default").getCreateGuildItems().toString());
-				sender.sendMessage(plugin.getGroup("default").getTeleportDelay()+"s");
+				sender.sendMessage("name = "+plugin.getGroup(sender).getName());
+				sender.sendMessage("guild$ = "+plugin.getGroup(sender).getCreateGuildMoney());
+				sender.sendMessage("region$ = "+plugin.getGroup(sender).getCreateRegionMoney());
+				sender.sendMessage("ppb = "+plugin.getGroup(sender).getPricePerBlock());
+				sender.sendMessage("guilditems = "+plugin.getGroup(sender).getCreateGuildItems().toString());
+				sender.sendMessage("tpdelay = "+plugin.getGroup(sender).getTeleportDelay()+"s");
 
-				Location l = plugin.senderToPlayer(sender).getLocation();
-				l.setX(l.getBlockX()+5);
-				plugin.delayedTeleport(plugin.senderToPlayer(sender),l);
+//				Location l = plugin.senderToPlayer(sender).getLocation();
+//				l.setX(l.getBlockX()+5);
+//				plugin.delayedTeleport(plugin.senderToPlayer(sender),l);
 			}
 			else if(args[0].equalsIgnoreCase("hd")) { //HolographicDisplays
-				if(!plugin.DEBUG) return false;
 				if(args.length>1) { //GUILDINFO
 					if(args[1].equalsIgnoreCase("top")) {
 						Statement statement;
@@ -302,8 +278,8 @@ public class CommandNovaGuilds implements CommandExecutor {
 				"&bhttp://NovaGuilds.marcin.co/",
 				"Latest plugin build: &6#&c{LATEST}"
 			};
-			
-			sender.sendMessage(StringUtils.fixColors(plugin.prefix + "NovaGuilds Information"));
+
+			plugin.sendPrefixMessage(sender,"NovaGuilds Information");
 			String latest = StringUtils.getContent("http://NovaGuilds.marcin.co/latest.info");
 			
 			for(int i=0;i<info.length;i++) {

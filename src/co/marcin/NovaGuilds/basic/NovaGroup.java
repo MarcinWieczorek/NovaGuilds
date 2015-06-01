@@ -8,19 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NovaGroup {
-	private final NovaGuilds plugin;
 
-	private String name;
+	private final String name;
 	private double createGuildMoney = 0;
 	private double pricePerBlock = 0;
 	private double createRegionMoney = 0;
+	private double effectPrice = 0;
 	private int teleportDelay = 0;
-	private List<ItemStack> createGuildItems;
+	private List<ItemStack> createGuildItems = new ArrayList<>();
 
 	@SuppressWarnings("deprecation")
-	public NovaGroup(NovaGuilds novaGuilds, String group) {
+	public NovaGroup(NovaGuilds plugin, String group) {
 		name = group;
-		plugin = novaGuilds;
+
+		if(name.equalsIgnoreCase("admin")) {
+			return;
+		}
 
 		//createGuildItems
 		List<ItemStack> items = new ArrayList<>();
@@ -52,12 +55,14 @@ public class NovaGroup {
 		}
 
 		setCreateGuildItems(items);
-		setCreateGuildMoney(plugin.getConfig().getInt("guild.create.groups."+group+".money"));
-		setTeleportDelay(plugin.getConfig().getInt("guild.create.groups."+group+".tpdelay"));
-		setPricePerBlock(plugin.getConfig().getInt("guild.create.groups." + group + ".region.ppb"));
-		setRegionCreateMoney(plugin.getConfig().getInt("guild.create.groups." + group + ".region.create"));
+		setCreateGuildMoney(plugin.getConfig().getDouble("guild.create.groups." + group + ".money"));
+		setTeleportDelay(plugin.getConfig().getInt("guild.create.groups." + group + ".tpdelay"));
+		setPricePerBlock(plugin.getConfig().getDouble("guild.create.groups." + group + ".region.ppb"));
+		setRegionCreateMoney(plugin.getConfig().getDouble("guild.create.groups." + group + ".region.create"));
+		setEffectPrice(plugin.getConfig().getDouble("guild.create.groups." + group + ".region.effectprice"));
 	}
 
+	//setters
 	public void setCreateGuildMoney(double money) {
 		createGuildMoney = money;
 	}
@@ -78,6 +83,11 @@ public class NovaGroup {
 		teleportDelay = delay;
 	}
 
+	public void setEffectPrice(double effectPrice) {
+		this.effectPrice = effectPrice;
+	}
+
+	//getters
 	public double getCreateGuildMoney() {
 		return createGuildMoney;
 	}
@@ -100,5 +110,9 @@ public class NovaGroup {
 
 	public int getTeleportDelay() {
 		return teleportDelay;
+	}
+
+	public double getEffectPrice() {
+		return effectPrice;
 	}
 }

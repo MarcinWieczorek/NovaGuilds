@@ -5,7 +5,9 @@ chat:
  invalidparam: "&cNieprawidlowy argument"
  cmdfromconsole: "Nie mozesz wykonac tej komendy z konsoli"
  enterinteger: "Wprowadz liczbe."
- delayedteleport: "You will be teleported in &c{DELAY} &3seconds"
+ delayedteleport: "Zostaniesz teleportowany w ciagu &c{DELAY} &3sekund"
+ delayedtpmoved: "Ruszyles sie, teleportacja anulowana."
+ erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
 
  admin:
   guild:
@@ -16,31 +18,31 @@ chat:
     page:
      hasnext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} -- &c/nga g list {NEXT} &7--"
      nonext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} --"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Lider: &c{PLAYERNAME}"
+    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Lider: &c{PLAYERNAME} &3({PLAYERSCOUNT} graczy)"
    bank:
     paid: "Wplaciles &c${MONEY} &3do banku gildii &a{GUILDNAME}&3"
-    withdrew: "You took &c${MONEY} &3from &a{GUILDNAME}&3's bank."
-   abandon: "Gildia &a{GUILDNAME} &3zostala porzucona."
+    withdrew: "Zabrales &c${MONEY} &3z banku &a{GUILDNAME}"
+   abandon: "Gildia &a{GUILDNAME} &3zostala rozwiazana."
    kick:
-    leader: "You can't kick the leader. You have to abandon the guild."
-   invited: "Invited player &c{PLAYERNAME} &3to &a{GUILDNAME}"
-   teleported: "Teleported to home of &a{GUILDNAME}"
-   teleportedother: "Teleported &c{PLAYERNAME} &3to home of &a{GUILDNAME}"
+    leader: "Nie mozesz wyrzucic lidera. Musisz rozwiazac gildie."
+   invited: "Zaproszono gracza &c{PLAYERNAME} &3do &a{GUILDNAME}"
+   teleported: "Teleportowano do bazy &a{GUILDNAME}"
+   teleportedother: "Teleportowano gracza &c{PLAYERNAME} &3do bazy &a{GUILDNAME}"
    settag: "Tag zmieniony na &a{TAG}"
    setname:
     enternewname: "Wprowadz nowa nazwe"
-    success: "Guild's name changed."
+    success: "Nazwa gildii zmieniona."
    setleader:
-    notinguild: "This player is not in guild &a{GUILDNAME}"
-    alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
-    success: "New leader set!"
+    notinguild: "Ten gracz nie jest w gildii &a{GUILDNAME}"
+    alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
+    success: "Nowy lider ustalony!"
   region:
    rgbypass:
-    toggled: "Region bypass toggled. Currently: &c{BYPASS}"
-    toggledother: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
-    notifyother: "Your region bypass has been toggled. Currently: &c{BYPASS}"
+    toggled: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
+    toggledother: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER}&3. Aktualnie: &c{BYPASS}"
+    notifyother: "Twoj tryb ignorowania regionow zostal zmieniony. Aktualnie: &c{BYPASS}"
    delete:
-    success: "Successfully deleted guild's region."
+    success: "Pomyslnie usunieto region"
    teleport:
     success: "Zostales teleportowany na teren gildii &a{GUILDNAME}"
     successother: "Teleportowano gracza &c{PLAYERNAME} &3na teren gildii &a{GUILDNAME}"
@@ -66,17 +68,17 @@ chat:
  usage:
   nga:
    guild:
-    abandon: "&5* &7/nga &cg &6abandon &c<guild> &2- &3porzuc gildie"
-    lives: "&5* &7/nga &cg &6lives &c<lives> &2- &3ustaw zycia"
+    abandon: "&5* &7/nga &cg &6abandon &c<gildia> &2- &3porzuc gildie"
+    lives: "&5* &7/nga &cg &6lives &c<ilosc> &2- &3ustaw zycia"
     bank:
-     pay: "&7/nga &cg &6pay &c<guild/tag> &6<money>"
-     withdraw: "&7/nga &cg &6withdraw &c<guild/tag> &6<money>"
-    tp: "&7/nga &cg &6tp &c<guild> &6[player]"
+     pay: "&7/nga &cg &6pay &c<gildia> &6<ilosc>"
+     withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
+    tp: "&7/nga &cg &6tp &c<gildia> &6[player]"
   ng:
-   broadcast: "&c/ng bc <message>"
+   broadcast: "&c/ng bc <wiadomosc>"
   guild:
-   create: "&5* &7/create &c<tag> &6<name> &2- &3Stworz gildie"
-   invite: "&5* &7/invite &c<playername> &2- &3Zapros gracza do gildii"
+   create: "&5* &7/zaloz &c<tag> &6<nazwa> &2- &3Stworz gildie"
+   invite: "&5* &7/zapros &c<gracz> &2- &3Zapros gracza do gildii"
  commands:
   admin:
    main:
@@ -121,13 +123,14 @@ chat:
     - "&5* &7/g &cleave &2- &3Opusc gildie"
     - "&5* &7/g &cally &6<gildia> &2- &3Zapros do sojuszu"
     - "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
-    - "&5* &7/g &cabandon &6<gildia> &2- &3Porzuc gildie"
-    - "&5* &7/g &cinvite &6<gracz> &2- &3Zapros gracza do gildii"
+    - "&5* &7/rozwiaz &2- &3Porzuc gildie"
+    - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
     - "&5* &7/g &ccompass &2- &3Niech kompas wskazuje dom Twojej gildii!"
     - "&5* &7/g &cbuyregion &2- &3Kup zaznaczony teren"
+    - "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
     - "&5* &7/ng &ctool &2- &3Sprawdz lub zaznacz teren patykiem!"
    noguild:
-    - "&5* &7/g &ccreate &6<tag> <nazwa> &2- &3Zaloz gildie"
+    - "&5* &7/zaloz &6<tag> <nazwa> &2- &3Zaloz gildie"
     - "&5* &7/g &cjoin &6[gildia] &2- &3Dolacz do gildii"
     - "&5* &7/gi &c[gildia/gracz] &2- &3Informacje o gildii"
 
@@ -140,8 +143,9 @@ chat:
 
  guild:
   compasstarget: "Kompas wskazuje teraz dom Twojej gildii."
+  noguilds: "No guild's found."
   effect:
-   success: "You bought &a{EFFECTTYPE} &3effect for all your teammates!"
+   success: "Kupiles efekt &a{EFFECTTYPE} &3dla swoich wojownikow!"
 
   ally:
    war: "Najpierw musisz zakonczyc wojne z ta gildia"
@@ -322,8 +326,8 @@ broadcast:
   destroyed: "Guild &a{GUILDNAME} &3zostala zniszczona!"
   raid:
    finished:
-    attackerwon: "Raid finished! &a{ATTACKER} &3vs &a{DEFENDER}&3! Attacker won."
-    defenderwon: "Raid finished! &a{ATTACKER} &3vs &a{DEFENDER}&3! Defender won."
+    attackerwon: "Nalot zakonczony! &a{ATTACKER} &3vs &a{DEFENDER}&3! Atakujacy wygral."
+    defenderwon: "Nalot zakonczony! &a{ATTACKER} &3vs &a{DEFENDER}&3! Obronca wygral."
  pvp:
   killed: "Gracz {TAG1}&c{PLAYER1} &3zostal zabity przez {TAG2}&c{PLAYER2}"
 

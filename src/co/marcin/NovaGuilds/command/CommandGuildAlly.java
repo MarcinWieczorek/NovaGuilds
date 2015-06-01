@@ -26,11 +26,10 @@ public class CommandGuildAlly implements CommandExecutor {
 
 				if(nPlayer.hasGuild()) {
 					NovaGuild guild = nPlayer.getGuild();
+					NovaGuild allyGuild = plugin.getGuildManager().getGuildFind(allyname);
 
-					if(plugin.getGuildManager().exists(allyname)) {
-						NovaGuild allyGuild = plugin.getGuildManager().getGuildFind(allyname);
-
-						if(!allyname.equalsIgnoreCase(guild.getName())) {
+					if(allyGuild != null) {
+						if(!allyGuild.equals(guild)) {
 							if(guild.isLeader(sender)) {
 								HashMap<String,String> vars = new HashMap<>();
 								vars.put("GUILDNAME",guild.getName());

@@ -57,32 +57,33 @@ public class PlayerManager {
 	}
 	
 	public void updatePlayer(NovaPlayer nPlayer) {
-		plugin.mysqlReload();
-    	
-    	Statement statement;
-		try {
-			statement = plugin.c.createStatement();
-			
-			String guildname;
-			if(!nPlayer.hasGuild()) {
-				guildname = "";
-			}
-			else {
-				guildname = nPlayer.getGuild().getName();
-			}
-			
-			List<String> invitedto = nPlayer.getInvitedTo();
-			String joined = Joiner.on(";").join(invitedto);
-			
-			String sql = "UPDATE `"+plugin.sqlp+"players` SET " +
-					"`invitedto`='"+joined+"', " +
-					"`guild`='"+guildname+"' " +
-					"WHERE `uuid`='"+nPlayer.getUUID()+"'";
+		if(nPlayer.isChanged()) { //only if there were changes
+			plugin.mysqlReload();
 
-			statement.executeUpdate(sql);
-		}
-		catch(SQLException e) {
-			plugin.info(e.getMessage());
+			Statement statement;
+			try {
+				statement = plugin.c.createStatement();
+
+				String guildname;
+				if(!nPlayer.hasGuild()) {
+					guildname = "";
+				} else {
+					guildname = nPlayer.getGuild().getName();
+				}
+
+				List<String> invitedto = nPlayer.getInvitedTo();
+				String joined = Joiner.on(";").join(invitedto);
+
+				String sql = "UPDATE `" + plugin.sqlp + "players` SET " +
+						"`invitedto`='" + joined + "', " +
+						"`guild`='" + guildname + "' " +
+						"WHERE `uuid`='" + nPlayer.getUUID() + "'";
+
+				statement.executeUpdate(sql);
+			}
+			catch(SQLException e) {
+				plugin.info(e.getMessage());
+			}
 		}
 	}
 	
@@ -103,49 +104,9 @@ public class PlayerManager {
 			plugin.players.clear();
 			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.sqlp + "players`");
 			while(res.next()) {
-				NovaPlayer novaplayer = new NovaPlayer();
-				Player player = plugin.getServer().getPlayerExact(res.getString("name"));
-				
-				if(player != null) {
-					if(player.isOnline()) {
-						novaplayer.setPlayer(player);
-						novaplayer.setOnline(true);
-					}
-				}
-				
-				String guildname = res.getString("guild").toLowerCase();
-				
-				String invitedTo = res.getString("invitedto");
-				List<String> invitedToList = new ArrayList<>();
-				if(!invitedTo.equals("")) {
-					invitedToList.addAll(Arrays.asList(invitedTo.split(";")));
-					//invitedToList = Arrays.asList(invitedTo.split(";"));
-				}
 
-				UUID uuid = UUID.fromString(res.getString("uuid"));
 
-				if(guildname.isEmpty()) {
-					novaplayer.setHasGuild(false);
-				}
-
-				novaplayer.setUUID(uuid);
-				novaplayer.setName(res.getString("name"));
-				novaplayer.setInvitedTo(invitedToList);
-
-				if(!guildname.isEmpty()) {
-					NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
-
-					if(guild != null) {
-						guild.addPlayer(novaplayer);
-						novaplayer.setGuild(guild);
-
-						if(guild.isLeader(novaplayer.getName())) {
-							novaplayer.setLeader(true);
-						}
-					}
-				}
-
-				plugin.players.put(res.getString("name").toLowerCase(), novaplayer);
+				plugin.players.put(res.getString("name").toLowerCase(), playerFromResult(res));
 			}
 
 			plugin.info("Players loaded from database");
@@ -155,7 +116,7 @@ public class PlayerManager {
     }
 	
 	//add a player
-	public void addPlayer(Player player) {
+	private void addPlayer(Player player) {
 		plugin.mysqlReload();
 		Statement statement;
 		
@@ -169,7 +130,7 @@ public class PlayerManager {
 			plugin.info("New player " + player.getName() + " added to the database");
 
 			//TODO load only 1 player instead of all
-			plugin.getPlayerManager().loadPlayers();
+			loadPlayers();
 		}
 		catch (SQLException e) {
 			plugin.info("SQLException: "+e.getMessage());
@@ -180,11 +141,11 @@ public class PlayerManager {
 		addIfNotExists(player.getName());
 	}
 
-	public void addIfNotExists(String playername) {
+	private void addIfNotExists(String playername) {
 		Player player = plugin.getServer().getPlayerExact(playername);
 
 		if(player != null) {
-			if(!plugin.players.containsKey(player.getName().toLowerCase())) {
+			if(!plugin.players.containsKey(playername.toLowerCase())) {
 				addPlayer(player);
 			}
 		}
@@ -195,5 +156,66 @@ public class PlayerManager {
 		NovaPlayer nPlayer2 = getPlayerByPlayer(player2);
 
 		return nPlayer1.getGuild().getName().equalsIgnoreCase(nPlayer2.getGuild().getName());
+	}
+
+	public boolean isAlly(Player player1, Player player2) {
+		NovaPlayer nPlayer1 = getPlayerByPlayer(player1);
+		NovaPlayer nPlayer2 = getPlayerByPlayer(player2);
+
+		return nPlayer1.getGuild().isAlly(nPlayer2.getGuild());
+	}
+
+	private NovaPlayer playerFromResult(ResultSet res) {
+		NovaPlayer nPlayer = null;
+		try {
+			nPlayer = new NovaPlayer();
+			Player player = plugin.getServer().getPlayerExact(res.getString("name"));
+
+			if(player != null) {
+				if(player.isOnline()) {
+					nPlayer.setPlayer(player);
+					nPlayer.setOnline(true);
+				}
+			}
+
+			String guildname = res.getString("guild").toLowerCase();
+
+			String invitedTo = res.getString("invitedto");
+			List<String> invitedToList = new ArrayList<>();
+			if(!invitedTo.equals("")) {
+				invitedToList.addAll(Arrays.asList(invitedTo.split(";")));
+				//invitedToList = Arrays.asList(invitedTo.split(";"));
+			}
+
+			UUID uuid = UUID.fromString(res.getString("uuid"));
+
+			if(guildname.isEmpty()) {
+				nPlayer.setHasGuild(false);
+			}
+
+			nPlayer.setUUID(uuid);
+			nPlayer.setName(res.getString("name"));
+			nPlayer.setInvitedTo(invitedToList);
+
+			if(!guildname.isEmpty()) {
+				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
+
+				if(guild != null) {
+					guild.addPlayer(nPlayer);
+					nPlayer.setGuild(guild);
+
+					if(guild.isLeader(nPlayer.getName())) {
+						nPlayer.setLeader(true);
+					}
+				}
+			}
+
+			nPlayer.setUnchanged();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return nPlayer;
 	}
 }

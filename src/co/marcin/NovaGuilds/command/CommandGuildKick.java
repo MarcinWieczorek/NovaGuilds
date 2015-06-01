@@ -48,6 +48,11 @@ public class CommandGuildKick  implements CommandExecutor {
 			plugin.sendMessagesMsg(sender,"chat.player.notexists");
 			return true;
 		}
+
+		if(!nPlayerKick.hasGuild()) {
+			plugin.sendMessagesMsg(sender,"chat.player.hasnoguild");
+			return true;
+		}
 		
 		if(!nPlayerKick.getGuild().getName().equalsIgnoreCase(guild.getName())) {
 			plugin.sendMessagesMsg(sender,"chat.player.notinyourguild");

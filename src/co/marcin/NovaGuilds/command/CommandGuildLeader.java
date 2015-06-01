@@ -24,7 +24,7 @@ public class CommandGuildLeader implements CommandExecutor {
 			
 			if(newLeader != null) {
 				if(nPlayer.hasGuild()) {
-					NovaGuild guild = plugin.getGuildManager().getGuildByName(nPlayer.getGuild().getName());
+					NovaGuild guild = nPlayer.getGuild();
 					
 					if(guild.getLeaderName().equals(sender.getName())) {
 						if(!newLeader.getName().equals(sender.getName())) {

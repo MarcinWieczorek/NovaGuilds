@@ -8,8 +8,11 @@ mysql:
  password:
  prefix: novaguilds_
 
-debug: false
+debug: true
 lang: en-en
+
+barapi:
+ enabled: true
 
 tabapi:
  enabled: false
@@ -126,7 +129,7 @@ guild:
     effectprice: 100
     money: 0
     region:
-     create: 0
+     create: 50
      ppb: 0.5
     items:
      - cobblestone 5

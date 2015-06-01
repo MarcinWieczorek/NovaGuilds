@@ -47,9 +47,7 @@ private final NovaGuilds plugin;
 			}
 			
 			if(nPlayer.getGuild().getSpawnPoint() != null) {
-				//player.teleport(nPlayer.getGuild().getSpawnPoint());
-				plugin.delayedTeleport(player,nPlayer.getGuild().getSpawnPoint());
-				plugin.sendMessagesMsg(sender,"chat.guild.tp");
+				plugin.delayedTeleport(player,nPlayer.getGuild().getSpawnPoint(),"chat.guild.tp");
 			}
 		}
 		else { //noguild

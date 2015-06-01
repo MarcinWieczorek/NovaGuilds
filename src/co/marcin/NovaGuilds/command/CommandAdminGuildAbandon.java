@@ -2,7 +2,6 @@ package co.marcin.NovaGuilds.command;
 
 import java.util.HashMap;
 
-import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.event.GuildRemoveEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,7 +9,6 @@ import org.bukkit.command.CommandSender;
 
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
-import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandAdminGuildAbandon implements CommandExecutor {
 	private static NovaGuilds plugin;
@@ -34,22 +32,6 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 
 			//if event is not cancelled
 			if(!guildRemoveEvent.isCancelled()) {
-				//delete region
-				if(guild.hasRegion()) {
-					plugin.getRegionManager().removeRegion(guild.getRegion());
-				}
-
-				//delete players from guild
-				for(NovaPlayer nP : guild.getPlayers()) {
-					nP.setGuild(null);
-					nP.setHasGuild(false);
-
-					//update tag
-					if(nP.isOnline()) {
-						plugin.tagUtils.updatePrefix(nP.getPlayer());
-					}
-				}
-
 				//delete guild
 				plugin.getGuildManager().deleteGuild(guild);
 
@@ -60,7 +42,7 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 			}
 		}
 		else {
-			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.guild.couldnotfind")));
+			plugin.sendPrefixMessage(sender,"chat.guild.couldnotfind");
 		}
 		return true;
 	}

@@ -55,8 +55,8 @@ public class CommandGuildInfo implements CommandExecutor {
 			if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
 				guildInfoMessages = plugin.getMessages().getStringList("chat.guildinfo.fullinfo");
 			}
-			
-			sender.sendMessage(StringUtils.fixColors(plugin.prefix + guildInfoMessages.get(0)));
+
+			plugin.sendPrefixMessage(sender,guildInfoMessages.get(0));
 			
 			int i;
 			List<NovaPlayer> gplayers = guild.getPlayers();
@@ -124,9 +124,11 @@ public class CommandGuildInfo implements CommandExecutor {
 			long liveRegenerationTime = plugin.liveRegenerationTime - (NovaGuilds.systemSeconds() - guild.getLostLiveTime());
 			String liveRegenerationString = StringUtils.secondsToString(liveRegenerationTime);
 
-			long timeWait = plugin.timeRest - (NovaGuilds.systemSeconds() - guild.getTimeRest());
+			long timeWait = (guild.getTimeRest() + plugin.timeRest) - NovaGuilds.systemSeconds();
+			plugin.debug("timewait="+timeWait);
+			plugin.debug(guild.getTimeRest() +"+"+ plugin.timeRest +"-"+ NovaGuilds.systemSeconds());
 
-			vars.put("LIVEREGENERATIONTIME",liveRegenerationString);
+			vars.put("LIVEREGENERATIONTIME", liveRegenerationString);
 			vars.put("TIMEREST",StringUtils.secondsToString(timeWait));
 
 			//spawnpoint location coords
@@ -147,6 +149,11 @@ public class CommandGuildInfo implements CommandExecutor {
 
 				//lost live
 				if(guild.getLostLiveTime() <= 0 && gmsg.contains("{LIVEREGENERATIONTIME}")) {
+					skipmsg = true;
+				}
+
+				//Time rest
+				if(timeWait <= 0 && gmsg.contains("{TIMEREST}")) {
 					skipmsg = true;
 				}
 

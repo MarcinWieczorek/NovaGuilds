@@ -72,6 +72,9 @@ public class CommandGuild implements CommandExecutor {
 				case "effect":
 					new CommandGuildEffect(plugin).onCommand(sender, cmd, label, newargs);
 					break;
+				case "top":
+					new CommandGuildTop(plugin).onCommand(sender, cmd, label, newargs);
+					break;
 				default:
 					plugin.sendMessagesMsg(sender, "chat.unknowncmd");
 					plugin.info("cmd = " + command);

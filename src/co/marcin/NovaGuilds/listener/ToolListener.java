@@ -1,6 +1,7 @@
 package co.marcin.NovaGuilds.listener;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,8 +22,7 @@ public class ToolListener implements Listener {
 	public ToolListener(NovaGuilds pl) {
 		plugin = pl;
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -33,7 +33,7 @@ public class ToolListener implements Listener {
 		if(player.getItemInHand().getType().equals(tool)) {
 			if(player.getItemInHand().hasItemMeta() && player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(toolname)) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
-				Location pointedlocation = player.getTargetBlock(null, 200).getLocation();
+				Location pointedlocation = player.getTargetBlock((Set<Material>) null, 200).getLocation();
 				pointedlocation.setWorld(player.getWorld());
 
 				//Change RegionMode
@@ -94,7 +94,7 @@ public class ToolListener implements Listener {
 							plugin.sendMessagesMsg(event.getPlayer(), "chat.region.belongsto", vars);
 							nPlayer.setSelectedRegion(rgatloc);
 						} else {
-							player.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.region.noregionhere")));
+							plugin.sendMessagesMsg(player,"chat.region.noregionhere");
 							nPlayer.setSelectedRegion(null);
 						}
 					}
@@ -148,8 +148,7 @@ public class ToolListener implements Listener {
 											String sizemsg = plugin.getMessages().getString("chat.region.size");
 											sizemsg = StringUtils.replace(sizemsg, "{SIZE}", regionsize + "");
 
-											int createprice = plugin.getConfig().getInt("region.createprice");
-											int price = plugin.getConfig().getInt("region.pricepb") * regionsize + createprice;
+											double price = plugin.getGroup(player).getPricePerBlock() * regionsize + plugin.getGroup(player).getCreateRegionMoney();
 
 											String pricemsg = plugin.getMessages().getString("chat.region.price");
 											pricemsg = StringUtils.replace(pricemsg, "{PRICE}", price + "");
@@ -189,6 +188,7 @@ public class ToolListener implements Listener {
 										break;
 								}
 
+								//corners and rectangles
 								plugin.getRegionManager().sendSquare(player, sl1, sl2, Material.WOOL, data);
 								plugin.getRegionManager().setCorner(player, sl1);
 								plugin.getRegionManager().setCorner(player, sl2);

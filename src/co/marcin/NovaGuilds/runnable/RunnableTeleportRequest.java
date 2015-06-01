@@ -1,5 +1,6 @@
 package co.marcin.NovaGuilds.runnable;
 
+import co.marcin.NovaGuilds.NovaGuilds;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -8,20 +9,25 @@ public class RunnableTeleportRequest implements Runnable {
 	private final Location location;
 
 	private final Location startLocation;
+	private final NovaGuilds plugin;
+	private final String msgPath;
 
-	public RunnableTeleportRequest(Player p, Location l) {
+	public RunnableTeleportRequest(NovaGuilds novaGuilds, Player p, Location l, String path) {
 		player = p;
 		location = l;
 		startLocation = player.getLocation();
+		plugin = novaGuilds;
+		msgPath = path;
 	}
 
 	@Override
 	public void run() {
 		if(player.getLocation().distance(startLocation) == 0) {
 			player.teleport(location);
+			plugin.sendMessagesMsg(player,msgPath);
 		}
 		else {
-			//moved
+			plugin.sendMessagesMsg(player,"chat.delayedtpmoved");
 		}
 	}
 }

@@ -10,6 +10,7 @@ import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.utils.StringUtils;
+import org.bukkit.entity.Player;
 
 public class CommandGuildBankPay implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -24,6 +25,13 @@ public class CommandGuildBankPay implements CommandExecutor {
 		if(args.length>0) {
 			marg = args[0];
 		}
+
+		if(!(sender instanceof Player)) {
+			plugin.sendMessagesMsg(sender,"chat.cmdfromconsole");
+			return true;
+		}
+
+		Player player = plugin.senderToPlayer(sender);
 		
 		if(sender.hasPermission("novaguilds.guild.bank.pay")) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
@@ -34,9 +42,9 @@ public class CommandGuildBankPay implements CommandExecutor {
 				if(marg != null && StringUtils.isNumeric(marg)) {
 					Double money = Double.parseDouble(marg);
 					
-					if(plugin.econ.getBalance(sender.getName()) >= money) {
+					if(plugin.econ.getBalance(player) >= money) {
+						plugin.econ.depositPlayer(plugin.senderToPlayer(sender),1);
 						guild.addMoney(money);
-						plugin.econ.withdrawPlayer(sender.getName(),money);
 						HashMap<String,String> vars = new HashMap<>();
 						vars.put("AMOUNT",money+"");
 						plugin.sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);

@@ -4,7 +4,8 @@ author: Marcin Wieczorek
 description: The best guilds plugin!
 website: http://novaguilds.marcin.co/
 version: 10
-softdepend: [Vault, TagAPI, TabAPI, BarAPI]
+depend: [Vault]
+softdepend: [BarAPI]
 commands:
    novaguilds:
       description: Main NovaGuilds command

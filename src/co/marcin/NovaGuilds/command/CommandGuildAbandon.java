@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
-import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class CommandGuildAbandon implements CommandExecutor {
 	private static NovaGuilds plugin;
@@ -37,18 +36,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 
 				//if event is not cancelled
 				if(!guildRemoveEvent.isCancelled()) {
-					if(guild.hasRegion()) {
-						plugin.getRegionManager().removeRegion(guild.getRegion());
-					}
-
 					plugin.getGuildManager().deleteGuild(guild);
-					plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
-
-					//delete guild from players
-					for(NovaPlayer nP : guild.getPlayers()) {
-						nP.setGuild(null);
-						nP.setHasGuild(false);
-					}
 
 					plugin.sendMessagesMsg(sender, "chat.guild.abandoned");
 
@@ -59,11 +47,11 @@ public class CommandGuildAbandon implements CommandExecutor {
 				}
 			}
 			else {
-				sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.guild.notleader")));
+				plugin.sendMessagesMsg(sender, "chat.guild.notleader");
 			}
 		}
 		else {
-			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.guild.notinguild")));
+			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
 		}
 		return true;
 	}

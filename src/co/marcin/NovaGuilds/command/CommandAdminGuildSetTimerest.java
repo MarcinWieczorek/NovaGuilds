@@ -22,7 +22,7 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 		}
 
 		String timeString = "";
-		if(args.length > 1) {
+		if(args.length > 0) {
 			timeString = StringUtils.join(args," ");
 		}
 
@@ -30,6 +30,8 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 		long seconds = Long.parseLong(iseconds+"");
 
 		long newtimerest = NovaGuilds.systemSeconds() - (plugin.timeRest - seconds);
+		plugin.debug("new timerest = "+newtimerest);
+		plugin.debug("add seconds = "+seconds);
 
 		guild.setTimeRest(newtimerest);
 		plugin.sendMessagesMsg(sender,"chat.admin.guild.timerest.set");

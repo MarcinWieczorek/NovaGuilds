@@ -20,7 +20,20 @@ public class NovaPlayer {
 	private NovaRegion selectedRegion;
 	private NovaRegion atRegion;
 	private NovaRaid partRaid;
-	
+	private boolean changed;
+
+	public NovaPlayer(Player player) {
+		if(player != null) {
+			setUUID(player.getUniqueId());
+			setName(player.getName());
+			setPlayer(player);
+		}
+	}
+
+	public NovaPlayer() {
+
+	}
+
 	//Region selecting
 	private final Location[] regionSelectedLocations = new Location[2];
 	
@@ -90,14 +103,18 @@ public class NovaPlayer {
 		}
 		
 		hasGuild = true;
+		changed = true;
 	}
 
 	public void setPlayer(Player p) {
 		player = p;
+
+		setOnline(!(player == null));
 	}
 
 	public void setName(String n) {
 		name = n;
+		changed = true;
 	}
 	
 	public void setHasGuild(boolean v) {
@@ -106,10 +123,12 @@ public class NovaPlayer {
 	
 	public void setUUID(UUID id) {
 		uuid = id;
+		changed = true;
 	}
 	
 	public void setInvitedTo(List<String> invto) {
 		invitedTo = invto;
+		changed = true;
 	}
 	
 	public void setRegionMode(boolean rm) {
@@ -144,6 +163,14 @@ public class NovaPlayer {
 	public boolean isOnline() {
 		return isonline;
 	}
+
+	public boolean isChanged() {
+		return changed;
+	}
+
+	public void setUnchanged() {
+		changed = false;
+	}
 	
 	public boolean isInvitedTo(NovaGuild guild) {
 		return invitedTo.contains(guild.getName());
@@ -156,11 +183,13 @@ public class NovaPlayer {
 	//add stuff
 	public void addInvitation(NovaGuild guild) {
 		invitedTo.add(guild.getName());
+		changed = true;
 	}
 	
 	//delete stuff
 	public void deleteInvitation(NovaGuild guild) {
 		invitedTo.remove(guild.getName());
+		changed = true;
 	}
 
 	public void toggleBypass() {

@@ -9,13 +9,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
-import co.marcin.NovaGuilds.utils.StringUtils;
 
 public class PvpListener implements Listener {
-	private final NovaGuilds pl;
+	private final NovaGuilds plugin;
 	
 	public PvpListener(NovaGuilds novaGuilds) {
-		pl = novaGuilds;
+		plugin = novaGuilds;
 	}
 
 	@EventHandler
@@ -36,13 +35,13 @@ public class PvpListener implements Listener {
 			}
 			
 			if(attacker != null) {
-				NovaPlayer novaPlayer = pl.getPlayerManager().getPlayerByName(player.getName());
-				NovaPlayer novaPlayerAttacker = pl.getPlayerManager().getPlayerByName(attacker.getName());
+				NovaPlayer novaPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+				NovaPlayer novaPlayerAttacker = plugin.getPlayerManager().getPlayerByName(attacker.getName());
 				//teampvp
 				if(!novaPlayerAttacker.getName().equals(novaPlayer.getName())) {
 					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {
 						if(novaPlayerAttacker.getGuild().equals(novaPlayer.getGuild())) {
-							attacker.sendMessage(StringUtils.fixColors(pl.prefix + pl.getMessages().getString("chat.teampvp")));
+							plugin.sendMessagesMsg(attacker, "chat.teampvp");
 							event.setCancelled(true);
 							
 							//remove the arrow
@@ -51,7 +50,7 @@ public class PvpListener implements Listener {
 							}
 						}
 						else if(novaPlayerAttacker.getGuild().isAlly(novaPlayer.getGuild())) {
-							attacker.sendMessage(StringUtils.fixColors(pl.prefix + pl.getMessages().getString("chat.allypvp")));
+							plugin.sendMessagesMsg(attacker,"chat.allypvp");
 							event.setCancelled(true);
 							
 							//remove the arrow

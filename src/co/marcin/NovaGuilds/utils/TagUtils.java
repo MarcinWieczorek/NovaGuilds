@@ -80,20 +80,10 @@ public class TagUtils {
 		team.setPrefix(StringUtils.fixColors(tag));
 	}
 
-//
 	public void updatePrefix(Player p) {
 		for(Player of : Bukkit.getOnlinePlayers()) {
 				setPrefix(of, getTag(of), p);
 		}
-
-//		for (Player on : Bukkit.getOnlinePlayers()) {
-//			setPrefix(UserManager.getUser(p.getName()).getOfflinePlayer(), getPrefixFor(UserManager.getUser(p.getName()), UserManager.getUser(on.getName())), p);
-//		}
-//
-//		Authentication.User user = UserManager.getUser(p.getName());
-//		Objective obj = p.getScoreboard().registerNewObjective("Punkty", "dummy");
-//		obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-//		obj.setDisplayName("RANK - "+user.getRanking().getPoints());
 	}
 
 	public void refreshAll() {

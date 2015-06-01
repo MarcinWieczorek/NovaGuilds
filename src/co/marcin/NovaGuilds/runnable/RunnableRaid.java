@@ -51,7 +51,6 @@ public class RunnableRaid implements Runnable {
 
 			//finishing raid
 			if(raid.getFinished()) {
-
 				plugin.broadcastMessage("broadcast.guild.raid.finished.attackerwon", vars);
 				plugin.resetWarBar(guild);
 				plugin.resetWarBar(nPlayer.getGuild());

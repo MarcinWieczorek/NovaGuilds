@@ -22,31 +22,44 @@ public class CommandGuildEffect implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.effect")) {
-
+			plugin.sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 
 		if(!nPlayer.hasGuild()) {
-
+			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
 			return true;
 		}
 
 		if(!nPlayer.isLeader()) {
-
+			plugin.sendMessagesMsg(sender,"chat.guild.notleader");
 			return true;
 		}
 
+		if(nPlayer.getGuild().getMoney() < plugin.getGroup(sender).getEffectPrice()) {
+			plugin.sendMessagesMsg(sender,"chat.guild.notenoughtmoney");
+			return true;
+		}
+
+		//TODO: configurable duration
 		int duration = 2000;
 
 		List<String> potionEffects = plugin.getConfig().getStringList("guild.effects");
+
+		if(potionEffects.size() == 0) {
+			plugin.sendMessagesMsg(sender,"chat.erroroccured");
+			plugin.info("Invalid effect, check config!");
+			return true;
+		}
 
 		int rand = StringUtils.randInt(0, potionEffects.size() - 1);
 		PotionEffectType effectType = PotionEffectType.getByName(potionEffects.get(rand));
 
 		if(effectType == null) { //invalid effect
-
+			plugin.sendMessagesMsg(sender,"chat.erroroccured");
+			plugin.info("Invalid effect, check config!");
 			return true;
 		}
 
@@ -55,6 +68,7 @@ public class CommandGuildEffect implements CommandExecutor {
 
 		Player player = plugin.senderToPlayer(sender);
 
+		//add effect
 		if(player.hasPotionEffect(effectType)) {
 			player.removePotionEffect(effectType);
 		}
@@ -62,6 +76,9 @@ public class CommandGuildEffect implements CommandExecutor {
 		for(Player gPlayer : nPlayer.getGuild().getOnlinePlayers()) {
 			gPlayer.addPotionEffect(effect);
 		}
+
+		//remove money
+		nPlayer.getGuild().takeMoney(plugin.getGroup(sender).getEffectPrice());
 
 		//message
 		HashMap<String,String> vars = new HashMap<>();

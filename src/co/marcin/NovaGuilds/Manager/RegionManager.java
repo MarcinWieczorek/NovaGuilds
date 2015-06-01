@@ -3,11 +3,11 @@ package co.marcin.NovaGuilds.Manager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
-import java.util.Map.Entry;
+import java.util.List;
 
-import co.marcin.NovaGuilds.*;
+import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.basic.NovaRegion;
@@ -15,6 +15,7 @@ import co.marcin.NovaGuilds.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class RegionManager {
@@ -53,10 +54,6 @@ public class RegionManager {
 	public Collection<NovaRegion> getRegions() {
 		return plugin.regions.values();
 	}
-
-	public Set<Entry<String, NovaRegion>> getRegionsEntrySet() {
-		return plugin.regions.entrySet();
-	}
 	
 	public void loadRegions() {
 		plugin.mysqlReload();
@@ -88,6 +85,7 @@ public class RegionManager {
 					novaRegion.setId(res.getInt("id"));
 
 					novaRegion.setGuildName(res.getString("guild"));
+					novaRegion.setUnChanged();
 
 					plugin.regions.put(res.getString("guild").toLowerCase(), novaRegion);
 				}
@@ -125,6 +123,7 @@ public class RegionManager {
 			
 			guild.setRegion(region);
 			region.setGuildName(guild.getName());
+			region.setUnChanged();
 			plugin.regions.put(guild.getName().toLowerCase(), region);
 		}
 		catch(SQLException e) {
@@ -165,19 +164,20 @@ public class RegionManager {
 	
 	//delete region
 	public void removeRegion(NovaRegion region) {
-		plugin.mysqlReload();
-    	
-    	Statement statement;
-		try {
-			statement = plugin.c.createStatement();
-			
-			String sql = "DELETE FROM `"+plugin.sqlp+"regions` WHERE `guild`='"+region.getGuildName()+"'";
-			statement.executeUpdate(sql);
-			
-			plugin.regions.remove(region.getGuildName().toLowerCase());
-		}
-		catch(SQLException e) {
-			plugin.info(e.getMessage());
+		if(region.isChanged()) {
+			plugin.mysqlReload();
+
+			try {
+				Statement statement = plugin.c.createStatement();
+
+				String sql = "DELETE FROM `" + plugin.sqlp + "regions` WHERE `guild`='" + region.getGuildName() + "'";
+				statement.executeUpdate(sql);
+
+				plugin.regions.remove(region.getGuildName().toLowerCase());
+			}
+			catch(SQLException e) {
+				plugin.info(e.getMessage());
+			}
 		}
 	}
 	
@@ -210,7 +210,7 @@ public class RegionManager {
 	
 	//set corner with material
 	@SuppressWarnings("deprecation")
-	public void setCorner(Player player, Location location, Material material) {
+	private void setCorner(Player player, Location location, Material material) {
 		if(material == null) {
 			material = player.getWorld().getBlockAt(location).getType();
 		}
@@ -355,7 +355,7 @@ public class RegionManager {
 		return dif_x * dif_z;
 	}
 	
-	public NovaRegion regionInsideArea(Location l1, Location l2) {
+	private NovaRegion regionInsideArea(Location l1, Location l2) {
 		int x1 = StringUtils.fixX(l1.getBlockX());
 		int x2 = StringUtils.fixX(l2.getBlockX());
 		int z1 = StringUtils.fixX(l1.getBlockZ());
@@ -413,5 +413,65 @@ public class RegionManager {
 			return true;
 
 		return nPlayer.getGuild().getName().equalsIgnoreCase(region.getGuildName());
+	}
+
+	@SuppressWarnings("deprecation")
+	public List<Block> getBorderBlocks(NovaRegion region) {
+		List<Block> blocks = new ArrayList<>();
+
+		Location l1 = region.getCorner(0);
+		Location l2 = region.getCorner(1);
+		World world = region.getWorld();
+
+		int x;
+		int z;
+
+		int xs;
+		int zs;
+
+		int x1 = StringUtils.fixX(l1.getBlockX());
+		int x2 = StringUtils.fixX(l2.getBlockX());
+		int z1 = StringUtils.fixX(l1.getBlockZ());
+		int z2 = StringUtils.fixX(l2.getBlockZ());
+
+		int t;
+
+		int dif_x = Math.abs(x1 - x2) +1;
+		int dif_z = Math.abs(z1 - z2) +1;
+
+		if(l1.getBlockX() < l2.getBlockX()) {
+			xs = l1.getBlockX();
+		}
+		else {
+			xs = l2.getBlockX();
+		}
+
+		if(l1.getBlockZ() < l2.getBlockZ()) {
+			zs = l1.getBlockZ();
+		}
+		else {
+			zs = l2.getBlockZ();
+		}
+
+		for(t=0;t<dif_x;t++) {
+			x = xs + t;
+			int highest1 = world.getHighestBlockYAt(x, z1)-1;
+			int highest2 = world.getHighestBlockYAt(x, z2)-1;
+
+			blocks.add(world.getBlockAt(x, highest1, z1));
+			blocks.add(world.getBlockAt(x,highest2,z2));
+		}
+
+
+		for(t=0;t<dif_z;t++) {
+			z = zs + t;
+			int highest1 = world.getHighestBlockYAt(x1, z)-1;
+			int highest2 = world.getHighestBlockYAt(x2, z)-1;
+
+			blocks.add(world.getBlockAt(x1, highest1, z));
+			blocks.add(world.getBlockAt(x2,highest2,z));
+		}
+
+		return blocks;
 	}
 }

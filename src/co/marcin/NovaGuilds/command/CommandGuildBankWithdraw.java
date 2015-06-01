@@ -10,6 +10,7 @@ import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.NovaGuilds;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.utils.StringUtils;
+import org.bukkit.entity.Player;
 
 public class CommandGuildBankWithdraw implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -24,6 +25,13 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 		if(args.length>0) {
 			marg = args[0];
 		}
+
+		if(!(sender instanceof Player)) {
+			plugin.sendMessagesMsg(sender,"chat.cmdfromconsole");
+			return true;
+		}
+
+		Player player = plugin.senderToPlayer(sender);
 		
 		if(sender.hasPermission("novaguilds.guild.bank.withdraw")) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
@@ -37,7 +45,7 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 						
 						if(guild.getMoney() >= money) {
 							guild.takeMoney(money);
-							plugin.econ.depositPlayer(sender.getName(),money);
+							plugin.econ.depositPlayer(player,money);
 							
 							plugin.getGuildManager().saveGuild(guild);
 							

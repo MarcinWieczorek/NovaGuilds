@@ -1,13 +1,16 @@
 package co.marcin.NovaGuilds.listener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.runnable.RunnableRaid;
 import co.marcin.NovaGuilds.utils.StringUtils;
+import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +39,13 @@ public class MoveListener implements Listener {
 		//entering
 		if(fromRegion == null) {
 			if(toRegion != null) {
+				//TODO: TEST BORDER PARTICLES
+				List<Block> blocks = plugin.getRegionManager().getBorderBlocks(toRegion);
+				for(Block block : blocks) {
+					block.getLocation().setY(block.getLocation().getY()+1);
+					block.getWorld().playEffect(block.getLocation(), Effect.SMOKE, 100);
+				}
+
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("GUILDNAME",toRegion.getGuildName());
 				vars.put("PLAYERNAME",player.getName());

@@ -177,7 +177,7 @@ public class CommandGuildCreate implements CommandExecutor {
 								plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
 								
 								//messages
-								sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.success")));
+								plugin.sendMessagesMsg(sender,"chat.createguild.success");
 
 								vars.put("GUILDNAME", newGuild.getName());
 								vars.put("PLAYER",sender.getName());
@@ -189,7 +189,7 @@ public class CommandGuildCreate implements CommandExecutor {
 							else {
 								String rmmsg = plugin.getMessages().getString("chat.createguild.notenoughtmoney");
 								rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", requiredmoney + "");
-								sender.sendMessage(StringUtils.fixColors(plugin.prefix + rmmsg));
+								plugin.sendMessagesMsg(sender, rmmsg);
 							}
 						}
 						else {
@@ -203,25 +203,25 @@ public class CommandGuildCreate implements CommandExecutor {
 								
 								if(i<items.size()-1) itemlist+= plugin.getMessages().getString("chat.createguild.itemlistsep");
 							}
-							
-							sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.noitems")));
+
+							plugin.sendMessagesMsg(sender, "chat.createguild.noitems");
 							sender.sendMessage(StringUtils.fixColors(itemlist));
 						}
 					}
 					else { //region at loc
-						sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.regionhere")));
+						plugin.sendMessagesMsg(sender, "chat.createguild.regionhere");
 					}
 				}
 				else { //tag exists
-					sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.tagexists")));
+					plugin.sendMessagesMsg(sender, "chat.createguild.tagexists");
 				}
 			}
 			else { //name exists
-				sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.nameexists")));
+				plugin.sendMessagesMsg(sender, "chat.createguild.nameexists");
 			}
 		}
 		else { //has guild already
-			sender.sendMessage(StringUtils.fixColors(plugin.prefix + plugin.getMessages().getString("chat.createguild.hasguild")));
+			plugin.sendMessagesMsg(sender,"chat.createguild.hasguild");
 		}
 		return true;
 	}

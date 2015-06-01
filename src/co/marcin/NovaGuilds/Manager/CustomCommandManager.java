@@ -6,12 +6,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.HashMap;
 
 public class CustomCommandManager {
-	private final NovaGuilds plugin;
 	private final HashMap<String,String> aliases = new HashMap<>();
 
-	public CustomCommandManager(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-
+	public CustomCommandManager(NovaGuilds plugin) {
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("aliases");
 
 		for(String key : section.getKeys(false)) {

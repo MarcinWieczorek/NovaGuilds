@@ -28,14 +28,14 @@ public class CommandGuildTop implements CommandExecutor {
 		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
 
 		if(guilds.size() == 0) {
-			sender.sendMessage("no guilds"); //TODO
+			plugin.sendMessagesMsg(sender,"chat.guild.noguilds");
 			return true;
 		}
 
-		Statement statement;
+		plugin.mysqlReload();
 
 		try {
-			statement = plugin.c.createStatement();
+			Statement statement = plugin.c.createStatement();
 			plugin.sendMessagesMsg(sender,"holographicdisplays.topguilds.header");
 
 			ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessages().getInt("holographicdisplays.topguilds.toprows"));

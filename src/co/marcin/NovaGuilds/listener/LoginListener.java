@@ -35,8 +35,6 @@ public class LoginListener implements Listener {
 		//scoreboard
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
-
-
 		nPlayer.setPlayer(player);
 		nPlayer.setOnline(true);
 
@@ -59,7 +57,6 @@ public class LoginListener implements Listener {
 		
 		//TabAPI
 		plugin.tagUtils.updatePrefix(player);
-		//plugin.sendTablistInfo(player); //TODO test
 	}
 	
 	@EventHandler

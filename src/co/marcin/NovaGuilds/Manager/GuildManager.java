@@ -52,16 +52,6 @@ public class GuildManager {
 		return null;
 	}
 
-	public NovaGuild getGuildByPlayer(String playername) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
-
-		if(nPlayer == null) {
-			return null;
-		}
-
-		return plugin.getGuildManager().getGuildByPlayer(nPlayer);
-	}
-
 	/*
 	* Find by player/tag/guildname
 	* @Param: String mixed
@@ -166,6 +156,7 @@ public class GuildManager {
 
 					novaGuild.setWars(wars);
 					novaGuild.setNoWarInvitations(nowarinv);
+					novaGuild.setUnchanged();
 
 					plugin.guilds.put(res.getString("name").toLowerCase(), novaGuild);
 				}
@@ -210,6 +201,7 @@ public class GuildManager {
 			NovaPlayer leader = plugin.getPlayerManager().getPlayerByName(guild.getLeaderName());
 			leader.setGuild(guild);
 			leader.setLeader(true);
+			guild.setUnchanged();
 		}
 		catch(SQLException e) {
 			plugin.info("SQLException while adding a guild!");
@@ -218,86 +210,87 @@ public class GuildManager {
 	}
 	
 	public void saveGuild(NovaGuild guild) {
-		plugin.mysqlReload();
-		
-    	Statement statement;
-		try {
-			statement = plugin.c.createStatement();
-			
-			String spawnpointcoords = "";			
-			if(guild.getSpawnPoint() != null) {
-				spawnpointcoords = StringUtils.parseDBLocation(guild.getSpawnPoint());
-			}
+		if(guild.isChanged()) {
+			plugin.mysqlReload();
 
-			//ALLIES
-			String allies = "";
-			String alliesinv = "";
-			
-			if(guild.getAllies().size() > 0) {
-				for(String ally : guild.getAllies()) {
-					if(!allies.equals("")) {
-						allies += ";";
-					}
+			try {
+				Statement statement = plugin.c.createStatement();
 
-					allies += ally;
+				String spawnpointcoords = "";
+				if(guild.getSpawnPoint() != null) {
+					spawnpointcoords = StringUtils.parseDBLocation(guild.getSpawnPoint());
 				}
-			}
 
-			if(guild.getAllyInvitations().size() > 0) {
-				for(String allyinv : guild.getAllyInvitations()) {
-					if(!alliesinv.equals("")) {
-						alliesinv += ";";
+				//ALLIES
+				String allies = "";
+				String alliesinv = "";
+
+				if(guild.getAllies().size() > 0) {
+					for(String ally : guild.getAllies()) {
+						if(!allies.equals("")) {
+							allies += ";";
+						}
+
+						allies += ally;
 					}
-
-					alliesinv = alliesinv + allyinv;
 				}
-			}
 
-			//WARS
-			String wars = "";
-			String nowar_inv = "";
+				if(guild.getAllyInvitations().size() > 0) {
+					for(String allyinv : guild.getAllyInvitations()) {
+						if(!alliesinv.equals("")) {
+							alliesinv += ";";
+						}
 
-			if(guild.getWars().size() > 0) {
-				for(String war : guild.getWars()) {
-					if(!wars.equals("")) {
-						wars += ";";
+						alliesinv = alliesinv + allyinv;
 					}
-
-					wars += war;
 				}
-			}
 
-			if(guild.getNoWarInvitations().size() > 0) {
-				for(String nowarinv : guild.getNoWarInvitations()) {
-					if(!nowar_inv.equals("")) {
-						nowar_inv += ";";
+				//WARS
+				String wars = "";
+				String nowar_inv = "";
+
+				if(guild.getWars().size() > 0) {
+					for(String war : guild.getWars()) {
+						if(!wars.equals("")) {
+							wars += ";";
+						}
+
+						wars += war;
 					}
-
-					nowar_inv = nowar_inv + nowarinv;
 				}
+
+				if(guild.getNoWarInvitations().size() > 0) {
+					for(String nowarinv : guild.getNoWarInvitations()) {
+						if(!nowar_inv.equals("")) {
+							nowar_inv += ";";
+						}
+
+						nowar_inv = nowar_inv + nowarinv;
+					}
+				}
+
+				String sql = "UPDATE `" + plugin.sqlp + "guilds` SET " +
+						"`tag`='" + guild.getTag() + "', " +
+						"`name`='" + guild.getName() + "', " +
+						"`leader`='" + guild.getLeaderName() + "', " +
+						"`spawn`='" + spawnpointcoords + "', " +
+						"`allies`='" + allies + "', " +
+						"`alliesinv`='" + alliesinv + "', " +
+						"`war`='" + wars + "', " +
+						"`nowarinv`='" + nowar_inv + "', " +
+						"`money`='" + guild.getMoney() + "', " +
+						"`points`=" + guild.getPoints() + ", " +
+						"`lives`=" + guild.getLives() + ", " +
+						"`timerest`=" + guild.getTimeRest() + ", " +
+						"`lostlive`=" + guild.getLostLiveTime() +
+						" WHERE `id`=" + guild.getId();
+
+				statement.executeUpdate(sql);
 			}
-
-			String sql = "UPDATE `"+plugin.sqlp+"guilds` SET " +
-					"`tag`='"+guild.getTag()+"', " +
-					"`name`='"+guild.getName()+"', " +
-					"`leader`='"+guild.getLeaderName()+"', " +
-					"`spawn`='"+spawnpointcoords+"', " +
-					"`allies`='"+allies+"', " +
-					"`alliesinv`='"+alliesinv+"', " +
-					"`war`='"+wars+"', " +
-					"`nowarinv`='"+nowar_inv+"', " +
-					"`money`='"+guild.getMoney()+"', " +
-					"`points`="+guild.getPoints()+", " +
-					"`lives`="+guild.getLives()+", "+
-					"`timerest`="+guild.getTimeRest() + ", " +
-					"`lostlive`="+guild.getLostLiveTime() +
-					" WHERE `id`="+guild.getId();
-
-			statement.executeUpdate(sql);
-		}
-		catch(SQLException e) {
-			plugin.info("SQLException while saving a guild.");
-			plugin.info(e.getMessage());
+			catch(SQLException e) {
+				plugin.info("SQLException while saving a guild.");
+				plugin.info(e.getMessage());
+			}
 		}
 	}
 	
@@ -313,15 +306,21 @@ public class GuildManager {
     	Statement statement;
 		try {
 			statement = plugin.c.createStatement();
-			
+
+			//delete from database
 			String sql = "DELETE FROM `"+plugin.sqlp+"guilds` WHERE `id`="+guild.getId();
 			statement.executeUpdate(sql);
 			
 			//remove players
-			for(NovaPlayer np : guild.getPlayers()) {
-				np.setGuild(null);
-				np.setHasGuild(false);
-				plugin.debug(np.getName());
+			for(NovaPlayer nP : guild.getPlayers()) {
+				nP.setGuild(null);
+				nP.setHasGuild(false);
+				plugin.debug(nP.getName());
+
+				//update tags
+				if(nP.isOnline()) {
+					plugin.tagUtils.updatePrefix(nP.getPlayer());
+				}
 			}
 
 			//remove guild invitations
@@ -352,6 +351,11 @@ public class GuildManager {
 				if(nGuild.isNoWarInvited(guild)) {
 					nGuild.removeNoWarInvitation(guild);
 				}
+			}
+
+			//remove region
+			if(guild.hasRegion()) {
+				plugin.getRegionManager().removeRegion(guild.getRegion());
 			}
 
 			plugin.debug(guild.getName());
