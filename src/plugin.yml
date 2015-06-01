@@ -1,7 +1,7 @@
 name: NovaGuilds
-main: co.marcin.NovaGuilds.NovaGuilds
+main: co.marcin.novaguilds.NovaGuilds
 author: Marcin Wieczorek
-description: The best guilds plugin!
+description: The best polish guilds plugin!
 website: http://novaguilds.marcin.co/
 version: 11
 depend: [Vault]
