@@ -1,0 +1,41 @@
+package co.marcin.novaguildss.command;
+
+import co.marcin.novaguildss.NovaGuilds;
+import co.marcin.novaguildss.basic.NovaGuild;
+import co.marcin.novaguildss.utils.StringUtils;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+public class CommandAdminGuildSetLiveRegenerationTime implements CommandExecutor {
+	private final NovaGuilds plugin;
+	private final NovaGuild guild;
+
+	public CommandAdminGuildSetLiveRegenerationTime(NovaGuilds pl, NovaGuild guild) {
+		plugin = pl;
+		this.guild = guild;
+	}
+
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if(!sender.hasPermission("novaguilds.admin.guild.liveregenerationtime")) {
+			plugin.sendMessagesMsg(sender, "chat.nopermissions");
+			return true;
+		}
+
+		String timeString = "";
+		if(args.length > 1) {
+			timeString = StringUtils.join(args," ");
+		}
+
+		int iseconds = StringUtils.StringToSeconds(timeString);
+		long seconds = Long.parseLong(iseconds+"");
+
+		long newregentime = NovaGuilds.systemSeconds() + (seconds - plugin.liveRegenerationTime);
+		plugin.debug("newregentime: "+newregentime);
+
+		guild.setLostLiveTime(newregentime);
+		plugin.sendMessagesMsg(sender,"chat.admin.guild.timerest.set");
+
+		return true;
+	}
+}
