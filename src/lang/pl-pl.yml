@@ -128,11 +128,13 @@ chat:
     - "&5* &7/g &ccompass &2- &3Niech kompas wskazuje dom Twojej gildii!"
     - "&5* &7/g &cbuyregion &2- &3Kup zaznaczony teren"
     - "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
+    - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/ng &ctool &2- &3Sprawdz lub zaznacz teren patykiem!"
    noguild:
     - "&5* &7/zaloz &6<tag> <nazwa> &2- &3Zaloz gildie"
     - "&5* &7/g &cjoin &6[gildia] &2- &3Dolacz do gildii"
     - "&5* &7/gi &c[gildia/gracz] &2- &3Informacje o gildii"
+    - "&5* &7/g &ctop &2- &3Top 5"
 
  teampvp: "Nie mozesz bic swoich kolegow z gildii"
  allypvp: "Nie mozesz ranic swoich sojusznikow"

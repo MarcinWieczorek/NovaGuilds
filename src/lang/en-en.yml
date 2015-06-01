@@ -128,11 +128,13 @@ chat:
     - "&5* &7/g &ccompass &2- &3Let the compass point your guild's home!"
     - "&5* &7/g &cbuyregion &2- &3Buy selected area"
     - "&5* &7/g &ceffect &2- &3Effect for guild"
+    - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/ng &ctool &2- &3Check or select area with the tool!"
    noguild:
     - "&5* &7/g &ccreate &6<tag> <name> &2- &3Create a guild"
     - "&5* &7/g &cjoin &6[guildname] &2- &3Join a guild"
     - "&5* &7/gi &c[guild/tag/player] &2- &3Join a guild"
+    - "&5* &7/g &ctop &2- &3Top 5"
 
  teampvp: "You cannot hurt your teammates"
  allypvp: "You cannot hurt your allies."

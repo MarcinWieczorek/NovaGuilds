@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.managers;
+package co.marcin.NovaGuilds.manager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

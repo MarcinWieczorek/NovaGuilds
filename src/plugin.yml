@@ -3,7 +3,7 @@ main: co.marcin.NovaGuilds.NovaGuilds
 author: Marcin Wieczorek
 description: The best guilds plugin!
 website: http://novaguilds.marcin.co/
-version: 10
+version: 11
 depend: [Vault]
 softdepend: [BarAPI]
 commands:

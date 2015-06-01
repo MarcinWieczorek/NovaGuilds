@@ -18,7 +18,7 @@ import co.marcin.NovaGuilds.basic.NovaGuild;
 import co.marcin.NovaGuilds.basic.NovaPlayer;
 import co.marcin.NovaGuilds.basic.NovaRegion;
 import co.marcin.NovaGuilds.listener.*;
-import co.marcin.NovaGuilds.Manager.CustomCommandManager;
+import co.marcin.NovaGuilds.manager.CustomCommandManager;
 import co.marcin.NovaGuilds.runnable.RunnableAutoSave;
 import co.marcin.NovaGuilds.runnable.RunnableLiveRegeneration;
 import co.marcin.NovaGuilds.runnable.RunnableTeleportRequest;
@@ -53,9 +53,9 @@ import co.marcin.NovaGuilds.command.CommandGuildInvite;
 import co.marcin.NovaGuilds.command.CommandGuildJoin;
 import co.marcin.NovaGuilds.command.CommandGuildLeave;
 import co.marcin.NovaGuilds.command.CommandNovaGuilds;
-import co.marcin.NovaGuilds.Manager.GuildManager;
-import co.marcin.NovaGuilds.Manager.PlayerManager;
-import co.marcin.NovaGuilds.Manager.RegionManager;
+import co.marcin.NovaGuilds.manager.GuildManager;
+import co.marcin.NovaGuilds.manager.PlayerManager;
+import co.marcin.NovaGuilds.manager.RegionManager;
 
 public class NovaGuilds extends JavaPlugin {
 	private final Logger log = Logger.getLogger("Minecraft");
@@ -689,7 +689,9 @@ public class NovaGuilds extends JavaPlugin {
 		Runnable task = new RunnableTeleportRequest(this,player,location,path);
 		worker.schedule(task,getGroup(player).getTeleportDelay(),TimeUnit.SECONDS);
 
-		sendDelayedTeleportMessage(player);
+		if(getGroup(player).getTeleportDelay()>0) {
+			sendDelayedTeleportMessage(player);
+		}
 	}
 
 	public void sendDelayedTeleportMessage(Player player) {

@@ -1,4 +1,4 @@
-package co.marcin.NovaGuilds.managers;
+package co.marcin.NovaGuilds.manager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
