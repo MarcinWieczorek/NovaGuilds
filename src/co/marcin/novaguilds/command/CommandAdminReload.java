@@ -32,8 +32,6 @@ public class CommandAdminReload implements CommandExecutor {
 			plugin.timeInactive = plugin.getConfig().getLong("raid.timeinactive");
 			//TODO
 
-			plugin.useTabAPI = plugin.getConfig().getBoolean("tabapi.enabled");
-			plugin.useTagAPI = plugin.getConfig().getBoolean("tagapi.enabled");
 			plugin.useHolographicDisplays = plugin.getConfig().getBoolean("holographicdisplays.enabled");
 
 			plugin.sendMessagesMsg(sender,"chat.reload.config");

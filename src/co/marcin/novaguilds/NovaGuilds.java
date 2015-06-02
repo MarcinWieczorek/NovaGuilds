@@ -1,30 +1,29 @@
 package co.marcin.novaguilds;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.command.*;
 import co.marcin.novaguilds.listener.*;
 import co.marcin.novaguilds.manager.CustomCommandManager;
+import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.utils.StringUtils;
 import co.marcin.novaguilds.utils.TagUtils;
+
+import code.husky.mysql.MySQL;
+import code.husky.sqlite.SQLite;
+
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+
 import me.confuser.barapi.BarAPI;
+
 import net.milkbowl.vault.Metrics;
 import net.milkbowl.vault.economy.Economy;
 
@@ -38,24 +37,17 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-
-import code.husky.mysql.MySQL;
-import code.husky.sqlite.SQLite;
-import co.marcin.novaguilds.command.CommandAdmin;
-import co.marcin.novaguilds.command.CommandGuild;
-import co.marcin.novaguilds.command.CommandGuildAbandon;
-import co.marcin.novaguilds.command.CommandGuildCreate;
-import co.marcin.novaguilds.command.CommandGuildHome;
-import co.marcin.novaguilds.command.CommandGuildInfo;
-import co.marcin.novaguilds.command.CommandGuildInvite;
-import co.marcin.novaguilds.command.CommandGuildJoin;
-import co.marcin.novaguilds.command.CommandGuildLeave;
-import co.marcin.novaguilds.command.CommandNovaGuilds;
-import co.marcin.novaguilds.manager.GuildManager;
-import co.marcin.novaguilds.manager.PlayerManager;
-import co.marcin.novaguilds.manager.RegionManager;
+import java.io.File;
+import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class NovaGuilds extends JavaPlugin {
 	private final Logger log = Logger.getLogger("Minecraft");
@@ -73,8 +65,6 @@ public class NovaGuilds extends JavaPlugin {
 	//Vault
 	public Economy econ = null;
 
-	public boolean useTabAPI;
-	public boolean useTagAPI;
 	public boolean useHolographicDisplays;
 	private boolean useBarAPI;
 	
@@ -124,8 +114,6 @@ public class NovaGuilds extends JavaPlugin {
 		liveRegenerationTime = StringUtils.StringToSeconds(liveRegenerationString);
 		//TODO
 
-		useTabAPI = getConfig().getBoolean("tabapi.enabled");
-		useTagAPI = getConfig().getBoolean("tagapi.enabled");
 		useHolographicDisplays = getConfig().getBoolean("holographicdisplays.enabled");
 		useBarAPI = getConfig().getBoolean("barapi.enabled");
 
