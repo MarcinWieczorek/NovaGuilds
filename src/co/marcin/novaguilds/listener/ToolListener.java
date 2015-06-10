@@ -33,8 +33,8 @@ public class ToolListener implements Listener {
 		if(player.getItemInHand().getType().equals(tool)) {
 			if(player.getItemInHand().hasItemMeta() && player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(toolname)) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
-				Location pointedlocation = player.getTargetBlock((Set<Material>) null, 200).getLocation();
-				pointedlocation.setWorld(player.getWorld());
+				Location pointedLocation = player.getTargetBlock((Set<Material>) null, 200).getLocation();
+				pointedLocation.setWorld(player.getWorld());
 
 				//Change RegionMode
 				if((event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) && player.isSneaking()) {
@@ -74,10 +74,9 @@ public class ToolListener implements Listener {
 				}
 
 
-				NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(pointedlocation);
+				NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(pointedLocation);
 
 				if(!nPlayer.regionMode()) { //CHECK MODE
-
 					if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 						if(!player.hasPermission("novaguilds.tool.check")) { //permissions check
 							return;
@@ -100,11 +99,11 @@ public class ToolListener implements Listener {
 					}
 				} else { //CREATE MODE
 					if(!event.getAction().equals(Action.PHYSICAL)) {
-						if(!player.hasPermission("novaguilds.region.create")) {
-							return;
-						}
-
 						if(rgatloc == null) {
+							if(!player.hasPermission("novaguilds.region.create")) {
+								return;
+							}
+
 							Location sl1 = nPlayer.getSelectedLocation(0);
 							Location sl2 = nPlayer.getSelectedLocation(1);
 							event.setCancelled(true);
@@ -118,9 +117,9 @@ public class ToolListener implements Listener {
 									}
 								}
 
-								plugin.getRegionManager().setCorner(player, pointedlocation);
-								nPlayer.setSelectedLocation(0, pointedlocation);
-								sl1 = pointedlocation;
+								plugin.getRegionManager().setCorner(player, pointedLocation);
+								nPlayer.setSelectedLocation(0, pointedLocation);
+								sl1 = pointedLocation;
 							}
 
 							//Corner 2
@@ -131,9 +130,9 @@ public class ToolListener implements Listener {
 										plugin.getRegionManager().sendSquare(player, sl1, sl2, null, (byte) 0);
 								}
 
-								plugin.getRegionManager().setCorner(player, pointedlocation);
-								nPlayer.setSelectedLocation(1, pointedlocation);
-								sl2 = pointedlocation;
+								plugin.getRegionManager().setCorner(player, pointedLocation);
+								nPlayer.setSelectedLocation(1, pointedLocation);
+								sl2 = pointedLocation;
 							}
 
 							if(sl1 != null && sl2 != null) {
@@ -193,8 +192,23 @@ public class ToolListener implements Listener {
 								plugin.getRegionManager().setCorner(player, sl1);
 								plugin.getRegionManager().setCorner(player, sl2);
 							}
-						} else {
-							plugin.sendMessagesMsg(player, "chat.region.regionhere");
+						}
+						else { //resizing
+							if(!player.hasPermission("novaguilds.region.resize")) {
+								//TODO: msg
+								return;
+							}
+
+							if(rgatloc.getGuild().isMember(nPlayer)) {
+								if(pointedLocation.distance(rgatloc.getCorner(0))==0 || pointedLocation.distance(rgatloc.getCorner(0))==0) { //clicked a corner
+									int corner = 1;
+
+									if(pointedLocation.distance(rgatloc.getCorner(0))==0) {
+										corner = 0;
+									}
+								}
+							}
+							//plugin.sendMessagesMsg(player, "chat.region.regionhere");
 						}
 					}
 				}

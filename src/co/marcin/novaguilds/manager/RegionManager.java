@@ -93,8 +93,8 @@ public class RegionManager {
 					plugin.info("Failed loading region for guild "+res.getString("guild")+", world does not exist.");
 				}
 			}
-			plugin.info("Regions loaded from database");
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			plugin.info(e.getMessage());
 		}
 	}
@@ -149,6 +149,7 @@ public class RegionManager {
 						"`world`='" + region.getWorld().getName() + "' " +
 						"WHERE `id`=" + region.getId();
 				statement.executeUpdate(sql);
+				region.setUnChanged();
 			}
 			catch(SQLException e) {
 				plugin.info(e.getMessage());

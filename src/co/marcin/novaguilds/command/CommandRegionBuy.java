@@ -52,7 +52,7 @@ public class CommandRegionBuy implements CommandExecutor {
 									
 									plugin.getRegionManager().addRegion(region, guild);
 									guild.takeMoney(price);
-									plugin.getGuildManager().saveGuild(guild);
+									plugin.getGuildManager().saveGuild(guild); //TODO check this
 									plugin.sendMessagesMsg(sender,"chat.region.created");
 								}
 								else {

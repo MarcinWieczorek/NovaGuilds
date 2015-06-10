@@ -40,19 +40,19 @@ public class PvpListener implements Listener {
 				//teampvp
 				if(!novaPlayerAttacker.getName().equals(novaPlayer.getName())) {
 					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {
-						if(novaPlayerAttacker.getGuild().equals(novaPlayer.getGuild())) {
+						if(plugin.getPlayerManager().isGuildMate(player,attacker)) {
 							plugin.sendMessagesMsg(attacker, "chat.teampvp");
 							event.setCancelled(true);
-							
+
 							//remove the arrow
 							if(event.getDamager().getType().equals(EntityType.ARROW)) {
 								event.getDamager().remove();
 							}
 						}
-						else if(novaPlayerAttacker.getGuild().isAlly(novaPlayer.getGuild())) {
+						else if(plugin.getPlayerManager().isAlly(player,attacker)) {
 							plugin.sendMessagesMsg(attacker,"chat.allypvp");
 							event.setCancelled(true);
-							
+
 							//remove the arrow
 							if(event.getDamager().getType().equals(EntityType.ARROW)) {
 								event.getDamager().remove();

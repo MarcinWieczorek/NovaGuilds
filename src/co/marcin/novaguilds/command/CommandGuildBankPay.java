@@ -43,7 +43,7 @@ public class CommandGuildBankPay implements CommandExecutor {
 					Double money = Double.parseDouble(marg);
 					
 					if(plugin.econ.getBalance(player) >= money) {
-						plugin.econ.depositPlayer(plugin.senderToPlayer(sender),1);
+						plugin.econ.withdrawPlayer(player,money);
 						guild.addMoney(money);
 						HashMap<String,String> vars = new HashMap<>();
 						vars.put("AMOUNT",money+"");

@@ -15,6 +15,7 @@ public class NovaGroup {
 	private double createRegionMoney = 0;
 	private double effectPrice = 0;
 	private int teleportDelay = 0;
+	private int autoregionSize = 0;
 	private List<ItemStack> createGuildItems = new ArrayList<>();
 
 	@SuppressWarnings("deprecation")
@@ -22,6 +23,7 @@ public class NovaGroup {
 		name = group;
 
 		if(name.equalsIgnoreCase("admin")) {
+			autoregionSize = plugin.getConfig().getInt("region.adminautosize");
 			return;
 		}
 
@@ -54,12 +56,15 @@ public class NovaGroup {
 			items.add(stack);
 		}
 
+		//setting all values
+		String groupPath = "guild.create.groups." + group + ".";
 		setCreateGuildItems(items);
-		setCreateGuildMoney(plugin.getConfig().getDouble("guild.create.groups." + group + ".money"));
-		setTeleportDelay(plugin.getConfig().getInt("guild.create.groups." + group + ".tpdelay"));
-		setPricePerBlock(plugin.getConfig().getDouble("guild.create.groups." + group + ".region.ppb"));
-		setRegionCreateMoney(plugin.getConfig().getDouble("guild.create.groups." + group + ".region.create"));
-		setEffectPrice(plugin.getConfig().getDouble("guild.create.groups." + group + ".region.effectprice"));
+		setCreateGuildMoney(plugin.getConfig().getDouble(groupPath + "money"));
+		setTeleportDelay(plugin.getConfig().getInt(groupPath + "tpdelay"));
+		setPricePerBlock(plugin.getConfig().getDouble(groupPath + "region.ppb"));
+		setRegionCreateMoney(plugin.getConfig().getDouble(groupPath + "region.create"));
+		setEffectPrice(plugin.getConfig().getDouble(groupPath + "region.effectprice"));
+		setAutoregionSize(plugin.getConfig().getInt(groupPath + "region.autoregionsize"));
 	}
 
 	//setters
@@ -85,6 +90,10 @@ public class NovaGroup {
 
 	public void setEffectPrice(double effectPrice) {
 		this.effectPrice = effectPrice;
+	}
+
+	public void setAutoregionSize(int size) {
+		autoregionSize = size;
 	}
 
 	//getters
@@ -114,5 +123,9 @@ public class NovaGroup {
 
 	public double getEffectPrice() {
 		return effectPrice;
+	}
+
+	public int getAutoregionSize() {
+		return autoregionSize;
 	}
 }

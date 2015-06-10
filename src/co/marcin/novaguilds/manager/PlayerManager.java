@@ -80,6 +80,7 @@ public class PlayerManager {
 						"WHERE `uuid`='" + nPlayer.getUUID() + "'";
 
 				statement.executeUpdate(sql);
+				nPlayer.setUnchanged();
 			}
 			catch(SQLException e) {
 				plugin.info(e.getMessage());
@@ -108,9 +109,8 @@ public class PlayerManager {
 
 				plugin.players.put(res.getString("name").toLowerCase(), playerFromResult(res));
 			}
-
-			plugin.info("Players loaded from database");
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			plugin.info(e.getMessage());
 		}	
     }
@@ -155,14 +155,14 @@ public class PlayerManager {
 		NovaPlayer nPlayer1 = getPlayerByPlayer(player1);
 		NovaPlayer nPlayer2 = getPlayerByPlayer(player2);
 
-		return nPlayer1.getGuild().getName().equalsIgnoreCase(nPlayer2.getGuild().getName());
+		return nPlayer1.getGuild().isMember(nPlayer2) || nPlayer1.equals(nPlayer2);
 	}
 
 	public boolean isAlly(Player player1, Player player2) {
 		NovaPlayer nPlayer1 = getPlayerByPlayer(player1);
 		NovaPlayer nPlayer2 = getPlayerByPlayer(player2);
 
-		return nPlayer1.getGuild().isAlly(nPlayer2.getGuild());
+		return nPlayer1.getGuild().isAlly(nPlayer2.getGuild()) || nPlayer1.equals(nPlayer2);
 	}
 
 	private NovaPlayer playerFromResult(ResultSet res) {

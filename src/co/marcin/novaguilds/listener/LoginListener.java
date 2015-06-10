@@ -30,7 +30,7 @@ public class LoginListener implements Listener {
 		//adding player
 		plugin.getPlayerManager().addIfNotExists(player);
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
 
 		//scoreboard
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());

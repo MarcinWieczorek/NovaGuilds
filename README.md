@@ -1,4 +1,4 @@
-<img src="http://novaguilds.marcin.co/img/newlogo.png" />
+<img src="http://novaguilds.marcin.co/img/newlogo.png" /><br/><br/>
 
 NovaGuilds is my own guilds plugin, still in development, but I want to hear your opinions and ideas.<br/>
 Please leave feedback!<br/><br/>
@@ -30,21 +30,17 @@ Please leave feedback!<br/><br/>
 <br/>
 <h2><b>Features</b></h2>
 <ul>
-    <li>MySQL support</li>
-    <li>SQLlite support</li>
+    <li>MySQL and SQLlite support</li>
     <li>Money required to create a guild (Vault)(Configurable)</li>
     <li>Items required to create a guild (Configurable)</li>
-    <li>Configurable region iteract (you can allow others to use stuff in guilds)</li>
+    <li>Configurable region interact (you can allow others to use stuff in guilds)</li>
     <li>Configurable messages</li>
-    <li>Tags in chat</li>
-    <li>Tags in tablist</li>
+    <li>Tags in chat, above player and in the tablist</li>
     <li>Advanced region selection</li>
-    <li>Leaving guilds</li>
     <li>Automatic MySQL tables configuration</li>
     <li>Broadcast messages</li>
     <li>Pay/withdraw money to/from guild's bank</li>
-    <li>Allies</li>
-    <li>Wars</li>
+    <li>Allies, wars between guilds</li>
     <li>Language support</li>
     <li>Guild/Ally chat</li>
     <li>Configurable command names</li>
@@ -53,22 +49,19 @@ Please leave feedback!<br/><br/>
 <br/>
 <h2><b>Planned features</b></h2>
 <ul>
-    <li>MORE Admin commands</li>
-    <li>BarApi for cool stuff</li>
-    <li>HolographicDisplays tops (maybe, would be cool!)</li>
-    <li>tops</li>
     <li>Autoupdate to latest build (?)</li>
     <li>Auto update MySQL tables</li>
     <li>Auto update config (?)</li>
-    <li>Advanced horse protection (including leads)</li>
+    <li>Advanced horse protection</li>
+    <li>Region resizing</li>
+    <li>Automatic regions</li>
     <li>You tell me!</li>
 </ul>
 
 <br/>
 <h2><b>Undocumented features (bugs)</b></h2>
 <ul>
-    <li>Nothing is tested, and thank god if anything works</li>
-    <li>/join is not finished (I don't remember if I fixed it)</li>
+    <li>Player objects bug sometimes</li>
 </ul>
 
 <br/>
@@ -106,7 +99,7 @@ Please leave feedback!<br/><br/>
     </tr>
     <tr>
         <td>/nga rg bypass</td>
-        <td>Toggle region bypass - NOT YET
+        <td>Toggle region bypass
         <td>/nga rg bypass [player]</td>
     </tr>
     <tr>
@@ -117,7 +110,7 @@ Please leave feedback!<br/><br/>
     <tr>
         <td>/abandon</td>
         <td>Abandon your guild</td>
-        <td>/abandon [name]</td>
+        <td>/abandon</td>
     </tr>
     <tr>
         <td>/guildinfo, /gi</td>
@@ -142,7 +135,6 @@ Please leave feedback!<br/><br/>
     <tr>
         <td>Permission</td>
         <td>Description</td>
-        <td></td>
     </tr>
     <tr>
         <td>novaguilds.region.create</td>
@@ -181,7 +173,7 @@ Please leave feedback!<br/><br/>
     </tr>
     <tr>
         <td>novaguilds.guild.leave</td>
-        <td>leave the guild</td>
+        <td>Leaving the guild</td>
     </tr>
     
     <tr>
@@ -195,7 +187,7 @@ Please leave feedback!<br/><br/>
     
     <tr>
         <td>novaguilds.admin.access</td>
-        <td>access to <b>/nga</b></td>
+        <td>Access to <b>/nga</b></td>
     </tr>
     <tr>
         <td>novaguilds.admin.guild.kick</td>

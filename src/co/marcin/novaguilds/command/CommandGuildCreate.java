@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.event.GuildCreateEvent;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -88,62 +90,55 @@ public class CommandGuildCreate implements CommandExecutor {
 							return true;
 						}
 						
-						String group = "default";
-						
-						for(String s : plugin.getConfig().getConfigurationSection("guild.create.groups").getKeys(false)) {
-							if(sender.hasPermission("novaguilds.group."+s)) {
-								group = s;
-								break;
-							}
-						}
-						
 						//items required
-						List<ItemStack> items = new ArrayList<>();
-						List<String> itemstr = plugin.getConfig().getStringList("guild.create.groups."+group+".items");
+						List<ItemStack> items = plugin.getGroup(sender).getCreateGuildItems();
 						PlayerInventory inventory = player.getInventory();
 						boolean hasitems = true;
 						boolean hasMoney = true;
 						int i;
 						
-						double requiredmoney = plugin.getConfig().getInt("guild.create.groups."+group+".money");
+						double requiredmoney = plugin.getGroup(sender).getCreateGuildMoney();
 						
-						if(requiredmoney>0 || sender.hasPermission("novaguilds.group.admin")) {
+						if(requiredmoney>0) {
 							if(plugin.econ.getBalance(player.getName()) < requiredmoney) {
 								hasMoney = false;
 							}
 						}
 						
-						if(itemstr.size()==0 || sender.hasPermission("novaguilds.group.admin")) {
+						if(items.size()==0) {
 							hasitems=true;
 							plugin.debug("no items required");
 						}
 						else {
-							ItemStack stack;
-							for(i=0;i<itemstr.size();i++) {
-								String[] exp = itemstr.get(i).split(" ");
-								String idname;
-								String[] dataexp = null;
-								byte data = (byte)0;
-								int amount = Integer.parseInt(exp[1]);
-								
-								if(exp[0].contains(":")) {
-									dataexp = exp[0].split(":");
-									idname = dataexp[0];
-									data = Byte.parseByte(dataexp[1]);
-								}
-								else {
-									idname = exp[0];
-								}
-								
-								stack = new ItemStack(Material.getMaterial(idname.toUpperCase()),amount);
-								
-								if(dataexp != null) {
-									stack.getData().setData(data);
-								}
-								
-								items.add(stack);
-							}
-							
+
+							//Items from string (deprecated)
+//							ItemStack stack;
+//							for(i=0;i<itemstr.size();i++) {
+//								String[] exp = itemstr.get(i).split(" ");
+//								String idname;
+//								String[] dataexp = null;
+//								byte data = (byte)0;
+//								int amount = Integer.parseInt(exp[1]);
+//
+//								if(exp[0].contains(":")) {
+//									dataexp = exp[0].split(":");
+//									idname = dataexp[0];
+//									data = Byte.parseByte(dataexp[1]);
+//								}
+//								else {
+//									idname = exp[0];
+//								}
+//
+//								stack = new ItemStack(Material.getMaterial(idname.toUpperCase()),amount);
+//
+//								if(dataexp != null) {
+//									stack.getData().setData(data);
+//								}
+//
+//								items.add(stack);
+//							}
+
+							//contains required items
 							for(i=0;i<items.size();i++) {
 								if(!inventory.containsAtLeast(items.get(i),items.get(i).getAmount())) {
 									hasitems = false;
@@ -160,31 +155,54 @@ public class CommandGuildCreate implements CommandExecutor {
 								newGuild.setLeaderName(sender.getName());
 								newGuild.setSpawnPoint(player.getLocation());
 								newGuild.addPlayer(nPlayer);
-								plugin.getGuildManager().addGuild(newGuild);
-
-								//nPlayer
-								nPlayer.setGuild(newGuild);
-								
-								//taking money away
-								plugin.econ.withdrawPlayer(sender.getName(),requiredmoney);
-								
-								//taking items away
-								for(ItemStack item : items) {
-									player.getInventory().removeItem(item);
-								}
-								
-								//update tag and tabs
-								plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
-								
-								//messages
-								plugin.sendMessagesMsg(sender,"chat.createguild.success");
-
-								vars.put("GUILDNAME", newGuild.getName());
-								vars.put("PLAYER",sender.getName());
-								plugin.broadcastMessage("broadcast.guild.created", vars);
 
 								//fire event
-								plugin.getServer().getPluginManager().callEvent(new GuildCreateEvent(newGuild));
+								GuildCreateEvent guildCreateEvent = new GuildCreateEvent(newGuild);
+								plugin.getServer().getPluginManager().callEvent(guildCreateEvent);
+
+								if(!guildCreateEvent.isCancelled()) {
+									//Add the guild
+									plugin.getGuildManager().addGuild(newGuild);
+
+									//nPlayer
+									nPlayer.setGuild(newGuild);
+
+									//taking money away
+									plugin.econ.withdrawPlayer(sender.getName(), requiredmoney);
+
+									//taking items away
+									for (ItemStack item : items) {
+										player.getInventory().removeItem(item);
+									}
+
+									//Automatic Region
+									if(plugin.getConfig().getBoolean("region.autoregion")) {
+										int size = plugin.getGroup(sender).getAutoregionSize();
+										Location playerLocation = player.getLocation();
+										Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
+										Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
+
+										NovaRegion region = new NovaRegion();
+
+										region.setCorner(0, c1);
+										region.setCorner(1, c2);
+										region.setWorld(playerLocation.getWorld());
+										region.setGuild(nPlayer.getGuild());
+
+										plugin.getRegionManager().addRegion(region, nPlayer.getGuild());
+										plugin.debug("AutoRegion created!");
+									}
+
+									//update tag and tabs
+									plugin.tagUtils.updatePrefix(plugin.senderToPlayer(sender));
+
+									//messages
+									plugin.sendMessagesMsg(sender, "chat.createguild.success");
+
+									vars.put("GUILDNAME", newGuild.getName());
+									vars.put("PLAYER", sender.getName());
+									plugin.broadcastMessage("broadcast.guild.created", vars);
+								}
 							}
 							else {
 								String rmmsg = plugin.getMessages().getString("chat.createguild.notenoughtmoney");

@@ -50,6 +50,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class NovaGuilds extends JavaPlugin {
+	/*
+	* Bukkicie nasz, któryœ jest w javie, œwiêæ siê metody Twoje, przyjdŸ repo Twoje,
+	* b¹dŸ kod Twój jako w gicie tak i w mavenie, stacktrace naszego powszedniego
+	* daj nam dzisiaj, i odpuœæ nam bugi Twoje, jako i my odpuszczamy naszym
+	* kolegom z pracy, i nie wódŸ nas na wycieki pamiêci, ale nas zbaw od Skript.
+	* Enter. ~Bukkit.PL
+	* */
 	private final Logger log = Logger.getLogger("Minecraft");
 	private static final String logprefix = "[NovaGuilds] ";
 	public final PluginDescriptionFile pdf = this.getDescription();
@@ -142,13 +149,13 @@ public class NovaGuilds extends JavaPlugin {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
+		info("Vault hooked");
 
 		if(!setupEconomy()) {
 			log.severe(logprefix+"Could not setup Vault's economy, disabling");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-		info("Vault hooked");
 		info("Vault's Economy hooked");
 
 		//BarAPI
@@ -260,8 +267,11 @@ public class NovaGuilds extends JavaPlugin {
 			
 			//Data loading
 			getRegionManager().loadRegions();
+			info("Regions data loaded");
 			getGuildManager().loadGuilds();
+			info("Guilds data loaded");
 			getPlayerManager().loadPlayers();
+			info("Players data loaded");
 			
 			//Listeners
 			pm.registerEvents(new LoginListener(this), this);

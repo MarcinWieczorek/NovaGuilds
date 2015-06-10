@@ -33,10 +33,8 @@ tagapi:
   enabled: true
   color: "&c"
 
-usevault: true
-
 holographicdisplays:
- enabled: false
+ enabled: true
 
 #Save period in minutes
 saveperiod: 10
@@ -91,10 +89,13 @@ guild:
  startpoints: 1000
  startmoney: 0
  startlives: 2
+ #distance from spawn
  fromspawn: 100
  settings:
   tag:
+   #colored tags
    color: true
+   #length
    min: 2
    max: 6
   name:
@@ -111,7 +112,7 @@ guild:
   - HEAL
 
  #permissions: novaguilds.group.GROUP
- #there's no need for admin group. novaguilds.group.admin for no items required
+ #there's no need for admin group. novaguilds.group.admin for all stuff free
  create:
   groups:
    default: #this is default
@@ -120,8 +121,17 @@ guild:
     effectprice: 100
     money: 0
     region:
+     #size (radius) of auto created region (5 = 10x10)
+     autoregionsize: 5
+     #create price
      create: 100
+     #price per block
      ppb: 1
+    #required items
+    # - dirt 1
+    # - name amount
+    # - wool:14 1
+    #
     items:
      - dirt 1
    vip: #novaguilds.group.vip
@@ -129,17 +139,17 @@ guild:
     effectprice: 100
     money: 0
     region:
+     autoregionsize: 10
      create: 50
      ppb: 0.5
     items:
      - cobblestone 5
 
 region:
- #price per block
- pricepb: 1
- createprice: 100
+ autoregion: true
  minsize: 10
  maxsize: 100
+ adminautosize: 10
  tool:
   item: STICK
 

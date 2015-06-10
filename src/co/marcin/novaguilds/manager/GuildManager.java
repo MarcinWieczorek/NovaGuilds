@@ -164,8 +164,8 @@ public class GuildManager {
 					plugin.info("Failed loading guild "+res.getString("name")+", world does not exist");
 				}
 			}
-			plugin.info("Guilds loaded from database");
 		} catch (SQLException e) {
+			plugin.info("An error occured while loading guilds!");
 			plugin.info(e.getMessage());
 		}	
 	}
@@ -286,6 +286,7 @@ public class GuildManager {
 						" WHERE `id`=" + guild.getId();
 
 				statement.executeUpdate(sql);
+				guild.setUnchanged();
 			}
 			catch(SQLException e) {
 				plugin.info("SQLException while saving a guild.");
