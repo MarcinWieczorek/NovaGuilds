@@ -18,14 +18,14 @@ private final NovaGuilds plugin;
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!(sender instanceof Player)) {
-			plugin.sendMessagesMsg(sender,"chat.consolesender");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.consolesender");
 			return true;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 
 		if(nPlayer.hasGuild()) {
-			Player player = plugin.getServer().getPlayer(sender.getName());
+			Player player = plugin.senderToPlayer(sender);
 			
 			if(args.length>0 && args[0].equalsIgnoreCase("set")) {
 				if(nPlayer.isLeader()) {
@@ -33,14 +33,14 @@ private final NovaGuilds plugin;
 					
 					if(rgatloc == null || rgatloc.getGuildName().equals(nPlayer.getGuild().getName())) {
 						nPlayer.getGuild().setSpawnPoint(player.getLocation());
-						plugin.sendMessagesMsg(sender,"chat.guild.setspawnpoint");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.setspawnpoint");
 					}
 					else {
-						plugin.sendMessagesMsg(sender,"chat.guild.guildatlocsp");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.guildatlocsp");
 					}
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.guild.notleader");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
 				}
 				
 				return true;
@@ -51,7 +51,7 @@ private final NovaGuilds plugin;
 			}
 		}
 		else { //noguild
-			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 		}
 		return true;
 	}

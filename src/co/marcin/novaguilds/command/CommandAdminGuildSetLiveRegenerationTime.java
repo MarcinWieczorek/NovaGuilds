@@ -18,7 +18,7 @@ public class CommandAdminGuildSetLiveRegenerationTime implements CommandExecutor
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.liveregenerationtime")) {
-			plugin.sendMessagesMsg(sender, "chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
 			return true;
 		}
 
@@ -34,7 +34,7 @@ public class CommandAdminGuildSetLiveRegenerationTime implements CommandExecutor
 		plugin.debug("newregentime: "+newregentime);
 
 		guild.setLostLiveTime(newregentime);
-		plugin.sendMessagesMsg(sender,"chat.admin.guild.timerest.set");
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.timerest.set");
 
 		return true;
 	}

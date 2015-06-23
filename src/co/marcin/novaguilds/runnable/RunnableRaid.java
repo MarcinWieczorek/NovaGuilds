@@ -42,7 +42,7 @@ public class RunnableRaid implements Runnable {
 			if(NovaGuilds.systemSeconds() - raid.getInactiveTime() > plugin.timeInactive) {
 				raid.finish();
 				plugin.debug("inactive for 10 seconds, removing.");
-				plugin.broadcastMessage("broadcast.guild.raid.finished.defenderwon", vars);
+				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.defenderwon", vars);
 			}
 
 			if(raid.isProgressFinished()) {
@@ -51,7 +51,7 @@ public class RunnableRaid implements Runnable {
 
 			//finishing raid
 			if(raid.getFinished()) {
-				plugin.broadcastMessage("broadcast.guild.raid.finished.attackerwon", vars);
+				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.attackerwon", vars);
 				plugin.resetWarBar(guild);
 				plugin.resetWarBar(nPlayer.getGuild());
 				guild.takeLive();
@@ -62,7 +62,7 @@ public class RunnableRaid implements Runnable {
 
 				if(guild.getLives() == 0) {
 					vars.put("GUILDNAME", raid.getGuildDefender().getName());
-					plugin.broadcastMessage("broadcast.guild.destroyed", vars);
+					plugin.getMessageManager().broadcastMessage("broadcast.guild.destroyed", vars);
 
 					NovaGuild guildDefender = raid.getGuildDefender();
 					guildDefender.setLives(1);

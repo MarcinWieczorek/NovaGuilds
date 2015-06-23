@@ -19,48 +19,48 @@ public class CommandGuildKick  implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.kick")) {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 		
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 		
 		if(!nPlayer.hasGuild()) {
-			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 			return true;
 		}
 		
 		NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayer);
 		
 		if(!guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
-			plugin.sendMessagesMsg(sender,"chat.guild.notleader");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
 			return true;
 		}
 		
 		if(args.length == 0) {
-			plugin.sendMessagesMsg(sender,"chat.player.entername");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
 			return true;
 		}
 		
 		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayerByName(args[0]);
 		
 		if(nPlayerKick == null) {
-			plugin.sendMessagesMsg(sender,"chat.player.notexists");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
 			return true;
 		}
 
 		if(!nPlayerKick.hasGuild()) {
-			plugin.sendMessagesMsg(sender,"chat.player.hasnoguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasnoguild");
 			return true;
 		}
 		
 		if(!nPlayerKick.getGuild().getName().equalsIgnoreCase(guild.getName())) {
-			plugin.sendMessagesMsg(sender,"chat.player.notinyourguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notinyourguild");
 			return true;
 		}
 
 		if(nPlayer.getName().equalsIgnoreCase(nPlayerKick.getName())) {
-			plugin.sendMessagesMsg(sender,"chat.guild.kickyourself");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.kickyourself");
 			return true;
 		}
 		
@@ -73,7 +73,7 @@ public class CommandGuildKick  implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
 		vars.put("GUILDNAME",guild.getName());
-		plugin.broadcastMessage("broadcast.guild.kicked", vars);
+		plugin.getMessageManager().broadcastMessage("broadcast.guild.kicked", vars);
 		
 		//tab/tag
 		plugin.tagUtils.refreshAll();

@@ -19,7 +19,7 @@ public class RunnableAutoSave implements Runnable {
 		//send message to admins
 		for(Player player : plugin.getServer().getOnlinePlayers()) {
 			if(player.hasPermission("novaguilds.admin.save.notify")) {
-				plugin.sendMessagesMsg(player,"chat.admin.save.autosave");
+				plugin.getMessageManager().sendMessagesMsg(player,"chat.admin.save.autosave");
 			}
 		}
 

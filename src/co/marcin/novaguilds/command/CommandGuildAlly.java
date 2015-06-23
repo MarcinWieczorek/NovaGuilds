@@ -37,13 +37,13 @@ public class CommandGuildAlly implements CommandExecutor {
 
 								if(!guild.isAlly(allyGuild)) {
 									if(guild.isWarWith(allyGuild)) {
-										plugin.sendMessagesMsg(sender,"chat.guild.ally.war");
+										plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.war");
 										return true;
 									}
 
 									for(NovaPlayer allyP : allyGuild.getPlayers()) {
 										if(allyP.isOnline()) {
-											plugin.sendMessagesMsg(allyP.getPlayer(),"chat.guild.ally.newinvite",vars);
+											plugin.getMessageManager().sendMessagesMsg(allyP.getPlayer(), "chat.guild.ally.newinvite", vars);
 										}
 									}
 
@@ -51,9 +51,9 @@ public class CommandGuildAlly implements CommandExecutor {
 										allyGuild.addAlly(guild);
 										guild.addAlly(allyGuild);
 										guild.removeAllyInvitation(allyGuild);
-										plugin.broadcastMessage("broadcast.guild.allied",vars);
+										plugin.getMessageManager().broadcastMessage("broadcast.guild.allied", vars);
 
-										plugin.sendMessagesMsg(sender,"chat.guild.ally.accepted",vars);
+										plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.accepted", vars);
 
 										//tags
 										plugin.tagUtils.refreshAll();
@@ -61,14 +61,14 @@ public class CommandGuildAlly implements CommandExecutor {
 									else { //Inviting
 										if(!allyGuild.isInvitedToAlly(guild)) {
 											allyGuild.addAllyInvitation(guild);
-											plugin.sendMessagesMsg(sender,"chat.guild.ally.invited",vars);
-											plugin.broadcastGuild(allyGuild,"chat.guild.ally.notifyguild",vars);
+											plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.invited", vars);
+											plugin.getMessageManager().broadcastGuild(allyGuild, "chat.guild.ally.notifyguild", vars);
 										}
 										else { //cancel inv
 											allyGuild.removeAllyInvitation(guild);
 
-											plugin.sendMessagesMsg(sender,"chat.guild.ally.canceled",vars);
-											plugin.broadcastGuild(allyGuild,"chat.guild.ally.notifyguildcanceled",vars);
+											plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.canceled",vars);
+											plugin.getMessageManager().broadcastGuild(allyGuild,"chat.guild.ally.notifyguildcanceled",vars);
 										}
 									}
 								}
@@ -76,33 +76,33 @@ public class CommandGuildAlly implements CommandExecutor {
 									guild.removeAlly(allyGuild);
 									allyGuild.removeAlly(guild);
 
-									plugin.broadcastMessage("broadcast.guild.endally",vars);
+									plugin.getMessageManager().broadcastMessage("broadcast.guild.endally",vars);
 
 									plugin.tagUtils.refreshAll();
 								}
 							}
 							else {
-								plugin.sendMessagesMsg(sender,"chat.guild.notleader");
+								plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notleader");
 							}
 						}
 						else {
-							plugin.sendMessagesMsg(sender,"chat.guild.ally.samename");
+							plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.samename");
 						}
 					}
 					else {
-						plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
+						plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
 					}
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.guild.entername");
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.entername");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
 		}
 		
 		return true;

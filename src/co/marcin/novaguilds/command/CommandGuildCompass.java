@@ -16,12 +16,12 @@ public class CommandGuildCompass implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.compass")) {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.sendMessagesMsg(sender,"chat.cmdfromconsole");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
 			return true;
 		}
 
@@ -29,12 +29,12 @@ public class CommandGuildCompass implements CommandExecutor {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.sendMessagesMsg(sender,"chat.notinguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.notinguild");
 			return true;
 		}
 
 		player.setCompassTarget(nPlayer.getGuild().getSpawnPoint());
-		plugin.sendMessagesMsg(sender,"chat.guild.compasstarget");
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.compasstarget");
 
 		return true;
 	}

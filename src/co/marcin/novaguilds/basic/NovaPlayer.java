@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.basic;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,14 +14,14 @@ public class NovaPlayer {
 	private boolean hasGuild = false;
 	private String name;
 	private UUID uuid;
-	private List<String> invitedTo;
-	private boolean regionMode;
-	private boolean bypass;
-	private boolean isonline;
+	private List<String> invitedTo = new ArrayList<>();
+	private boolean regionMode = false;
+	private boolean bypass = false;
+	private boolean isonline = false;
 	private NovaRegion selectedRegion;
 	private NovaRegion atRegion;
 	private NovaRaid partRaid;
-	private boolean changed;
+	private boolean changed = false;
 
 	public NovaPlayer(Player player) {
 		if(player != null) {
@@ -95,6 +96,7 @@ public class NovaPlayer {
 		
 		if(guild == null) {
 			hasGuild = false;
+			changed = true;
 			return;
 		}
 
@@ -119,6 +121,7 @@ public class NovaPlayer {
 	
 	public void setHasGuild(boolean v) {
 		hasGuild = v;
+		changed = true;
 	}
 	
 	public void setUUID(UUID id) {

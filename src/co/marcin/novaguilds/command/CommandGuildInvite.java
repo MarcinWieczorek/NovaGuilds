@@ -19,7 +19,7 @@ public class CommandGuildInvite implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.invite")) {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 
@@ -34,28 +34,38 @@ public class CommandGuildInvite implements CommandExecutor {
 
 						if(!inPlayer.hasGuild()) { //if player being invited has no guild
 							NovaGuild guild = nPlayer.getGuild();
+							HashMap<String, String> vars = new HashMap<>();
+							vars.put("GUILDNAME", guild.getName());
+							vars.put("PLAYERNAME", inPlayer.getName());
+
 							if(!inPlayer.isInvitedTo(guild)) { //if he's not invited
 								plugin.getPlayerManager().addInvitation(inPlayer, guild);
 								plugin.getPlayerManager().updatePlayer(inPlayer);
-								plugin.sendMessagesMsg(sender, "chat.player.invited");
+								plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.invited");
 
-								if(inPlayer.getPlayer().isOnline()) {
-									HashMap<String, String> vars = new HashMap<>();
-									vars.put("GUILDNAME", guild.getName());
-									plugin.sendMessagesMsg(inPlayer.getPlayer(), "chat.player.uvebeeninvited", vars);
+								if(inPlayer.isOnline()) {
+									plugin.getMessageManager().sendMessagesMsg(inPlayer.getPlayer(), "chat.player.uvebeeninvited", vars);
 								}
-							} else {
-								//TODO: Uninvite
-								plugin.sendMessagesMsg(sender, "chat.player.alreadyinvited");
 							}
-						} else {
-							plugin.sendMessagesMsg(sender, "chat.player.hasguild");
+							else {
+								inPlayer.deleteInvitation(guild);
+								plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.invitecanceled", vars);
+
+								if(inPlayer.isOnline()) {
+									plugin.getMessageManager().sendMessagesMsg(inPlayer.getPlayer(), "chat.guild.invitecancelednotify", vars);
+								}
+							}
 						}
-					} else {
-						plugin.sendMessagesMsg(sender, "chat.player.notexists");
+						else {
+							plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.hasguild");
+						}
 					}
-				} else {
-					plugin.sendMessagesMsg(sender, "chat.guild.notinguild");
+					else {
+						plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.notexists");
+					}
+				}
+				else {
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
 				}
 				return true;
 			}

@@ -45,12 +45,12 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 						if(plugin.getPlayerManager().exists(playername)) {
 							player = plugin.getServer().getPlayer(playername);
 							if(player == null) {
-								plugin.sendMessagesMsg(sender,"chat.player.notonline");
+								plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notonline");
 								return true;
 							}
 						}
 						else {
-							plugin.sendMessagesMsg(sender,"chat.player.notexists");
+							plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
 							return true;
 						}
 					}
@@ -61,19 +61,19 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 					if(player != null) {
 						player.teleport(home);
 						vars.put("PLAYERNAME",player.getName());
-						plugin.sendMessagesMsg(sender, "chat.admin.guild.teleportedother", vars);
+						plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleportedother", vars);
 					}
 					else {
-						plugin.sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
+						plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
 					}
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.namenotexist");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 		}
 		return true;
 	}

@@ -31,19 +31,19 @@ public class CommandAdmin implements CommandExecutor {
 					new CommandAdminSave(plugin).onCommand(sender, cmd, label, newArgs);
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.unknowncmd");
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender, "chat.commands.admin.main.header");
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.commands.admin.main.header");
 				
-				for(String cItem : plugin.getMessages().getStringList("chat.commands.admin.main.items")) {
+				for(String cItem : plugin.getMessageManager().getMessages().getStringList("chat.commands.admin.main.items")) {
 					sender.sendMessage(StringUtils.fixColors(cItem));
 				}
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
 		}
 		
 		return true;

@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
@@ -58,10 +59,10 @@ public class CommandNovaGuilds implements CommandExecutor {
 						msg += args[i]+" ";
 					}
 					
-					plugin.broadcast(msg);
+					plugin.getMessageManager().broadcast(msg);
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.usage.ng.broadcast");
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.usage.ng.broadcast");
 					return true;
 				}
 			}
@@ -92,13 +93,13 @@ public class CommandNovaGuilds implements CommandExecutor {
 							
 							Player player = plugin.senderToPlayer(sender);
 							Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());
-							hologram.appendTextLine(StringUtils.fixColors(plugin.getMessages().getString("holographicdisplays.topguilds.header")));
+							hologram.appendTextLine(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.header")));
 							
-							ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessages().getInt("holographicdisplays.topguilds.toprows"));
+							ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessageManager().getMessages().getInt("holographicdisplays.topguilds.toprows"));
 							
 							int i=1;
 							while(res.next()) {
-								String rowmsg = plugin.getMessages().getString("holographicdisplays.topguilds.row");
+								String rowmsg = plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.row");
 								rowmsg = StringUtils.replace(rowmsg, "{GUILDNAME}", res.getString("name"));
 								rowmsg = StringUtils.replace(rowmsg, "{N}", i + "");
 								rowmsg = StringUtils.replace(rowmsg, "{POINTS}", res.getString("points"));
@@ -117,7 +118,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 					
 					NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 					if(guild != null) {
-						List<String> guildinfomsg = plugin.getMessages().getStringList("chat.guildinfo.info");
+						List<String> guildinfomsg = plugin.getMessageManager().getMessages().getStringList("chat.guildinfo.info");
 						
 						int i;
 						List<NovaPlayer> gplayers = guild.getPlayers();
@@ -125,7 +126,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						String players = "";
 						String pcolor;
 						String leaderp; //String to insert to playername (leader prefix)
-						String leaderprefix = plugin.getMessages().getString("chat.guildinfo.leaderprefix"); //leader prefix
+						String leaderprefix = plugin.getMessageManager().getMessagesString("chat.guildinfo.leaderprefix"); //leader prefix
 						
 						if(gplayers.size()>0) {
 							for(i=0;i<gplayers.size();i++) {
@@ -133,10 +134,10 @@ public class CommandNovaGuilds implements CommandExecutor {
 								Player p = plugin.getServer().getPlayer(nPlayer.getName());
 								
 								if(p != null && p.isOnline()) {
-									pcolor = plugin.getMessages().getString("chat.guildinfo.playercolor.online");
+									pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.online");
 								}
 								else {
-									pcolor = plugin.getMessages().getString("chat.guildinfo.playercolor.offline");
+									pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.offline");
 								}
 								
 								leaderp = "";
@@ -146,7 +147,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 								
 								players += pcolor+leaderp+nPlayer.getName();
 								
-								if(i<gplayers.size()-1) players += plugin.getMessages().getString("chat.guildinfo.playerseparator");
+								if(i<gplayers.size()-1) players += plugin.getMessageManager().getMessagesString("chat.guildinfo.playerseparator");
 							}
 						}
 						
@@ -182,7 +183,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						}
 					}
 					else {
-						plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
+						plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
 					}
 				}
 				else {
@@ -194,11 +195,23 @@ public class CommandNovaGuilds implements CommandExecutor {
 			else if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { // command /g
 					new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 			}
+			else if(args[0].equalsIgnoreCase("entity")) {
+				if(!(sender instanceof Player)) {
+					return true;
+				}
+				Player player = plugin.senderToPlayer(sender);
+				sender.sendMessage("Nearby entites");
+				for(Entity entity : player.getNearbyEntities(10,10,10)) {
+					sender.sendMessage(entity.getType().name());
+					sender.sendMessage(entity.toString());
+					sender.sendMessage("-");
+				}
+			}
 			else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { // command /g
 				ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 				BookMeta bm = (BookMeta)book.getItemMeta();
-				plugin.loadMessages();
-				List<String> pages = plugin.getMessages().getStringList("book.help.pages");
+				//plugin.getMessageManager().loadMessages();
+				List<String> pages = plugin.getMessageManager().getMessages().getStringList("book.help.pages");
 				List<String> pagesColor = new ArrayList<>();
 				for(String page : pages) {
 					pagesColor.add(StringUtils.fixColors(page));
@@ -206,13 +219,13 @@ public class CommandNovaGuilds implements CommandExecutor {
 
 				bm.setPages(pagesColor);
 				bm.setAuthor("CTRL");
-				bm.setTitle(StringUtils.fixColors(plugin.getMessages().getString("book.help.title")));
+				bm.setTitle(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("book.help.title")));
 				book.setItemMeta(bm);
 				Player player = plugin.getServer().getPlayer(sender.getName());
 				player.getInventory().setItem(8, book);
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.unknowncmd");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.unknowncmd");
 			}
 		}
 		else {
@@ -224,7 +237,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				"Latest plugin build: &6#&c{LATEST}"
 			};
 
-			plugin.sendPrefixMessage(sender,"NovaGuilds Information");
+			plugin.getMessageManager().sendPrefixMessage(sender, "NovaGuilds Information");
 			String latest = StringUtils.getContent("http://NovaGuilds.marcin.co/latest.info");
 			
 			for(int i=0;i<info.length;i++) {

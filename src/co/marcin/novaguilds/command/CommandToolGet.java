@@ -28,9 +28,9 @@ public class CommandToolGet implements CommandExecutor {
 			if(tool != null) {
 				ItemStack stick = new ItemStack(tool, 1);
 				ItemMeta meta = stick.getItemMeta();
-		        meta.setDisplayName(StringUtils.fixColors(plugin.getMessages().getString("items.tool.name")));
+		        meta.setDisplayName(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("items.tool.name")));
 		       
-		        List<String> lorecodes = plugin.getMessages().getStringList("items.tool.lore");
+		        List<String> lorecodes = plugin.getMessageManager().getMessages().getStringList("items.tool.lore");
 		        List<String> lore = new ArrayList<>();
 		        
 		        for(String l : lorecodes) {
@@ -45,7 +45,7 @@ public class CommandToolGet implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender, "chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
 		}
 		return true;
 	}

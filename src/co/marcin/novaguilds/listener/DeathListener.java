@@ -17,6 +17,7 @@ public class DeathListener implements Listener {
 	
 	public DeathListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
+		plugin.getServer().getPluginManager().registerEvents(this,plugin);
 	}
 
 	@EventHandler
@@ -47,7 +48,7 @@ public class DeathListener implements Listener {
 			vars.put("PLAYER2",attacker.getName());
 			vars.put("TAG1",tag1);
 			vars.put("TAG2",tag2);
-			plugin.broadcastMessage("broadcast.pvp.killed",vars);
+			plugin.getMessageManager().broadcastMessage("broadcast.pvp.killed",vars);
 			
 			if(novaPlayer.hasGuild()) {
 				NovaGuild guildVictim = plugin.getGuildManager().getGuildByPlayer(novaPlayer);

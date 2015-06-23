@@ -22,24 +22,24 @@ public class CommandGuildEffect implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.effect")) {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 			return true;
 		}
 
 		if(!nPlayer.isLeader()) {
-			plugin.sendMessagesMsg(sender,"chat.guild.notleader");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
 			return true;
 		}
 
 		if(nPlayer.getGuild().getMoney() < plugin.getGroup(sender).getEffectPrice()) {
-			plugin.sendMessagesMsg(sender,"chat.guild.notenoughtmoney");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughtmoney");
 			return true;
 		}
 
@@ -49,7 +49,7 @@ public class CommandGuildEffect implements CommandExecutor {
 		List<String> potionEffects = plugin.getConfig().getStringList("guild.effects");
 
 		if(potionEffects.size() == 0) {
-			plugin.sendMessagesMsg(sender,"chat.erroroccured");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.erroroccured");
 			plugin.info("Invalid effect, check config!");
 			return true;
 		}
@@ -58,7 +58,7 @@ public class CommandGuildEffect implements CommandExecutor {
 		PotionEffectType effectType = PotionEffectType.getByName(potionEffects.get(rand));
 
 		if(effectType == null) { //invalid effect
-			plugin.sendMessagesMsg(sender,"chat.erroroccured");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.erroroccured");
 			plugin.info("Invalid effect, check config!");
 			return true;
 		}
@@ -84,7 +84,7 @@ public class CommandGuildEffect implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("EFFECTTYPE",effectType.getName());
 
-		plugin.sendMessagesMsg(sender,"chat.guild.effect.success",vars);
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.effect.success",vars);
 
 		return true;
 	}

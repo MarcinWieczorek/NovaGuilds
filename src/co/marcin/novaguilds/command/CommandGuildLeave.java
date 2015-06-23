@@ -31,7 +31,7 @@ public class CommandGuildLeave implements CommandExecutor {
 			String leaderName = guild.getLeaderName();
 			
 			if(leaderName.equals(sender.getName())) {
-				plugin.sendMessagesMsg(sender,"chat.guild.leave.isleader");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.isleader");
 				return true;
 			}
 			
@@ -39,17 +39,17 @@ public class CommandGuildLeave implements CommandExecutor {
 			nPlayer.setHasGuild(false);
 			plugin.getPlayerManager().updatePlayer(nPlayer);
 			guild.removePlayer(nPlayer);
-			plugin.sendMessagesMsg(sender,"chat.guild.leave.left");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.left");
 			
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("PLAYER",sender.getName());
 			vars.put("GUILDNAME",guild.getName());
-			plugin.broadcastMessage("broadcast.guild.left", vars);
+			plugin.getMessageManager().broadcastMessage("broadcast.guild.left", vars);
 
 			plugin.tagUtils.refreshAll();
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 		}
 		
 		return true;

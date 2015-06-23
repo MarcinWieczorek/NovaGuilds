@@ -16,6 +16,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -66,7 +67,7 @@ public class RegionInteractListener implements Listener {
 							event.setCancelled(true);
 							
 							if(!clickedblockname.contains("_PLATE")) {
-								plugin.sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
+								plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
 							}
 						}
 					}
@@ -79,7 +80,7 @@ public class RegionInteractListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent event) { //BREAKING
 		if(!plugin.getRegionManager().canBuild(event.getPlayer(),event.getBlock().getLocation())) {
 			event.setCancelled(true);
-			plugin.sendMessagesMsg(event.getPlayer(),"chat.region.cannotinteract");
+			plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
 		}
 	}
 	
@@ -87,7 +88,7 @@ public class RegionInteractListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent event) { //PLACING
 		if(!plugin.getRegionManager().canBuild(event.getPlayer(),event.getBlock().getLocation())) {
 			event.setCancelled(true);
-			plugin.sendMessagesMsg(event.getPlayer(),"chat.region.cannotinteract");
+			plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
 		}
 	}
 	
@@ -124,7 +125,7 @@ public class RegionInteractListener implements Listener {
 						if(!nPlayer.getBypass()) {
 							if(!(event.getEntity().getPassenger() instanceof Player)) {
 								event.setCancelled(true);
-								plugin.sendMessagesMsg(player, "chat.region.cannotattackmob");
+								plugin.getMessageManager().sendMessagesMsg(player, "chat.region.cannotattackmob");
 
 								//remove the arrow so it wont bug
 								if(arrow != null) {
@@ -153,7 +154,7 @@ public class RegionInteractListener implements Listener {
 
 					if(denyriding.contains(mob.getType().name()) || sheep) {
 						event.setCancelled(true);
-						plugin.sendMessagesMsg(event.getPlayer(),"chat.region.cannotridemob");
+						plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotridemob");
 					}
 				}
 			}
@@ -168,7 +169,7 @@ public class RegionInteractListener implements Listener {
 		if(rgatloc != null) {
 			NovaGuild guild = plugin.getGuildManager().getGuildByName(rgatloc.getGuildName());
 
-			plugin.broadcastGuild(guild,"chat.guild.explosionatregion");
+			plugin.getMessageManager().broadcastGuild(guild,"chat.guild.explosionatregion");
 		}
 	}
 
@@ -184,10 +185,13 @@ public class RegionInteractListener implements Listener {
 				if(!nPlayer.getBypass()) {
 					if(denyriding.contains(mob.getType().name())) {
 						event.setCancelled(true);
-						plugin.sendMessagesMsg(event.getPlayer(),"chat.region.cannotunleash");
+						plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotunleash");
 					}
 				}
 			}
 		}
 	}
+
+//	@EventHandler
+//	public void onEntityClick(EntityInteractEvent)
 }

@@ -10,10 +10,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
+import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.google.common.base.Joiner;
 
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
@@ -64,21 +63,20 @@ public class PlayerManager {
 			try {
 				statement = plugin.c.createStatement();
 
-				String guildname;
-				if(!nPlayer.hasGuild()) {
-					guildname = "";
-				} else {
+				String guildname = "";
+				if(nPlayer.hasGuild()) {
 					guildname = nPlayer.getGuild().getName();
 				}
 
 				List<String> invitedto = nPlayer.getInvitedTo();
-				String joined = Joiner.on(";").join(invitedto);
+				String joined = StringUtils.join(invitedto, ";");
 
 				String sql = "UPDATE `" + plugin.sqlp + "players` SET " +
 						"`invitedto`='" + joined + "', " +
 						"`guild`='" + guildname + "' " +
 						"WHERE `uuid`='" + nPlayer.getUUID() + "'";
 
+				plugin.debug(sql);
 				statement.executeUpdate(sql);
 				nPlayer.setUnchanged();
 			}
@@ -105,8 +103,6 @@ public class PlayerManager {
 			plugin.players.clear();
 			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.sqlp + "players`");
 			while(res.next()) {
-
-
 				plugin.players.put(res.getString("name").toLowerCase(), playerFromResult(res));
 			}
 		}
@@ -130,7 +126,8 @@ public class PlayerManager {
 			plugin.info("New player " + player.getName() + " added to the database");
 
 			//TODO load only 1 player instead of all
-			loadPlayers();
+			//loadPlayers();
+			plugin.players.put(player.getName().toLowerCase(),new NovaPlayer(player));
 		}
 		catch (SQLException e) {
 			plugin.info("SQLException: "+e.getMessage());

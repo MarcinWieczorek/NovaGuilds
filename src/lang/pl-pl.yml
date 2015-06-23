@@ -63,6 +63,7 @@ chat:
   guilds: "Gildie zaladowane!"
   regions: "Regiony zaladowane"
   newmsgfile: "Nowy plik wiadomosci stworzony!"
+  groups: "Grupy zaladowane!"
   reloaded: "NovaGuilds przeladowane!"
 
  usage:
@@ -94,12 +95,12 @@ chat:
      - "&5* &7/nga &crg &6list &2- &3Lista regionow"
      - "&5* &7/nga &crg &6del &c<guildname> &2- &3Usun region"
      - "&5* &7/nga &crg &6tp &c<guildname> &2- &3Teleport do regionu"
-     - "&5* &7/nga &crg &6bypass &c[player] &2- &3Change bypass mode"
+     - "&5* &7/nga &crg &6bypass &c[player] &2- &3Zmiena trybu ignorowania regionow"
    guild:
     header: "Komendy Admina, gildie:"
     items:
      - "&5* &7/nga &cg &6<gildia> &ctp &6[gracz] &2- &3Teleport do gildii"
-     - "&5* &7/nga &cg &6<gildia> &cabandon &2- &3abandon the guild"
+     - "&5* &7/nga &cg &6<gildia> &cabandon &2- &3Rozwiaz gildie"
      - "&5* &7/nga &cg &6<gildia> &csetname &6<nazwa> &2- &3Zmien nazwe"
      - "&5* &7/nga &cg &6<gildia> &csettag &6<tag> &2- &3Zmien tag"
      - "&5* &7/nga &cg &6<gildia> &cinvite &6<gracz> &2- &3Zapros gracza do gildii"
@@ -132,7 +133,7 @@ chat:
     - "&5* &7/ng &ctool &2- &3Sprawdz lub zaznacz teren patykiem!"
    noguild:
     - "&5* &7/zaloz &6<tag> <nazwa> &2- &3Zaloz gildie"
-    - "&5* &7/g &cjoin &6[gildia] &2- &3Dolacz do gildii"
+    - "&5* &7/dolacz &6[gildia] &2- &3Dolacz do gildii"
     - "&5* &7/gi &c[gildia/gracz] &2- &3Informacje o gildii"
     - "&5* &7/g &ctop &2- &3Top 5"
 
@@ -145,7 +146,7 @@ chat:
 
  guild:
   compasstarget: "Kompas wskazuje teraz dom Twojej gildii."
-  noguilds: "No guild's found."
+  noguilds: "Brak gildii"
   effect:
    success: "Kupiles efekt &a{EFFECTTYPE} &3dla swoich wojownikow!"
 
@@ -221,6 +222,8 @@ chat:
   uvebeeninvited: "Zostales zaproszony do gildii &a{GUILDNAME}"
   ureinvitedto: "Lista gildii do ktorych jestes zaproszony:"
   notinyourguild: "Ten gracz nie nalezy do Twojej gildii"
+  invitecanceled: "Cofnieto zaproszenie dla gracza &c{PLAYER}"
+  invitecancelednotify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
 
  region:
   cannotinteract: "Nie mozesz tutaj ingerowac"
@@ -287,8 +290,8 @@ chat:
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Lider: &6{LEADER}"
    - " &c* &2Zycia: &6{LIVES}"
-   - " &c* &2Live Regeneration in: &6{LIVEREGENERATIONTIME}"
-   - " &c* &2Resting time: &6{TIMEREST}"
+   - " &c* &2Regenaracja zycia: &6{LIVEREGENERATIONTIME}"
+   - " &c* &2Czas odpoczynku: &6{TIMEREST}"
    - " &c* &2Lokacja: &6{SP_X},{SP_Y},{SP_Z}"
    - " &c* &2Gracze: {PLAYERS}"
    - " &c* &2Sojusze: {ALLIES}"
@@ -301,7 +304,7 @@ chat:
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Lider: &6{LEADER}"
    - " &c* &2Zycia: &6{LIVES}"
-   - " &c* &2Resting time: &6{TIMEREST}"
+   - " &c* &2Czas odpoczynku: &6{TIMEREST}"
    - " &c* &2Gracze: {PLAYERS}"
    - " &c* &2Sojusze: {ALLIES}"
    - " &c* &2Wojny: {WARS}"
@@ -369,3 +372,7 @@ book:
   title: "NovaGuilds Samouczek"
   pages:
    - "&6[&5NovaGuilds&6] &3Pomoc"
+
+inventory:
+ requireditems:
+  name: Wymagane przedmioty

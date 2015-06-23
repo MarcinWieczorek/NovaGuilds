@@ -24,10 +24,10 @@ public class RunnableTeleportRequest implements Runnable {
 	public void run() {
 		if(player.getLocation().distance(startLocation) == 0) {
 			player.teleport(location);
-			plugin.sendMessagesMsg(player,msgPath);
+			plugin.getMessageManager().sendMessagesMsg(player,msgPath);
 		}
 		else {
-			plugin.sendMessagesMsg(player,"chat.delayedtpmoved");
+			plugin.getMessageManager().sendMessagesMsg(player,"chat.delayedtpmoved");
 		}
 	}
 }

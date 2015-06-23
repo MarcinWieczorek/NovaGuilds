@@ -18,33 +18,33 @@ public class CommandAdminSave implements CommandExecutor {
 			if(args.length == 1) {
 				if(args[0].equalsIgnoreCase("players")) {
 					plugin.getPlayerManager().saveAll();
-					plugin.sendMessagesMsg(sender,"chat.admin.save.players");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.save.players");
 					plugin.info("Saved players");
 				}
 				else if(args[0].equalsIgnoreCase("guilds")) {
 					plugin.getGuildManager().saveAll();
-					plugin.sendMessagesMsg(sender,"chat.admin.save.guilds");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.save.guilds");
 					plugin.info("Saved guilds");
 				}
 				else if(args[0].equalsIgnoreCase("regions")) {
 					plugin.getRegionManager().saveAll();
-					plugin.sendMessagesMsg(sender,"chat.admin.save.regions");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.save.regions");
 					plugin.info("Saved regions");
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.invalidparam");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.invalidparam");
 				}
 			}
 			else { //save all
 				plugin.getRegionManager().saveAll();
 				plugin.getGuildManager().saveAll();
 				plugin.getPlayerManager().saveAll();
-				plugin.sendMessagesMsg(sender,"chat.admin.save.all");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.save.all");
 				plugin.info("Saved all data");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 		}
 		return true;
 	}

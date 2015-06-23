@@ -20,19 +20,19 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.settag")) {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 
 		if(args.length==0) {
-			plugin.sendMessagesMsg(sender,"chat.guild.entertag");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.entertag");
 			return true;
 		}
 
 		String newtag = args[0];
 
 		if(plugin.getGuildManager().getGuildFind(newtag) != null) {
-			plugin.sendMessagesMsg(sender,"chat.guild.tagexists");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.tagexists");
 			return true;
 		}
 
@@ -43,7 +43,7 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("TAG",newtag);
-		plugin.sendMessagesMsg(sender,"chat.admin.guild.settag",vars);
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.settag",vars);
 		return true;
 	}
 }

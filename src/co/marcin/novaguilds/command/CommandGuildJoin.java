@@ -36,7 +36,7 @@ public class CommandGuildJoin implements CommandExecutor {
 				}
 				else {
 					if(args.length == 0) {
-						plugin.sendMessagesMsg(sender,"chat.player.ureinvitedto");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.ureinvitedto");
 						return true;
 					}
 					else {
@@ -53,27 +53,27 @@ public class CommandGuildJoin implements CommandExecutor {
 						nPlayer.deleteInvitation(guild);
 						plugin.getPlayerManager().updatePlayer(nPlayer);
 						plugin.tagUtils.refreshAll();
-						plugin.sendMessagesMsg(sender,"chat.guild.joined");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.joined");
 						
 						HashMap<String,String> vars = new HashMap<>();
 						vars.put("PLAYER",sender.getName());
 						vars.put("GUILDNAME",guild.getName());
-						plugin.broadcastMessage("broadcast.guild.joined", vars);
+						plugin.getMessageManager().broadcastMessage("broadcast.guild.joined", vars);
 					}
 					else {
-						plugin.sendMessagesMsg(sender,"chat.player.notinvitedtoguild");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notinvitedtoguild");
 					}
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.namenotexist");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.player.invitedtonothing");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.invitedtonothing");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.createguild.hasguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.createguild.hasguild");
 		}
 		return true;
 	}

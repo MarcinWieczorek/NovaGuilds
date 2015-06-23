@@ -41,7 +41,7 @@ public class PvpListener implements Listener {
 				if(!novaPlayerAttacker.getName().equals(novaPlayer.getName())) {
 					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {
 						if(plugin.getPlayerManager().isGuildMate(player,attacker)) {
-							plugin.sendMessagesMsg(attacker, "chat.teampvp");
+							plugin.getMessageManager().sendMessagesMsg(attacker, "chat.teampvp");
 							event.setCancelled(true);
 
 							//remove the arrow
@@ -50,7 +50,7 @@ public class PvpListener implements Listener {
 							}
 						}
 						else if(plugin.getPlayerManager().isAlly(player,attacker)) {
-							plugin.sendMessagesMsg(attacker,"chat.allypvp");
+							plugin.getMessageManager().sendMessagesMsg(attacker,"chat.allypvp");
 							event.setCancelled(true);
 
 							//remove the arrow

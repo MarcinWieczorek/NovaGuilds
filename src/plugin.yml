@@ -122,3 +122,7 @@ permissions:
         default: op
     novaguilds.chat.notag:
         default: false
+    novaguilds.group.admin:
+        default: op
+    novaguilds.group.default:
+        default: true

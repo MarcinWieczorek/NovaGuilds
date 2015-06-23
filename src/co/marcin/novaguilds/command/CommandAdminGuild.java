@@ -30,9 +30,9 @@ public class CommandAdminGuild implements CommandExecutor {
 		if(sender.hasPermission("novaguilds.admin.guild.access")) {
 			//command list
 			if(args.length == 0) {
-				plugin.sendMessagesMsg(sender, "chat.commands.admin.guild.header");
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.commands.admin.guild.header");
 
-				for(String cItem : plugin.getMessages().getStringList("chat.commands.admin.guild.items")) {
+				for(String cItem : plugin.getMessageManager().getMessages().getStringList("chat.commands.admin.guild.items")) {
 					sender.sendMessage(StringUtils.fixColors(cItem));
 				}
 
@@ -90,15 +90,15 @@ public class CommandAdminGuild implements CommandExecutor {
 					new CommandAdminGuildSetLives(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
 				else {
-					plugin.sendMessagesMsg(sender, "chat.unknowncmd");
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
 		}
 
 		return true;

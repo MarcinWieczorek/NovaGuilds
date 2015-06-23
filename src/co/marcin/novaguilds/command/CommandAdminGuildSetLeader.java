@@ -19,12 +19,12 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(!sender.hasPermission("novaguilds.admin.guild.leader")) {
-            plugin.sendMessagesMsg(sender,"chat.nopermissions");
+            plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
             return true;
         }
 
         if(args.length == 0) { //no leader
-            plugin.sendMessagesMsg(sender,"chat.player.entername");
+            plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
             return true;
         }
 
@@ -33,7 +33,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         HashMap<String,String> vars = new HashMap<>();
 
         if(!plugin.getPlayerManager().exists(playername)) { //invalid player
-            plugin.sendMessagesMsg(sender,"chat.player.notexists");
+            plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
             return true;
         }
 
@@ -41,7 +41,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         vars.put("PLAYERNAME",nPlayer.getName());
 
         if(!nPlayer.hasGuild()) { //has no guild
-            plugin.sendMessagesMsg(sender,"chat.player.hasnoguild");
+            plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasnoguild");
             return true;
         }
 
@@ -49,12 +49,12 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         vars.put("GUILDNAME", guild.getName());
 
         if(!guild.isMember(nPlayer)) { //is not member
-            plugin.sendMessagesMsg(sender,"chat.admin.guild.setleader.notinguild",vars);
+            plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setleader.notinguild",vars);
             return true;
         }
 
         if(guild.getLeaderName().equalsIgnoreCase(nPlayer.getName())) { //already leader
-            plugin.sendMessagesMsg(sender,"chat.admin.guild.setleader.alreadyleader",vars);
+            plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setleader.alreadyleader",vars);
             return true;
         }
 
@@ -73,8 +73,8 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         }
 
 
-        plugin.sendMessagesMsg(sender,"chat.admin.guild.setleader.success",vars);
-        plugin.broadcastMessage("broadcast.guild.newleader",vars);
+        plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setleader.success",vars);
+        plugin.getMessageManager().broadcastMessage("broadcast.guild.newleader",vars);
 
         return true;
     }

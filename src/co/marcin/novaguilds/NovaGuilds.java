@@ -6,10 +6,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.command.*;
 import co.marcin.novaguilds.listener.*;
-import co.marcin.novaguilds.manager.CustomCommandManager;
-import co.marcin.novaguilds.manager.GuildManager;
-import co.marcin.novaguilds.manager.PlayerManager;
-import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
@@ -40,10 +37,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -61,22 +55,23 @@ public class NovaGuilds extends JavaPlugin {
 	private static final String logprefix = "[NovaGuilds] ";
 	public final PluginDescriptionFile pdf = this.getDescription();
 	private final PluginManager pm = getServer().getPluginManager();
-	private String prefix;
 	public String sqlp;
 	public final boolean DEBUG = getConfig().getBoolean("debug");
 	
 	private long MySQLReconnectStamp = System.currentTimeMillis();
 
 	//TODO kickowanie z admina dubluje userów gildii
+	//TODO @up nie wiem czy aktualne
+
+	//TODO: podwojny event w MoveListenerze
+	public long moveListenerFix;
 
 	//Vault
 	public Economy econ = null;
 
 	public boolean useHolographicDisplays;
 	private boolean useBarAPI;
-	
 	private boolean useMySQL;
-	public String lang;
 	
 	public final HashMap<String,NovaPlayer> players = new HashMap<>();
 	public final HashMap<String,NovaGuild> guilds = new HashMap<>();
@@ -87,6 +82,7 @@ public class NovaGuilds extends JavaPlugin {
 	private final RegionManager regionManager = new RegionManager(this);
 	private final PlayerManager playerManager = new PlayerManager(this);
 	private final CustomCommandManager commandManager = new CustomCommandManager(this);
+	private final MessageManager messageManager = new MessageManager(this);
 
 	public long timeRest;
 	public int savePeriod; //minutes
@@ -102,16 +98,13 @@ public class NovaGuilds extends JavaPlugin {
 	//Database
 	private MySQL MySQL;
 	public Connection c = null;
-	
-	private FileConfiguration messages = null;
-	private File messagesFile;
+
 	public double distanceFromSpawn;
 
 	public void onEnable() {
 		saveDefaultConfig();
 		sqlp = getConfig().getString("mysql.prefix");
 		savePeriod = getConfig().getInt("saveperiod");
-		lang = getConfig().getString("lang");
 
 		timeRest = getConfig().getLong("raid.timerest");
 		distanceFromSpawn = getConfig().getLong("guild.fromspawn");
@@ -128,6 +121,7 @@ public class NovaGuilds extends JavaPlugin {
 
 		//load groups
 		loadGroups();
+		info("Groups loaded");
 
 		tagUtils = new TagUtils(this);
 
@@ -176,11 +170,10 @@ public class NovaGuilds extends JavaPlugin {
 			}
 		}
 		
-		if(!loadMessages()) {
+		if(!getMessageManager().loadMessages()) {
             return;
 		}
-		
-		prefix = messages.getString("chat.prefix");
+
 		info("Messages loaded");
         
 		//Version check
@@ -282,6 +275,8 @@ public class NovaGuilds extends JavaPlugin {
 
 			pm.registerEvents(new PvpListener(this),this);
 			pm.registerEvents(new DeathListener(this),this);
+
+			new InventoryListener(this);
 
 			//Tablist update
 			tagUtils.refreshAll();
@@ -399,7 +394,11 @@ public class NovaGuilds extends JavaPlugin {
 	public CustomCommandManager getCommandManager() {
 		return commandManager;
 	}
-	
+
+	public MessageManager getMessageManager() {
+		return messageManager;
+	}
+
 	//Vault economy
 	private boolean setupEconomy() {
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
@@ -425,122 +424,6 @@ public class NovaGuilds extends JavaPlugin {
 	//HolographicDisplays
 	public boolean checkHolographicDisplays() {
 		return getServer().getPluginManager().getPlugin("HolographicDisplays") != null;
-	}
-
-	//MESSAGES
-	
-	public boolean loadMessages() {
-		messagesFile = new File(getDataFolder()+"/lang", lang+".yml");
-        if(!messagesFile.exists()) {
-        	if(getResource("lang/"+lang+".yml") != null) {
-				saveResource("lang/"+lang+".yml", false);
-				info("New messages file created: "+lang+".yml");
-        	}
-        	else {
-        		info("Couldn't find language file: "+lang+".yml");
-        		getServer().getPluginManager().disablePlugin(this);
-	            return false;
-        	}
-        }
-        
-        messages = YamlConfiguration.loadConfiguration(messagesFile);
-        return true;
-	}
-	
-	//set string from file
-	public String getMessagesString(String path) {
-		String msg = getMessages().getString(path);
-		
-		if(msg == null || !(msg instanceof String)) {
-			return path;
-		}
-				
-		return msg;
-	}
-	
-	//get messages
-	public FileConfiguration getMessages() {
-		return messages;
-	}
-	
-	public void loadMessagesFile(File msgFile) {
-		messagesFile = msgFile;
-		
-		if(!messagesFile.exists()) {
-    		saveResource("lang/"+lang+".yml", false);
-    		info("New messages file created");
-	    }
-
-		messages = YamlConfiguration.loadConfiguration(messagesFile);
-	}
-	
-	//send string with prefix to a player
-	public void sendPrefixMessage(Player p, String msg) {
-		p.sendMessage(StringUtils.fixColors(prefix + msg));
-	}
-
-	public void sendPrefixMessage(CommandSender sender, String msg) {
-		sender.sendMessage(StringUtils.fixColors(prefix + msg));
-	}
-	
-	//send message from file with prefix to a player
-	public void sendMessagesMsg(Player p, String path) {
-		p.sendMessage(StringUtils.fixColors(prefix + getMessagesString(path)));
-	}
-	
-	//send message from file with prefix and vars to a player
-	public void sendMessagesMsg(Player p, String path, HashMap<String,String> vars) {
-		String msg = getMessagesString(path);
-		msg = StringUtils.replaceMap(msg, vars);
-		p.sendMessage(StringUtils.fixColors(prefix + msg));
-	}
-	
-	public void sendMessagesMsg(CommandSender sender, String path) {
-		sender.sendMessage(StringUtils.fixColors(prefix + getMessagesString(path)));
-	}
-	
-	public void sendMessagesMsg(CommandSender sender, String path, HashMap<String,String> vars) {
-		String msg = getMessagesString(path);
-		msg = StringUtils.replaceMap(msg, vars);
-		sender.sendMessage(StringUtils.fixColors(prefix + msg));
-	}
-	
-	//broadcast string to all players
-	public void broadcast(String msg) {
-		for(Player p : getServer().getOnlinePlayers()) {
-			sendPrefixMessage(p, msg);
-		}
-	}
-	
-	//broadcast message from file to all players
-	public void broadcastMessage(String path, String permission) {
-		for(Player p : getServer().getOnlinePlayers()) {
-			if(p.hasPermission("novaguilds."+permission)) {
-				sendMessagesMsg(p,path);
-			}
-		}
-	}
-
-	public void broadcastMessage(String path,HashMap<String,String> vars) {
-		String msg = getMessagesString(path);
-		msg = StringUtils.replaceMap(msg, vars);
-		
-		for(Player p : getServer().getOnlinePlayers()) {
-			sendPrefixMessage(p, msg);
-		}
-	}
-	
-	public void broadcastGuild(NovaGuild guild, String path) {
-		broadcastGuild(guild,path,new HashMap<String,String>());
-	}
-
-	public void broadcastGuild(NovaGuild guild, String path,HashMap<String,String> vars) {
-		String msg = getMessagesString(path);
-		msg = StringUtils.replaceMap(msg, vars);
-		
-		for(Player p : guild.getOnlinePlayers()) {
-			sendPrefixMessage(p, msg);
-		}
 	}
 	
 	//convert sender to player
@@ -618,12 +501,12 @@ public class NovaGuilds extends JavaPlugin {
 	}
 
 	public void sendUsageMessage(CommandSender sender, String path) {
-		sender.sendMessage(StringUtils.fixColors(getMessagesString("chat.usage."+path)));
+		sender.sendMessage(StringUtils.fixColors(getMessageManager().getMessagesString("chat.usage." + path)));
 	}
 
 	public void setWarBar(NovaGuild guild, float percent, NovaGuild defender) {
 		if(useBarAPI) {
-			String msg = getMessagesString("barapi.warprogress");
+			String msg = getMessageManager().getMessagesString("barapi.warprogress");
 			msg = StringUtils.replace(msg, "{DEFENDER}", defender.getName());
 
 			for(NovaPlayer nPlayer : guild.getPlayers()) {
@@ -652,13 +535,20 @@ public class NovaGuilds extends JavaPlugin {
 		for(String groupName : groupsNames) {
 			groups.put(groupName, new NovaGroup(this, groupName));
 		}
+
+		debug(groups.toString());
 	}
 
 	public NovaGroup getGroup(Player player) {
 		String groupName = "default";
 
 		if(player == null) {
-			return null;
+			debug("Player is null, return is default group");
+			return getGroup(groupName);
+		}
+
+		if(player.hasPermission("novaguilds.group.admin")) {
+			return getGroup("admin");
 		}
 
 		for(String name : groups.keySet()) {
@@ -672,7 +562,12 @@ public class NovaGuilds extends JavaPlugin {
 	}
 
 	public NovaGroup getGroup(CommandSender sender) {
-		return getGroup(senderToPlayer(sender));
+		if(sender instanceof Player) {
+			return getGroup(senderToPlayer(sender));
+		}
+		else {
+			return getGroup("admin");
+		}
 	}
 
 	public NovaGroup getGroup(String groupName) {
@@ -680,6 +575,19 @@ public class NovaGuilds extends JavaPlugin {
 			return groups.get(groupName);
 		}
 
+		debug("Requested invalid group ("+groupName+")");
+
+		debug("Trying to get the group again...");
+		debug("Found "+groups.size()+" groups");
+		debug(groups.toString());
+		for(Map.Entry<String, NovaGroup> group : groups.entrySet()) {
+			debug(group.getKey()+" and "+groupName);
+			if(group.getKey().equalsIgnoreCase(groupName)) {
+				debug("Found matching group");
+				return group.getValue();
+			}
+		}
+		debug("Failed to get the group, return is null");
 		return null;
 	}
 
@@ -688,22 +596,12 @@ public class NovaGuilds extends JavaPlugin {
 		worker.schedule(task,getGroup(player).getTeleportDelay(),TimeUnit.SECONDS);
 
 		if(getGroup(player).getTeleportDelay()>0) {
-			sendDelayedTeleportMessage(player);
+			getMessageManager().sendDelayedTeleportMessage(player);
 		}
-	}
-
-	public void sendDelayedTeleportMessage(Player player) {
-		HashMap<String,String> vars = new HashMap<>();
-		vars.put("DELAY",getGroup(player).getTeleportDelay()+"");
-		sendMessagesMsg(player, "chat.delayedteleport", vars);
 	}
 
 	//Utils
 	public static long systemSeconds() {
 		return System.currentTimeMillis() / 1000;
-	}
-
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
 	}
 }

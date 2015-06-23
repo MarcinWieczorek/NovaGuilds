@@ -21,7 +21,7 @@ public class CommandAdminGuildList implements CommandExecutor {
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.list")) {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 
@@ -43,22 +43,22 @@ public class CommandAdminGuildList implements CommandExecutor {
 			pages_number++;
 		}
 
-		plugin.sendMessagesMsg(sender, plugin.getMessagesString("chat.admin.guild.list.header"));
-		String rowformat = plugin.getMessagesString("chat.admin.guild.list.item");
+		plugin.getMessageManager().sendMessagesMsg(sender, plugin.getMessageManager().getMessagesString("chat.admin.guild.list.header"));
+		String rowformat = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.item");
 
 		int i=0;
 		boolean display = false;
 
 		if(size>perpage) {
-			String pagemsg = plugin.getMessagesString("chat.admin.guild.list.page.nonext");
+			String pagemsg = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.page.nonext");
 			if(pages_number > page) {
-				pagemsg = plugin.getMessagesString("chat.admin.guild.list.page.hasnext");
+				pagemsg = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.page.hasnext");
 			}
 
 			pagemsg = StringUtils.replace(pagemsg, "{PAGE}", page + "");
 			pagemsg = StringUtils.replace(pagemsg, "{NEXT}", page + 1 + "");
 			pagemsg = StringUtils.replace(pagemsg, "{PAGES}", pages_number + "");
-			plugin.sendMessagesMsg(sender, StringUtils.fixColors(pagemsg));
+			plugin.getMessageManager().sendMessagesMsg(sender, StringUtils.fixColors(pagemsg));
 		}
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {

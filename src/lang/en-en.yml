@@ -63,6 +63,7 @@ chat:
   guilds: "Guilds loaded!"
   regions: "Regions loaded!"
   newmsgfile: "New messages file created!"
+  groups: "Groups loaded"
   reloaded: "NovaGuilds reloaded!"
   
  usage:
@@ -221,7 +222,9 @@ chat:
   uvebeeninvited: "You have been invited to guild &a{GUILDNAME}"
   ureinvitedto: "List of guilds you've been invited to:"
   notinyourguild: "That player is not in your guild!"
-  
+  invitecanceled: "Canceled invitation for player &c{PLAYER}"
+  invitecancelednotify: "Your invitation to guild &a{GUILDNAME} &3has been canceled"
+
  region:
   cannotinteract: "You cannot interact here"
   cannotridemob: "You cannot ride this mob, its protected!"
@@ -369,3 +372,7 @@ book:
   title: "NovaGuilds Tutorial"
   pages:
    - "&6[&5NovaGuilds&6] &3HELP"
+
+inventory:
+ requireditems:
+  name: Required Items

@@ -38,20 +38,20 @@ public class CommandGuildAbandon implements CommandExecutor {
 				if(!guildRemoveEvent.isCancelled()) {
 					plugin.getGuildManager().deleteGuild(guild);
 
-					plugin.sendMessagesMsg(sender, "chat.guild.abandoned");
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.abandoned");
 
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("PLAYER", sender.getName());
 					vars.put("GUILDNAME", guild.getName());
-					plugin.broadcastMessage("broadcast.guild.abandoned", vars);
+					plugin.getMessageManager().broadcastMessage("broadcast.guild.abandoned", vars);
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender, "chat.guild.notleader");
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notleader");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 		}
 		return true;
 	}

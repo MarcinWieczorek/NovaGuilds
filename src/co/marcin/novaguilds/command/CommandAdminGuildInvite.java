@@ -25,7 +25,7 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		}
 		
 		if(args.length == 0) { //no player name
-			plugin.sendMessagesMsg(sender,"chat.player.entername");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
 			return true;
 		}
 		
@@ -33,28 +33,28 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
 		
 		if(nPlayer == null) { //noplayer
-			plugin.sendMessagesMsg(sender,"chat.player.notexists");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
 			return true;
 		}
 			
 		if(nPlayer.hasGuild()) {
-			plugin.sendMessagesMsg(sender,"chat.player.hasguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasguild");
 			return true;
 		}
 		
 		if(nPlayer.isInvitedTo(guild)) {
-			plugin.sendMessagesMsg(sender,"chat.player.alreadyinvited");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.alreadyinvited");
 		}
 		
 		//all passed
 		plugin.getPlayerManager().addInvitation(nPlayer, guild);
 		plugin.getPlayerManager().updatePlayer(nPlayer);
-		plugin.sendMessagesMsg(sender,"chat.player.invited");
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.invited");
 		
 		if(nPlayer.getPlayer() != null) {
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("GUILDNAME",guild.getName());
-			plugin.sendMessagesMsg(nPlayer.getPlayer(),"chat.player.uvebeeninvited",vars);
+			plugin.getMessageManager().sendMessagesMsg(nPlayer.getPlayer(),"chat.player.uvebeeninvited",vars);
 		}
 	
 		return true;

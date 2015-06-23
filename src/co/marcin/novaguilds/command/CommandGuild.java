@@ -75,18 +75,21 @@ public class CommandGuild implements CommandExecutor {
 				case "top":
 					new CommandGuildTop(plugin).onCommand(sender, cmd, label, newargs);
 					break;
+				case "items":
+					new CommandGuildRequiredItems(plugin).onCommand(sender, cmd, label, newargs);
+					break;
 				default:
-					plugin.sendMessagesMsg(sender, "chat.unknowncmd");
-					plugin.info("cmd = " + command);
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+					plugin.debug("cmd = " + command);
 					break;
 			}
 		}
 		else {
-			List<String> cmdlist = plugin.getMessages().getStringList("chat.commands.guild.noguild");
+			List<String> cmdlist = plugin.getMessageManager().getMessages().getStringList("chat.commands.guild.noguild");
 
 			if(sender instanceof Player) {
 				if(plugin.getPlayerManager().getPlayerBySender(sender).hasGuild()) {
-					cmdlist = plugin.getMessages().getStringList("chat.commands.guild.hasguild");
+					cmdlist = plugin.getMessageManager().getMessages().getStringList("chat.commands.guild.hasguild");
 				}
 			}
 

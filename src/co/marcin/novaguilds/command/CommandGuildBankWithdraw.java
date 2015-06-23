@@ -27,7 +27,7 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.sendMessagesMsg(sender,"chat.cmdfromconsole");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
 			return true;
 		}
 
@@ -51,26 +51,26 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 							
 							HashMap<String,String> vars = new HashMap<>();
 							vars.put("AMOUNT",money+"");
-							plugin.sendMessagesMsg(sender,"chat.guild.bank.withdraw.success",vars);
+							plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.success",vars);
 						}
 						else {
-							plugin.sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenought");
+							plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenought");
 						}
 					}
 					else {
-						plugin.sendMessagesMsg(sender,"chat.guild.bank.enteramount");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.enteramount");
 					}
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.guild.bank.withdraw.notleader");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notleader");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 		}
 		return true;
 	}

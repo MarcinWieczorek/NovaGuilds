@@ -24,29 +24,29 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 		* */
 
 		if(!sender.hasPermission("novaguilds.admin.guild.setname")) {
-			plugin.sendMessagesMsg(sender, "chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
 			return true;
 		}
 		
 		if(args.length == 0) { //no new name
-			plugin.sendMessagesMsg(sender, "chat.admin.guild.setname.enternewname");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.setname.enternewname");
 			return true;
 		}
 
 		String newName = args[0];
 		
 		if(newName.length() < plugin.getConfig().getInt("guild.settings.name.min")) { //too short name
-			plugin.sendMessagesMsg(sender, "chat.createguild.name.tooshort");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.name.tooshort");
 			return true;
 		}
 		
 		if(newName.length() > plugin.getConfig().getInt("guild.settings.name.max")) { //too long name
-			plugin.sendMessagesMsg(sender, "chat.createguild.name.toolong");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.name.toolong");
 			return true;
 		}
 		
 		if(plugin.getGuildManager().exists(newName)) { //name exists
-			plugin.sendMessagesMsg(sender, "chat.createguild.nameexists");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.nameexists");
 			return true;
 		}
 
@@ -66,7 +66,7 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 //			nP.setGuild(guild);
 //		}
 		
-		plugin.sendMessagesMsg(sender, "chat.admin.guild.setname.success");
+		plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.setname.success");
 		
 		return true;
 	}

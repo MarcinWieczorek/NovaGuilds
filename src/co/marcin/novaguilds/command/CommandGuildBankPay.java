@@ -27,7 +27,7 @@ public class CommandGuildBankPay implements CommandExecutor {
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.sendMessagesMsg(sender,"chat.cmdfromconsole");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
 			return true;
 		}
 
@@ -47,18 +47,18 @@ public class CommandGuildBankPay implements CommandExecutor {
 						guild.addMoney(money);
 						HashMap<String,String> vars = new HashMap<>();
 						vars.put("AMOUNT",money+"");
-						plugin.sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);
 					}
 					else {
-						plugin.sendMessagesMsg(sender,"chat.guild.bank.pay.notenought");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.notenought");
 					}
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.guild.bank.enteramount");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.enteramount");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 			}
 		}
 		return true;

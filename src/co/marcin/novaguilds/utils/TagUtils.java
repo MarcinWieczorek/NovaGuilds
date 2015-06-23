@@ -33,7 +33,7 @@ public class TagUtils {
 
 			if(plugin.getConfig().getBoolean("tabapi.rankprefix")) {
 				if(nPlayer.getGuild().getLeaderName().equalsIgnoreCase(namedplayer.getName())) {
-					rank = plugin.getMessages().getString("chat.guildinfo.leaderprefix");
+					rank = plugin.getMessageManager().getMessages().getString("chat.guildinfo.leaderprefix");
 				}
 			}
 

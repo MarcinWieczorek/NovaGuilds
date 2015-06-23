@@ -20,6 +20,7 @@ public class LoginListener implements Listener {
 	
 	public LoginListener(NovaGuilds plugin) {
 		this.plugin = plugin;
+		plugin.getServer().getPluginManager().registerEvents(this,plugin);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -48,7 +49,7 @@ public class LoginListener implements Listener {
 				List<NovaRaid> raidsTakingPart = plugin.getGuildManager().getRaidsTakingPart(nPlayer.getGuild());
 
 				for(NovaRaid raid : raidsTakingPart) {
-					if(raid.getGuildDefender().equals(guildAtRegion)){
+					if(raid.getGuildDefender().equals(guildAtRegion)) {
 						guildAtRegion.getRaid().addPlayerOccupying(nPlayer);
 					}
 				}

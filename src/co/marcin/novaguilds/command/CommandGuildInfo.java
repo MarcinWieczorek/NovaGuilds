@@ -38,7 +38,7 @@ public class CommandGuildInfo implements CommandExecutor {
 				guildname = nPlayer.getGuild().getName();
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
 				return true;
 			}
 		}
@@ -49,14 +49,14 @@ public class CommandGuildInfo implements CommandExecutor {
 		if(guild != null) {
 			HashMap<String,String> vars = new HashMap<>();
 
-			List<String> guildInfoMessages = plugin.getMessages().getStringList("chat.guildinfo.info");
-			String separator = plugin.getMessages().getString("chat.guildinfo.playerseparator");
+			List<String> guildInfoMessages = plugin.getMessageManager().getMessages().getStringList("chat.guildinfo.info");
+			String separator = plugin.getMessageManager().getMessagesString("chat.guildinfo.playerseparator");
 			
 			if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
-				guildInfoMessages = plugin.getMessages().getStringList("chat.guildinfo.fullinfo");
+				guildInfoMessages = plugin.getMessageManager().getMessages().getStringList("chat.guildinfo.fullinfo");
 			}
 
-			plugin.sendPrefixMessage(sender,guildInfoMessages.get(0));
+			plugin.getMessageManager().sendPrefixMessage(sender, guildInfoMessages.get(0));
 			
 			int i;
 			List<NovaPlayer> gplayers = guild.getPlayers();
@@ -64,16 +64,16 @@ public class CommandGuildInfo implements CommandExecutor {
 			String players = "";
 			String pcolor;
 			String leaderp; //String to insert to playername (leader prefix)
-			String leaderprefix = plugin.getMessages().getString("chat.guildinfo.leaderprefix"); //leader prefix
+			String leaderprefix = plugin.getMessageManager().getMessagesString("chat.guildinfo.leaderprefix"); //leader prefix
 
 			//players list
 			if(gplayers.size()>0) {
 				for(NovaPlayer nPlayerList : guild.getPlayers()) {
 					if(nPlayerList.isOnline()) {
-						pcolor = plugin.getMessages().getString("chat.guildinfo.playercolor.online");
+						pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.online");
 					}
 					else {
-						pcolor = plugin.getMessages().getString("chat.guildinfo.playercolor.offline");
+						pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.offline");
 					}
 					
 					leaderp = "";
@@ -90,7 +90,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			//allies
 			String allies = "";
 			if(!guild.getAllies().isEmpty()) {
-				String allyformat = plugin.getMessagesString("chat.guildinfo.ally");
+				String allyformat = plugin.getMessageManager().getMessagesString("chat.guildinfo.ally");
 				for(String ally : guild.getAllies()) {
 					ally = StringUtils.replace(allyformat, "{GUILDNAME}", ally);
 					allies = allies + ally + separator;
@@ -102,7 +102,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			//wars
 			String wars = "";
 			if(!guild.getWars().isEmpty()) {
-				String warformat = plugin.getMessagesString("chat.guildinfo.war");
+				String warformat = plugin.getMessageManager().getMessagesString("chat.guildinfo.war");
 				for(String war : guild.getWars()) {
 					war = StringUtils.replace(warformat, "{GUILDNAME}", war);
 					wars = wars + war + separator;
@@ -179,7 +179,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
 		}
 		return true;
 	}

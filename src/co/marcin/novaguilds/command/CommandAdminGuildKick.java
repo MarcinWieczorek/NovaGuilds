@@ -19,12 +19,12 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.kick")) {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 		
 		if(args.length == 0) { //no playername
-			plugin.sendMessagesMsg(sender,"chat.player.entername");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
 			return true;
 		}
 		
@@ -32,17 +32,17 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayerKick);
 		
 		if(nPlayerKick == null) { //no player
-			plugin.sendMessagesMsg(sender,"chat.player.notexists");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
 			return true;
 		}
 
 		if(!nPlayerKick.hasGuild()) {
-			plugin.sendMessagesMsg(sender,"chat.player.hasnoguild");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasnoguild");
 			return true;
 		}
 
 		if(nPlayerKick.isLeader()) {
-			plugin.sendMessagesMsg(sender,"chat.admin.kick.leader");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.kick.leader");
 			return true;
 		}
 		
@@ -53,7 +53,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
 		vars.put("GUILDNAME",guild.getName());
-		plugin.broadcastMessage("broadcast.guild.kicked", vars);
+		plugin.getMessageManager().broadcastMessage("broadcast.guild.kicked", vars);
 		
 		//tab/tag
 		plugin.tagUtils.refreshAll();

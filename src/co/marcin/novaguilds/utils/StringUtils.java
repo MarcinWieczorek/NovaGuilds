@@ -156,6 +156,15 @@ public final class StringUtils {
 		return joined;
 	}
 
+	public static String join(List<String> items, String separator) {
+		String joined = "";
+		for(String item : items) {
+			joined = joined + item + separator;
+		}
+
+		return joined;
+	}
+
 	public static String join(String[] items, String separator) {
 		String joined = "";
 

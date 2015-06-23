@@ -39,34 +39,34 @@ public class CommandGuildLeader implements CommandExecutor {
 								HashMap<String,String> vars = new HashMap<>();
 								vars.put("PLAYERNAME",newLeader.getName());
 								vars.put("GUILDNAME",guild.getName());
-								plugin.sendMessagesMsg(sender,"chat.guild.leader.success", vars);
-								plugin.broadcastMessage("broadcast.guild.setleader", vars);
+								plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leader.success", vars);
+								plugin.getMessageManager().broadcastMessage("broadcast.guild.setleader", vars);
 								
 								//Tab and tags
 								plugin.tagUtils.refreshAll();
 							}
 							else {
-								plugin.sendMessagesMsg(sender,"chat.guild.leader.notsameguild");
+								plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leader.notsameguild");
 							}
 						}
 						else {
-							plugin.sendMessagesMsg(sender,"chat.guild.leader.samenick");
+							plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leader.samenick");
 						}
 					}
 					else {
-						plugin.sendMessagesMsg(sender,"chat.guild.notleader");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
 					}
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.player.notexists");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.player.entername");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
 		}
 		
 		return true;

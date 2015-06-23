@@ -1,7 +1,5 @@
 package co.marcin.novaguilds.command;
 
-import java.io.File;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,61 +10,57 @@ public class CommandAdminReload implements CommandExecutor {
 	private final NovaGuilds plugin;
 	 
 	public CommandAdminReload(NovaGuilds plugin) {
-		this.plugin = plugin; // Store the plugin in situations where you need it.
+		this.plugin = plugin;
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(sender.hasPermission("novaguilds.admin.reload")) {
-			plugin.sendMessagesMsg(sender,"chat.reload.reloading");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.reloading");
 			
 			plugin.saveDefaultConfig();
 			plugin.reloadConfig();
 
 			//plugin's vars from config
-			plugin.sqlp = plugin.getConfig().getString("mysql.prefix");
 			plugin.savePeriod = plugin.getConfig().getInt("saveperiod");
-			plugin.lang = plugin.getConfig().getString("lang");
 
 			plugin.timeRest = plugin.getConfig().getLong("raid.timerest");
 			plugin.distanceFromSpawn = plugin.getConfig().getLong("guild.fromspawn");
 			plugin.timeInactive = plugin.getConfig().getLong("raid.timeinactive");
-			//TODO
 
-			plugin.useHolographicDisplays = plugin.getConfig().getBoolean("holographicdisplays.enabled");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.config");
 
-			plugin.sendMessagesMsg(sender,"chat.reload.config");
-
+			//MySQL
 			plugin.sqlp = plugin.getConfig().getString("mysql.prefix");
-			plugin.sendMessagesMsg(sender, "chat.reload.mysql");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.mysql");
 
-			plugin.loadMessages();
+			//messages
+			plugin.getMessageManager().loadMessages();
 
-			//TODO: check and remove
-			File msgFile = new File(plugin.getDataFolder()+"/lang",plugin.lang+".yml");
-	        plugin.loadMessagesFile(msgFile);
-
-			plugin.setPrefix(plugin.getMessages().getString("chat.prefix"));
-			plugin.sendPrefixMessage(sender, "chat.reload.messages");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.messages");
 
 			//regions
 			plugin.getRegionManager().loadRegions();
-			plugin.sendPrefixMessage(sender, "chat.reload.regions");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.regions");
 
 			//guilds
 			plugin.getGuildManager().loadGuilds();
-			plugin.sendPrefixMessage(sender, "chat.reload.guilds");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.guilds");
 
 			//players
 			plugin.getPlayerManager().loadPlayers();
-			plugin.sendPrefixMessage(sender, "chat.reload.players");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.players");
+
+			//groups
+			plugin.loadGroups();
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.groups");
 
 			//all done
-			plugin.sendPrefixMessage(sender,"chat.reload.reloaded");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.reloaded");
 			
 			return true;
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 		}
 		return true;
 	}

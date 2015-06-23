@@ -91,7 +91,7 @@ public class GuildManager {
 		try {
 			statement = plugin.c.createStatement();
 			
-			plugin.players.clear();
+			plugin.guilds.clear();
 			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.sqlp + "guilds`");
 			while(res.next()) {
 				String spawnpoint_coord = res.getString("spawn");
@@ -157,6 +157,9 @@ public class GuildManager {
 					novaGuild.setWars(wars);
 					novaGuild.setNoWarInvitations(nowarinv);
 					novaGuild.setUnchanged();
+
+
+					plugin.debug("id = "+novaGuild.getId());
 
 					plugin.guilds.put(res.getString("name").toLowerCase(), novaGuild);
 				}
@@ -300,7 +303,7 @@ public class GuildManager {
 			saveGuild(g.getValue());
 		}
 	}
-	
+
 	public void deleteGuild(NovaGuild guild) {
 		plugin.mysqlReload();
     	
@@ -310,12 +313,13 @@ public class GuildManager {
 
 			//delete from database
 			String sql = "DELETE FROM `"+plugin.sqlp+"guilds` WHERE `id`="+guild.getId();
+			plugin.debug(sql);
+			plugin.debug("id="+guild.getId());
 			statement.executeUpdate(sql);
 			
 			//remove players
 			for(NovaPlayer nP : guild.getPlayers()) {
 				nP.setGuild(null);
-				nP.setHasGuild(false);
 				plugin.debug(nP.getName());
 
 				//update tags
@@ -360,8 +364,9 @@ public class GuildManager {
 			}
 
 			plugin.debug(guild.getName());
-			plugin.debug(exists(guild.getName())+"");
+			plugin.debug("exists="+exists(guild.getName()));
 			plugin.guilds.remove(guild.getName().toLowerCase());
+			plugin.debug("exists="+exists(guild.getName()));
 		}
 		catch(SQLException e) {
 			plugin.info("SQLException while deleting a guild.");

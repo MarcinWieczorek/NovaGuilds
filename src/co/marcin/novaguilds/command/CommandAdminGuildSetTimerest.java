@@ -17,7 +17,7 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.timerest")) {
-			plugin.sendMessagesMsg(sender, "chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
 			return true;
 		}
 
@@ -34,7 +34,7 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 		plugin.debug("add seconds = "+seconds);
 
 		guild.setTimeRest(newtimerest);
-		plugin.sendMessagesMsg(sender,"chat.admin.guild.timerest.set");
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.timerest.set");
 
 		return true;
 	}

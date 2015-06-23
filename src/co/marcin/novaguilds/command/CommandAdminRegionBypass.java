@@ -28,10 +28,10 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 				nPlayer.toggleBypass();
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("BYPASS",nPlayer.getBypass()+"");
-				plugin.sendMessagesMsg(sender,"chat.admin.region.rgbypass.toggled",vars);
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.rgbypass.toggled",vars);
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.nopermissions");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			}
 		}
 		else { //for other
@@ -39,7 +39,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(args[0]);
 
 				if(nPlayer == null) {
-					plugin.sendMessagesMsg(sender,"chat.player.notexists");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
 					return true;
 				}
 
@@ -49,13 +49,13 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 				vars.put("BYPASS",nPlayer.getBypass()+"");
 
 				if(nPlayer.isOnline()) {
-					plugin.sendMessagesMsg(nPlayer.getPlayer(), "chat.admin.rgbypass.notifyother");
+					plugin.getMessageManager().sendMessagesMsg(nPlayer.getPlayer(), "chat.admin.rgbypass.notifyother");
 				}
 
-				plugin.sendMessagesMsg(sender,"chat.admin.rgbypass.toggledother",vars);
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.rgbypass.toggledother",vars);
 			}
 			else {
-				plugin.sendMessagesMsg(sender, "chat.nopermissions");
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
 			}
 		}
 		return true;

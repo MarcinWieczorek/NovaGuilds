@@ -31,13 +31,13 @@ public class CommandAdminRegion implements CommandExecutor {
 				new CommandAdminRegionTeleport(plugin).onCommand(sender, cmd, label, newargs);
 			}
 			else {
-				plugin.sendMessagesMsg(sender, "chat.unknowncmd");
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender, "chat.commands.admin.region.header");
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.commands.admin.region.header");
 			
-			for(String citem : plugin.getMessages().getStringList("chat.commands.admin.region.items")) {
+			for(String citem : plugin.getMessageManager().getMessages().getStringList("chat.commands.admin.region.items")) {
 				sender.sendMessage(StringUtils.fixColors(citem));
 			}
 		}

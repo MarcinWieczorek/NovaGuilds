@@ -24,7 +24,12 @@ public class RegionManager {
 	public RegionManager(NovaGuilds pl) {
 		plugin = pl;
 	}
-	
+
+	public static final byte VALID_VALID = 0x01;
+	public static final byte VALID_TOOSMALL = 0x02;
+	public static final byte VALID_TOOBIG = 0x03;
+	public static final byte VALID_OVERLAPS = 0x04;
+
 	//getters
 	public NovaRegion getRegionByGuild(NovaGuild guild) {
 		if(plugin.regions.containsKey(guild.getName().toLowerCase()))
@@ -132,27 +137,29 @@ public class RegionManager {
 	}
 	
 	public void saveRegion(NovaRegion region) {
-		plugin.mysqlReload();
+		if(region.isChanged()) {
+			plugin.mysqlReload();
 
-		if(region != null) {
-			Statement statement;
-			try {
-				statement = plugin.c.createStatement();
+			if(region != null) {
+				Statement statement;
+				try {
+					statement = plugin.c.createStatement();
 
-				String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
-				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
+					String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
+					String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
 
-				String sql = "UPDATE `" + plugin.sqlp + "regions` SET " +
-						"`loc_1`='" + loc1 + "', " +
-						"`loc_2`='" + loc2 + "', " +
-						"`guild`='" + region.getGuildName() + "', " +
-						"`world`='" + region.getWorld().getName() + "' " +
-						"WHERE `id`=" + region.getId();
-				statement.executeUpdate(sql);
-				region.setUnChanged();
-			}
-			catch(SQLException e) {
-				plugin.info(e.getMessage());
+					String sql = "UPDATE `" + plugin.sqlp + "regions` SET " +
+							"`loc_1`='" + loc1 + "', " +
+							"`loc_2`='" + loc2 + "', " +
+							"`guild`='" + region.getGuildName() + "', " +
+							"`world`='" + region.getWorld().getName() + "' " +
+							"WHERE `id`=" + region.getId();
+					statement.executeUpdate(sql);
+					region.setUnChanged();
+				}
+				catch(SQLException e) {
+					plugin.info(e.getMessage());
+				}
 			}
 		}
 	}
@@ -165,20 +172,18 @@ public class RegionManager {
 	
 	//delete region
 	public void removeRegion(NovaRegion region) {
-		if(region.isChanged()) {
-			plugin.mysqlReload();
+		plugin.mysqlReload();
 
-			try {
-				Statement statement = plugin.c.createStatement();
+		try {
+			Statement statement = plugin.c.createStatement();
 
-				String sql = "DELETE FROM `" + plugin.sqlp + "regions` WHERE `guild`='" + region.getGuildName() + "'";
-				statement.executeUpdate(sql);
+			String sql = "DELETE FROM `" + plugin.sqlp + "regions` WHERE `guild`='" + region.getGuildName() + "'";
+			statement.executeUpdate(sql);
 
-				plugin.regions.remove(region.getGuildName().toLowerCase());
-			}
-			catch(SQLException e) {
-				plugin.info(e.getMessage());
-			}
+			plugin.regions.remove(region.getGuildName().toLowerCase());
+		}
+		catch(SQLException e) {
+			plugin.info(e.getMessage());
 		}
 	}
 	
@@ -307,16 +312,7 @@ public class RegionManager {
 		}
 	}
 	
-	public String checkRegionSelect(Location l1, Location l2) {
-		int i;
-		String[] returns = {
-			"invalid", //0
-			"valid", //1
-			"toobig", //2
-			"toosmall", //3
-			"overlaps", //4
-		};
-		
+	public byte checkRegionSelect(Location l1, Location l2) {
 		int x1 = StringUtils.fixX(l1.getBlockX());
 		int x2 = StringUtils.fixX(l2.getBlockX());
 		int z1 = StringUtils.fixX(l1.getBlockZ());
@@ -329,19 +325,17 @@ public class RegionManager {
 		int maxsize = plugin.getConfig().getInt("region.maxsize");
 
 		if(dif_x < minsize || dif_z < minsize) {
-			i = 3;
+			return VALID_TOOSMALL;
 		}
 		else if(dif_x > maxsize || dif_z > maxsize) {
-			i = 2;
+			return VALID_TOOBIG;
 		}
 		else if(regionInsideArea(l1,l2) != null) {
-			i = 4;
+			return VALID_OVERLAPS;
 		}
 		else {
-			i = 1;
+			return VALID_VALID;
 		}
-		
-		return returns[i];
 	}
 	
 	public int checkRegionSize(Location l1, Location l2) {
@@ -408,7 +402,7 @@ public class RegionManager {
 			return true;
 
 		if(!nPlayer.hasGuild())
-			return true;
+			return false;
 
 		if(nPlayer.getBypass())
 			return true;

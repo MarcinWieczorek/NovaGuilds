@@ -20,12 +20,12 @@ public class CommandAdminRegionDelete implements CommandExecutor {
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.region.delete")) {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 			return true;
 		}
 
 		if(args.length == 0) {
-			plugin.sendMessagesMsg(sender,"chat.guild.entername");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.entername");
 			return true;
 		}
 
@@ -34,12 +34,12 @@ public class CommandAdminRegionDelete implements CommandExecutor {
 		NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 
 		if(guild == null) {
-			plugin.sendMessagesMsg(sender,"chat.guild.namenotexist");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.namenotexist");
 			return true;
 		}
 
 		if(!guild.hasRegion()) {
-			plugin.sendMessagesMsg(sender,"chat.guild.hasnoregion");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.hasnoregion");
 			return true;
 		}
 
@@ -47,7 +47,7 @@ public class CommandAdminRegionDelete implements CommandExecutor {
 
 		plugin.getRegionManager().removeRegion(region);
 		guild.setRegion(null);
-		plugin.sendMessagesMsg(sender,"chat.admin.region.delete.success");
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.delete.success");
 		return true;
 	}
 }

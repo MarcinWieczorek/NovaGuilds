@@ -35,26 +35,31 @@ public class NovaGroup {
 		for(String anItemstr : itemstr) {
 			String[] exp = anItemstr.split(" ");
 			String idname;
-			String[] dataexp = null;
-			byte data = (byte) 0;
+			byte data = (byte)0;
 			int amount = Integer.parseInt(exp[1]);
 
 			if(exp[0].contains(":")) {
-				dataexp = exp[0].split(":");
+				String[] dataexp = exp[0].split(":");
 				idname = dataexp[0];
 				data = Byte.parseByte(dataexp[1]);
-			} else {
+			}
+			else {
 				idname = exp[0];
 			}
 
-			stack = new ItemStack(Material.getMaterial(idname.toUpperCase()), amount, (byte) 1);
+			Material material = Material.getMaterial(idname.toUpperCase());
+			plugin.debug(material.toString());
 
-			if(dataexp != null) {
-				stack.getData().setData(data);
+			if(material != null) {
+				stack = new ItemStack(material, amount, data);
+				items.add(stack);
 			}
-
-			items.add(stack);
+			else {
+				plugin.info("Failed to load item "+idname.toUpperCase()+" for group "+name);
+			}
 		}
+
+		plugin.debug(items.toString());
 
 		//setting all values
 		String groupPath = "guild.create.groups." + group + ".";

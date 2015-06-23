@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.manager.RegionManager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,7 +37,7 @@ public class CommandRegionBuy implements CommandExecutor {
 							Location sl1 = nPlayer.getSelectedLocation(0);
 							Location sl2 = nPlayer.getSelectedLocation(1);
 
-							if(plugin.getRegionManager().checkRegionSelect(sl1, sl2).equals("valid")) {
+							if(plugin.getRegionManager().checkRegionSelect(sl1, sl2) == RegionManager.VALID_VALID) {
 								int regionsize = plugin.getRegionManager().checkRegionSize(nPlayer.getSelectedLocation(0),nPlayer.getSelectedLocation(1));
 
 								//region's price
@@ -53,34 +54,34 @@ public class CommandRegionBuy implements CommandExecutor {
 									plugin.getRegionManager().addRegion(region, guild);
 									guild.takeMoney(price);
 									plugin.getGuildManager().saveGuild(guild); //TODO check this
-									plugin.sendMessagesMsg(sender,"chat.region.created");
+									plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.created");
 								}
 								else {
-									plugin.sendMessagesMsg(sender,"chat.guild.notenoughtmoney");
+									plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughtmoney");
 								}
 							}
 							else {
-								plugin.sendMessagesMsg(sender,"chat.region.notvalid");
+								plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.notvalid");
 							}
 						}
 						else {
-							plugin.sendMessagesMsg(sender,"chat.region.areanotselected");
+							plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.areanotselected");
 						}
 					}
 					else {
-						plugin.sendMessagesMsg(sender,"chat.guild.hasregionalready");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.hasregionalready");
 					}
 				}
 				else {
-					plugin.sendMessagesMsg(sender,"chat.guild.notleader");
+					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
 				}
 			}
 			else {
-				plugin.sendMessagesMsg(sender,"chat.guild.notinguild");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
 			}
 		}
 		else {
-			plugin.sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
 		}
 		return true;
 	}
