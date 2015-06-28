@@ -88,6 +88,7 @@ killing:
 
 guild:
  tag: "&a{RANK}{TAG} &r"
+ homefloor: obsidian
  startpoints: 1000
  startmoney: 0
  startlives: 2
@@ -152,6 +153,7 @@ region:
  minsize: 10
  maxsize: 100
  adminautosize: 10
+ borderparticles: true
  tool:
   item: STICK
 

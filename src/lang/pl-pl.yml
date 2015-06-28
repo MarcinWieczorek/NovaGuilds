@@ -112,6 +112,7 @@ chat:
      - "&5* &7/nga &cg &6kick &c<gracz> &2- &3Wyrzuc gracza z gildii"
      - "&5* &7/nga &cg &6promote &c<gracz> &2- &3Zmien lidera gildii"
      - "&5* &7/nga &cg &6list &2- &3Lista gildii"
+     - "&5* &7/nga &cg &6purge &2- &3Usun wszystkie gildie"
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<ilosc> &2- &3Wplac pieniadze do banku"

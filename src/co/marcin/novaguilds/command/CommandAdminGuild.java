@@ -26,6 +26,7 @@ public class CommandAdminGuild implements CommandExecutor {
 		noguildcmds.add("list");
 		noguildcmds.add("kick");
 		noguildcmds.add("promote");
+		noguildcmds.add("purge");
 
 		if(sender.hasPermission("novaguilds.admin.guild.access")) {
 			//command list
@@ -88,6 +89,9 @@ public class CommandAdminGuild implements CommandExecutor {
 				}
 				else if(subCmd.equalsIgnoreCase("lives")) { //list guilds
 					new CommandAdminGuildSetLives(plugin,guild).onCommand(sender, cmd, label, newArgs2);
+				}
+				else if(subCmd.equalsIgnoreCase("purge")) { //list guilds
+					new CommandAdminGuildAbandonAll(plugin).onCommand(sender, cmd, label, newArgs2);
 				}
 				else {
 					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");

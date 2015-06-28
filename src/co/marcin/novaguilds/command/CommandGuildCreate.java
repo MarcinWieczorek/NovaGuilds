@@ -1,6 +1,5 @@
 package co.marcin.novaguilds.command;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,7 +7,6 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.manager.RegionManager;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -128,7 +126,7 @@ public class CommandGuildCreate implements CommandExecutor {
 								if(plugin.getConfig().getBoolean("region.autoregion")) {
 									int size = plugin.getGroup(sender).getAutoregionSize();
 									Location playerLocation = player.getLocation();
-									Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
+									Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size+1, 0, playerLocation.getBlockZ() - size+1);
 									Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
 
 									region = new NovaRegion();
@@ -138,6 +136,7 @@ public class CommandGuildCreate implements CommandExecutor {
 									region.setWorld(playerLocation.getWorld());
 
 									regionValid = plugin.getRegionManager().checkRegionSelect(c1, c2);
+									plugin.debug(regionValid+"");
 								}
 
 								if(regionValid == RegionManager.VALID_VALID) {
@@ -179,6 +178,9 @@ public class CommandGuildCreate implements CommandExecutor {
 											plugin.getRegionManager().addRegion(region, nPlayer.getGuild());
 											plugin.debug("AutoRegion created!");
 										}
+
+										//homefloor
+										plugin.getGuildManager().createHomeFloor(newGuild);
 
 										//messages
 										plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.success");

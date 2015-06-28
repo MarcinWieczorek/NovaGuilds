@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.utils;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -71,10 +72,11 @@ public class TagUtils {
 	private static void setPrefix(OfflinePlayer player, String tag, Player p) {
 		Scoreboard board = p.getScoreboard();
 		Team team;
-		if (board.getPlayerTeam(player) == null) {
+		if(board.getPlayerTeam(player) == null) {
 			team = board.registerNewTeam(player.getName());
 			team.addPlayer(player);
-		} else {
+		}
+		else {
 			team = board.getPlayerTeam(player);
 		}
 		team.setPrefix(StringUtils.fixColors(tag));
@@ -89,6 +91,14 @@ public class TagUtils {
 	public void refreshAll() {
 		for(Player player : Bukkit.getOnlinePlayers()) {
 			updatePrefix(player);
+		}
+	}
+
+	public void refreshGuild(NovaGuild guild) {
+		if(guild != null) {
+			for(Player player : guild.getOnlinePlayers()) {
+				updatePrefix(player);
+			}
 		}
 	}
 }

@@ -9,6 +9,15 @@ public class GuildRemoveEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private final NovaGuild guild;
 	private boolean cancelled;
+	private AbandonCause cause;
+
+	public enum AbandonCause {
+		ADMIN,
+		ADMIN_ALL,
+		PLAYER,
+		INACTIVE,
+		RAID
+	}
 
 	public GuildRemoveEvent(NovaGuild guild) {
 		this.guild = guild;
@@ -24,6 +33,14 @@ public class GuildRemoveEvent extends Event implements Cancellable {
 
 	public void setCancelled(boolean cancel) {
 		cancelled = cancel;
+	}
+
+	public void setCause(AbandonCause cause) {
+		this.cause = cause;
+	}
+
+	public AbandonCause getCause() {
+		return cause;
 	}
 
 	public HandlerList getHandlers() {

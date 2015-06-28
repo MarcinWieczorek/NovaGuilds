@@ -3,13 +3,13 @@ package co.marcin.novaguilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.command.*;
 import co.marcin.novaguilds.listener.*;
 import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
+import co.marcin.novaguilds.utils.RegionUtils;
 import co.marcin.novaguilds.utils.StringUtils;
 import co.marcin.novaguilds.utils.TagUtils;
 
@@ -26,8 +26,6 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -51,7 +49,7 @@ public class NovaGuilds extends JavaPlugin {
 	* kolegom z pracy, i nie wódŸ nas na wycieki pamiêci, ale nas zbaw od Skript.
 	* Enter. ~Bukkit.PL
 	* */
-	private final Logger log = Logger.getLogger("Minecraft");
+	private static final Logger log = Logger.getLogger("Minecraft");
 	private static final String logprefix = "[NovaGuilds] ";
 	public final PluginDescriptionFile pdf = this.getDescription();
 	private final PluginManager pm = getServer().getPluginManager();
@@ -64,7 +62,7 @@ public class NovaGuilds extends JavaPlugin {
 	//TODO @up nie wiem czy aktualne
 
 	//TODO: podwojny event w MoveListenerze
-	public long moveListenerFix;
+	//public long moveListenerFix;
 
 	//Vault
 	public Economy econ = null;
@@ -73,9 +71,9 @@ public class NovaGuilds extends JavaPlugin {
 	private boolean useBarAPI;
 	private boolean useMySQL;
 	
-	public final HashMap<String,NovaPlayer> players = new HashMap<>();
-	public final HashMap<String,NovaGuild> guilds = new HashMap<>();
-	public final HashMap<String,NovaRegion> regions = new HashMap<>();
+	//public final HashMap<String,NovaPlayer> players = new HashMap<>();
+	//public final HashMap<String,NovaGuild> guilds = new HashMap<>();
+	//public final HashMap<String,NovaRegion> regions = new HashMap<>();
 	public final HashMap<String,NovaGroup> groups = new HashMap<>();
 	
 	private final GuildManager guildManager = new GuildManager(this);
@@ -267,14 +265,14 @@ public class NovaGuilds extends JavaPlugin {
 			info("Players data loaded");
 			
 			//Listeners
-			pm.registerEvents(new LoginListener(this), this);
-			pm.registerEvents(new ToolListener(this),this);
-			pm.registerEvents(new RegionInteractListener(this),this);
-			pm.registerEvents(new MoveListener(this),this);
-			pm.registerEvents(new ChatListener(this),this);
+			new LoginListener(this);
+			new ToolListener(this);
+			new RegionInteractListener(this);
+			new MoveListener(this);
+			new ChatListener(this);
 
-			pm.registerEvents(new PvpListener(this),this);
-			pm.registerEvents(new DeathListener(this),this);
+			new PvpListener(this);
+			new DeathListener(this);
 
 			new InventoryListener(this);
 
@@ -334,11 +332,11 @@ public class NovaGuilds extends JavaPlugin {
 			
 			if(l1 != null && l2 != null) {
 				getRegionManager().sendSquare(p,l1,l2,null,(byte)0);
-				getRegionManager().resetCorner(p,l1);
-				getRegionManager().resetCorner(p,l2);
+				RegionUtils.resetCorner(p, l1);
+				RegionUtils.resetCorner(p, l2);
 
 				if(nPlayer.getSelectedRegion() != null) {
-					getRegionManager().resetHighlightRegion(p,nPlayer.getSelectedRegion());
+					RegionUtils.resetHighlightRegion(p,nPlayer.getSelectedRegion());
 				}
 			}
 		}

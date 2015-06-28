@@ -32,6 +32,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 			if(nPlayer.isLeader()) { //All passed
 				//fire event
 				GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
+				guildRemoveEvent.setCause(GuildRemoveEvent.AbandonCause.PLAYER);
 				plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
 
 				//if event is not cancelled
@@ -44,6 +45,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 					vars.put("PLAYER", sender.getName());
 					vars.put("GUILDNAME", guild.getName());
 					plugin.getMessageManager().broadcastMessage("broadcast.guild.abandoned", vars);
+					plugin.tagUtils.refreshAll();
 				}
 			}
 			else {

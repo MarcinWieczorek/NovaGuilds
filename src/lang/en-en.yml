@@ -112,6 +112,7 @@ chat:
      - "&5* &7/nga &cg &6kick &c<player> &2- &3Kick player from guild"
      - "&5* &7/nga &cg &6promote &c<player> &2- &3Promote player to leader rank"
      - "&5* &7/nga &cg &6list &2- &3List all guilds"
+     - "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"

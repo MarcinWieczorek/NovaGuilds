@@ -33,19 +33,29 @@ public class CommandGuildTop implements CommandExecutor {
 		}
 
 		plugin.mysqlReload();
+		int limit = plugin.getMessageManager().getMessages().getInt("holographicdisplays.topguilds.toprows");
 
 		try {
 			Statement statement = plugin.c.createStatement();
 			plugin.getMessageManager().sendMessagesMsg(sender, "holographicdisplays.topguilds.header");
 
-			ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessageManager().getMessages().getInt("holographicdisplays.topguilds.toprows"));
+			ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+limit);
 
 			int i=1;
-			while(res.next()) {
+//			while(res.next()) {
+//				String rowmsg = plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.row");
+//				rowmsg = StringUtils.replace(rowmsg, "{GUILDNAME}", res.getString("name"));
+//				rowmsg = StringUtils.replace(rowmsg, "{N}", i + "");
+//				rowmsg = StringUtils.replace(rowmsg, "{POINTS}", res.getString("points"));
+//				sender.sendMessage(StringUtils.fixColors(rowmsg));
+//				i++;
+//			}
+
+			for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
 				String rowmsg = plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.row");
-				rowmsg = StringUtils.replace(rowmsg, "{GUILDNAME}", res.getString("name"));
+				rowmsg = StringUtils.replace(rowmsg, "{GUILDNAME}", guild.getName());
 				rowmsg = StringUtils.replace(rowmsg, "{N}", i + "");
-				rowmsg = StringUtils.replace(rowmsg, "{POINTS}", res.getString("points"));
+				rowmsg = StringUtils.replace(rowmsg, "{POINTS}", guild.getPoints()+"");
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 				i++;
 			}

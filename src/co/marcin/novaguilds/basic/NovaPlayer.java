@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class NovaPlayer {
 	private Player player;
-	private NovaGuild novaGuild;
+	private NovaGuild guild;
 	private boolean leader = false;
 	private boolean hasGuild = false;
 	private String name;
@@ -22,6 +22,8 @@ public class NovaPlayer {
 	private NovaRegion atRegion;
 	private NovaRaid partRaid;
 	private boolean changed = false;
+	private boolean resizing = false;
+	private int resizingCorner = 0;
 
 	public NovaPlayer(Player player) {
 		if(player != null) {
@@ -44,7 +46,7 @@ public class NovaPlayer {
 	}
 	
 	public NovaGuild getGuild() {
-		return novaGuild;
+		return guild;
 	}
 	
 	public boolean isLeader() {
@@ -79,6 +81,10 @@ public class NovaPlayer {
 		return atRegion;
 	}
 
+	public int getResizingCorner() {
+		return resizingCorner;
+	}
+
 	/*
 	* Get raid the player is taking part in
 	* */
@@ -92,7 +98,7 @@ public class NovaPlayer {
 
 	//setters
 	public void setGuild(NovaGuild guild) {
-		novaGuild = guild;
+		this.guild = guild;
 		
 		if(guild == null) {
 			hasGuild = false;
@@ -157,6 +163,18 @@ public class NovaPlayer {
 	public void setAtRegion(NovaRegion region) {
 		atRegion = region;
 	}
+
+	public void setUnchanged() {
+		changed = false;
+	}
+
+	public void setResizing(boolean b) {
+		resizing = b;
+	}
+
+	public void setResizingCorner(int index) {
+		resizingCorner = index;
+	}
 	
 	//check stuff
 	public boolean hasGuild() {
@@ -167,12 +185,12 @@ public class NovaPlayer {
 		return isonline;
 	}
 
-	public boolean isChanged() {
-		return changed;
+	public boolean isResizing() {
+		return resizing;
 	}
 
-	public void setUnchanged() {
-		changed = false;
+	public boolean isChanged() {
+		return changed;
 	}
 	
 	public boolean isInvitedTo(NovaGuild guild) {

@@ -31,6 +31,7 @@ public class RegionInteractListener implements Listener {
 	
 	public RegionInteractListener(NovaGuilds pl) {
 		plugin = pl;
+		plugin.getServer().getPluginManager().registerEvents(this,plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -96,8 +97,11 @@ public class RegionInteractListener implements Listener {
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
 		List<String> denymobdamage = plugin.getConfig().getStringList("region.denymobdamage");
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getEntity().getLocation());
+		plugin.debug("EntityDamageByEntity "+event.getEntityType().name());
 		
 		if(rgatploc != null) {
+			plugin.debug("There is a region");
+			plugin.debug(denymobdamage.toString());
 			if(denymobdamage.contains(event.getEntity().getType().name())) {
 				DamageCause cause = event.getCause();
 				boolean playercaused = false;
@@ -144,8 +148,11 @@ public class RegionInteractListener implements Listener {
 		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
+		plugin.debug("PlayerInteractEntityEvent - "+event.getRightClicked().getType().name());
 		
 		if(rgatploc != null) {
+			plugin.debug("There is a region");
+			plugin.debug(denyriding.toString());
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(event.getPlayer());
 			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!nPlayer.getBypass()) {

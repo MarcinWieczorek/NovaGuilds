@@ -5,12 +5,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.utils.RegionUtils;
 import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,6 +22,7 @@ import org.bukkit.entity.Player;
 
 public class RegionManager {
 	private final NovaGuilds plugin;
+	private final HashMap<String,NovaRegion> regions = new HashMap<>();
 	
 	public RegionManager(NovaGuilds pl) {
 		plugin = pl;
@@ -32,8 +35,8 @@ public class RegionManager {
 
 	//getters
 	public NovaRegion getRegionByGuild(NovaGuild guild) {
-		if(plugin.regions.containsKey(guild.getName().toLowerCase()))
-			return plugin.regions.get(guild.getName().toLowerCase());
+		if(regions.containsKey(guild.getName().toLowerCase()))
+			return regions.get(guild.getName().toLowerCase());
 		return null;
 	}
 	
@@ -57,7 +60,11 @@ public class RegionManager {
 	}
 	
 	public Collection<NovaRegion> getRegions() {
-		return plugin.regions.values();
+		return regions.values();
+	}
+
+	public HashMap<String, NovaRegion> getRegionsMap() {
+		return regions;
 	}
 	
 	public void loadRegions() {
@@ -67,7 +74,7 @@ public class RegionManager {
 		try {
 			statement = plugin.c.createStatement();
 			
-			plugin.regions.clear();
+			regions.clear();
 			ResultSet res = statement.executeQuery("SELECT * FROM `"+plugin.sqlp+"regions`");
 			while(res.next()) {
 				World world = plugin.getServer().getWorld(res.getString("world"));
@@ -92,7 +99,7 @@ public class RegionManager {
 					novaRegion.setGuildName(res.getString("guild"));
 					novaRegion.setUnChanged();
 
-					plugin.regions.put(res.getString("guild").toLowerCase(), novaRegion);
+					regions.put(res.getString("guild").toLowerCase(), novaRegion);
 				}
 				else {
 					plugin.info("Failed loading region for guild "+res.getString("guild")+", world does not exist.");
@@ -129,7 +136,7 @@ public class RegionManager {
 			guild.setRegion(region);
 			region.setGuildName(guild.getName());
 			region.setUnChanged();
-			plugin.regions.put(guild.getName().toLowerCase(), region);
+			regions.put(guild.getName().toLowerCase(), region);
 		}
 		catch(SQLException e) {
 			plugin.info(e.getMessage());
@@ -137,10 +144,9 @@ public class RegionManager {
 	}
 	
 	public void saveRegion(NovaRegion region) {
-		if(region.isChanged()) {
-			plugin.mysqlReload();
-
-			if(region != null) {
+		if(region != null) {
+			if(region.isChanged()) {
+				plugin.mysqlReload();
 				Statement statement;
 				try {
 					statement = plugin.c.createStatement();
@@ -180,54 +186,54 @@ public class RegionManager {
 			String sql = "DELETE FROM `" + plugin.sqlp + "regions` WHERE `guild`='" + region.getGuildName() + "'";
 			statement.executeUpdate(sql);
 
-			plugin.regions.remove(region.getGuildName().toLowerCase());
+			regions.remove(region.getGuildName().toLowerCase());
 		}
 		catch(SQLException e) {
 			plugin.info(e.getMessage());
 		}
 	}
 	
-	public void highlightRegion(Player player, NovaRegion region) {
-		Location loc1 = region.getCorner(0);
-		Location loc2 = region.getCorner(1);
-		
-		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
-		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
-		
-		setCorner(player, loc1, Material.DIAMOND_BLOCK);
-		setCorner(player, loc2, Material.DIAMOND_BLOCK);
-	}
+//	public void highlightRegion(Player player, NovaRegion region) {
+//		Location loc1 = region.getCorner(0);
+//		Location loc2 = region.getCorner(1);
+//
+//		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
+//		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
+//
+//		RegionUtils.setCorner(player, loc1, Material.DIAMOND_BLOCK);
+//		RegionUtils.setCorner(player, loc2, Material.DIAMOND_BLOCK);
+//	}
 	
-	public void resetHighlightRegion(Player player, NovaRegion region) {
-		Location loc1 = region.getCorner(0);
-		Location loc2 = region.getCorner(1);
-		
-		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
-		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
-		
-		setCorner(player, loc1, loc1.getBlock().getType());
-		setCorner(player, loc2, loc2.getBlock().getType());
-	}
+//	public void resetHighlightRegion(Player player, NovaRegion region) {
+//		Location loc1 = region.getCorner(0);
+//		Location loc2 = region.getCorner(1);
+//
+//		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
+//		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
+//
+//		RegionUtils.setCorner(player, loc1, loc1.getBlock().getType());
+//		RegionUtils.setCorner(player, loc2, loc2.getBlock().getType());
+//	}
 	
-	@SuppressWarnings("deprecation")
-	public void setCorner(Player player, Location location) {
-		player.sendBlockChange(location, Material.EMERALD_BLOCK, (byte) 0);
-	}
+//	@SuppressWarnings("deprecation")
+//	public void setCorner(Player player, Location location) {
+//		player.sendBlockChange(location, Material.EMERALD_BLOCK, (byte) 0);
+//	}
 	
 	//set corner with material
-	@SuppressWarnings("deprecation")
-	private void setCorner(Player player, Location location, Material material) {
-		if(material == null) {
-			material = player.getWorld().getBlockAt(location).getType();
-		}
-
-		player.sendBlockChange(location,material,(byte) 0);
-	}
+//	@SuppressWarnings("deprecation")
+//	private void setCorner(Player player, Location location, Material material) {
+//		if(material == null) {
+//			material = player.getWorld().getBlockAt(location).getType();
+//		}
+//
+//		player.sendBlockChange(location,material,(byte) 0);
+//	}
 	
-	@SuppressWarnings("deprecation")
-	public void resetCorner(Player player, Location location) {
-		player.sendBlockChange(location,player.getWorld().getBlockAt(location).getType(),(byte) 0);
-	}
+//	@SuppressWarnings("deprecation")
+//	public void resetCorner(Player player, Location location) {
+//		player.sendBlockChange(location,player.getWorld().getBlockAt(location).getType(),(byte) 0);
+//	}
 	
 	@SuppressWarnings("deprecation")
 	public void sendSquare(Player player, Location l1, Location l2,Material material,byte data) {
@@ -320,9 +326,12 @@ public class RegionManager {
 		
 		int dif_x = Math.abs(x1 - x2) +1;
 		int dif_z = Math.abs(z1 - z2) +1;
+		plugin.debug(dif_x+","+dif_z);
 		
 		int minsize = plugin.getConfig().getInt("region.minsize");
 		int maxsize = plugin.getConfig().getInt("region.maxsize");
+
+		plugin.debug(minsize+","+maxsize);
 
 		if(dif_x < minsize || dif_z < minsize) {
 			return VALID_TOOSMALL;
@@ -348,6 +357,10 @@ public class RegionManager {
 		int dif_z = Math.abs(z1 - z2) +1;
 		
 		return dif_x * dif_z;
+	}
+
+	public int checkRegionSize(NovaRegion region) {
+		return checkRegionSize(region.getCorner(0),region.getCorner(1));
 	}
 	
 	private NovaRegion regionInsideArea(Location l1, Location l2) {

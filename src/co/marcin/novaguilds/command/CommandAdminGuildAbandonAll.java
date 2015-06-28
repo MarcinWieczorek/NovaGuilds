@@ -1,7 +1,9 @@
 package co.marcin.novaguilds.command;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.event.GuildRemoveEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,13 +12,11 @@ import org.bukkit.command.CommandSender;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
 
-public class CommandAdminGuildAbandon implements CommandExecutor {
+public class CommandAdminGuildAbandonAll implements CommandExecutor {
 	private static NovaGuilds plugin;
-	private final NovaGuild guild;
-	
-	public CommandAdminGuildAbandon(NovaGuilds novaGuilds, NovaGuild guild) {
+
+	public CommandAdminGuildAbandonAll(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		this.guild = guild;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -25,10 +25,17 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 			return true;
 		}
 
-		if(guild != null) {
+		if(plugin.getGuildManager().getGuilds().size() == 0) {
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.noguilds");
+			return true;
+		}
+
+		Iterator<NovaGuild> iterator = plugin.getGuildManager().getGuilds().iterator();
+		while(iterator.hasNext()) {
+			NovaGuild guild = iterator.next();
 			//fire event
 			GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
-			guildRemoveEvent.setCause(GuildRemoveEvent.AbandonCause.ADMIN);
+			guildRemoveEvent.setCause(GuildRemoveEvent.AbandonCause.ADMIN_ALL);
 			plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
 
 			//if event is not cancelled
@@ -41,13 +48,8 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 				vars.put("GUILDNAME", guild.getName());
 				plugin.getMessageManager().broadcastMessage("broadcast.admin.guild.abandon", vars);
 			}
-
-			plugin.tagUtils.refreshGuild(guild);
-		}
-		else {
-			plugin.getMessageManager().sendPrefixMessage(sender,"chat.guild.couldnotfind");
 		}
 		return true;
 	}
-	
+
 }

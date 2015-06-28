@@ -15,6 +15,7 @@ public class PvpListener implements Listener {
 	
 	public PvpListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
+		plugin.getServer().getPluginManager().registerEvents(this,plugin);
 	}
 
 	@EventHandler

@@ -3,12 +3,7 @@ package co.marcin.novaguilds.manager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -20,19 +15,20 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 
 public class PlayerManager {
 	private final NovaGuilds plugin;
+	private final HashMap<String,NovaPlayer> players = new HashMap<>();
 	
 	public PlayerManager(NovaGuilds pl) {
 		plugin = pl;
 	}
 	
 	public boolean exists(String playername) {
-		return plugin.players.containsKey(playername.toLowerCase());
+		return players.containsKey(playername.toLowerCase());
 	}
 	
 	public NovaPlayer getPlayerByName(String playername) {
 		addIfNotExists(playername);
 
-		return plugin.players.get(playername.toLowerCase());
+		return players.get(playername.toLowerCase());
 	}
 	
 	public NovaPlayer getPlayerBySender(CommandSender sender) {
@@ -46,9 +42,9 @@ public class PlayerManager {
 
 		return getPlayerByName(player.getName());
 	}
-	
-	public Set<Entry<String, NovaPlayer>> getPlayers() {
-		return plugin.players.entrySet();
+
+	public Collection<NovaPlayer> getPlayers() {
+		return players.values();
 	}
 	
 	public void addInvitation(NovaPlayer nPlayer, NovaGuild guild) {
@@ -87,8 +83,8 @@ public class PlayerManager {
 	}
 	
 	public void saveAll() {
-		for(Entry<String, NovaPlayer> nP : getPlayers()) {
-			updatePlayer(nP.getValue());
+		for(NovaPlayer nPlayer : getPlayers()) {
+			updatePlayer(nPlayer);
 		}
 	}
 	
@@ -100,10 +96,10 @@ public class PlayerManager {
 		try {
 			statement = plugin.c.createStatement();
 			
-			plugin.players.clear();
+			players.clear();
 			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.sqlp + "players`");
 			while(res.next()) {
-				plugin.players.put(res.getString("name").toLowerCase(), playerFromResult(res));
+				players.put(res.getString("name").toLowerCase(), playerFromResult(res));
 			}
 		}
 		catch (SQLException e) {
@@ -127,7 +123,7 @@ public class PlayerManager {
 
 			//TODO load only 1 player instead of all
 			//loadPlayers();
-			plugin.players.put(player.getName().toLowerCase(),new NovaPlayer(player));
+			players.put(player.getName().toLowerCase(),new NovaPlayer(player));
 		}
 		catch (SQLException e) {
 			plugin.info("SQLException: "+e.getMessage());
@@ -142,7 +138,7 @@ public class PlayerManager {
 		Player player = plugin.getServer().getPlayerExact(playername);
 
 		if(player != null) {
-			if(!plugin.players.containsKey(playername.toLowerCase())) {
+			if(!players.containsKey(playername.toLowerCase())) {
 				addPlayer(player);
 			}
 		}
