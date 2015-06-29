@@ -1,3 +1,7 @@
+# =-=-=-=-=-=-=-=-=-=-=-=-=#
+# NovaGuilds Configuration #
+# =-=-=-=-=-=-=-=-=-=-=-=-=#
+
 #true=mysql, false=sqlite
 usemysql: true
 mysql:
@@ -197,5 +201,9 @@ region:
   - HORSE
   - WOLF
   - OCELOT
+  - CHICKEN
+  - SQUID
+  - VILLAGER
  denyriding:
   - HORSE
+  - PIG
