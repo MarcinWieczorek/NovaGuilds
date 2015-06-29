@@ -40,25 +40,27 @@ public class TagUtils {
 			tag = StringUtils.replace(tag, "{RANK}", rank);
 
 			//TODO: ally/war colors
-//			NovaPlayer nPlayerReceiver = plugin.getPlayerManager().getPlayerByPlayer(player);
-//			if(nPlayerReceiver.hasGuild()) {
-//				if(nPlayerReceiver.getGuild().isAlly(nPlayer.getGuild())) {
-//					if(plugin.getConfig().getBoolean("tagapi.allycolor.enabled")) {
-//						tabName = plugin.getConfig().getString("tagapi.allycolor.color") + tabName;
-//					}
-//				}
-//				else if(plugin.getPlayerManager().isGuildMate(player,namedplayer)) {
-//					if(plugin.getConfig().getBoolean("tagapi.guildcolor.enabled")) {
-//						tabName = plugin.getConfig().getString("tagapi.guildcolor.color") + tabName;
-//					}
-//				}
-//				else if(nPlayer.getGuild().isWarWith(nPlayerReceiver.getGuild())) {
-//					if(plugin.getConfig().getBoolean("tagapi.warcolor.enabled")) {
-//						tabName = plugin.getConfig().getString("tagapi.warcolor.color") + tabName;
-//					}
-//				}
-//			}
-
+			/*
+			NovaPlayer nPlayerReceiver = plugin.getPlayerManager().getPlayerByPlayer(player);
+			if(nPlayerReceiver.hasGuild()) {
+				if(nPlayerReceiver.getGuild().isAlly(nPlayer.getGuild())) {
+					if(plugin.getConfig().getBoolean("tagapi.allycolor.enabled")) {
+						tabName = plugin.getConfig().getString("tagapi.allycolor.color") + tabName;
+					}
+				}
+				else if(plugin.getPlayerManager().isGuildMate(player,namedplayer)) {
+					if(plugin.getConfig().getBoolean("tagapi.guildcolor.enabled")) {
+						tabName = plugin.getConfig().getString("tagapi.guildcolor.color") + tabName;
+					}
+				}
+				else if(nPlayer.getGuild().isWarWith(nPlayerReceiver.getGuild())) {
+					if(plugin.getConfig().getBoolean("tagapi.warcolor.enabled")) {
+						tabName = plugin.getConfig().getString("tagapi.warcolor.color") + tabName;
+					}
+				}
+			}
+			*/
+			
 			//TODO: using chat permissions
 			if(namedplayer.hasPermission("novaguilds.chat.notag")) {
 				tag = "";
