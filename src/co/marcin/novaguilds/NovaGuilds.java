@@ -45,10 +45,10 @@ import java.util.logging.Logger;
 
 public class NovaGuilds extends JavaPlugin {
 	/*
-	* Bukkicie nasz, któryœ jest w javie, œwiêæ siê metody Twoje, przyjdŸ repo Twoje,
-	* b¹dŸ kod Twój jako w gicie tak i w mavenie, stacktrace naszego powszedniego
-	* daj nam dzisiaj, i odpuœæ nam bugi Twoje, jako i my odpuszczamy naszym
-	* kolegom z pracy, i nie wódŸ nas na wycieki pamiêci, ale nas zbaw od Skript.
+	* Bukkicie nasz, ktÃ³ryÅ“ jest w javie, Å“wiÃªÃ¦ siÃª metody Twoje, przyjdÅ¸ repo Twoje,
+	* bÂ¹dÅ¸ kod TwÃ³j jako w gicie tak i w mavenie, stacktrace naszego powszedniego
+	* daj nam dzisiaj, i odpuÅ“Ã¦ nam bugi Twoje, jako i my odpuszczamy naszym
+	* kolegom z pracy, i nie wÃ³dÅ¸ nas na wycieki pamiÃªci, ale nas zbaw od Skript.
 	* Enter. ~Bukkit.PL
 	* */
 	private final Logger log = Logger.getLogger("Minecraft");
@@ -60,7 +60,7 @@ public class NovaGuilds extends JavaPlugin {
 	
 	private long MySQLReconnectStamp = System.currentTimeMillis();
 
-	//TODO kickowanie z admina dubluje userów gildii
+	//TODO kickowanie z admina dubluje userÃ³w gildii
 	//TODO @up nie wiem czy aktualne
 
 	//TODO: podwojny event w MoveListenerze
@@ -272,7 +272,7 @@ public class NovaGuilds extends JavaPlugin {
 			pm.registerEvents(new RegionInteractListener(this),this);
 			pm.registerEvents(new MoveListener(this),this);
 			pm.registerEvents(new ChatListener(this),this);
-
+			pm.registerEvents(new InventoryListener(this),this);
 			pm.registerEvents(new PvpListener(this),this);
 			pm.registerEvents(new DeathListener(this),this);
 
