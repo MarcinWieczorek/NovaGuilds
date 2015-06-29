@@ -232,13 +232,13 @@ public class CommandNovaGuilds implements CommandExecutor {
 			String[] info = {
 				"NovaGuilds &6#&c"+plugin.pdf.getVersion(),
 				"Author: &6Marcin Wieczorek",
-				"March, 2015 &4Pol&fand",
-				"&bhttp://NovaGuilds.marcin.co/",
+				"June, 2015 &4Pol&fand",
+				"&bhttp://novaguilds.marcin.co/",
 				"Latest plugin build: &6#&c{LATEST}"
 			};
 
-			plugin.getMessageManager().sendPrefixMessage(sender, "NovaGuilds Information");
-			String latest = StringUtils.getContent("http://NovaGuilds.marcin.co/latest.info");
+			plugin.getMessageManager().sendPrefixMessage(sender, "Plugin Information");
+			String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
 			
 			for(int i=0;i<info.length;i++) {
 				info[i] = StringUtils.replace(info[i], "{LATEST}", latest);
