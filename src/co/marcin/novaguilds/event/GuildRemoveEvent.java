@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.event;
 
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.AbandonCause;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -11,16 +12,13 @@ public class GuildRemoveEvent extends Event implements Cancellable {
 	private boolean cancelled;
 	private AbandonCause cause;
 
-	public enum AbandonCause {
-		ADMIN,
-		ADMIN_ALL,
-		PLAYER,
-		INACTIVE,
-		RAID
-	}
-
 	public GuildRemoveEvent(NovaGuild guild) {
 		this.guild = guild;
+	}
+
+	public GuildRemoveEvent(NovaGuild guild, AbandonCause cause) {
+		this.guild = guild;
+		this.cause = cause;
 	}
 
 	public NovaGuild getGuild() {

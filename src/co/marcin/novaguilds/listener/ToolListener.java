@@ -3,7 +3,7 @@ package co.marcin.novaguilds.listener;
 import java.util.HashMap;
 import java.util.Set;
 
-import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.utils.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,8 +36,11 @@ public class ToolListener implements Listener {
 		if(player.getItemInHand().getType().equals(tool)) {
 			if(player.getItemInHand().hasItemMeta() && player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(toolname)) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
-				//Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
-				Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
+
+				//Spigot and Cauldron (1.8/1.7.10)
+				Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
+				//Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
+
 				pointedLocation.setWorld(player.getWorld());
 
 				//Change RegionMode
@@ -52,7 +55,8 @@ public class ToolListener implements Listener {
 					String mode;
 					if(nPlayer.regionMode()) {
 						mode = plugin.getMessageManager().getMessagesString("chat.region.tool.modes.select");
-					} else {
+					}
+					else {
 						mode = plugin.getMessageManager().getMessagesString("chat.region.tool.modes.check");
 					}
 
@@ -67,12 +71,17 @@ public class ToolListener implements Listener {
 						RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(1));
 					}
 
+					//unselect corners
 					nPlayer.setSelectedLocation(0, null);
 					nPlayer.setSelectedLocation(1, null);
 
+					//remove region highlight
 					if(nPlayer.getSelectedRegion() != null) {
 						RegionUtils.resetHighlightRegion(event.getPlayer(), nPlayer.getSelectedRegion());
 					}
+
+					//disable resizing mode
+					nPlayer.setResizing(false);
 
 					return;
 				}
@@ -105,7 +114,7 @@ public class ToolListener implements Listener {
 				}
 				else { //CREATE MODE
 					if(!event.getAction().equals(Action.PHYSICAL)) {
-						if(rgatloc == null) {
+						if(rgatloc == null && !nPlayer.isResizing()) {
 							if(!player.hasPermission("novaguilds.region.create")) {
 								return;
 							}
@@ -142,15 +151,16 @@ public class ToolListener implements Listener {
 							}
 
 							if(sl1 != null && sl2 != null) {
-								RegionUtils.distanceBetweenRegions2(plugin.getGuildManager().getGuildByName("rgudt").getRegion(),sl1,sl2);
-								plugin.getRegionManager().sendSquare(player, sl1, sl2, Material.WOOL, (byte)7);
+//								RegionUtils.distanceBetweenRegions2(plugin.getGuildManager().getGuildByName("rgudt").getRegion(),sl1,sl2);
+//								plugin.getRegionManager().sendSquare(player, sl1, sl2, Material.WOOL, (byte)7);
+//
+//								if(plugin.DEBUG) return;
 
-								if(plugin.DEBUG) return;
-								byte validSelect = plugin.getRegionManager().checkRegionSelect(sl1, sl2);
+								RegionValidity validSelect = plugin.getRegionManager().checkRegionSelect(sl1, sl2);
 								byte data = Byte.parseByte("15");
 
 								switch(validSelect) {
-									case RegionManager.VALID_VALID:  //valid
+									case VALID:  //valid
 										if(nPlayer.hasGuild()) {
 											data = (byte) 14;
 											int regionsize = plugin.getRegionManager().checkRegionSize(sl1, sl2);
@@ -177,21 +187,24 @@ public class ToolListener implements Listener {
 											plugin.getMessageManager().sendMessagesMsg(player, "chat.region.mustveguild");
 										}
 										break;
-									case RegionManager.VALID_TOOSMALL:
+									case TOOSMALL:
 										String msg = plugin.getMessageManager().getMessagesString("chat.region.toosmall");
 										msg = StringUtils.replace(msg, "{MINSIZE}", plugin.getConfig().getInt("region.minsize") + "");
 										plugin.getMessageManager().sendPrefixMessage(player, msg);
 										break;
-									case RegionManager.VALID_TOOBIG:
+									case TOOBIG:
 										msg = plugin.getMessageManager().getMessagesString("chat.region.toobig");
 										msg = StringUtils.replace(msg, "{MAXSIZE}", plugin.getConfig().getInt("region.maxsize") + "");
 										plugin.getMessageManager().sendPrefixMessage(player, msg);
 										break;
-									case RegionManager.VALID_OVERLAPS:
+									case OVERLAPS:
 										//TODO
 										//NovaRegion rgoverlaped = plugin.getRegionManager().regionInsideArea(sl1,sl2);
 										//plugin.getRegionManager().highlightRegion(player, rgoverlaped);
 										plugin.getMessageManager().sendMessagesMsg(player, "chat.region.overlaps");
+										break;
+									case TOOCLOSE:
+										plugin.getMessageManager().sendMessagesMsg(player, "chat.guild.tooclose");
 										break;
 								}
 
@@ -202,41 +215,49 @@ public class ToolListener implements Listener {
 							}
 						}
 						else { //resizing
-							if(!player.hasPermission("novaguilds.region.resize")) {
-								//TODO: msg
-								return;
-							}
+							if(rgatloc != null) {
+								if(!player.hasPermission("novaguilds.region.resize")) {
+									plugin.getMessageManager().sendNoPermissionsMessage(player);
+									return;
+								}
 
-							if(nPlayer.isResizing()) {
-								NovaRegion region = nPlayer.getGuild().getRegion();
-								Location c1 = region.getCorner(0);
-								Location c2 = region.getCorner(1);
+								if(nPlayer.isResizing()) {
+									NovaRegion region = nPlayer.getGuild().getRegion();
+									Location c1 = region.getCorner(0);
+									Location c2 = region.getCorner(1);
 
-								if(nPlayer.getResizingCorner()==0) {
-									c1 = pointedLocation;
+									if(nPlayer.getResizingCorner() == 0) {
+										c1 = pointedLocation;
+									}
+									else {
+										c2 = pointedLocation;
+									}
+
+									plugin.getRegionManager().sendSquare(player, c1, c2, Material.WOOL, (byte) 14);
 								}
 								else {
-									c2 = pointedLocation;
-								}
+									plugin.debug("guild null=" + (rgatloc.getGuild() == null));
+									if(rgatloc.getGuild().isMember(nPlayer)) {
+										Location pointedCornerLocation = pointedLocation.clone();
+										pointedCornerLocation.setY(0);
+										pointedCornerLocation = pointedCornerLocation.getBlock().getLocation();
+										plugin.debug("0=" + pointedCornerLocation.distance(rgatloc.getCorner(0).getBlock().getLocation()));
+										plugin.debug("1=" + pointedCornerLocation.distance(rgatloc.getCorner(1).getBlock().getLocation()));
 
-								plugin.getRegionManager().sendSquare(player,c1,c2,Material.WOOL,(byte)14);
-							}
-							else {
-								if(rgatloc.getGuild().isMember(nPlayer)) {
-									if(pointedLocation.distance(rgatloc.getCorner(0)) == 0 || pointedLocation.distance(rgatloc.getCorner(0)) == 0) { //clicked a corner
-										int corner = 1;
+										if(pointedCornerLocation.distance(rgatloc.getCorner(0).getBlock().getLocation()) < 1 || pointedCornerLocation.distance(rgatloc.getCorner(0).getBlock().getLocation()) < 1) { //clicked a corner
+											int corner = 1;
 
-										if(pointedLocation.distance(rgatloc.getCorner(0)) == 0) {
-											corner = 0;
+											if(pointedCornerLocation.distance(rgatloc.getCorner(0)) == 0) {
+												corner = 0;
+											}
+
+											nPlayer.setResizing(true);
+											nPlayer.setResizingCorner(corner);
+											player.sendMessage("resizing... " + corner);
 										}
-
-										nPlayer.setResizing(true);
-										nPlayer.setResizingCorner(corner);
-										player.sendMessage("resizing...");
 									}
 								}
 							}
-							//plugin.getMessageManager().sendMessagesMsg(player, "chat.region.regionhere");
 						}
 					}
 				}

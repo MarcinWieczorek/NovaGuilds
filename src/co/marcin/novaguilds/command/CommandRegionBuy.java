@@ -1,6 +1,6 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.enums.RegionValidity;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,13 +31,13 @@ public class CommandRegionBuy implements CommandExecutor {
 			if(nPlayer.hasGuild()) {
 				NovaGuild guild = nPlayer.getGuild();
 				
-				if(guild.getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
+				if(guild.getLeader().getName().equalsIgnoreCase(nPlayer.getName())) {
 					if(!guild.hasRegion()) {
 						if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
 							Location sl1 = nPlayer.getSelectedLocation(0);
 							Location sl2 = nPlayer.getSelectedLocation(1);
 
-							if(plugin.getRegionManager().checkRegionSelect(sl1, sl2) == RegionManager.VALID_VALID) {
+							if(plugin.getRegionManager().checkRegionSelect(sl1, sl2) == RegionValidity.VALID) {
 								int regionsize = plugin.getRegionManager().checkRegionSize(nPlayer.getSelectedLocation(0),nPlayer.getSelectedLocation(1));
 
 								//region's price
@@ -57,7 +57,7 @@ public class CommandRegionBuy implements CommandExecutor {
 									plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.created");
 								}
 								else {
-									plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughtmoney");
+									plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughmoney");
 								}
 							}
 							else {
@@ -81,7 +81,7 @@ public class CommandRegionBuy implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 		}
 		return true;
 	}

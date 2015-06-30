@@ -31,7 +31,7 @@ public class CommandGuildBankPay implements CommandExecutor {
 			return true;
 		}
 
-		Player player = plugin.senderToPlayer(sender);
+		Player player = (Player)sender;
 		
 		if(sender.hasPermission("novaguilds.guild.bank.pay")) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
@@ -50,7 +50,7 @@ public class CommandGuildBankPay implements CommandExecutor {
 						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);
 					}
 					else {
-						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.notenought");
+						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.notenough");
 					}
 				}
 				else {

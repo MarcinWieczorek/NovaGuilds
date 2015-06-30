@@ -118,6 +118,8 @@ public class GuildManager {
 				if(spawnpoint != null) {
 					List<String> allies = new ArrayList<>();
 					List<String> alliesinv = new ArrayList<>();
+					List<String> wars = new ArrayList<>();
+					List<String> nowarinv = new ArrayList<>();
 
 					if(!res.getString("allies").isEmpty()) {
 						allies = StringUtils.semicolonToList(res.getString("allies"));
@@ -126,9 +128,6 @@ public class GuildManager {
 					if(!res.getString("alliesinv").isEmpty()) {
 						alliesinv = StringUtils.semicolonToList(res.getString("alliesinv"));
 					}
-
-					List<String> wars = new ArrayList<>();
-					List<String> nowarinv = new ArrayList<>();
 
 					if(!res.getString("war").isEmpty()) {
 						wars = StringUtils.semicolonToList(res.getString("war"));
@@ -149,15 +148,21 @@ public class GuildManager {
 					novaGuild.setTimeRest(res.getLong("timerest"));
 					novaGuild.setLostLiveTime(res.getLong("lostlive"));
 					novaGuild.setSpawnPoint(spawnpoint);
-					novaGuild.setRegion(plugin.getRegionManager().getRegionsMap().get(novaGuild.getName().toLowerCase()));
+					novaGuild.setRegion(plugin.getRegionManager().getRegionByGuild(novaGuild));
+					//novaGuild.setRegion(plugin.getRegionManager().getRegionsMap().get(novaGuild.getName().toLowerCase()));
+					plugin.debug("regionnull="+(novaGuild.getRegion()==null));
 
 					novaGuild.setAllies(allies);
 					novaGuild.setAllyInvitations(alliesinv);
 
 					novaGuild.setWars(wars);
 					novaGuild.setNoWarInvitations(nowarinv);
+					novaGuild.setInactiveTime(res.getLong("activity"));
 					novaGuild.setUnchanged();
 
+					if(novaGuild.hasRegion()) {
+						novaGuild.getRegion().setGuild(novaGuild);
+					}
 
 					plugin.debug("id = "+novaGuild.getId());
 					if(novaGuild.getId()>0) {
@@ -193,11 +198,11 @@ public class GuildManager {
 
 			//adding to MySQL
 			//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive
-			String pSQL = "INSERT INTO `"+plugin.sqlp+"guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0);";
+			String pSQL = "INSERT INTO `"+plugin.sqlp+"guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0);";
 			PreparedStatement preparedStatement = plugin.c.prepareStatement(pSQL,Statement.RETURN_GENERATED_KEYS);
 			preparedStatement.setString(1,guild.getTag()); //tag
 			preparedStatement.setString(2,guild.getName()); //name
-			preparedStatement.setString(3,guild.getLeaderName()); //leader
+			preparedStatement.setString(3,guild.getLeader().getName()); //leader
 			preparedStatement.setString(4,spawnpointcoords); //home
 			preparedStatement.setDouble(5, startmoney); //money
 			preparedStatement.setInt(6, startpoints); //points
@@ -214,9 +219,8 @@ public class GuildManager {
 			if(id > 0) {
 				guild.setId(id);
 				guilds.put(guild.getName().toLowerCase(), guild);
-				NovaPlayer leader = plugin.getPlayerManager().getPlayerByName(guild.getLeaderName());
+				NovaPlayer leader = plugin.getPlayerManager().getPlayerByName(guild.getLeader().getName());
 				leader.setGuild(guild);
-				leader.setLeader(true);
 				guild.setUnchanged();
 			}
 		}
@@ -289,7 +293,7 @@ public class GuildManager {
 				String sql = "UPDATE `" + plugin.sqlp + "guilds` SET " +
 						"`tag`='" + guild.getTag() + "', " +
 						"`name`='" + guild.getName() + "', " +
-						"`leader`='" + guild.getLeaderName() + "', " +
+						"`leader`='" + guild.getLeader().getName() + "', " +
 						"`spawn`='" + spawnpointcoords + "', " +
 						"`allies`='" + allies + "', " +
 						"`alliesinv`='" + alliesinv + "', " +
@@ -299,7 +303,8 @@ public class GuildManager {
 						"`points`=" + guild.getPoints() + ", " +
 						"`lives`=" + guild.getLives() + ", " +
 						"`timerest`=" + guild.getTimeRest() + ", " +
-						"`lostlive`=" + guild.getLostLiveTime() +
+						"`lostlive`=" + guild.getLostLiveTime() + ", "+
+						"`activity`=" + guild.getInactiveTime() +
 						" WHERE `id`=" + guild.getId();
 
 				statement.executeUpdate(sql);
@@ -406,6 +411,53 @@ public class GuildManager {
 		return list;
 	}
 
+	public void postCheckGuilds() {
+		Iterator<NovaGuild> it = getGuilds().iterator();
+		int i=0;
+		while(it.hasNext()) {
+			NovaGuild guild = it.next();
+			boolean remove = false;
+			if(guild != null) {
+				if(guild.getLeaderName() != null) {
+					plugin.info("("+guild.getName()+") Leader's name is set. Probably leader is null");
+					remove = true;
+				}
+
+				if(guild.getLeader() == null) {
+					plugin.info("("+guild.getName()+") Leader is null");
+					remove = true;
+				}
+
+				if(guild.getPlayers().size() == 0) {
+					plugin.info("("+guild.getName()+") 0 players");
+					remove = true;
+				}
+
+				if(guild.getSpawnPoint()==null) {
+					plugin.info("("+guild.getName()+") Spawnpoint is null");
+					remove = true;
+				}
+
+				if(guild.getId() <= 0) {
+					plugin.info("("+guild.getName()+") ID <= 0 !");
+					remove = true;
+				}
+			}
+			else {
+				plugin.info("guild is null!");
+				remove = true;
+			}
+
+			if(remove) {
+				plugin.info("Unloaded guild "+(guild==null ? "null" : guild.getName()));
+				it.remove();
+				i++;
+			}
+		}
+
+		plugin.info("[GuildManager] Postcheck finished. Found "+i+" invalid guilds");
+	}
+
 	public void createHomeFloor(NovaGuild guild) {
 		Location sp = guild.getSpawnPoint();
 		Material material = Material.getMaterial(plugin.getConfig().getString("guild.homefloor").toUpperCase());
@@ -475,5 +527,43 @@ public class GuildManager {
 		}
 
 		return guildsLimited;
+	}
+
+	public List<NovaGuild> getMostInactiveGuilds() {
+		List<NovaGuild> guildsByInactive = new ArrayList<>(guilds.values());
+
+		Collections.sort(guildsByInactive, new Comparator<NovaGuild>() {
+			public int compare(NovaGuild o1, NovaGuild o2) {
+				return (int)(NovaGuilds.systemSeconds()-o2.getInactiveTime()) - (int)(NovaGuilds.systemSeconds()-o1.getInactiveTime());
+			}
+		});
+
+		return guildsByInactive;
+	}
+
+	public static double distanceBetweenGuilds(NovaGuild guild1, NovaGuild guild2) {
+		return guild1.getSpawnPoint().distance(guild2.getSpawnPoint());
+	}
+
+	public boolean isFarEnough(NovaGuild guild) {
+		int diagonal = 0;
+
+		if(guild.hasRegion()) {
+			diagonal = guild.getRegion().getDiagonal();
+		}
+
+		int min = diagonal + plugin.getConfig().getInt("mindistance");
+		for(NovaGuild guildLoop : getGuilds()) {
+			int diagonal2 = 0;
+
+			if(guildLoop.hasRegion()) {
+				diagonal2 = guildLoop.getRegion().getDiagonal();
+			}
+
+			if(distanceBetweenGuilds(guild,guildLoop) < min+diagonal2) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

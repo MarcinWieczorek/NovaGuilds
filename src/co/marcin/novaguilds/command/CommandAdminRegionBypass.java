@@ -31,7 +31,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.rgbypass.toggled",vars);
 			}
 			else {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+				plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			}
 		}
 		else { //for other
@@ -55,7 +55,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.rgbypass.toggledother",vars);
 			}
 			else {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
+				plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			}
 		}
 		return true;

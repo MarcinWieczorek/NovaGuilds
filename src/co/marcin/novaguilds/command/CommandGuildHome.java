@@ -24,34 +24,36 @@ private final NovaGuilds plugin;
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 
-		if(nPlayer.hasGuild()) {
-			Player player = plugin.senderToPlayer(sender);
-			
-			if(args.length>0 && args[0].equalsIgnoreCase("set")) {
-				if(nPlayer.isLeader()) {
-					NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
-					
-					if(rgatloc == null || rgatloc.getGuildName().equals(nPlayer.getGuild().getName())) {
-						nPlayer.getGuild().setSpawnPoint(player.getLocation());
-						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.setspawnpoint");
-					}
-					else {
-						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.guildatlocsp");
-					}
-				}
-				else {
-					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
-				}
-				
+		if(!nPlayer.hasGuild()) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+		}
+
+		Player player = (Player)sender;
+
+		if(args.length>0 && args[0].equalsIgnoreCase("set")) {
+			if(!nPlayer.isLeader()) {
+				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notleader");
+			}
+
+			NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
+
+			if(rgatloc==null && nPlayer.getGuild().hasRegion()) {
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.sethomeoutside");
 				return true;
 			}
-			
-			if(nPlayer.getGuild().getSpawnPoint() != null) {
-				plugin.delayedTeleport(player,nPlayer.getGuild().getSpawnPoint(),"chat.guild.tp");
+
+			if(!nPlayer.getGuild().hasRegion() && rgatloc != null) {
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.guildatlocsp");
+				return true;
 			}
+
+			nPlayer.getGuild().setSpawnPoint(player.getLocation());
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.setspawnpoint");
 		}
-		else { //noguild
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+		else {
+			if(nPlayer.getGuild().getSpawnPoint() != null) {
+				plugin.delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), "chat.guild.tp");
+			}
 		}
 		return true;
 	}

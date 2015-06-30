@@ -27,6 +27,7 @@ public class CommandAdminGuild implements CommandExecutor {
 		noguildcmds.add("kick");
 		noguildcmds.add("promote");
 		noguildcmds.add("purge");
+		noguildcmds.add("inactive");
 
 		if(sender.hasPermission("novaguilds.admin.guild.access")) {
 			//command list
@@ -75,6 +76,9 @@ public class CommandAdminGuild implements CommandExecutor {
 				else if(subCmd.equalsIgnoreCase("list")) { //list guilds
 					new CommandAdminGuildList(plugin).onCommand(sender, cmd, label, newArgs);
 				}
+				else if(subCmd.equalsIgnoreCase("inactive")) { //list guilds
+					new CommandAdminGuildInactive(plugin).onCommand(sender, cmd, label, newArgs);
+				}
 				else if(subCmd.equalsIgnoreCase("pay")) { //list guilds
 					new CommandAdminGuildBankPay(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
@@ -102,7 +106,7 @@ public class CommandAdminGuild implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 		}
 
 		return true;

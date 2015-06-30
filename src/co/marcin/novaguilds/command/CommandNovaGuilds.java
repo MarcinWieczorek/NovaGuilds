@@ -23,7 +23,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.utils.StringUtils;
 
 public class CommandNovaGuilds implements CommandExecutor {
@@ -46,7 +45,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 		        bm.setTitle("Guilds Bank");
 		        book.setItemMeta(bm);
 		        Player player = plugin.getServer().getPlayer(sender.getName());
-		        player.getInventory().setItem(8, book);
+		        player.getInventory().addItem(book);
 			}
 			else if(args[0].equalsIgnoreCase("tool")) { //TOOL
 				new CommandToolGet(plugin).onCommand(sender, cmd, label, args);
@@ -79,9 +78,9 @@ public class CommandNovaGuilds implements CommandExecutor {
 				sender.sendMessage("guilditems = "+plugin.getGroup(sender).getCreateGuildItems().toString());
 				sender.sendMessage("tpdelay = "+plugin.getGroup(sender).getTeleportDelay()+"s");
 
-//				Location l = plugin.senderToPlayer(sender).getLocation();
+//				Location l = (Player)sender.getLocation();
 //				l.setX(l.getBlockX()+5);
-//				plugin.delayedTeleport(plugin.senderToPlayer(sender),l);
+//				plugin.delayedTeleport((Player)sender,l);
 			}
 			else if(args[0].equalsIgnoreCase("hd")) { //HolographicDisplays
 				if(args.length>1) { //GUILDINFO
@@ -91,7 +90,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						try {
 							statement = plugin.c.createStatement();
 							
-							Player player = plugin.senderToPlayer(sender);
+							Player player = (Player)sender;
 							Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());
 							hologram.appendTextLine(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.header")));
 							
@@ -113,7 +112,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 					}
 					
 					String guildname = args[1];
-					Player player = plugin.senderToPlayer(sender);
+					Player player = (Player)sender;
 					Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());
 					
 					NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
@@ -122,7 +121,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						
 						int i;
 						List<NovaPlayer> gplayers = guild.getPlayers();
-						String leader = guild.getLeaderName();
+						String leader = guild.getLeader().getName();
 						String players = "";
 						String pcolor;
 						String leaderp; //String to insert to playername (leader prefix)
@@ -160,7 +159,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 							tagmsg = StringUtils.replace(tagmsg, "{RANK}", "");
 							
 							gmsg = StringUtils.replace(gmsg, "{GUILDNAME}", guild.getName());
-							gmsg = StringUtils.replace(gmsg, "{LEADER}", guild.getLeaderName());
+							gmsg = StringUtils.replace(gmsg, "{LEADER}", guild.getLeader().getName());
 							gmsg = StringUtils.replace(gmsg, "{TAG}", tagmsg);
 							gmsg = StringUtils.replace(gmsg, "{MONEY}", guild.getMoney() + "");
 							gmsg = StringUtils.replace(gmsg, "{PLAYERS}", players);
@@ -199,7 +198,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				if(!(sender instanceof Player)) {
 					return true;
 				}
-				Player player = plugin.senderToPlayer(sender);
+				Player player = (Player)sender;
 				sender.sendMessage("Nearby entites");
 				for(Entity entity : player.getNearbyEntities(10,10,10)) {
 					sender.sendMessage(entity.getType().name());

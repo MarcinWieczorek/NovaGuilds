@@ -22,7 +22,7 @@ public class CommandGuildEffect implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.effect")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
@@ -39,7 +39,7 @@ public class CommandGuildEffect implements CommandExecutor {
 		}
 
 		if(nPlayer.getGuild().getMoney() < plugin.getGroup(sender).getEffectPrice()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughtmoney");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughmoney");
 			return true;
 		}
 
@@ -66,7 +66,7 @@ public class CommandGuildEffect implements CommandExecutor {
 
 		PotionEffect effect = effectType.createEffect(duration, 1);
 
-		Player player = plugin.senderToPlayer(sender);
+		Player player = (Player)sender;
 
 		//add effect
 		if(player.hasPotionEffect(effectType)) {

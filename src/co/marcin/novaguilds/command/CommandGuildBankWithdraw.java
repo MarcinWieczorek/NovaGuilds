@@ -31,7 +31,7 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 			return true;
 		}
 
-		Player player = plugin.senderToPlayer(sender);
+		Player player = (Player)sender;
 		
 		if(sender.hasPermission("novaguilds.guild.bank.withdraw")) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
@@ -54,7 +54,7 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 							plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.success",vars);
 						}
 						else {
-							plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenought");
+							plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenough");
 						}
 					}
 					else {
@@ -70,7 +70,7 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 		}
 		return true;
 	}

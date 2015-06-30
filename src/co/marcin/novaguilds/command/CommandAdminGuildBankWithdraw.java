@@ -25,7 +25,7 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.bank.withdraw")) { //no permissions
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
@@ -43,8 +43,8 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 
 		double money = Double.parseDouble(money_str);
 
-		if(guild.getMoney() < money) { //guild has not enought money
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenought");
+		if(guild.getMoney() < money) { //guild has not enough money
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenough");
 			return true;
 		}
 

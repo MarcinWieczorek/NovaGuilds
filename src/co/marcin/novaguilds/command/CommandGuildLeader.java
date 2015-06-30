@@ -26,15 +26,12 @@ public class CommandGuildLeader implements CommandExecutor {
 				if(nPlayer.hasGuild()) {
 					NovaGuild guild = nPlayer.getGuild();
 					
-					if(guild.getLeaderName().equals(sender.getName())) {
+					if(guild.getLeader().getName().equals(sender.getName())) {
 						if(!newLeader.getName().equals(sender.getName())) {
 							if(newLeader.hasGuild() && newLeader.getGuild().getName().equals(guild.getName())) {
 								//set guild leader
-								guild.setLeaderName(newLeader.getName());
+								guild.setLeader(newLeader);
 								plugin.getGuildManager().saveGuild(guild);
-
-								newLeader.setLeader(true);
-								nPlayer.setLeader(false);
 								
 								HashMap<String,String> vars = new HashMap<>();
 								vars.put("PLAYERNAME",newLeader.getName());

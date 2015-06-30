@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import java.util.HashMap;
 
+import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.event.GuildRemoveEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,7 +33,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 			if(nPlayer.isLeader()) { //All passed
 				//fire event
 				GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
-				guildRemoveEvent.setCause(GuildRemoveEvent.AbandonCause.PLAYER);
+				guildRemoveEvent.setCause(AbandonCause.PLAYER);
 				plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
 
 				//if event is not cancelled

@@ -20,7 +20,7 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.settag")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 

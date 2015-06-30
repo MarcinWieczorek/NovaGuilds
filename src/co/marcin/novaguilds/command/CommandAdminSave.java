@@ -44,7 +44,7 @@ public class CommandAdminSave implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 		}
 		return true;
 	}

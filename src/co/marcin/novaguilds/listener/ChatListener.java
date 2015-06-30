@@ -25,15 +25,15 @@ public class ChatListener implements Listener {
 		
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
-		NovaGuild guild = nPlayer.getGuild();
 		
 		String tag = "";
 		String rank = "";
 
 		if(nPlayer.hasGuild()) {
 			tag = plugin.getConfig().getString("guild.tag");
+			NovaGuild guild = nPlayer.getGuild();
 			
-			if(guild.getLeaderName().equalsIgnoreCase(player.getName())) {
+			if(guild.getLeader().getName().equalsIgnoreCase(player.getName())) {
 				rank = StringUtils.fixColors(plugin.getMessageManager().getMessagesString("chat.guildinfo.leaderprefix"));
 			}
 			
@@ -82,6 +82,7 @@ public class ChatListener implements Listener {
 					}
 
 					event.setCancelled(true);
+					plugin.getServer().getConsoleSender().sendMessage(format+msg);
 				}
 			}
 			else if(msg.startsWith(prefixChatGuild)) { //guild chat
@@ -99,6 +100,7 @@ public class ChatListener implements Listener {
 					}
 
 					event.setCancelled(true);
+					plugin.getServer().getConsoleSender().sendMessage(format+msg);
 				}
 			}
 			else if(player.hasPermission("novaguilds.chat.notag")) {

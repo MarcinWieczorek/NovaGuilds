@@ -60,7 +60,7 @@ public class CommandAdminReload implements CommandExecutor {
 			return true;
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 		}
 		return true;
 	}

@@ -19,7 +19,7 @@ public class CommandGuildInvite implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.invite")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
@@ -71,7 +71,7 @@ public class CommandGuildInvite implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.sendUsageMessage(sender, "guild.invite");
+			plugin.getMessageManager().sendUsageMessage(sender, "guild.invite");
 		}
 		return true;
 	}

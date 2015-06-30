@@ -123,7 +123,7 @@ public class PlayerManager {
 
 			//TODO load only 1 player instead of all
 			//loadPlayers();
-			players.put(player.getName().toLowerCase(),new NovaPlayer(player));
+			players.put(player.getName().toLowerCase(),NovaPlayer.fromPlayer(player));
 		}
 		catch (SQLException e) {
 			plugin.info("SQLException: "+e.getMessage());
@@ -167,7 +167,6 @@ public class PlayerManager {
 			if(player != null) {
 				if(player.isOnline()) {
 					nPlayer.setPlayer(player);
-					nPlayer.setOnline(true);
 				}
 			}
 
@@ -182,10 +181,6 @@ public class PlayerManager {
 
 			UUID uuid = UUID.fromString(res.getString("uuid"));
 
-			if(guildname.isEmpty()) {
-				nPlayer.setHasGuild(false);
-			}
-
 			nPlayer.setUUID(uuid);
 			nPlayer.setName(res.getString("name"));
 			nPlayer.setInvitedTo(invitedToList);
@@ -196,10 +191,6 @@ public class PlayerManager {
 				if(guild != null) {
 					guild.addPlayer(nPlayer);
 					nPlayer.setGuild(guild);
-
-					if(guild.isLeader(nPlayer.getName())) {
-						nPlayer.setLeader(true);
-					}
 				}
 			}
 

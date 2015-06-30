@@ -102,7 +102,7 @@ public class CommandGuildAlly implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 		}
 		
 		return true;

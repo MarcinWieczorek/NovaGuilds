@@ -19,7 +19,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(!sender.hasPermission("novaguilds.admin.guild.leader")) {
-            plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+            plugin.getMessageManager().sendNoPermissionsMessage(sender);
             return true;
         }
 
@@ -53,16 +53,14 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
             return true;
         }
 
-        if(guild.getLeaderName().equalsIgnoreCase(nPlayer.getName())) { //already leader
+        if(guild.getLeader().getName().equalsIgnoreCase(nPlayer.getName())) { //already leader
             plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setleader.alreadyleader",vars);
             return true;
         }
 
-        Player oldleader = plugin.getServer().getPlayer(guild.getLeaderName());
+        Player oldleader = plugin.getServer().getPlayer(guild.getLeader().getName());
 
-        guild.setLeaderName(nPlayer.getName());
-        nPlayer.setLeader(true);
-        plugin.getPlayerManager().getPlayerByPlayer(oldleader).setLeader(false);
+        guild.setLeader(nPlayer);
 
         if(oldleader != null) {
             plugin.tagUtils.updatePrefix(oldleader);

@@ -8,6 +8,7 @@ chat:
  delayedteleport: "Zostaniesz teleportowany w ciagu &c{DELAY} &3sekund"
  delayedtpmoved: "Ruszyles sie, teleportacja anulowana."
  erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
+ update: "&4There is an update available! &6https://www.spigotmc.org/resources/novaguilds.8135/"
 
  admin:
   guild:
@@ -19,6 +20,13 @@ chat:
      hasnext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} -- &c/nga g list {NEXT} &7--"
      nonext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} --"
     item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Lider: &c{PLAYERNAME} &3({PLAYERSCOUNT} graczy)"
+   inactive:
+    updated: "All guild's inactive time updated. (&c{COUNT} &3guilds)"
+    list:
+     header: "Most inactive guilds"
+     item: " &2- &a{GUILDNAME} &3active {AGONOW}"
+     ago: "&c{INACTIVE}&3ago"
+     now: "&cnow"
    bank:
     paid: "Wplaciles &c${MONEY} &3do banku gildii &a{GUILDNAME}&3"
     withdrew: "Zabrales &c${MONEY} &3z banku &a{GUILDNAME}"
@@ -69,6 +77,7 @@ chat:
  usage:
   nga:
    guild:
+    setpoints: "&5* &7/nga &cg &6<guild> &cpoints &6<points> &2- &3set points"
     abandon: "&5* &7/nga &cg &6abandon &c<gildia> &2- &3porzuc gildie"
     lives: "&5* &7/nga &cg &6lives &c<ilosc> &2- &3ustaw zycia"
     bank:
@@ -171,14 +180,16 @@ chat:
   notinguild: "Nie masz gildii!"
   abandoned: "Porzuciles swoja gildie"
   notleader: "Nie jestes liderem"
-  notenoughtmoney: "W banku gildii nie ma wystarczajacej ilosci pieniedzy"
+  notenoughmoney: "W banku gildii nie ma wystarczajacej ilosci pieniedzy"
   setspawnpoint: "Ustawiono dom gildii!"
+  sethomeoutside: "You cannot set home outside your guild's region"
   tp: "Teleportowano do domu gildii"
   hasregionalready: "Twoja gildia ma juz region. Usun lub edytuj istniejacy."
   guildatlocsp: "Nie mozesz ustawic domu na terenie innej gildii"
   joined: "Dolaczyles do gildii!"
   explosionatregion: "Na terenie Twojej gildii nastapil wybuch!"
   kickyourself: "Nie mozesz wyrzucic siebie z gildii!"
+  tooclose: "Jestes zbyt blisko innej gildii"
 
   war:
    ally: "Najpierw zakoncz sojusz z ta gildia"
@@ -204,11 +215,11 @@ chat:
    enteramount: "Wprowadz ilosc. &c/g pay &c&l<amount>"
    pay:
     paid: "Wplaciles &2$&c{AMOUNT} &3do banku gildii."
-    notenought: "Nie masz wystarczajacej ilosci pieniedzy"
+    notenough: "Nie masz wystarczajacej ilosci pieniedzy"
    withdraw:
     notleader: "Tylko liderzy moga wyplacac pieniadze"
     success: "Zabrales &2$&c{AMOUNT} &3z banku gildii."
-    notenought: "Nie ma wystarczajacej ilosci pieniedzy w banku gildii."
+    notenough: "Nie ma wystarczajacej ilosci pieniedzy w banku gildii."
 
  player:
   entername: "Wprowadz nazwe gracza"
@@ -260,7 +271,7 @@ chat:
 
 
  createguild:
-  notenoughtmoney: "Nie masz wystarczajacej ilosci pieniedzy"
+  notenoughmoney: "Nie masz wystarczajacej ilosci pieniedzy"
   itemlist: "&c{AMOUNT} {ITEMNAME}"
   itemlistsep: "&f, "
   noitems: "Nie masz wymaganych przedmiotow!"
@@ -270,6 +281,7 @@ chat:
   success: "Gildia stworzona"
   regionhere: "Nie mozesz stworzyc gildii w miejscu gdzie istnieje inna"
   tooclosespawn: "Musisz odejsc {DISTANCE} blokow od spawnu"
+  notallowedstring: "String you entered contains not allowed chars."
   tag:
    tooshort: "Tag jest za krotki!"
    toolong: "Tag jest za dlugi!"
@@ -377,3 +389,5 @@ book:
 inventory:
  requireditems:
   name: Wymagane przedmioty
+ ggui:
+  name: Guild's Menu

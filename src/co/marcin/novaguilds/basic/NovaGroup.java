@@ -48,7 +48,6 @@ public class NovaGroup {
 			}
 
 			Material material = Material.getMaterial(idname.toUpperCase());
-			plugin.debug(material.toString());
 
 			if(material != null) {
 				stack = new ItemStack(material, amount, data);

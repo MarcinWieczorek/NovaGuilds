@@ -4,6 +4,8 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.enums.AbandonCause;
+import co.marcin.novaguilds.event.GuildRemoveEvent;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -55,19 +57,26 @@ public class RunnableRaid implements Runnable {
 				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.attackerwon", vars);
 				plugin.resetWarBar(guild);
 				plugin.resetWarBar(nPlayer.getGuild());
+				plugin.guildRaids.remove(guild);
 				guild.takeLive();
 				guild.updateTimeRest();
 				guild.updateLostLive();
-				plugin.guildRaids.remove(guild);
 				guild.isNotRaid();
 
 				if(guild.getLives() == 0) {
-					vars.put("GUILDNAME", raid.getGuildDefender().getName());
-					plugin.getMessageManager().broadcastMessage("broadcast.guild.destroyed", vars);
+					//fire event
+					GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
+					guildRemoveEvent.setCause(AbandonCause.RAID);
+					plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
 
-					NovaGuild guildDefender = raid.getGuildDefender();
-					guildDefender.setLives(1);
-					plugin.getGuildManager().deleteGuild(guildDefender);
+					//if event is not cancelled
+					if(!guildRemoveEvent.isCancelled()) {
+						vars.put("GUILDNAME", raid.getGuildDefender().getName());
+						plugin.getMessageManager().broadcastMessage("broadcast.guild.destroyed", vars);
+
+						NovaGuild guildDefender = raid.getGuildDefender();
+						plugin.getGuildManager().deleteGuild(guildDefender);
+					}
 				}
 			}
 		}

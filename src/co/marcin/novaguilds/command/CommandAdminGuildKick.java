@@ -19,7 +19,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.kick")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 		
@@ -48,7 +48,6 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		
 		//all passed
 		nPlayerKick.setGuild(null);
-		nPlayerKick.setHasGuild(false);
 		
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());

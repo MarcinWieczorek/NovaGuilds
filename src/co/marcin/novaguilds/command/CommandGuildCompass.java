@@ -16,7 +16,7 @@ public class CommandGuildCompass implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.compass")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
@@ -25,7 +25,7 @@ public class CommandGuildCompass implements CommandExecutor {
 			return true;
 		}
 
-		Player player = plugin.senderToPlayer(sender);
+		Player player = (Player)sender;
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
 
 		if(!nPlayer.hasGuild()) {

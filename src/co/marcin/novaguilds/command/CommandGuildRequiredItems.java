@@ -1,7 +1,6 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,7 +28,7 @@ public class CommandGuildRequiredItems implements CommandExecutor {
 			return true;
 		}
 
-		Player player = plugin.senderToPlayer(sender);
+		Player player = (Player)sender;
 
 		List<ItemStack> requiredItems = plugin.getGroup(sender).getCreateGuildItems();
 		int size = 9 * Math.round(requiredItems.size() / 9);

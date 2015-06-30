@@ -28,7 +28,7 @@ public class CommandGuildLeave implements CommandExecutor {
 		
 		if(nPlayer.hasGuild()) {
 			NovaGuild guild = nPlayer.getGuild();
-			String leaderName = guild.getLeaderName();
+			String leaderName = guild.getLeader().getName();
 			
 			if(leaderName.equals(sender.getName())) {
 				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.isleader");
@@ -36,7 +36,6 @@ public class CommandGuildLeave implements CommandExecutor {
 			}
 			
 			nPlayer.setGuild(null);
-			nPlayer.setHasGuild(false);
 			plugin.getPlayerManager().updatePlayer(nPlayer);
 			guild.removePlayer(nPlayer);
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.left");

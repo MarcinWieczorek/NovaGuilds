@@ -35,6 +35,7 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 
 				if(home != null) {
 					Player player;
+					boolean other = false;
 
 					HashMap<String,String> vars = new HashMap<>();
 					vars.put("GUILDNAME",guild.getName());
@@ -44,6 +45,7 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 
 						if(plugin.getPlayerManager().exists(playername)) {
 							player = plugin.getServer().getPlayer(playername);
+							other = true;
 							if(player == null) {
 								plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notonline");
 								return true;
@@ -55,17 +57,18 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 						}
 					}
 					else {
-						player = plugin.senderToPlayer(sender);
+						player = (Player)sender;
 					}
 
-					if(player != null) {
-						player.teleport(home);
+					if(other) {
 						vars.put("PLAYERNAME",player.getName());
 						plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleportedother", vars);
 					}
 					else {
 						plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
 					}
+
+					player.teleport(home);
 				}
 			}
 			else {
@@ -73,7 +76,7 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 		}
 		return true;
 	}

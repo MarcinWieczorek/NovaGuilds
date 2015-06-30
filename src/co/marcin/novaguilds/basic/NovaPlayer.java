@@ -7,17 +7,14 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class NovaPlayer {
+public class NovaPlayer implements Cloneable {
 	private Player player;
 	private NovaGuild guild;
-	private boolean leader = false;
-	private boolean hasGuild = false;
 	private String name;
 	private UUID uuid;
 	private List<String> invitedTo = new ArrayList<>();
 	private boolean regionMode = false;
 	private boolean bypass = false;
-	private boolean isonline = false;
 	private NovaRegion selectedRegion;
 	private NovaRegion atRegion;
 	private NovaRaid partRaid;
@@ -25,16 +22,15 @@ public class NovaPlayer {
 	private boolean resizing = false;
 	private int resizingCorner = 0;
 
-	public NovaPlayer(Player player) {
+	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
-			setUUID(player.getUniqueId());
-			setName(player.getName());
-			setPlayer(player);
+			NovaPlayer nPlayer = new NovaPlayer();
+			nPlayer.setUUID(player.getUniqueId());
+			nPlayer.setName(player.getName());
+			nPlayer.setPlayer(player);
+			return nPlayer;
 		}
-	}
-
-	public NovaPlayer() {
-
+		return null;
 	}
 
 	//Region selecting
@@ -50,7 +46,7 @@ public class NovaPlayer {
 	}
 	
 	public boolean isLeader() {
-		return leader;
+		return hasGuild() && getGuild().isLeader(this);
 	}
 	
 	public String getName() {
@@ -99,34 +95,15 @@ public class NovaPlayer {
 	//setters
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
-		
-		if(guild == null) {
-			hasGuild = false;
-			changed = true;
-			return;
-		}
-
-		if(guild.isLeader(this)) {
-			leader = true;
-		}
-		
-		hasGuild = true;
 		changed = true;
 	}
 
 	public void setPlayer(Player p) {
 		player = p;
-
-		setOnline(!(player == null));
 	}
 
 	public void setName(String n) {
 		name = n;
-		changed = true;
-	}
-	
-	public void setHasGuild(boolean v) {
-		hasGuild = v;
 		changed = true;
 	}
 	
@@ -151,14 +128,6 @@ public class NovaPlayer {
 	public void setSelectedRegion(NovaRegion region) {
 		selectedRegion = region;
 	}
-	
-	public void setOnline(boolean b) {
-		isonline = b;
-	}
-
-	public void setLeader(boolean b) {
-		leader = b;
-	}
 
 	public void setAtRegion(NovaRegion region) {
 		atRegion = region;
@@ -178,11 +147,11 @@ public class NovaPlayer {
 	
 	//check stuff
 	public boolean hasGuild() {
-		return hasGuild;
+		return getGuild() != null;
 	}
 	
 	public boolean isOnline() {
-		return isonline;
+		return player != null;
 	}
 
 	public boolean isResizing() {

@@ -21,7 +21,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.region.delete")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
@@ -74,16 +74,19 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		Location location = region.getCorner(0);
 		location.setY(location.getWorld().getHighestBlockYAt(location));
 
-		Player player = plugin.senderToPlayer(sender);
-		String othermsg = "";
+		Player player;
+
 		if(nPlayerOther != null) {
 			player = nPlayerOther.getPlayer();
 			plugin.getMessageManager().sendMessagesMsg(player,"chat.admin.region.teleport.notifyother",vars);
-			othermsg = "other";
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.teleport.successother",vars);
+		}
+		else {
+			player = (Player) sender;
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.teleport.success",vars);
 		}
 
 		player.teleport(location);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.teleport.success"+othermsg,vars);
 		return true;
 	}
 }

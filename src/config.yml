@@ -87,6 +87,8 @@ killing:
  moneyforrevenge: 10%
 
 guild:
+ #time to remove inactive guilds (minutes) (default 7 days)
+ inactivetime: 604800
  tag: "&a{RANK}{TAG} &r"
  homefloor: obsidian
  startpoints: 1000
@@ -94,6 +96,7 @@ guild:
  startlives: 2
  #distance from spawn
  fromspawn: 100
+ allowedchars: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
  settings:
   tag:
    #colored tags
@@ -154,6 +157,7 @@ region:
  maxsize: 100
  adminautosize: 10
  borderparticles: true
+ mindistance: 20
  tool:
   item: STICK
 

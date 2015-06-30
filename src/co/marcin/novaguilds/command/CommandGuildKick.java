@@ -19,7 +19,7 @@ public class CommandGuildKick  implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.kick")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 		
@@ -32,7 +32,7 @@ public class CommandGuildKick  implements CommandExecutor {
 		
 		NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayer);
 		
-		if(!guild.getLeaderName().equalsIgnoreCase(sender.getName())) {
+		if(!guild.getLeader().getName().equalsIgnoreCase(sender.getName())) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
 			return true;
 		}
@@ -66,7 +66,6 @@ public class CommandGuildKick  implements CommandExecutor {
 		
 		//all passed
 		nPlayerKick.setGuild(null);
-		nPlayerKick.setHasGuild(false);
 
 		nPlayer.getGuild().removePlayer(nPlayerKick);
 		

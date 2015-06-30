@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import java.util.HashMap;
 
+import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.event.GuildRemoveEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,14 +22,14 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.abandon")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
 		if(guild != null) {
 			//fire event
 			GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
-			guildRemoveEvent.setCause(GuildRemoveEvent.AbandonCause.ADMIN);
+			guildRemoveEvent.setCause(AbandonCause.ADMIN);
 			plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
 
 			//if event is not cancelled

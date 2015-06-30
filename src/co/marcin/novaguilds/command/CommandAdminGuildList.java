@@ -21,7 +21,7 @@ public class CommandAdminGuildList implements CommandExecutor {
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.list")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
@@ -77,11 +77,14 @@ public class CommandAdminGuildList implements CommandExecutor {
 			}
 
 			if(display) {
+				String inactiveString = StringUtils.secondsToString(NovaGuilds.systemSeconds()-guild.getInactiveTime());
+
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
-				vars.put("PLAYERNAME", guild.getLeaderName());
+				vars.put("PLAYERNAME", guild.getLeader().getName());
 				vars.put("TAG", guild.getTag());
 				vars.put("PLAYERSCOUNT", guild.getPlayers().size()+"");
+				vars.put("INACTIVE",inactiveString);
 
 				String rowmsg = StringUtils.replaceMap(rowformat,vars);
 				sender.sendMessage(StringUtils.fixColors(rowmsg));

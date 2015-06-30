@@ -20,7 +20,7 @@ public class CommandGuildWar implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.war")) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 

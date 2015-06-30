@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -50,6 +51,20 @@ public final class StringUtils {
 		}
 		
 		return ChatColor.translateAlternateColorCodes('&', msg);
+	}
+
+	public static String unTranslateAlternateColorCodes(String msg) {
+		char altColorChar = ChatColor.COLOR_CHAR;
+
+		char[] b = msg.toCharArray();
+		for (int i = 0; i < b.length - 1; i++) {
+			if (b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i+1]) > -1) {
+				b[i] = '&';
+				b[i+1] = Character.toLowerCase(b[i+1]);
+			}
+		}
+
+		return new String(b);
 	}
 	
 	public static String removeColors(String msg) {
@@ -220,6 +235,10 @@ public final class StringUtils {
 	}
 
 	public static String secondsToString(long lseconds) {
+		return secondsToString(lseconds, TimeUnit.SECONDS);
+	}
+
+	public static String secondsToString(long lseconds, TimeUnit unit) {
 		int year = 31536000;
 		int day = 86400;
 		int hour = 3600;
@@ -289,6 +308,19 @@ public final class StringUtils {
 			}
 
 			str_seconds = seconds + " "+formSecond+" ";
+		}
+
+		if(unit == TimeUnit.DAYS) {
+			str_hours="";
+			str_minutes="";
+			str_seconds="";
+		}
+		else if(unit == TimeUnit.HOURS) {
+			str_minutes="";
+			str_seconds="";
+		}
+		else if(unit == TimeUnit.MINUTES) {
+			str_seconds="";
 		}
 
 		return str_years + str_days + str_hours + str_minutes + str_seconds;

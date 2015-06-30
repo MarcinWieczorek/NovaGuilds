@@ -33,7 +33,7 @@ public class TagUtils {
 			tag = StringUtils.replace(tag, "{TAG}", guildTag);
 
 			if(plugin.getConfig().getBoolean("tabapi.rankprefix")) {
-				if(nPlayer.getGuild().getLeaderName().equalsIgnoreCase(namedplayer.getName())) {
+				if(nPlayer.getGuild().getLeader().getName().equalsIgnoreCase(namedplayer.getName())) {
 					rank = plugin.getMessageManager().getMessages().getString("chat.guildinfo.leaderprefix");
 				}
 			}
@@ -69,6 +69,7 @@ public class TagUtils {
 		return StringUtils.fixColors(tag);
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void setPrefix(OfflinePlayer player, String tag, Player p) {
 		Scoreboard board = p.getScoreboard();
 		Team team;
@@ -84,7 +85,7 @@ public class TagUtils {
 
 	public void updatePrefix(Player p) {
 		for(Player of : Bukkit.getOnlinePlayers()) {
-				setPrefix(of, getTag(of), p);
+			setPrefix(of, getTag(of), p);
 		}
 	}
 

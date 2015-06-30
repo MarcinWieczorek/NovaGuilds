@@ -132,6 +132,18 @@ public class MessageManager {
 		sendMessagesMsg(player, "chat.delayedteleport", vars);
 	}
 
+	public void sendNoPermissionsMessage(CommandSender sender) {
+		sendMessagesMsg(sender, "chat.nopermissions");
+	}
+
+	public void sendNoPermissionsMessage(Player player) {
+		sendMessagesMsg(player,"chat.nopermissions");
+	}
+
+	public void sendUsageMessage(CommandSender sender, String path) {
+		sender.sendMessage(StringUtils.fixColors(getMessagesString("chat.usage." + path)));
+	}
+
 	public String getLang() {
 		return lang;
 	}

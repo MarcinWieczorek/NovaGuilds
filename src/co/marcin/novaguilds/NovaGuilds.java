@@ -3,7 +3,6 @@ package co.marcin.novaguilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.command.*;
 import co.marcin.novaguilds.listener.*;
 import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
@@ -49,6 +48,7 @@ public class NovaGuilds extends JavaPlugin {
 	* kolegom z pracy, i nie wódŸ nas na wycieki pamiêci, ale nas zbaw od Skript.
 	* Enter. ~Bukkit.PL
 	* */
+	private static NovaGuilds inst;
 	private static final Logger log = Logger.getLogger("Minecraft");
 	private static final String logprefix = "[NovaGuilds] ";
 	public final PluginDescriptionFile pdf = this.getDescription();
@@ -70,17 +70,15 @@ public class NovaGuilds extends JavaPlugin {
 	public boolean useHolographicDisplays;
 	private boolean useBarAPI;
 	private boolean useMySQL;
-	
-	//public final HashMap<String,NovaPlayer> players = new HashMap<>();
-	//public final HashMap<String,NovaGuild> guilds = new HashMap<>();
-	//public final HashMap<String,NovaRegion> regions = new HashMap<>();
-	public final HashMap<String,NovaGroup> groups = new HashMap<>();
+
+	private final HashMap<String,NovaGroup> groups = new HashMap<>();
 	
 	private final GuildManager guildManager = new GuildManager(this);
 	private final RegionManager regionManager = new RegionManager(this);
 	private final PlayerManager playerManager = new PlayerManager(this);
-	private final CustomCommandManager commandManager = new CustomCommandManager(this);
+	private CustomCommandManager commandManager;
 	private final MessageManager messageManager = new MessageManager(this);
+	private ConfigManager configManager;
 
 	public long timeRest;
 	public int savePeriod; //minutes
@@ -88,6 +86,7 @@ public class NovaGuilds extends JavaPlugin {
 	public long liveRegenerationTime; //minutes
 
 	public TagUtils tagUtils;
+	public boolean updateAvailable = false;
 
 	//TODO: test scheduler
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
@@ -100,6 +99,7 @@ public class NovaGuilds extends JavaPlugin {
 	public double distanceFromSpawn;
 
 	public void onEnable() {
+		inst = this;
 		saveDefaultConfig();
 		sqlp = getConfig().getString("mysql.prefix");
 		savePeriod = getConfig().getInt("saveperiod");
@@ -110,7 +110,6 @@ public class NovaGuilds extends JavaPlugin {
 
 		String liveRegenerationString = getConfig().getString("liveregenerationtime");
 		liveRegenerationTime = StringUtils.StringToSeconds(liveRegenerationString);
-		//TODO
 
 		useHolographicDisplays = getConfig().getBoolean("holographicdisplays.enabled");
 		useBarAPI = getConfig().getBoolean("barapi.enabled");
@@ -120,6 +119,10 @@ public class NovaGuilds extends JavaPlugin {
 		//load groups
 		loadGroups();
 		info("Groups loaded");
+
+		//managers
+		commandManager = new CustomCommandManager(this);
+		configManager = new ConfigManager(this);
 
 		tagUtils = new TagUtils(this);
 
@@ -197,23 +200,9 @@ public class NovaGuilds extends JavaPlugin {
         }
         else {
         	info("You should update your plugin to #"+latest+"!");
+			updateAvailable = true;
         }
-		
-		//command executors
-		getCommand("novaguilds").setExecutor(new CommandNovaGuilds(this));
-		getCommand("ng").setExecutor(new CommandNovaGuilds(this));
-		getCommand("nga").setExecutor(new CommandAdmin(this));
-		
-		getCommand("abandon").setExecutor(new CommandGuildAbandon(this));
-		getCommand("guild").setExecutor(new CommandGuild(this));
-		getCommand("gi").setExecutor(new CommandGuildInfo(this));
-		getCommand("create").setExecutor(new CommandGuildCreate(this));
-		getCommand("nghome").setExecutor(new CommandGuildHome(this));
-		getCommand("join").setExecutor(new CommandGuildJoin(this));
-		getCommand("leave").setExecutor(new CommandGuildLeave(this));
-		
-		getCommand("invite").setExecutor(new CommandGuildInvite(this));
-		
+
 		try {
 			if(useMySQL) {
 				MySQL = new MySQL(this, getConfig().getString("mysql.host") , getConfig().getString("mysql.port"), getConfig().getString("mysql.database"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"));
@@ -263,6 +252,10 @@ public class NovaGuilds extends JavaPlugin {
 			info("Guilds data loaded");
 			getPlayerManager().loadPlayers();
 			info("Players data loaded");
+
+			info("Post checks running");
+			getGuildManager().postCheckGuilds();
+			getRegionManager().postCheckRegions();
 			
 			//Listeners
 			new LoginListener(this);
@@ -270,13 +263,11 @@ public class NovaGuilds extends JavaPlugin {
 			new RegionInteractListener(this);
 			new MoveListener(this);
 			new ChatListener(this);
-
 			new PvpListener(this);
 			new DeathListener(this);
-
 			new InventoryListener(this);
 
-			//Tablist update
+			//Tablist/tag update
 			tagUtils.refreshAll();
 			
 			//save scheduler
@@ -343,6 +334,10 @@ public class NovaGuilds extends JavaPlugin {
 		
 		info("#"+pdf.getVersion()+" Disabled");
 	}
+
+	public static NovaGuilds getInst() {
+		return inst;
+	}
 	
 	public void mysqlReload() {
 		if(!useMySQL) return;
@@ -395,6 +390,10 @@ public class NovaGuilds extends JavaPlugin {
 
 	public MessageManager getMessageManager() {
 		return messageManager;
+	}
+
+	public ConfigManager getConfigManager() {
+		return configManager;
 	}
 
 	//Vault economy
@@ -469,7 +468,6 @@ public class NovaGuilds extends JavaPlugin {
 				Metrics.Graph weaponsUsedGraph = metrics.createGraph("Guilds and users");
 
 				weaponsUsedGraph.addPlotter(new Metrics.Plotter("Guilds") {
-
 					@Override
 					public int getValue() {
 						return getGuildManager().getGuilds().size();
@@ -478,7 +476,6 @@ public class NovaGuilds extends JavaPlugin {
 				});
 
 				weaponsUsedGraph.addPlotter(new Metrics.Plotter("Users") {
-
 					@Override
 					public int getValue() {
 						return getPlayerManager().getPlayers().size();
@@ -498,19 +495,16 @@ public class NovaGuilds extends JavaPlugin {
 		}
 	}
 
-	public void sendUsageMessage(CommandSender sender, String path) {
-		sender.sendMessage(StringUtils.fixColors(getMessageManager().getMessagesString("chat.usage." + path)));
-	}
-
 	public void setWarBar(NovaGuild guild, float percent, NovaGuild defender) {
-		if(useBarAPI) {
-			String msg = getMessageManager().getMessagesString("barapi.warprogress");
-			msg = StringUtils.replace(msg, "{DEFENDER}", defender.getName());
+		String msg = getMessageManager().getMessagesString("barapi.warprogress");
+		msg = StringUtils.replace(msg, "{DEFENDER}", defender.getName());
 
-			for(NovaPlayer nPlayer : guild.getPlayers()) {
-				if(nPlayer.isOnline()) {
-					BarAPI.setMessage(nPlayer.getPlayer(), StringUtils.fixColors(msg), percent);
-				}
+		for(Player player : guild.getOnlinePlayers()) {
+			if(useBarAPI) {
+				BarAPI.setMessage(player, StringUtils.fixColors(msg), percent);
+			}
+			else {
+				getMessageManager().sendPrefixMessage(player,msg);
 			}
 		}
 	}
@@ -596,6 +590,17 @@ public class NovaGuilds extends JavaPlugin {
 		if(getGroup(player).getTeleportDelay()>0) {
 			getMessageManager().sendDelayedTeleportMessage(player);
 		}
+	}
+
+	public boolean isStringAllowed(String string) {
+		String allowed = getConfig().getString("guild.allowedchars");
+		for(int i=0;i<string.length();i++) {
+			if(allowed.indexOf(string.charAt(i)) == -1) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	//Utils

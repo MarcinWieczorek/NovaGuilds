@@ -37,10 +37,16 @@ public class LoginListener implements Listener {
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
 		nPlayer.setPlayer(player);
-		nPlayer.setOnline(true);
+
+		if(plugin.updateAvailable && player.hasPermission("novaguilds.admin.updateavailable")) {
+			//TODO version message
+		}
 
 		//adding to raid TODO: not tested
 		if(nPlayer.hasGuild()) {
+			//Update his guild's inactive time
+			nPlayer.getGuild().updateInactiveTime();
+
 			NovaRegion rgAtLocation = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
 
 			if(rgAtLocation != null) {
@@ -63,7 +69,6 @@ public class LoginListener implements Listener {
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(event.getPlayer());
-		nPlayer.setOnline(false);
 		nPlayer.setPlayer(null);
 
 		//remove player from raid

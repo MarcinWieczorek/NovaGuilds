@@ -19,7 +19,7 @@ public class CommandAdminRegionList implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.region.list")) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.nopermissions");
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 		}
 
 		plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.list.header");
@@ -80,7 +80,7 @@ public class CommandAdminRegionList implements CommandExecutor {
 
 			if(display) {
 				HashMap<String,String> vars = new HashMap<>();
-				vars.put("GUILDNAME",region.getGuildName());
+				vars.put("GUILDNAME",region.getGuild().getName());
 				vars.put("X",region.getCorner(0).getBlockX()+"");
 				vars.put("Z",region.getCorner(0).getBlockZ()+"");
 

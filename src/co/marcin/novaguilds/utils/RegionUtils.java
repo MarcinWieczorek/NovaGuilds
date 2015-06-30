@@ -1,15 +1,11 @@
 package co.marcin.novaguilds.utils;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaRegion;
-import com.sun.prism.impl.packrect.Rect;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RegionUtils {
 	@SuppressWarnings("deprecation")
@@ -64,7 +60,7 @@ public class RegionUtils {
 		int[] z2 = new int[2];
 
 		Location[] c1 = new Location[2];
-		Location[] c2 = new Location[2];;
+		Location[] c2 = new Location[2];
 
 		c1[0] = region1.getCorner(0);
 		c1[1] = region1.getCorner(1);
@@ -123,7 +119,6 @@ public class RegionUtils {
 
 		Location[] c1 = new Location[2];
 		Location[] c2 = new Location[2];
-		;
 
 		c1[0] = region1.getCorner(0);
 		c1[1] = region1.getCorner(1);

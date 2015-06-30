@@ -4,19 +4,17 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityInteractEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -97,11 +95,11 @@ public class RegionInteractListener implements Listener {
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
 		List<String> denymobdamage = plugin.getConfig().getStringList("region.denymobdamage");
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getEntity().getLocation());
-		plugin.debug("EntityDamageByEntity "+event.getEntityType().name());
+		//plugin.debug("EntityDamageByEntity "+event.getEntityType().name());
 		
 		if(rgatploc != null) {
-			plugin.debug("There is a region");
-			plugin.debug(denymobdamage.toString());
+			//plugin.debug("There is a region");
+			//plugin.debug(denymobdamage.toString());
 			if(denymobdamage.contains(event.getEntity().getType().name())) {
 				DamageCause cause = event.getCause();
 				boolean playercaused = false;
@@ -142,13 +140,30 @@ public class RegionInteractListener implements Listener {
 			}
 		}
 	}
+
+	@EventHandler
+	public void onHangingBreakByEntityEvent(HangingBreakByEntityEvent event) {
+		Entity entity = event.getEntity();
+		plugin.debug("hanging break by entity event");
+
+		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(entity.getLocation());
+
+		if(rgatploc != null) {
+			plugin.debug("there is a region");
+
+			if(entity instanceof ItemFrame) {
+				plugin.debug("item frame destroyed");
+				event.setCancelled(true);
+			}
+		}
+	}
 	
 	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
-		plugin.debug("PlayerInteractEntityEvent - "+event.getRightClicked().getType().name());
+		//plugin.debug("PlayerInteractEntityEvent - "+event.getRightClicked().getType().name());
 		
 		if(rgatploc != null) {
 			plugin.debug("There is a region");
@@ -174,9 +189,7 @@ public class RegionInteractListener implements Listener {
 		NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(loc);
 		
 		if(rgatloc != null) {
-			NovaGuild guild = plugin.getGuildManager().getGuildByName(rgatloc.getGuildName());
-
-			plugin.getMessageManager().broadcastGuild(guild,"chat.guild.explosionatregion");
+			plugin.getMessageManager().broadcastGuild(rgatloc.getGuild(),"chat.guild.explosionatregion");
 		}
 	}
 

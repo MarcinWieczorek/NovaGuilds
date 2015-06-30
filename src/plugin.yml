@@ -20,6 +20,12 @@ commands:
       permission: novaguilds.guild.access
       permission-message: No permissions
       aliases: [g]
+   guildmenu:
+      description: NovaGuilds menu gui command
+      usage: /guildmenu
+      permission: novaguilds.guild.gui
+      permission-message: No permissions
+      aliases: [gg]
    gi:
       description: NovaGuilds Guild Info
       usage: /gi <tag>

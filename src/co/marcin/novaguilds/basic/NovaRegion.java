@@ -11,6 +11,10 @@ public class NovaRegion {
 	private World world;
 	private NovaGuild guild;
 	private boolean changed = false;
+
+	private int width = 0;
+	private int height = 0;
+	private int size = 0;
 	
 	public World getWorld() {
 		return world;
@@ -30,6 +34,31 @@ public class NovaRegion {
 
 	public Location getCorner(int index) {
 		return corners[index];
+	}
+
+	public int getWidth() {
+		if(width == 0) {
+			width = Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX());
+		}
+
+		return width;
+	}
+
+	public int getHeight() {
+		if(height == 0) {
+			height = Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ());
+		}
+
+		return height;
+	}
+
+	public int getDiagonal() {
+		if(size == 0) {
+			size = Math.round((int)Math.sqrt(getWidth()^2 + getHeight()^2));
+			//size = Math.round(Double.parseDouble(Math.sqrt(getWidth()^2 + getHeight()^2)+""));
+		}
+
+		return size;
 	}
 	
 	//setters

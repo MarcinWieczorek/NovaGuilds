@@ -3,16 +3,13 @@ package co.marcin.novaguilds.manager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
-import co.marcin.novaguilds.utils.RegionUtils;
+import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,11 +24,6 @@ public class RegionManager {
 	public RegionManager(NovaGuilds pl) {
 		plugin = pl;
 	}
-
-	public static final byte VALID_VALID = 0x01;
-	public static final byte VALID_TOOSMALL = 0x02;
-	public static final byte VALID_TOOBIG = 0x03;
-	public static final byte VALID_OVERLAPS = 0x04;
 
 	//getters
 	public NovaRegion getRegionByGuild(NovaGuild guild) {
@@ -61,10 +53,6 @@ public class RegionManager {
 	
 	public Collection<NovaRegion> getRegions() {
 		return regions.values();
-	}
-
-	public HashMap<String, NovaRegion> getRegionsMap() {
-		return regions;
 	}
 	
 	public void loadRegions() {
@@ -192,6 +180,28 @@ public class RegionManager {
 			plugin.info(e.getMessage());
 		}
 	}
+
+	public void postCheckRegions() {
+		Iterator<NovaRegion> iterator = getRegions().iterator();
+		int i = 0;
+
+		while(iterator.hasNext()) {
+			NovaRegion region = iterator.next();
+			boolean remove = false;
+
+			if(region.getGuild() == null) {
+				plugin.info("[RegionManager] ("+region.getGuildName()+") Guild is null");
+				remove = true;
+			}
+
+			if(remove) {
+				iterator.remove();
+				i++;
+			}
+		}
+
+		plugin.info("[RegionManager] PostCheck finished, unloaded "+i+" invalid regions");
+	}
 	
 //	public void highlightRegion(Player player, NovaRegion region) {
 //		Location loc1 = region.getCorner(0);
@@ -318,7 +328,7 @@ public class RegionManager {
 		}
 	}
 	
-	public byte checkRegionSelect(Location l1, Location l2) {
+	public RegionValidity checkRegionSelect(Location l1, Location l2) {
 		int x1 = StringUtils.fixX(l1.getBlockX());
 		int x2 = StringUtils.fixX(l2.getBlockX());
 		int z1 = StringUtils.fixX(l1.getBlockZ());
@@ -334,16 +344,19 @@ public class RegionManager {
 		plugin.debug(minsize+","+maxsize);
 
 		if(dif_x < minsize || dif_z < minsize) {
-			return VALID_TOOSMALL;
+			return RegionValidity.TOOSMALL;
 		}
 		else if(dif_x > maxsize || dif_z > maxsize) {
-			return VALID_TOOBIG;
+			return RegionValidity.TOOBIG;
 		}
 		else if(regionInsideArea(l1,l2) != null) {
-			return VALID_OVERLAPS;
+			return RegionValidity.OVERLAPS;
+		}
+		else if(!isFarEnough(l1,l2)) {
+			return RegionValidity.TOOCLOSE;
 		}
 		else {
-			return VALID_VALID;
+			return RegionValidity.VALID;
 		}
 	}
 	
@@ -481,5 +494,50 @@ public class RegionManager {
 		}
 
 		return blocks;
+	}
+
+	public boolean isFarEnough(Location l1, Location l2) {
+		int diagonal = 0;
+
+		int min = diagonal + plugin.getConfig().getInt("region.mindistance");
+		plugin.debug("min="+min);
+		Location centerLocation = getCenterLocation(l1,l2);
+		plugin.debug("center="+centerLocation.toString());
+
+		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
+			int diagonal2 = 0;
+			plugin.debug("checking guild "+guildLoop.getName());
+
+			if(guildLoop.hasRegion()) {
+				diagonal2 = guildLoop.getRegion().getDiagonal();
+				//spawnpointLocation = getCenterLocation(guildLoop.getRegion());
+			}
+
+			centerLocation.setY(guildLoop.getSpawnPoint().getY());
+			//RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"),centerLocation,Material.WOOL);
+			//RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"),spawnpointLocation,Material.GLOWSTONE);
+			double distance = centerLocation.distance(guildLoop.getSpawnPoint());
+			plugin.debug("distance="+distance);
+			if(distance < min+diagonal2) {
+				plugin.debug("too close "+guildLoop.getName());
+				return false;
+			}
+		}
+		return true;
+	}
+
+	//TODO fix
+	public static Location getCenterLocation(Location l1, Location l2) {
+		int width = Math.abs(l1.getBlockX()-l2.getBlockX());
+		int height = Math.abs(l1.getBlockZ()-l2.getBlockZ());
+
+		int newx = l1.getBlockX()<0 ? l1.getBlockX()+width/2 : l1.getBlockX()-width/2;
+		int newz = l1.getBlockZ()>0 ? l1.getBlockZ()+height/2 : l1.getBlockZ()-height/2;
+
+		return new Location(l1.getWorld(),newx,l1.getBlockY(),newz);
+	}
+
+	public static Location getCenterLocation(NovaRegion region) {
+		return getCenterLocation(region.getCorner(0),region.getCorner(1));
 	}
 }

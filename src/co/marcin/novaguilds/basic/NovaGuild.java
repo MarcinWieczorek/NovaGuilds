@@ -13,13 +13,15 @@ public class NovaGuild {
 	private String name;
 	private String tag;
 	private NovaRegion region;
-	private String leadername;
+	private String leaderName;
+	private NovaPlayer leader;
 	private Location spawnpoint;
 	private double money = 0;
 	private int points;
 	private NovaRaid raid;
 	private long timeRest;
 	private long lostLiveTime;
+	private long inactiveTime;
 	private int lives;
 	private boolean changed = false;
 
@@ -90,8 +92,12 @@ public class NovaGuild {
 		return list;
 	}
 
+	public NovaPlayer getLeader() {
+		return leader;
+	}
+
 	public String getLeaderName() {
-		return leadername;
+		return leaderName;
 	}
 
 	public Location getSpawnPoint() {
@@ -122,6 +128,10 @@ public class NovaGuild {
 		return lostLiveTime;
 	}
 
+	public long getInactiveTime() {
+		return inactiveTime;
+	}
+
 	//setters
 	public void setUnchanged() {
 		changed = false;
@@ -143,11 +153,16 @@ public class NovaGuild {
 
 	public void setRegion(NovaRegion r) {
 		region = r;
+
 		changed();
 	}
 
 	public void setLeaderName(String name) {
-		leadername = name;
+		leaderName = name;
+	}
+
+	public void setLeader(NovaPlayer nPlayer) {
+		leader = nPlayer;
 		changed();
 	}
 
@@ -221,8 +236,18 @@ public class NovaGuild {
 		changed();
 	}
 
+	public void updateInactiveTime() {
+		inactiveTime = NovaGuilds.systemSeconds();
+		changed();
+	}
+
 	public void setLostLiveTime(long t) {
 		lostLiveTime = t;
+		changed();
+	}
+
+	public void setInactiveTime(long time) {
+		inactiveTime = time;
 		changed();
 	}
 
@@ -258,16 +283,12 @@ public class NovaGuild {
 		return nowar_inv.contains(guild.getName().toLowerCase());
 	}
 
-	public boolean isLeader(String playername) {
-		return leadername.equals(playername);
-	}
-
 	public boolean isLeader(NovaPlayer nPlayer) {
-		return leadername.equalsIgnoreCase(nPlayer.getName());
+		return leader.equals(nPlayer);
 	}
 
 	public boolean isLeader(CommandSender sender) {
-		return leadername.equals(sender.getName());
+		return leader.getName().equals(sender.getName());
 	}
 
 	public boolean hasRegion() {
@@ -308,20 +329,20 @@ public class NovaGuild {
 	}
 
 	public void addPlayer(NovaPlayer nPlayer) {
-		boolean bugfix = true;
+		if(nPlayer == null) {
+			NovaGuilds.getInst().info("Tried to add null player to a guild! "+name);
+			return;
+		}
 
-		for(NovaPlayer nPlayerForEach : getPlayers()) {
-			if(nPlayerForEach.getName().equalsIgnoreCase(nPlayer.getName())) {
-				bugfix = false;
-				break;
+		if(!players.contains(nPlayer)) {
+			players.add(nPlayer);
+
+			if(getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
+				setLeader(nPlayer);
+				leaderName = null;
+				NovaGuilds.getInst().debug("Changed leader "+name+"="+nPlayer.getName());
 			}
 		}
-
-		if(!players.contains(nPlayer) && bugfix) {
-			players.add(nPlayer);
-		}
-
-		changed();
 	}
 
 	public void addMoney(double m) {

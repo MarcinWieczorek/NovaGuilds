@@ -60,7 +60,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			
 			int i;
 			List<NovaPlayer> gplayers = guild.getPlayers();
-			String leader = guild.getLeaderName();
+			String leader = guild.getLeader().getName();
 			String players = "";
 			String pcolor;
 			String leaderp; //String to insert to playername (leader prefix)
@@ -113,7 +113,7 @@ public class CommandGuildInfo implements CommandExecutor {
 
 			vars.put("RANK","");
 			vars.put("GUILDNAME", guild.getName());
-			vars.put("LEADER", guild.getLeaderName());
+			vars.put("LEADER", guild.getLeader().getName());
 			vars.put("TAG", guild.getTag());
 			vars.put("MONEY", guild.getMoney() + "");
 			vars.put("PLAYERS", players);
