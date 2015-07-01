@@ -1,5 +1,3 @@
-<h2>Modifed version of NovaGuilds by MarcinWieczorek.</h2>
-
 <img src="http://novaguilds.marcin.co/img/newlogo.png" /><br/><br/>
 
 NovaGuilds is my own guilds plugin, still in development, but I want to hear your opinions and ideas.<br/>
