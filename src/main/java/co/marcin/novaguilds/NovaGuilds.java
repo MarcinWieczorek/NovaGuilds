@@ -42,10 +42,10 @@ import java.util.logging.Logger;
 
 public class NovaGuilds extends JavaPlugin {
 	/*
-	* Bukkicie nasz, któryœ jest w javie, œwiêæ siê metody Twoje, przyjdŸ repo Twoje,
-	* b¹dŸ kod Twój jako w gicie tak i w mavenie, stacktrace naszego powszedniego
-	* daj nam dzisiaj, i odpuœæ nam bugi Twoje, jako i my odpuszczamy naszym
-	* kolegom z pracy, i nie wódŸ nas na wycieki pamiêci, ale nas zbaw od Skript.
+	* Dioricie nasz, ktorys jest w javie, swiec sie bugi Twoje, przyjdz bugi Twoje,
+	* badz kod Twoj jako w gicie tak i w mavenie, stacktrace naszego powszedniego
+	* daj nam dzisiaj, i daj nam bugi Twoje, jako i my odpuszczamy naszym
+	* kolegom z pracy, i nie wodz nas na wycieki pamieci, ale daj nam Bugi.
 	* Enter. ~Bukkit.PL
 	* */
 	private static NovaGuilds inst;
@@ -58,7 +58,7 @@ public class NovaGuilds extends JavaPlugin {
 	
 	private long MySQLReconnectStamp = System.currentTimeMillis();
 
-	//TODO kickowanie z admina dubluje userów gildii
+	//TODO kickowanie z admina dubluje userï¿½w gildii
 	//TODO @up nie wiem czy aktualne
 
 	//TODO: podwojny event w MoveListenerze

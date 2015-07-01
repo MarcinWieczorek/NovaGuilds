@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>co.marcin</groupId>
-    <artifactId>artur9010_NovaGuilds</artifactId>
+    <artifactId>NovaGuilds</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -21,6 +21,14 @@
             <id>overcast-repo</id>
             <url>https://repo.oc.tc/content/groups/public</url>
         </repository>
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+        </repository>
+        <repository>
+            <id>confuser-repo</id>
+            <url>http://ci.frostcast.net/plugin/repository/everything</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -33,6 +41,17 @@
             <groupId>tc.oc</groupId>
             <artifactId>sportbukkit</artifactId>
             <version>1.8-R0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.confuser</groupId>
+            <artifactId>BarAPI</artifactId>
+            <version>3.0</version>
         </dependency>
     </dependencies>
 </project>
