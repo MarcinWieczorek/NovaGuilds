@@ -20,7 +20,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
 import me.confuser.barapi.BarAPI;
 
-import net.milkbowl.vault.Metrics;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Location;
