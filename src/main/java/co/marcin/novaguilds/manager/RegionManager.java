@@ -4,13 +4,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.utils.StringUtils;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -422,7 +425,7 @@ public class RegionManager {
 		if(region == null)
 			return true;
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 		if(nPlayer == null)
 			return true;
@@ -433,7 +436,7 @@ public class RegionManager {
 		if(nPlayer.getBypass())
 			return true;
 
-		return nPlayer.getGuild().getName().equalsIgnoreCase(region.getGuildName());
+		return region.getGuild().isMember(nPlayer);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -539,5 +542,86 @@ public class RegionManager {
 
 	public static Location getCenterLocation(NovaRegion region) {
 		return getCenterLocation(region.getCorner(0),region.getCorner(1));
+	}
+
+	public void playerEnteredRegion(Player player) {
+		NovaRegion region = getRegionAtLocation(player.getLocation());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+
+		//border particles
+		if(plugin.getConfig().getBoolean("region.borderparticles")) {
+			List<Block> blocks = plugin.getRegionManager().getBorderBlocks(region);
+			for(Block block : blocks) {
+				block.getLocation().setY(block.getLocation().getY() + 1);
+				block.getWorld().playEffect(block.getLocation(), Effect.SMOKE, 100);
+			}
+		}
+
+		//Chat message
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("GUILDNAME",region.getGuildName());
+		vars.put("PLAYERNAME",player.getName());
+		plugin.getMessageManager().sendMessagesMsg(player, "chat.region.entered", vars);
+
+		//Player is at region
+		nPlayer.setAtRegion(region);
+
+		//TODO add config
+		if(nPlayer.hasGuild()) {
+			if(!nPlayer.getGuild().getName().equalsIgnoreCase(region.getGuildName())) {
+				NovaGuild guildDefender = plugin.getGuildManager().getGuildByRegion(region);
+
+				if(nPlayer.getGuild().isWarWith(guildDefender)) {
+					if(!guildDefender.isRaid()) {
+						if(NovaGuilds.systemSeconds() - plugin.timeRest > guildDefender.getTimeRest()) {
+							guildDefender.createRaid(nPlayer.getGuild());
+							plugin.guildRaids.add(guildDefender);
+						}
+						else {
+							long timeWait = plugin.timeRest - (NovaGuilds.systemSeconds() - guildDefender.getTimeRest());
+							vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
+
+							plugin.getMessageManager().sendMessagesMsg(player, "chat.raid.resting", vars);
+						}
+					}
+
+					if(guildDefender.isRaid()) {
+						guildDefender.getRaid().addPlayerOccupying(nPlayer);
+						Runnable task = new RunnableRaid(plugin);
+						plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+					}
+				}
+
+				//TODO: notify
+				plugin.getMessageManager().broadcastGuild(plugin.getGuildManager().getGuildByRegion(region), "chat.region.notifyguild.entered", vars);
+			}
+		}
+	}
+
+	public void playerExitedRegion(Player player) {
+		NovaRegion region = getRegionAtLocation(player.getLocation());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaGuild guild = region.getGuild();
+
+		nPlayer.setAtRegion(null);
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("GUILDNAME", region.getGuildName());
+		plugin.getMessageManager().sendMessagesMsg(player, "chat.region.exited", vars);
+
+		if(nPlayer.hasGuild()) {
+			if(nPlayer.getGuild().isWarWith(guild)) {
+				if(guild.isRaid()) {
+					guild.getRaid().removePlayerOccupying(nPlayer);
+
+					if(guild.getRaid().getPlayersOccupyingCount() == 0) {
+						guild.getRaid().resetProgress();
+						plugin.resetWarBar(guild);
+						plugin.resetWarBar(nPlayer.getGuild());
+						plugin.debug("progress: " + guild.getRaid().getProgress());
+						guild.getRaid().updateInactiveTime();
+					}
+				}
+			}
+		}
 	}
 }

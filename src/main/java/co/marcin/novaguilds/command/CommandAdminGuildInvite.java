@@ -30,7 +30,7 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		}
 		
 		String playername = args[0];
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
 		
 		if(nPlayer == null) { //noplayer
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");

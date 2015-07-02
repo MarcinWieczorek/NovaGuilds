@@ -37,7 +37,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		if(args.length > 1) { //other
 			playername = args[1];
 
-			 nPlayerOther = plugin.getPlayerManager().getPlayerByName(playername);
+			 nPlayerOther = plugin.getPlayerManager().getPlayer(playername);
 			if(nPlayerOther == null) {
 				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
 				return true;

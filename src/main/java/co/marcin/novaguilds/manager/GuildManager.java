@@ -64,7 +64,7 @@ public class GuildManager {
 		}
 		
 		if(guild == null) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(mixed);
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(mixed);
 			
 			if(nPlayer == null) {
 				return null;
@@ -219,7 +219,7 @@ public class GuildManager {
 			if(id > 0) {
 				guild.setId(id);
 				guilds.put(guild.getName().toLowerCase(), guild);
-				NovaPlayer leader = plugin.getPlayerManager().getPlayerByName(guild.getLeader().getName());
+				NovaPlayer leader = guild.getLeader();
 				leader.setGuild(guild);
 				guild.setUnchanged();
 			}

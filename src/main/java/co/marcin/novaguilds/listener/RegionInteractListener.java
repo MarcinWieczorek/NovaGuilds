@@ -44,7 +44,7 @@ public class RegionInteractListener implements Listener {
 			NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getClickedBlock().getLocation());
 			
 			if(rgatploc != null) {
-				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(event.getPlayer());
+				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
 				NovaGuild guild = plugin.getGuildManager().getGuildByRegion(rgatploc);
 
 				boolean isally = guild.isAlly(nPlayer.getGuild());
@@ -121,7 +121,7 @@ public class RegionInteractListener implements Listener {
 				}
 
 				if(playercaused) {
-					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
+					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 					if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 						if(!nPlayer.getBypass()) {
@@ -168,7 +168,7 @@ public class RegionInteractListener implements Listener {
 		if(rgatploc != null) {
 			plugin.debug("There is a region");
 			plugin.debug(denyriding.toString());
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(event.getPlayer());
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
 			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!nPlayer.getBypass()) {
 					//TODO: fix messages and names for sheep and all
@@ -200,7 +200,7 @@ public class RegionInteractListener implements Listener {
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
 
 		if(rgatploc != null) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(event.getPlayer());
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
 			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!nPlayer.getBypass()) {
 					if(denyriding.contains(mob.getType().name())) {

@@ -80,7 +80,7 @@ public class CommandGuild implements CommandExecutor {
 					break;
 				default:
 					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
-					plugin.debug("cmd = " + command);
+					//plugin.debug("cmd = " + command);
 					break;
 			}
 		}
@@ -88,7 +88,7 @@ public class CommandGuild implements CommandExecutor {
 			List<String> cmdlist = plugin.getMessageManager().getMessages().getStringList("chat.commands.guild.noguild");
 
 			if(sender instanceof Player) {
-				if(plugin.getPlayerManager().getPlayerBySender(sender).hasGuild()) {
+				if(plugin.getPlayerManager().getPlayer(sender).hasGuild()) {
 					cmdlist = plugin.getMessageManager().getMessages().getStringList("chat.commands.guild.hasguild");
 				}
 			}

@@ -35,7 +35,7 @@ public class ToolListener implements Listener {
 
 		if(player.getItemInHand().getType().equals(tool)) {
 			if(player.getItemInHand().hasItemMeta() && player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(toolname)) {
-				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
+				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 				//Spigot and Cauldron (1.8/1.7.10)
 				Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
@@ -62,8 +62,8 @@ public class ToolListener implements Listener {
 
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("MODE", mode);
-					plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.tool.toggledmode", vars);
-					plugin.debug("toggle=" + plugin.getPlayerManager().getPlayerByName(player.getName()).regionMode());
+					plugin.getMessageManager().sendMessagesMsg(player, "chat.region.tool.toggledmode", vars);
+					plugin.debug("toggle=" + plugin.getPlayerManager().getPlayer(player).regionMode());
 
 					if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
 						plugin.getRegionManager().sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);

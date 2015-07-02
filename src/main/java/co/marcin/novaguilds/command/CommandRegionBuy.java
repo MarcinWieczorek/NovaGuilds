@@ -26,7 +26,7 @@ public class CommandRegionBuy implements CommandExecutor {
 				return false;
 			}
 
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 			
 			if(nPlayer.hasGuild()) {
 				NovaGuild guild = nPlayer.getGuild();

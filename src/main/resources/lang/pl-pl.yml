@@ -8,7 +8,7 @@ chat:
  delayedteleport: "Zostaniesz teleportowany w ciagu &c{DELAY} &3sekund"
  delayedtpmoved: "Ruszyles sie, teleportacja anulowana."
  erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
- update: "&4There is an update available! &6https://www.spigotmc.org/resources/novaguilds.8135/"
+ update: "&4Dostepna jest aktualizacja! &6https://www.spigotmc.org/resources/novaguilds.8135/"
 
  admin:
   guild:
@@ -21,7 +21,7 @@ chat:
      nonext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} --"
     item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Lider: &c{PLAYERNAME} &3({PLAYERSCOUNT} graczy)"
    inactive:
-    updated: "All guild's inactive time updated. (&c{COUNT} &3guilds)"
+    updated: "Wszystkie gildie uaktualnione. (&c{COUNT} &3gildii)"
     list:
      header: "Most inactive guilds"
      item: " &2- &a{GUILDNAME} &3active {AGONOW}"
@@ -77,7 +77,7 @@ chat:
  usage:
   nga:
    guild:
-    setpoints: "&5* &7/nga &cg &6<guild> &cpoints &6<points> &2- &3set points"
+    setpoints: "&5* &7/nga &cg &6<guild> &cpoints &6<points> &2- &3Zmien punkty"
     abandon: "&5* &7/nga &cg &6abandon &c<gildia> &2- &3porzuc gildie"
     lives: "&5* &7/nga &cg &6lives &c<ilosc> &2- &3ustaw zycia"
     bank:
@@ -146,6 +146,7 @@ chat:
     - "&5* &7/dolacz &6[gildia] &2- &3Dolacz do gildii"
     - "&5* &7/gi &c[gildia/gracz] &2- &3Informacje o gildii"
     - "&5* &7/g &ctop &2- &3Top 5"
+    - "&5* &7/g &citems &2- &3Wymagane przedmioty"
 
  teampvp: "Nie mozesz bic swoich kolegow z gildii"
  allypvp: "Nie mozesz ranic swoich sojusznikow"
@@ -281,7 +282,7 @@ chat:
   success: "Gildia stworzona"
   regionhere: "Nie mozesz stworzyc gildii w miejscu gdzie istnieje inna"
   tooclosespawn: "Musisz odejsc {DISTANCE} blokow od spawnu"
-  notallowedstring: "String you entered contains not allowed chars."
+  notallowedstring: "Wprowadzony tekst zawiera niedozwolone znaki"
   tag:
    tooshort: "Tag jest za krotki!"
    toolong: "Tag jest za dlugi!"

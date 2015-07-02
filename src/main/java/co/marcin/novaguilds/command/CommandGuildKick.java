@@ -23,7 +23,7 @@ public class CommandGuildKick  implements CommandExecutor {
 			return true;
 		}
 		
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
 		if(!nPlayer.hasGuild()) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
@@ -42,7 +42,7 @@ public class CommandGuildKick  implements CommandExecutor {
 			return true;
 		}
 		
-		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayerByName(args[0]);
+		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayer(args[0]);
 		
 		if(nPlayerKick == null) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");

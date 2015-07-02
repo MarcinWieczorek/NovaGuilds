@@ -18,7 +18,7 @@ public class CommandGuildAlly implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
 		if(sender.hasPermission("novaguilds.guild.ally")) {
 			if(args.length==1) {

@@ -24,13 +24,13 @@ public class CommandGuildLeave implements CommandExecutor {
 			return true;
 		}
 		
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
 		if(nPlayer.hasGuild()) {
 			NovaGuild guild = nPlayer.getGuild();
 			String leaderName = guild.getLeader().getName();
 			
-			if(leaderName.equals(sender.getName())) {
+			if(nPlayer.isLeader()) {
 				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.isleader");
 				return true;
 			}

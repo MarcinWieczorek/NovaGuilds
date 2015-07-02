@@ -28,8 +28,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 			return true;
 		}
 		
-		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayerByName(args[0]);
-		NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayerKick);
+		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayer(args[0]);
 		
 		if(nPlayerKick == null) { //no player
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
@@ -40,6 +39,8 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasnoguild");
 			return true;
 		}
+
+		NovaGuild guild = nPlayerKick.getGuild();
 
 		if(nPlayerKick.isLeader()) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.kick.leader");

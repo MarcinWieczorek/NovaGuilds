@@ -29,7 +29,7 @@ public class CommandGuildWar implements CommandExecutor {
 			return true;
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.hasnoguild");

@@ -25,12 +25,12 @@ public class CommandGuildInvite implements CommandExecutor {
 
 		if(args.length == 1) {
 			String playername = args[0];
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 			if(nPlayer.isLeader()) { //only leaders can invite
 				if(nPlayer.hasGuild()) { //if sender has guild
 					if(plugin.getPlayerManager().exists(playername)) { //player exists
-						NovaPlayer inPlayer = plugin.getPlayerManager().getPlayerByName(playername);
+						NovaPlayer inPlayer = plugin.getPlayerManager().getPlayer(playername);
 
 						if(!inPlayer.hasGuild()) { //if player being invited has no guild
 							NovaGuild guild = nPlayer.getGuild();

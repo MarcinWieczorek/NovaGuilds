@@ -24,24 +24,44 @@ public class PlayerManager {
 	public boolean exists(String playername) {
 		return players.containsKey(playername.toLowerCase());
 	}
-	
-	public NovaPlayer getPlayerByName(String playername) {
+
+	//new getters
+	public NovaPlayer getPlayer(String playername) {
 		addIfNotExists(playername);
 
 		return players.get(playername.toLowerCase());
 	}
-	
-	public NovaPlayer getPlayerBySender(CommandSender sender) {
+
+	public NovaPlayer getPlayer(CommandSender sender) {
 		addIfNotExists(sender.getName());
 
-		return getPlayerByName(sender.getName());
+		return getPlayer(sender.getName());
 	}
 
-	public NovaPlayer getPlayerByPlayer(Player player) {
+	public NovaPlayer getPlayer(Player player) {
 		addIfNotExists(player.getName());
 
-		return getPlayerByName(player.getName());
+		return getPlayer(player.getName());
 	}
+
+	//old getters
+//	public NovaPlayer getPlayerByName(String playername) {
+//		addIfNotExists(playername);
+//
+//		return players.get(playername.toLowerCase());
+//	}
+//
+//	public NovaPlayer getPlayer(CommandSender sender) {
+//		addIfNotExists(sender.getName());
+//
+//		return getPlayerByName(sender.getName());
+//	}
+//
+//	public NovaPlayer getPlayer(Player player) {
+//		addIfNotExists(player.getName());
+//
+//		return getPlayerByName(player.getName());
+//	}
 
 	public Collection<NovaPlayer> getPlayers() {
 		return players.values();
@@ -145,15 +165,15 @@ public class PlayerManager {
 	}
 
 	public boolean isGuildMate(Player player1, Player player2) {
-		NovaPlayer nPlayer1 = getPlayerByPlayer(player1);
-		NovaPlayer nPlayer2 = getPlayerByPlayer(player2);
+		NovaPlayer nPlayer1 = getPlayer(player1);
+		NovaPlayer nPlayer2 = getPlayer(player2);
 
 		return nPlayer1.getGuild().isMember(nPlayer2) || nPlayer1.equals(nPlayer2);
 	}
 
 	public boolean isAlly(Player player1, Player player2) {
-		NovaPlayer nPlayer1 = getPlayerByPlayer(player1);
-		NovaPlayer nPlayer2 = getPlayerByPlayer(player2);
+		NovaPlayer nPlayer1 = getPlayer(player1);
+		NovaPlayer nPlayer2 = getPlayer(player2);
 
 		return nPlayer1.getGuild().isAlly(nPlayer2.getGuild()) || nPlayer1.equals(nPlayer2);
 	}

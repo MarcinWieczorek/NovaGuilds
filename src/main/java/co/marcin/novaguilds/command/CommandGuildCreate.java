@@ -54,7 +54,7 @@ public class CommandGuildCreate implements CommandExecutor {
 			tag = StringUtils.removeColors(tag);
 		}
 			
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		HashMap<String,String> vars = new HashMap<>();
 		
 		if(nPlayer.hasGuild()) { //has guild already

@@ -36,8 +36,8 @@ public class PvpListener implements Listener {
 			}
 			
 			if(attacker != null) {
-				NovaPlayer novaPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
-				NovaPlayer novaPlayerAttacker = plugin.getPlayerManager().getPlayerByName(attacker.getName());
+				NovaPlayer novaPlayer = plugin.getPlayerManager().getPlayer(player);
+				NovaPlayer novaPlayerAttacker = plugin.getPlayerManager().getPlayer(attacker);
 				//teampvp
 				if(!novaPlayerAttacker.getName().equals(novaPlayer.getName())) {
 					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {

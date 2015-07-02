@@ -34,10 +34,10 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 		Player player = (Player)sender;
 		
 		if(sender.hasPermission("novaguilds.guild.bank.withdraw")) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 			
 			if(nPlayer.hasGuild()) {
-				NovaGuild guild = plugin.getGuildManager().getGuildByName(nPlayer.getGuild().getName());
+				NovaGuild guild = nPlayer.getGuild();
 				
 				if(nPlayer.isLeader()) {
 					if(marg != null && StringUtils.isNumeric(marg)) {

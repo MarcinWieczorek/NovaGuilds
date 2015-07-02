@@ -31,7 +31,7 @@ public class LoginListener implements Listener {
 		//adding player
 		plugin.getPlayerManager().addIfNotExists(player);
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(player);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 		//scoreboard
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
@@ -39,7 +39,7 @@ public class LoginListener implements Listener {
 		nPlayer.setPlayer(player);
 
 		if(plugin.updateAvailable && player.hasPermission("novaguilds.admin.updateavailable")) {
-			//TODO version message
+			plugin.getMessageManager().sendMessagesMsg(player,"chat.update");
 		}
 
 		//adding to raid TODO: not tested
@@ -68,7 +68,7 @@ public class LoginListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByPlayer(event.getPlayer());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
 		nPlayer.setPlayer(null);
 
 		//remove player from raid

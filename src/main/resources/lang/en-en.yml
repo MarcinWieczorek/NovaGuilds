@@ -146,6 +146,7 @@ chat:
     - "&5* &7/g &cjoin &6[guildname] &2- &3Join a guild"
     - "&5* &7/gi &c[guild/tag/player] &2- &3Join a guild"
     - "&5* &7/g &ctop &2- &3Top 5"
+    - "&5* &7/g &citems &2- &3Required items"
 
  teampvp: "You cannot hurt your teammates"
  allypvp: "You cannot hurt your allies."

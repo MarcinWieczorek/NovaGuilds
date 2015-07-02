@@ -24,7 +24,7 @@ public class ChatListener implements Listener {
 		String msg = event.getMessage();
 		
 		Player player = event.getPlayer();
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 		
 		String tag = "";
 		String rank = "";

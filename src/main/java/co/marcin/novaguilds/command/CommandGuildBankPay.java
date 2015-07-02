@@ -33,34 +33,38 @@ public class CommandGuildBankPay implements CommandExecutor {
 
 		Player player = (Player)sender;
 		
-		if(sender.hasPermission("novaguilds.guild.bank.pay")) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
-			
-			if(nPlayer.hasGuild()) {
-				NovaGuild guild = plugin.getGuildManager().getGuildByName(nPlayer.getGuild().getName());
-				
-				if(marg != null && StringUtils.isNumeric(marg)) {
-					Double money = Double.parseDouble(marg);
-					
-					if(plugin.econ.getBalance(player) >= money) {
-						plugin.econ.withdrawPlayer(player,money);
-						guild.addMoney(money);
-						HashMap<String,String> vars = new HashMap<>();
-						vars.put("AMOUNT",money+"");
-						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);
-					}
-					else {
-						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.notenough");
-					}
-				}
-				else {
-					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.enteramount");
-				}
-			}
-			else {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
-			}
+		if(!sender.hasPermission("novaguilds.guild.bank.pay")) {
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			return true;
 		}
+
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+
+		if(!nPlayer.hasGuild()) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			return true;
+		}
+
+		NovaGuild guild = nPlayer.getGuild();
+
+		if(marg == null || !StringUtils.isNumeric(marg)) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.enteramount");
+			return true;
+		}
+
+		Double money = Double.parseDouble(marg);
+
+		if(plugin.econ.getBalance(player) < money) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.notenough");
+			return true;
+		}
+
+		plugin.econ.withdrawPlayer(player,money);
+		guild.addMoney(money);
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("AMOUNT",money+"");
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);
+
 		return true;
 	}
 }

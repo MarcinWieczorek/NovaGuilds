@@ -61,9 +61,6 @@ public class NovaGuilds extends JavaPlugin {
 	//TODO kickowanie z admina dubluje user�w gildii
 	//TODO @up nie wiem czy aktualne
 
-	//TODO: podwojny event w MoveListenerze
-	//public long moveListenerFix;
-
 	//Vault
 	public Economy econ = null;
 
@@ -317,7 +314,7 @@ public class NovaGuilds extends JavaPlugin {
 		}
 		
 		for(Player p : getServer().getOnlinePlayers()) {
-			NovaPlayer nPlayer = getPlayerManager().getPlayerByName(p.getName());
+			NovaPlayer nPlayer = getPlayerManager().getPlayer(p);
 			Location l1 = nPlayer.getSelectedLocation(0);
 			Location l2 = nPlayer.getSelectedLocation(1);
 			

@@ -26,7 +26,7 @@ public class CommandGuildCompass implements CommandExecutor {
 		}
 
 		Player player = (Player)sender;
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.notinguild");

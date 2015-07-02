@@ -19,7 +19,7 @@ public class CommandGuildJoin implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		List<String> invitedTo = nPlayer.getInvitedTo();
 		
 		if(!nPlayer.hasGuild()) {

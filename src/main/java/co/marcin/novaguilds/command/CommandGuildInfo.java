@@ -23,7 +23,7 @@ public class CommandGuildInfo implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		String guildname;
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerBySender(sender);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
 		if(args.length>0) {
 			guildname = args[0];

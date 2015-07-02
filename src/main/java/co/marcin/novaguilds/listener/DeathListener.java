@@ -27,8 +27,8 @@ public class DeathListener implements Listener {
 			Player player = event.getEntity();
 			Player attacker = event.getEntity().getKiller();
 			
-			NovaPlayer novaPlayer = plugin.getPlayerManager().getPlayerByName(player.getName());
-			NovaPlayer novaPlayerAttacker = plugin.getPlayerManager().getPlayerByName(attacker.getName());
+			NovaPlayer novaPlayer = plugin.getPlayerManager().getPlayer(player);
+			NovaPlayer novaPlayerAttacker = plugin.getPlayerManager().getPlayer(attacker);
 			
 			String tag1 = "";
 			String tag2 = "";

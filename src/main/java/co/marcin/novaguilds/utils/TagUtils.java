@@ -20,7 +20,7 @@ public class TagUtils {
 		String tag = "";
 		String guildTag;
 		String rank = "";
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(namedplayer.getName());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(namedplayer);
 
 		if(nPlayer.hasGuild()) {
 			tag = plugin.getConfig().getString("guild.tag");
@@ -41,7 +41,7 @@ public class TagUtils {
 			tag = StringUtils.replace(tag, "{RANK}", rank);
 
 			//TODO: ally/war colors
-//			NovaPlayer nPlayerReceiver = plugin.getPlayerManager().getPlayerByPlayer(player);
+//			NovaPlayer nPlayerReceiver = plugin.getPlayerManager().getPlayer(player);
 //			if(nPlayerReceiver.hasGuild()) {
 //				if(nPlayerReceiver.getGuild().isAlly(nPlayer.getGuild())) {
 //					if(plugin.getConfig().getBoolean("tagapi.allycolor.enabled")) {

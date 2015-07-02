@@ -37,7 +37,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
             return true;
         }
 
-        NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(playername);
+        NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
         vars.put("PLAYERNAME",nPlayer.getName());
 
         if(!nPlayer.hasGuild()) { //has no guild

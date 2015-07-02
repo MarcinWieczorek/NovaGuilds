@@ -19,8 +19,8 @@ public class CommandGuildLeader implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length == 1) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayerByName(sender.getName());
-			NovaPlayer newLeader = plugin.getPlayerManager().getPlayerByName(args[0]);
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+			NovaPlayer newLeader = plugin.getPlayerManager().getPlayer(args[0]);
 			
 			if(newLeader != null) {
 				if(nPlayer.hasGuild()) {
