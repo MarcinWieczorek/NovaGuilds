@@ -70,9 +70,9 @@ public class ChatListener implements Listener {
 						}
 					}
 
+					//TODO replace with MessageManager.broadcastAllies()
 					if(guild.getAllies().size() > 0) {
-						for(String allyName : guild.getAllies()) {
-							NovaGuild allyGuild = plugin.getGuildManager().getGuildByName(allyName);
+						for(NovaGuild allyGuild : guild.getAllies()) {
 							for(NovaPlayer nP : allyGuild.getPlayers()) {
 								if(nP.isOnline()) {
 									nP.getPlayer().sendMessage(format + msg);

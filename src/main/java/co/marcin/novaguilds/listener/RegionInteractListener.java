@@ -189,7 +189,7 @@ public class RegionInteractListener implements Listener {
 		NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(loc);
 		
 		if(rgatloc != null) {
-			plugin.getMessageManager().broadcastGuild(rgatloc.getGuild(),"chat.guild.explosionatregion");
+			plugin.getMessageManager().broadcastGuild(rgatloc.getGuild(),"chat.guild.explosionatregion",true);
 		}
 	}
 
@@ -211,7 +211,4 @@ public class RegionInteractListener implements Listener {
 			}
 		}
 	}
-
-//	@EventHandler
-//	public void onEntityClick(EntityInteractEvent)
 }

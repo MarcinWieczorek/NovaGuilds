@@ -125,20 +125,10 @@ chat:
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<ilosc> &2- &3Wplac pieniadze do banku"
-    - "&5* &7/g &cwithdraw &6<ilosc> &2- &3Zabierz pieniadze z banku"
-    - "&5* &7/g &cleader &6<gracz> &2- &3Ustaw lidera"
-    - "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuc gracza"
     - "&5* &7/g &chome &2- &3Teleport do domu gildii"
-    - "&5* &7/g &chome set &2- &3Ustaw dom gildii"
     - "&5* &7/g &cinfo &2- &3Informacje o gildii. &9/gi"
     - "&5* &7/g &cleave &2- &3Opusc gildie"
-    - "&5* &7/g &cally &6<gildia> &2- &3Zapros do sojuszu"
-    - "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
-    - "&5* &7/rozwiaz &2- &3Porzuc gildie"
-    - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
     - "&5* &7/g &ccompass &2- &3Niech kompas wskazuje dom Twojej gildii!"
-    - "&5* &7/g &cbuyregion &2- &3Kup zaznaczony teren"
-    - "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
     - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/ng &ctool &2- &3Sprawdz lub zaznacz teren patykiem!"
    noguild:
@@ -147,6 +137,17 @@ chat:
     - "&5* &7/gi &c[gildia/gracz] &2- &3Informacje o gildii"
     - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/g &citems &2- &3Wymagane przedmioty"
+   leader:
+    - "&5* &7/g &cbuyregion &2- &3Kup zaznaczony teren"
+    - "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
+    - "&5* &7/g &chome set &2- &3Ustaw dom gildii"
+    - "&5* &7/g &cwithdraw &6<ilosc> &2- &3Zabierz pieniadze z banku"
+    - "&5* &7/g &cleader &6<gracz> &2- &3Ustaw lidera"
+    - "&5* &7/g &cally &6<gildia> &2- &3Zapros do sojuszu"
+    - "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
+    - "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuc gracza"
+    - "&5* &7/rozwiaz &2- &3Porzuc gildie"
+    - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
 
  teampvp: "Nie mozesz bic swoich kolegow z gildii"
  allypvp: "Nie mozesz ranic swoich sojusznikow"

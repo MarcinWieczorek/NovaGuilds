@@ -57,7 +57,7 @@ public class NovaGuilds extends JavaPlugin {
 	
 	private long MySQLReconnectStamp = System.currentTimeMillis();
 
-	//TODO kickowanie z admina dubluje user�w gildii
+	//TODO kickowanie z admina dubluje userow gildii
 	//TODO @up nie wiem czy aktualne
 
 	//Vault
@@ -168,6 +168,7 @@ public class NovaGuilds extends JavaPlugin {
 		}
 		
 		if(!getMessageManager().loadMessages()) {
+			getServer().getPluginManager().disablePlugin(this);
             return;
 		}
 
@@ -276,6 +277,11 @@ public class NovaGuilds extends JavaPlugin {
 
 			//metrics
 			setupMetrics();
+
+			//Notify admins if there's an update (only for reload)
+			if(updateAvailable) {
+				getMessageManager().broadcastMessageForPermitted("chat.update","novaguilds.admin.updateavailable");
+			}
 
 			info("#"+pdf.getVersion()+" Enabled");
 		}

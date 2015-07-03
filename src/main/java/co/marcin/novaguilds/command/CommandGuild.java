@@ -1,8 +1,5 @@
 package co.marcin.novaguilds.command;
 
-
-import java.util.List;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -80,21 +77,25 @@ public class CommandGuild implements CommandExecutor {
 					break;
 				default:
 					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
-					//plugin.debug("cmd = " + command);
+					plugin.debug("cmd = " + command);
 					break;
 			}
 		}
 		else {
-			List<String> cmdlist = plugin.getMessageManager().getMessages().getStringList("chat.commands.guild.noguild");
-
 			if(sender instanceof Player) {
 				if(plugin.getPlayerManager().getPlayer(sender).hasGuild()) {
-					cmdlist = plugin.getMessageManager().getMessages().getStringList("chat.commands.guild.hasguild");
+					plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.hasguild",null,false);
+
+					if(plugin.getPlayerManager().getPlayer(sender).isLeader()) {
+						plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.leader",null,false);
+					}
+				}
+				else {
+					plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.noguild",null,false);
 				}
 			}
-
-			for(String cmdinfo : cmdlist) {
-				sender.sendMessage(StringUtils.fixColors(cmdinfo));
+			else {
+				plugin.getMessageManager().sendMessage(sender,"chat.cmdfromconsole");
 			}
 		}
 		return true;

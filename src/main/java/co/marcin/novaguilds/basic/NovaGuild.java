@@ -27,7 +27,8 @@ public class NovaGuild {
 
 	private final List<NovaPlayer> players = new ArrayList<>();
 
-	private final List<String> allies = new ArrayList<>();
+	private final List<NovaGuild> allies = new ArrayList<>();
+	private final List<String> alliesNames = new ArrayList<>();
 	private final List<String> allies_invited = new ArrayList<>();
 
 	private final List<String> war = new ArrayList<>();
@@ -42,8 +43,12 @@ public class NovaGuild {
 		return points;
 	}
 
-	public List<String> getAllies() {
+	public List<NovaGuild> getAllies() {
 		return allies;
+	}
+
+	public List<String> getAlliesNames() {
+		return alliesNames;
 	}
 
 	public List<String> getAllyInvitations() {
@@ -185,7 +190,7 @@ public class NovaGuild {
 		allies.clear();
 
 		for(String ally : a) {
-			allies.add(ally.toLowerCase());
+			alliesNames.add(ally.toLowerCase());
 		}
 
 		changed();
@@ -296,7 +301,7 @@ public class NovaGuild {
 	}
 
 	public boolean isAlly(NovaGuild guild) {
-		return guild != null && allies.contains(guild.getName().toLowerCase());
+		return guild != null && allies.contains(guild);
 	}
 
 	public boolean isRaid() {
@@ -309,7 +314,8 @@ public class NovaGuild {
 
 	//add/remove
 	public void addAlly(NovaGuild guild) {
-		allies.add(guild.getName().toLowerCase());
+		alliesNames.add(guild.getName().toLowerCase());
+		allies.add(guild);
 		changed();
 	}
 
@@ -363,8 +369,9 @@ public class NovaGuild {
 	}
 
 	public void removeAlly(NovaGuild guild) {
-		if(allies.contains(guild.getName().toLowerCase())) {
-			allies.remove(guild.getName().toLowerCase());
+		if(allies.contains(guild)) {
+			allies.remove(guild);
+			alliesNames.remove(guild.getName().toLowerCase());
 			changed();
 		}
 	}

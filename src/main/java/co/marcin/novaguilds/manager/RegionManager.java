@@ -544,8 +544,8 @@ public class RegionManager {
 		return getCenterLocation(region.getCorner(0),region.getCorner(1));
 	}
 
-	public void playerEnteredRegion(Player player) {
-		NovaRegion region = getRegionAtLocation(player.getLocation());
+	public void playerEnteredRegion(Player player, Location toLocation) {
+		NovaRegion region = getRegionAtLocation(toLocation);
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 		//border particles
@@ -593,7 +593,7 @@ public class RegionManager {
 				}
 
 				//TODO: notify
-				plugin.getMessageManager().broadcastGuild(plugin.getGuildManager().getGuildByRegion(region), "chat.region.notifyguild.entered", vars);
+				plugin.getMessageManager().broadcastGuild(plugin.getGuildManager().getGuildByRegion(region), "chat.region.notifyguild.entered", vars,true);
 			}
 		}
 	}

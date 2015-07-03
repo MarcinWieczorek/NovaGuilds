@@ -141,8 +141,6 @@ public class PlayerManager {
 			statement.executeUpdate("INSERT INTO `"+plugin.sqlp+"players` VALUES(0,'"+uuid+"','"+playername+"','','')");
 			plugin.info("New player " + player.getName() + " added to the database");
 
-			//TODO load only 1 player instead of all
-			//loadPlayers();
 			players.put(player.getName().toLowerCase(),NovaPlayer.fromPlayer(player));
 		}
 		catch (SQLException e) {

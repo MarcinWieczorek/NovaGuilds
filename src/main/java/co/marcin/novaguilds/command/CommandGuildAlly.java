@@ -62,13 +62,13 @@ public class CommandGuildAlly implements CommandExecutor {
 										if(!allyGuild.isInvitedToAlly(guild)) {
 											allyGuild.addAllyInvitation(guild);
 											plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.invited", vars);
-											plugin.getMessageManager().broadcastGuild(allyGuild, "chat.guild.ally.notifyguild", vars);
+											plugin.getMessageManager().broadcastGuild(allyGuild, "chat.guild.ally.notifyguild", vars,true);
 										}
 										else { //cancel inv
 											allyGuild.removeAllyInvitation(guild);
 
 											plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.canceled",vars);
-											plugin.getMessageManager().broadcastGuild(allyGuild,"chat.guild.ally.notifyguildcanceled",vars);
+											plugin.getMessageManager().broadcastGuild(allyGuild,"chat.guild.ally.notifyguildcanceled",vars,true);
 										}
 									}
 								}

@@ -91,9 +91,9 @@ public class CommandGuildInfo implements CommandExecutor {
 			String allies = "";
 			if(!guild.getAllies().isEmpty()) {
 				String allyformat = plugin.getMessageManager().getMessagesString("chat.guildinfo.ally");
-				for(String ally : guild.getAllies()) {
-					ally = StringUtils.replace(allyformat, "{GUILDNAME}", ally);
-					allies = allies + ally + separator;
+				for(NovaGuild allyGuild : guild.getAllies()) {
+					String guildName = StringUtils.replace(allyformat, "{GUILDNAME}", allyGuild.getName());
+					allies = allies + guildName + separator;
 				}
 
 				allies = allies.substring(0,allies.length()-separator.length());

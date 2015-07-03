@@ -75,7 +75,7 @@ public class CommandGuildWar implements CommandExecutor {
 					//notify the guild
 					vars.clear();
 					vars.put("GUILDNAME",guild.getName());
-					plugin.getMessageManager().broadcastGuild(cmdGuild, "chat.guild.war.nowarinvnotify", vars);
+					plugin.getMessageManager().broadcastGuild(cmdGuild, "chat.guild.war.nowarinvnotify", vars,true);
 				}
 			}
 			else { //new war

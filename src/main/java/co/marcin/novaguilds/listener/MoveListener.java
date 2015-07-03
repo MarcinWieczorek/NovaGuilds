@@ -40,7 +40,7 @@ public class MoveListener implements Listener {
 
 		//entering
 		if(fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) {
-			plugin.getRegionManager().playerEnteredRegion(player);
+			plugin.getRegionManager().playerEnteredRegion(player,event.getTo());
 		}
 		
 		//exiting
@@ -61,7 +61,7 @@ public class MoveListener implements Listener {
 
 		//entering
 		if(fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) {
-			plugin.getRegionManager().playerEnteredRegion(player);
+			plugin.getRegionManager().playerEnteredRegion(player,event.getTo());
 		}
 
 		//exiting

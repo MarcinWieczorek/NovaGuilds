@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 public class MessageManager {
 	private final NovaGuilds plugin;
@@ -31,7 +32,6 @@ public class MessageManager {
 			}
 			else {
 				plugin.info("Couldn't find language file: " + lang + ".yml");
-				plugin.getServer().getPluginManager().disablePlugin(plugin);
 				return false;
 			}
 		}
@@ -66,9 +66,17 @@ public class MessageManager {
 		sender.sendMessage(StringUtils.fixColors(prefix + msg));
 	}
 
+	public void sendMessage(CommandSender sender, String msg) {
+		sender.sendMessage(StringUtils.fixColors(msg));
+	}
+
+	public void sendMessage(Player player, String msg) {
+		player.sendMessage(StringUtils.fixColors(msg));
+	}
+
 	//send message from file with prefix to a player
 	public void sendMessagesMsg(Player p, String path) {
-		p.sendMessage(StringUtils.fixColors(prefix + getMessagesString(path)));
+		sendPrefixMessage(p, getMessagesString(path));
 	}
 
 	//send message from file with prefix and vars to a player
@@ -78,14 +86,62 @@ public class MessageManager {
 		p.sendMessage(StringUtils.fixColors(prefix + msg));
 	}
 
+	public void sendMessagesList(Player player, String path, HashMap<String,String> vars, boolean prefix) {
+		List<String> list = messages.getStringList(path);
+
+		if(list != null) {
+			for(String msg : list) {
+				if(vars != null) {
+					msg = StringUtils.replaceMap(msg, vars);
+				}
+
+				if(prefix) {
+					sendPrefixMessage(player, msg);
+				}
+				else {
+					sendMessage(player, msg);
+				}
+			}
+		}
+	}
+
+	public void sendMessagesList(CommandSender sender, String path, HashMap<String,String> vars, boolean prefix) {
+		List<String> list = messages.getStringList(path);
+
+		if(list != null) {
+			for(String msg : list) {
+				if(vars != null) {
+					msg = StringUtils.replaceMap(msg, vars);
+				}
+
+				if(prefix) {
+					sendPrefixMessage(sender, msg);
+				}
+				else {
+					sendMessage(sender, msg);
+				}
+			}
+		}
+	}
+
+	//TODO finish
+	public void sendMessagesList(Player player, String path, HashMap<String,String> vars) {
+		sendMessagesList(player,path,vars,true);
+	}
+
+	//TODO finish
+	public void sendMessagesList(Player player, String path) {
+		sendMessagesList(player,path,null,true);
+	}
+
 	public void sendMessagesMsg(CommandSender sender, String path) {
-		sender.sendMessage(StringUtils.fixColors(prefix + getMessagesString(path)));
+		sendPrefixMessage(sender,getMessagesString(path));
 	}
 
 	public void sendMessagesMsg(CommandSender sender, String path, HashMap<String,String> vars) {
 		String msg = getMessagesString(path);
 		msg = StringUtils.replaceMap(msg, vars);
-		sender.sendMessage(StringUtils.fixColors(prefix + msg));
+		sendPrefixMessage(sender,msg);
 	}
 
 	//broadcast string to all players
@@ -96,9 +152,9 @@ public class MessageManager {
 	}
 
 	//broadcast message from file to all players
-	public void broadcastMessage(String path, String permission) {
+	public void broadcastMessageForPermitted(String path, String permission) {
 		for(Player p : plugin.getServer().getOnlinePlayers()) {
-			if(p.hasPermission("novaguilds."+permission)) {
+			if(p.hasPermission(permission)) {
 				sendMessagesMsg(p,path);
 			}
 		}
@@ -113,16 +169,28 @@ public class MessageManager {
 		}
 	}
 
-	public void broadcastGuild(NovaGuild guild, String path) {
-		broadcastGuild(guild,path,new HashMap<String,String>());
+	public void broadcastGuild(NovaGuild guild, String path, boolean prefix) {
+		broadcastGuild(guild,path,new HashMap<String,String>(),prefix);
 	}
 
-	public void broadcastGuild(NovaGuild guild, String path,HashMap<String,String> vars) {
+	public void broadcastGuild(NovaGuild guild, String path,HashMap<String,String> vars, boolean prefix) {
 		String msg = getMessagesString(path);
 		msg = StringUtils.replaceMap(msg, vars);
 
 		for(Player p : guild.getOnlinePlayers()) {
-			sendPrefixMessage(p, msg);
+			if(prefix) {
+				sendPrefixMessage(p, msg);
+			}
+			else {
+				sendMessage(p, msg);
+			}
+		}
+	}
+
+	//TODO finish
+	public void broadcastAllies(NovaGuild guild, String path, HashMap<String,String> vars, boolean prefix) {
+		for(NovaGuild ally : guild.getAllies()) {
+			broadcastGuild(ally,path,vars,prefix);
 		}
 	}
 

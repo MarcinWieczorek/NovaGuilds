@@ -39,7 +39,7 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 		
 		if(!(sender instanceof Player)) {
-			plugin.info("You cannot create a guild from the console!");
+			plugin.getMessageManager().sendMessage(sender, "chat.cmdfromconsole");
 			return true;
 		}
 
@@ -189,9 +189,10 @@ public class CommandGuildCreate implements CommandExecutor {
 				newGuild.setLeader(nPlayer);
 				newGuild.setSpawnPoint(player.getLocation());
 				newGuild.addPlayer(nPlayer);
-				newGuild.setLives(plugin.getConfig().getInt("guild.startlives"));
 				newGuild.updateInactiveTime();
+				newGuild.setLives(plugin.getConfig().getInt("guild.startlives"));
 				newGuild.setPoints(plugin.getConfig().getInt("guild.startpoints"));
+				newGuild.setMoney(plugin.getConfig().getDouble("guild.startmoney"));
 
 				//fire event
 				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(newGuild);

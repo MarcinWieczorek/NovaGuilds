@@ -192,21 +192,17 @@ public class GuildManager {
 				spawnpointcoords = StringUtils.parseDBLocation(guild.getSpawnPoint());
 			}
 
-			int startpoints = plugin.getConfig().getInt("guild.startpoints");
-			double startmoney = plugin.getConfig().getDouble("guild.startmoney");
-			int startlives = plugin.getConfig().getInt("guild.startlives");
-
 			//adding to MySQL
 			//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive
 			String pSQL = "INSERT INTO `"+plugin.sqlp+"guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0);";
 			PreparedStatement preparedStatement = plugin.c.prepareStatement(pSQL,Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setString(1,guild.getTag()); //tag
-			preparedStatement.setString(2,guild.getName()); //name
-			preparedStatement.setString(3,guild.getLeader().getName()); //leader
-			preparedStatement.setString(4,spawnpointcoords); //home
-			preparedStatement.setDouble(5, startmoney); //money
-			preparedStatement.setInt(6, startpoints); //points
-			preparedStatement.setInt(7,startlives); //lives
+			preparedStatement.setString(1, guild.getTag()); //tag
+			preparedStatement.setString(2, guild.getName()); //name
+			preparedStatement.setString(3, guild.getLeader().getName()); //leader
+			preparedStatement.setString(4, spawnpointcoords); //home
+			preparedStatement.setDouble(5, guild.getMoney()); //money
+			preparedStatement.setInt(6, guild.getPoints()); //points
+			preparedStatement.setInt(7, guild.getLives()); //lives
 
 			preparedStatement.execute();
 			ResultSet keys = preparedStatement.getGeneratedKeys();
@@ -247,12 +243,12 @@ public class GuildManager {
 				String alliesinv = "";
 
 				if(guild.getAllies().size() > 0) {
-					for(String ally : guild.getAllies()) {
+					for(NovaGuild ally : guild.getAllies()) {
 						if(!allies.equals("")) {
 							allies += ";";
 						}
 
-						allies += ally;
+						allies += ally.getName();
 					}
 				}
 
@@ -478,6 +474,7 @@ public class GuildManager {
 		}
 	}
 
+	@Deprecated
 	public List<NovaGuild> getTopGuildsByPointsFromDatabase(int count) {
 		List<NovaGuild> list = new ArrayList<>();
 
@@ -539,31 +536,5 @@ public class GuildManager {
 		});
 
 		return guildsByInactive;
-	}
-
-	public static double distanceBetweenGuilds(NovaGuild guild1, NovaGuild guild2) {
-		return guild1.getSpawnPoint().distance(guild2.getSpawnPoint());
-	}
-
-	public boolean isFarEnough(NovaGuild guild) {
-		int diagonal = 0;
-
-		if(guild.hasRegion()) {
-			diagonal = guild.getRegion().getDiagonal();
-		}
-
-		int min = diagonal + plugin.getConfig().getInt("mindistance");
-		for(NovaGuild guildLoop : getGuilds()) {
-			int diagonal2 = 0;
-
-			if(guildLoop.hasRegion()) {
-				diagonal2 = guildLoop.getRegion().getDiagonal();
-			}
-
-			if(distanceBetweenGuilds(guild,guildLoop) < min+diagonal2) {
-				return false;
-			}
-		}
-		return true;
 	}
 }
