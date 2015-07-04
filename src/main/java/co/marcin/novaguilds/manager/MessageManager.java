@@ -196,7 +196,7 @@ public class MessageManager {
 
 	public void sendDelayedTeleportMessage(Player player) {
 		HashMap<String,String> vars = new HashMap<>();
-		vars.put("DELAY",plugin.getGroup(player).getTeleportDelay()+"");
+		vars.put("DELAY",plugin.getGroupManager().getGroup(player).getGuildTeleportDelay()+"");
 		sendMessagesMsg(player, "chat.delayedteleport", vars);
 	}
 

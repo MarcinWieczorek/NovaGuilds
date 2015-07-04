@@ -1,6 +1,5 @@
 package co.marcin.novaguilds;
 
-import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.listener.*;
@@ -8,20 +7,16 @@ import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
+import co.marcin.novaguilds.utils.NumberUtils;
 import co.marcin.novaguilds.utils.RegionUtils;
 import co.marcin.novaguilds.utils.StringUtils;
 import co.marcin.novaguilds.utils.TagUtils;
-
 import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
-
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-
 import me.confuser.barapi.BarAPI;
-
 import net.milkbowl.vault.economy.Economy;
-
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,7 +28,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -49,11 +45,8 @@ public class NovaGuilds extends JavaPlugin {
 	* */
 	private static NovaGuilds inst;
 	private static final Logger log = Logger.getLogger("Minecraft");
-	private static final String logprefix = "[NovaGuilds] ";
 	public final PluginDescriptionFile pdf = this.getDescription();
 	private final PluginManager pm = getServer().getPluginManager();
-	public String sqlp;
-	public final boolean DEBUG = getConfig().getBoolean("debug");
 	
 	private long MySQLReconnectStamp = System.currentTimeMillis();
 
@@ -63,23 +56,13 @@ public class NovaGuilds extends JavaPlugin {
 	//Vault
 	public Economy econ = null;
 
-	public boolean useHolographicDisplays;
-	private boolean useBarAPI;
-	private boolean useMySQL;
-
-	private final HashMap<String,NovaGroup> groups = new HashMap<>();
-	
 	private final GuildManager guildManager = new GuildManager(this);
 	private final RegionManager regionManager = new RegionManager(this);
 	private final PlayerManager playerManager = new PlayerManager(this);
-	private CustomCommandManager commandManager;
 	private final MessageManager messageManager = new MessageManager(this);
+	private CustomCommandManager commandManager;
 	private ConfigManager configManager;
-
-	public long timeRest;
-	public int savePeriod; //minutes
-	public long timeInactive;
-	public long liveRegenerationTime; //minutes
+	private GroupManager groupManager;
 
 	public TagUtils tagUtils;
 	public boolean updateAvailable = false;
@@ -92,68 +75,47 @@ public class NovaGuilds extends JavaPlugin {
 	private MySQL MySQL;
 	public Connection c = null;
 
-	public double distanceFromSpawn;
-
 	public void onEnable() {
 		inst = this;
-		saveDefaultConfig();
-		sqlp = getConfig().getString("mysql.prefix");
-		savePeriod = getConfig().getInt("saveperiod");
-
-		timeRest = getConfig().getLong("raid.timerest");
-		distanceFromSpawn = getConfig().getLong("guild.fromspawn");
-		timeInactive = getConfig().getLong("raid.timeinactive");
-
-		String liveRegenerationString = getConfig().getString("liveregenerationtime");
-		liveRegenerationTime = StringUtils.StringToSeconds(liveRegenerationString);
-
-		useHolographicDisplays = getConfig().getBoolean("holographicdisplays.enabled");
-		useBarAPI = getConfig().getBoolean("barapi.enabled");
-
-		useMySQL = getConfig().getBoolean("usemysql");
-
-		//load groups
-		loadGroups();
-		info("Groups loaded");
 
 		//managers
 		commandManager = new CustomCommandManager(this);
 		configManager = new ConfigManager(this);
+		groupManager = new GroupManager(this);
 
 		tagUtils = new TagUtils(this);
 
 		//HolographicDisplays
-		if(useHolographicDisplays) {
+		if(getConfigManager().useHolographicDisplays()) {
 			if(!checkHolographicDisplays()) {
-				log.severe(logprefix + "Couldn't find HolographicDisplays plugin, disabling this feature.");
-				useHolographicDisplays = false;
+				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find HolographicDisplays plugin, disabling this feature.");
+				getConfigManager().disableHolographicDisplays();
 			}
 			else {
 				info("HolographicDisplays hooked");
 			}
 		}
 		
-		
 		//Vault Economy
 		if(!checkVault()) {
-			log.severe(logprefix+"Disabled due to no Vault dependency found!");
+			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Disabled due to no Vault dependency found!");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
 		info("Vault hooked");
 
 		if(!setupEconomy()) {
-			log.severe(logprefix+"Could not setup Vault's economy, disabling");
+			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Could not setup Vault's economy, disabling");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
 		info("Vault's Economy hooked");
 
 		//BarAPI
-		if(useBarAPI) {
+		if(getConfigManager().useBarAPI()) {
 			if(!checkBarAPI()) {
-				log.severe(logprefix + "Couldn't find BarAPI plugin, disabling this feature.");
-				useBarAPI = false;
+				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find BarAPI plugin, disabling this feature.");
+				getConfigManager().disableBarAPI();
 			} else {
 				info("BarAPI hooked");
 			}
@@ -180,12 +142,12 @@ public class NovaGuilds extends JavaPlugin {
         info("Latest build of the plugin is: #"+latest);
 
 		int latestint = 0;
-		if(StringUtils.isNumeric(latest)) {
+		if(NumberUtils.isNumeric(latest)) {
 			latestint = Integer.parseInt(latest);
 		}
 
 		int version = 0;
-		if(StringUtils.isNumeric(pdf.getVersion())) {
+		if(NumberUtils.isNumeric(pdf.getVersion())) {
 			version = Integer.parseInt(pdf.getVersion());
 		}
 
@@ -201,7 +163,7 @@ public class NovaGuilds extends JavaPlugin {
         }
 
 		try {
-			if(useMySQL) {
+			if(getConfigManager().useMySQL()) {
 				MySQL = new MySQL(this, getConfig().getString("mysql.host") , getConfig().getString("mysql.port"), getConfig().getString("mysql.database"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"));
 				c = MySQL.openConnection();
 				info("Connected to MySQL database");
@@ -214,10 +176,10 @@ public class NovaGuilds extends JavaPlugin {
 			
 			//Tables setup
 			DatabaseMetaData md = c.getMetaData();
-			ResultSet rs = md.getTables(null, null, sqlp+"%", null);
+			ResultSet rs = md.getTables(null, null, getConfigManager().getDatabasePrefix()+"%", null);
 			if(!rs.next()) {
 				info("Couldn't find tables in the base. Creating...");
-				String[] SQLCreateCode = getSQLCreateCode(useMySQL);
+				String[] SQLCreateCode = getSQLCreateCode(getConfigManager().useMySQL());
 				if(SQLCreateCode.length != 0) {
 					try {
 						for(String tableCode : SQLCreateCode) {
@@ -305,14 +267,14 @@ public class NovaGuilds extends JavaPlugin {
 		worker.shutdown();
 
 		//reset barapi
-		if(useBarAPI) {
+		if(getConfigManager().useBarAPI()) {
 			for(Player player : getServer().getOnlinePlayers()) {
 				BarAPI.removeBar(player);
 			}
 		}
 
 		//removing holographic displays
-		if(useHolographicDisplays) {
+		if(getConfigManager().useHolographicDisplays()) {
 			for(Hologram h : HologramsAPI.getHolograms(this)) {
 				h.delete();
 			}
@@ -324,7 +286,7 @@ public class NovaGuilds extends JavaPlugin {
 			Location l2 = nPlayer.getSelectedLocation(1);
 			
 			if(l1 != null && l2 != null) {
-				getRegionManager().sendSquare(p,l1,l2,null,(byte)0);
+				RegionUtils.sendSquare(p, l1, l2, null, (byte)-1);
 				RegionUtils.resetCorner(p, l1);
 				RegionUtils.resetCorner(p, l2);
 
@@ -342,7 +304,7 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	public void mysqlReload() {
-		if(!useMySQL) return;
+		if(!getConfigManager().useMySQL()) return;
 		long stamp = System.currentTimeMillis();
 		
 		if(stamp-MySQLReconnectStamp > 3000) {
@@ -364,12 +326,12 @@ public class NovaGuilds extends JavaPlugin {
     }
 	
 	public void info(String msg) {
-		log.info(logprefix+msg);
+		ConfigManager.getLogger().info(getConfigManager().getLogPrefix()+msg);
 	}
 
 	public void debug(String msg) {
-		if(DEBUG) {
-			log.info(logprefix + "[DEBUG] " + msg);
+		if(getConfigManager().isDebugEnabled()) {
+			ConfigManager.getLogger().info(getConfigManager().getLogPrefix() + "[DEBUG] " + msg);
 		}
 	}
 	
@@ -396,6 +358,10 @@ public class NovaGuilds extends JavaPlugin {
 
 	public ConfigManager getConfigManager() {
 		return configManager;
+	}
+
+	public GroupManager getGroupManager() {
+		return groupManager;
 	}
 
 	//Vault economy
@@ -448,19 +414,19 @@ public class NovaGuilds extends JavaPlugin {
 	private void createTable(String sql) throws SQLException {
 		mysqlReload();
 		Statement statement;
-		sql = StringUtils.replace(sql, "{SQLPREFIX}", sqlp);
+		sql = StringUtils.replace(sql, "{SQLPREFIX}", getConfigManager().getDatabasePrefix());
 		statement = c.createStatement();
 		statement.executeUpdate(sql);
 	}
 	
 	public void runSaveScheduler() {
 		Runnable task = new RunnableAutoSave(this);
-		worker.schedule(task, savePeriod, TimeUnit.MINUTES);
+		worker.schedule(task, getConfigManager().getSaveInterval(), TimeUnit.MINUTES);
 	}
 
 	public void runLiveRegenerationTask() {
 		Runnable task = new RunnableLiveRegeneration(this);
-		worker.schedule(task,30,TimeUnit.MINUTES);
+		worker.schedule(task, getConfigManager().getGuildLiveRegenerationTaskInterval(), TimeUnit.MINUTES);
 	}
 
 	private void setupMetrics() {
@@ -502,7 +468,7 @@ public class NovaGuilds extends JavaPlugin {
 		msg = StringUtils.replace(msg, "{DEFENDER}", defender.getName());
 
 		for(Player player : guild.getOnlinePlayers()) {
-			if(useBarAPI) {
+			if(getConfigManager().useBarAPI()) {
 				BarAPI.setMessage(player, StringUtils.fixColors(msg), percent);
 			}
 			else {
@@ -512,7 +478,7 @@ public class NovaGuilds extends JavaPlugin {
 	}
 
 	public void resetWarBar(NovaGuild guild) {
-		if(useBarAPI) {
+		if(getConfigManager().useBarAPI()) {
 			for(NovaPlayer nPlayer : guild.getPlayers()) {
 				if(nPlayer.isOnline()) {
 					BarAPI.removeBar(nPlayer.getPlayer());
@@ -521,88 +487,13 @@ public class NovaGuilds extends JavaPlugin {
 		}
 	}
 
-	public void loadGroups() {
-		groups.clear();
-		Set<String> groupsNames = getConfig().getConfigurationSection("guild.create.groups").getKeys(false);
-		groupsNames.add("admin");
-
-		for(String groupName : groupsNames) {
-			groups.put(groupName, new NovaGroup(this, groupName));
-		}
-
-		debug(groups.toString());
-	}
-
-	public NovaGroup getGroup(Player player) {
-		String groupName = "default";
-
-		if(player == null) {
-			debug("Player is null, return is default group");
-			return getGroup(groupName);
-		}
-
-		if(player.hasPermission("novaguilds.group.admin")) {
-			return getGroup("admin");
-		}
-
-		for(String name : groups.keySet()) {
-			if(player.hasPermission("novaguilds.group."+name) && !name.equalsIgnoreCase("default")) {
-				groupName = name;
-				break;
-			}
-		}
-
-		return getGroup(groupName);
-	}
-
-	public NovaGroup getGroup(CommandSender sender) {
-		if(sender instanceof Player) {
-			return getGroup(senderToPlayer(sender));
-		}
-		else {
-			return getGroup("admin");
-		}
-	}
-
-	public NovaGroup getGroup(String groupName) {
-		if(groups.containsKey(groupName)) {
-			return groups.get(groupName);
-		}
-
-		debug("Requested invalid group ("+groupName+")");
-
-		debug("Trying to get the group again...");
-		debug("Found "+groups.size()+" groups");
-		debug(groups.toString());
-		for(Map.Entry<String, NovaGroup> group : groups.entrySet()) {
-			debug(group.getKey()+" and "+groupName);
-			if(group.getKey().equalsIgnoreCase(groupName)) {
-				debug("Found matching group");
-				return group.getValue();
-			}
-		}
-		debug("Failed to get the group, return is null");
-		return null;
-	}
-
 	public void delayedTeleport(Player player, Location location, String path) {
 		Runnable task = new RunnableTeleportRequest(this,player,location,path);
-		worker.schedule(task,getGroup(player).getTeleportDelay(),TimeUnit.SECONDS);
+		worker.schedule(task,getGroupManager().getGroup(player).getGuildTeleportDelay(),TimeUnit.SECONDS);
 
-		if(getGroup(player).getTeleportDelay()>0) {
+		if(getGroupManager().getGroup(player).getGuildTeleportDelay() > 0) {
 			getMessageManager().sendDelayedTeleportMessage(player);
 		}
-	}
-
-	public boolean isStringAllowed(String string) {
-		String allowed = getConfig().getString("guild.allowedchars");
-		for(int i=0;i<string.length();i++) {
-			if(allowed.indexOf(string.charAt(i)) == -1) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	//Utils

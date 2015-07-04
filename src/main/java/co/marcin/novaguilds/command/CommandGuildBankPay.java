@@ -1,16 +1,15 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.utils.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public class CommandGuildBankPay implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -20,12 +19,6 @@ public class CommandGuildBankPay implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		String marg = null;
-		
-		if(args.length>0) {
-			marg = args[0];
-		}
-
 		if(!(sender instanceof Player)) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
 			return true;
@@ -47,12 +40,12 @@ public class CommandGuildBankPay implements CommandExecutor {
 
 		NovaGuild guild = nPlayer.getGuild();
 
-		if(marg == null || !StringUtils.isNumeric(marg)) {
+		if(args.length==0 || !NumberUtils.isNumeric(args[0])) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.enteramount");
 			return true;
 		}
 
-		Double money = Double.parseDouble(marg);
+		Double money = Double.parseDouble(args[0]);
 
 		if(plugin.econ.getBalance(player) < money) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.notenough");

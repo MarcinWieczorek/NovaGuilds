@@ -37,6 +37,7 @@ public class LoginListener implements Listener {
 		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 
 		nPlayer.setPlayer(player);
+		plugin.getPlayerManager().updateUUID(nPlayer);
 
 		if(plugin.updateAvailable && player.hasPermission("novaguilds.admin.updateavailable")) {
 			plugin.getMessageManager().sendMessagesMsg(player,"chat.update");

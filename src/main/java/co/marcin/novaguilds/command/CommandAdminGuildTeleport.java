@@ -1,15 +1,15 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
+import java.util.HashMap;
 
 public class CommandAdminGuildTeleport implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -29,55 +29,46 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 			return true;
 		}
 		
-		if(sender.hasPermission("novaguilds.admin.guild.tp")) {
-			if(guild != null) {
-				Location home = guild.getSpawnPoint();
+		if(!sender.hasPermission("novaguilds.admin.guild.tp")) {
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			return true;
+		}
 
-				if(home != null) {
-					Player player;
-					boolean other = false;
+		Location home = guild.getSpawnPoint();
 
-					HashMap<String,String> vars = new HashMap<>();
-					vars.put("GUILDNAME",guild.getName());
+		Player player = (Player)sender;
+		boolean other = false;
 
-					if(args.length==1) {
-						String playername = args[0];
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("GUILDNAME",guild.getName());
 
-						if(plugin.getPlayerManager().exists(playername)) {
-							player = plugin.getServer().getPlayer(playername);
-							other = true;
-							if(player == null) {
-								plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notonline");
-								return true;
-							}
-						}
-						else {
-							plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
-							return true;
-						}
-					}
-					else {
-						player = (Player)sender;
-					}
+		if(args.length==1) {
+			String playerName = args[0];
+			NovaPlayer nPlayerOther = plugin.getPlayerManager().getPlayer(playerName);
 
-					if(other) {
-						vars.put("PLAYERNAME",player.getName());
-						plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleportedother", vars);
-					}
-					else {
-						plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
-					}
-
-					player.teleport(home);
-				}
+			if(nPlayerOther == null) {
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+				return true;
 			}
-			else {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.namenotexist");
+
+			if(!nPlayerOther.isOnline()) {
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notonline");
+				return true;
 			}
+
+			player = nPlayerOther.getPlayer();
+			other = true;
+		}
+
+		if(other) {
+			vars.put("PLAYERNAME",player.getName());
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleportedother", vars);
 		}
 		else {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
 		}
+
+		player.teleport(home);
 		return true;
 	}
 }

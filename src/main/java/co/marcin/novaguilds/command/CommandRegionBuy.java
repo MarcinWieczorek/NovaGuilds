@@ -41,7 +41,7 @@ public class CommandRegionBuy implements CommandExecutor {
 								int regionsize = plugin.getRegionManager().checkRegionSize(nPlayer.getSelectedLocation(0),nPlayer.getSelectedLocation(1));
 
 								//region's price
-								double price = plugin.getGroup(sender).getPricePerBlock() * regionsize + plugin.getGroup(sender).getCreateRegionMoney();
+								double price = plugin.getGroupManager().getGroup(sender).getRegionPricePerBlock() * regionsize + plugin.getGroupManager().getGroup(sender).getRegionCreateMoney();
 								
 								if(guild.getMoney() >= price) {
 									NovaRegion region = new NovaRegion();

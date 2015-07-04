@@ -1,7 +1,9 @@
 package co.marcin.novaguilds.listener;
 
-import java.util.List;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -11,18 +13,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
+
+import java.util.List;
 
 public class RegionInteractListener implements Listener {
 	private final NovaGuilds plugin;

@@ -2,7 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.utils.StringUtils;
+import co.marcin.novaguilds.utils.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +18,7 @@ public class CommandAdminGuildSetLives implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.lives")) {
-
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
@@ -27,15 +27,14 @@ public class CommandAdminGuildSetLives implements CommandExecutor {
 			return true;
 		}
 
-		if(!StringUtils.isNumeric(args[0])) {
-
+		if(!NumberUtils.isNumeric(args[0])) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.enterinteger");
 			return true;
 		}
 
 		int lives = Integer.parseInt(args[0]);
 		guild.setLives(lives);
-		//TODO message
-
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setlives");
 		return true;
 	}
 }

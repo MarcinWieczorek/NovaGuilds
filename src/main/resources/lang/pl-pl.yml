@@ -37,6 +37,8 @@ chat:
    teleported: "Teleportowano do bazy &a{GUILDNAME}"
    teleportedother: "Teleportowano gracza &c{PLAYERNAME} &3do bazy &a{GUILDNAME}"
    settag: "Tag zmieniony na &a{TAG}"
+   setpoints: "Points set."
+   setlives: "Lives set."
    setname:
     enternewname: "Wprowadz nowa nazwe"
     success: "Nazwa gildii zmieniona."

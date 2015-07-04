@@ -2,6 +2,7 @@ package co.marcin.novaguilds.utils;
 
 import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -234,7 +235,7 @@ public class RegionUtils {
 	}
 
 	public static int distanceBetweenRegionsSide(NovaRegion region1, Location l1, Location l2) {
-		int distance = -1;
+		int distance;
 
 		int[] x1 = new int[2];
 		int[] x2 = new int[2];
@@ -288,5 +289,148 @@ public class RegionUtils {
 		}
 
 		return distance;
+	}
+
+	@SuppressWarnings("deprecation")
+	public static List<Block> getBorderBlocks(NovaRegion region) {
+		List<Block> blocks = new ArrayList<>();
+
+		Location l1 = region.getCorner(0);
+		Location l2 = region.getCorner(1);
+		World world = region.getWorld();
+
+		int x;
+		int z;
+
+		int xs;
+		int zs;
+
+		int x1 = l1.getBlockX();
+		int x2 = l2.getBlockX();
+		int z1 = l1.getBlockZ();
+		int z2 = l2.getBlockZ();
+
+		int t;
+
+		int dif_x = Math.abs(x1 - x2) +1;
+		int dif_z = Math.abs(z1 - z2) +1;
+
+		if(l1.getBlockX() < l2.getBlockX()) {
+			xs = l1.getBlockX();
+		}
+		else {
+			xs = l2.getBlockX();
+		}
+
+		if(l1.getBlockZ() < l2.getBlockZ()) {
+			zs = l1.getBlockZ();
+		}
+		else {
+			zs = l2.getBlockZ();
+		}
+
+		for(t=0;t<dif_x;t++) {
+			x = xs + t;
+			int highest1 = world.getHighestBlockYAt(x, z1)-1;
+			int highest2 = world.getHighestBlockYAt(x, z2)-1;
+
+			blocks.add(world.getBlockAt(x, highest1, z1));
+			blocks.add(world.getBlockAt(x,highest2,z2));
+		}
+
+
+		for(t=0;t<dif_z;t++) {
+			z = zs + t;
+			int highest1 = world.getHighestBlockYAt(x1, z)-1;
+			int highest2 = world.getHighestBlockYAt(x2, z)-1;
+
+			blocks.add(world.getBlockAt(x1, highest1, z));
+			blocks.add(world.getBlockAt(x2,highest2,z));
+		}
+
+		return blocks;
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void sendSquare(Player player, Location l1, Location l2,Material material,byte data) {
+		Material material1 = null;
+		Material material2 = null;
+
+		Byte data1 = null;
+		Byte data2 = null;
+
+		if(material != null) {
+			material1 = material2 = material;
+			data1 = data2 = data;
+		}
+
+		int x;
+		int z;
+
+		int xs;
+		int zs;
+
+		int x1 = l1.getBlockX();
+		int x2 = l2.getBlockX();
+		int z1 = l1.getBlockZ();
+		int z2 = l2.getBlockZ();
+
+		int t;
+
+		int dif_x = Math.abs(x1 - x2) +1;
+		int dif_z = Math.abs(z1 - z2) +1;
+
+		if(l1.getBlockX() < l2.getBlockX()) {
+			xs = l1.getBlockX();
+		}
+		else {
+			xs = l2.getBlockX();
+		}
+
+		if(l1.getBlockZ() < l2.getBlockZ()) {
+			zs = l1.getBlockZ();
+		}
+		else {
+			zs = l2.getBlockZ();
+		}
+
+		for(t=0;t<dif_x;t++) {
+			x = xs + t;
+			int highest1 = player.getWorld().getHighestBlockYAt(x,z1)-1;
+			int highest2 = player.getWorld().getHighestBlockYAt(x,z2)-1;
+			Location loc1 = player.getWorld().getBlockAt(x,highest1,z1).getLocation();
+			Location loc2 = player.getWorld().getBlockAt(x,highest2,z2).getLocation();
+
+			if(material == null) {
+				material1 = player.getWorld().getBlockAt(loc1).getType();
+				material2 = player.getWorld().getBlockAt(loc2).getType();
+
+				data1 = player.getWorld().getBlockAt(loc1).getData();
+				data2 = player.getWorld().getBlockAt(loc2).getData();
+			}
+
+			player.sendBlockChange(loc1, material1, data1);
+			player.sendBlockChange(loc2, material2, data2);
+		}
+
+
+		for(t=0;t<dif_z;t++) {
+			z = zs + t;
+			int highest1 = player.getWorld().getHighestBlockYAt(x1,z)-1;
+			int highest2 = player.getWorld().getHighestBlockYAt(x2,z)-1;
+			Location loc1 = player.getWorld().getBlockAt(x1,highest1,z).getLocation();
+			Location loc2 = player.getWorld().getBlockAt(x2,highest2,z).getLocation();
+
+			if(material == null) {
+				material1 = player.getWorld().getBlockAt(loc1).getType();
+				material2 = player.getWorld().getBlockAt(loc2).getType();
+
+				data1 = player.getWorld().getBlockAt(loc1).getData();
+				data2 = player.getWorld().getBlockAt(loc2).getData();
+			}
+
+			player.sendBlockChange(loc1, material1, data1);
+			player.sendBlockChange(loc2, material2, data2);
+		}
 	}
 }

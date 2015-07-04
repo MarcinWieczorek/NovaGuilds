@@ -29,7 +29,7 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 		int iseconds = StringUtils.StringToSeconds(timeString);
 		long seconds = Long.parseLong(iseconds+"");
 
-		long newtimerest = NovaGuilds.systemSeconds() - (plugin.timeRest - seconds);
+		long newtimerest = NovaGuilds.systemSeconds() - (plugin.getConfigManager().getRaidTimeRest() - seconds);
 		plugin.debug("new timerest = "+newtimerest);
 		plugin.debug("add seconds = "+seconds);
 

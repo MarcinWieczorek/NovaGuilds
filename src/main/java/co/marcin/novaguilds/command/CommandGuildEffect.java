@@ -2,7 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.utils.StringUtils;
+import co.marcin.novaguilds.utils.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,34 +38,20 @@ public class CommandGuildEffect implements CommandExecutor {
 			return true;
 		}
 
-		if(nPlayer.getGuild().getMoney() < plugin.getGroup(sender).getEffectPrice()) {
+		if(nPlayer.getGuild().getMoney() < plugin.getGroupManager().getGroup(sender).getGuildEffectPrice()) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughmoney");
 			return true;
 		}
 
 		//TODO: configurable duration
-		int duration = 2000;
+		int duration = plugin.getConfigManager().getGuildEffectDuration();
 
-		List<String> potionEffects = plugin.getConfig().getStringList("guild.effects");
+		List<PotionEffectType> potionEffects = plugin.getConfigManager().getGuildEffects();
 
-		if(potionEffects.size() == 0) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.erroroccured");
-			plugin.info("Invalid effect, check config!");
-			return true;
-		}
-
-		int rand = StringUtils.randInt(0, potionEffects.size() - 1);
-		PotionEffectType effectType = PotionEffectType.getByName(potionEffects.get(rand));
-
-		if(effectType == null) { //invalid effect
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.erroroccured");
-			plugin.info("Invalid effect, check config!");
-			return true;
-		}
-
+		int rand = NumberUtils.randInt(0, potionEffects.size() - 1);
+		PotionEffectType effectType = potionEffects.get(rand);
 
 		PotionEffect effect = effectType.createEffect(duration, 1);
-
 		Player player = (Player)sender;
 
 		//add effect
@@ -78,7 +64,7 @@ public class CommandGuildEffect implements CommandExecutor {
 		}
 
 		//remove money
-		nPlayer.getGuild().takeMoney(plugin.getGroup(sender).getEffectPrice());
+		nPlayer.getGuild().takeMoney(plugin.getGroupManager().getGroup(sender).getGuildEffectPrice());
 
 		//message
 		HashMap<String,String> vars = new HashMap<>();

@@ -4,7 +4,7 @@ chat:
  unknowncmd: "&cUnknown command."
  invalidparam: "&cInvalid command param"
  cmdfromconsole: "You cannot perform this command from the Console"
- enterinteger: "Please enter an integer."
+ enterinteger: "Please enter a number."
  delayedteleport: "You will be teleported in &c{DELAY} &3seconds"
  delayedtpmoved: "You moved! Teleportation canceled!"
  erroroccured: "An error occured. Contact server administrator"
@@ -37,10 +37,12 @@ chat:
    teleported: "Teleported to home of &a{GUILDNAME}"
    teleportedother: "Teleported &c{PLAYERNAME} &3to home of &a{GUILDNAME}"
    settag: "Tag changed to &a{TAG}"
+   setpoints: "Points set."
+   setlives: "Lives set."
    setname:
     enternewname: "Enter new name"
     success: "Guild's name changed."
-   setleader: 
+   setleader:
     notinguild: "This player is not in guild &a{GUILDNAME}"
     alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
     success: "New leader set!"

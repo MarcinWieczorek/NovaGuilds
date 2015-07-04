@@ -1,16 +1,15 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.utils.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public class CommandGuildBankWithdraw implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -40,7 +39,7 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 				NovaGuild guild = nPlayer.getGuild();
 				
 				if(nPlayer.isLeader()) {
-					if(marg != null && StringUtils.isNumeric(marg)) {
+					if(marg != null && NumberUtils.isNumeric(marg)) {
 						Double money = Double.parseDouble(marg);
 						
 						if(guild.getMoney() >= money) {

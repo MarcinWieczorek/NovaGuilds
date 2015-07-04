@@ -1,8 +1,8 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.utils.StringUtils;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.utils.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,7 +36,7 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 
 		String money_str = args[0];
 
-		if(!StringUtils.isNumeric(money_str)) {
+		if(!NumberUtils.isNumeric(money_str)) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.enterinteger");
 			return true;
 		}

@@ -1,23 +1,22 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-import java.util.List;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.event.GuildCreateEvent;
+import co.marcin.novaguilds.utils.ItemStackUtils;
+import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.utils.StringUtils;
+import java.util.HashMap;
+import java.util.List;
 
 public class CommandGuildCreate implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -100,26 +99,23 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 
 		//allowed strings (tag, name)
-		if(!plugin.isStringAllowed(tag) || !plugin.isStringAllowed(guildname)) {
+		if(!StringUtils.isStringAllowed(tag) || !StringUtils.isStringAllowed(guildname)) {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.name.notallowedstring");
 			return true;
 		}
 
 		//distance from spawn
-		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < plugin.distanceFromSpawn) {
-			vars.put("DISTANCE",plugin.distanceFromSpawn+"");
+		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < plugin.getConfigManager().getGuildDistanceFromSpawn()) {
+			vars.put("DISTANCE",plugin.getConfigManager().getGuildDistanceFromSpawn()+"");
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.tooclosespawn", vars);
 			return true;
 		}
 
 		//items required
-		List<ItemStack> items = plugin.getGroup(sender).getCreateGuildItems();
-		PlayerInventory inventory = player.getInventory();
-		boolean hasitems = true;
+		List<ItemStack> items = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
 		boolean hasMoney = true;
-		int i;
 
-		double requiredmoney = plugin.getGroup(sender).getCreateGuildMoney();
+		double requiredmoney = plugin.getGroupManager().getGroup(sender).getGuildCreateMoney();
 
 		if(requiredmoney>0) {
 			if(plugin.econ.getBalance(player.getName()) < requiredmoney) {
@@ -127,27 +123,41 @@ public class CommandGuildCreate implements CommandExecutor {
 			}
 		}
 
-		if(items.size()>0) {
-			for(ItemStack item : items) {
-				//plugin.debug("item: "+item.toString());
-				if(!inventory.containsAtLeast(item,item.getAmount())) {
-					//plugin.debug("NO ITEM "+item.getType()+" x"+item.getAmount());
-					hasitems = false;
-				}
-			}
-		}
+		//TODO test
+		boolean hasitems = ItemStackUtils.hasAllRequiredItems(player,items);
+//		if(items.size()>0) {
+//			for(ItemStack item : items) {
+//				//plugin.debug("item: "+item.toString());
+//				if(!inventory.containsAtLeast(item,item.getAmount())) {
+//					//plugin.debug("NO ITEM "+item.getType()+" x"+item.getAmount());
+//					hasitems = false;
+//				}
+//			}
+//		}
 
 		if(!hasitems) {
 			String itemlist = "";
-			for(i=0;i<items.size();i++) {
+			for(ItemStack missingItemStack : ItemStackUtils.getMissingItems(player,items)) {
 				String itemrow = plugin.getMessageManager().getMessagesString("chat.createguild.itemlist");
-				itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", items.get(i).getType().name());
-				itemrow = StringUtils.replace(itemrow, "{AMOUNT}", items.get(i).getAmount() + "");
+				itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
+				itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
 
 				itemlist += itemrow;
 
-				if(i<items.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+				//TODO fix separator
+				//if(i<items.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
 			}
+
+//			String itemlist = "";
+//			for(i=0;i<items.size();i++) {
+//				String itemrow = plugin.getMessageManager().getMessagesString("chat.createguild.itemlist");
+//				itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", items.get(i).getType().name());
+//				itemrow = StringUtils.replace(itemrow, "{AMOUNT}", items.get(i).getAmount() + "");
+//
+//				itemlist += itemrow;
+//
+//				if(i<items.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+//			}
 
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.noitems");
 			sender.sendMessage(StringUtils.fixColors(itemlist));
@@ -165,7 +175,7 @@ public class CommandGuildCreate implements CommandExecutor {
 
 		//Automatic Region
 		if(plugin.getConfig().getBoolean("region.autoregion")) {
-			int size = plugin.getGroup(sender).getAutoregionSize();
+			int size = plugin.getGroupManager().getGroup(sender).getRegionAutoSize();
 			Location playerLocation = player.getLocation();
 			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size+1, 0, playerLocation.getBlockZ() - size+1);
 			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);

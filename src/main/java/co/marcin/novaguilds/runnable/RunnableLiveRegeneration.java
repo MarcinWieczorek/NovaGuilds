@@ -15,7 +15,7 @@ public class RunnableLiveRegeneration implements Runnable {
 			long lostLiveTime = guild.getLostLiveTime();
 
 			if(lostLiveTime > 0) {
-				if(NovaGuilds.systemSeconds() - lostLiveTime > plugin.liveRegenerationTime) {
+				if(NovaGuilds.systemSeconds() - lostLiveTime > plugin.getConfigManager().getGuildLiveRegenerationTime()) {
 					guild.addLive();
 					guild.resetLostLiveTime();
 					plugin.debug("live regenerated for guild: "+guild.getName());

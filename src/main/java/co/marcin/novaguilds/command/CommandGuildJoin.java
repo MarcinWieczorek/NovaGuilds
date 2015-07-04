@@ -1,15 +1,14 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-import java.util.List;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import java.util.HashMap;
+import java.util.List;
 
 public class CommandGuildJoin implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -51,7 +50,6 @@ public class CommandGuildJoin implements CommandExecutor {
 						guild.addPlayer(nPlayer);
 						nPlayer.setGuild(guild);
 						nPlayer.deleteInvitation(guild);
-						plugin.getPlayerManager().updatePlayer(nPlayer);
 						plugin.tagUtils.refreshAll();
 						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.joined");
 						

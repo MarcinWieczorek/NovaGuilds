@@ -16,21 +16,14 @@ public class CommandAdminReload implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(sender.hasPermission("novaguilds.admin.reload")) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.reloading");
-			
-			plugin.saveDefaultConfig();
-			plugin.reloadConfig();
 
 			//plugin's vars from config
-			plugin.savePeriod = plugin.getConfig().getInt("saveperiod");
-
-			plugin.timeRest = plugin.getConfig().getLong("raid.timerest");
-			plugin.distanceFromSpawn = plugin.getConfig().getLong("guild.fromspawn");
-			plugin.timeInactive = plugin.getConfig().getLong("raid.timeinactive");
+			plugin.getConfigManager().reload();
 
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.config");
 
 			//MySQL
-			plugin.sqlp = plugin.getConfig().getString("mysql.prefix");
+			//TODO reload mysql
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.mysql");
 
 			//messages
@@ -51,7 +44,7 @@ public class CommandAdminReload implements CommandExecutor {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.players");
 
 			//groups
-			plugin.loadGroups();
+			plugin.getGroupManager().loadGroups();
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.groups");
 
 			//all done

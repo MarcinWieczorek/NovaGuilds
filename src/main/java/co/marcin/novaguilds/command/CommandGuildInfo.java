@@ -1,18 +1,17 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-import java.util.List;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.utils.StringUtils;
+import java.util.HashMap;
+import java.util.List;
 
 public class CommandGuildInfo implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -121,12 +120,12 @@ public class CommandGuildInfo implements CommandExecutor {
 			vars.put("LIVES", guild.getLives() + "");
 
 			//live regeneration time
-			long liveRegenerationTime = plugin.liveRegenerationTime - (NovaGuilds.systemSeconds() - guild.getLostLiveTime());
+			long liveRegenerationTime = plugin.getConfigManager().getGuildLiveRegenerationTime() - (NovaGuilds.systemSeconds() - guild.getLostLiveTime());
 			String liveRegenerationString = StringUtils.secondsToString(liveRegenerationTime);
 
-			long timeWait = (guild.getTimeRest() + plugin.timeRest) - NovaGuilds.systemSeconds();
+			long timeWait = (guild.getTimeRest() + plugin.getConfigManager().getRaidTimeRest()) - NovaGuilds.systemSeconds();
 			plugin.debug("timewait="+timeWait);
-			plugin.debug(guild.getTimeRest() +"+"+ plugin.timeRest +"-"+ NovaGuilds.systemSeconds());
+			plugin.debug(guild.getTimeRest() +"+"+ plugin.getConfigManager().getRaidTimeRest() +"-"+ NovaGuilds.systemSeconds());
 
 			vars.put("LIVEREGENERATIONTIME", liveRegenerationString);
 			vars.put("TIMEREST",StringUtils.secondsToString(timeWait));

@@ -40,7 +40,14 @@ holographicdisplays:
 saveperiod: 10
 
 #after the raid is over and this time the guild will get +1 live
-liveregenerationtime: 24h
+liveregeneration:
+ regentime: 24h
+ taskinterval: 30m
+
+cleanup:
+ enabled: true
+ inactivetime: 7d
+ interval: 1d
 
 aliases:
  guild:
@@ -112,6 +119,7 @@ guild:
  deathpoints: 5
 
  #/g effect
+ effectduration: 2000
  effects:
   - JUMP
   - INCREASE_DAMAGE
@@ -123,9 +131,20 @@ guild:
   groups:
    default: #this is default
     #teleport delay in seconds
-    tpdelay: 5
     effectprice: 100
-    money: 0
+    guild:
+     home:
+      tpdelay: 5
+      money: 0
+      items: []
+     join:
+      money: 0
+      items: []
+     create:
+      money: 0
+      items:
+       - dirt 1
+
     region:
      #size (radius) of auto created region (5 = 10x10)
      autoregionsize: 5
@@ -133,23 +152,6 @@ guild:
      create: 100
      #price per block
      ppb: 1
-    #required items
-    # - dirt 1
-    # - name amount
-    # - wool:14 1
-    #
-    items:
-     - dirt 1
-   vip: #novaguilds.group.vip
-    tpdelay: 3
-    effectprice: 100
-    money: 0
-    region:
-     autoregionsize: 10
-     create: 50
-     ppb: 0.5
-    items:
-     - cobblestone 5
 
 region:
  autoregion: true

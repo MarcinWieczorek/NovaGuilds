@@ -60,12 +60,6 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 		guild.setName(newName);
 		plugin.getGuildManager().changeName(guild, newName);
 		
-		//update players
-		//TODO: probably is not useful, does nothing
-//		for(NovaPlayer nP : guild.getPlayers()) {
-//			nP.setGuild(guild);
-//		}
-		
 		plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.setname.success");
 		
 		return true;

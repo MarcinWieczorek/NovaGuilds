@@ -92,7 +92,7 @@ public class GuildManager {
 			statement = plugin.c.createStatement();
 			
 			guilds.clear();
-			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.sqlp + "guilds`");
+			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`");
 			while(res.next()) {
 				String spawnpoint_coord = res.getString("spawn");
 				
@@ -194,7 +194,7 @@ public class GuildManager {
 
 			//adding to MySQL
 			//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive
-			String pSQL = "INSERT INTO `"+plugin.sqlp+"guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0);";
+			String pSQL = "INSERT INTO `"+plugin.getConfigManager().getDatabasePrefix()+"guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0);";
 			PreparedStatement preparedStatement = plugin.c.prepareStatement(pSQL,Statement.RETURN_GENERATED_KEYS);
 			preparedStatement.setString(1, guild.getTag()); //tag
 			preparedStatement.setString(2, guild.getName()); //name
@@ -286,7 +286,7 @@ public class GuildManager {
 					}
 				}
 
-				String sql = "UPDATE `" + plugin.sqlp + "guilds` SET " +
+				String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET " +
 						"`tag`='" + guild.getTag() + "', " +
 						"`name`='" + guild.getName() + "', " +
 						"`leader`='" + guild.getLeader().getName() + "', " +
@@ -327,7 +327,7 @@ public class GuildManager {
 			statement = plugin.c.createStatement();
 
 			//delete from database
-			String sql = "DELETE FROM `"+plugin.sqlp+"guilds` WHERE `id`="+guild.getId();
+			String sql = "DELETE FROM `"+plugin.getConfigManager().getDatabasePrefix()+"guilds` WHERE `id`="+guild.getId();
 			plugin.debug(sql);
 			plugin.debug("id="+guild.getId());
 			statement.executeUpdate(sql);
@@ -483,7 +483,7 @@ public class GuildManager {
 		try {
 			Statement statement = plugin.c.createStatement();
 
-			ResultSet res = statement.executeQuery("SELECT `name` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+count);
+			ResultSet res = statement.executeQuery("SELECT `name` FROM `"+plugin.getConfigManager().getDatabasePrefix()+"guilds` ORDER BY `points` DESC LIMIT "+count);
 
 			while(res.next()) {
 				String name = res.getString("name");

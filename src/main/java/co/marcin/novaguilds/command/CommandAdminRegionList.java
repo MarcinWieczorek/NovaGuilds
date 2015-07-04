@@ -1,14 +1,14 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.utils.NumberUtils;
 import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaRegion;
+import java.util.HashMap;
 
 public class CommandAdminRegionList implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -43,7 +43,7 @@ public class CommandAdminRegionList implements CommandExecutor {
 		//pages
 		int page = 1;
 		if(args.length == 1) {
-			if(StringUtils.isNumeric(args[0])) {
+			if(NumberUtils.isNumeric(args[0])) {
 				page = Integer.parseInt(args[0]);
 			}
 		}

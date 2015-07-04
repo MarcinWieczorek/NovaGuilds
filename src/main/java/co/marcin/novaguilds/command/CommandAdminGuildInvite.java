@@ -44,11 +44,11 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		
 		if(nPlayer.isInvitedTo(guild)) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.alreadyinvited");
+			return true;
 		}
 		
 		//all passed
 		plugin.getPlayerManager().addInvitation(nPlayer, guild);
-		plugin.getPlayerManager().updatePlayer(nPlayer);
 		plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.invited");
 		
 		if(nPlayer.getPlayer() != null) {

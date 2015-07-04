@@ -1,12 +1,11 @@
 package co.marcin.novaguilds.command;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.utils.StringUtils;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -17,13 +16,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.utils.StringUtils;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandNovaGuilds implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -35,7 +33,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length > 0) {
 			if(args[0].equalsIgnoreCase("book")) {
-				if(!plugin.DEBUG) return false;
+				if(!plugin.getConfigManager().isDebugEnabled()) return false;
 		        ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 		        BookMeta bm = (BookMeta)book.getItemMeta();
 		        bm.setPages(Arrays.asList(new String[] { 
@@ -50,33 +48,18 @@ public class CommandNovaGuilds implements CommandExecutor {
 			else if(args[0].equalsIgnoreCase("tool")) { //TOOL
 				new CommandToolGet(plugin).onCommand(sender, cmd, label, args);
 			}
-			else if(args[0].equalsIgnoreCase("bc")) { //BROADCAST
-				if(!plugin.DEBUG) return false;
-				if(args.length > 1) {
-					String msg ="";
-					for(int i=1;i<args.length;i++) {
-						msg += args[i]+" ";
-					}
-					
-					plugin.getMessageManager().broadcast(msg);
-				}
-				else {
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.usage.ng.broadcast");
-					return true;
-				}
-			}
 			else if(args[0].equalsIgnoreCase("admin")) { //Admin commands
 				if(sender.hasPermission("novaguilds.admin.access")) {
 					new CommandAdmin(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 				}
 			}
 			else if(args[0].equalsIgnoreCase("group")) { //Admin commands
-				sender.sendMessage("name = "+plugin.getGroup(sender).getName());
-				sender.sendMessage("guild$ = "+plugin.getGroup(sender).getCreateGuildMoney());
-				sender.sendMessage("region$ = "+plugin.getGroup(sender).getCreateRegionMoney());
-				sender.sendMessage("ppb = "+plugin.getGroup(sender).getPricePerBlock());
-				sender.sendMessage("guilditems = "+plugin.getGroup(sender).getCreateGuildItems().toString());
-				sender.sendMessage("tpdelay = "+plugin.getGroup(sender).getTeleportDelay()+"s");
+				sender.sendMessage("name = "+plugin.getGroupManager().getGroup(sender).getName());
+				sender.sendMessage("guild$ = "+plugin.getGroupManager().getGroup(sender).getGuildCreateMoney());
+				sender.sendMessage("region$ = "+plugin.getGroupManager().getGroup(sender).getRegionCreateMoney());
+				sender.sendMessage("ppb = "+plugin.getGroupManager().getGroup(sender).getRegionPricePerBlock());
+				sender.sendMessage("guilditems = "+plugin.getGroupManager().getGroup(sender).getGuildCreateItems().toString());
+				sender.sendMessage("tpdelay = "+plugin.getGroupManager().getGroup(sender).getGuildTeleportDelay()+"s");
 
 //				Location l = (Player)sender.getLocation();
 //				l.setX(l.getBlockX()+5);
@@ -94,7 +77,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 							Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());
 							hologram.appendTextLine(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.header")));
 							
-							ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.sqlp+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessageManager().getMessages().getInt("holographicdisplays.topguilds.toprows"));
+							ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.getConfigManager().getDatabasePrefix()+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessageManager().getMessages().getInt("holographicdisplays.topguilds.toprows"));
 							
 							int i=1;
 							while(res.next()) {

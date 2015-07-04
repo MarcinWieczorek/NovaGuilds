@@ -1,15 +1,14 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import java.util.HashMap;
 
 public class CommandGuildLeave implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -28,7 +27,6 @@ public class CommandGuildLeave implements CommandExecutor {
 		
 		if(nPlayer.hasGuild()) {
 			NovaGuild guild = nPlayer.getGuild();
-			String leaderName = guild.getLeader().getName();
 			
 			if(nPlayer.isLeader()) {
 				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.isleader");
@@ -36,7 +34,6 @@ public class CommandGuildLeave implements CommandExecutor {
 			}
 			
 			nPlayer.setGuild(null);
-			plugin.getPlayerManager().updatePlayer(nPlayer);
 			guild.removePlayer(nPlayer);
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.left");
 			

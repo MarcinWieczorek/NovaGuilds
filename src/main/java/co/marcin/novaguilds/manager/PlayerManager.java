@@ -1,17 +1,16 @@
 package co.marcin.novaguilds.manager;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.*;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
 
 public class PlayerManager {
 	private final NovaGuilds plugin;
@@ -44,25 +43,6 @@ public class PlayerManager {
 		return getPlayer(player.getName());
 	}
 
-	//old getters
-//	public NovaPlayer getPlayerByName(String playername) {
-//		addIfNotExists(playername);
-//
-//		return players.get(playername.toLowerCase());
-//	}
-//
-//	public NovaPlayer getPlayer(CommandSender sender) {
-//		addIfNotExists(sender.getName());
-//
-//		return getPlayerByName(sender.getName());
-//	}
-//
-//	public NovaPlayer getPlayer(Player player) {
-//		addIfNotExists(player.getName());
-//
-//		return getPlayerByName(player.getName());
-//	}
-
 	public Collection<NovaPlayer> getPlayers() {
 		return players.values();
 	}
@@ -71,7 +51,7 @@ public class PlayerManager {
 		nPlayer.addInvitation(guild);
 	}
 	
-	public void updatePlayer(NovaPlayer nPlayer) {
+	private void updatePlayer(NovaPlayer nPlayer) {
 		if(nPlayer.isChanged()) { //only if there were changes
 			plugin.mysqlReload();
 
@@ -87,7 +67,7 @@ public class PlayerManager {
 				List<String> invitedto = nPlayer.getInvitedTo();
 				String joined = StringUtils.join(invitedto, ";");
 
-				String sql = "UPDATE `" + plugin.sqlp + "players` SET " +
+				String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET " +
 						"`invitedto`='" + joined + "', " +
 						"`guild`='" + guildname + "' " +
 						"WHERE `uuid`='" + nPlayer.getUUID() + "'";
@@ -117,7 +97,7 @@ public class PlayerManager {
 			statement = plugin.c.createStatement();
 			
 			players.clear();
-			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.sqlp + "players`");
+			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`");
 			while(res.next()) {
 				players.put(res.getString("name").toLowerCase(), playerFromResult(res));
 			}
@@ -138,7 +118,7 @@ public class PlayerManager {
 			UUID uuid = player.getUniqueId();
 			String playername = player.getName();
 			
-			statement.executeUpdate("INSERT INTO `"+plugin.sqlp+"players` VALUES(0,'"+uuid+"','"+playername+"','','')");
+			statement.executeUpdate("INSERT INTO `"+plugin.getConfigManager().getDatabasePrefix()+"players` VALUES(0,'"+uuid+"','"+playername+"','','')");
 			plugin.info("New player " + player.getName() + " added to the database");
 
 			players.put(player.getName().toLowerCase(),NovaPlayer.fromPlayer(player));
@@ -158,6 +138,15 @@ public class PlayerManager {
 		if(player != null) {
 			if(!players.containsKey(playername.toLowerCase())) {
 				addPlayer(player);
+			}
+		}
+	}
+
+	public void updateUUID(NovaPlayer nPlayer) {
+		if(nPlayer.isOnline()) {
+			if(!nPlayer.getUUID().equals(nPlayer.getPlayer().getUniqueId())) {
+				nPlayer.setUUID(nPlayer.getPlayer().getUniqueId());
+				plugin.info("[PlayerManager] UUID updated for player "+nPlayer.getName());
 			}
 		}
 	}

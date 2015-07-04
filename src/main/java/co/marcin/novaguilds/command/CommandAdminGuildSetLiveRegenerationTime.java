@@ -30,7 +30,7 @@ public class CommandAdminGuildSetLiveRegenerationTime implements CommandExecutor
 		int iseconds = StringUtils.StringToSeconds(timeString);
 		long seconds = Long.parseLong(iseconds+"");
 
-		long newregentime = NovaGuilds.systemSeconds() + (seconds - plugin.liveRegenerationTime);
+		long newregentime = NovaGuilds.systemSeconds() + (seconds - plugin.getConfigManager().getGuildLiveRegenerationTime());
 		plugin.debug("newregentime: "+newregentime);
 
 		guild.setLostLiveTime(newregentime);

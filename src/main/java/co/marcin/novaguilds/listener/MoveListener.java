@@ -1,23 +1,13 @@
 package co.marcin.novaguilds.listener;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.runnable.RunnableRaid;
-import co.marcin.novaguilds.utils.StringUtils;
-import org.bukkit.Effect;
+import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class MoveListener implements Listener {

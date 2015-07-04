@@ -30,14 +30,13 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
         String playername = args[0];
 
-        HashMap<String,String> vars = new HashMap<>();
-
         if(!plugin.getPlayerManager().exists(playername)) { //invalid player
             plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
             return true;
         }
 
         NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
+        HashMap<String,String> vars = new HashMap<>();
         vars.put("PLAYERNAME",nPlayer.getName());
 
         if(!nPlayer.hasGuild()) { //has no guild

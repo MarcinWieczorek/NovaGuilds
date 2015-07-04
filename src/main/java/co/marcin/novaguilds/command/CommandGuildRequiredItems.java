@@ -30,7 +30,7 @@ public class CommandGuildRequiredItems implements CommandExecutor {
 
 		Player player = (Player)sender;
 
-		List<ItemStack> requiredItems = plugin.getGroup(sender).getCreateGuildItems();
+		List<ItemStack> requiredItems = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
 		int size = 9 * Math.round(requiredItems.size() / 9);
 		if(size == 0) {
 			size = 9;

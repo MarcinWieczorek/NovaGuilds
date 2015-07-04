@@ -46,6 +46,11 @@ public class CommandAdminGuild implements CommandExecutor {
 			if(!noguildcmds.contains(subCmd)) {
 				guild = plugin.getGuildManager().getGuildFind(args[0]);
 
+				if(guild == null) {
+					plugin.getMessageManager().sendPrefixMessage(sender,"chat.guild.couldnotfind");
+					return true;
+				}
+
 				if(args.length > 1) {
 					subCmd = args[1];
 				}
@@ -64,38 +69,38 @@ public class CommandAdminGuild implements CommandExecutor {
 				else if(subCmd.equalsIgnoreCase("settag")) { //set tag
 					new CommandAdminGuildSetTag(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(subCmd.equalsIgnoreCase("kick")) { //kick from guild
-					new CommandAdminGuildKick(plugin).onCommand(sender, cmd, label, newArgs2);
-				}
 				else if(subCmd.equalsIgnoreCase("invite")) { //invite somebody to a guild
 					new CommandAdminGuildInvite(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(subCmd.equalsIgnoreCase("promote")) { //promote to leader
-					new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs2);
-				}
-				else if(subCmd.equalsIgnoreCase("list")) { //list guilds
-					new CommandAdminGuildList(plugin).onCommand(sender, cmd, label, newArgs);
-				}
-				else if(subCmd.equalsIgnoreCase("inactive")) { //list guilds
-					new CommandAdminGuildInactive(plugin).onCommand(sender, cmd, label, newArgs);
-				}
-				else if(subCmd.equalsIgnoreCase("pay")) { //list guilds
+				else if(subCmd.equalsIgnoreCase("pay")) { //pay money to guild
 					new CommandAdminGuildBankPay(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(subCmd.equalsIgnoreCase("withdraw")) { //list guilds
+				else if(subCmd.equalsIgnoreCase("withdraw")) { //withdraw money
 					new CommandAdminGuildBankWithdraw(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(subCmd.equalsIgnoreCase("timerest")) { //list guilds
+				else if(subCmd.equalsIgnoreCase("timerest")) { //set timerest
 					new CommandAdminGuildSetTimerest(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(subCmd.equalsIgnoreCase("liveregentime")) { //list guilds
+				else if(subCmd.equalsIgnoreCase("liveregentime")) { //set live regeneration time
 					new CommandAdminGuildSetLiveRegenerationTime(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(subCmd.equalsIgnoreCase("lives")) { //list guilds
+				else if(subCmd.equalsIgnoreCase("lives")) { //set lives
 					new CommandAdminGuildSetLives(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 				}
-				else if(subCmd.equalsIgnoreCase("purge")) { //list guilds
+				else if(subCmd.equalsIgnoreCase("purge")) { //delete all guilds
 					new CommandAdminGuildAbandonAll(plugin).onCommand(sender, cmd, label, newArgs2);
+				}
+				else if(subCmd.equalsIgnoreCase("list")) { //list
+					new CommandAdminGuildList(plugin).onCommand(sender, cmd, label, newArgs);
+				}
+				else if(subCmd.equalsIgnoreCase("inactive")) { //inactive guilds
+					new CommandAdminGuildInactive(plugin).onCommand(sender, cmd, label, newArgs);
+				}
+				else if(subCmd.equalsIgnoreCase("kick")) { //kick from guild
+					new CommandAdminGuildKick(plugin).onCommand(sender, cmd, label, newArgs2);
+				}
+				else if(subCmd.equalsIgnoreCase("promote")) { //promote to leader
+					new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs2);
 				}
 				else {
 					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");

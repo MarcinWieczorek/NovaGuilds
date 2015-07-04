@@ -42,7 +42,7 @@ public class RunnableRaid implements Runnable {
 
 			//TODO: can be done better
 			//TODO: not working at all
-			if(NovaGuilds.systemSeconds() - raid.getInactiveTime() > plugin.timeInactive) {
+			if(NovaGuilds.systemSeconds() - raid.getInactiveTime() > plugin.getConfigManager().getRaidTimeInactive()) {
 				raid.finish();
 				plugin.debug("inactive for 10 seconds, removing.");
 				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.defenderwon", vars);

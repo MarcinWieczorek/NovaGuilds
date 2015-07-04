@@ -1,10 +1,11 @@
 package co.marcin.novaguilds.listener;
 
-import java.util.HashMap;
-import java.util.Set;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.utils.RegionUtils;
+import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,10 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
-import co.marcin.novaguilds.utils.StringUtils;
+import java.util.HashMap;
+import java.util.Set;
 
 public class ToolListener implements Listener {
 	private final NovaGuilds plugin;
@@ -66,7 +65,7 @@ public class ToolListener implements Listener {
 					plugin.debug("toggle=" + plugin.getPlayerManager().getPlayer(player).regionMode());
 
 					if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
-						plugin.getRegionManager().sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
+						RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
 						RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(0));
 						RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(1));
 					}
@@ -128,7 +127,7 @@ public class ToolListener implements Listener {
 								if(nPlayer.getSelectedLocation(0) != null) {
 									RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(0));
 									if(nPlayer.getSelectedLocation(1) != null) {
-										plugin.getRegionManager().sendSquare(player, sl1, sl2, null, (byte) 0);
+										RegionUtils.sendSquare(player, sl1, sl2, null, (byte) 0);
 									}
 								}
 
@@ -142,7 +141,7 @@ public class ToolListener implements Listener {
 								if(nPlayer.getSelectedLocation(1) != null) {
 									RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(1));
 									if(nPlayer.getSelectedLocation(0) != null)
-										plugin.getRegionManager().sendSquare(player, sl1, sl2, null, (byte) 0);
+										RegionUtils.sendSquare(player, sl1, sl2, null, (byte) 0);
 								}
 
 								RegionUtils.setCorner(player, pointedLocation);
@@ -167,7 +166,7 @@ public class ToolListener implements Listener {
 											String sizemsg = plugin.getMessageManager().getMessagesString("chat.region.size");
 											sizemsg = StringUtils.replace(sizemsg, "{SIZE}", regionsize + "");
 
-											double price = plugin.getGroup(player).getPricePerBlock() * regionsize + plugin.getGroup(player).getCreateRegionMoney();
+											double price = plugin.getGroupManager().getGroup(player).getRegionPricePerBlock() * regionsize + plugin.getGroupManager().getGroup(player).getRegionCreateMoney();
 
 											String pricemsg = plugin.getMessageManager().getMessagesString("chat.region.price");
 											pricemsg = StringUtils.replace(pricemsg, "{PRICE}", price + "");
@@ -209,7 +208,7 @@ public class ToolListener implements Listener {
 								}
 
 								//corners and rectangles
-								plugin.getRegionManager().sendSquare(player, sl1, sl2, Material.WOOL, data);
+								RegionUtils.sendSquare(player, sl1, sl2, Material.WOOL, data);
 								RegionUtils.setCorner(player, sl1);
 								RegionUtils.setCorner(player, sl2);
 							}
@@ -233,7 +232,7 @@ public class ToolListener implements Listener {
 										c2 = pointedLocation;
 									}
 
-									plugin.getRegionManager().sendSquare(player, c1, c2, Material.WOOL, (byte) 14);
+									RegionUtils.sendSquare(player, c1, c2, Material.WOOL, (byte) 14);
 								}
 								else {
 									plugin.debug("guild null=" + (rgatloc.getGuild() == null));

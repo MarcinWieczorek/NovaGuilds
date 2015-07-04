@@ -20,7 +20,7 @@ public class RunnableInactiveCleaner implements Runnable {
 
 	public void run() {
 		for(NovaGuild guild : plugin.getGuildManager().getMostInactiveGuilds()) {
-			if(NovaGuilds.systemSeconds()-guild.getInactiveTime() < plugin.getConfigManager().getInactiveTime()) {
+			if(NovaGuilds.systemSeconds()-guild.getInactiveTime() < plugin.getConfigManager().getCleanupInactiveTime()) {
 				break;
 			}
 
@@ -30,7 +30,7 @@ public class RunnableInactiveCleaner implements Runnable {
 
 		if(!fake) {
 			Runnable task = new RunnableLiveRegeneration(plugin);
-			plugin.worker.schedule(task,plugin.getConfigManager().getInactiveClearPeriod(), TimeUnit.MINUTES);
+			plugin.worker.schedule(task,plugin.getConfigManager().getCleanupInterval(), TimeUnit.MINUTES);
 		}
 	}
 }

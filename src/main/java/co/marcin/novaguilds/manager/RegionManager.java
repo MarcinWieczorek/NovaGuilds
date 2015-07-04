@@ -1,24 +1,24 @@
 package co.marcin.novaguilds.manager;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.runnable.RunnableRaid;
+import co.marcin.novaguilds.utils.RegionUtils;
 import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
 	private final NovaGuilds plugin;
@@ -66,7 +66,7 @@ public class RegionManager {
 			statement = plugin.c.createStatement();
 			
 			regions.clear();
-			ResultSet res = statement.executeQuery("SELECT * FROM `"+plugin.sqlp+"regions`");
+			ResultSet res = statement.executeQuery("SELECT * FROM `"+plugin.getConfigManager().getDatabasePrefix()+"regions`");
 			while(res.next()) {
 				World world = plugin.getServer().getWorld(res.getString("world"));
 
@@ -121,7 +121,7 @@ public class RegionManager {
 				region.setWorld(plugin.getServer().getWorlds().get(0));
 			}
 			
-			String sql = "INSERT INTO `"+plugin.sqlp+"regions` VALUES(0,'"+loc1+"','"+loc2+"','"+guild.getName()+"','"+guild.getSpawnPoint().getWorld().getName()+"');";
+			String sql = "INSERT INTO `"+plugin.getConfigManager().getDatabasePrefix()+"regions` VALUES(0,'"+loc1+"','"+loc2+"','"+guild.getName()+"','"+guild.getSpawnPoint().getWorld().getName()+"');";
 			statement.execute(sql);
 			
 			guild.setRegion(region);
@@ -145,7 +145,7 @@ public class RegionManager {
 					String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
 					String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
 
-					String sql = "UPDATE `" + plugin.sqlp + "regions` SET " +
+					String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "regions` SET " +
 							"`loc_1`='" + loc1 + "', " +
 							"`loc_2`='" + loc2 + "', " +
 							"`guild`='" + region.getGuildName() + "', " +
@@ -174,7 +174,7 @@ public class RegionManager {
 		try {
 			Statement statement = plugin.c.createStatement();
 
-			String sql = "DELETE FROM `" + plugin.sqlp + "regions` WHERE `guild`='" + region.getGuildName() + "'";
+			String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`='" + region.getGuildName() + "'";
 			statement.executeUpdate(sql);
 
 			regions.remove(region.getGuildName().toLowerCase());
@@ -206,136 +206,11 @@ public class RegionManager {
 		plugin.info("[RegionManager] PostCheck finished, unloaded "+i+" invalid regions");
 	}
 	
-//	public void highlightRegion(Player player, NovaRegion region) {
-//		Location loc1 = region.getCorner(0);
-//		Location loc2 = region.getCorner(1);
-//
-//		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
-//		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
-//
-//		RegionUtils.setCorner(player, loc1, Material.DIAMOND_BLOCK);
-//		RegionUtils.setCorner(player, loc2, Material.DIAMOND_BLOCK);
-//	}
-	
-//	public void resetHighlightRegion(Player player, NovaRegion region) {
-//		Location loc1 = region.getCorner(0);
-//		Location loc2 = region.getCorner(1);
-//
-//		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
-//		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
-//
-//		RegionUtils.setCorner(player, loc1, loc1.getBlock().getType());
-//		RegionUtils.setCorner(player, loc2, loc2.getBlock().getType());
-//	}
-	
-//	@SuppressWarnings("deprecation")
-//	public void setCorner(Player player, Location location) {
-//		player.sendBlockChange(location, Material.EMERALD_BLOCK, (byte) 0);
-//	}
-	
-	//set corner with material
-//	@SuppressWarnings("deprecation")
-//	private void setCorner(Player player, Location location, Material material) {
-//		if(material == null) {
-//			material = player.getWorld().getBlockAt(location).getType();
-//		}
-//
-//		player.sendBlockChange(location,material,(byte) 0);
-//	}
-	
-//	@SuppressWarnings("deprecation")
-//	public void resetCorner(Player player, Location location) {
-//		player.sendBlockChange(location,player.getWorld().getBlockAt(location).getType(),(byte) 0);
-//	}
-	
-	@SuppressWarnings("deprecation")
-	public void sendSquare(Player player, Location l1, Location l2,Material material,byte data) {
-		Material material1 = null;
-		Material material2 = null;
-		
-		Byte data1 = null;
-		Byte data2 = null;
-		
-		if(material != null) {
-			material1 = material2 = material;
-			data1 = data2 = data;
-		}
-		
-		int x;
-		int z;
-		
-		int xs;
-		int zs;
-		
-		int x1 = StringUtils.fixX(l1.getBlockX());
-		int x2 = StringUtils.fixX(l2.getBlockX());
-		int z1 = StringUtils.fixX(l1.getBlockZ());
-		int z2 = StringUtils.fixX(l2.getBlockZ());
-		
-		int t;
-		
-		int dif_x = Math.abs(x1 - x2) +1;
-		int dif_z = Math.abs(z1 - z2) +1;
-		
-		if(l1.getBlockX() < l2.getBlockX()) {
-			xs = l1.getBlockX();
-		}
-		else {
-			xs = l2.getBlockX();
-		}
-		
-		if(l1.getBlockZ() < l2.getBlockZ()) {
-			zs = l1.getBlockZ();
-		}
-		else {
-			zs = l2.getBlockZ();
-		}
-		
-		for(t=0;t<dif_x;t++) {
-			x = xs + t;
-			int highest1 = player.getWorld().getHighestBlockYAt(x,z1)-1;
-			int highest2 = player.getWorld().getHighestBlockYAt(x,z2)-1;
-			Location loc1 = player.getWorld().getBlockAt(x,highest1,z1).getLocation();
-			Location loc2 = player.getWorld().getBlockAt(x,highest2,z2).getLocation();
-			
-			if(material == null) {
-				material1 = player.getWorld().getBlockAt(loc1).getType();
-				material2 = player.getWorld().getBlockAt(loc2).getType();
-				
-				data1 = player.getWorld().getBlockAt(loc1).getData();
-				data2 = player.getWorld().getBlockAt(loc2).getData();
-			}
-			
-			player.sendBlockChange(loc1,material1,data1);
-			player.sendBlockChange(loc2,material2,data2);
-		}
-
-		
-		for(t=0;t<dif_z;t++) {
-			z = zs + t;
-			int highest1 = player.getWorld().getHighestBlockYAt(x1,z)-1;
-			int highest2 = player.getWorld().getHighestBlockYAt(x2,z)-1;
-			Location loc1 = player.getWorld().getBlockAt(x1,highest1,z).getLocation();
-			Location loc2 = player.getWorld().getBlockAt(x2,highest2,z).getLocation();
-			
-			if(material == null) {
-				material1 = player.getWorld().getBlockAt(loc1).getType();
-				material2 = player.getWorld().getBlockAt(loc2).getType();
-
-				data1 = player.getWorld().getBlockAt(loc1).getData();
-				data2 = player.getWorld().getBlockAt(loc2).getData();
-			}
-			
-			player.sendBlockChange(loc1,material1,data1);
-			player.sendBlockChange(loc2,material2,data2);
-		}
-	}
-	
 	public RegionValidity checkRegionSelect(Location l1, Location l2) {
-		int x1 = StringUtils.fixX(l1.getBlockX());
-		int x2 = StringUtils.fixX(l2.getBlockX());
-		int z1 = StringUtils.fixX(l1.getBlockZ());
-		int z2 = StringUtils.fixX(l2.getBlockZ());
+		int x1 = l1.getBlockX();
+		int x2 = l2.getBlockX();
+		int z1 = l1.getBlockZ();
+		int z2 = l2.getBlockZ();
 		
 		int dif_x = Math.abs(x1 - x2) +1;
 		int dif_z = Math.abs(z1 - z2) +1;
@@ -352,7 +227,7 @@ public class RegionManager {
 		else if(dif_x > maxsize || dif_z > maxsize) {
 			return RegionValidity.TOOBIG;
 		}
-		else if(regionInsideArea(l1,l2) != null) {
+		else if(!regionsInsideArea(l1,l2).isEmpty()) {
 			return RegionValidity.OVERLAPS;
 		}
 		else if(!isFarEnough(l1,l2)) {
@@ -364,10 +239,10 @@ public class RegionManager {
 	}
 	
 	public int checkRegionSize(Location l1, Location l2) {
-		int x1 = StringUtils.fixX(l1.getBlockX());
-		int x2 = StringUtils.fixX(l2.getBlockX());
-		int z1 = StringUtils.fixX(l1.getBlockZ());
-		int z2 = StringUtils.fixX(l2.getBlockZ());
+		int x1 = l1.getBlockX();
+		int x2 = l2.getBlockX();
+		int z1 = l1.getBlockZ();
+		int z2 = l2.getBlockZ();
 		
 		int dif_x = Math.abs(x1 - x2) +1;
 		int dif_z = Math.abs(z1 - z2) +1;
@@ -379,11 +254,12 @@ public class RegionManager {
 		return checkRegionSize(region.getCorner(0),region.getCorner(1));
 	}
 	
-	private NovaRegion regionInsideArea(Location l1, Location l2) {
-		int x1 = StringUtils.fixX(l1.getBlockX());
-		int x2 = StringUtils.fixX(l2.getBlockX());
-		int z1 = StringUtils.fixX(l1.getBlockZ());
-		int z2 = StringUtils.fixX(l2.getBlockZ());
+	private List<NovaRegion> regionsInsideArea(Location l1, Location l2) {
+		ArrayList<NovaRegion> list = new ArrayList<>();
+		int x1 = l1.getBlockX();
+		int x2 = l2.getBlockX();
+		int z1 = l1.getBlockZ();
+		int z2 = l2.getBlockZ();
 		
 		boolean i1;
 		boolean i2;
@@ -412,11 +288,11 @@ public class RegionManager {
 			overlaps = ov1 || ov2;
 			
 			if(overlaps) {
-				return region;
+				list.add(region);
 			}
 		}
 		
-		return null;
+		return list;
 	}
 
 	public boolean canBuild(Player player, Location location) {
@@ -437,66 +313,6 @@ public class RegionManager {
 			return true;
 
 		return region.getGuild().isMember(nPlayer);
-	}
-
-	@SuppressWarnings("deprecation")
-	public List<Block> getBorderBlocks(NovaRegion region) {
-		List<Block> blocks = new ArrayList<>();
-
-		Location l1 = region.getCorner(0);
-		Location l2 = region.getCorner(1);
-		World world = region.getWorld();
-
-		int x;
-		int z;
-
-		int xs;
-		int zs;
-
-		int x1 = StringUtils.fixX(l1.getBlockX());
-		int x2 = StringUtils.fixX(l2.getBlockX());
-		int z1 = StringUtils.fixX(l1.getBlockZ());
-		int z2 = StringUtils.fixX(l2.getBlockZ());
-
-		int t;
-
-		int dif_x = Math.abs(x1 - x2) +1;
-		int dif_z = Math.abs(z1 - z2) +1;
-
-		if(l1.getBlockX() < l2.getBlockX()) {
-			xs = l1.getBlockX();
-		}
-		else {
-			xs = l2.getBlockX();
-		}
-
-		if(l1.getBlockZ() < l2.getBlockZ()) {
-			zs = l1.getBlockZ();
-		}
-		else {
-			zs = l2.getBlockZ();
-		}
-
-		for(t=0;t<dif_x;t++) {
-			x = xs + t;
-			int highest1 = world.getHighestBlockYAt(x, z1)-1;
-			int highest2 = world.getHighestBlockYAt(x, z2)-1;
-
-			blocks.add(world.getBlockAt(x, highest1, z1));
-			blocks.add(world.getBlockAt(x,highest2,z2));
-		}
-
-
-		for(t=0;t<dif_z;t++) {
-			z = zs + t;
-			int highest1 = world.getHighestBlockYAt(x1, z)-1;
-			int highest2 = world.getHighestBlockYAt(x2, z)-1;
-
-			blocks.add(world.getBlockAt(x1, highest1, z));
-			blocks.add(world.getBlockAt(x2,highest2,z));
-		}
-
-		return blocks;
 	}
 
 	public boolean isFarEnough(Location l1, Location l2) {
@@ -550,7 +366,7 @@ public class RegionManager {
 
 		//border particles
 		if(plugin.getConfig().getBoolean("region.borderparticles")) {
-			List<Block> blocks = plugin.getRegionManager().getBorderBlocks(region);
+			List<Block> blocks = RegionUtils.getBorderBlocks(region);
 			for(Block block : blocks) {
 				block.getLocation().setY(block.getLocation().getY() + 1);
 				block.getWorld().playEffect(block.getLocation(), Effect.SMOKE, 100);
@@ -573,12 +389,12 @@ public class RegionManager {
 
 				if(nPlayer.getGuild().isWarWith(guildDefender)) {
 					if(!guildDefender.isRaid()) {
-						if(NovaGuilds.systemSeconds() - plugin.timeRest > guildDefender.getTimeRest()) {
+						if(NovaGuilds.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
 							guildDefender.createRaid(nPlayer.getGuild());
 							plugin.guildRaids.add(guildDefender);
 						}
 						else {
-							long timeWait = plugin.timeRest - (NovaGuilds.systemSeconds() - guildDefender.getTimeRest());
+							long timeWait = plugin.getConfigManager().getRaidTimeRest() - (NovaGuilds.systemSeconds() - guildDefender.getTimeRest());
 							vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
 
 							plugin.getMessageManager().sendMessagesMsg(player, "chat.raid.resting", vars);

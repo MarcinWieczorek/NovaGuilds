@@ -1,7 +1,8 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.utils.NumberUtils;
 import co.marcin.novaguilds.utils.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +26,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 
 		int page = 1;
 		if(args.length == 1) {
-			if(StringUtils.isNumeric(args[0])) {
+			if(NumberUtils.isNumeric(args[0])) {
 				page = Integer.parseInt(args[0]);
 			}
 			else if(args[0].equalsIgnoreCase("update")) {

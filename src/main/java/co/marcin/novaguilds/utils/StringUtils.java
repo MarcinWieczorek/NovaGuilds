@@ -1,5 +1,9 @@
 package co.marcin.novaguilds.utils;
 
+import co.marcin.novaguilds.NovaGuilds;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -7,9 +11,6 @@ import java.net.URLConnection;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 
 public final class StringUtils {
 	public static String replace(String text, String searchString, String replacement) {
@@ -108,21 +109,6 @@ public final class StringUtils {
 		return l.getBlockX()+";"+l.getBlockZ();
 	}
 	
-	public static int fixX(int x) {
-		return x;
-//		if(x<0) {
-//			return x+1;
-//		}
-//
-//		return x;
-	}
-	
-	public static boolean isNumeric(String str) {
-	    return str.matches("[+-]?\\d*(\\.\\d+)?");
-	}
-
-
-	
 	public static String[] parseArgs(String[] args, int cut) {
 		if(args.length==0 || args.length < cut) {
 			return args;
@@ -139,12 +125,6 @@ public final class StringUtils {
 		}
 		
 		return newargs;
-	}
-
-	public static int randInt(int min, int max) {
-		Random rand = new Random();
-
-		return rand.nextInt((max - min) + 1) + min;
 	}
 	
 	public static List<String> semicolonToList(String str) {
@@ -333,36 +313,46 @@ public final class StringUtils {
 		for(String word : spacexp) {
 			if(word.endsWith("s")) {
 				word = word.substring(0, word.length() - 1);
-				if(isNumeric(word))
+				if(NumberUtils.isNumeric(word))
 					seconds += Integer.parseInt(word);
 			}
 
 			if(word.endsWith("m")) {
 				word = word.substring(0,word.length()-1);
-				if(isNumeric(word))
+				if(NumberUtils.isNumeric(word))
 					seconds += Integer.parseInt(word)*60;
 			}
 
 			if(word.endsWith("h")) {
 				word = word.substring(0,word.length()-1);
-				if(isNumeric(word))
+				if(NumberUtils.isNumeric(word))
 					seconds += Integer.parseInt(word)*60*60;
 			}
 
 			if(word.endsWith("d")) {
 				word = word.substring(0,word.length()-1);
-				if(isNumeric(word))
+				if(NumberUtils.isNumeric(word))
 					seconds += Integer.parseInt(word)*60*60*24;
 			}
 
 			if(word.endsWith("y")) {
 				word = word.substring(0,word.length()-1);
-				if(isNumeric(word))
+				if(NumberUtils.isNumeric(word))
 					seconds += Integer.parseInt(word)*60*60*24*365;
 			}
 		}
 
-
 		return seconds;
+	}
+
+	public static boolean isStringAllowed(String string) {
+		String allowed = NovaGuilds.getInst().getConfig().getString("guild.allowedchars");
+		for(int i=0;i<string.length();i++) {
+			if(allowed.indexOf(string.charAt(i)) == -1) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

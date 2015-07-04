@@ -1,14 +1,13 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import java.util.HashMap;
 
 public class CommandGuildInvite implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -40,7 +39,6 @@ public class CommandGuildInvite implements CommandExecutor {
 
 							if(!inPlayer.isInvitedTo(guild)) { //if he's not invited
 								plugin.getPlayerManager().addInvitation(inPlayer, guild);
-								plugin.getPlayerManager().updatePlayer(inPlayer);
 								plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.invited");
 
 								if(inPlayer.isOnline()) {
