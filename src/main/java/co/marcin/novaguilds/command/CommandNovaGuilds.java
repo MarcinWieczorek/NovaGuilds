@@ -3,7 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.utils.StringUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
@@ -58,7 +58,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				sender.sendMessage("guild$ = "+plugin.getGroupManager().getGroup(sender).getGuildCreateMoney());
 				sender.sendMessage("region$ = "+plugin.getGroupManager().getGroup(sender).getRegionCreateMoney());
 				sender.sendMessage("ppb = "+plugin.getGroupManager().getGroup(sender).getRegionPricePerBlock());
-				sender.sendMessage("guilditems = "+plugin.getGroupManager().getGroup(sender).getGuildCreateItems().toString());
+				sender.sendMessage("guilditems = " + plugin.getGroupManager().getGroup(sender).getGuildCreateItems().toString());
 				sender.sendMessage("tpdelay = "+plugin.getGroupManager().getGroup(sender).getGuildTeleportDelay()+"s");
 
 //				Location l = (Player)sender.getLocation();

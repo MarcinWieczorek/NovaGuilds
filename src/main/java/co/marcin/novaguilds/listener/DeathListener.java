@@ -10,7 +10,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.utils.StringUtils;
+import co.marcin.novaguilds.util.StringUtils;
 
 public class DeathListener implements Listener {
 	private final NovaGuilds plugin;

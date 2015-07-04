@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.utils.StringUtils;
+import co.marcin.novaguilds.util.StringUtils;
 
 public class CommandToolGet implements CommandExecutor {
 	private final NovaGuilds plugin;

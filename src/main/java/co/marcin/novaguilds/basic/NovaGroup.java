@@ -1,7 +1,7 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.utils.ItemStackUtils;
+import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

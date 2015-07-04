@@ -12,7 +12,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.basic.NovaRegion;
-import co.marcin.novaguilds.utils.StringUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 

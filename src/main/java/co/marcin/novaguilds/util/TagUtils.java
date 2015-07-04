@@ -1,4 +1,4 @@
-package co.marcin.novaguilds.utils;
+package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;

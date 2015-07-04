@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.utils.StringUtils;
+import co.marcin.novaguilds.util.StringUtils;
 
 public class CommandAdminRegion implements CommandExecutor {
 	private final NovaGuilds plugin;

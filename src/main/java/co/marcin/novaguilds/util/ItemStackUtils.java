@@ -1,4 +1,4 @@
-package co.marcin.novaguilds.utils;
+package co.marcin.novaguilds.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
