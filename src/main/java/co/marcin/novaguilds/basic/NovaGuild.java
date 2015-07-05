@@ -163,7 +163,7 @@ public class NovaGuild {
 	}
 
 	public void setRegion(NovaRegion r) {
-		if(region != null) {
+		if(r != null) {
 			region = r;
 			r.setGuild(this);
 

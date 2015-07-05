@@ -166,7 +166,6 @@ public class GuildManager {
 						novaGuild.setLostLiveTime(res.getLong("lostlive"));
 						novaGuild.setSpawnPoint(spawnpoint);
 						novaGuild.setRegion(plugin.getRegionManager().getRegion(novaGuild));
-						//novaGuild.setRegion(plugin.getRegionManager().getRegionsMap().get(novaGuild.getName().toLowerCase()));
 						plugin.debug("regionnull=" + (novaGuild.getRegion() == null));
 
 						novaGuild.setAllies(allies);

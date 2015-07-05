@@ -32,14 +32,7 @@ public class RegionManager {
 
 	//getters
 	public NovaRegion getRegion(NovaGuild guild) {
-		plugin.debug(regions.toString());
-		plugin.debug(guild.getName().toLowerCase());
-		plugin.debug("contains="+regions.containsKey(guild.getName().toLowerCase()));
-
-		if(regions.containsKey(guild.getName().toLowerCase())) {
-			return regions.get(guild.getName().toLowerCase());
-		}
-		return null;
+		return regions.get(guild.getName().toLowerCase());
 	}
 	
 	public NovaRegion getRegionAtLocation(Location l) {
