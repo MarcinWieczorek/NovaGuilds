@@ -52,7 +52,7 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 
 		//all passed
 		if(guild.hasRegion()) {
-			NovaRegion region = plugin.getRegionManager().getRegionByGuild(guild);
+			NovaRegion region = plugin.getRegionManager().getRegion(guild);
 			region.setGuildName(newName);
 			plugin.getRegionManager().saveRegion(region);
 		}

@@ -129,9 +129,11 @@ public final class StringUtils {
 	
 	public static List<String> semicolonToList(String str) {
 		List<String> list = new ArrayList<>();
-		String[] split = str.split(";");
 
-		Collections.addAll(list, split);
+		if(str.contains(";")) {
+			String[] split = str.split(";");
+			Collections.addAll(list, split);
+		}
 		
 		return list;
 	}

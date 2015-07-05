@@ -1,12 +1,12 @@
 package co.marcin.novaguilds.basic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import co.marcin.novaguilds.NovaGuilds;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NovaGuild {
 	private int id;
@@ -31,7 +31,9 @@ public class NovaGuild {
 	private final List<String> alliesNames = new ArrayList<>();
 	private final List<String> allies_invited = new ArrayList<>();
 
-	private final List<String> war = new ArrayList<>();
+	private final List<NovaGuild> war = new ArrayList<>();
+	private final List<String> warNames = new ArrayList<>();
+
 	private final List<String> nowar_inv = new ArrayList<>();
 
 	//getters
@@ -55,7 +57,11 @@ public class NovaGuild {
 		return allies_invited;
 	}
 
-	public List<String> getWars() {
+	public List<String> getWarsNames() {
+		return warNames;
+	}
+
+	public List<NovaGuild> getWars() {
 		return war;
 	}
 
@@ -157,9 +163,12 @@ public class NovaGuild {
 	}
 
 	public void setRegion(NovaRegion r) {
-		region = r;
+		if(region != null) {
+			region = r;
+			r.setGuild(this);
 
-		changed();
+			changed();
+		}
 	}
 
 	public void setLeaderName(String name) {
@@ -206,11 +215,11 @@ public class NovaGuild {
 		changed();
 	}
 
-	public void setWars(List<String> w) {
-		war.clear();
+	public void setWarsNames(List<String> w) {
+		warNames.clear();
 
 		for(String warr : w) {
-			war.add(warr.toLowerCase());
+			warNames.add(warr.toLowerCase());
 		}
 
 		changed();
@@ -281,7 +290,7 @@ public class NovaGuild {
 	}
 
 	public boolean isWarWith(NovaGuild guild) {
-		return war.contains(guild.getName().toLowerCase());
+		return war.contains(guild);
 	}
 
 	public boolean isNoWarInvited(NovaGuild guild) {
@@ -325,7 +334,8 @@ public class NovaGuild {
 	}
 
 	public void addWar(NovaGuild guild) {
-		war.add(guild.getName().toLowerCase());
+		warNames.add(guild.getName().toLowerCase());
+		war.add(guild);
 		changed();
 	}
 
@@ -343,7 +353,7 @@ public class NovaGuild {
 		if(!players.contains(nPlayer)) {
 			players.add(nPlayer);
 
-			if(getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
+			if(getLeaderName()!=null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
 				setLeader(nPlayer);
 				leaderName = null;
 				NovaGuilds.getInst().debug("Changed leader "+name+"="+nPlayer.getName());
@@ -377,8 +387,9 @@ public class NovaGuild {
 	}
 
 	public void removeWar(NovaGuild guild) {
-		if(war.contains(guild.getName().toLowerCase())) {
-			war.remove(guild.getName().toLowerCase());
+		if(war.contains(guild)) {
+			war.remove(guild);
+			warNames.remove(guild.getName().toLowerCase());
 			changed();
 		}
 	}

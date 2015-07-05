@@ -1,11 +1,11 @@
 package co.marcin.novaguilds.basic;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 public class NovaPlayer implements Cloneable {
 	private Player player;
@@ -21,6 +21,7 @@ public class NovaPlayer implements Cloneable {
 	private boolean changed = false;
 	private boolean resizing = false;
 	private int resizingCorner = 0;
+	private int points;
 
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
@@ -79,6 +80,10 @@ public class NovaPlayer implements Cloneable {
 
 	public int getResizingCorner() {
 		return resizingCorner;
+	}
+
+	public int getPoints() {
+		return points;
 	}
 
 	/*
@@ -143,6 +148,18 @@ public class NovaPlayer implements Cloneable {
 
 	public void setResizingCorner(int index) {
 		resizingCorner = index;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+	public void addPoints(int points) {
+		this.points += points;
+	}
+
+	public void takePoints(int points) {
+		this.points -= points;
 	}
 	
 	//check stuff

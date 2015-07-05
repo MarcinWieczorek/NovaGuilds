@@ -27,8 +27,6 @@ public class GroupManager {
 		for(String groupName : groupsNames) {
 			groups.put(groupName, new NovaGroup(plugin, groupName));
 		}
-
-		plugin.debug(groups.toString());
 	}
 
 	public NovaGroup getGroup(Player player) {

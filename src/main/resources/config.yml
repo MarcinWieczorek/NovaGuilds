@@ -1,5 +1,14 @@
-#true=mysql, false=sqlite
-usemysql: true
+# =-=-=-=-=-=-=-=-=-=-=-=-=#
+# NovaGuilds Configuration #
+# =-=-=-=-=-=-=-=-=-=-=-=-=#
+
+#Data storage type
+# mysql - MySQL database
+# sqlite - Local database
+# flat - file based
+datastorage:
+ primary: mysql
+ secondary: flat
 mysql:
  host:
  port: 3306
@@ -119,11 +128,12 @@ guild:
  deathpoints: 5
 
  #/g effect
- effectduration: 2000
- effects:
-  - JUMP
-  - INCREASE_DAMAGE
-  - HEAL
+ effect:
+  duration: 2000
+  list:
+   - JUMP
+   - INCREASE_DAMAGE
+   - HEAL
 
  #permissions: novaguilds.group.GROUP
  #there's no need for admin group. novaguilds.group.admin for all stuff free

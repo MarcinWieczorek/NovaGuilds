@@ -61,7 +61,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 			return true;
 		}
 
-		NovaRegion region = plugin.getRegionManager().getRegionByGuild(guild);
+		NovaRegion region = plugin.getRegionManager().getRegion(guild);
 
 		if(!(sender instanceof Player) && nPlayerOther == null) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");

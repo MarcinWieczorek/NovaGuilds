@@ -102,9 +102,9 @@ public class CommandGuildInfo implements CommandExecutor {
 			String wars = "";
 			if(!guild.getWars().isEmpty()) {
 				String warformat = plugin.getMessageManager().getMessagesString("chat.guildinfo.war");
-				for(String war : guild.getWars()) {
-					war = StringUtils.replace(warformat, "{GUILDNAME}", war);
-					wars = wars + war + separator;
+				for(NovaGuild war : guild.getWars()) {
+					String warName = StringUtils.replace(warformat, "{GUILDNAME}", war.getName());
+					wars = wars + warName + separator;
 				}
 
 				wars = wars.substring(0,wars.length()-separator.length());

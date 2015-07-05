@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -12,6 +13,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -29,9 +31,14 @@ public class RegionManager {
 	}
 
 	//getters
-	public NovaRegion getRegionByGuild(NovaGuild guild) {
-		if(regions.containsKey(guild.getName().toLowerCase()))
+	public NovaRegion getRegion(NovaGuild guild) {
+		plugin.debug(regions.toString());
+		plugin.debug(guild.getName().toLowerCase());
+		plugin.debug("contains="+regions.containsKey(guild.getName().toLowerCase()));
+
+		if(regions.containsKey(guild.getName().toLowerCase())) {
 			return regions.get(guild.getName().toLowerCase());
+		}
 		return null;
 	}
 	
@@ -59,105 +66,135 @@ public class RegionManager {
 	}
 	
 	public void loadRegions() {
-		plugin.mysqlReload();
-    	
-    	Statement statement;
-		try {
-			statement = plugin.c.createStatement();
-			
-			regions.clear();
-			ResultSet res = statement.executeQuery("SELECT * FROM `"+plugin.getConfigManager().getDatabasePrefix()+"regions`");
-			while(res.next()) {
-				World world = plugin.getServer().getWorld(res.getString("world"));
+		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+			for(String guildName : plugin.getFlatDataManager().getRegionList()) {
+				FileConfiguration regionData = plugin.getFlatDataManager().getRegionData(guildName);
+				NovaRegion region = regionFromFlat(regionData);
 
-				if(world != null) {
-					NovaRegion novaRegion = new NovaRegion();
-
-					String loc1 = res.getString("loc_1");
-					String[] loc1_split = loc1.split(";");
-
-					String loc2 = res.getString("loc_2");
-					String[] loc2_split = loc2.split(";");
-
-					Location c1 = new Location(world, Integer.parseInt(loc1_split[0]), 0, Integer.parseInt(loc1_split[1]));
-					Location c2 = new Location(world, Integer.parseInt(loc2_split[0]), 0, Integer.parseInt(loc2_split[1]));
-
-					novaRegion.setCorner(0, c1);
-					novaRegion.setCorner(1, c2);
-					novaRegion.setWorld(world);
-					novaRegion.setId(res.getInt("id"));
-
-					novaRegion.setGuildName(res.getString("guild"));
-					novaRegion.setUnChanged();
-
-					regions.put(res.getString("guild").toLowerCase(), novaRegion);
+				if(region != null) {
+					regions.put(guildName.toLowerCase(), region);
 				}
 				else {
-					plugin.info("Failed loading region for guild "+res.getString("guild")+", world does not exist.");
+					plugin.info("Loaded region is null. name: " + guildName);
 				}
 			}
 		}
-		catch (SQLException e) {
-			plugin.info(e.getMessage());
+		else {
+			plugin.mysqlReload();
+
+			Statement statement;
+			try {
+				statement = plugin.c.createStatement();
+
+				regions.clear();
+				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions`");
+				while(res.next()) {
+					World world = plugin.getServer().getWorld(res.getString("world"));
+
+					if(world != null) {
+						NovaRegion novaRegion = new NovaRegion();
+
+						String loc1 = res.getString("loc_1");
+						String[] loc1_split = loc1.split(";");
+
+						String loc2 = res.getString("loc_2");
+						String[] loc2_split = loc2.split(";");
+
+						Location c1 = new Location(world, Integer.parseInt(loc1_split[0]), 0, Integer.parseInt(loc1_split[1]));
+						Location c2 = new Location(world, Integer.parseInt(loc2_split[0]), 0, Integer.parseInt(loc2_split[1]));
+
+						novaRegion.setCorner(0, c1);
+						novaRegion.setCorner(1, c2);
+						novaRegion.setWorld(world);
+						novaRegion.setId(res.getInt("id"));
+
+						novaRegion.setGuildName(res.getString("guild"));
+						novaRegion.setUnChanged();
+
+						regions.put(res.getString("guild").toLowerCase(), novaRegion);
+					}
+					else {
+						plugin.info("Failed loading region for guild " + res.getString("guild") + ", world does not exist.");
+					}
+				}
+			}
+			catch(SQLException e) {
+				plugin.info(e.getMessage());
+			}
 		}
+
+		plugin.info("[RegionManager] Loaded "+regions.size()+" regions.");
 	}
 	
 	public void addRegion(NovaRegion region, NovaGuild guild) {
-		plugin.mysqlReload();
-    	
-    	Statement statement;
-		try {
-			statement = plugin.c.createStatement();
-			
-			String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
-			String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
-			
-			if(guild == null) {
-				plugin.info("addRegion w/o guild attempt");
-				return;
-			}
-
-			if(region.getWorld() == null) {
-				region.setWorld(plugin.getServer().getWorlds().get(0));
-			}
-			
-			String sql = "INSERT INTO `"+plugin.getConfigManager().getDatabasePrefix()+"regions` VALUES(0,'"+loc1+"','"+loc2+"','"+guild.getName()+"','"+guild.getSpawnPoint().getWorld().getName()+"');";
-			statement.execute(sql);
-			
-			guild.setRegion(region);
-			region.setGuildName(guild.getName());
-			region.setUnChanged();
-			regions.put(guild.getName().toLowerCase(), region);
+		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+			plugin.getFlatDataManager().addRegion(region);
 		}
-		catch(SQLException e) {
-			plugin.info(e.getMessage());
+		else {
+			plugin.mysqlReload();
+
+			Statement statement;
+			try {
+				statement = plugin.c.createStatement();
+
+				String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
+				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
+
+				if(guild == null) {
+					plugin.info("addRegion w/o guild attempt");
+					return;
+				}
+
+				if(region.getWorld() == null) {
+					region.setWorld(plugin.getServer().getWorlds().get(0));
+				}
+
+				String sql = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "regions` VALUES(0,'" + loc1 + "','" + loc2 + "','" + guild.getName() + "','" + guild.getSpawnPoint().getWorld().getName() + "');";
+				statement.execute(sql);
+
+				guild.setRegion(region);
+				region.setGuildName(guild.getName());
+				region.setUnChanged();
+				regions.put(guild.getName().toLowerCase(), region);
+			}
+			catch(SQLException e) {
+				plugin.info(e.getMessage());
+			}
 		}
 	}
 	
 	public void saveRegion(NovaRegion region) {
 		if(region != null) {
 			if(region.isChanged()) {
-				plugin.mysqlReload();
-				Statement statement;
-				try {
-					statement = plugin.c.createStatement();
-
-					String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
-					String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
-
-					String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "regions` SET " +
-							"`loc_1`='" + loc1 + "', " +
-							"`loc_2`='" + loc2 + "', " +
-							"`guild`='" + region.getGuildName() + "', " +
-							"`world`='" + region.getWorld().getName() + "' " +
-							"WHERE `id`=" + region.getId();
-					statement.executeUpdate(sql);
-					region.setUnChanged();
+				if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+					plugin.getFlatDataManager().saveRegion(region);
 				}
-				catch(SQLException e) {
-					plugin.info(e.getMessage());
+				else {
+					plugin.mysqlReload();
+					Statement statement;
+					try {
+						statement = plugin.c.createStatement();
+
+						String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
+						String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
+
+						String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "regions` SET " +
+								"`loc_1`='" + loc1 + "', " +
+								"`loc_2`='" + loc2 + "', " +
+								"`guild`='" + region.getGuildName() + "', " +
+								"`world`='" + region.getWorld().getName() + "' " +
+								"WHERE `id`=" + region.getId();
+						statement.executeUpdate(sql);
+						region.setUnChanged();
+					}
+					catch(SQLException e) {
+						plugin.info(e.getMessage());
+					}
 				}
 			}
+		}
+		else {
+			plugin.info("null found while saving a region!");
 		}
 	}
 	
@@ -169,18 +206,24 @@ public class RegionManager {
 	
 	//delete region
 	public void removeRegion(NovaRegion region) {
-		plugin.mysqlReload();
-
-		try {
-			Statement statement = plugin.c.createStatement();
-
-			String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`='" + region.getGuildName() + "'";
-			statement.executeUpdate(sql);
-
-			regions.remove(region.getGuildName().toLowerCase());
+		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+			plugin.getFlatDataManager().deleteRegion(region);
 		}
-		catch(SQLException e) {
-			plugin.info(e.getMessage());
+		else {
+			plugin.mysqlReload();
+
+			try {
+				Statement statement = plugin.c.createStatement();
+
+				String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`='" + region.getGuildName() + "'";
+				statement.executeUpdate(sql);
+
+				regions.remove(region.getGuildName().toLowerCase());
+			}
+			catch(SQLException e) {
+				plugin.info("[RegionManager] An error occured while deleting a guild's region ("+region.getGuild().getName()+")");
+				plugin.info(e.getMessage());
+			}
 		}
 	}
 
@@ -203,7 +246,7 @@ public class RegionManager {
 			}
 		}
 
-		plugin.info("[RegionManager] PostCheck finished, unloaded "+i+" invalid regions");
+		plugin.info("[RegionManager] PostCheck finished, unloaded " + i + " invalid regions");
 	}
 	
 	public RegionValidity checkRegionSelect(Location l1, Location l2) {
@@ -219,7 +262,7 @@ public class RegionManager {
 		int minsize = plugin.getConfig().getInt("region.minsize");
 		int maxsize = plugin.getConfig().getInt("region.maxsize");
 
-		plugin.debug(minsize+","+maxsize);
+		plugin.debug(minsize + "," + maxsize);
 
 		if(dif_x < minsize || dif_z < minsize) {
 			return RegionValidity.TOOSMALL;
@@ -309,10 +352,8 @@ public class RegionManager {
 		if(!nPlayer.hasGuild())
 			return false;
 
-		if(nPlayer.getBypass())
-			return true;
+		return nPlayer.getBypass() || region.getGuild().isMember(nPlayer);
 
-		return region.getGuild().isMember(nPlayer);
 	}
 
 	public boolean isFarEnough(Location l1, Location l2) {
@@ -320,7 +361,7 @@ public class RegionManager {
 
 		int min = diagonal + plugin.getConfig().getInt("region.mindistance");
 		plugin.debug("min="+min);
-		Location centerLocation = getCenterLocation(l1,l2);
+		Location centerLocation = getCenterLocation(l1, l2);
 		plugin.debug("center="+centerLocation.toString());
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
@@ -356,10 +397,6 @@ public class RegionManager {
 		return new Location(l1.getWorld(),newx,l1.getBlockY(),newz);
 	}
 
-	public static Location getCenterLocation(NovaRegion region) {
-		return getCenterLocation(region.getCorner(0),region.getCorner(1));
-	}
-
 	public void playerEnteredRegion(Player player, Location toLocation) {
 		NovaRegion region = getRegionAtLocation(toLocation);
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
@@ -387,6 +424,7 @@ public class RegionManager {
 			if(!nPlayer.getGuild().getName().equalsIgnoreCase(region.getGuildName())) {
 				NovaGuild guildDefender = plugin.getGuildManager().getGuildByRegion(region);
 
+				//RAIDS
 				if(nPlayer.getGuild().isWarWith(guildDefender)) {
 					if(!guildDefender.isRaid()) {
 						if(NovaGuilds.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
@@ -439,5 +477,28 @@ public class RegionManager {
 				}
 			}
 		}
+	}
+
+	public NovaRegion regionFromFlat(FileConfiguration regionData) {
+		NovaRegion region = null;
+
+		if(regionData != null) {
+			World world = plugin.getServer().getWorld(regionData.getString("world"));
+
+			if(world != null) {
+				region = new NovaRegion();
+				region.setGuildName(regionData.getString("guild"));
+				region.setWorld(world);
+
+				Location c1 = new Location(world, regionData.getInt("corner1.x"), 0, regionData.getInt("corner1.z"));
+				Location c2 = new Location(world, regionData.getInt("corner2.x"), 0, regionData.getInt("corner2.z"));
+
+				region.setCorner(0, c1);
+				region.setCorner(1, c2);
+				region.setUnChanged();
+			}
+		}
+
+		return region;
 	}
 }

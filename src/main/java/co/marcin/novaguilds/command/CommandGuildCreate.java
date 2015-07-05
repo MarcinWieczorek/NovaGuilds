@@ -219,10 +219,11 @@ public class CommandGuildCreate implements CommandExecutor {
 					plugin.econ.withdrawPlayer(sender.getName(), requiredmoney);
 
 					//taking items away
-					for(ItemStack item : items) {
-						player.getInventory().removeItem(item);
-					}
-					player.updateInventory();
+					ItemStackUtils.takeItems(player,items);
+//					for(ItemStack item : items) {
+//						player.getInventory().removeItem(item);
+//					}
+//					player.updateInventory();
 
 					//update tag and tabs
 					plugin.tagUtils.updatePrefix((Player)sender);

@@ -2,6 +2,7 @@ package co.marcin.novaguilds.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -263,7 +264,13 @@ public class ItemStackUtils {
 	}
 
 	public static void takeItems(Player player, List<ItemStack> items) {
+		if(player.getGameMode() != GameMode.CREATIVE) {
+			for(ItemStack item : items) {
+				player.getInventory().removeItem(item);
+			}
 
+			player.updateInventory();
+		}
 	}
 
 	public static boolean hasAllRequiredItems(Player player, List<ItemStack> items) {
@@ -276,7 +283,7 @@ public class ItemStackUtils {
 		if(items != null) {
 			for(ItemStack item : items) {
 				if(!player.getInventory().containsAtLeast(item, item.getAmount())) {
-					ItemStack missingItemStack = item;
+					ItemStack missingItemStack = item.clone();
 					missingItemStack.setAmount(item.getAmount() - getTotalAmountOfItemStackInInventory(player, item));
 					missing.add(missingItemStack);
 				}
@@ -290,8 +297,10 @@ public class ItemStackUtils {
 		int amount = 0;
 
 		for(ItemStack item : player.getInventory().getContents()) {
-			if(item.isSimilar(itemStack)) {
-				amount += item.getAmount();
+			if(item != null && item.getType() != Material.AIR) {
+				if(item.isSimilar(itemStack)) {
+					amount += item.getAmount();
+				}
 			}
 		}
 

@@ -3,8 +3,10 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -51,80 +53,120 @@ public class PlayerManager {
 		nPlayer.addInvitation(guild);
 	}
 	
-	private void updatePlayer(NovaPlayer nPlayer) {
+	private void savePlayer(NovaPlayer nPlayer) {
 		if(nPlayer.isChanged()) { //only if there were changes
-			plugin.mysqlReload();
-
-			Statement statement;
-			try {
-				statement = plugin.c.createStatement();
-
-				String guildname = "";
-				if(nPlayer.hasGuild()) {
-					guildname = nPlayer.getGuild().getName();
-				}
-
-				List<String> invitedto = nPlayer.getInvitedTo();
-				String joined = StringUtils.join(invitedto, ";");
-
-				String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET " +
-						"`invitedto`='" + joined + "', " +
-						"`guild`='" + guildname + "' " +
-						"WHERE `uuid`='" + nPlayer.getUUID() + "'";
-
-				plugin.debug(sql);
-				statement.executeUpdate(sql);
-				nPlayer.setUnchanged();
+			if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
+				plugin.getFlatDataManager().savePlayer(nPlayer);
 			}
-			catch(SQLException e) {
-				plugin.info(e.getMessage());
+			else {
+				plugin.mysqlReload();
+
+				Statement statement;
+				try {
+					statement = plugin.c.createStatement();
+
+					String guildname = "";
+					if(nPlayer.hasGuild()) {
+						guildname = nPlayer.getGuild().getName();
+					}
+
+					List<String> invitedto = nPlayer.getInvitedTo();
+					String joined = StringUtils.join(invitedto, ";");
+
+					//TODO UUID is changeable, the username is not!
+					String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET " +
+							"`invitedto`='" + joined + "', " +
+							"`guild`='" + guildname + "' " +
+							"WHERE `uuid`='" + nPlayer.getUUID() + "'";
+
+					plugin.debug(sql);
+					statement.executeUpdate(sql);
+					nPlayer.setUnchanged();
+				}
+				catch(SQLException e) {
+					plugin.info(e.getMessage());
+				}
 			}
 		}
 	}
 	
 	public void saveAll() {
 		for(NovaPlayer nPlayer : getPlayers()) {
-			updatePlayer(nPlayer);
+			savePlayer(nPlayer);
 		}
 	}
 	
 	//load
 	public void loadPlayers() {
-    	plugin.mysqlReload();
-    	
-    	Statement statement;
-		try {
-			statement = plugin.c.createStatement();
-			
-			players.clear();
-			ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`");
-			while(res.next()) {
-				players.put(res.getString("name").toLowerCase(), playerFromResult(res));
+		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+			for(String playerName : plugin.getFlatDataManager().getPlayerList()) {
+				FileConfiguration playerData = plugin.getFlatDataManager().getPlayerData(playerName);
+				NovaPlayer nPlayer = playerFromFlat(playerData);
+
+				if(nPlayer != null) {
+					players.put(playerName.toLowerCase(), nPlayer);
+				}
+				else {
+					plugin.info("Loaded player is null. name: " + playerName);
+				}
 			}
 		}
-		catch (SQLException e) {
-			plugin.info(e.getMessage());
-		}	
+		else {
+			plugin.mysqlReload();
+
+			Statement statement;
+			try {
+				statement = plugin.c.createStatement();
+
+				players.clear();
+				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`");
+				while(res.next()) {
+					players.put(res.getString("name").toLowerCase(), playerFromResult(res));
+				}
+			}
+			catch(SQLException e) {
+				plugin.info(e.getMessage());
+			}
+		}
+
+		plugin.info("[PlayerManager] Loaded "+players.size()+" players.");
     }
 	
 	//add a player
 	private void addPlayer(Player player) {
-		plugin.mysqlReload();
-		Statement statement;
-		
-		try {
-			statement = plugin.c.createStatement();
-			
-			UUID uuid = player.getUniqueId();
-			String playername = player.getName();
-			
-			statement.executeUpdate("INSERT INTO `"+plugin.getConfigManager().getDatabasePrefix()+"players` VALUES(0,'"+uuid+"','"+playername+"','','')");
-			plugin.info("New player " + player.getName() + " added to the database");
+		NovaPlayer nPlayer = NovaPlayer.fromPlayer(player);
 
-			players.put(player.getName().toLowerCase(),NovaPlayer.fromPlayer(player));
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
+			plugin.getFlatDataManager().addPlayer(nPlayer);
 		}
-		catch (SQLException e) {
-			plugin.info("SQLException: "+e.getMessage());
+		else {
+			plugin.mysqlReload();
+			Statement statement;
+
+			try {
+				statement = plugin.c.createStatement();
+
+				UUID uuid = player.getUniqueId();
+				String playername = player.getName();
+
+				statement.executeUpdate("INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'" + uuid + "','" + playername + "','','')");
+			}
+			catch(SQLException e) {
+				plugin.info("SQLException: " + e.getMessage());
+			}
+		}
+
+		plugin.info("New player " + player.getName() + " added to the database");
+		players.put(player.getName().toLowerCase(), nPlayer);
+	}
+
+	public void postCheck() {
+		for(NovaPlayer nPlayer : getPlayers()) {
+			if(nPlayer.hasGuild()) {
+				if(nPlayer.getGuild() == null) {
+
+				}
+			}
 		}
 	}
 
@@ -146,7 +188,7 @@ public class PlayerManager {
 		if(nPlayer.isOnline()) {
 			if(!nPlayer.getUUID().equals(nPlayer.getPlayer().getUniqueId())) {
 				nPlayer.setUUID(nPlayer.getPlayer().getUniqueId());
-				plugin.info("[PlayerManager] UUID updated for player "+nPlayer.getName());
+				plugin.info("[PlayerManager] UUID updated for player " + nPlayer.getName());
 			}
 		}
 	}
@@ -180,11 +222,7 @@ public class PlayerManager {
 			String guildname = res.getString("guild").toLowerCase();
 
 			String invitedTo = res.getString("invitedto");
-			List<String> invitedToList = new ArrayList<>();
-			if(!invitedTo.equals("")) {
-				invitedToList.addAll(Arrays.asList(invitedTo.split(";")));
-				//invitedToList = Arrays.asList(invitedTo.split(";"));
-			}
+			List<String> invitedToList = StringUtils.semicolonToList(invitedTo);
 
 			UUID uuid = UUID.fromString(res.getString("uuid"));
 
@@ -207,6 +245,42 @@ public class PlayerManager {
 			e.printStackTrace();
 		}
 
+		return nPlayer;
+	}
+
+	private NovaPlayer playerFromFlat(FileConfiguration playerData) {
+		NovaPlayer nPlayer = null;
+		if(playerData != null) {
+			nPlayer = new NovaPlayer();
+			Player player = plugin.getServer().getPlayerExact(playerData.getString("name"));
+
+			if(player != null) {
+				if(player.isOnline()) {
+					nPlayer.setPlayer(player);
+				}
+			}
+
+			String guildname = playerData.getString("guild").toLowerCase();
+
+			List<String> invitedToList = playerData.getStringList("invitedto");
+
+			UUID uuid = UUID.fromString(playerData.getString("uuid"));
+
+			nPlayer.setUUID(uuid);
+			nPlayer.setName(playerData.getString("name"));
+			nPlayer.setInvitedTo(invitedToList);
+
+			if(!guildname.isEmpty()) {
+				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
+
+				if(guild != null) {
+					guild.addPlayer(nPlayer);
+					nPlayer.setGuild(guild);
+				}
+			}
+
+			nPlayer.setUnchanged();
+		}
 		return nPlayer;
 	}
 }

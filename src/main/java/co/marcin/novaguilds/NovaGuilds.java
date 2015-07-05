@@ -2,6 +2,7 @@ package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.listener.*;
 import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
@@ -18,14 +19,13 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class NovaGuilds extends JavaPlugin {
 	/*
@@ -44,7 +43,6 @@ public class NovaGuilds extends JavaPlugin {
 	* Enter. ~Bukkit.PL
 	* */
 	private static NovaGuilds inst;
-	private static final Logger log = Logger.getLogger("Minecraft");
 	public final PluginDescriptionFile pdf = this.getDescription();
 	private final PluginManager pm = getServer().getPluginManager();
 	
@@ -63,6 +61,7 @@ public class NovaGuilds extends JavaPlugin {
 	private CustomCommandManager commandManager;
 	private ConfigManager configManager;
 	private GroupManager groupManager;
+	private FlatDataManager flatDataManager;
 
 	public TagUtils tagUtils;
 	public boolean updateAvailable = false;
@@ -121,14 +120,6 @@ public class NovaGuilds extends JavaPlugin {
 			}
 		}
 		
-		//messages.yml
-		File langsDir = new File(getDataFolder(),"lang/");
-		if(!langsDir.exists()) {
-			if(langsDir.mkdir()) {
-				info("Language dir created");
-			}
-		}
-		
 		if(!getMessageManager().loadMessages()) {
 			getServer().getPluginManager().disablePlugin(this);
             return;
@@ -163,45 +154,51 @@ public class NovaGuilds extends JavaPlugin {
         }
 
 		try {
-			if(getConfigManager().useMySQL()) {
+			if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
+				flatDataManager = new FlatDataManager(this);
+			}
+
+			if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
 				MySQL = new MySQL(this, getConfig().getString("mysql.host") , getConfig().getString("mysql.port"), getConfig().getString("mysql.database"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"));
 				c = MySQL.openConnection();
 				info("Connected to MySQL database");
 			}
-			else {
+			else if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
 				SQLite sqlite = new SQLite(this, "sqlite.db");
 				c = sqlite.openConnection();
 				info("Connected to SQLite database");
 			}
-			
+
 			//Tables setup
-			DatabaseMetaData md = c.getMetaData();
-			ResultSet rs = md.getTables(null, null, getConfigManager().getDatabasePrefix()+"%", null);
-			if(!rs.next()) {
-				info("Couldn't find tables in the base. Creating...");
-				String[] SQLCreateCode = getSQLCreateCode(getConfigManager().useMySQL());
-				if(SQLCreateCode.length != 0) {
-					try {
-						for(String tableCode : SQLCreateCode) {
-							createTable(tableCode);
-							info("Tables added to the database!");
+			if(getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
+				DatabaseMetaData md = c.getMetaData();
+				ResultSet rs = md.getTables(null, null, getConfigManager().getDatabasePrefix() + "%", null);
+				if(!rs.next()) {
+					info("Couldn't find tables in the base. Creating...");
+					String[] SQLCreateCode = getSQLCreateCode();
+					if(SQLCreateCode.length != 0) {
+						try {
+							for(String tableCode : SQLCreateCode) {
+								createTable(tableCode);
+								info("Tables added to the database!");
+							}
+						}
+						catch(SQLException e) {
+							info("Could not create tables. Disabling");
+							info("SQLException: " + e.getMessage());
+							getServer().getPluginManager().disablePlugin(this);
+							return;
 						}
 					}
-					catch (SQLException e) {
-						info("Could not create tables. Disabling");
-						info("SQLException: "+e.getMessage());
+					else {
+						info("Couldn't find SQL create code for tables!");
 						getServer().getPluginManager().disablePlugin(this);
 						return;
 					}
 				}
 				else {
-					info("Couldn't find SQL create code for tables!");
-					getServer().getPluginManager().disablePlugin(this);
-					return;
+					info("No database config required.");
 				}
-			}
-			else {
-				info("No MySQL config required.");
 			}
 			
 			//Data loading
@@ -295,7 +292,8 @@ public class NovaGuilds extends JavaPlugin {
 				}
 			}
 		}
-		
+
+		//getConfigManager().disable();
 		info("#"+pdf.getVersion()+" Disabled");
 	}
 
@@ -304,7 +302,7 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	public void mysqlReload() {
-		if(!getConfigManager().useMySQL()) return;
+		if(getConfigManager().getDataStorageType() != DataStorageType.MYSQL) return;
 		long stamp = System.currentTimeMillis();
 		
 		if(stamp-MySQLReconnectStamp > 3000) {
@@ -364,6 +362,10 @@ public class NovaGuilds extends JavaPlugin {
 		return groupManager;
 	}
 
+	public FlatDataManager getFlatDataManager() {
+		return flatDataManager;
+	}
+
 	//Vault economy
 	private boolean setupEconomy() {
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
@@ -391,21 +393,12 @@ public class NovaGuilds extends JavaPlugin {
 		return getServer().getPluginManager().getPlugin("HolographicDisplays") != null;
 	}
 	
-	//convert sender to player
-	public Player senderToPlayer(CommandSender sender) {
-		return getServer().getPlayer(sender.getName());
-	}
-	
 	//true=mysql, false=sqlite
-	private String[] getSQLCreateCode(boolean mysql) {
+	private String[] getSQLCreateCode() {
+		int index = getConfigManager().getDataStorageType()==DataStorageType.MYSQL ? 0 : 1;
+
 		String url = "http://novaguilds.marcin.co/sqltables.txt";
 		String sql = StringUtils.getContent(url);
-		
-		int index;
-		if(mysql)
-			index=0;
-		else
-			index=1;
 		
 		String[] types = sql.split("--TYPE--");
 		return types[index].split("--");

@@ -107,7 +107,7 @@ public class CommandGuildWar implements CommandExecutor {
 			String guildnameformat = plugin.getMessageManager().getMessagesString("chat.guild.war.list.item");
 
 			if(guild.getWars().size() > 0) {
-				String warsstr = StringUtils.join(guild.getWars(), guildnameformat, separator);
+				String warsstr = StringUtils.join(guild.getWarsNames(), guildnameformat, separator);
 				plugin.getMessageManager().sendPrefixMessage(sender,warsstr);
 			}
 			else {

@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.potion.PotionEffectType;
@@ -17,6 +18,10 @@ public class ConfigManager {
 	private FileConfiguration config;
 
 	private boolean debug;
+
+	private DataStorageType primaryDataStorageType;
+	private DataStorageType secondaryDataStorageType;
+	private DataStorageType dataStorageType;
 
 	private boolean useBarAPI;
 	private boolean useHolographicDisplays;
@@ -71,8 +76,12 @@ public class ConfigManager {
 		useMySQL = config.getBoolean("usemysql");
 		databasePrefix = config.getString("mysql.prefix");
 
-		guildEffectDuration = config.getInt("effectduration");
-		List<String> guildEffectsString = config.getStringList("effects");
+		primaryDataStorageType = DataStorageType.valueOf(config.getString("datastorage.primary").toUpperCase());
+		secondaryDataStorageType = DataStorageType.valueOf(config.getString("datastorage.secondary").toUpperCase());
+		setToPrimaryDataStorageType();
+
+		guildEffectDuration = config.getInt("guild.effect.duration");
+		List<String> guildEffectsString = config.getStringList("guild.effect.list");
 		for(String effect : guildEffectsString) {
 			PotionEffectType effectType = PotionEffectType.getByName(effect);
 			if(effectType != null) {
@@ -81,9 +90,17 @@ public class ConfigManager {
 		}
 	}
 
+	public void disable() {
+		plugin.saveConfig();
+	}
+
 	//getters
 	public String getDatabasePrefix() {
 		return databasePrefix;
+	}
+
+	public DataStorageType getDataStorageType() {
+		return dataStorageType;
 	}
 
 	public int getSaveInterval() {
@@ -162,5 +179,17 @@ public class ConfigManager {
 
 	public void disableBarAPI() {
 		useBarAPI = false;
+	}
+
+	public void setDataStorageType(DataStorageType dataStorageType) {
+		this.dataStorageType = dataStorageType;
+	}
+
+	public void setToSecondaryDataStorageType() {
+		dataStorageType = secondaryDataStorageType;
+	}
+
+	public void setToPrimaryDataStorageType() {
+		dataStorageType = primaryDataStorageType;
 	}
 }

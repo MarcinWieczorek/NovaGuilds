@@ -23,6 +23,7 @@ public class MessageManager {
 	}
 
 	public boolean loadMessages() {
+		setupDirectories();
 		lang = plugin.getConfig().getString("lang");
 		File messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
 		if(!messagesFile.exists()) {
@@ -39,6 +40,15 @@ public class MessageManager {
 		messages = YamlConfiguration.loadConfiguration(messagesFile);
 		prefix = messages.getString("chat.prefix");
 		return true;
+	}
+
+	private void setupDirectories() {
+		File langsDir = new File(plugin.getDataFolder(),"lang/");
+		if(!langsDir.exists()) {
+			if(langsDir.mkdir()) {
+				plugin.info("Language dir created");
+			}
+		}
 	}
 
 	//set string from file
