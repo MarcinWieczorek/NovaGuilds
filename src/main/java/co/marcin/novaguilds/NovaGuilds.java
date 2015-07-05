@@ -146,7 +146,21 @@ public class NovaGuilds extends JavaPlugin {
         	info("Your plugin build is the latest one");
         }
         else if(version > latestint) {
-	        info("You are using unreleased build #"+version);
+	        String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
+	        int devVersion = 0;
+	        if(NumberUtils.isNumeric(dev)) {
+		        devVersion = Integer.parseInt(dev);
+	        }
+
+	        if(version > devVersion) {
+		        info("You are using unreleased build #" + version);
+	        }
+	        else if(version == devVersion) {
+		        info("You're using latest development build");
+	        }
+	        else {
+		        info("Why the hell are you using outdated dev build?");
+	        }
         }
         else {
         	info("You should update your plugin to #"+latest+"!");

@@ -137,6 +137,7 @@ public class CommandGuildCreate implements CommandExecutor {
 
 		if(!hasitems) {
 			String itemlist = "";
+			int i = 0;
 			for(ItemStack missingItemStack : ItemStackUtils.getMissingItems(player,items)) {
 				String itemrow = plugin.getMessageManager().getMessagesString("chat.createguild.itemlist");
 				itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
@@ -144,8 +145,8 @@ public class CommandGuildCreate implements CommandExecutor {
 
 				itemlist += itemrow;
 
-				//TODO fix separator
-				//if(i<items.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+				if(i<items.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+				i++;
 			}
 
 //			String itemlist = "";

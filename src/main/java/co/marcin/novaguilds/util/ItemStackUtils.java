@@ -280,7 +280,7 @@ public class ItemStackUtils {
 	public static List<ItemStack> getMissingItems(Player player, List<ItemStack> items) {
 		List<ItemStack> missing = new ArrayList<>();
 
-		if(items != null) {
+		if(items != null && player.getGameMode() != GameMode.CREATIVE) {
 			for(ItemStack item : items) {
 				if(!player.getInventory().containsAtLeast(item, item.getAmount())) {
 					ItemStack missingItemStack = item.clone();
