@@ -36,11 +36,11 @@ import java.util.concurrent.TimeUnit;
 
 public class NovaGuilds extends JavaPlugin {
 	/*
-	* Dioricie nasz, ktorys jest w javie, swiec sie bugi Twoje, przyjdz bugi Twoje,
+	* Dioricie nasz, ktorys jest w javie, swiec sie bugi Twoje, przyjdz ficzery Twoje,
 	* badz kod Twoj jako w gicie tak i w mavenie, stacktrace naszego powszedniego
-	* daj nam dzisiaj, i daj nam bugi Twoje, jako i my odpuszczamy naszym
-	* kolegom z pracy, i nie wodz nas na wycieki pamieci, ale daj nam Bugi.
-	* Enter. ~Bukkit.PL
+	* daj nam dzisiaj, i daj nam buildy Twoje, jako i my commity dajemy,
+	* i nie wodz nas na wycieki pamieci, ale daj nam Bugi.
+	* Escape. ~Bukkit.PL
 	* */
 	private static NovaGuilds inst;
 	public final PluginDescriptionFile pdf = this.getDescription();
