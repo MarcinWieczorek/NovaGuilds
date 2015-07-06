@@ -40,7 +40,7 @@ public class NovaGuilds extends JavaPlugin {
 	* badz kod Twoj jako w gicie tak i w mavenie, stacktrace naszego powszedniego
 	* daj nam dzisiaj, i daj nam buildy Twoje, jako i my commity dajemy,
 	* i nie wodz nas na wycieki pamieci, ale daj nam Bugi.
-	* Enter. ~Bukkit.PL
+	* Escape. ~Bukkit.PL
 	* */
 	private static NovaGuilds inst;
 	public final PluginDescriptionFile pdf = this.getDescription();
