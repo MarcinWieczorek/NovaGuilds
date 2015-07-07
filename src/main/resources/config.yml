@@ -17,6 +17,8 @@ mysql:
  password:
  prefix: novaguilds_
 
+checkupdate: true
+
 debug: false
 lang: en-en
 

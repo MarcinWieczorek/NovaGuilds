@@ -88,7 +88,6 @@ public class NovaGuilds extends JavaPlugin {
 		if(getConfigManager().useHolographicDisplays()) {
 			if(!checkHolographicDisplays()) {
 				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find HolographicDisplays plugin, disabling this feature.");
-				getConfigManager().disableHolographicDisplays();
 			}
 			else {
 				info("HolographicDisplays hooked");
@@ -128,44 +127,45 @@ public class NovaGuilds extends JavaPlugin {
 		info("Messages loaded");
         
 		//Version check
-        String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
-        info("You're using build: #"+pdf.getVersion());
-        info("Latest build of the plugin is: #"+latest);
+		if(getConfigManager().isCheckUpdates()) {
+			String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
+			info("You're using build: #" + pdf.getVersion());
+			info("Latest build of the plugin is: #" + latest);
 
-		int latestint = 0;
-		if(NumberUtils.isNumeric(latest)) {
-			latestint = Integer.parseInt(latest);
+			int latestint = 0;
+			if (NumberUtils.isNumeric(latest)) {
+				latestint = Integer.parseInt(latest);
+			}
+
+			int version = 0;
+			if (NumberUtils.isNumeric(pdf.getVersion())) {
+				version = Integer.parseInt(pdf.getVersion());
+			}
+
+			if (version == latestint) {
+				info("Your plugin build is the latest one");
+			} else if (version > latestint) {
+				String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
+				int devVersion = 0;
+				if (NumberUtils.isNumeric(dev)) {
+					devVersion = Integer.parseInt(dev);
+				}
+
+				if (version > devVersion) {
+					info("You are using unreleased build #" + version);
+				} else if (version == devVersion) {
+					info("You're using latest development build");
+				} else {
+					info("Why the hell are you using outdated dev build?");
+				}
+			} else {
+				info("You should update your plugin to #" + latest + "!");
+				updateAvailable = true;
+			}
+		}else{
+			info("You're using build: #" + pdf.getVersion());
+			info("Update checking is disabled.");
 		}
-
-		int version = 0;
-		if(NumberUtils.isNumeric(pdf.getVersion())) {
-			version = Integer.parseInt(pdf.getVersion());
-		}
-
-        if(version == latestint) {
-        	info("Your plugin build is the latest one");
-        }
-        else if(version > latestint) {
-	        String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
-	        int devVersion = 0;
-	        if(NumberUtils.isNumeric(dev)) {
-		        devVersion = Integer.parseInt(dev);
-	        }
-
-	        if(version > devVersion) {
-		        info("You are using unreleased build #" + version);
-	        }
-	        else if(version == devVersion) {
-		        info("You're using latest development build");
-	        }
-	        else {
-		        info("Why the hell are you using outdated dev build?");
-	        }
-        }
-        else {
-        	info("You should update your plugin to #"+latest+"!");
-			updateAvailable = true;
-        }
 
 		try {
 			if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {

@@ -27,6 +27,8 @@ public class ConfigManager {
 	private boolean useHolographicDisplays;
 	private boolean useMySQL;
 
+	private boolean checkUpdates;
+
 	private String databasePrefix;
 
 	private int saveInterval;
@@ -75,6 +77,8 @@ public class ConfigManager {
 
 		useMySQL = config.getBoolean("usemysql");
 		databasePrefix = config.getString("mysql.prefix");
+
+		checkUpdates = config.getBoolean("checkupdate");
 
 		primaryDataStorageType = DataStorageType.valueOf(config.getString("datastorage.primary").toUpperCase());
 		secondaryDataStorageType = DataStorageType.valueOf(config.getString("datastorage.secondary").toUpperCase());
@@ -171,6 +175,8 @@ public class ConfigManager {
 	public boolean isDebugEnabled() {
 		return debug;
 	}
+
+	public boolean isCheckUpdates(){ return checkUpdates; }
 
 	//setters
 	public void disableHolographicDisplays() {
