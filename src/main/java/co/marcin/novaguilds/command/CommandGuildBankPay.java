@@ -47,6 +47,8 @@ public class CommandGuildBankPay implements CommandExecutor {
 
 		Double money = Double.parseDouble(args[0]);
 
+		money = NumberUtils.roundOffTo2DecPlaces(money);
+
 		if(plugin.econ.getBalance(player) < money) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.notenough");
 			return true;

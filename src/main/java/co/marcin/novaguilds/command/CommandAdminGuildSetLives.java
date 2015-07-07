@@ -33,6 +33,12 @@ public class CommandAdminGuildSetLives implements CommandExecutor {
 		}
 
 		int lives = Integer.parseInt(args[0]);
+
+		if(lives < 0) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.basic.negativenumber");
+			return true;
+		}
+
 		guild.setLives(lives);
 		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setlives");
 		return true;

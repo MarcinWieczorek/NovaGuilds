@@ -22,6 +22,7 @@ public class NovaPlayer implements Cloneable {
 	private boolean resizing = false;
 	private int resizingCorner = 0;
 	private int points;
+	private boolean compassPointingGuild = false;
 
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
@@ -154,6 +155,10 @@ public class NovaPlayer implements Cloneable {
 		this.points = points;
 	}
 
+	public void setCompassPointingGuild(boolean compassPointingGuild) {
+		this.compassPointingGuild = compassPointingGuild;
+	}
+
 	public void addPoints(int points) {
 		this.points += points;
 	}
@@ -163,6 +168,10 @@ public class NovaPlayer implements Cloneable {
 	}
 	
 	//check stuff
+	public boolean isCompassPointingGuild() {
+		return compassPointingGuild;
+	}
+
 	public boolean hasGuild() {
 		return getGuild() != null;
 	}

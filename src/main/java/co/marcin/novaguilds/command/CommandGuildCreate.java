@@ -149,17 +149,6 @@ public class CommandGuildCreate implements CommandExecutor {
 				i++;
 			}
 
-//			String itemlist = "";
-//			for(i=0;i<items.size();i++) {
-//				String itemrow = plugin.getMessageManager().getMessagesString("chat.createguild.itemlist");
-//				itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", items.get(i).getType().name());
-//				itemrow = StringUtils.replace(itemrow, "{AMOUNT}", items.get(i).getAmount() + "");
-//
-//				itemlist += itemrow;
-//
-//				if(i<items.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
-//			}
-
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.noitems");
 			sender.sendMessage(StringUtils.fixColors(itemlist));
 			return true;
@@ -221,10 +210,6 @@ public class CommandGuildCreate implements CommandExecutor {
 
 					//taking items away
 					ItemStackUtils.takeItems(player,items);
-//					for(ItemStack item : items) {
-//						player.getInventory().removeItem(item);
-//					}
-//					player.updateInventory();
 
 					//update tag and tabs
 					plugin.tagUtils.updatePrefix((Player)sender);

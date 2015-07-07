@@ -43,10 +43,17 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 
 		double money = Double.parseDouble(money_str);
 
+		if(money < 0) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.basic.negativenumber");
+			return true;
+		}
+
 		if(guild.getMoney() < money) { //guild has not enough money
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenough");
 			return true;
 		}
+
+		money = NumberUtils.roundOffTo2DecPlaces(money);
 
 		guild.takeMoney(money);
 

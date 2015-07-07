@@ -10,6 +10,7 @@ chat:
  erroroccured: "An error occured. Contact server administrator"
  update: "&4There is an update available! &6https://www.spigotmc.org/resources/novaguilds.8135/"
  basic:
+  negativenumber: "Please give a number greater or equal to zero."
   on: "ON"
   off: "OFF"
 
@@ -117,6 +118,7 @@ chat:
      - "&5* &7/nga &cg &6<guild> &cabandon &2- &3abandon the guild"
      - "&5* &7/nga &cg &6<guild> &csetname &6<name> &2- &3Rename the guild"
      - "&5* &7/nga &cg &6<guild> &csettag &6<tag> &2- &3Set the tag"
+     - "&5* &7/nga &cg &6<guild> &csetpoints &6<points> &2- &3Set the points"
      - "&5* &7/nga &cg &6<guild> &cinvite &6<player> &2- &3Invite somebody to the guild"
      - "&5* &7/nga &cg &6<guild> &cpay &6<amount> &2- &3Pay money to guild's bank"
      - "&5* &7/nga &cg &6<guild> &cwithdraw &6<amount> &2- &3Take money from the bank"
@@ -162,7 +164,9 @@ chat:
   resting: "You have to wait &c{TIMEREST} &3before attacking this guild."
  
  guild:
-  compasstarget: "The compass is now pointing your guild's home."
+  compasstarget:
+   on: "The compass is now pointing your guild's home."
+   off: "The compass is now pointing the spawn."
   noguilds: "No guilds found."
   fpvptoggled: "Toggled friendly PVP for your guild. Currently: &c{FPVP}"
   effect:
@@ -220,7 +224,7 @@ chat:
    isleader: "The leader cannot leave the guild. &c/abandon"
    left: "You left the guild."
   bank:
-   enteramount: "Please give the amount. &c/g pay &c&l<amount>"
+   enteramount: "Please give the amount."
    pay:
     paid: "You've paid &2$&c{AMOUNT} &3to guild's bank."
     notenough: "You don't have enough money."

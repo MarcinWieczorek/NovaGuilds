@@ -130,7 +130,7 @@ public class NovaGuilds extends JavaPlugin {
 		//Version check
         String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
         info("You're using build: #"+pdf.getVersion());
-        info("Latest build of the plugin is: #"+latest);
+        info("Latest stable build of the plugin is: #"+latest);
 
 		int latestint = 0;
 		if(NumberUtils.isNumeric(latest)) {
@@ -143,7 +143,7 @@ public class NovaGuilds extends JavaPlugin {
 		}
 
         if(version == latestint) {
-        	info("Your plugin build is the latest one");
+        	info("Your plugin build is the latest stable one");
         }
         else if(version > latestint) {
 	        String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
@@ -428,12 +428,12 @@ public class NovaGuilds extends JavaPlugin {
 	
 	public void runSaveScheduler() {
 		Runnable task = new RunnableAutoSave(this);
-		worker.schedule(task, getConfigManager().getSaveInterval(), TimeUnit.MINUTES);
+		worker.schedule(task, getConfigManager().getSaveInterval(), TimeUnit.SECONDS);
 	}
 
 	public void runLiveRegenerationTask() {
 		Runnable task = new RunnableLiveRegeneration(this);
-		worker.schedule(task, getConfigManager().getGuildLiveRegenerationTaskInterval(), TimeUnit.MINUTES);
+		worker.schedule(task, getConfigManager().getGuildLiveRegenerationTaskInterval(), TimeUnit.SECONDS);
 	}
 
 	private void setupMetrics() {

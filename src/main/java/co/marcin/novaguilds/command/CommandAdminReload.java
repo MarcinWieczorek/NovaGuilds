@@ -47,6 +47,10 @@ public class CommandAdminReload implements CommandExecutor {
 			plugin.getGroupManager().loadGroups();
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.groups");
 
+			plugin.info("Post checks running");
+			plugin.getGuildManager().postCheckGuilds();
+			plugin.getRegionManager().postCheckRegions();
+
 			//all done
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.reloaded");
 			

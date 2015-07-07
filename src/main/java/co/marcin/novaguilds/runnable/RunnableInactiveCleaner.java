@@ -30,7 +30,7 @@ public class RunnableInactiveCleaner implements Runnable {
 
 		if(!fake) {
 			Runnable task = new RunnableLiveRegeneration(plugin);
-			plugin.worker.schedule(task,plugin.getConfigManager().getCleanupInterval(), TimeUnit.MINUTES);
+			plugin.worker.schedule(task,plugin.getConfigManager().getCleanupInterval(), TimeUnit.SECONDS);
 		}
 	}
 }

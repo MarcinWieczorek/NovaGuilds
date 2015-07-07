@@ -43,6 +43,13 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 
 		double money = Double.parseDouble(money_str);
 
+		if(money < 0) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.basic.negativenumber");
+			return true;
+		}
+
+		money = NumberUtils.roundOffTo2DecPlaces(money);
+
 		guild.addMoney(money);
 
 		HashMap<String,String> vars = new HashMap<>();

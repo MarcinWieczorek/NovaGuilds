@@ -21,4 +21,8 @@ public class NumberUtils {
 
 		return rand.nextInt((max - min) + 1) + min;
 	}
+
+	public static double roundOffTo2DecPlaces(double val) {
+		return Double.parseDouble(String.format("%.2f", val));
+	}
 }

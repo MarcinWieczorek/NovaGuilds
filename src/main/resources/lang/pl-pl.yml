@@ -10,6 +10,7 @@ chat:
  erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
  update: "&4Dostepna jest aktualizacja! &6https://www.spigotmc.org/resources/novaguilds.8135/"
  basic:
+  negativenumber: "Wprowadz liczbe wieksza lub rowna zeru."
   on: "ON"
   off: "OFF"
 
@@ -117,6 +118,7 @@ chat:
      - "&5* &7/nga &cg &6<gildia> &cabandon &2- &3Rozwiaz gildie"
      - "&5* &7/nga &cg &6<gildia> &csetname &6<nazwa> &2- &3Zmien nazwe"
      - "&5* &7/nga &cg &6<gildia> &csettag &6<tag> &2- &3Zmien tag"
+     - "&5* &7/nga &cg &6<gildia> &csetpoints &6<punkty> &2- &3Zmien punkty"
      - "&5* &7/nga &cg &6<gildia> &cinvite &6<gracz> &2- &3Zapros gracza do gildii"
      - "&5* &7/nga &cg &6<gildia> &cpay &6<ilosc> &2- &3Wplac pieniadze do banku gildii"
      - "&5* &7/nga &cg &6<gildia> &cwithdraw &6<ilosc> &2- &3Zabierz pieniadze z banku gildii"
@@ -162,7 +164,9 @@ chat:
   resting: "Musisz poczekac &c{TIMEREST} &3Przed atakowaniem tej gildii."
 
  guild:
-  compasstarget: "Kompas wskazuje teraz dom Twojej gildii."
+  compasstarget:
+   on: "Kompas wskazuje teraz dom Twojej gildii."
+   off: "Kompas wskazuje teraz spawn."
   noguilds: "Brak gildii"
   fpvptoggled: "Przelaczono sojusznicze pvp. Obecnie: &c{FPVP}"
   effect:
@@ -220,7 +224,7 @@ chat:
    isleader: "Lider nie moze opuscic swojej gildii. &c/abandon"
    left: "Opusciles gildie."
   bank:
-   enteramount: "Wprowadz ilosc. &c/g pay &c&l<amount>"
+   enteramount: "Wprowadz kwote."
    pay:
     paid: "Wplaciles &2$&c{AMOUNT} &3do banku gildii."
     notenough: "Nie masz wystarczajacej ilosci pieniedzy"

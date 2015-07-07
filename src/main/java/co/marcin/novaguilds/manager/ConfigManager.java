@@ -57,7 +57,7 @@ public class ConfigManager {
 
 		debug = config.getBoolean("debug");
 
-		saveInterval = config.getInt("saveperiod");
+		saveInterval = StringUtils.StringToSeconds(config.getString("saveinterval"));
 
 		raidTimeRest = config.getLong("raid.timerest");
 		raidTimeInactive = config.getLong("raid.timeinactive");

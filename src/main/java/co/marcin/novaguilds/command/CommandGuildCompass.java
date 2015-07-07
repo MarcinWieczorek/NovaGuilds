@@ -33,8 +33,16 @@ public class CommandGuildCompass implements CommandExecutor {
 			return true;
 		}
 
-		player.setCompassTarget(nPlayer.getGuild().getSpawnPoint());
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.compasstarget");
+		if(nPlayer.isCompassPointingGuild()) { //disable
+			nPlayer.setCompassPointingGuild(false);
+			player.setCompassTarget(player.getWorld().getSpawnLocation());
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.compasstarget.off");
+		}
+		else { //enable
+			nPlayer.setCompassPointingGuild(true);
+			player.setCompassTarget(nPlayer.getGuild().getSpawnPoint());
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.compasstarget.on");
+		}
 
 		return true;
 	}

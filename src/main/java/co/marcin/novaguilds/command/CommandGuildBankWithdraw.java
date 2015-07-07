@@ -19,58 +19,54 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		String marg = null;
-		
-		if(args.length>0) {
-			marg = args[0];
-		}
-
-		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+		if(!sender.hasPermission("novaguilds.guild.bank.withdraw")) {
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
-		Player player = (Player)sender;
-		
-		if(sender.hasPermission("novaguilds.guild.bank.withdraw")) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-			
-			if(nPlayer.hasGuild()) {
-				NovaGuild guild = nPlayer.getGuild();
-				
-				if(nPlayer.isLeader()) {
-					if(marg != null && NumberUtils.isNumeric(marg)) {
-						Double money = Double.parseDouble(marg);
-						
-						if(guild.getMoney() >= money) {
-							guild.takeMoney(money);
-							plugin.econ.depositPlayer(player,money);
-							
-							plugin.getGuildManager().saveGuild(guild);
-							
-							HashMap<String,String> vars = new HashMap<>();
-							vars.put("AMOUNT",money+"");
-							plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.success",vars);
-						}
-						else {
-							plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenough");
-						}
-					}
-					else {
-						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.enteramount");
-					}
-				}
-				else {
-					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notleader");
-				}
-			}
-			else {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
-			}
+		if(!(sender instanceof Player)) {
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.cmdfromconsole");
+			return true;
 		}
-		else {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+
+		if(args.length != 1) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.enteramount");
+			return true;
 		}
+
+		String moneyString = args[0];
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+
+		if(!nPlayer.hasGuild()) {
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
+			return true;
+		}
+
+		NovaGuild guild = nPlayer.getGuild();
+
+		if(!nPlayer.isLeader()) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notleader");
+			return true;
+		}
+
+		if(!NumberUtils.isNumeric(moneyString)) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.enterinteger");
+			return true;
+		}
+
+		double money = Double.parseDouble(moneyString);
+		money = NumberUtils.roundOffTo2DecPlaces(money);
+
+		if(guild.getMoney() < money) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenough");
+			return true;
+		}
+
+		guild.takeMoney(money);
+		plugin.econ.depositPlayer((Player)sender, money);
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("AMOUNT",money+"");
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.success",vars);
 		return true;
 	}
 

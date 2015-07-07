@@ -22,54 +22,56 @@ public class CommandGuildInvite implements CommandExecutor {
 			return true;
 		}
 
-		if(args.length == 1) {
-			String playername = args[0];
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		if(args.length != 1) {
+			plugin.getMessageManager().sendUsageMessage(sender, "guild.invite");
+			return true;
+		}
 
-			if(nPlayer.isLeader()) { //only leaders can invite
-				if(nPlayer.hasGuild()) { //if sender has guild
-					if(plugin.getPlayerManager().exists(playername)) { //player exists
-						NovaPlayer inPlayer = plugin.getPlayerManager().getPlayer(playername);
+		String playername = args[0];
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
-						if(!inPlayer.hasGuild()) { //if player being invited has no guild
-							NovaGuild guild = nPlayer.getGuild();
-							HashMap<String, String> vars = new HashMap<>();
-							vars.put("GUILDNAME", guild.getName());
-							vars.put("PLAYERNAME", inPlayer.getName());
+		if(!nPlayer.hasGuild()) {
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
+			return true;
+		}
 
-							if(!inPlayer.isInvitedTo(guild)) { //if he's not invited
-								plugin.getPlayerManager().addInvitation(inPlayer, guild);
-								plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.invited");
+		if(!nPlayer.isLeader()) { //only leaders can invite
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
+			return true;
+		}
 
-								if(inPlayer.isOnline()) {
-									plugin.getMessageManager().sendMessagesMsg(inPlayer.getPlayer(), "chat.player.uvebeeninvited", vars);
-								}
-							}
-							else {
-								inPlayer.deleteInvitation(guild);
-								plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.invitecanceled", vars);
+		NovaPlayer invitePlayer = plugin.getPlayerManager().getPlayer(playername);
 
-								if(inPlayer.isOnline()) {
-									plugin.getMessageManager().sendMessagesMsg(inPlayer.getPlayer(), "chat.guild.invitecancelednotify", vars);
-								}
-							}
-						}
-						else {
-							plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.hasguild");
-						}
-					}
-					else {
-						plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.notexists");
-					}
-				}
-				else {
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
-				}
-				return true;
+		if(invitePlayer == null) { //player exists
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.notexists");
+			return true;
+		}
+
+		if(invitePlayer.hasGuild()) { //if player being invited has no guild
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.hasguild");
+			return true;
+		}
+
+		NovaGuild guild = nPlayer.getGuild();
+		HashMap<String, String> vars = new HashMap<>();
+		vars.put("GUILDNAME", guild.getName());
+		vars.put("PLAYERNAME", invitePlayer.getName());
+
+		if(!invitePlayer.isInvitedTo(guild)) { //invite
+			plugin.getPlayerManager().addInvitation(invitePlayer, guild);
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.invited");
+
+			if(invitePlayer.isOnline()) {
+				plugin.getMessageManager().sendMessagesMsg(invitePlayer.getPlayer(), "chat.player.uvebeeninvited", vars);
 			}
 		}
-		else {
-			plugin.getMessageManager().sendUsageMessage(sender, "guild.invite");
+		else { //cancel invitation
+			invitePlayer.deleteInvitation(guild);
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.invitecanceled", vars);
+
+			if(invitePlayer.isOnline()) {
+				plugin.getMessageManager().sendMessagesMsg(invitePlayer.getPlayer(), "chat.guild.invitecancelednotify", vars);
+			}
 		}
 		return true;
 	}

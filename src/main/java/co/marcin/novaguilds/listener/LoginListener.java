@@ -44,6 +44,7 @@ public class LoginListener implements Listener {
 		}
 
 		//adding to raid TODO: not tested
+		//TODO should be done in playerEnteredRegion
 		if(nPlayer.hasGuild()) {
 			//Update his guild's inactive time
 			nPlayer.getGuild().updateInactiveTime();
@@ -61,6 +62,10 @@ public class LoginListener implements Listener {
 					}
 				}
 			}
+		}
+
+		if(plugin.getRegionManager().getRegionAtLocation(player.getLocation()) != null) {
+			plugin.getRegionManager().playerEnteredRegion(player,player.getLocation());
 		}
 		
 		//TabAPI

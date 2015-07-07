@@ -105,7 +105,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 			}
 
 			if(display) {
-				String inactiveString = StringUtils.secondsToString(NovaGuilds.systemSeconds() - guild.getInactiveTime(), TimeUnit.MINUTES);
+				String inactiveString = StringUtils.secondsToString(NovaGuilds.systemSeconds() - guild.getInactiveTime(), TimeUnit.SECONDS);
 
 				String agonow = plugin.getMessageManager().getMessagesString("chat.admin.guild.inactive.list.ago");
 				if(inactiveString.isEmpty()) {

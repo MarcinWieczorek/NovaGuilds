@@ -17,17 +17,12 @@ public class CommandAdminGuildSetPoints implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		/*
-		* args:
-		* 0 - points
-		* */
-
 		if(!sender.hasPermission("novaguilds.admin.guild.setpoints")) {
 			plugin.getMessageManager().sendNoPermissionsMessage(sender);
 			return true;
 		}
 
-		if(args.length == 0) { //no new name
+		if(args.length != 1) { //no new name
 			plugin.getMessageManager().sendUsageMessage(sender, "nga.guild.setpoints");
 			return true;
 		}
@@ -40,9 +35,15 @@ public class CommandAdminGuildSetPoints implements CommandExecutor {
 		}
 
 		int pointsInteger = Integer.parseInt(points);
+
+		if(pointsInteger < 0) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.basic.negativenumber");
+			return true;
+		}
+
 		guild.setPoints(pointsInteger);
 
-		plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.setpoints.success");
+		plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.setpoints");
 		return true;
 	}
 }

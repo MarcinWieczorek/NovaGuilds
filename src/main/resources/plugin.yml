@@ -15,7 +15,7 @@ commands:
       description: Admin commands
       usage: /nga [cmd]
    guild:
-      description: NovaGuilds Guild command
+      description: NovaGuilds guild command
       usage: /guild <cmd> [params]
       permission: novaguilds.guild.access
       permission-message: No permissions

@@ -50,7 +50,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 			nPlayer.toggleBypass();
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("PLAYER",nPlayer.getName());
-			vars.put("BYPASS",nPlayer.getBypass() ? plugin.getMessageManager().getMessagesString("basic.on") : plugin.getMessageManager().getMessagesString("basic.off"));
+			vars.put("BYPASS",nPlayer.getBypass() ? plugin.getMessageManager().getMessagesString("chat.basic.on") : plugin.getMessageManager().getMessagesString("chat.basic.off"));
 
 			if(nPlayer.isOnline()) {
 				plugin.getMessageManager().sendMessagesMsg(nPlayer.getPlayer(), "chat.admin.rgbypass.notifyother");
