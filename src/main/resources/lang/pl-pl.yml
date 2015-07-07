@@ -1,0 +1,397 @@
+chat:
+ prefix: "&6[&5NovaGuilds&6] &3"
+ nopermissions: "&cNie masz uprawnien."
+ unknowncmd: "&cNieznana komenda."
+ invalidparam: "&cNieprawidlowy argument"
+ cmdfromconsole: "Nie mozesz wykonac tej komendy z konsoli"
+ enterinteger: "Wprowadz liczbe."
+ delayedteleport: "Zostaniesz teleportowany w ciagu &c{DELAY} &3sekund"
+ delayedtpmoved: "Ruszyles sie, teleportacja anulowana."
+ erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
+ update: "&4Dostepna jest aktualizacja! &6https://www.spigotmc.org/resources/novaguilds.8135/"
+
+ admin:
+  guild:
+   timerest:
+    set: "Ustawiono czas odpoczynku gildii"
+   list:
+    header: "Lista gildii:"
+    page:
+     hasnext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} -- &c/nga g list {NEXT} &7--"
+     nonext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} --"
+    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Lider: &c{PLAYERNAME} &3({PLAYERSCOUNT} graczy)"
+   inactive:
+    updated: "Wszystkie gildie uaktualnione. (&c{COUNT} &3gildii)"
+    list:
+     header: "Most inactive guilds"
+     item: " &2- &a{GUILDNAME} &3active {AGONOW}"
+     ago: "&c{INACTIVE}&3ago"
+     now: "&cnow"
+   bank:
+    paid: "Wplaciles &c${MONEY} &3do banku gildii &a{GUILDNAME}&3"
+    withdrew: "Zabrales &c${MONEY} &3z banku &a{GUILDNAME}"
+   abandon: "Gildia &a{GUILDNAME} &3zostala rozwiazana."
+   kick:
+    leader: "Nie mozesz wyrzucic lidera. Musisz rozwiazac gildie."
+   invited: "Zaproszono gracza &c{PLAYERNAME} &3do &a{GUILDNAME}"
+   teleported: "Teleportowano do bazy &a{GUILDNAME}"
+   teleportedother: "Teleportowano gracza &c{PLAYERNAME} &3do bazy &a{GUILDNAME}"
+   settag: "Tag zmieniony na &a{TAG}"
+   setpoints: "Points set."
+   setlives: "Lives set."
+   setname:
+    enternewname: "Wprowadz nowa nazwe"
+    success: "Nazwa gildii zmieniona."
+   setleader:
+    notinguild: "Ten gracz nie jest w gildii &a{GUILDNAME}"
+    alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
+    success: "Nowy lider ustalony!"
+  region:
+   rgbypass:
+    toggled: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
+    toggledother: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER}&3. Aktualnie: &c{BYPASS}"
+    notifyother: "Twoj tryb ignorowania regionow zostal zmieniony. Aktualnie: &c{BYPASS}"
+   delete:
+    success: "Pomyslnie usunieto region"
+   teleport:
+    success: "Zostales teleportowany na teren gildii &a{GUILDNAME}"
+    successother: "Teleportowano gracza &c{PLAYERNAME} &3na teren gildii &a{GUILDNAME}"
+    notifyother: "Zostales teleportowany na teren gildii &a{GUILDNAME}"
+  save:
+   players: "Gracze zapisani."
+   guilds: "Gildie zapisane."
+   regions: "Regiony zapisane."
+   all: "Zapisano wszystkie dane. (Gracze, gildie, regiony)"
+   autosave: "Zakonczono automatyczny zapis."
+
+ reload:
+  reloading: "Przeladowywanie NovaGuilds..."
+  config: "Konfiguracja przeladowana!"
+  messages: "Wiadomosci przeladowane!"
+  mysql: "MySQL przeladowane!"
+  players: "Gracze zaladowani!"
+  guilds: "Gildie zaladowane!"
+  regions: "Regiony zaladowane"
+  newmsgfile: "Nowy plik wiadomosci stworzony!"
+  groups: "Grupy zaladowane!"
+  reloaded: "NovaGuilds przeladowane!"
+
+ usage:
+  nga:
+   guild:
+    setpoints: "&5* &7/nga &cg &6<guild> &cpoints &6<points> &2- &3Zmien punkty"
+    abandon: "&5* &7/nga &cg &6abandon &c<gildia> &2- &3porzuc gildie"
+    lives: "&5* &7/nga &cg &6lives &c<ilosc> &2- &3ustaw zycia"
+    bank:
+     pay: "&7/nga &cg &6pay &c<gildia> &6<ilosc>"
+     withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
+    tp: "&7/nga &cg &6tp &c<gildia> &6[player]"
+  ng:
+   broadcast: "&c/ng bc <wiadomosc>"
+  guild:
+   create: "&5* &7/zaloz &c<tag> &6<nazwa> &2- &3Stworz gildie"
+   invite: "&5* &7/zapros &c<gracz> &2- &3Zapros gracza do gildii"
+ commands:
+  admin:
+   main:
+    header: "Komendy Admina:"
+    items:
+     - "&5* &7/nga &crg &2- &3Komendy regionow"
+     - "&5* &7/nga &cg &2- &3Komendy gildii"
+     - "&5* &7/nga &creload &2- &3Przeladuj &6[&5NovaGuilds&6]"
+     - "&5* &7/nga &csave &6[players/guilds/regions] &2- &3Zapisz dane"
+   region:
+    header: "Komendy Admina, regiony:"
+    items:
+     - "&5* &7/nga &crg &6list &2- &3Lista regionow"
+     - "&5* &7/nga &crg &6del &c<guildname> &2- &3Usun region"
+     - "&5* &7/nga &crg &6tp &c<guildname> &2- &3Teleport do regionu"
+     - "&5* &7/nga &crg &6bypass &c[player] &2- &3Zmiena trybu ignorowania regionow"
+   guild:
+    header: "Komendy Admina, gildie:"
+    items:
+     - "&5* &7/nga &cg &6<gildia> &ctp &6[gracz] &2- &3Teleport do gildii"
+     - "&5* &7/nga &cg &6<gildia> &cabandon &2- &3Rozwiaz gildie"
+     - "&5* &7/nga &cg &6<gildia> &csetname &6<nazwa> &2- &3Zmien nazwe"
+     - "&5* &7/nga &cg &6<gildia> &csettag &6<tag> &2- &3Zmien tag"
+     - "&5* &7/nga &cg &6<gildia> &cinvite &6<gracz> &2- &3Zapros gracza do gildii"
+     - "&5* &7/nga &cg &6<gildia> &cpay &6<ilosc> &2- &3Wplac pieniadze do banku gildii"
+     - "&5* &7/nga &cg &6<gildia> &cwithdraw &6<ilosc> &2- &3Zabierz pieniadze z banku gildii"
+     - "&5* &7/nga &cg &6<gildia> &ctimerest &6<czas> &2- &3Ustaw czas odpoczynku. (1y/d/m/h/s)"
+     - "&5* &7/nga &cg &6<gildia> &cliveregentime &6<czas> &2- &3Czas regeneracji zycia"
+     - "&5* &7/nga &cg &6<gildia> &clives &6<ilosc> &2- &3Ustaw zycia"
+     - "&5* &7/nga &cg &6kick &c<gracz> &2- &3Wyrzuc gracza z gildii"
+     - "&5* &7/nga &cg &6promote &c<gracz> &2- &3Zmien lidera gildii"
+     - "&5* &7/nga &cg &6list &2- &3Lista gildii"
+     - "&5* &7/nga &cg &6purge &2- &3Usun wszystkie gildie"
+  guild:
+   hasguild:
+    - "&5* &7/g &cpay &6<ilosc> &2- &3Wplac pieniadze do banku"
+    - "&5* &7/g &chome &2- &3Teleport do domu gildii"
+    - "&5* &7/g &cinfo &2- &3Informacje o gildii. &9/gi"
+    - "&5* &7/g &cleave &2- &3Opusc gildie"
+    - "&5* &7/g &ccompass &2- &3Niech kompas wskazuje dom Twojej gildii!"
+    - "&5* &7/g &ctop &2- &3Top 5"
+    - "&5* &7/ng &ctool &2- &3Sprawdz lub zaznacz teren patykiem!"
+   noguild:
+    - "&5* &7/zaloz &6<tag> <nazwa> &2- &3Zaloz gildie"
+    - "&5* &7/dolacz &6[gildia] &2- &3Dolacz do gildii"
+    - "&5* &7/gi &c[gildia/gracz] &2- &3Informacje o gildii"
+    - "&5* &7/g &ctop &2- &3Top 5"
+    - "&5* &7/g &citems &2- &3Wymagane przedmioty"
+   leader:
+    - "&5* &7/g &cbuyregion &2- &3Kup zaznaczony teren"
+    - "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
+    - "&5* &7/g &chome set &2- &3Ustaw dom gildii"
+    - "&5* &7/g &cwithdraw &6<ilosc> &2- &3Zabierz pieniadze z banku"
+    - "&5* &7/g &cleader &6<gracz> &2- &3Ustaw lidera"
+    - "&5* &7/g &cally &6<gildia> &2- &3Zapros do sojuszu"
+    - "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
+    - "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuc gracza"
+    - "&5* &7/rozwiaz &2- &3Porzuc gildie"
+    - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
+
+ teampvp: "Nie mozesz bic swoich kolegow z gildii"
+ allypvp: "Nie mozesz ranic swoich sojusznikow"
+ noguild: "Brak gildii"
+
+ raid:
+  resting: "Musisz poczekac &c{TIMEREST} &3Przed atakowaniem tej gildii."
+
+ guild:
+  compasstarget: "Kompas wskazuje teraz dom Twojej gildii."
+  noguilds: "Brak gildii"
+  effect:
+   success: "Kupiles efekt &a{EFFECTTYPE} &3dla swoich wojownikow!"
+
+  ally:
+   war: "Najpierw musisz zakonczyc wojne z ta gildia"
+   samename: "Nie mozesz zaprosic swojej gildii do sojuszu!"
+   alreadyally: "Juz jestescie sojusznikami!"
+   alreadyinvited: "Juz zaprosiles te gildie do sojuszu"
+   invited: "Zaprosiles &a{ALLYNAME} &3do sojuszu"
+   accepted: "Zaakceptowales propozycje sojuszu z &a{ALLYNAME}"
+   newinvite: "Gildia &a{GUILDNAME} &3Zaprosila Cie do sojuszu"
+   notifyguild: "Gildia &a{GUILDNAME} &3Zaprosila Cie do sojuszu"
+   notifyguildcanceled: "Gildia &a{GUILDNAME} &3cofnela propozycje sojuszu"
+   canceled: "&3Cofnieto zaproszenie sojuszu z &a{GUILDNAME}"
+
+  couldnotfind: "Nie udalo sie znalezc gildii"
+  hasnoregion: "Ta gildia nie ma swojego terenu"
+  entername: "Wprowadz nazwe gildii"
+  entertag: "Wprowadz tag gildii"
+  namenotexist: "Nie udalo sie znalezc gildii o tej nazwie"
+  notinguild: "Nie masz gildii!"
+  abandoned: "Porzuciles swoja gildie"
+  notleader: "Nie jestes liderem"
+  notenoughmoney: "W banku gildii nie ma wystarczajacej ilosci pieniedzy"
+  setspawnpoint: "Ustawiono dom gildii!"
+  sethomeoutside: "You cannot set home outside your guild's region"
+  tp: "Teleportowano do domu gildii"
+  hasregionalready: "Twoja gildia ma juz region. Usun lub edytuj istniejacy."
+  guildatlocsp: "Nie mozesz ustawic domu na terenie innej gildii"
+  joined: "Dolaczyles do gildii!"
+  explosionatregion: "Na terenie Twojej gildii nastapil wybuch!"
+  kickyourself: "Nie mozesz wyrzucic siebie z gildii!"
+  tooclose: "Jestes zbyt blisko innej gildii"
+
+  war:
+   ally: "Najpierw zakoncz sojusz z ta gildia"
+   yourguildwar: "Nie mozesz wywolac wojny sam ze soba"
+   nowarinv: "Poprosiles &a{GUILDNAME} &3aby zakonczyc wojne"
+   nowarinvnotify: "&a{GUILDNAME} &3poprosila o zakonczenie wojny"
+   list:
+    nowars: "Brak wojen."
+    warsheader: "Lista wojen:"
+    nowarinvheader: "Lista zaproszen do zakonczenia wojny:"
+    item: "&c{GUILDNAME}"
+    separator: "&f, "
+
+  leader:
+   success: "&a{PLAYERNAME} &3jest teraz liderem!"
+   samenick: "Juz jestes liderem!"
+   notsameguild: "Ten gracz nie nalezy do Twojej gildii"
+   notifynewleader: "Jestes teraz liderem gildii &a{GUILDNAME}"
+  leave:
+   isleader: "Lider nie moze opuscic swojej gildii. &c/abandon"
+   left: "Opusciles gildie."
+  bank:
+   enteramount: "Wprowadz ilosc. &c/g pay &c&l<amount>"
+   pay:
+    paid: "Wplaciles &2$&c{AMOUNT} &3do banku gildii."
+    notenough: "Nie masz wystarczajacej ilosci pieniedzy"
+   withdraw:
+    notleader: "Tylko liderzy moga wyplacac pieniadze"
+    success: "Zabrales &2$&c{AMOUNT} &3z banku gildii."
+    notenough: "Nie ma wystarczajacej ilosci pieniedzy w banku gildii."
+
+ player:
+  entername: "Wprowadz nazwe gracza"
+  notexists: "Ten gracz nie istnieje"
+  notonline: "Ten gracz nie jest online"
+  hasguild: "Ten gracz ma gildie"
+  hasnoguild: "Ten gracz nie ma gildii"
+  alreadyinvited: "Ten gracz jest juz zaproszony do tej gildii"
+  invited: "Gracz zostal zaproszony do gildii"
+  invitedtonothing: "Nie jestes zaproszony do zadnej gildii"
+  notinvitedtoguild: "Nie jestes zaproszony do tej gildii"
+  uvebeeninvited: "Zostales zaproszony do gildii &a{GUILDNAME}"
+  ureinvitedto: "Lista gildii do ktorych jestes zaproszony:"
+  notinyourguild: "Ten gracz nie nalezy do Twojej gildii"
+  invitecanceled: "Cofnieto zaproszenie dla gracza &c{PLAYER}"
+  invitecancelednotify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
+
+ region:
+  cannotinteract: "Nie mozesz tutaj ingerowac"
+  cannotridemob: "Nie mozesz jezdzic na tym zwierzeciu"
+  cannotattackmob: "Nie mozesz atakowac tego zwierzecia"
+  noregionhere: "Nie ma tutaj zadnej gildii"
+  regionhere: "Tutaj jest teren innej gildii!"
+  toosmall: "Zaznaczony teren jest za maly. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
+  toobig: "Zaznaczony teren jest za duzy. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
+  size: "Rozmiar zaznaczonego terenu: &c{SIZE} &3blokow"
+  price: "Kupienie terenu bedzie Cie kosztowalo: &c${PRICE}"
+  confirm: "&cKucnij &3i kliknij &cprawy &3aby &fpotwierdzic"
+  cnotafford: "Nie stac Cie na ten teren. Potrzebujesz jeszcze &c${NEEDMORE}"
+  overlaps: "Zaznaczony teren nachodzi na region innej gildii"
+  notvalid: "Zaznaczony teren jest niepoprawny."
+  created: "Region stworzony pomyslnie"
+  selectsuccess: "Teren zaznaczony. &c/g buyregion"
+  areanotselected: "Prosze zaznaczyc teren"
+  mustveguild: "Potrzebujesz gildii aby kupic teren. &c/create"
+  entered: "Wkroczyles na teren gildii &a{GUILDNAME}"
+  exited: "Opusciles teren gildii &a{GUILDNAME}"
+  notifyguild:
+   entered: "Gracz &c{PLAYERNAME} &3wkroczyl na teren Twojej gildii!"
+  belongsto: "Ten teren nalezy do &a{GUILDNAME}"
+  list:
+   header: "Lista regionow:"
+   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
+  tool:
+   toggledmode: "Zmieniono tryb. Obecnie: &c{MODE}"
+   modes:
+    check: "SPRAWDZANIE"
+    select: "ZAZNACZANIE"
+
+
+ createguild:
+  notenoughmoney: "Nie masz wystarczajacej ilosci pieniedzy"
+  itemlist: "&c{AMOUNT} {ITEMNAME}"
+  itemlistsep: "&f, "
+  noitems: "Nie masz wymaganych przedmiotow!"
+  tagexists: "Istnieje juz gildia z tym tagiem."
+  nameexists: "Istnieje juz gildia o tej nazwie"
+  hasguild: "Masz juz gildie"
+  success: "Gildia stworzona"
+  regionhere: "Nie mozesz stworzyc gildii w miejscu gdzie istnieje inna"
+  tooclosespawn: "Musisz odejsc {DISTANCE} blokow od spawnu"
+  notallowedstring: "Wprowadzony tekst zawiera niedozwolone znaki"
+  tag:
+   tooshort: "Tag jest za krotki!"
+   toolong: "Tag jest za dlugi!"
+  name:
+   tooshort: "Nazwa jest za krotka"
+   toolong: "Nazwa jest za dluga"
+
+ guildinfo:
+  playerseparator: "&f, "
+  leaderprefix: "*"
+  playercolor:
+   online: "&a"
+   offline: "&f"
+  ally: "&5{GUILDNAME}"
+  war: "&c{GUILDNAME}"
+  fullinfo:
+   - "&4*** &3Informacje o gildii &4***"
+   - " &c* &2Nazwa: &6{GUILDNAME}"
+   - " &c* &2Tag: &6{TAG}"
+   - " &c* &2Lider: &6{LEADER}"
+   - " &c* &2Zycia: &6{LIVES}"
+   - " &c* &2Regenaracja zycia: &6{LIVEREGENERATIONTIME}"
+   - " &c* &2Czas odpoczynku: &6{TIMEREST}"
+   - " &c* &2Lokacja: &6{SP_X},{SP_Y},{SP_Z}"
+   - " &c* &2Gracze: {PLAYERS}"
+   - " &c* &2Sojusze: {ALLIES}"
+   - " &c* &2Wojny: {WARS}"
+   - " &c* &2Pieniadze: &6{MONEY}"
+   - " &c* &2Punkty: &6{POINTS}"
+  info:
+   - "&4*** &3Informacje o gildii &4***"
+   - " &c* &2Nazwa: &6{GUILDNAME}"
+   - " &c* &2Tag: &6{TAG}"
+   - " &c* &2Lider: &6{LEADER}"
+   - " &c* &2Zycia: &6{LIVES}"
+   - " &c* &2Czas odpoczynku: &6{TIMEREST}"
+   - " &c* &2Gracze: {PLAYERS}"
+   - " &c* &2Sojusze: {ALLIES}"
+   - " &c* &2Wojny: {WARS}"
+   - " &c* &2Punkty: &6{POINTS}"
+
+#broadcast messages:
+broadcast:
+ admin:
+  autosave: "Zapisano dane pluginu."
+  guild:
+   abandon: "Admin &c{PLAYERNAME} &3rozwiazal gildie &a{GUILDNAME}"
+ guild:
+  war: "Gildia &a{GUILD1} &3rozpoczela &cwojne &3z &a{GUILD2}"
+  nowar: "Gildie &a{GUILD1} &3i &a{GUILD2} &3zakonczyly wojne"
+  joined: "Gracz &c{PLAYER} &3dolaczyl do &a{GUILDNAME}"
+  left: "Gracz &c{PLAYER} &3opuscil &a{GUILDNAME}"
+  created: "Gracz &c{PLAYER} &3zalozyl gildie &a{GUILDNAME}"
+  abandoned: "Gracz &c{PLAYER} &3porzucil gildie &a{GUILDNAME}"
+  setleader: "Gracz &c{PLAYERNAME} &3jest teraz liderem &a{GUILDNAME}"
+  allied: "&a{GUILDNAME} &3i &a{ALLYNAME} &3sa teraz sojusznikami!"
+  endally: "&a{GUILDNAME} &3i &a{ALLYNAME} &3zakonczyli sojusz!"
+  kicked: "Gracz &c{PLAYERNAME} &3zostal wyrzucony z &a{GUILDNAME}"
+  newleader: "Gracz &c{PLAYERNAME} &3jest teraz liderem &a{GUILDNAME}"
+  destroyed: "Guild &a{GUILDNAME} &3zostala zniszczona!"
+  raid:
+   finished:
+    attackerwon: "Nalot zakonczony! &a{ATTACKER} &3vs &a{DEFENDER}&3! Atakujacy wygral."
+    defenderwon: "Nalot zakonczony! &a{ATTACKER} &3vs &a{DEFENDER}&3! Obronca wygral."
+ pvp:
+  killed: "Gracz {TAG1}&c{PLAYER1} &3zostal zabity przez {TAG2}&c{PLAYER2}"
+
+holographicdisplays:
+ locations:
+  topguilds:
+ topguilds:
+  toprows: 5
+  header: "&2Gildie &cTOP5"
+  row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
+
+items:
+ tool:
+  name: "&5NovaGuilds &6Patyk"
+  lore:
+   - "&cLewy + SHIFT"
+   - "&6Aby zmienic tryb"
+   - "&e****&2SPRAWDZANIE&e****"
+   - "&6Kliknij prawy"
+   - "&e****&2ZAZNACZANIE&e***"
+   - "&cLewy/Prawy"
+   - "&6przycisk aby zaznaczyc"
+
+tablist:
+ pattern:
+  - "{SERVERNAME}"
+  - "GuildsSPLIT{GUILDNUMBER}"
+  - "Players onlineSPLIT{PLAYERSONLINE}"
+  - "Your guildSPLIT{GUILDNAME}"
+
+#no prefix, start with color
+barapi:
+ warprogress: "&3Gildia &a{DEFENDER} &3jest atakowana!"
+
+book:
+ help:
+  title: "NovaGuilds Samouczek"
+  pages:
+   - "&6[&5NovaGuilds&6] &3Pomoc"
+
+inventory:
+ requireditems:
+  name: Wymagane przedmioty
+ ggui:
+  name: Guild's Menu

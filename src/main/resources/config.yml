@@ -1,0 +1,219 @@
+# =-=-=-=-=-=-=-=-=-=-=-=-=#
+# NovaGuilds Configuration #
+# =-=-=-=-=-=-=-=-=-=-=-=-=#
+
+#Data storage type
+# mysql - MySQL database
+# sqlite - Local database
+# flat - file based
+datastorage:
+ primary: mysql
+ secondary: flat
+mysql:
+ host:
+ port: 3306
+ database:
+ username:
+ password:
+ prefix: novaguilds_
+
+debug: false
+lang: en-en
+
+barapi:
+ enabled: true
+
+tabapi:
+ enabled: false
+ colortags: true
+ rankprefix: false
+
+tagapi:
+ enabled: false
+ colortags: true
+ rankprefix: false
+ allycolor:
+  enabled: true
+  color: "&5"
+ guildcolor:
+  enabled: true
+  color: "&a"
+ warcolor:
+  enabled: true
+  color: "&c"
+
+holographicdisplays:
+ enabled: false
+
+#Save period in minutes
+saveperiod: 10
+
+#after the raid is over and this time the guild will get +1 live
+liveregeneration:
+ regentime: 24h
+ taskinterval: 30m
+
+cleanup:
+ enabled: true
+ inactivetime: 7d
+ interval: 1d
+
+aliases:
+ guild:
+  - g
+  - gildia
+ create:
+  - zaloz
+ invite:
+  - zapros
+ abandon:
+  - rozwiaz
+ join:
+  - dolacz
+
+
+chat:
+ ally:
+  prefix: "!!"
+  enabled: true
+  colortags: true
+  leaderprefix: true
+  format: "&6[&5Ally&6] &a{TAG}&8{PLAYERNAME}&6:&r "
+  msgprefix: "&6"
+ guild:
+  prefix: "!"
+  enabled: true
+  leaderprefix: true
+  format: "&6[&7Guild&6] &8{PLAYERNAME}&6:&r "
+  msgprefix: "&6"
+
+raid:
+ enabled: true
+ minonline: 1
+ minonlineenemy: 1
+
+ #time guild has to rest in seconds (24h)
+ timerest: 86400
+
+ #Inactive time after which the raid is over. seconds.
+ timeinactive: 30
+
+killing:
+ moneyforkill: 5%
+ moneyforrevenge: 10%
+
+guild:
+ #time to remove inactive guilds (minutes) (default 7 days)
+ inactivetime: 604800
+ tag: "&a{RANK}{TAG} &r"
+ homefloor: obsidian
+ startpoints: 1000
+ startmoney: 0
+ startlives: 2
+ #distance from spawn
+ fromspawn: 100
+ allowedchars: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+ settings:
+  tag:
+   #colored tags
+   color: true
+   #length
+   min: 2
+   max: 6
+  name:
+   min: 4
+   max: 10
+
+ killpoints: 5
+ deathpoints: 5
+
+ #/g effect
+ effect:
+  duration: 2000
+  list:
+   - JUMP
+   - INCREASE_DAMAGE
+   - HEAL
+
+ #permissions: novaguilds.group.GROUP
+ #there's no need for admin group. novaguilds.group.admin for all stuff free
+ create:
+  groups:
+   default: #this is default
+    #teleport delay in seconds
+    effectprice: 100
+    guild:
+     home:
+      tpdelay: 5
+      money: 0
+      items: []
+     join:
+      money: 0
+      items: []
+     create:
+      money: 0
+      items:
+       - dirt 1
+
+    region:
+     #size (radius) of auto created region (5 = 10x10)
+     autoregionsize: 5
+     #create price
+     create: 100
+     #price per block
+     ppb: 1
+
+region:
+ autoregion: true
+ minsize: 10
+ maxsize: 100
+ adminautosize: 10
+ borderparticles: true
+ mindistance: 20
+ tool:
+  item: STICK
+
+ denyinteract:
+  - WOODEN_DOOR
+  - LEVER
+  - DISPENSER
+  - STONE_BUTTON
+  - WOOD_BUTTON
+  - DROPPER
+  - HOPPER
+  - FENCE_GATE
+  - REDSTONE_COMPARATOR_OFF
+  - REDSTONE_COMPARATOR_ON
+  - REDSTONE_REPEATER
+  - TRAP_DOOR
+  - CHEST
+  - ANVIL
+  - ENCHANTMENT_TABLE
+  - WORKBENCH
+  - FURNACE
+  - DIODE_BLOCK_ON
+  - DIODE_BLOCK_OFF
+  - WOOD_PLATE
+  - STONE_PLATE
+  - IRON_PLATE
+  - GOLD_PLATE
+  - ENDER_CHEST
+  - ENDER_PORTAL_FRAME
+  - NOTE_BLOCK
+  - JUKEBOX
+  - BEACON
+  - ITEM_FRAME
+ denyuse:
+  - LAVA_BUCKET
+  - WATER_BUCKET
+  - BUCKET
+  - ITEM_FRAME
+ denymobdamage:
+  - PIG
+  - COW
+  - SHEEP
+  - HORSE
+  - WOLF
+  - OCELOT
+ denyriding:
+  - HORSE

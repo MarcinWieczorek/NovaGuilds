@@ -7,13 +7,6 @@ Please leave feedback!<br/><br/>
 <b>HolographicDisplays</b> is required unless you turn it off in config!<br/>
 <br/><br/><br/>
 
-<h1>Source</h1><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://github.com/MarcinWieczorek/NovaGuilds">
-    <img src="http://kosz.marcin.co/githublogo.png" />
-</a>
-<br/><br/><br/>
-
 <h2><b>Setup</b></h2>
 <ul>
     <li>Download latest version</li>
@@ -44,6 +37,7 @@ Please leave feedback!<br/><br/>
     <li>Language support</li>
     <li>Guild/Ally chat</li>
     <li>Configurable command names</li>
+    <li>Automatic regions</li>
 </ul>
 
 <br/>
@@ -54,7 +48,6 @@ Please leave feedback!<br/><br/>
     <li>Auto update config (?)</li>
     <li>Advanced horse protection</li>
     <li>Region resizing</li>
-    <li>Automatic regions</li>
     <li>You tell me!</li>
 </ul>
 
