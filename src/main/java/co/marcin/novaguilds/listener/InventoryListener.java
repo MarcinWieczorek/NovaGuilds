@@ -20,30 +20,32 @@ public class InventoryListener implements Listener {
 		String nameRequiredItems = plugin.getMessageManager().getMessagesString("inventory.requireditems.name");
 		String nameGGUI = plugin.getMessageManager().getMessagesString("inventory.ggui.name");
 
-		//Cauldron
-//		if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
-//			if(event.getInventory().getTitle().equals(plugin.getMessageManager().getMessagesString("inventory.ggui.name"))) {
-//				ItemStack clickedItem = event.getCurrentItem();
-//
-//				String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
-//				Player player = (Player)event.getWhoClicked();
-//				player.chat("/"+menuCommand);
-//			}
-//
-//			event.setCancelled(true);
-//		}
-
-		if(event.getClickedInventory().equals(event.getView().getTopInventory())) {
+		if(event.getClickedInventory() != null) {
 			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
-				if(event.getClickedInventory().getTitle().equals(plugin.getMessageManager().getMessagesString("inventory.ggui.name"))) {
-					ItemStack clickedItem = event.getCurrentItem();
+				//1.8
+				if(event.getClickedInventory().equals(event.getView().getTopInventory()) || event.isShiftClick()) {
+					//gui
+					if(event.getClickedInventory().getTitle().equals(nameGGUI)) {
+						ItemStack clickedItem = event.getCurrentItem();
 
-					String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
-					Player player = (Player)event.getWhoClicked();
-					player.chat("/"+menuCommand);
+						String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
+						Player player = (Player) event.getWhoClicked();
+						player.chat("/" + menuCommand);
+					}
+
+					event.setCancelled(true);
 				}
 
-				event.setCancelled(true);
+				//1.7
+//				if(event.getInventory().getTitle().equals(nameGGUI)) {
+//					ItemStack clickedItem = event.getCurrentItem();
+//
+//					String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
+//					Player player = (Player)event.getWhoClicked();
+//					player.chat("/"+menuCommand);
+//				}
+//
+//				event.setCancelled(true);
 			}
 		}
 	}

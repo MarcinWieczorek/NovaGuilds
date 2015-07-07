@@ -9,7 +9,10 @@ chat:
  delayedtpmoved: "You moved! Teleportation canceled!"
  erroroccured: "An error occured. Contact server administrator"
  update: "&4There is an update available! &6https://www.spigotmc.org/resources/novaguilds.8135/"
- 
+ basic:
+  on: "ON"
+  off: "OFF"
+
  admin:
   guild:
    timerest:
@@ -161,6 +164,7 @@ chat:
  guild:
   compasstarget: "The compass is now pointing your guild's home."
   noguilds: "No guilds found."
+  fpvptoggled: "Toggled friendly PVP for your guild. Currently: &c{FPVP}"
   effect:
    success: "You bought &a{EFFECTTYPE} &3effect for all your teammates!"
  
@@ -261,6 +265,8 @@ chat:
   mustveguild: "You need a guild to buy this area. &c/create"
   entered: "You entered the region of guild &a{GUILDNAME}"
   exited: "You exited the region of guild &a{GUILDNAME}"
+  startresizing: "Resizing the region... Set with a &cright-click"
+  resized: "Region resized successfuly"
   notifyguild:
    entered: "Player &c{PLAYERNAME} &3entered your guild's region!"
   belongsto: "This region belongs to &a{GUILDNAME}"
@@ -372,13 +378,8 @@ items:
    - "&e****&2Select Mode&e***"
    - "&cLeft/Right"
    - "&6click to select"
-   
-tablist:
- pattern:
-  - "{SERVERNAME}"
-  - "GuildsSPLIT{GUILDNUMBER}"
-  - "Players onlineSPLIT{PLAYERSONLINE}"
-  - "Your guildSPLIT{GUILDNAME}"
+   - "&6Right click a corner"
+   - "&6to resize"
   
 #no prefix, start with color
 barapi:

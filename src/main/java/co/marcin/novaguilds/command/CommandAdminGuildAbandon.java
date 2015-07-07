@@ -25,11 +25,6 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 			return true;
 		}
 
-		if(guild == null) {
-			plugin.getMessageManager().sendPrefixMessage(sender,"chat.guild.couldnotfind");
-			return true;
-		}
-
 		//fire event
 		GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
 		guildRemoveEvent.setCause(AbandonCause.ADMIN);

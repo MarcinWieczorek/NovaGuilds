@@ -9,6 +9,9 @@ chat:
  delayedtpmoved: "Ruszyles sie, teleportacja anulowana."
  erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
  update: "&4Dostepna jest aktualizacja! &6https://www.spigotmc.org/resources/novaguilds.8135/"
+ basic:
+  on: "ON"
+  off: "OFF"
 
  admin:
   guild:
@@ -161,6 +164,7 @@ chat:
  guild:
   compasstarget: "Kompas wskazuje teraz dom Twojej gildii."
   noguilds: "Brak gildii"
+  fpvptoggled: "Przelaczono sojusznicze pvp. Obecnie: &c{FPVP}"
   effect:
    success: "Kupiles efekt &a{EFFECTTYPE} &3dla swoich wojownikow!"
 
@@ -255,12 +259,14 @@ chat:
   cnotafford: "Nie stac Cie na ten teren. Potrzebujesz jeszcze &c${NEEDMORE}"
   overlaps: "Zaznaczony teren nachodzi na region innej gildii"
   notvalid: "Zaznaczony teren jest niepoprawny."
-  created: "Region stworzony pomyslnie"
+  created: "Region stworzony pomyslnie."
   selectsuccess: "Teren zaznaczony. &c/g buyregion"
   areanotselected: "Prosze zaznaczyc teren"
   mustveguild: "Potrzebujesz gildii aby kupic teren. &c/create"
   entered: "Wkroczyles na teren gildii &a{GUILDNAME}"
   exited: "Opusciles teren gildii &a{GUILDNAME}"
+  startresizing: "Zmienianie rozmiaru regionu... Zaznacz rog &cprawym."
+  resized: "Zmieniono rozmiar regionu."
   notifyguild:
    entered: "Gracz &c{PLAYERNAME} &3wkroczyl na teren Twojej gildii!"
   belongsto: "Ten teren nalezy do &a{GUILDNAME}"
@@ -372,13 +378,8 @@ items:
    - "&e****&2ZAZNACZANIE&e***"
    - "&cLewy/Prawy"
    - "&6przycisk aby zaznaczyc"
-
-tablist:
- pattern:
-  - "{SERVERNAME}"
-  - "GuildsSPLIT{GUILDNUMBER}"
-  - "Players onlineSPLIT{PLAYERSONLINE}"
-  - "Your guildSPLIT{GUILDNAME}"
+   - "&6Kliknij prawy na rog"
+   - "&6by zmienic rozmiar"
 
 #no prefix, start with color
 barapi:

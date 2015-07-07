@@ -24,6 +24,7 @@ public class NovaGuild {
 	private long inactiveTime;
 	private int lives;
 	private boolean changed = false;
+	private boolean friendlyPvp = false;
 
 	private final List<NovaPlayer> players = new ArrayList<>();
 
@@ -141,6 +142,10 @@ public class NovaGuild {
 
 	public long getInactiveTime() {
 		return inactiveTime;
+	}
+
+	public boolean getFriendlyPvp() {
+		return friendlyPvp;
 	}
 
 	//setters
@@ -278,6 +283,10 @@ public class NovaGuild {
 	public void setTimeRest(long timeRest) {
 		this.timeRest = timeRest;
 		changed();
+	}
+
+	public void setFriendlyPvp(boolean pvp) {
+		friendlyPvp = pvp;
 	}
 
 	public void isNotRaid() {

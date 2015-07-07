@@ -36,10 +36,7 @@ public class CommandAdminRegion implements CommandExecutor {
 		}
 		else {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.commands.admin.region.header");
-			
-			for(String citem : plugin.getMessageManager().getMessages().getStringList("chat.commands.admin.region.items")) {
-				sender.sendMessage(StringUtils.fixColors(citem));
-			}
+			plugin.getMessageManager().sendMessagesList(sender,"chat.commands.admin.region.items",null,false);
 		}
 		return true;
 	}

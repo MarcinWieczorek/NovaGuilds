@@ -160,15 +160,15 @@ public class PlayerManager {
 		players.put(player.getName().toLowerCase(), nPlayer);
 	}
 
-	public void postCheck() {
-		for(NovaPlayer nPlayer : getPlayers()) {
-			if(nPlayer.hasGuild()) {
-				if(nPlayer.getGuild() == null) {
-
-				}
-			}
-		}
-	}
+//	public void postCheck() {
+//		for(NovaPlayer nPlayer : getPlayers()) {
+//			if(nPlayer.hasGuild()) {
+//				if(nPlayer.getGuild() == null) {
+//
+//				}
+//			}
+//		}
+//	}
 
 	public void addIfNotExists(Player player) {
 		addIfNotExists(player.getName());
@@ -186,7 +186,7 @@ public class PlayerManager {
 
 	public void updateUUID(NovaPlayer nPlayer) {
 		if(nPlayer.isOnline()) {
-			if(!nPlayer.getUUID().equals(nPlayer.getPlayer().getUniqueId())) {
+			if(!nPlayer.getUUID().toString().equals(nPlayer.getPlayer().getUniqueId().toString())) {
 				nPlayer.setUUID(nPlayer.getPlayer().getUniqueId());
 				plugin.info("[PlayerManager] UUID updated for player " + nPlayer.getName());
 			}

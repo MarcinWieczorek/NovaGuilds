@@ -46,7 +46,7 @@ holographicdisplays:
  enabled: false
 
 #Save period in minutes
-saveperiod: 10
+saveperiod: 30
 
 #after the raid is over and this time the guild will get +1 live
 liveregeneration:
@@ -135,25 +135,24 @@ guild:
    - INCREASE_DAMAGE
    - HEAL
 
- #permissions: novaguilds.group.GROUP
- #there's no need for admin group. novaguilds.group.admin for all stuff free
- create:
-  groups:
-   default: #this is default
-    #teleport delay in seconds
-    effectprice: 100
-    guild:
-     home:
-      tpdelay: 5
-      money: 0
-      items: []
-     join:
-      money: 0
-      items: []
-     create:
-      money: 0
-      items:
-       - dirt 1
+#permissions: novaguilds.group.GROUP
+#there's no need for admin group. novaguilds.group.admin for all stuff free
+groups:
+ default: #this is default
+  #teleport delay in seconds
+  effectprice: 100
+  guild:
+   home:
+    tpdelay: 5
+    money: 0
+    items: []
+   join:
+    money: 0
+    items: []
+   create:
+    money: 0
+    items:
+     - dirt 1
 
     region:
      #size (radius) of auto created region (5 = 10x10)

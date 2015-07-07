@@ -22,41 +22,41 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length==0) {
-			if(sender.hasPermission("novaguilds.admin.region.bypass")) {
-				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-
-				nPlayer.toggleBypass();
-				HashMap<String,String> vars = new HashMap<>();
-				vars.put("BYPASS",nPlayer.getBypass()+"");
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.rgbypass.toggled",vars);
-			}
-			else {
+			if(!sender.hasPermission("novaguilds.admin.region.bypass")) {
 				plugin.getMessageManager().sendNoPermissionsMessage(sender);
+				return true;
 			}
+
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+
+			nPlayer.toggleBypass();
+			HashMap<String,String> vars = new HashMap<>();
+			vars.put("BYPASS",nPlayer.getBypass()+"");
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.rgbypass.toggled",vars);
 		}
 		else { //for other
 			if(sender.hasPermission("novaguilds.admin.region.bypass.other")) {
-				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(args[0]);
-
-				if(nPlayer == null) {
-					plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
-					return true;
-				}
-
-				nPlayer.toggleBypass();
-				HashMap<String,String> vars = new HashMap<>();
-				vars.put("PLAYER",nPlayer.getName());
-				vars.put("BYPASS",nPlayer.getBypass()+"");
-
-				if(nPlayer.isOnline()) {
-					plugin.getMessageManager().sendMessagesMsg(nPlayer.getPlayer(), "chat.admin.rgbypass.notifyother");
-				}
-
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.rgbypass.toggledother",vars);
-			}
-			else {
 				plugin.getMessageManager().sendNoPermissionsMessage(sender);
+				return true;
 			}
+
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(args[0]);
+
+			if(nPlayer == null) {
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+				return true;
+			}
+
+			nPlayer.toggleBypass();
+			HashMap<String,String> vars = new HashMap<>();
+			vars.put("PLAYER",nPlayer.getName());
+			vars.put("BYPASS",nPlayer.getBypass() ? plugin.getMessageManager().getMessagesString("basic.on") : plugin.getMessageManager().getMessagesString("basic.off"));
+
+			if(nPlayer.isOnline()) {
+				plugin.getMessageManager().sendMessagesMsg(nPlayer.getPlayer(), "chat.admin.rgbypass.notifyother");
+			}
+
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.rgbypass.toggledother",vars);
 		}
 		return true;
 	}

@@ -12,6 +12,8 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class CommandRegionBuy implements CommandExecutor {
 	private final NovaGuilds plugin;
 	
@@ -20,69 +22,95 @@ public class CommandRegionBuy implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("novaguilds.region.create")) {
-			if(!(sender instanceof Player)) {
-				//TODO cmdsender msg
-				return false;
-			}
+		if(!sender.hasPermission("novaguilds.region.create")) {
+			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			return true;
+		}
 
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-			
-			if(nPlayer.hasGuild()) {
-				NovaGuild guild = nPlayer.getGuild();
-				
-				if(guild.getLeader().getName().equalsIgnoreCase(nPlayer.getName())) {
-					if(!guild.hasRegion()) {
-						if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
-							Location sl1 = nPlayer.getSelectedLocation(0);
-							Location sl2 = nPlayer.getSelectedLocation(1);
+		if(!(sender instanceof Player)) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+			return false;
+		}
 
-							if(plugin.getRegionManager().checkRegionSelect(sl1, sl2) == RegionValidity.VALID) {
-								int regionsize = plugin.getRegionManager().checkRegionSize(nPlayer.getSelectedLocation(0),nPlayer.getSelectedLocation(1));
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
-								//region's price
-								double price = plugin.getGroupManager().getGroup(sender).getRegionPricePerBlock() * regionsize + plugin.getGroupManager().getGroup(sender).getRegionCreateMoney();
-								
-								if(guild.getMoney() >= price) {
-									NovaRegion region = new NovaRegion();
-									
-									region.setCorner(0,nPlayer.getSelectedLocation(0));
-									region.setCorner(1,nPlayer.getSelectedLocation(1));
-									region.setWorld(nPlayer.getPlayer().getWorld());
-									region.setGuild(nPlayer.getGuild());
-									
-									plugin.getRegionManager().addRegion(region, guild);
-									guild.takeMoney(price);
-									plugin.getGuildManager().saveGuild(guild); //TODO check this
-									plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.created");
-								}
-								else {
-									plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughmoney");
-								}
-							}
-							else {
-								plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.notvalid");
-							}
-						}
-						else {
-							plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.areanotselected");
-						}
-					}
-					else {
-						plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.hasregionalready");
-					}
-				}
-				else {
-					plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
-				}
+		if(!nPlayer.hasGuild()) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			return true;
+		}
+
+		NovaGuild guild = nPlayer.getGuild();
+
+		if(!nPlayer.isLeader()) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
+			return true;
+		}
+
+		if(guild.hasRegion() && !nPlayer.isResizing()) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.hasregionalready");
+			return true;
+		}
+
+		Location sl0 = nPlayer.getSelectedLocation(0);
+		Location sl1 = nPlayer.getSelectedLocation(1);
+
+		if(sl0 == null || sl1 == null) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.areanotselected");
+			return true;
+		}
+
+		RegionValidity selectionValidity = plugin.getRegionManager().checkRegionSelect(sl0, sl1);
+
+		if(nPlayer.isResizing() && selectionValidity==RegionValidity.OVERLAPS) {
+			List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0,sl1);
+			if(regionsOverlaped.size()==1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
+				selectionValidity = RegionValidity.VALID;
 			}
-			else {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
-			}
+		}
+
+		if(selectionValidity != RegionValidity.VALID) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.notvalid");
+			return true;
+		}
+
+		int regionsize = plugin.getRegionManager().checkRegionSize(sl0 ,sl1);
+
+		//region's price
+		double price;
+		double ppb = plugin.getGroupManager().getGroup(sender).getRegionPricePerBlock();
+
+		if(nPlayer.isResizing()) {
+			price = ppb * (regionsize - guild.getRegion().getSurface());
 		}
 		else {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			price = ppb * regionsize + plugin.getGroupManager().getGroup(sender).getRegionCreateMoney();
 		}
+
+		if(price > 0 && guild.getMoney() < price) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughmoney");
+			return true;
+		}
+
+		if(nPlayer.isResizing()) {
+			NovaRegion region = guild.getRegion();
+			region.setCorner(nPlayer.getResizingCorner(),nPlayer.getResizingCorner()==0 ? sl0 : sl1);
+			region.getCorner(nPlayer.getResizingCorner()).setY(0);
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.region.resized");
+		}
+		else {
+			NovaRegion region = new NovaRegion();
+			region.setCorner(0, sl0);
+			region.setCorner(1, sl1);
+			region.setWorld(nPlayer.getPlayer().getWorld());
+			region.setGuild(nPlayer.getGuild());
+			plugin.getRegionManager().addRegion(region, guild);
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.region.created");
+		}
+
+		if(price > 0) {
+			guild.takeMoney(price);
+		}
+
 		return true;
 	}
 }

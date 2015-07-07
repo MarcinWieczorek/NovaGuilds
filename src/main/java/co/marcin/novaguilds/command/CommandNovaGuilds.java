@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.util.StringUtils;
@@ -54,12 +55,26 @@ public class CommandNovaGuilds implements CommandExecutor {
 				}
 			}
 			else if(args[0].equalsIgnoreCase("group")) { //Admin commands
-				sender.sendMessage("name = "+plugin.getGroupManager().getGroup(sender).getName());
-				sender.sendMessage("guild$ = "+plugin.getGroupManager().getGroup(sender).getGuildCreateMoney());
-				sender.sendMessage("region$ = "+plugin.getGroupManager().getGroup(sender).getRegionCreateMoney());
-				sender.sendMessage("ppb = "+plugin.getGroupManager().getGroup(sender).getRegionPricePerBlock());
-				sender.sendMessage("guilditems = " + plugin.getGroupManager().getGroup(sender).getGuildCreateItems().toString());
-				sender.sendMessage("tpdelay = "+plugin.getGroupManager().getGroup(sender).getGuildTeleportDelay()+"s");
+				NovaGroup group = plugin.getGroupManager().getGroup(sender);
+
+				if(args.length > 1) {
+					group = plugin.getGroupManager().getGroup(args[1]);
+					if(group == null) {
+						sender.sendMessage("Invalid group");
+						return true;
+					}
+				}
+
+				sender.sendMessage("name = "+group.getName());
+				sender.sendMessage("guildCreateMoney = "+group.getGuildCreateMoney());
+				sender.sendMessage("guildHomeMoney = "+group.getGuildHomeMoney());
+				sender.sendMessage("guildJoinMoney = "+group.getGuildJoinMoney());
+				sender.sendMessage("guildCreateItems = " + group.getGuildCreateItems().toString());
+				sender.sendMessage("guildHomeItems = " + group.getGuildHomeItems().toString());
+				sender.sendMessage("guildJoinItems = " + group.getGuildJoinItems().toString());
+				sender.sendMessage("guildTeleportDelay = "+ group.getGuildTeleportDelay()+"s");
+				sender.sendMessage("regionCreateMoney = "+ group.getRegionCreateMoney());
+				sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
 
 //				Location l = (Player)sender.getLocation();
 //				l.setX(l.getBlockX()+5);

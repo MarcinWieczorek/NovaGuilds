@@ -36,6 +36,7 @@ private final NovaGuilds plugin;
 
 		if(!nPlayer.hasGuild()) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			return true;
 		}
 
 		Player player = (Player)sender;

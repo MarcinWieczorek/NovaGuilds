@@ -38,7 +38,8 @@ public class NovaRegion {
 
 	public int getWidth() {
 		if(width == 0) {
-			width = Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX());
+			//width = (int) Math.round(Math.abs(getCorner(0).getX() - getCorner(1).getX()));
+			width = Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX()) + 1;
 		}
 
 		return width;
@@ -46,7 +47,8 @@ public class NovaRegion {
 
 	public int getHeight() {
 		if(height == 0) {
-			height = Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ());
+			//height = (int) Math.round(Math.abs(getCorner(0).getZ() - getCorner(1).getZ()));
+			height = Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
 		}
 
 		return height;
@@ -59,6 +61,10 @@ public class NovaRegion {
 		}
 
 		return size;
+	}
+
+	public int getSurface() {
+		return getHeight() * getWidth();
 	}
 	
 	//setters

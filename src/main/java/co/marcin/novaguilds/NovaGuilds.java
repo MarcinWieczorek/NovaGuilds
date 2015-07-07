@@ -338,7 +338,7 @@ public class NovaGuilds extends JavaPlugin {
     }
 	
 	public void info(String msg) {
-		ConfigManager.getLogger().info(getConfigManager().getLogPrefix()+msg);
+		ConfigManager.getLogger().info(getConfigManager().getLogPrefix()+" "+msg);
 	}
 
 	public void debug(String msg) {

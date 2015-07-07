@@ -41,22 +41,26 @@ public class PvpListener implements Listener {
 				//teampvp
 				if(!novaPlayerAttacker.getName().equals(novaPlayer.getName())) {
 					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {
-						if(plugin.getPlayerManager().isGuildMate(player,attacker)) {
-							plugin.getMessageManager().sendMessagesMsg(attacker, "chat.teampvp");
-							event.setCancelled(true);
+						if(plugin.getPlayerManager().isGuildMate(player,attacker)) { //same guild
+							if(!novaPlayer.getGuild().getFriendlyPvp()) {
+								plugin.getMessageManager().sendMessagesMsg(attacker, "chat.teampvp");
+								event.setCancelled(true);
 
-							//remove the arrow
-							if(event.getDamager().getType().equals(EntityType.ARROW)) {
-								event.getDamager().remove();
+								//remove the arrow
+								if(event.getDamager().getType().equals(EntityType.ARROW)) {
+									event.getDamager().remove();
+								}
 							}
 						}
-						else if(plugin.getPlayerManager().isAlly(player,attacker)) {
-							plugin.getMessageManager().sendMessagesMsg(attacker,"chat.allypvp");
-							event.setCancelled(true);
+						else if(plugin.getPlayerManager().isAlly(player,attacker)) { //ally
+							if(!(novaPlayer.getGuild().getFriendlyPvp() && novaPlayerAttacker.getGuild().getFriendlyPvp())) {
+								plugin.getMessageManager().sendMessagesMsg(attacker, "chat.allypvp");
+								event.setCancelled(true);
 
-							//remove the arrow
-							if(event.getDamager().getType().equals(EntityType.ARROW)) {
-								event.getDamager().remove();
+								//remove the arrow
+								if(event.getDamager().getType().equals(EntityType.ARROW)) {
+									event.getDamager().remove();
+								}
 							}
 						}
 					}

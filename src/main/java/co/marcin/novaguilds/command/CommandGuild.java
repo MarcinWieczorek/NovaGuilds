@@ -75,9 +75,11 @@ public class CommandGuild implements CommandExecutor {
 				case "items":
 					new CommandGuildRequiredItems(plugin).onCommand(sender, cmd, label, newargs);
 					break;
+				case "pvp":
+					new CommandGuildPvpToggle(plugin).onCommand(sender, cmd, label, newargs);
+					break;
 				default:
 					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
-					plugin.debug("cmd = " + command);
 					break;
 			}
 		}
@@ -95,7 +97,7 @@ public class CommandGuild implements CommandExecutor {
 				}
 			}
 			else {
-				plugin.getMessageManager().sendMessage(sender,"chat.cmdfromconsole");
+				plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
 			}
 		}
 		return true;

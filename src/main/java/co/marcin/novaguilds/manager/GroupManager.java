@@ -21,7 +21,7 @@ public class GroupManager {
 
 	public void loadGroups() {
 		groups.clear();
-		Set<String> groupsNames = plugin.getConfig().getConfigurationSection("guild.create.groups").getKeys(false);
+		Set<String> groupsNames = plugin.getConfig().getConfigurationSection("groups").getKeys(false);
 		groupsNames.add("admin");
 
 		for(String groupName : groupsNames) {

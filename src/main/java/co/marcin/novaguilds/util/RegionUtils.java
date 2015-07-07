@@ -29,8 +29,8 @@ public class RegionUtils {
 	}
 
 	public static void resetHighlightRegion(Player player, NovaRegion region) {
-		Location loc1 = region.getCorner(0);
-		Location loc2 = region.getCorner(1);
+		Location loc1 = region.getCorner(0).clone();
+		Location loc2 = region.getCorner(1).clone();
 
 		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
 		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
@@ -40,8 +40,8 @@ public class RegionUtils {
 	}
 
 	public static void highlightRegion(Player player, NovaRegion region) {
-		Location loc1 = region.getCorner(0);
-		Location loc2 = region.getCorner(1);
+		Location loc1 = region.getCorner(0).clone();
+		Location loc2 = region.getCorner(1).clone();
 
 		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
 		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
@@ -353,6 +353,10 @@ public class RegionUtils {
 
 	@SuppressWarnings("deprecation")
 	public static void sendSquare(Player player, Location l1, Location l2,Material material,byte data) {
+		if(player == null || l1 == null || l2 == null) {
+			return;
+		}
+
 		Material material1 = null;
 		Material material2 = null;
 

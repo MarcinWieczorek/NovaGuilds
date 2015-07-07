@@ -2,6 +2,7 @@ package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.ItemStackUtils;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -35,48 +36,24 @@ public class NovaGroup {
 			return;
 		}
 
-		//createGuildItems
-//		List<ItemStack> items = new ArrayList<>();
-//		List<String> itemstr = plugin.getConfig().getStringList("guild.create.groups."+group+".items");
-//		ItemStack stack;
-//
-//		for(String anItemstr : itemstr) {
-//			String[] exp = anItemstr.split(" ");
-//			String idname;
-//			byte data = (byte)0;
-//			int amount = Integer.parseInt(exp[1]);
-//
-//			if(exp[0].contains(":")) {
-//				String[] dataexp = exp[0].split(":");
-//				idname = dataexp[0];
-//				data = Byte.parseByte(dataexp[1]);
-//			}
-//			else {
-//				idname = exp[0];
-//			}
-//
-//			Material material = Material.getMaterial(idname.toUpperCase());
-//
-//			if(material != null) {
-//				stack = new ItemStack(material, amount, data);
-//				items.add(stack);
-//			}
-//			else {
-//				plugin.info("Failed to load item "+idname.toUpperCase()+" for group "+name);
-//			}
-//		}
-
 		//setting all values
-		String groupPath = "guild.create.groups." + group + ".";
-		guildCreateItems = ItemStackUtils.stringToItemStackList(plugin.getConfig().getStringList(groupPath + "guild.create.items"));
-		guildCreateMoney = plugin.getConfig().getDouble(groupPath + "guild.create.money");
-		guildTeleportDelay = plugin.getConfig().getInt(groupPath + "guild.home.tpdelay");
-		guildHomeItems = ItemStackUtils.stringToItemStackList(plugin.getConfig().getStringList(groupPath + "guild.home.tpdelay"));
-		guildJoinItems = ItemStackUtils.stringToItemStackList(plugin.getConfig().getStringList(groupPath + "guild.home.tpdelay"));
-		regionPricePerBlock = plugin.getConfig().getDouble(groupPath + "region.ppb");
-		regionCreateMoney = plugin.getConfig().getDouble(groupPath + "region.create");
-		guildEffectPrice = plugin.getConfig().getDouble(groupPath + "region.effectprice");
-		regionAutoSize = plugin.getConfig().getInt(groupPath + "region.autoregionsize");
+		ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups."+group);
+		guildCreateItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.create.items"));
+		guildCreateMoney = section.getDouble("guild.create.money");
+		guildTeleportDelay = section.getInt("guild.home.tpdelay");
+		guildHomeItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.home.items"));
+		guildJoinItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.join.items"));
+		regionPricePerBlock = section.getDouble("region.ppb");
+		regionCreateMoney = section.getDouble("region.create");
+		guildEffectPrice = section.getDouble("region.effectprice");
+		regionAutoSize = section.getInt("region.autoregionsize");
+		guildHomeMoney = section.getDouble("guild.home.money");
+		guildJoinMoney = section.getDouble("guild.join.money");
+
+		//check values
+		if(guildCreateItems == null) guildCreateItems = new ArrayList<>();
+		if(guildHomeItems == null) guildHomeItems = new ArrayList<>();
+		if(guildJoinItems == null) guildJoinItems = new ArrayList<>();
 	}
 
 	public String getName() {

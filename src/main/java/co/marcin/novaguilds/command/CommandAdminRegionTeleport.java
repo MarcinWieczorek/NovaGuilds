@@ -71,7 +71,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("GUILDNAME",guild.getName());
 
-		Location location = region.getCorner(0);
+		Location location = region.getCorner(0).clone();
 		location.setY(location.getWorld().getHighestBlockYAt(location));
 
 		Player player;

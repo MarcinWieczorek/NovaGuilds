@@ -1,18 +1,17 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.event.GuildRemoveEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
+import java.util.HashMap;
 
 public class CommandAdminGuildAbandonAll implements CommandExecutor {
-	private static NovaGuilds plugin;
+	private final NovaGuilds plugin;
 
 	public CommandAdminGuildAbandonAll(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;

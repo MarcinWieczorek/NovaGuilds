@@ -263,7 +263,7 @@ public class RegionManager {
 		else if(dif_x > maxsize || dif_z > maxsize) {
 			return RegionValidity.TOOBIG;
 		}
-		else if(!regionsInsideArea(l1,l2).isEmpty()) {
+		else if(!getRegionsInsideArea(l1,l2).isEmpty()) {
 			return RegionValidity.OVERLAPS;
 		}
 		else if(!isFarEnough(l1,l2)) {
@@ -290,7 +290,7 @@ public class RegionManager {
 		return checkRegionSize(region.getCorner(0),region.getCorner(1));
 	}
 	
-	private List<NovaRegion> regionsInsideArea(Location l1, Location l2) {
+	public List<NovaRegion> getRegionsInsideArea(Location l1, Location l2) {
 		ArrayList<NovaRegion> list = new ArrayList<>();
 		int x1 = l1.getBlockX();
 		int x2 = l2.getBlockX();

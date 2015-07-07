@@ -15,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class ToolListener implements Listener {
@@ -86,7 +87,7 @@ public class ToolListener implements Listener {
 				}
 
 
-				NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(pointedLocation);
+				NovaRegion region = plugin.getRegionManager().getRegionAtLocation(pointedLocation);
 
 				if(!nPlayer.regionMode()) { //CHECK MODE
 					if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
@@ -98,12 +99,12 @@ public class ToolListener implements Listener {
 							RegionUtils.resetHighlightRegion(player, nPlayer.getSelectedRegion());
 						}
 
-						if(rgatloc != null) {
-							RegionUtils.highlightRegion(player, rgatloc);
+						if(region != null) {
+							RegionUtils.highlightRegion(player, region);
 							HashMap<String, String> vars = new HashMap<>();
-							vars.put("GUILDNAME", rgatloc.getGuildName());
+							vars.put("GUILDNAME", region.getGuildName());
 							plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.belongsto", vars);
-							nPlayer.setSelectedRegion(rgatloc);
+							nPlayer.setSelectedRegion(region);
 						}
 						else {
 							plugin.getMessageManager().sendMessagesMsg(player,"chat.region.noregionhere");
@@ -113,76 +114,150 @@ public class ToolListener implements Listener {
 				}
 				else { //CREATE MODE
 					if(!event.getAction().equals(Action.PHYSICAL)) {
-						if(rgatloc == null && !nPlayer.isResizing()) {
+						if(region != null && !nPlayer.isResizing()) { //resizing
+							if(!player.hasPermission("novaguilds.region.resize")) {
+								//plugin.getMessageManager().sendNoPermissionsMessage(player);
+								return;
+							}
+
+							//plugin.debug("guild null=" + (region.getGuild() == null));
+							if(region.getGuild().isMember(nPlayer) && nPlayer.isLeader()) {
+								Location pointedCornerLocation = pointedLocation.clone();
+								pointedCornerLocation.setY(0);
+								//pointedCornerLocation = pointedCornerLocation.getBlock().getLocation();
+								//plugin.debug("y: "+pointedCornerLocation.getBlockY() + " / " + region.getCorner(0).getBlockY() + " / " + region.getCorner(1).getBlockY());
+								//plugin.debug("0=" + pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()));
+								//plugin.debug("1=" + pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()));
+
+								if(pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()) < 1 || pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()) < 1) { //clicked a corner
+									int corner = 1;
+
+									if(pointedCornerLocation.distance(region.getCorner(0)) == 0) {
+										corner = 0;
+									}
+
+									nPlayer.setResizing(true);
+									nPlayer.setResizingCorner(corner);
+									plugin.getMessageManager().sendMessagesMsg(player,"chat.region.resizing");
+									RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
+									nPlayer.setSelectedLocation(0, null);
+									nPlayer.setSelectedLocation(1, null);
+									nPlayer.setSelectedLocation(corner == 1 ? 0 : 1, region.getCorner(corner == 1 ? 0 : 1));
+								}
+							}
+						}
+						else {
 							if(!player.hasPermission("novaguilds.region.create")) {
 								return;
 							}
 
-							Location sl1 = nPlayer.getSelectedLocation(0);
-							Location sl2 = nPlayer.getSelectedLocation(1);
+							Location sl0 = nPlayer.getSelectedLocation(0);
+							Location sl1 = nPlayer.getSelectedLocation(1);
 							event.setCancelled(true);
 
 							//Corner 1
 							if(event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-								if(nPlayer.getSelectedLocation(0) != null) {
-									RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(0));
-									if(nPlayer.getSelectedLocation(1) != null) {
-										RegionUtils.sendSquare(player, sl1, sl2, null, (byte) 0);
-									}
-								}
+								if(!nPlayer.isResizing()) {
+									if(nPlayer.getSelectedLocation(0) != null) {
+										RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(0));
 
-								RegionUtils.setCorner(player, pointedLocation);
-								nPlayer.setSelectedLocation(0, pointedLocation);
-								sl1 = pointedLocation;
+										if(nPlayer.getSelectedLocation(1) != null) {
+											RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
+										}
+									}
+
+									RegionUtils.setCorner(player, pointedLocation);
+									nPlayer.setSelectedLocation(0, pointedLocation);
+									sl0 = pointedLocation;
+								}
 							}
 
 							//Corner 2
 							if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-								if(nPlayer.getSelectedLocation(1) != null) {
-									RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(1));
-									if(nPlayer.getSelectedLocation(0) != null)
-										RegionUtils.sendSquare(player, sl1, sl2, null, (byte) 0);
+								if(nPlayer.isResizing()) {
+									if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()) != null) {
+										RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(nPlayer.getResizingCorner()));
+
+										if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()==0 ? 1 : 0) != null) {
+											RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
+										}
+									}
+
+									if(nPlayer.getResizingCorner()==0)
+										sl0=pointedLocation;
+									else
+										sl1=pointedLocation;
+
+									nPlayer.setSelectedLocation(nPlayer.getResizingCorner(), pointedLocation);
+								}
+								else {
+									if(nPlayer.getSelectedLocation(1) != null) {
+										RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(1));
+
+										if(nPlayer.getSelectedLocation(0) != null) {
+											RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
+										}
+									}
+
+									nPlayer.setSelectedLocation(1, pointedLocation);
+									sl1 = pointedLocation;
 								}
 
 								RegionUtils.setCorner(player, pointedLocation);
-								nPlayer.setSelectedLocation(1, pointedLocation);
-								sl2 = pointedLocation;
 							}
 
-							if(sl1 != null && sl2 != null) {
-//								RegionUtils.distanceBetweenRegions2(plugin.getGuildManager().getGuildByName("rgudt").getRegion(),sl1,sl2);
-//								plugin.getRegionManager().sendSquare(player, sl1, sl2, Material.WOOL, (byte)7);
-//
-//								if(plugin.DEBUG) return;
+							if(sl0 != null && sl1 != null) {
+								RegionValidity validSelect = plugin.getRegionManager().checkRegionSelect(sl0, sl1);
+								byte data = (byte)15;
 
-								RegionValidity validSelect = plugin.getRegionManager().checkRegionSelect(sl1, sl2);
-								byte data = Byte.parseByte("15");
+								//When resizing if overlaps player's region
+								if(nPlayer.isResizing() && validSelect==RegionValidity.OVERLAPS) {
+									List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0,sl1);
+									if(regionsOverlaped.size()==1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
+										validSelect = RegionValidity.VALID;
+									}
+								}
 
 								switch(validSelect) {
 									case VALID:  //valid
 										if(nPlayer.hasGuild()) {
-											data = (byte) 14;
-											int regionsize = plugin.getRegionManager().checkRegionSize(sl1, sl2);
+											int regionsize = plugin.getRegionManager().checkRegionSize(sl0, sl1);
+											double price;
+											double ppb = plugin.getGroupManager().getGroup(player).getRegionPricePerBlock();
+
+											if(nPlayer.isResizing()) {
+												data = (byte) 6;
+												price = ppb * (regionsize - nPlayer.getGuild().getRegion().getSurface());
+												plugin.debug(ppb+" * ("+regionsize+" - "+nPlayer.getGuild().getRegion().getSurface()+") = "+price);
+											}
+											else {
+												data = (byte) 14;
+												price = ppb * regionsize + plugin.getGroupManager().getGroup(player).getRegionCreateMoney();
+											}
+
 											String sizemsg = plugin.getMessageManager().getMessagesString("chat.region.size");
 											sizemsg = StringUtils.replace(sizemsg, "{SIZE}", regionsize + "");
-
-											double price = plugin.getGroupManager().getGroup(player).getRegionPricePerBlock() * regionsize + plugin.getGroupManager().getGroup(player).getRegionCreateMoney();
 
 											String pricemsg = plugin.getMessageManager().getMessagesString("chat.region.price");
 											pricemsg = StringUtils.replace(pricemsg, "{PRICE}", price + "");
 
 											plugin.getMessageManager().sendPrefixMessage(player, sizemsg);
-											plugin.getMessageManager().sendPrefixMessage(player, pricemsg);
 
-											double guildBalance = nPlayer.getGuild().getMoney();
-											if(guildBalance < price) {
-												String cnotaffordmsg = plugin.getMessageManager().getMessagesString("chat.region.cnotafford");
-												cnotaffordmsg = StringUtils.replace(cnotaffordmsg, "{NEEDMORE}", price - guildBalance + "");
-												plugin.getMessageManager().sendPrefixMessage(player, cnotaffordmsg);
-											} else {
-												plugin.getMessageManager().sendMessagesMsg(player, "chat.region.selectsuccess");
+											if(price > 0) {
+												plugin.getMessageManager().sendPrefixMessage(player, pricemsg);
+
+												double guildBalance = nPlayer.getGuild().getMoney();
+												if(guildBalance < price) {
+													String cnotaffordmsg = plugin.getMessageManager().getMessagesString("chat.region.cnotafford");
+													cnotaffordmsg = StringUtils.replace(cnotaffordmsg, "{NEEDMORE}", price - guildBalance + "");
+													plugin.getMessageManager().sendPrefixMessage(player, cnotaffordmsg);
+													return;
+												}
 											}
-										} else {
+
+											plugin.getMessageManager().sendMessagesMsg(player, "chat.region.selectsuccess");
+										}
+										else {
 											plugin.getMessageManager().sendMessagesMsg(player, "chat.region.mustveguild");
 										}
 										break;
@@ -208,54 +283,9 @@ public class ToolListener implements Listener {
 								}
 
 								//corners and rectangles
-								RegionUtils.sendSquare(player, sl1, sl2, Material.WOOL, data);
+								RegionUtils.sendSquare(player, sl0, sl1, Material.WOOL, data);
+								RegionUtils.setCorner(player, sl0);
 								RegionUtils.setCorner(player, sl1);
-								RegionUtils.setCorner(player, sl2);
-							}
-						}
-						else { //resizing
-							if(rgatloc != null) {
-								if(!player.hasPermission("novaguilds.region.resize")) {
-									plugin.getMessageManager().sendNoPermissionsMessage(player);
-									return;
-								}
-
-								if(nPlayer.isResizing()) {
-									NovaRegion region = nPlayer.getGuild().getRegion();
-									Location c1 = region.getCorner(0);
-									Location c2 = region.getCorner(1);
-
-									if(nPlayer.getResizingCorner() == 0) {
-										c1 = pointedLocation;
-									}
-									else {
-										c2 = pointedLocation;
-									}
-
-									RegionUtils.sendSquare(player, c1, c2, Material.WOOL, (byte) 14);
-								}
-								else {
-									plugin.debug("guild null=" + (rgatloc.getGuild() == null));
-									if(rgatloc.getGuild().isMember(nPlayer)) {
-										Location pointedCornerLocation = pointedLocation.clone();
-										pointedCornerLocation.setY(0);
-										pointedCornerLocation = pointedCornerLocation.getBlock().getLocation();
-										plugin.debug("0=" + pointedCornerLocation.distance(rgatloc.getCorner(0).getBlock().getLocation()));
-										plugin.debug("1=" + pointedCornerLocation.distance(rgatloc.getCorner(1).getBlock().getLocation()));
-
-										if(pointedCornerLocation.distance(rgatloc.getCorner(0).getBlock().getLocation()) < 1 || pointedCornerLocation.distance(rgatloc.getCorner(0).getBlock().getLocation()) < 1) { //clicked a corner
-											int corner = 1;
-
-											if(pointedCornerLocation.distance(rgatloc.getCorner(0)) == 0) {
-												corner = 0;
-											}
-
-											nPlayer.setResizing(true);
-											nPlayer.setResizingCorner(corner);
-											player.sendMessage("resizing... " + corner);
-										}
-									}
-								}
 							}
 						}
 					}

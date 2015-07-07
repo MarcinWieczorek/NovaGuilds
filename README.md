@@ -7,6 +7,10 @@ Please leave feedback!<br/><br/>
 <b>HolographicDisplays</b> is required unless you turn it off in config!<br/>
 <br/><br/><br/>
 
+<h2><b>Downloads</b></h2>
+<a href="http://novaguilds.marcin.co/download/">http://novaguilds.marcin.co/download/</a>
+<br/><br/><br/>
+
 <h2><b>Setup</b></h2>
 <ul>
     <li>Download latest version</li>
