@@ -43,6 +43,10 @@ public class LoginListener implements Listener {
 			plugin.getMessageManager().sendMessagesMsg(player,"chat.update");
 		}
 
+		if(plugin.getConfigManager().useChatDisplayNameTags()) {
+			player.setDisplayName(plugin.tagUtils.getTag(player)+player.getDisplayName());
+		}
+
 		//adding to raid TODO: not tested
 		//TODO should be done in playerEnteredRegion
 		if(nPlayer.hasGuild()) {

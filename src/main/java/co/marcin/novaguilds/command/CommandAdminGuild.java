@@ -102,10 +102,10 @@ public class CommandAdminGuild implements CommandExecutor {
 						new CommandAdminGuildInactive(plugin).onCommand(sender, cmd, label, newArgs);
 						break;
 					case "kick":
-						new CommandAdminGuildKick(plugin).onCommand(sender, cmd, label, newArgs2);
+						new CommandAdminGuildKick(plugin).onCommand(sender, cmd, label, newArgs);
 						break;
 					case "promote":
-						new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs2);
+						new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs);
 						break;
 					default:
 						plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");

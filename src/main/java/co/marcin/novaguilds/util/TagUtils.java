@@ -74,7 +74,7 @@ public class TagUtils {
 		Scoreboard board = p.getScoreboard();
 		Team team;
 		if(board.getPlayerTeam(player) == null) {
-			team = board.registerNewTeam(player.getName());
+			team = board.registerNewTeam("ng_"+player.getName());
 			team.addPlayer(player);
 		}
 		else {

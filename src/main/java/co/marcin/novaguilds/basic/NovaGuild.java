@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,6 +26,8 @@ public class NovaGuild {
 	private int lives;
 	private boolean changed = false;
 	private boolean friendlyPvp = false;
+	private Location bankLocation;
+	private Hologram bankHologram;
 
 	private final List<NovaPlayer> players = new ArrayList<>();
 
@@ -78,6 +81,10 @@ public class NovaGuild {
 		return region;
 	}
 
+	public Hologram getBankHologram() {
+		return bankHologram;
+	}
+
 	public List<NovaPlayer> getPlayers() {
 		return players;
 	}
@@ -102,6 +109,10 @@ public class NovaGuild {
 		}
 
 		return list;
+	}
+
+	public Location getBankLocation() {
+		return bankLocation;
 	}
 
 	public NovaPlayer getLeader() {
@@ -149,6 +160,10 @@ public class NovaGuild {
 	}
 
 	//setters
+	public void setBankHologram(Hologram hologram) {
+		bankHologram = hologram;
+	}
+
 	public void setUnchanged() {
 		changed = false;
 	}
@@ -178,6 +193,10 @@ public class NovaGuild {
 
 	public void setLeaderName(String name) {
 		leaderName = name;
+	}
+
+	public void setBankLocation(Location location) {
+		bankLocation = location;
 	}
 
 	public void setLeader(NovaPlayer nPlayer) {

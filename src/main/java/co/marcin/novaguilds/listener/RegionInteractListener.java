@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -75,9 +76,24 @@ public class RegionInteractListener implements Listener {
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) { //BREAKING
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
 		if(!plugin.getRegionManager().canBuild(event.getPlayer(),event.getBlock().getLocation())) {
 			event.setCancelled(true);
 			plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
+		}
+		else {
+			if(plugin.isBankBlock(event.getBlock())) {
+				if(nPlayer.isLeader()) {
+					if(nPlayer.getGuild().getBankHologram() != null) {
+						nPlayer.getGuild().getBankHologram().delete();
+						nPlayer.getGuild().setBankHologram(null);
+					}
+				}
+				else { //TODO bank destroy msg
+					event.setCancelled(true);
+					plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
+				}
+			}
 		}
 	}
 	
@@ -86,6 +102,35 @@ public class RegionInteractListener implements Listener {
 		if(!plugin.getRegionManager().canBuild(event.getPlayer(),event.getBlock().getLocation())) {
 			event.setCancelled(true);
 			plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
+		}
+		else {
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+			plugin.debug(event.getItemInHand().toString());
+			plugin.debug(event.getBlock().toString());
+			plugin.debug(event.getBlockPlaced().toString());
+
+			if(plugin.isBankItemStack(event.getItemInHand())) {
+				if(nPlayer.isLeader()) {
+					if(nPlayer.getGuild().getBankLocation()!=null) {
+						for(BlockFace face : BlockFace.values()) {
+							if(event.getBlock().getRelative(face) != null) {
+								if(plugin.isBankBlock(event.getBlock().getRelative(face))) {
+									event.setCancelled(true);
+									event.getPlayer().sendMessage("Cannot place double chest");
+									return;
+								}
+							}
+						}
+					}
+
+					nPlayer.getGuild().setBankLocation(event.getBlockPlaced().getLocation());
+					plugin.appendBankHologram(nPlayer.getGuild());
+					event.getPlayer().sendMessage("bank placed");
+				}
+				else {
+					event.getPlayer().sendMessage("not leader");
+				}
+			}
 		}
 	}
 	

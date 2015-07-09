@@ -91,18 +91,12 @@ private final NovaGuilds plugin;
 					sender.sendMessage(StringUtils.fixColors(itemlist));
 					return true;
 				}
-				else {
-					ItemStackUtils.takeItems(player, homeItems);
-				}
 			}
 
 			//money
 			double homeMoney = plugin.getGroupManager().getGroup(sender).getGuildHomeMoney();
 			if(homeMoney > 0) {
-				if(plugin.econ.getBalance((Player) sender) >= homeMoney) {
-					plugin.econ.withdrawPlayer((Player)sender,homeMoney);
-				}
-				else {
+				if(plugin.econ.getBalance((Player) sender) < homeMoney) {
 					//TODO not enought money
 					String rmmsg = plugin.getMessageManager().getMessagesString("chat.createguild.notenoughmoney");
 					rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", homeMoney + "");
@@ -111,6 +105,8 @@ private final NovaGuilds plugin;
 				}
 			}
 
+			plugin.econ.withdrawPlayer((Player)sender,homeMoney);
+			ItemStackUtils.takeItems(player, homeItems);
 			plugin.delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), "chat.guild.tp");
 		}
 		return true;

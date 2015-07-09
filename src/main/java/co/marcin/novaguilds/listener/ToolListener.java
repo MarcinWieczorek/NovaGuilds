@@ -49,12 +49,25 @@ public class ToolListener implements Listener {
 						return;
 					}
 
+					//remove region highlight
+					if(nPlayer.getSelectedRegion() != null) {
+						RegionUtils.highlightRegion(event.getPlayer(), nPlayer.getSelectedRegion(), null);
+					}
+
 					event.setCancelled(true);
 					nPlayer.setRegionMode(!nPlayer.regionMode());
 
 					String mode;
 					if(nPlayer.regionMode()) {
 						mode = plugin.getMessageManager().getMessagesString("chat.region.tool.modes.select");
+
+						if(nPlayer.hasGuild() && nPlayer.isLeader() && nPlayer.getGuild().hasRegion()) {
+							//RegionUtils.setCorner(player,nPlayer.getGuild().getRegion().getCorner(0),Material.GOLD_BLOCK);
+							//RegionUtils.setCorner(player,nPlayer.getGuild().getRegion().getCorner(1),Material.GOLD_BLOCK);
+							RegionUtils.highlightRegion(player,nPlayer.getGuild().getRegion(),Material.GOLD_BLOCK);
+							nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
+							plugin.debug("golden corners");
+						}
 					}
 					else {
 						mode = plugin.getMessageManager().getMessagesString("chat.region.tool.modes.check");
@@ -75,11 +88,6 @@ public class ToolListener implements Listener {
 					nPlayer.setSelectedLocation(0, null);
 					nPlayer.setSelectedLocation(1, null);
 
-					//remove region highlight
-					if(nPlayer.getSelectedRegion() != null) {
-						RegionUtils.resetHighlightRegion(event.getPlayer(), nPlayer.getSelectedRegion());
-					}
-
 					//disable resizing mode
 					nPlayer.setResizing(false);
 
@@ -95,12 +103,12 @@ public class ToolListener implements Listener {
 							return;
 						}
 
-						if(nPlayer.getSelectedRegion() != null) {
-							RegionUtils.resetHighlightRegion(player, nPlayer.getSelectedRegion());
+						if(nPlayer.getSelectedRegion() != null && !(nPlayer.getGuild().hasRegion() && nPlayer.getGuild().getRegion().equals(nPlayer.getSelectedRegion()))) {
+							RegionUtils.highlightRegion(event.getPlayer(), nPlayer.getSelectedRegion(), null);
 						}
 
 						if(region != null) {
-							RegionUtils.highlightRegion(player, region);
+							RegionUtils.highlightRegion(player, region, Material.DIAMOND_BLOCK);
 							HashMap<String, String> vars = new HashMap<>();
 							vars.put("GUILDNAME", region.getGuildName());
 							plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.belongsto", vars);
@@ -116,7 +124,6 @@ public class ToolListener implements Listener {
 					if(!event.getAction().equals(Action.PHYSICAL)) {
 						if(region != null && !nPlayer.isResizing()) { //resizing
 							if(!player.hasPermission("novaguilds.region.resize")) {
-								//plugin.getMessageManager().sendNoPermissionsMessage(player);
 								return;
 							}
 
@@ -129,10 +136,10 @@ public class ToolListener implements Listener {
 								//plugin.debug("0=" + pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()));
 								//plugin.debug("1=" + pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()));
 
-								if(pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()) < 1 || pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()) < 1) { //clicked a corner
+								if(pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()) < 1 || pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()) < 1) { //clicked a corner
 									int corner = 1;
 
-									if(pointedCornerLocation.distance(region.getCorner(0)) == 0) {
+									if(pointedCornerLocation.distance(region.getCorner(0)) < 1) {
 										corner = 0;
 									}
 
@@ -166,7 +173,7 @@ public class ToolListener implements Listener {
 										}
 									}
 
-									RegionUtils.setCorner(player, pointedLocation);
+									RegionUtils.setCorner(player, pointedLocation, Material.EMERALD_BLOCK);
 									nPlayer.setSelectedLocation(0, pointedLocation);
 									sl0 = pointedLocation;
 								}
@@ -203,7 +210,7 @@ public class ToolListener implements Listener {
 									sl1 = pointedLocation;
 								}
 
-								RegionUtils.setCorner(player, pointedLocation);
+								RegionUtils.setCorner(player, pointedLocation, Material.EMERALD_BLOCK);
 							}
 
 							if(sl0 != null && sl1 != null) {
@@ -284,8 +291,8 @@ public class ToolListener implements Listener {
 
 								//corners and rectangles
 								RegionUtils.sendSquare(player, sl0, sl1, Material.WOOL, data);
-								RegionUtils.setCorner(player, sl0);
-								RegionUtils.setCorner(player, sl1);
+								RegionUtils.setCorner(player, sl0, Material.EMERALD_BLOCK);
+								RegionUtils.setCorner(player, sl1, Material.EMERALD_BLOCK);
 							}
 						}
 					}

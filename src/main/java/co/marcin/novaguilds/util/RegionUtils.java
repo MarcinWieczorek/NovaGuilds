@@ -23,31 +23,26 @@ public class RegionUtils {
 		player.sendBlockChange(location,player.getWorld().getBlockAt(location).getType(),(byte) 0);
 	}
 
-	@SuppressWarnings("deprecation")
-	public static void setCorner(Player player, Location location) {
-		player.sendBlockChange(location, Material.EMERALD_BLOCK, (byte) 0);
-	}
-
-	public static void resetHighlightRegion(Player player, NovaRegion region) {
+	public static void highlightRegion(Player player, NovaRegion region, Material material) {
 		Location loc1 = region.getCorner(0).clone();
 		Location loc2 = region.getCorner(1).clone();
 
 		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
 		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
 
-		setCorner(player, loc1, loc1.getBlock().getType());
-		setCorner(player, loc2, loc2.getBlock().getType());
-	}
+		Material material1;
+		Material material2;
 
-	public static void highlightRegion(Player player, NovaRegion region) {
-		Location loc1 = region.getCorner(0).clone();
-		Location loc2 = region.getCorner(1).clone();
+		if(material != null) {
+			material1 = material2 = material;
+		}
+		else {
+			material1 = loc1.getBlock().getType();
+			material2 = loc2.getBlock().getType();
+		}
 
-		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
-		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
-
-		setCorner(player, loc1, Material.DIAMOND_BLOCK);
-		setCorner(player, loc2, Material.DIAMOND_BLOCK);
+		setCorner(player, loc1, material1);
+		setCorner(player, loc2, material2);
 	}
 
 	//public static int distanceBetweenRegions(NovaRegion region1, NovaRegion region2) {

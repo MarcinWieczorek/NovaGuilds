@@ -34,6 +34,11 @@ public class CommandNovaGuilds implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length > 0) {
 			if(args[0].equalsIgnoreCase("book")) {
+				if(!sender.hasPermission("novaguilds.test.book")) {
+					plugin.getMessageManager().sendNoPermissionsMessage(sender);
+					return true;
+				}
+
 				if(!plugin.getConfigManager().isDebugEnabled()) return false;
 		        ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 		        BookMeta bm = (BookMeta)book.getItemMeta();
@@ -48,6 +53,19 @@ public class CommandNovaGuilds implements CommandExecutor {
 			}
 			else if(args[0].equalsIgnoreCase("tool")) { //TOOL
 				new CommandToolGet(plugin).onCommand(sender, cmd, label, args);
+			}
+			else if(args[0].equalsIgnoreCase("bank")) { //bank
+				if(!sender.hasPermission("novaguilds.test.bank")) {
+					plugin.getMessageManager().sendNoPermissionsMessage(sender);
+					return true;
+				}
+
+				if(sender instanceof Player) {
+					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+					if(nPlayer.hasGuild()) {
+						((Player) sender).getInventory().addItem(plugin.getBankItemStack(nPlayer.getGuild()));
+					}
+				}
 			}
 			else if(args[0].equalsIgnoreCase("admin")) { //Admin commands
 				if(sender.hasPermission("novaguilds.admin.access")) {
@@ -81,6 +99,10 @@ public class CommandNovaGuilds implements CommandExecutor {
 //				plugin.delayedTeleport((Player)sender,l);
 			}
 			else if(args[0].equalsIgnoreCase("hd")) { //HolographicDisplays
+				if(!sender.hasPermission("novaguilds.test.hd")) {
+					plugin.getMessageManager().sendNoPermissionsMessage(sender);
+					return true;
+				}
 				if(args.length>1) { //GUILDINFO
 					if(args[1].equalsIgnoreCase("top")) {
 						Statement statement;
@@ -204,7 +226,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 					sender.sendMessage("-");
 				}
 			}
-			else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { // command /g
+			else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { //help
 				ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 				BookMeta bm = (BookMeta)book.getItemMeta();
 				//plugin.getMessageManager().loadMessages();
@@ -219,7 +241,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				bm.setTitle(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("book.help.title")));
 				book.setItemMeta(bm);
 				Player player = plugin.getServer().getPlayer(sender.getName());
-				player.getInventory().setItem(8, book);
+				player.getInventory().addItem(book);
 			}
 			else {
 				plugin.getMessageManager().sendMessagesMsg(sender,"chat.unknowncmd");
@@ -230,12 +252,12 @@ public class CommandNovaGuilds implements CommandExecutor {
 				"NovaGuilds &6#&c"+plugin.pdf.getVersion(),
 				"Authors: &6Marcin (CTRL) Wieczorek&2, &dartur9010",
 				"2015 &4Pol&fand",
-				"&bhttp://NovaGuilds.marcin.co/",
+				"&bhttp://novaguilds.marcin.co/",
 				"Latest plugin build: &6#&c{LATEST}"
 			};
 
 			plugin.getMessageManager().sendPrefixMessage(sender, "NovaGuilds Information");
-			String latest = StringUtils.getContent("http://govanuilds.marcin.co/latest.info");
+			String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
 			
 			for(int i=0;i<info.length;i++) {
 				info[i] = StringUtils.replace(info[i], "{LATEST}", latest);

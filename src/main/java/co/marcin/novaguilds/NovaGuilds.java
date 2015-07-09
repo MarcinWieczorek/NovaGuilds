@@ -19,7 +19,11 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -302,7 +306,7 @@ public class NovaGuilds extends JavaPlugin {
 				RegionUtils.resetCorner(p, l2);
 
 				if(nPlayer.getSelectedRegion() != null) {
-					RegionUtils.resetHighlightRegion(p,nPlayer.getSelectedRegion());
+					RegionUtils.highlightRegion(p,nPlayer.getSelectedRegion(),null);
 				}
 			}
 		}
@@ -501,6 +505,57 @@ public class NovaGuilds extends JavaPlugin {
 		if(getGroupManager().getGroup(player).getGuildTeleportDelay() > 0) {
 			getMessageManager().sendDelayedTeleportMessage(player);
 		}
+	}
+
+	//TODO name from lang
+	public boolean isBankItemStack(ItemStack itemStack) {
+		return itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName().contains("Guild's Bank") && itemStack.getType()==Material.CHEST;
+	}
+
+	public void appendBankHologram(NovaGuild guild) {
+		if(getConfigManager().useHolographicDisplays()) {
+			Location hologramLocation = guild.getBankLocation().clone();
+
+			double x = hologramLocation.getX()>0 ? -0.5 : 0.5;
+			double z = hologramLocation.getZ()>0 ? 0.5 : -0.5;;
+
+			hologramLocation.add(x,2,z);
+			Hologram hologram = HologramsAPI.createHologram(this,hologramLocation);
+			hologram.appendItemLine(new ItemStack(Material.GOLD_INGOT, 1));
+			hologram.appendTextLine("Guild's Bank");
+			guild.setBankHologram(hologram);
+		}
+		else {
+			debug("HD is disabled");
+		}
+	}
+
+	public boolean isBankBlock(Block block) {
+		if(block.getType()== Material.CHEST) {
+			for(NovaGuild guild : getGuildManager().getGuilds()) {
+				if(guild.getBankLocation() != null) {
+					if(guild.getBankLocation().distance(block.getLocation()) < 1) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public ItemStack getBankItemStack(NovaGuild guild) {
+		ItemStack itemStack = new ItemStack(Material.CHEST,1);
+		ItemMeta meta = getServer().getItemFactory().getItemMeta(Material.CHEST);
+		meta.setDisplayName("Guild's Bank");
+
+		List<String> lore = new ArrayList<>();
+		lore.add(StringUtils.fixColors("&6"+guild.getName()));
+		lore.add(StringUtils.fixColors("&cOnly leader can use"));
+		meta.setLore(lore);
+
+		itemStack.setItemMeta(meta);
+
+		return itemStack;
 	}
 
 	//Utils

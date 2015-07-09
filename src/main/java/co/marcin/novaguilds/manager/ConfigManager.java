@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -35,12 +36,22 @@ public class ConfigManager {
 	private long cleanupInterval;
 	private boolean cleanupEnabled;
 
+	private boolean raidEnabled;
 	private long raidTimeRest;
 	private long raidTimeInactive;
 
 	private long guildLiveRegenerationTime;
 	private long guildDistanceFromSpawn;
 	private long guildLiveRegenerationTaskInterval;
+
+	private boolean chatTagColors;
+	private boolean chatDisplayNameTags;
+
+	private ItemStack guildBankItem;
+	private boolean guildBankEnabled;
+	private boolean guildBankOnlyLeaderTake;
+	private boolean guildBankHologramEnabled;
+	private List<String> guildBankHologramLines; //supports items, [ITEM]
 
 	private int guildEffectDuration;
 	private List<PotionEffectType> guildEffects = new ArrayList<>();
@@ -59,12 +70,18 @@ public class ConfigManager {
 
 		saveInterval = StringUtils.StringToSeconds(config.getString("saveinterval"));
 
+		raidEnabled = config.getBoolean("raid.enabled");
 		raidTimeRest = config.getLong("raid.timerest");
 		raidTimeInactive = config.getLong("raid.timeinactive");
 
 		guildDistanceFromSpawn = config.getLong("guild.fromspawn");
 		guildLiveRegenerationTime = StringUtils.StringToSeconds(config.getString("liveregeneration.regentime"));
 		guildLiveRegenerationTaskInterval = StringUtils.StringToSeconds(config.getString("liveregeneration.taskinterval"));
+
+		if(guildLiveRegenerationTaskInterval < 60) {
+			logger.severe("Live regeneration task interval can't be shorter than 60 seconds.");
+			guildLiveRegenerationTaskInterval = 60;
+		}
 
 		useHolographicDisplays = config.getBoolean("holographicdisplays.enabled");
 		useBarAPI = config.getBoolean("barapi.enabled");
@@ -73,8 +90,16 @@ public class ConfigManager {
 		cleanupInactiveTime = StringUtils.StringToSeconds(config.getString("cleanup.inactivetime"));
 		cleanupInterval = StringUtils.StringToSeconds(config.getString("cleanup.interval"));
 
+		if(cleanupInterval < 60) {
+			logger.severe("Cleanup interval can't be shorter than 60 seconds.");
+			cleanupEnabled = false;
+		}
+
 		useMySQL = config.getBoolean("usemysql");
 		databasePrefix = config.getString("mysql.prefix");
+
+		chatDisplayNameTags = config.getBoolean("chat.displaynametags");
+		chatTagColors = config.getBoolean("tagapi.colortags");
 
 		primaryDataStorageType = DataStorageType.valueOf(config.getString("datastorage.primary").toUpperCase());
 		secondaryDataStorageType = DataStorageType.valueOf(config.getString("datastorage.secondary").toUpperCase());
@@ -88,10 +113,6 @@ public class ConfigManager {
 				guildEffects.add(effectType);
 			}
 		}
-	}
-
-	public void disable() {
-		plugin.saveConfig();
 	}
 
 	//getters
@@ -156,6 +177,10 @@ public class ConfigManager {
 		return cleanupEnabled;
 	}
 
+	public boolean isRaidEnabled() {
+		return raidEnabled;
+	}
+
 	public boolean useBarAPI() {
 		return useBarAPI;
 	}
@@ -170,6 +195,18 @@ public class ConfigManager {
 
 	public boolean isDebugEnabled() {
 		return debug;
+	}
+
+	public boolean isChatTagColorsEnabled() {
+		return chatTagColors;
+	}
+
+	public boolean getGuildBankOnlyLeaderTake() {
+		return guildBankOnlyLeaderTake;
+	}
+
+	public boolean useChatDisplayNameTags() {
+		return chatDisplayNameTags;
 	}
 
 	//setters
@@ -191,5 +228,9 @@ public class ConfigManager {
 
 	public void setToPrimaryDataStorageType() {
 		dataStorageType = primaryDataStorageType;
+	}
+
+	public void setGuildBankOnlyLeaderTake(boolean guildBankOnlyLeaderTake) {
+		this.guildBankOnlyLeaderTake = guildBankOnlyLeaderTake;
 	}
 }

@@ -73,7 +73,7 @@ public class CommandGuildJoin implements CommandExecutor {
 			return true;
 		}
 
-		if(nPlayer.isInvitedTo(guild)) {
+		if(!nPlayer.isInvitedTo(guild)) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notinvitedtoguild");
 			return true;
 		}
@@ -101,18 +101,12 @@ public class CommandGuildJoin implements CommandExecutor {
 				sender.sendMessage(StringUtils.fixColors(itemlist));
 				return true;
 			}
-			else {
-				ItemStackUtils.takeItems((Player)sender,joinItems);
-			}
 		}
 
 		//money
 		double joinMoney = plugin.getGroupManager().getGroup(sender).getGuildJoinMoney();
 		if(joinMoney > 0) {
-			if(plugin.econ.getBalance((Player) sender) >= joinMoney) {
-				plugin.econ.withdrawPlayer((Player)sender,joinMoney);
-			}
-			else {
+			if(plugin.econ.getBalance((Player) sender) < joinMoney) {
 				//TODO not enought money msg
 				String rmmsg = plugin.getMessageManager().getMessagesString("chat.createguild.notenoughmoney");
 				rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", joinMoney + "");
@@ -121,6 +115,8 @@ public class CommandGuildJoin implements CommandExecutor {
 			}
 		}
 
+		ItemStackUtils.takeItems((Player)sender,joinItems);
+		plugin.econ.withdrawPlayer((Player)sender,joinMoney);
 		guild.addPlayer(nPlayer);
 		nPlayer.setGuild(guild);
 		nPlayer.deleteInvitation(guild);

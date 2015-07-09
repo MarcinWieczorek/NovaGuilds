@@ -24,12 +24,10 @@ barapi:
  enabled: true
 
 tabapi:
- enabled: false
  colortags: true
  rankprefix: false
 
 tagapi:
- enabled: false
  colortags: true
  rankprefix: false
  allycolor:
@@ -43,7 +41,7 @@ tagapi:
   color: "&c"
 
 holographicdisplays:
- enabled: false
+ enabled: true
 
 #Save interval
 saveinterval: 30m
@@ -54,7 +52,7 @@ liveregeneration:
  taskinterval: 30m
 
 cleanup:
- enabled: true
+ enabled: false
  inactivetime: 7d
  interval: 1d
 
@@ -73,6 +71,7 @@ aliases:
 
 
 chat:
+ displaynametags: false
  ally:
   prefix: "!!"
   enabled: true
@@ -161,6 +160,16 @@ groups:
      create: 100
      #price per block
      ppb: 1
+
+bank:
+ enabled: false
+ onlyleadertake: true
+ item: CHEST 1 name:&6Guild's_Bank
+ hologram:
+  enabled: false
+  lines:
+   - [ITEM]GOLD_INGOT 1
+   - "&6Guild's Bank"
 
 region:
  autoregion: true
