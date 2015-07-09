@@ -28,12 +28,12 @@ public class InventoryListener implements Listener {
 		String nameBank = plugin.getMessageManager().getMessagesString("inventory.bank.name");
 		Player player = (Player) event.getWhoClicked();
 
+		//1.8
 		if(event.getClickedInventory() != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
 			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
-				//1.8
 				if(event.getClickedInventory().equals(event.getView().getTopInventory()) || event.isShiftClick()) {
 					//gui
-					if(event.getClickedInventory().getTitle().equals(nameGGUI)) {
+					if(event.getInventory().getTitle().equals(nameGGUI)) {
 						ItemStack clickedItem = event.getCurrentItem();
 
 						String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
@@ -62,19 +62,50 @@ public class InventoryListener implements Listener {
 							}
 						}
 					}
+					else {
+						event.setCancelled(true);
+					}
 				}
+			}
+		}
 
-				//1.7
+		//1.7
+//		if(event.getInventory() != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
+//			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
 //				if(event.getInventory().getTitle().equals(nameGGUI)) {
 //					ItemStack clickedItem = event.getCurrentItem();
 //
 //					String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
-//					Player player = (Player)event.getWhoClicked();
 //					player.chat("/"+menuCommand);
+//					event.setCancelled(true);
+//					player.closeInventory();
+//				}
+//				else if(event.getInventory().getTitle().equals(nameBank)) {
+//					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+//					List<InventoryAction> dissalowedActions = new ArrayList<>();
+//					dissalowedActions.add(InventoryAction.CLONE_STACK);
+//					dissalowedActions.add(InventoryAction.COLLECT_TO_CURSOR);
+//					dissalowedActions.add(InventoryAction.HOTBAR_MOVE_AND_READD);
+//					dissalowedActions.add(InventoryAction.HOTBAR_SWAP);
+//					dissalowedActions.add(InventoryAction.MOVE_TO_OTHER_INVENTORY);
+//					dissalowedActions.add(InventoryAction.PICKUP_ALL);
+//					dissalowedActions.add(InventoryAction.PICKUP_HALF);
+//					dissalowedActions.add(InventoryAction.PICKUP_ONE);
+//					dissalowedActions.add(InventoryAction.PICKUP_SOME);
+//					dissalowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
+//					dissalowedActions.add(InventoryAction.UNKNOWN);
+//
+//					if(!nPlayer.isLeader()) {
+//						if(dissalowedActions.contains(event.getAction())) {
+//							event.setCancelled(true);
+//						}
+//					}
+//				}
+//				else {
+//					event.setCancelled(true);
 //				}
 //
-//				event.setCancelled(true);
-			}
-		}
-	}
+//			}
+//		}
+//	}
 }
