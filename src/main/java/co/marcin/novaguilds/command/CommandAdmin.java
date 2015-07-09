@@ -22,21 +22,22 @@ public class CommandAdmin implements CommandExecutor {
 
 		if(args.length>0) {
 			String[] newArgs = StringUtils.parseArgs(args, 1);
-
-			if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { //guilds
-				new CommandAdminGuild(plugin).onCommand(sender, cmd, label, newArgs);
-			}
-			else if(args[0].equalsIgnoreCase("region") || args[0].equalsIgnoreCase("rg")) { //regions
-				new CommandAdminRegion(plugin).onCommand(sender, cmd, label, newArgs);
-			}
-			else if(args[0].equalsIgnoreCase("reload")) { //reload
-				new CommandAdminReload(plugin).onCommand(sender, cmd, label, args);
-			}
-			else if(args[0].equalsIgnoreCase("save")) { //reload
-				new CommandAdminSave(plugin).onCommand(sender, cmd, label, newArgs);
-			}
-			else {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+			switch(newArgs[0].toLowerCase()) {
+				case "guild":
+					new CommandAdminGuild(plugin).onCommand(sender, cmd, label, newArgs);
+					break;
+				case "region":
+					new CommandAdminRegion(plugin).onCommand(sender, cmd, label, newArgs);
+					break;
+				case "reload":
+					new CommandAdminReload(plugin).onCommand(sender, cmd, label, args);
+					break;
+				case "save":
+					new CommandAdminSave(plugin).onCommand(sender, cmd, label, newArgs);
+					break;
+				default:
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+					break;
 			}
 		}
 		else {
