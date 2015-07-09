@@ -256,3 +256,6 @@ Please leave feedback!<br/><br/>
         <td>No tag in chat</td>
     </tr>
 </table>
+
+
+[![Join the chat at https://gitter.im/MarcinWieczorek/NovaGuilds](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MarcinWieczorek/NovaGuilds?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
