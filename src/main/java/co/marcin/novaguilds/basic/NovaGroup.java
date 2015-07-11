@@ -30,30 +30,31 @@ public class NovaGroup {
 	@SuppressWarnings("deprecation")
 	public NovaGroup(NovaGuilds plugin, String group) {
 		name = group;
+		plugin.info("Loading group '"+name+"'...");
 
 		if(name.equalsIgnoreCase("admin")) {
 			regionAutoSize = plugin.getConfig().getInt("region.adminautosize");
-			return;
 		}
+		else {
+			//setting all values
+			ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups." + group);
+			guildCreateItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.create.items"));
+			guildCreateMoney = section.getDouble("guild.create.money");
+			guildTeleportDelay = section.getInt("guild.home.tpdelay");
+			guildHomeItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.home.items"));
+			guildJoinItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.join.items"));
+			regionPricePerBlock = section.getDouble("region.ppb");
+			regionCreateMoney = section.getDouble("region.createmoney");
+			guildEffectPrice = section.getDouble("effectprice");
+			regionAutoSize = section.getInt("region.autoregionsize");
+			guildHomeMoney = section.getDouble("guild.home.money");
+			guildJoinMoney = section.getDouble("guild.join.money");
 
-		//setting all values
-		ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups."+group);
-		guildCreateItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.create.items"));
-		guildCreateMoney = section.getDouble("guild.create.money");
-		guildTeleportDelay = section.getInt("guild.home.tpdelay");
-		guildHomeItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.home.items"));
-		guildJoinItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.join.items"));
-		regionPricePerBlock = section.getDouble("region.ppb");
-		regionCreateMoney = section.getDouble("region.create");
-		guildEffectPrice = section.getDouble("region.effectprice");
-		regionAutoSize = section.getInt("region.autoregionsize");
-		guildHomeMoney = section.getDouble("guild.home.money");
-		guildJoinMoney = section.getDouble("guild.join.money");
-
-		//check values
-		if(guildCreateItems == null) guildCreateItems = new ArrayList<>();
-		if(guildHomeItems == null) guildHomeItems = new ArrayList<>();
-		if(guildJoinItems == null) guildJoinItems = new ArrayList<>();
+			//check values
+			if(guildCreateItems == null) guildCreateItems = new ArrayList<>();
+			if(guildHomeItems == null) guildHomeItems = new ArrayList<>();
+			if(guildJoinItems == null) guildJoinItems = new ArrayList<>();
+		}
 	}
 
 	public String getName() {

@@ -93,8 +93,11 @@ public class NovaRegion {
 
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
-		guildname = guild.getName();
 		changed();
+
+		if(guild != null) {
+			guildname = guild.getName();
+		}
 	}
 	
 	public void setCorner(int index,Location l) {

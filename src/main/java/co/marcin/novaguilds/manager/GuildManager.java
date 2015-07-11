@@ -4,7 +4,6 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
@@ -36,21 +35,10 @@ public class GuildManager {
 	
 	public NovaGuild getGuildByTag(String tag) {
 		for(NovaGuild guild : getGuilds()) {
-			plugin.debug(StringUtils.removeColors(guild.getTag())+" = "+tag);
+			//plugin.debug(StringUtils.removeColors(guild.getTag())+" = "+tag);
 			if(StringUtils.removeColors(guild.getTag()).equalsIgnoreCase(tag)) {
 				return guild;
 			}
-		}
-		return null;
-	}
-
-	public NovaGuild getGuildByRegion(NovaRegion rgatploc) {
-		return getGuildByName(rgatploc.getGuildName());
-	}
-	
-	public NovaGuild getGuildByPlayer(NovaPlayer nPlayer) {
-		if(nPlayer.hasGuild()) {
-			return getGuildByName(nPlayer.getGuild().getName());
 		}
 		return null;
 	}
@@ -73,7 +61,7 @@ public class GuildManager {
 				return null;
 			}
 			
-			guild = getGuildByPlayer(nPlayer);
+			guild = nPlayer.getGuild();
 		}
 
 		return guild;
@@ -88,6 +76,8 @@ public class GuildManager {
 	}
 	
 	public void loadGuilds() {
+		guilds.clear();
+
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			for(String guildName : plugin.getFlatDataManager().getGuildList()) {
 				FileConfiguration guildData = plugin.getFlatDataManager().getGuildData(guildName);
@@ -102,13 +92,17 @@ public class GuildManager {
 			}
 		}
 		else {
+			if(plugin.getConnection() == null) {
+				plugin.info("[GuildManager] Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			plugin.mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.c.createStatement();
+				statement = plugin.getConnection().createStatement();
 
-				guilds.clear();
 				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`");
 				while(res.next()) {
 					String spawnpoint_coord = res.getString("spawn");
@@ -126,6 +120,22 @@ public class GuildManager {
 								float yaw = Float.parseFloat(spawnpoint_split[4]);
 								spawnpoint = new Location(plugin.getServer().getWorld(worldname), x, y, z);
 								spawnpoint.setYaw(yaw);
+							}
+						}
+					}
+
+					String bankLocationString = res.getString("bankloc");
+					Location bankLocation = null;
+					if(!bankLocationString.isEmpty()) {
+						String[] bankLocationSplit = bankLocationString.split(";");
+						if(bankLocationSplit.length == 5) { //LENGTH
+							String worldname = bankLocationSplit[0];
+
+							if(plugin.getServer().getWorld(worldname) != null) {
+								int x = Integer.parseInt(bankLocationSplit[1]);
+								int y = Integer.parseInt(bankLocationSplit[2]);
+								int z = Integer.parseInt(bankLocationSplit[3]);
+								bankLocation = new Location(plugin.getServer().getWorld(worldname), x, y, z);
 							}
 						}
 					}
@@ -166,6 +176,7 @@ public class GuildManager {
 						novaGuild.setLostLiveTime(res.getLong("lostlive"));
 						novaGuild.setSpawnPoint(spawnpoint);
 						novaGuild.setRegion(plugin.getRegionManager().getRegion(novaGuild));
+						novaGuild.setBankLocation(bankLocation);
 						plugin.debug("regionnull=" + (novaGuild.getRegion() == null));
 
 						novaGuild.setAllies(allies);
@@ -201,6 +212,9 @@ public class GuildManager {
 		}
 
 		plugin.info("[GuildManager] Loaded "+guilds.size()+" guilds.");
+
+		loadBankHolograms();
+		plugin.info("[GuildManager] Generated bank holograms.");
 	}
 	
 	public void addGuild(NovaGuild guild) {
@@ -209,6 +223,11 @@ public class GuildManager {
 			guilds.put(guild.getName().toLowerCase(), guild);
 		}
 		else {
+			if(plugin.getConnection() == null) {
+				plugin.info("[GuildManager] Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			plugin.mysqlReload();
 
 			try {
@@ -219,8 +238,8 @@ public class GuildManager {
 
 				//adding to MySQL
 				//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive
-				String pSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0);";
-				PreparedStatement preparedStatement = plugin.c.prepareStatement(pSQL, Statement.RETURN_GENERATED_KEYS);
+				String pSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
+				PreparedStatement preparedStatement = plugin.getConnection().prepareStatement(pSQL, Statement.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1, guild.getTag()); //tag
 				preparedStatement.setString(2, guild.getName()); //name
 				preparedStatement.setString(3, guild.getLeader().getName()); //leader
@@ -258,10 +277,15 @@ public class GuildManager {
 				plugin.getFlatDataManager().saveGuild(guild);
 			}
 			else {
+				if(plugin.getConnection() == null) {
+					plugin.info("[GuildManager] Connection is not estabilished, stopping current action");
+					return;
+				}
+
 				plugin.mysqlReload();
 
 				try {
-					Statement statement = plugin.c.createStatement();
+					Statement statement = plugin.getConnection().createStatement();
 
 					String spawnpointcoords = "";
 					if(guild.getSpawnPoint() != null) {
@@ -316,6 +340,11 @@ public class GuildManager {
 						}
 					}
 
+					String bankLocationString = "";
+					if(guild.getBankLocation() != null) {
+						bankLocationString = StringUtils.parseDBLocation(guild.getBankLocation());
+					}
+
 					String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET " +
 							"`tag`='" + guild.getTag() + "', " +
 							"`name`='" + guild.getName() + "', " +
@@ -330,7 +359,8 @@ public class GuildManager {
 							"`lives`=" + guild.getLives() + ", " +
 							"`timerest`=" + guild.getTimeRest() + ", " +
 							"`lostlive`=" + guild.getLostLiveTime() + ", " +
-							"`activity`=" + guild.getInactiveTime() +
+							"`activity`=" + guild.getInactiveTime() + ", " +
+							"`bankloc`='" + bankLocationString + "'" +
 							" WHERE `id`=" + guild.getId();
 
 					statement.executeUpdate(sql);
@@ -355,11 +385,16 @@ public class GuildManager {
 			plugin.getFlatDataManager().deleteGuild(guild);
 		}
 		else {
+			if(plugin.getConnection() == null) {
+				plugin.info("[GuildManager] Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			plugin.mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.c.createStatement();
+				statement = plugin.getConnection().createStatement();
 
 				//delete from database
 				String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` WHERE `id`=" + guild.getId();
@@ -373,59 +408,67 @@ public class GuildManager {
 			}
 		}
 
-		//remove players
-		for(NovaPlayer nP : guild.getPlayers()) {
-			nP.setGuild(null);
-			plugin.debug(nP.getName());
-
-			//update tags
-			if(nP.isOnline()) {
-				plugin.tagUtils.updatePrefix(nP.getPlayer());
-			}
-		}
-
-		//remove guild invitations
-		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
-			if(nPlayer.isInvitedTo(guild)) {
-				nPlayer.deleteInvitation(guild);
-			}
-		}
-
-		//remove allies and wars
-		for(NovaGuild nGuild : guilds.values()) {
-			//ally
-			if(nGuild.isAlly(guild)) {
-				nGuild.removeAlly(guild);
-			}
-
-			//ally invitation
-			if(nGuild.isInvitedToAlly(guild)) {
-				nGuild.removeAllyInvitation(guild);
-			}
-
-			//war
-			if(nGuild.isWarWith(guild)) {
-				nGuild.removeWar(guild);
-			}
-
-			//no war invitation
-			if(nGuild.isNoWarInvited(guild)) {
-				nGuild.removeNoWarInvitation(guild);
-			}
-		}
-
-		//remove raid
-		//TODO
+//		//remove players
+//		for(NovaPlayer nP : guild.getPlayers()) {
+//			nP.setGuild(null);
+//			plugin.debug(nP.getName());
+//
+//			//update tags
+//			if(nP.isOnline()) {
+//				plugin.tagUtils.updatePrefix(nP.getPlayer());
+//			}
+//		}
+//
+//		//remove guild invitations
+//		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
+//			if(nPlayer.isInvitedTo(guild)) {
+//				nPlayer.deleteInvitation(guild);
+//			}
+//		}
+//
+//		//remove allies and wars
+//		for(NovaGuild nGuild : guilds.values()) {
+//			//ally
+//			if(nGuild.isAlly(guild)) {
+//				nGuild.removeAlly(guild);
+//			}
+//
+//			//ally invitation
+//			if(nGuild.isInvitedToAlly(guild)) {
+//				nGuild.removeAllyInvitation(guild);
+//			}
+//
+//			//war
+//			if(nGuild.isWarWith(guild)) {
+//				nGuild.removeWar(guild);
+//			}
+//
+//			//no war invitation
+//			if(nGuild.isNoWarInvited(guild)) {
+//				nGuild.removeNoWarInvitation(guild);
+//			}
+//		}
+//
+//		//remove raid
+//		//TODO
+//
+//		//remove region
+//		if(guild.hasRegion()) {
+//			plugin.getRegionManager().removeRegion(guild.getRegion());
+//		}
+//
+//		//bank and hologram
+//		if(guild.getBankHologram() != null) {
+//			guild.getBankHologram().delete();
+//		}
+		guild.destroy();
 
 		//remove region
 		if(guild.hasRegion()) {
-			plugin.getRegionManager().removeRegion(guild.getRegion());
+			NovaGuilds.getInst().getRegionManager().removeRegion(guild.getRegion());
 		}
 
-		plugin.debug(guild.getName());
-		plugin.debug("exists=" + exists(guild.getName()));
 		guilds.remove(guild.getName().toLowerCase());
-		plugin.debug("exists=" + exists(guild.getName()));
 	}
 	
 	public void changeName(NovaGuild guild, String newname) {
@@ -484,6 +527,11 @@ public class GuildManager {
 
 			if(remove) {
 				plugin.info("Unloaded guild "+(guild==null ? "null" : guild.getName()));
+				if(guild != null) {
+					if(guild.hasRegion()) {
+						guild.getRegion().setGuild(null);
+					}
+				}
 				it.remove();
 				i++;
 			}
@@ -612,5 +660,13 @@ public class GuildManager {
 		}
 
 		return guild;
+	}
+
+	public void loadBankHolograms() {
+		for(NovaGuild guild : getGuilds()) {
+			if(guild.getBankLocation() != null) {
+				plugin.appendBankHologram(guild);
+			}
+		}
 	}
 }

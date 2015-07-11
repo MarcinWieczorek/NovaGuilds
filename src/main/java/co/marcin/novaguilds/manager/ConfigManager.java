@@ -2,6 +2,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,13 @@ public class ConfigManager {
 		guildLiveRegenerationTime = StringUtils.StringToSeconds(config.getString("liveregeneration.regentime"));
 		guildLiveRegenerationTaskInterval = StringUtils.StringToSeconds(config.getString("liveregeneration.taskinterval"));
 
+		//bank
+		guildBankEnabled = config.getBoolean("bank.enabled");
+		guildBankHologramEnabled = config.getBoolean("bank.hologram.enabled");
+		guildBankHologramLines = config.getStringList("bank.hologram.lines");
+		guildBankItem = getItemStack("bank.item");
+		guildBankOnlyLeaderTake = config.getBoolean("bank.onlyleadertake");
+
 		if(guildLiveRegenerationTaskInterval < 60) {
 			logger.severe("Live regeneration task interval can't be shorter than 60 seconds.");
 			guildLiveRegenerationTaskInterval = 60;
@@ -116,6 +124,10 @@ public class ConfigManager {
 	}
 
 	//getters
+	public ItemStack getItemStack(String path) {
+		return ItemStackUtils.stringToItemStack(config.getString(path));
+	}
+
 	public String getDatabasePrefix() {
 		return databasePrefix;
 	}
@@ -170,6 +182,22 @@ public class ConfigManager {
 
 	public List<PotionEffectType> getGuildEffects() {
 		return guildEffects;
+	}
+
+	public boolean isGuildBankEnabled() {
+		return guildBankEnabled;
+	}
+
+	public ItemStack getGuildBankItem() {
+		return guildBankItem;
+	}
+
+	public List<String> getGuildBankHologramLines() {
+		return guildBankHologramLines;
+	}
+
+	public boolean isGuildBankHologramEnabled() {
+		return guildBankHologramEnabled;
 	}
 
 	//checkers

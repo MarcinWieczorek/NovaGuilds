@@ -4,9 +4,12 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,6 +24,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class RegionInteractListener implements Listener {
@@ -44,9 +48,9 @@ public class RegionInteractListener implements Listener {
 			
 			if(rgatploc != null) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
-				NovaGuild guild = plugin.getGuildManager().getGuildByRegion(rgatploc);
+				NovaGuild guild = rgatploc.getGuild();
 
-				boolean isally = guild.isAlly(nPlayer.getGuild());
+				boolean isally = nPlayer.hasGuild() && guild.isAlly(nPlayer.getGuild());
 
 				// (has no guild) OR (has guild AND (not his guild AND not ally)
 				if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && (!nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()) && !isally))) {
@@ -83,15 +87,23 @@ public class RegionInteractListener implements Listener {
 		}
 		else {
 			if(plugin.isBankBlock(event.getBlock())) {
-				if(nPlayer.isLeader()) {
-					if(nPlayer.getGuild().getBankHologram() != null) {
-						nPlayer.getGuild().getBankHologram().delete();
-						nPlayer.getGuild().setBankHologram(null);
+				Chest chest = (Chest) event.getBlock().getState();
+				if(ItemStackUtils.isEmpty(chest.getInventory())) {
+					if(nPlayer.isLeader()) {
+						if(nPlayer.getGuild().getBankHologram() != null) {
+							nPlayer.getGuild().getBankHologram().delete();
+							nPlayer.getGuild().setBankHologram(null);
+						}
+						nPlayer.getGuild().setBankLocation(null);
+					}
+					else { //TODO bank destroy msg
+						event.setCancelled(true);
+						plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
 					}
 				}
-				else { //TODO bank destroy msg
+				else {
 					event.setCancelled(true);
-					plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
+					event.getPlayer().sendMessage("not empty");
 				}
 			}
 		}
@@ -109,10 +121,17 @@ public class RegionInteractListener implements Listener {
 			plugin.debug(event.getBlock().toString());
 			plugin.debug(event.getBlockPlaced().toString());
 
-			if(plugin.isBankItemStack(event.getItemInHand())) {
-				if(nPlayer.isLeader()) {
-					if(nPlayer.getGuild().getBankLocation()!=null) {
-						for(BlockFace face : BlockFace.values()) {
+			if(nPlayer.hasGuild()) {
+				if(event.getItemInHand().getType() == plugin.getConfigManager().getGuildBankItem().getType()) {
+					if(nPlayer.getGuild().getBankLocation() != null) {
+						BlockFace[] doubleChestFaces = {
+								BlockFace.EAST,
+								BlockFace.NORTH,
+								BlockFace.SOUTH,
+								BlockFace.WEST
+						};
+
+						for(BlockFace face : doubleChestFaces) {
 							if(event.getBlock().getRelative(face) != null) {
 								if(plugin.isBankBlock(event.getBlock().getRelative(face))) {
 									event.setCancelled(true);
@@ -122,13 +141,33 @@ public class RegionInteractListener implements Listener {
 							}
 						}
 					}
-
-					nPlayer.getGuild().setBankLocation(event.getBlockPlaced().getLocation());
-					plugin.appendBankHologram(nPlayer.getGuild());
-					event.getPlayer().sendMessage("bank placed");
 				}
-				else {
-					event.getPlayer().sendMessage("not leader");
+
+				if(plugin.isBankItemStack(event.getItemInHand())) {
+					if(nPlayer.hasGuild()) {
+						if(nPlayer.isLeader()) {
+							if(nPlayer.getGuild().getBankLocation() == null) {
+								NovaRegion region = plugin.getRegionManager().getRegionAtLocation(event.getBlockPlaced().getLocation());
+								if(region != null && region.getGuild().isMember(nPlayer)) {
+									nPlayer.getGuild().setBankLocation(event.getBlockPlaced().getLocation());
+									plugin.appendBankHologram(nPlayer.getGuild());
+									event.getPlayer().sendMessage("bank placed");
+								}
+								else {
+									event.getPlayer().sendMessage("Cannot place bank outside region");
+									event.setCancelled(true);
+								}
+							}
+							else {
+								event.getPlayer().sendMessage("bank exists");
+								event.setCancelled(true);
+							}
+						}
+						else {
+							event.getPlayer().sendMessage("not leader");
+							event.setCancelled(true);
+						}
+					}
 				}
 			}
 		}
@@ -232,6 +271,16 @@ public class RegionInteractListener implements Listener {
 		NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(loc);
 		
 		if(rgatloc != null) {
+			Iterator<Block> iterator = event.blockList().iterator();
+			while(iterator.hasNext()) {
+				Block block = iterator.next();
+				if(plugin.isBankBlock(block)) {
+					if(!rgatloc.getGuild().isRaid()) {
+						iterator.remove();
+					}
+				}
+			}
+
 			plugin.getMessageManager().broadcastGuild(rgatloc.getGuild(),"chat.guild.explosionatregion",true);
 		}
 	}

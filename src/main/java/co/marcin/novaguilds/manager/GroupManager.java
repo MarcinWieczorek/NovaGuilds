@@ -16,7 +16,6 @@ public class GroupManager {
 		plugin = novaguilds;
 
 		loadGroups();
-		plugin.info("Groups loaded");
 	}
 
 	public void loadGroups() {

@@ -6,16 +6,14 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ItemStackUtils {
 	@SuppressWarnings("deprecation")
@@ -216,8 +214,18 @@ public class ItemStackUtils {
 			}
 
 			//replace _ with spaces
-			name = name.replace("_"," ");
-			loreString = loreString.replace("_"," ");
+			name = name.replace("_", " ");
+			name = StringUtils.fixColors(name);
+			loreString = loreString.replace("_", " ");
+			loreString = StringUtils.fixColors(loreString);
+
+			if(loreString.contains("|")) {
+				Collections.addAll(lore, loreString.split("|"));
+			}
+			else {
+				lore.add(loreString);
+			}
+
 
 			itemStack = new ItemStack(material,amount,data);
 			System.out.println(itemStack==null);
@@ -305,5 +313,14 @@ public class ItemStackUtils {
 		}
 
 		return amount;
+	}
+
+	public static boolean isEmpty(Inventory inventory) {
+		for(ItemStack itemStack : inventory.getContents()) {
+			if(itemStack!= null && itemStack.getType() != Material.AIR) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

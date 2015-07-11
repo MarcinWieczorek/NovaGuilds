@@ -63,7 +63,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				if(sender instanceof Player) {
 					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 					if(nPlayer.hasGuild()) {
-						((Player) sender).getInventory().addItem(plugin.getBankItemStack(nPlayer.getGuild()));
+						((Player) sender).getInventory().addItem(plugin.getConfigManager().getGuildBankItem());
 					}
 				}
 			}
@@ -108,7 +108,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						Statement statement;
 						
 						try {
-							statement = plugin.c.createStatement();
+							statement = plugin.getConnection().createStatement();
 							
 							Player player = (Player)sender;
 							Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());

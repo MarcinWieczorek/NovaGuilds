@@ -40,6 +40,9 @@ public class NovaGuild {
 
 	private final List<String> nowar_inv = new ArrayList<>();
 
+	private final List<String> invitedPlayersNames = new ArrayList<>();
+	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
+
 	//getters
 	public String getName() {
 		return name;
@@ -159,6 +162,14 @@ public class NovaGuild {
 		return friendlyPvp;
 	}
 
+	public List<String> getInvitedPlayersNames() {
+		return invitedPlayersNames;
+	}
+
+	public List<NovaPlayer> getInvitedPlayers() {
+		return invitedPlayers;
+	}
+
 	//setters
 	public void setBankHologram(Hologram hologram) {
 		bankHologram = hologram;
@@ -183,11 +194,11 @@ public class NovaGuild {
 	}
 
 	public void setRegion(NovaRegion r) {
-		if(r != null) {
-			region = r;
-			r.setGuild(this);
+		region = r;
+		changed();
 
-			changed();
+		if(r != null) {
+			r.setGuild(this);
 		}
 	}
 
@@ -197,6 +208,7 @@ public class NovaGuild {
 
 	public void setBankLocation(Location location) {
 		bankLocation = location;
+		changed();
 	}
 
 	public void setLeader(NovaPlayer nPlayer) {
@@ -380,6 +392,7 @@ public class NovaGuild {
 
 		if(!players.contains(nPlayer)) {
 			players.add(nPlayer);
+			nPlayer.setGuild(this);
 
 			if(getLeaderName()!=null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
 				setLeader(nPlayer);
@@ -402,7 +415,7 @@ public class NovaGuild {
 	public void removePlayer(NovaPlayer nPlayer) {
 		if(players.contains(nPlayer)) {
 			players.remove(nPlayer);
-			changed();
+			nPlayer.setGuild(null);
 		}
 	}
 
@@ -462,5 +475,55 @@ public class NovaGuild {
 
 	public boolean isMember(NovaPlayer nPlayer) {
 		return players.contains(nPlayer);
+	}
+
+	public void destroy() {
+		//remove players
+		for(NovaPlayer nP : getPlayers()) {
+			nP.setGuild(null);
+
+			//update tags
+			if(nP.isOnline()) {
+				NovaGuilds.getInst().tagUtils.updatePrefix(nP.getPlayer());
+			}
+		}
+
+		//remove guild invitations
+		for(NovaPlayer nPlayer : NovaGuilds.getInst().getPlayerManager().getPlayers()) {
+			if(nPlayer.isInvitedTo(this)) {
+				nPlayer.deleteInvitation(this);
+			}
+		}
+
+		//remove allies and wars
+		for(NovaGuild nGuild : NovaGuilds.getInst().getGuildManager().getGuilds()) {
+			//ally
+			if(nGuild.isAlly(this)) {
+				nGuild.removeAlly(this);
+			}
+
+			//ally invitation
+			if(nGuild.isInvitedToAlly(this)) {
+				nGuild.removeAllyInvitation(this);
+			}
+
+			//war
+			if(nGuild.isWarWith(this)) {
+				nGuild.removeWar(this);
+			}
+
+			//no war invitation
+			if(nGuild.isNoWarInvited(this)) {
+				nGuild.removeNoWarInvitation(this);
+			}
+		}
+
+		//remove raid
+		//TODO
+
+		//bank and hologram
+		if(this.getBankHologram() != null) {
+			this.getBankHologram().delete();
+		}
 	}
 }

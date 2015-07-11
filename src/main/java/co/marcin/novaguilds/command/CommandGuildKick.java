@@ -1,14 +1,13 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import java.util.HashMap;
 
 public class CommandGuildKick  implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -30,7 +29,7 @@ public class CommandGuildKick  implements CommandExecutor {
 			return true;
 		}
 		
-		NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayer);
+		NovaGuild guild = nPlayer.getGuild();
 		
 		if(!guild.getLeader().getName().equalsIgnoreCase(sender.getName())) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");

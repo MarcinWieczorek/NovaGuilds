@@ -5,7 +5,9 @@ Please leave feedback!<br/><br/>
 <b>Vault</b> is required!<br/>
 <b>BarAPI</b> is required unless you turn it off in config!<br/>
 <b>HolographicDisplays</b> is required unless you turn it off in config!<br/>
-<br/><br/><br/>
+<br/><br/>
+[![Join the chat at https://gitter.im/MarcinWieczorek/NovaGuilds](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MarcinWieczorek/NovaGuilds?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<br/>
 
 <h2><b>Downloads</b></h2>
 <a href="http://novaguilds.marcin.co/download/">http://novaguilds.marcin.co/download/</a>
@@ -256,6 +258,3 @@ Please leave feedback!<br/><br/>
         <td>No tag in chat</td>
     </tr>
 </table>
-
-
-[![Join the chat at https://gitter.im/MarcinWieczorek/NovaGuilds](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MarcinWieczorek/NovaGuilds?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)

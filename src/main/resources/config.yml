@@ -153,13 +153,13 @@ groups:
     items:
      - dirt 1
 
-    region:
-     #size (radius) of auto created region (5 = 10x10)
-     autoregionsize: 5
-     #create price
-     create: 100
-     #price per block
-     ppb: 1
+  region:
+   #size (radius) of auto created region (5 = 10x10)
+   autoregionsize: 5
+   #create price
+   createmoney: 100
+   #price per block
+   ppb: 1
 
 bank:
  enabled: false
@@ -168,7 +168,7 @@ bank:
  hologram:
   enabled: false
   lines:
-   - [ITEM]GOLD_INGOT 1
+   - "[ITEM]GOLD_INGOT 1"
    - "&6Guild's Bank"
 
 region:

@@ -73,11 +73,16 @@ public class RegionManager {
 			}
 		}
 		else {
+			if(plugin.getConnection() == null) {
+				plugin.info("[RegionManager] Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			plugin.mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.c.createStatement();
+				statement = plugin.getConnection().createStatement();
 
 				regions.clear();
 				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions`");
@@ -124,11 +129,16 @@ public class RegionManager {
 			plugin.getFlatDataManager().addRegion(region);
 		}
 		else {
+			if(plugin.getConnection() == null) {
+				plugin.info("[RegionManager] Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			plugin.mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.c.createStatement();
+				statement = plugin.getConnection().createStatement();
 
 				String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
 				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
@@ -163,10 +173,15 @@ public class RegionManager {
 					plugin.getFlatDataManager().saveRegion(region);
 				}
 				else {
+					if(plugin.getConnection() == null) {
+						plugin.info("[RegionManager] Connection is not estabilished, stopping current action");
+						return;
+					}
+
 					plugin.mysqlReload();
 					Statement statement;
 					try {
-						statement = plugin.c.createStatement();
+						statement = plugin.getConnection().createStatement();
 
 						String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
 						String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
@@ -203,10 +218,15 @@ public class RegionManager {
 			plugin.getFlatDataManager().deleteRegion(region);
 		}
 		else {
+			if(plugin.getConnection() == null) {
+				plugin.info("[RegionManager] Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			plugin.mysqlReload();
 
 			try {
-				Statement statement = plugin.c.createStatement();
+				Statement statement = plugin.getConnection().createStatement();
 
 				String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`='" + region.getGuildName() + "'";
 				statement.executeUpdate(sql);
@@ -229,7 +249,7 @@ public class RegionManager {
 			boolean remove = false;
 
 			if(region.getGuild() == null) {
-				plugin.info("[RegionManager] ("+region.getGuildName()+") Guild is null");
+				plugin.info("[RegionManager] ("+region.getGuildName() + ") Guild is null");
 				remove = true;
 			}
 
@@ -285,10 +305,6 @@ public class RegionManager {
 		
 		return dif_x * dif_z;
 	}
-
-	public int checkRegionSize(NovaRegion region) {
-		return checkRegionSize(region.getCorner(0),region.getCorner(1));
-	}
 	
 	public List<NovaRegion> getRegionsInsideArea(Location l1, Location l2) {
 		ArrayList<NovaRegion> list = new ArrayList<>();
@@ -342,10 +358,7 @@ public class RegionManager {
 		if(nPlayer == null)
 			return true;
 
-		if(!nPlayer.hasGuild())
-			return false;
-
-		return nPlayer.getBypass() || region.getGuild().isMember(nPlayer);
+		return nPlayer.hasGuild() && (nPlayer.getBypass() || region.getGuild().isMember(nPlayer));
 
 	}
 
@@ -415,7 +428,7 @@ public class RegionManager {
 		//TODO add config
 		if(nPlayer.hasGuild()) {
 			if(!nPlayer.getGuild().getName().equalsIgnoreCase(region.getGuildName())) {
-				NovaGuild guildDefender = plugin.getGuildManager().getGuildByRegion(region);
+				NovaGuild guildDefender = region.getGuild();
 
 				//RAIDS
 				if(nPlayer.getGuild().isWarWith(guildDefender)) {
@@ -440,7 +453,7 @@ public class RegionManager {
 				}
 
 				//TODO: notify
-				plugin.getMessageManager().broadcastGuild(plugin.getGuildManager().getGuildByRegion(region), "chat.region.notifyguild.entered", vars,true);
+				plugin.getMessageManager().broadcastGuild(region.getGuild(), "chat.region.notifyguild.entered", vars,true);
 			}
 		}
 	}

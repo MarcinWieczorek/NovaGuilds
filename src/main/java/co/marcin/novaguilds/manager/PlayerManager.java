@@ -59,11 +59,16 @@ public class PlayerManager {
 				plugin.getFlatDataManager().savePlayer(nPlayer);
 			}
 			else {
+				if(plugin.getConnection() == null) {
+					plugin.info("[PlayerManager] Connection is not estabilished, stopping current action");
+					return;
+				}
+
 				plugin.mysqlReload();
 
 				Statement statement;
 				try {
-					statement = plugin.c.createStatement();
+					statement = plugin.getConnection().createStatement();
 
 					String guildname = "";
 					if(nPlayer.hasGuild()) {
@@ -98,6 +103,7 @@ public class PlayerManager {
 	
 	//load
 	public void loadPlayers() {
+		players.clear();
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			for(String playerName : plugin.getFlatDataManager().getPlayerList()) {
 				FileConfiguration playerData = plugin.getFlatDataManager().getPlayerData(playerName);
@@ -112,11 +118,16 @@ public class PlayerManager {
 			}
 		}
 		else {
+			if(plugin.getConnection() == null) {
+				plugin.info("[PlayerManager] Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			plugin.mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.c.createStatement();
+				statement = plugin.getConnection().createStatement();
 
 				players.clear();
 				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`");
@@ -140,11 +151,15 @@ public class PlayerManager {
 			plugin.getFlatDataManager().addPlayer(nPlayer);
 		}
 		else {
+			if(plugin.getConnection() == null) {
+				plugin.info("[PlayerManager] Connection is not estabilished, stopping current action");
+				return;
+			}
 			plugin.mysqlReload();
 			Statement statement;
 
 			try {
-				statement = plugin.c.createStatement();
+				statement = plugin.getConnection().createStatement();
 
 				UUID uuid = player.getUniqueId();
 				String playername = player.getName();

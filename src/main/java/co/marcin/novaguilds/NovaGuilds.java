@@ -8,10 +8,7 @@ import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
-import co.marcin.novaguilds.util.NumberUtils;
-import co.marcin.novaguilds.util.RegionUtils;
-import co.marcin.novaguilds.util.StringUtils;
-import co.marcin.novaguilds.util.TagUtils;
+import co.marcin.novaguilds.util.*;
 import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -19,11 +16,9 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -76,52 +71,24 @@ public class NovaGuilds extends JavaPlugin {
 
 	//Database
 	private MySQL MySQL;
-	public Connection c = null;
+	private Connection connection = null;
 
 	public void onEnable() {
 		inst = this;
 
 		//managers
-		commandManager = new CustomCommandManager(this);
 		configManager = new ConfigManager(this);
+		info("[ConfigManager] Enabled");
+		commandManager = new CustomCommandManager(this);
+		info("[CommandManager] Enabled");
 		groupManager = new GroupManager(this);
+		info("[GroupManager] Enabled");
 
 		tagUtils = new TagUtils(this);
 
-		//HolographicDisplays
-		if(getConfigManager().useHolographicDisplays()) {
-			if(!checkHolographicDisplays()) {
-				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find HolographicDisplays plugin, disabling this feature.");
-				getConfigManager().disableHolographicDisplays();
-			}
-			else {
-				info("HolographicDisplays hooked");
-			}
-		}
-		
-		//Vault Economy
-		if(!checkVault()) {
-			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Disabled due to no Vault dependency found!");
+		if(!checkDependencies()) {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
-		}
-		info("Vault hooked");
-
-		if(!setupEconomy()) {
-			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Could not setup Vault's economy, disabling");
-			getServer().getPluginManager().disablePlugin(this);
-			return;
-		}
-		info("Vault's Economy hooked");
-
-		//BarAPI
-		if(getConfigManager().useBarAPI()) {
-			if(!checkBarAPI()) {
-				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find BarAPI plugin, disabling this feature.");
-				getConfigManager().disableBarAPI();
-			} else {
-				info("BarAPI hooked");
-			}
 		}
 		
 		if(!getMessageManager().loadMessages()) {
@@ -132,44 +99,7 @@ public class NovaGuilds extends JavaPlugin {
 		info("Messages loaded");
         
 		//Version check
-        String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
-        info("You're using build: #"+pdf.getVersion());
-        info("Latest stable build of the plugin is: #"+latest);
-
-		int latestint = 0;
-		if(NumberUtils.isNumeric(latest)) {
-			latestint = Integer.parseInt(latest);
-		}
-
-		int version = 0;
-		if(NumberUtils.isNumeric(pdf.getVersion())) {
-			version = Integer.parseInt(pdf.getVersion());
-		}
-
-        if(version == latestint) {
-        	info("Your plugin build is the latest stable one");
-        }
-        else if(version > latestint) {
-	        String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
-	        int devVersion = 0;
-	        if(NumberUtils.isNumeric(dev)) {
-		        devVersion = Integer.parseInt(dev);
-	        }
-
-	        if(version > devVersion) {
-		        info("You are using unreleased build #" + version);
-	        }
-	        else if(version == devVersion) {
-		        info("You're using latest development build");
-	        }
-	        else {
-		        info("Why the hell are you using outdated dev build?");
-	        }
-        }
-        else {
-        	info("You should update your plugin to #"+latest+"!");
-			updateAvailable = true;
-        }
+        checkVersion();
 
 		try {
 			if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
@@ -178,18 +108,18 @@ public class NovaGuilds extends JavaPlugin {
 
 			if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
 				MySQL = new MySQL(this, getConfig().getString("mysql.host") , getConfig().getString("mysql.port"), getConfig().getString("mysql.database"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"));
-				c = MySQL.openConnection();
+				connection = MySQL.openConnection();
 				info("Connected to MySQL database");
 			}
 			else if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
 				SQLite sqlite = new SQLite(this, "sqlite.db");
-				c = sqlite.openConnection();
+				connection = sqlite.openConnection();
 				info("Connected to SQLite database");
 			}
 
 			//Tables setup
 			if(getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
-				DatabaseMetaData md = c.getMetaData();
+				DatabaseMetaData md = connection.getMetaData();
 				ResultSet rs = md.getTables(null, null, getConfigManager().getDatabasePrefix() + "%", null);
 				if(!rs.next()) {
 					info("Couldn't find tables in the base. Creating...");
@@ -297,22 +227,25 @@ public class NovaGuilds extends JavaPlugin {
 		
 		for(Player p : getServer().getOnlinePlayers()) {
 			NovaPlayer nPlayer = getPlayerManager().getPlayer(p);
-			Location l1 = nPlayer.getSelectedLocation(0);
-			Location l2 = nPlayer.getSelectedLocation(1);
-			
-			if(l1 != null && l2 != null) {
-				RegionUtils.sendSquare(p, l1, l2, null, (byte)-1);
-				RegionUtils.resetCorner(p, l1);
-				RegionUtils.resetCorner(p, l2);
 
-				if(nPlayer.getSelectedRegion() != null) {
-					RegionUtils.highlightRegion(p,nPlayer.getSelectedRegion(),null);
+			if(nPlayer != null) {
+				Location l1 = nPlayer.getSelectedLocation(0);
+				Location l2 = nPlayer.getSelectedLocation(1);
+
+				if(l1 != null && l2 != null) {
+					RegionUtils.sendSquare(p, l1, l2, null, (byte) -1);
+					RegionUtils.resetCorner(p, l1);
+					RegionUtils.resetCorner(p, l2);
+
+					if(nPlayer.getSelectedRegion() != null) {
+						RegionUtils.highlightRegion(p, nPlayer.getSelectedRegion(), null);
+					}
 				}
 			}
 		}
 
 		//getConfigManager().disable();
-		info("#"+pdf.getVersion()+" Disabled");
+		info("#" + pdf.getVersion() + " Disabled");
 	}
 
 	public static NovaGuilds getInst() {
@@ -327,7 +260,7 @@ public class NovaGuilds extends JavaPlugin {
 	    	try {
 				MySQL.closeConnection();
 				try {
-					c = MySQL.openConnection();
+					connection = MySQL.openConnection();
 					info("MySQL reconnected");
 					MySQLReconnectStamp = System.currentTimeMillis();
 				}
@@ -426,7 +359,7 @@ public class NovaGuilds extends JavaPlugin {
 		mysqlReload();
 		Statement statement;
 		sql = StringUtils.replace(sql, "{SQLPREFIX}", getConfigManager().getDatabasePrefix());
-		statement = c.createStatement();
+		statement = connection.createStatement();
 		statement.executeUpdate(sql);
 	}
 	
@@ -507,31 +440,45 @@ public class NovaGuilds extends JavaPlugin {
 		}
 	}
 
-	//TODO name from lang
 	public boolean isBankItemStack(ItemStack itemStack) {
-		return itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName().contains("Guild's Bank") && itemStack.getType()==Material.CHEST;
+		return itemStack.equals(getConfigManager().getGuildBankItem());
+		//return itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName().contains("Guild's Bank") && itemStack.getType()==Material.CHEST;
 	}
 
 	public void appendBankHologram(NovaGuild guild) {
 		if(getConfigManager().useHolographicDisplays()) {
-			Location hologramLocation = guild.getBankLocation().clone();
+			if(getConfigManager().isGuildBankHologramEnabled()) {
+				if(guild.getBankHologram() == null) {
+					Location hologramLocation = guild.getBankLocation().clone();
 
-			double x = hologramLocation.getX()>0 ? -0.5 : 0.5;
-			double z = hologramLocation.getZ()>0 ? 0.5 : -0.5;;
+					double x = hologramLocation.getX() > 0 ? -0.5 : 0.5;
+					double z = hologramLocation.getZ() > 0 ? 0.5 : -0.5;
+					;
 
-			hologramLocation.add(x,2,z);
-			Hologram hologram = HologramsAPI.createHologram(this,hologramLocation);
-			hologram.appendItemLine(new ItemStack(Material.GOLD_INGOT, 1));
-			hologram.appendTextLine("Guild's Bank");
-			guild.setBankHologram(hologram);
-		}
-		else {
-			debug("HD is disabled");
+					hologramLocation.add(x, 2, z);
+					Hologram hologram = HologramsAPI.createHologram(this, hologramLocation);
+					for(String hologramLine : getConfigManager().getGuildBankHologramLines()) {
+						if(hologramLine.startsWith("[ITEM]")) {
+							hologramLine = hologramLine.substring(6);
+							debug(hologramLine);
+							ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
+							if(itemStack != null) {
+								hologram.appendItemLine(itemStack);
+							}
+						}
+						else {
+							hologram.appendTextLine(StringUtils.fixColors(hologramLine));
+						}
+					}
+
+					guild.setBankHologram(hologram);
+				}
+			}
 		}
 	}
 
 	public boolean isBankBlock(Block block) {
-		if(block.getType()== Material.CHEST) {
+		if(block.getType()== getConfigManager().getGuildBankItem().getType()) {
 			for(NovaGuild guild : getGuildManager().getGuilds()) {
 				if(guild.getBankLocation() != null) {
 					if(guild.getBankLocation().distance(block.getLocation()) < 1) {
@@ -543,19 +490,88 @@ public class NovaGuilds extends JavaPlugin {
 		return false;
 	}
 
-	public ItemStack getBankItemStack(NovaGuild guild) {
-		ItemStack itemStack = new ItemStack(Material.CHEST,1);
-		ItemMeta meta = getServer().getItemFactory().getItemMeta(Material.CHEST);
-		meta.setDisplayName("Guild's Bank");
+	public void checkVersion() {
+		String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
+		info("You're using build: #"+pdf.getVersion());
+		info("Latest stable build of the plugin is: #"+latest);
 
-		List<String> lore = new ArrayList<>();
-		lore.add(StringUtils.fixColors("&6"+guild.getName()));
-		lore.add(StringUtils.fixColors("&cOnly leader can use"));
-		meta.setLore(lore);
+		int latestint = 0;
+		if(NumberUtils.isNumeric(latest)) {
+			latestint = Integer.parseInt(latest);
+		}
 
-		itemStack.setItemMeta(meta);
+		int version = 0;
+		if(NumberUtils.isNumeric(pdf.getVersion())) {
+			version = Integer.parseInt(pdf.getVersion());
+		}
 
-		return itemStack;
+		if(version == latestint) {
+			info("Your plugin build is the latest stable one");
+		}
+		else if(version > latestint) {
+			String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
+			int devVersion = 0;
+			if(NumberUtils.isNumeric(dev)) {
+				devVersion = Integer.parseInt(dev);
+			}
+
+			if(version > devVersion) {
+				info("You are using unreleased build #" + version);
+			}
+			else if(version == devVersion) {
+				info("You're using latest development build");
+			}
+			else {
+				info("Why the hell are you using outdated dev build?");
+			}
+		}
+		else {
+			info("You should update your plugin to #"+latest+"!");
+			updateAvailable = true;
+		}
+	}
+
+	public boolean checkDependencies() {
+		//HolographicDisplays
+		if(getConfigManager().useHolographicDisplays()) {
+			if(!checkHolographicDisplays()) {
+				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find HolographicDisplays plugin, disabling this feature.");
+				getConfigManager().disableHolographicDisplays();
+			}
+			else {
+				info("HolographicDisplays hooked");
+			}
+		}
+
+		//Vault Economy
+		if(!checkVault()) {
+			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Disabled due to no Vault dependency found!");
+			return false;
+		}
+		info("Vault hooked");
+
+		if(!setupEconomy()) {
+			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Could not setup Vault's economy, disabling");
+			return false;
+		}
+		info("Vault's Economy hooked");
+
+		//BarAPI
+		if(getConfigManager().useBarAPI()) {
+			if(!checkBarAPI()) {
+				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find BarAPI plugin, disabling this feature.");
+				getConfigManager().disableBarAPI();
+			}
+			else {
+				info("BarAPI hooked");
+			}
+		}
+
+		return true;
+	}
+
+	public Connection getConnection() {
+		return connection;
 	}
 
 	//Utils

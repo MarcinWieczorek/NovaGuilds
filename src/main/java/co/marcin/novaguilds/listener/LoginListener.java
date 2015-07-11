@@ -56,7 +56,7 @@ public class LoginListener implements Listener {
 			NovaRegion rgAtLocation = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
 
 			if(rgAtLocation != null) {
-				NovaGuild guildAtRegion = plugin.getGuildManager().getGuildByRegion(rgAtLocation);
+				NovaGuild guildAtRegion = rgAtLocation.getGuild();
 
 				List<NovaRaid> raidsTakingPart = plugin.getGuildManager().getRaidsTakingPart(nPlayer.getGuild());
 

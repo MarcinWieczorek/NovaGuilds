@@ -25,12 +25,13 @@ public class InventoryListener implements Listener {
 	public void onInventoryClick(InventoryClickEvent event) {
 		String nameRequiredItems = plugin.getMessageManager().getMessagesString("inventory.requireditems.name");
 		String nameGGUI = plugin.getMessageManager().getMessagesString("inventory.ggui.name");
-		String nameBank = plugin.getMessageManager().getMessagesString("inventory.bank.name");
+		String nameBank = plugin.getConfigManager().getGuildBankItem().getItemMeta().getDisplayName();
 		Player player = (Player) event.getWhoClicked();
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 		//1.8
 		if(event.getClickedInventory() != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
-			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
+			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI) || event.getInventory().getName().equals(nameBank)) {
 				if(event.getClickedInventory().equals(event.getView().getTopInventory()) || event.isShiftClick()) {
 					//gui
 					if(event.getInventory().getTitle().equals(nameGGUI)) {
@@ -41,29 +42,33 @@ public class InventoryListener implements Listener {
 						player.chat("/" + menuCommand);
 						event.setCancelled(true);
 					}
-					else if(event.getInventory().getTitle().equals(nameBank)) {
-						NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-						List<InventoryAction> dissalowedActions = new ArrayList<>();
-						dissalowedActions.add(InventoryAction.CLONE_STACK);
-						dissalowedActions.add(InventoryAction.COLLECT_TO_CURSOR);
-						dissalowedActions.add(InventoryAction.HOTBAR_MOVE_AND_READD);
-						dissalowedActions.add(InventoryAction.HOTBAR_SWAP);
-						dissalowedActions.add(InventoryAction.MOVE_TO_OTHER_INVENTORY);
-						dissalowedActions.add(InventoryAction.PICKUP_ALL);
-						dissalowedActions.add(InventoryAction.PICKUP_HALF);
-						dissalowedActions.add(InventoryAction.PICKUP_ONE);
-						dissalowedActions.add(InventoryAction.PICKUP_SOME);
-						dissalowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
-						dissalowedActions.add(InventoryAction.UNKNOWN);
+					else if(nPlayer.hasGuild()) {
+						plugin.debug(event.getAction().name());
+						plugin.debug(nameBank);
+						plugin.debug(plugin.getConfigManager().getGuildBankItem().toString());
+						if(event.getInventory().getTitle().equals(nameBank)) {
+							List<InventoryAction> dissalowedActions = new ArrayList<>();
+							dissalowedActions.add(InventoryAction.CLONE_STACK);
+							dissalowedActions.add(InventoryAction.COLLECT_TO_CURSOR);
+							dissalowedActions.add(InventoryAction.HOTBAR_MOVE_AND_READD);
+							dissalowedActions.add(InventoryAction.HOTBAR_SWAP);
+							dissalowedActions.add(InventoryAction.MOVE_TO_OTHER_INVENTORY);
+							dissalowedActions.add(InventoryAction.PICKUP_ALL);
+							dissalowedActions.add(InventoryAction.PICKUP_HALF);
+							dissalowedActions.add(InventoryAction.PICKUP_ONE);
+							dissalowedActions.add(InventoryAction.PICKUP_SOME);
+							dissalowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
+							dissalowedActions.add(InventoryAction.UNKNOWN);
 
-						if(!nPlayer.isLeader()) {
-							if(dissalowedActions.contains(event.getAction())) {
-								event.setCancelled(true);
+							if(!nPlayer.isLeader()) {
+								if(dissalowedActions.contains(event.getAction())) {
+									event.setCancelled(true);
+								}
 							}
 						}
-					}
-					else {
-						event.setCancelled(true);
+						else {
+							event.setCancelled(true);
+						}
 					}
 				}
 			}

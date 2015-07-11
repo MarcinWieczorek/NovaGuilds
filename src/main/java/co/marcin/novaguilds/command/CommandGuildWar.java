@@ -36,7 +36,7 @@ public class CommandGuildWar implements CommandExecutor {
 			return true;
 		}
 
-		NovaGuild guild = plugin.getGuildManager().getGuildByPlayer(nPlayer);
+		NovaGuild guild = nPlayer.getGuild();
 
 		if(args.length > 0) { //adding wars and no war invs
 			if(!nPlayer.isLeader()) {

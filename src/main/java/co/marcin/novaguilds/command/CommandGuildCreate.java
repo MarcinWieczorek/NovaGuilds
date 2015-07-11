@@ -110,32 +110,20 @@ public class CommandGuildCreate implements CommandExecutor {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.tooclosespawn", vars);
 			return true;
 		}
+		plugin.debug("It's gone so far");
 
 		//items required
 		List<ItemStack> items = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
-		boolean hasMoney = true;
-
 		double requiredmoney = plugin.getGroupManager().getGroup(sender).getGuildCreateMoney();
 
-		if(requiredmoney>0) {
-			if(plugin.econ.getBalance(player.getName()) < requiredmoney) {
-				hasMoney = false;
-			}
+		if(requiredmoney>0 && plugin.econ.getBalance(player.getName()) < requiredmoney) {
+			String rmmsg = plugin.getMessageManager().getMessagesString("chat.createguild.notenoughmoney");
+			rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", requiredmoney + "");
+			plugin.getMessageManager().sendMessagesMsg(sender, rmmsg);
+			return true;
 		}
 
-		//TODO test
-		boolean hasitems = ItemStackUtils.hasAllRequiredItems(player,items);
-//		if(items.size()>0) {
-//			for(ItemStack item : items) {
-//				//plugin.debug("item: "+item.toString());
-//				if(!inventory.containsAtLeast(item,item.getAmount())) {
-//					//plugin.debug("NO ITEM "+item.getType()+" x"+item.getAmount());
-//					hasitems = false;
-//				}
-//			}
-//		}
-
-		if(!hasitems) {
+		if(!ItemStackUtils.hasAllRequiredItems(player,items)) {
 			String itemlist = "";
 			int i = 0;
 			for(ItemStack missingItemStack : ItemStackUtils.getMissingItems(player,items)) {
@@ -154,14 +142,9 @@ public class CommandGuildCreate implements CommandExecutor {
 			return true;
 		}
 
-		if(!hasMoney) {
-			String rmmsg = plugin.getMessageManager().getMessagesString("chat.createguild.notenoughmoney");
-			rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", requiredmoney + "");
-			plugin.getMessageManager().sendMessagesMsg(sender, rmmsg);
-		}
-
 		RegionValidity regionValid = RegionValidity.VALID;
 		NovaRegion region = null;
+		plugin.debug("It's gone so far");
 
 		//Automatic Region
 		if(plugin.getConfig().getBoolean("region.autoregion")) {
@@ -177,7 +160,7 @@ public class CommandGuildCreate implements CommandExecutor {
 			region.setWorld(playerLocation.getWorld());
 
 			regionValid = plugin.getRegionManager().checkRegionSelect(c1, c2);
-			//plugin.debug(regionValid+"");
+			plugin.debug(regionValid.name());
 		}
 
 		switch(regionValid) {
@@ -195,7 +178,7 @@ public class CommandGuildCreate implements CommandExecutor {
 				newGuild.setMoney(plugin.getConfig().getDouble("guild.startmoney"));
 
 				//fire event
-				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(newGuild);
+				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(newGuild,(Player)sender);
 				plugin.getServer().getPluginManager().callEvent(guildCreateEvent);
 
 				if(!guildCreateEvent.isCancelled()) {
@@ -237,6 +220,9 @@ public class CommandGuildCreate implements CommandExecutor {
 				break;
 			case TOOCLOSE:
 				plugin.getMessageManager().sendMessagesMsg(player, "chat.guild.tooclose");
+				break;
+			default:
+				plugin.debug("Not expected RegionValidity result.");
 				break;
 		}
 		return true;
