@@ -3,7 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
-import co.marcin.novaguilds.event.GuildRemoveEvent;
+import co.marcin.novaguilds.event.GuildAbandonEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,12 +30,11 @@ public class CommandAdminGuildAbandonAll implements CommandExecutor {
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			//fire event
-			GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
-			guildRemoveEvent.setCause(AbandonCause.ADMIN_ALL);
-			plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
+			GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.ADMIN_ALL);
+			plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
 
 			//if event is not cancelled
-			if(!guildRemoveEvent.isCancelled()) {
+			if(!guildAbandonEvent.isCancelled()) {
 				//delete guild
 				plugin.getGuildManager().deleteGuild(guild);
 

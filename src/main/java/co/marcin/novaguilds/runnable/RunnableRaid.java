@@ -5,7 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
-import co.marcin.novaguilds.event.GuildRemoveEvent;
+import co.marcin.novaguilds.event.GuildAbandonEvent;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -65,12 +65,11 @@ public class RunnableRaid implements Runnable {
 
 				if(guild.getLives() == 0) {
 					//fire event
-					GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
-					guildRemoveEvent.setCause(AbandonCause.RAID);
-					plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
+					GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.RAID);
+					plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
 
 					//if event is not cancelled
-					if(!guildRemoveEvent.isCancelled()) {
+					if(!guildAbandonEvent.isCancelled()) {
 						vars.put("GUILDNAME", raid.getGuildDefender().getName());
 						plugin.getMessageManager().broadcastMessage("broadcast.guild.destroyed", vars);
 

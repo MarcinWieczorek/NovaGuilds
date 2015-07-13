@@ -1,17 +1,16 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.AbandonCause;
-import co.marcin.novaguilds.event.GuildRemoveEvent;
+import co.marcin.novaguilds.event.GuildAbandonEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import java.util.HashMap;
 
 public class CommandGuildAbandon implements CommandExecutor {
 	private static NovaGuilds plugin;
@@ -32,12 +31,11 @@ public class CommandGuildAbandon implements CommandExecutor {
 			
 			if(nPlayer.isLeader()) { //All passed
 				//fire event
-				GuildRemoveEvent guildRemoveEvent = new GuildRemoveEvent(guild);
-				guildRemoveEvent.setCause(AbandonCause.PLAYER);
-				plugin.getServer().getPluginManager().callEvent(guildRemoveEvent);
+				GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.PLAYER);
+				plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
 
 				//if event is not cancelled
-				if(!guildRemoveEvent.isCancelled()) {
+				if(!guildAbandonEvent.isCancelled()) {
 					plugin.getGuildManager().deleteGuild(guild);
 
 					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.abandoned");

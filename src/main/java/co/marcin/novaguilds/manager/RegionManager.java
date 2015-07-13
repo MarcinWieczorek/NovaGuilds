@@ -394,8 +394,8 @@ public class RegionManager {
 
 	//TODO fix
 	public static Location getCenterLocation(Location l1, Location l2) {
-		int width = Math.abs(l1.getBlockX()-l2.getBlockX());
-		int height = Math.abs(l1.getBlockZ()-l2.getBlockZ());
+		int width = Math.abs(l1.getBlockX() - l2.getBlockX());
+		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ());
 
 		int newx = l1.getBlockX()<0 ? l1.getBlockX()+width/2 : l1.getBlockX()-width/2;
 		int newz = l1.getBlockZ()>0 ? l1.getBlockZ()+height/2 : l1.getBlockZ()-height/2;
@@ -431,24 +431,26 @@ public class RegionManager {
 				NovaGuild guildDefender = region.getGuild();
 
 				//RAIDS
-				if(nPlayer.getGuild().isWarWith(guildDefender)) {
-					if(!guildDefender.isRaid()) {
-						if(NovaGuilds.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
-							guildDefender.createRaid(nPlayer.getGuild());
-							plugin.guildRaids.add(guildDefender);
-						}
-						else {
-							long timeWait = plugin.getConfigManager().getRaidTimeRest() - (NovaGuilds.systemSeconds() - guildDefender.getTimeRest());
-							vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
+				if(plugin.getConfigManager().isRaidEnabled()) {
+					if(nPlayer.getGuild().isWarWith(guildDefender)) {
+						if(!guildDefender.isRaid()) {
+							if(NovaGuilds.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
+								guildDefender.createRaid(nPlayer.getGuild());
+								plugin.guildRaids.add(guildDefender);
+							}
+							else {
+								long timeWait = plugin.getConfigManager().getRaidTimeRest() - (NovaGuilds.systemSeconds() - guildDefender.getTimeRest());
+								vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
 
-							plugin.getMessageManager().sendMessagesMsg(player, "chat.raid.resting", vars);
+								plugin.getMessageManager().sendMessagesMsg(player, "chat.raid.resting", vars);
+							}
 						}
-					}
 
-					if(guildDefender.isRaid()) {
-						guildDefender.getRaid().addPlayerOccupying(nPlayer);
-						Runnable task = new RunnableRaid(plugin);
-						plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+						if(guildDefender.isRaid()) {
+							guildDefender.getRaid().addPlayerOccupying(nPlayer);
+							Runnable task = new RunnableRaid(plugin);
+							plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+						}
 					}
 				}
 

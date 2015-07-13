@@ -44,23 +44,25 @@ Please leave feedback!<br/><br/>
     <li>Guild/Ally chat</li>
     <li>Configurable command names</li>
     <li>Automatic regions</li>
+    <li>Region resizing</li>
+    <li>Banks</li>
 </ul>
 
 <br/>
 <h2><b>Planned features</b></h2>
 <ul>
-    <li>Autoupdate to latest build (?)</li>
+    <li>Auto update to latest build (?)</li>
     <li>Auto update MySQL tables</li>
     <li>Auto update config (?)</li>
     <li>Advanced horse protection</li>
-    <li>Region resizing</li>
     <li>You tell me!</li>
+    <li>VanishNoPacket support</li>
 </ul>
 
 <br/>
 <h2><b>Undocumented features (bugs)</b></h2>
 <ul>
-    <li>Player objects bug sometimes</li>
+    <li>Found any? Github -> issues</li>
 </ul>
 
 <br/>
@@ -142,12 +144,10 @@ Please leave feedback!<br/><br/>
     <tr>
         <td>novaguilds.region.resize</td>
         <td>Resize regions</td>
-        <td>Not implemented</td>
     </tr>
     <tr>
         <td>novaguilds.region.delete</td>
         <td>Delete region</td>
-        <td>Not implemented</td>
     </tr>
     
     <tr>

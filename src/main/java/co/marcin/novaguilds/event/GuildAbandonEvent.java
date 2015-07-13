@@ -6,17 +6,13 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class GuildRemoveEvent extends Event implements Cancellable {
+public class GuildAbandonEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private final NovaGuild guild;
 	private boolean cancelled;
 	private AbandonCause cause;
 
-	public GuildRemoveEvent(NovaGuild guild) {
-		this.guild = guild;
-	}
-
-	public GuildRemoveEvent(NovaGuild guild, AbandonCause cause) {
+	public GuildAbandonEvent(NovaGuild guild, AbandonCause cause) {
 		this.guild = guild;
 		this.cause = cause;
 	}

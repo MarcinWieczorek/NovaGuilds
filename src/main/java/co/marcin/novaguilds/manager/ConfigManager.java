@@ -257,8 +257,4 @@ public class ConfigManager {
 	public void setToPrimaryDataStorageType() {
 		dataStorageType = primaryDataStorageType;
 	}
-
-	public void setGuildBankOnlyLeaderTake(boolean guildBankOnlyLeaderTake) {
-		this.guildBankOnlyLeaderTake = guildBankOnlyLeaderTake;
-	}
 }
