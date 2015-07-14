@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,7 +31,7 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 		int iseconds = StringUtils.StringToSeconds(timeString);
 		long seconds = Long.parseLong(iseconds+"");
 
-		long newtimerest = NovaGuilds.systemSeconds() - (plugin.getConfigManager().getRaidTimeRest() - seconds);
+		long newtimerest = NumberUtils.systemSeconds() - (plugin.getConfigManager().getRaidTimeRest() - seconds);
 		LoggerUtils.debug("new timerest = " + newtimerest);
 		LoggerUtils.debug("add seconds = "+seconds);
 

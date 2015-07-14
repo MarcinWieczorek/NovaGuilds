@@ -1,6 +1,6 @@
 package co.marcin.novaguilds.basic;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.util.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.List;
 public class NovaRaid {
 	private NovaGuild guildAttacker;
 	private NovaGuild guildDefender;
-	private final long startTime = NovaGuilds.systemSeconds();
-	private long inactiveTime = NovaGuilds.systemSeconds();
+	private final long startTime = NumberUtils.systemSeconds();
+	private long inactiveTime = NumberUtils.systemSeconds();
 	private int killsAttacker;
 	private int killsDefender;
 	private int progress;
@@ -103,7 +103,7 @@ public class NovaRaid {
 	}
 
 	public void updateInactiveTime() {
-		inactiveTime = NovaGuilds.systemSeconds();
+		inactiveTime = NumberUtils.systemSeconds();
 	}
 
 	//add/remove

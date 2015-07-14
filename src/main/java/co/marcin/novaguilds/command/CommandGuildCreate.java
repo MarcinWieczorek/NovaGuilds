@@ -33,13 +33,13 @@ public class CommandGuildCreate implements CommandExecutor {
 			return true;
 		}
 
-		if(args.length != 2) {
-			plugin.getMessageManager().sendUsageMessage(sender, "guild.create");
-			return true;
-		}
-		
 		if(!(sender instanceof Player)) {
 			plugin.getMessageManager().sendMessage(sender, "chat.cmdfromconsole");
+			return true;
+		}
+
+		if(args.length != 2) {
+			plugin.getMessageManager().sendUsageMessage(sender, "guild.create");
 			return true;
 		}
 
@@ -111,7 +111,6 @@ public class CommandGuildCreate implements CommandExecutor {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.tooclosespawn", vars);
 			return true;
 		}
-		LoggerUtils.debug("It's gone so far");
 
 		//items required
 		List<ItemStack> items = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
@@ -145,7 +144,6 @@ public class CommandGuildCreate implements CommandExecutor {
 
 		RegionValidity regionValid = RegionValidity.VALID;
 		NovaRegion region = null;
-		LoggerUtils.debug("It's gone so far");
 
 		//Automatic Region
 		if(plugin.getConfig().getBoolean("region.autoregion")) {
@@ -203,6 +201,14 @@ public class CommandGuildCreate implements CommandExecutor {
 						region.setGuild(nPlayer.getGuild());
 						plugin.getRegionManager().addRegion(region, nPlayer.getGuild());
 						LoggerUtils.debug("AutoRegion created!");
+
+						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
+							if(plugin.getRegionManager().getRegionAtLocation(playerCheck.getLocation()) != null) {
+								if(plugin.getRegionManager().getRegionAtLocation(playerCheck.getLocation()).equals(region)) {
+									plugin.getRegionManager().playerEnteredRegion(playerCheck,playerCheck.getLocation());
+								}
+							}
+						}
 					}
 
 					//homefloor

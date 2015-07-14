@@ -53,11 +53,10 @@ public class MessageManager {
 		prefix = messages.getString("chat.prefix");
 		String prefixwospace = StringUtils.replace(prefix," ","");
 		prefixwospace = prefixwospace.substring(prefixwospace.length() - 2);
-		LoggerUtils.debug(prefixwospace);
 		if(prefixwospace.startsWith("&")) {
 			prefixColor = ChatColor.getByChar(prefixwospace.charAt(1));
 		}
-		LoggerUtils.debug(prefixColor.name());
+
 		return true;
 	}
 

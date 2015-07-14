@@ -115,7 +115,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						Statement statement;
 						
 						try {
-							statement = plugin.getConnection().createStatement();
+							statement = plugin.getDatabaseManager().getConnection().createStatement();
 							
 							Player player = (Player)sender;
 							Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());

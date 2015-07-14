@@ -9,8 +9,6 @@ import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.*;
-import code.husky.mysql.MySQL;
-import code.husky.sqlite.SQLite;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
@@ -20,13 +18,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
 import java.io.IOException;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -42,11 +38,8 @@ public class NovaGuilds extends JavaPlugin {
 	* Escape. ~Bukkit.PL
 	* */
 	private static NovaGuilds inst;
-	public final PluginDescriptionFile pdf = this.getDescription();
-	private final PluginManager pm = getServer().getPluginManager();
+	public final PluginDescriptionFile pdf = getDescription();
 	private final int build = Integer.parseInt(getDescription().getVersion());
-	
-	private long MySQLReconnectStamp = System.currentTimeMillis();
 
 	//TODO kickowanie z admina dubluje userow gildii
 	//TODO @up nie wiem czy aktualne
@@ -71,11 +64,15 @@ public class NovaGuilds extends JavaPlugin {
 	public final List<NovaGuild> guildRaids = new ArrayList<>();
 
 	//Database
-	private MySQL MySQL;
-	private Connection connection = null;
+	private DatabaseManager databaseManager;
 
 	public void onEnable() {
 		inst = this;
+
+		if(!getMessageManager().loadMessages()) {
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
 
 		//managers
 		configManager = new ConfigManager(this);
@@ -86,15 +83,11 @@ public class NovaGuilds extends JavaPlugin {
 		LoggerUtils.info("[GroupManager] Enabled");
 
 		tagUtils = new TagUtils(this);
+		databaseManager = new DatabaseManager(this);
 
 		if(!checkDependencies()) {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
-		}
-		
-		if(!getMessageManager().loadMessages()) {
-			getServer().getPluginManager().disablePlugin(this);
-            return;
 		}
 
 		LoggerUtils.info("Messages loaded");
@@ -102,105 +95,63 @@ public class NovaGuilds extends JavaPlugin {
 		//Version check
         checkVersion();
 
-		try {
-			if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-				flatDataManager = new FlatDataManager(this);
-			}
-
-			if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
-				MySQL = new MySQL(this, getConfig().getString("mysql.host") , getConfig().getString("mysql.port"), getConfig().getString("mysql.database"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"));
-				connection = MySQL.openConnection();
-				LoggerUtils.info("Connected to MySQL database");
-			}
-
-			if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
-				SQLite sqlite = new SQLite(this, "sqlite.db");
-				connection = sqlite.openConnection();
-				LoggerUtils.info("Connected to SQLite database");
-			}
-
-			//Tables setup
-			if(getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
-				DatabaseMetaData md = connection.getMetaData();
-				ResultSet rs = md.getTables(null, null, getConfigManager().getDatabasePrefix() + "%", null);
-				if(!rs.next()) {
-					LoggerUtils.info("Couldn't find tables in the base. Creating...");
-					String[] SQLCreateCode = getSQLCreateCode();
-					if(SQLCreateCode.length != 0) {
-						try {
-							for(String tableCode : SQLCreateCode) {
-								createTable(tableCode);
-								LoggerUtils.info("Tables added to the database!");
-							}
-						}
-						catch(SQLException e) {
-							LoggerUtils.exception(e);
-							LoggerUtils.info("Could not create tables. Disabling");
-							getServer().getPluginManager().disablePlugin(this);
-							return;
-						}
-					}
-					else {
-						LoggerUtils.info("Couldn't find SQL create code for tables!");
-						getServer().getPluginManager().disablePlugin(this);
-						return;
-					}
-				}
-				else {
-					LoggerUtils.info("No database config required.");
-				}
-			}
-			
-			//Data loading
-			getRegionManager().loadRegions();
-			LoggerUtils.info("Regions data loaded");
-			getGuildManager().loadGuilds();
-			LoggerUtils.info("Guilds data loaded");
-			getPlayerManager().loadPlayers();
-			LoggerUtils.info("Players data loaded");
-
-			LoggerUtils.info("Post checks running");
-			getGuildManager().postCheckGuilds();
-			getRegionManager().postCheckRegions();
-			
-			//Listeners
-			new LoginListener(this);
-			new ToolListener(this);
-			new RegionInteractListener(this);
-			new MoveListener(this);
-			new ChatListener(this);
-			new PvpListener(this);
-			new DeathListener(this);
-			new InventoryListener(this);
-
-			//Tablist/tag update
-			tagUtils.refreshAll();
-			
-			//save scheduler
-			runSaveScheduler();
-			LoggerUtils.info("Save scheduler is running");
-
-			//live regeneration task
-			runLiveRegenerationTask();
-			LoggerUtils.info("Live regeneration task is running");
-
-			//metrics
-			setupMetrics();
-
-			//Notify admins if there's an update (only for reload)
-			if(updateAvailable) {
-				getMessageManager().broadcastMessageForPermitted("chat.update","novaguilds.admin.updateavailable");
-			}
-
-			LoggerUtils.info("#"+pdf.getVersion()+" Enabled");
+		if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
+			flatDataManager = new FlatDataManager(this);
 		}
-		catch (SQLException e) {
-			LoggerUtils.exception(e);
-			pm.disablePlugin(this);
+
+		if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
+			databaseManager.connectToMysql();
 		}
-		catch (ClassNotFoundException e) {
-			LoggerUtils.exception(e);
+
+		if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
+			databaseManager.connectToSQLite();
 		}
+
+		//Tables setup
+		databaseManager.setupTables();
+
+		//Data loading
+		getRegionManager().loadRegions();
+		LoggerUtils.info("Regions data loaded");
+		getGuildManager().loadGuilds();
+		LoggerUtils.info("Guilds data loaded");
+		getPlayerManager().loadPlayers();
+		LoggerUtils.info("Players data loaded");
+
+		LoggerUtils.info("Post checks running");
+		getGuildManager().postCheckGuilds();
+		getRegionManager().postCheckRegions();
+
+		//Listeners
+		new LoginListener(this);
+		new ToolListener(this);
+		new RegionInteractListener(this);
+		new MoveListener(this);
+		new ChatListener(this);
+		new PvpListener(this);
+		new DeathListener(this);
+		new InventoryListener(this);
+
+		//Tablist/tag update
+		tagUtils.refreshAll();
+
+		//save scheduler
+		runSaveScheduler();
+		LoggerUtils.info("Save scheduler is running");
+
+		//live regeneration task
+		runLiveRegenerationTask();
+		LoggerUtils.info("Live regeneration task is running");
+
+		//metrics
+		setupMetrics();
+
+		//Notify admins if there's an update (only for reload)
+		if(updateAvailable) {
+			getMessageManager().broadcastMessageForPermitted("chat.update","novaguilds.admin.updateavailable");
+		}
+
+		LoggerUtils.info("#"+pdf.getVersion()+" Enabled");
 	}
 	
 	public void onDisable() {
@@ -253,34 +204,6 @@ public class NovaGuilds extends JavaPlugin {
 		return inst;
 	}
 	
-	public void mysqlReload() {
-		if(getConfigManager().getDataStorageType() != DataStorageType.MYSQL) return;
-		long stamp = System.currentTimeMillis();
-		
-		if(stamp-MySQLReconnectStamp > 3000) {
-	    	try {
-				MySQL.closeConnection();
-				try {
-					connection = MySQL.openConnection();
-					LoggerUtils.info("MySQL reconnected");
-					MySQLReconnectStamp = System.currentTimeMillis();
-				}
-				catch (ClassNotFoundException e) {
-					LoggerUtils.exception(e);
-				}
-			}
-	    	catch (SQLException e1) {
-			    LoggerUtils.exception(e1);
-			}
-		}
-    }
-
-//	public void debug(String msg) {
-//		if(getConfigManager().isDebugEnabled()) {
-//			ConfigManager.getLogger().info(getConfigManager().getLogPrefix() + "[DEBUG] " + msg);
-//		}
-//	}
-	
 	//Managers
 	public GuildManager getGuildManager() {
 		return guildManager;
@@ -314,6 +237,10 @@ public class NovaGuilds extends JavaPlugin {
 		return flatDataManager;
 	}
 
+	public DatabaseManager getDatabaseManager() {
+		return databaseManager;
+	}
+
 	//Vault economy
 	private boolean setupEconomy() {
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
@@ -341,25 +268,6 @@ public class NovaGuilds extends JavaPlugin {
 		return getServer().getPluginManager().getPlugin("HolographicDisplays") != null;
 	}
 	
-	//true=mysql, false=sqlite
-	private String[] getSQLCreateCode() {
-		int index = getConfigManager().getDataStorageType()==DataStorageType.MYSQL ? 0 : 1;
-
-		String url = "http://novaguilds.marcin.co/sqltables.txt";
-		String sql = StringUtils.getContent(url);
-		
-		String[] types = sql.split("--TYPE--");
-		return types[index].split("--");
-	}
-	
-	private void createTable(String sql) throws SQLException {
-		mysqlReload();
-		Statement statement;
-		sql = StringUtils.replace(sql, "{SQLPREFIX}", getConfigManager().getDatabasePrefix());
-		statement = connection.createStatement();
-		statement.executeUpdate(sql);
-	}
-	
 	public void runSaveScheduler() {
 		Runnable task = new RunnableAutoSave(this);
 		worker.schedule(task, getConfigManager().getSaveInterval(), TimeUnit.SECONDS);
@@ -371,36 +279,29 @@ public class NovaGuilds extends JavaPlugin {
 	}
 
 	private void setupMetrics() {
-		if(checkVault()) {
-			try {
-				Metrics metrics = new Metrics(this);
-				Metrics.Graph weaponsUsedGraph = metrics.createGraph("Guilds and users");
+		try {
+			Metrics metrics = new Metrics(this);
+			Metrics.Graph weaponsUsedGraph = metrics.createGraph("Guilds and users");
 
-				weaponsUsedGraph.addPlotter(new Metrics.Plotter("Guilds") {
-					@Override
-					public int getValue() {
-						return getGuildManager().getGuilds().size();
-					}
+			weaponsUsedGraph.addPlotter(new Metrics.Plotter("Guilds") {
+				@Override
+				public int getValue() {
+					return getGuildManager().getGuilds().size();
+				}
+			});
 
-				});
+			weaponsUsedGraph.addPlotter(new Metrics.Plotter("Users") {
+				@Override
+				public int getValue() {
+					return getPlayerManager().getPlayers().size();
+				}
+			});
 
-				weaponsUsedGraph.addPlotter(new Metrics.Plotter("Users") {
-					@Override
-					public int getValue() {
-						return getPlayerManager().getPlayers().size();
-					}
-
-				});
-
-				metrics.start();
-			}
-			catch(IOException e) {
-				LoggerUtils.info("Failed to update stats!");
-				LoggerUtils.info(e.getMessage());
-			}
+			metrics.start();
 		}
-		else {
-			LoggerUtils.info("Vault is not enabled, failed to setup Metrics");
+		catch(IOException e) {
+			LoggerUtils.info("Failed to update stats!");
+			LoggerUtils.info(e.getMessage());
 		}
 	}
 
@@ -413,6 +314,7 @@ public class NovaGuilds extends JavaPlugin {
 				BarAPI.setMessage(player, StringUtils.fixColors(msg), percent);
 			}
 			else {
+				//TODO
 				getMessageManager().sendPrefixMessage(player,msg);
 			}
 		}
@@ -450,7 +352,6 @@ public class NovaGuilds extends JavaPlugin {
 
 					double x = hologramLocation.getX() > 0 ? -0.5 : 0.5;
 					double z = hologramLocation.getZ() > 0 ? 0.5 : -0.5;
-					;
 
 					hologramLocation.add(x, 2, z);
 					Hologram hologram = HologramsAPI.createHologram(this, hologramLocation);
@@ -567,16 +468,9 @@ public class NovaGuilds extends JavaPlugin {
 		return true;
 	}
 
-	public Connection getConnection() {
-		return connection;
-	}
-
 	public int getBuild() {
 		return build;
 	}
 
 	//Utils
-	public static long systemSeconds() {
-		return System.currentTimeMillis() / 1000;
-	}
 }

@@ -3,6 +3,7 @@ package co.marcin.novaguilds.runnable;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +22,7 @@ public class RunnableInactiveCleaner implements Runnable {
 
 	public void run() {
 		for(NovaGuild guild : plugin.getGuildManager().getMostInactiveGuilds()) {
-			if(NovaGuilds.systemSeconds()-guild.getInactiveTime() < plugin.getConfigManager().getCleanupInactiveTime()) {
+			if(NumberUtils.systemSeconds()-guild.getInactiveTime() < plugin.getConfigManager().getCleanupInactiveTime()) {
 				break;
 			}
 

@@ -30,7 +30,7 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 		}
 
 		if(args.length != 1) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.usage.nga.guild.bank.pay");
+			plugin.getMessageManager().sendUsageMessage(sender,"nga.guild.bank.pay");
 			return true;
 		}
 

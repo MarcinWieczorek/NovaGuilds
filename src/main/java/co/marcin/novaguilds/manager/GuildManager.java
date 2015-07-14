@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -93,16 +94,16 @@ public class GuildManager {
 			}
 		}
 		else {
-			if(plugin.getConnection() == null) {
+			if(plugin.getDatabaseManager().getConnection() == null) {
 				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
-			plugin.mysqlReload();
+			plugin.getDatabaseManager().mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.getConnection().createStatement();
+				statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`");
 				while(res.next()) {
@@ -224,12 +225,12 @@ public class GuildManager {
 			guilds.put(guild.getName().toLowerCase(), guild);
 		}
 		else {
-			if(plugin.getConnection() == null) {
+			if(plugin.getDatabaseManager().getConnection() == null) {
 				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
-			plugin.mysqlReload();
+			plugin.getDatabaseManager().mysqlReload();
 
 			try {
 				String spawnpointcoords = "";
@@ -240,7 +241,7 @@ public class GuildManager {
 				//adding to MySQL
 				//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive,bankloc
 				String pSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
-				PreparedStatement preparedStatement = plugin.getConnection().prepareStatement(pSQL, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement preparedStatement = plugin.getDatabaseManager().getConnection().prepareStatement(pSQL, Statement.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1, guild.getTag()); //tag
 				preparedStatement.setString(2, guild.getName()); //name
 				preparedStatement.setString(3, guild.getLeader().getName()); //leader
@@ -254,7 +255,6 @@ public class GuildManager {
 				int id = 0;
 				if(keys.next()) {
 					id = keys.getInt(1);
-					LoggerUtils.debug("id=" + id);
 				}
 
 				if(id > 0) {
@@ -278,15 +278,15 @@ public class GuildManager {
 				plugin.getFlatDataManager().saveGuild(guild);
 			}
 			else {
-				if(plugin.getConnection() == null) {
+				if(plugin.getDatabaseManager().getConnection() == null) {
 					LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 					return;
 				}
 
-				plugin.mysqlReload();
+				plugin.getDatabaseManager().mysqlReload();
 
 				try {
-					Statement statement = plugin.getConnection().createStatement();
+					Statement statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 					String spawnpointcoords = "";
 					if(guild.getSpawnPoint() != null) {
@@ -386,16 +386,16 @@ public class GuildManager {
 			plugin.getFlatDataManager().deleteGuild(guild);
 		}
 		else {
-			if(plugin.getConnection() == null) {
+			if(plugin.getDatabaseManager().getConnection() == null) {
 				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
-			plugin.mysqlReload();
+			plugin.getDatabaseManager().mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.getConnection().createStatement();
+				statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 				//delete from database
 				String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` WHERE `id`=" + guild.getId();
@@ -616,7 +616,7 @@ public class GuildManager {
 
 		Collections.sort(guildsByInactive, new Comparator<NovaGuild>() {
 			public int compare(NovaGuild o1, NovaGuild o2) {
-				return (int)(NovaGuilds.systemSeconds()-o2.getInactiveTime()) - (int)(NovaGuilds.systemSeconds()-o1.getInactiveTime());
+				return (int)(NumberUtils.systemSeconds()-o2.getInactiveTime()) - (int)(NumberUtils.systemSeconds()-o1.getInactiveTime());
 			}
 		});
 

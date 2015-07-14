@@ -2,6 +2,7 @@ package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -278,17 +279,17 @@ public class NovaGuild {
 	}
 
 	public void updateTimeRest() {
-		timeRest = NovaGuilds.systemSeconds();
+		timeRest = NumberUtils.systemSeconds();
 		changed();
 	}
 
 	public void updateLostLive() {
-		lostLiveTime = NovaGuilds.systemSeconds();
+		lostLiveTime = NumberUtils.systemSeconds();
 		changed();
 	}
 
 	public void updateInactiveTime() {
-		inactiveTime = NovaGuilds.systemSeconds();
+		inactiveTime = NumberUtils.systemSeconds();
 		changed();
 	}
 

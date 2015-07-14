@@ -7,6 +7,7 @@ import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +44,7 @@ public class RunnableRaid implements Runnable {
 
 			//TODO: can be done better
 			//TODO: not working at all
-			if(NovaGuilds.systemSeconds() - raid.getInactiveTime() > plugin.getConfigManager().getRaidTimeInactive()) {
+			if(NumberUtils.systemSeconds() - raid.getInactiveTime() > plugin.getConfigManager().getRaidTimeInactive()) {
 				raid.finish();
 				LoggerUtils.debug("inactive for 10 seconds, removing.");
 				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.defenderwon", vars);

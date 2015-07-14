@@ -60,16 +60,16 @@ public class PlayerManager {
 				plugin.getFlatDataManager().savePlayer(nPlayer);
 			}
 			else {
-				if(plugin.getConnection() == null) {
+				if(plugin.getDatabaseManager().getConnection() == null) {
 					LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 					return;
 				}
 
-				plugin.mysqlReload();
+				plugin.getDatabaseManager().mysqlReload();
 
 				Statement statement;
 				try {
-					statement = plugin.getConnection().createStatement();
+					statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 					String guildname = "";
 					if(nPlayer.hasGuild()) {
@@ -119,16 +119,16 @@ public class PlayerManager {
 			}
 		}
 		else {
-			if(plugin.getConnection() == null) {
+			if(plugin.getDatabaseManager().getConnection() == null) {
 				LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
-			plugin.mysqlReload();
+			plugin.getDatabaseManager().mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.getConnection().createStatement();
+				statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 				players.clear();
 				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`");
@@ -152,19 +152,19 @@ public class PlayerManager {
 			plugin.getFlatDataManager().addPlayer(nPlayer);
 		}
 		else {
-			if(plugin.getConnection() == null) {
+			if(plugin.getDatabaseManager().getConnection() == null) {
 				LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 				return;
 			}
-			plugin.mysqlReload();
+			plugin.getDatabaseManager().mysqlReload();
 			Statement statement;
 
 			try {
-				statement = plugin.getConnection().createStatement();
+				statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 				UUID uuid = player.getUniqueId();
 				String playername = player.getName();
-
+				//TODO prepared
 				statement.executeUpdate("INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'" + uuid + "','" + playername + "','','')");
 			}
 			catch(SQLException e) {

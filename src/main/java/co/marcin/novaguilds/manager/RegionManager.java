@@ -8,6 +8,7 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Effect;
@@ -74,16 +75,16 @@ public class RegionManager {
 			}
 		}
 		else {
-			if(plugin.getConnection() == null) {
+			if(plugin.getDatabaseManager().getConnection() == null) {
 				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
-			plugin.mysqlReload();
+			plugin.getDatabaseManager().mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.getConnection().createStatement();
+				statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 				regions.clear();
 				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions`");
@@ -130,16 +131,16 @@ public class RegionManager {
 			plugin.getFlatDataManager().addRegion(region);
 		}
 		else {
-			if(plugin.getConnection() == null) {
+			if(plugin.getDatabaseManager().getConnection() == null) {
 				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
-			plugin.mysqlReload();
+			plugin.getDatabaseManager().mysqlReload();
 
 			Statement statement;
 			try {
-				statement = plugin.getConnection().createStatement();
+				statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 				String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
 				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
@@ -174,15 +175,15 @@ public class RegionManager {
 					plugin.getFlatDataManager().saveRegion(region);
 				}
 				else {
-					if(plugin.getConnection() == null) {
+					if(plugin.getDatabaseManager().getConnection() == null) {
 						LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 						return;
 					}
 
-					plugin.mysqlReload();
+					plugin.getDatabaseManager().mysqlReload();
 					Statement statement;
 					try {
-						statement = plugin.getConnection().createStatement();
+						statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 						String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
 						String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
@@ -219,15 +220,15 @@ public class RegionManager {
 			plugin.getFlatDataManager().deleteRegion(region);
 		}
 		else {
-			if(plugin.getConnection() == null) {
+			if(plugin.getDatabaseManager().getConnection() == null) {
 				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
-			plugin.mysqlReload();
+			plugin.getDatabaseManager().mysqlReload();
 
 			try {
-				Statement statement = plugin.getConnection().createStatement();
+				Statement statement = plugin.getDatabaseManager().getConnection().createStatement();
 
 				String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`='" + region.getGuildName() + "'";
 				statement.executeUpdate(sql);
@@ -435,12 +436,12 @@ public class RegionManager {
 				if(plugin.getConfigManager().isRaidEnabled()) {
 					if(nPlayer.getGuild().isWarWith(guildDefender)) {
 						if(!guildDefender.isRaid()) {
-							if(NovaGuilds.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
+							if(NumberUtils.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
 								guildDefender.createRaid(nPlayer.getGuild());
 								plugin.guildRaids.add(guildDefender);
 							}
 							else {
-								long timeWait = plugin.getConfigManager().getRaidTimeRest() - (NovaGuilds.systemSeconds() - guildDefender.getTimeRest());
+								long timeWait = plugin.getConfigManager().getRaidTimeRest() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 								vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
 
 								plugin.getMessageManager().sendMessagesMsg(player, "chat.raid.resting", vars);

@@ -30,7 +30,7 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 		}
 
 		if(args.length != 1) { //invalid arguments
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.usage.nga.guild.bank.withdraw");
+			plugin.getMessageManager().sendUsageMessage(sender,"nga.guild.bank.withdraw");
 			return true;
 		}
 

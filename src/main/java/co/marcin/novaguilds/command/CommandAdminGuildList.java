@@ -76,7 +76,7 @@ public class CommandAdminGuildList implements CommandExecutor {
 			}
 
 			if(display) {
-				String inactiveString = StringUtils.secondsToString(NovaGuilds.systemSeconds()-guild.getInactiveTime());
+				String inactiveString = StringUtils.secondsToString(NumberUtils.systemSeconds()-guild.getInactiveTime());
 
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
