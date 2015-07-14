@@ -7,6 +7,7 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -110,7 +111,7 @@ public class CommandGuildCreate implements CommandExecutor {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.tooclosespawn", vars);
 			return true;
 		}
-		plugin.debug("It's gone so far");
+		LoggerUtils.debug("It's gone so far");
 
 		//items required
 		List<ItemStack> items = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
@@ -144,7 +145,7 @@ public class CommandGuildCreate implements CommandExecutor {
 
 		RegionValidity regionValid = RegionValidity.VALID;
 		NovaRegion region = null;
-		plugin.debug("It's gone so far");
+		LoggerUtils.debug("It's gone so far");
 
 		//Automatic Region
 		if(plugin.getConfig().getBoolean("region.autoregion")) {
@@ -160,7 +161,7 @@ public class CommandGuildCreate implements CommandExecutor {
 			region.setWorld(playerLocation.getWorld());
 
 			regionValid = plugin.getRegionManager().checkRegionSelect(c1, c2);
-			plugin.debug(regionValid.name());
+			LoggerUtils.debug(regionValid.name());
 		}
 
 		switch(regionValid) {
@@ -201,7 +202,7 @@ public class CommandGuildCreate implements CommandExecutor {
 					if(region != null) {
 						region.setGuild(nPlayer.getGuild());
 						plugin.getRegionManager().addRegion(region, nPlayer.getGuild());
-						plugin.debug("AutoRegion created!");
+						LoggerUtils.debug("AutoRegion created!");
 					}
 
 					//homefloor
@@ -222,7 +223,7 @@ public class CommandGuildCreate implements CommandExecutor {
 				plugin.getMessageManager().sendMessagesMsg(player, "chat.guild.tooclose");
 				break;
 			default:
-				plugin.debug("Not expected RegionValidity result.");
+				LoggerUtils.debug("Not expected RegionValidity result.");
 				break;
 		}
 		return true;

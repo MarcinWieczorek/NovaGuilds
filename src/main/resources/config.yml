@@ -19,6 +19,7 @@ mysql:
 
 debug: false
 lang: en-en
+usetitles: false
 
 barapi:
  enabled: true
@@ -92,10 +93,10 @@ raid:
  minonlineenemy: 1
 
  #time guild has to rest in seconds (24h)
- timerest: 86400
+ timerest: 24h
 
  #Inactive time after which the raid is over. seconds.
- timeinactive: 30
+ timeinactive: 30s
 
 killing:
  moneyforkill: 5%

@@ -1,12 +1,12 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.entity.Player;
 
 public class CommandGuild implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -16,6 +16,16 @@ public class CommandGuild implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if(!Commands.GUILD_ACCESS.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return true;
+		}
+
+		if(!Commands.GUILD_ACCESS.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return true;
+		}
+
 		if(args.length>0) {
 			String command = args[0].toLowerCase();
 			String[] newargs = StringUtils.parseArgs(args, 1);
@@ -84,20 +94,15 @@ public class CommandGuild implements CommandExecutor {
 			}
 		}
 		else {
-			if(sender instanceof Player) {
-				if(plugin.getPlayerManager().getPlayer(sender).hasGuild()) {
-					plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.hasguild",null,false);
+			if(plugin.getPlayerManager().getPlayer(sender).hasGuild()) {
+				plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.hasguild",null,false);
 
-					if(plugin.getPlayerManager().getPlayer(sender).isLeader()) {
-						plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.leader",null,false);
-					}
-				}
-				else {
-					plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.noguild",null,false);
+				if(plugin.getPlayerManager().getPlayer(sender).isLeader()) {
+					plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.leader",null,false);
 				}
 			}
 			else {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+				plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.noguild",null,false);
 			}
 		}
 		return true;

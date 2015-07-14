@@ -1,10 +1,10 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import co.marcin.novaguilds.NovaGuilds;
 
 public class CommandAdminSave implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -19,17 +19,17 @@ public class CommandAdminSave implements CommandExecutor {
 				if(args[0].equalsIgnoreCase("players")) {
 					plugin.getPlayerManager().saveAll();
 					plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.save.players");
-					plugin.info("Saved players");
+					LoggerUtils.info("Saved players");
 				}
 				else if(args[0].equalsIgnoreCase("guilds")) {
 					plugin.getGuildManager().saveAll();
 					plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.save.guilds");
-					plugin.info("Saved guilds");
+					LoggerUtils.info("Saved guilds");
 				}
 				else if(args[0].equalsIgnoreCase("regions")) {
 					plugin.getRegionManager().saveAll();
 					plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.save.regions");
-					plugin.info("Saved regions");
+					LoggerUtils.info("Saved regions");
 				}
 				else {
 					plugin.getMessageManager().sendMessagesMsg(sender,"chat.invalidparam");
@@ -40,7 +40,7 @@ public class CommandAdminSave implements CommandExecutor {
 				plugin.getGuildManager().saveAll();
 				plugin.getPlayerManager().saveAll();
 				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.save.all");
-				plugin.info("Saved all data");
+				LoggerUtils.info("Saved all data");
 			}
 		}
 		else {

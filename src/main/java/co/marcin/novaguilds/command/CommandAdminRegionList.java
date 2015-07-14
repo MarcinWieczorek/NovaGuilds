@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -69,9 +70,9 @@ public class CommandAdminRegionList implements CommandExecutor {
 		}
 
 		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
-			plugin.debug(i+"");
-			plugin.debug(display+"");
-			plugin.debug(i+1+">"+(page-1)*perpage);
+			LoggerUtils.debug(i + "");
+			LoggerUtils.debug(display+"");
+			LoggerUtils.debug(i+1+">"+(page-1)*perpage);
 
 			if((i+1>(page-1)*perpage || page==1) && !display) {
 				display = true;
@@ -88,7 +89,7 @@ public class CommandAdminRegionList implements CommandExecutor {
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
 				if(i+1 >= perpage) {
-					plugin.debug("break");
+					LoggerUtils.debug("break");
 					break;
 				}
 			}

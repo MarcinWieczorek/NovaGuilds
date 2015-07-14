@@ -2,6 +2,7 @@ package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,7 +31,7 @@ public class NovaGroup {
 	@SuppressWarnings("deprecation")
 	public NovaGroup(NovaGuilds plugin, String group) {
 		name = group;
-		plugin.info("Loading group '"+name+"'...");
+		LoggerUtils.info("Loading group '" + name + "'...");
 
 		if(name.equalsIgnoreCase("admin")) {
 			regionAutoSize = plugin.getConfig().getInt("region.adminautosize");

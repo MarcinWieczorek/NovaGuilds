@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,6 +22,7 @@ public class FlatDataManager {
 	private File playersDir;
 	private File guildsDir;
 	private File regionsDir;
+	private String name;
 
 //	private FileConfiguration playerTemplate;
 
@@ -40,26 +42,26 @@ public class FlatDataManager {
 
 		if(!dataDir.exists()) {
 			if(dataDir.mkdir()) {
-				plugin.info("[FlatDataManager] Data directory created");
+				LoggerUtils.info("[FlatDataManager] Data directory created");
 			}
 		}
 
 		if(dataDir.exists()) {
 			if(!playersDir.exists()) {
 				if(playersDir.mkdir()) {
-					plugin.info("[FlatDataManager] Players directory created");
+					LoggerUtils.info("[FlatDataManager] Players directory created");
 				}
 			}
 
 			if(!guildsDir.exists()) {
 				if(guildsDir.mkdir()) {
-					plugin.info("[FlatDataManager] Guilds directory created");
+					LoggerUtils.info("[FlatDataManager] Guilds directory created");
 				}
 			}
 
 			if(!regionsDir.exists()) {
 				if(regionsDir.mkdir()) {
-					plugin.info("[FlatDataManager] Regions directory created");
+					LoggerUtils.info("[FlatDataManager] Regions directory created");
 				}
 			}
 
@@ -74,10 +76,10 @@ public class FlatDataManager {
 //		if(!messagesFile.exists()) {
 //			if(plugin.getResource("lang/" + lang + ".yml") != null) {
 //				plugin.saveResource("lang/" + lang + ".yml", false);
-//				plugin.info("New messages file created: " + lang + ".yml");
+//				LoggerUtils.info("New messages file created: " + lang + ".yml");
 //			}
 //			else {
-//				plugin.info("Couldn't find language file: " + lang + ".yml");
+//				LoggerUtils.info("Couldn't find language file: " + lang + ".yml");
 //				return false;
 //			}
 //		}
@@ -99,11 +101,11 @@ public class FlatDataManager {
 				playerData.save(getPlayerFile(nPlayer.getName()));
 			}
 			catch(IOException e) {
-				e.printStackTrace();
+				LoggerUtils.exception(e);
 			}
 		}
 		else {
-			plugin.debug("[FlatDataManager] Attempting to save non-existing player. "+nPlayer.getName());
+			LoggerUtils.debug("[FlatDataManager] Attempting to save non-existing player. "+nPlayer.getName());
 		}
 	}
 
@@ -128,11 +130,11 @@ public class FlatDataManager {
 				regionData.save(getRegionFile(region.getGuild().getName()));
 			}
 			catch(IOException e) {
-				e.printStackTrace();
+				LoggerUtils.exception(e);
 			}
 		}
 		else {
-			plugin.debug("[FlatDataManager] Attempting to save non-existing region. " + region.getGuild().getName());
+			LoggerUtils.debug("[FlatDataManager] Attempting to save non-existing region. " + region.getGuild().getName());
 		}
 	}
 
@@ -171,11 +173,11 @@ public class FlatDataManager {
 				guildData.save(getGuildFile(guild.getName()));
 			}
 			catch(IOException e) {
-				e.printStackTrace();
+				LoggerUtils.exception(e);
 			}
 		}
 		else {
-			plugin.debug("[FlatDataManager] Attempting to save non-existing guild. "+guild.getName());
+			LoggerUtils.debug("[FlatDataManager] Attempting to save non-existing guild. "+guild.getName());
 		}
 	}
 
@@ -184,10 +186,10 @@ public class FlatDataManager {
 		boolean deleted = getGuildFile(guild.getName()).delete();
 
 		if(deleted) {
-			plugin.info("[FlatDataManager] Deleted guild "+guild.getName()+"'s file.");
+			LoggerUtils.info("[FlatDataManager] Deleted guild "+guild.getName()+"'s file.");
 		}
 		else {
-			plugin.info("[FlatDataManager] Failed to delete guild " + guild.getName() + "'s file.");
+			LoggerUtils.info("[FlatDataManager] Failed to delete guild " + guild.getName() + "'s file.");
 		}
 	}
 
@@ -195,10 +197,10 @@ public class FlatDataManager {
 		boolean deleted = getRegionFile(region.getGuild().getName()).delete();
 
 		if(deleted) {
-			plugin.info("[FlatDataManager] Deleted guild "+region.getGuild().getName()+" region's file.");
+			LoggerUtils.info("[FlatDataManager] Deleted guild "+region.getGuild().getName()+" region's file.");
 		}
 		else {
-			plugin.info("[FlatDataManager] Failed to delete guild " + region.getGuild().getName() + " region's file.");
+			LoggerUtils.info("[FlatDataManager] Failed to delete guild " + region.getGuild().getName() + " region's file.");
 		}
 	}
 
@@ -228,7 +230,7 @@ public class FlatDataManager {
 			getGuildFile(name).createNewFile();
 		}
 		catch(IOException e) {
-			e.printStackTrace();
+			LoggerUtils.exception(e);
 		}
 	}
 
@@ -291,7 +293,7 @@ public class FlatDataManager {
 
 		}
 		catch(IOException e) {
-			e.printStackTrace();
+			LoggerUtils.exception(e);
 		}
 		finally {
 			if(inputStream != null) {
@@ -299,7 +301,7 @@ public class FlatDataManager {
 					inputStream.close();
 				}
 				catch (IOException e) {
-					e.printStackTrace();
+					LoggerUtils.exception(e);
 				}
 			}
 			if(outputStream != null) {
@@ -307,7 +309,7 @@ public class FlatDataManager {
 					outputStream.close();
 				}
 				catch (IOException e) {
-					e.printStackTrace();
+					LoggerUtils.exception(e);
 				}
 
 			}

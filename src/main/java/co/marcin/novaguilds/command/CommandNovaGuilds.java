@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -98,6 +99,12 @@ public class CommandNovaGuilds implements CommandExecutor {
 //				l.setX(l.getBlockX()+5);
 //				plugin.delayedTeleport((Player)sender,l);
 			}
+			else if(args[0].equalsIgnoreCase("version")) {
+				String version = plugin.getServer().getVersion();
+				LoggerUtils.debug(plugin.getServer().getBukkitVersion());
+				LoggerUtils.debug(plugin.getServer().getVersion());
+				sender.sendMessage(version);
+			}
 			else if(args[0].equalsIgnoreCase("hd")) { //HolographicDisplays
 				if(!sender.hasPermission("novaguilds.test.hd")) {
 					plugin.getMessageManager().sendNoPermissionsMessage(sender);
@@ -125,8 +132,9 @@ public class CommandNovaGuilds implements CommandExecutor {
 								hologram.appendTextLine(StringUtils.fixColors(rowmsg));
 								i++;
 							}
-						} catch (SQLException e) {
-							e.printStackTrace();
+						}
+						catch (SQLException e) {
+							LoggerUtils.exception(e);
 						}
 						return true;
 					}

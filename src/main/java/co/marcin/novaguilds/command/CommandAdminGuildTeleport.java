@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +26,7 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 		// 0 - other player
 		
 		if(!(sender instanceof Player)) {
-			plugin.info("You cannot tp to a guild from the console!");
+			LoggerUtils.info("You cannot tp to a guild from the console!");
 			return true;
 		}
 		
@@ -62,10 +63,10 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 
 		if(other) {
 			vars.put("PLAYERNAME",player.getName());
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleportedother", vars);
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported.other", vars);
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported", vars);
+			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported.self", vars);
 		}
 
 		player.teleport(home);

@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!(sender instanceof Player)) {
-			plugin.info("Consoles cant have guilds!");
+			LoggerUtils.info("Consoles cant have guilds!");
 			return true;
 		}
 		

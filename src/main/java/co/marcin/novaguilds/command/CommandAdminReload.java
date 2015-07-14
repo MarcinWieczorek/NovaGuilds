@@ -1,10 +1,10 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import co.marcin.novaguilds.NovaGuilds;
 
 public class CommandAdminReload implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -47,7 +47,7 @@ public class CommandAdminReload implements CommandExecutor {
 			plugin.getGroupManager().loadGroups();
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.groups");
 
-			plugin.info("Post checks running");
+			LoggerUtils.info("Post checks running");
 			plugin.getGuildManager().postCheckGuilds();
 			plugin.getRegionManager().postCheckRegions();
 

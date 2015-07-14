@@ -38,18 +38,20 @@ chat:
    kick:
     leader: "You can't kick the leader. You have to abandon the guild."
    invited: "Invited player &c{PLAYERNAME} &3to &a{GUILDNAME}"
-   teleported: "Teleported to home of &a{GUILDNAME}"
-   teleportedother: "Teleported &c{PLAYERNAME} &3to home of &a{GUILDNAME}"
-   settag: "Tag changed to &a{TAG}"
-   setpoints: "Points set."
-   setlives: "Lives set."
-   setname:
-    enternewname: "Enter new name"
-    success: "Guild's name changed."
-   setleader:
-    notinguild: "This player is not in guild &a{GUILDNAME}"
-    alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
-    success: "New leader set!"
+   teleported:
+    self: "Teleported to home of &a{GUILDNAME}"
+    other: "Teleported &c{PLAYERNAME} &3to home of &a{GUILDNAME}"
+   set:
+    tag: "Tag changed to &a{TAG}"
+    points: "Points set."
+    lives: "Lives set."
+    name:
+     enternewname: "Enter new name"
+     success: "Guild's name changed."
+    leader:
+     notinguild: "This player is not in guild &a{GUILDNAME}"
+     alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
+     success: "New leader set!"
   region:
    rgbypass:
     toggled: "Region bypass toggled. Currently: &c{BYPASS}"
@@ -133,15 +135,15 @@ chat:
    hasguild:
     - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
     - "&5* &7/g &chome &2- &3TP to guild's home"
-    - "&5* &7/g &cinfo &2- &3Guild's info. &9/gi"
+    - "&5* &7/gi &2- &3Guild's info."
     - "&5* &7/g &cleave &2- &3Leave the guild"
     - "&5* &7/g &ccompass &2- &3Let the compass point your guild's home!"
     - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/ng &ctool &2- &3Check or select area with the tool!"
    noguild:
-    - "&5* &7/g &ccreate &6<tag> <name> &2- &3Create a guild"
-    - "&5* &7/g &cjoin &6[guildname] &2- &3Join a guild"
-    - "&5* &7/gi &c[guild/tag/player] &2- &3Join a guild"
+    - "&5* &7/create &6<tag> <name> &2- &3Create a guild"
+    - "&5* &7/join &6[guildname] &2- &3Join a guild"
+    - "&5* &7/gi &c[guild/tag/player] &2- &3Guild's info"
     - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/g &citems &2- &3Required items"
    leader:

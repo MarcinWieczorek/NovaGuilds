@@ -44,6 +44,7 @@ public class NovaGuilds extends JavaPlugin {
 	private static NovaGuilds inst;
 	public final PluginDescriptionFile pdf = this.getDescription();
 	private final PluginManager pm = getServer().getPluginManager();
+	private final int build = Integer.parseInt(getDescription().getVersion());
 	
 	private long MySQLReconnectStamp = System.currentTimeMillis();
 
@@ -78,11 +79,11 @@ public class NovaGuilds extends JavaPlugin {
 
 		//managers
 		configManager = new ConfigManager(this);
-		info("[ConfigManager] Enabled");
+		LoggerUtils.info("[ConfigManager] Enabled");
 		commandManager = new CustomCommandManager(this);
-		info("[CommandManager] Enabled");
+		LoggerUtils.info("[CommandManager] Enabled");
 		groupManager = new GroupManager(this);
-		info("[GroupManager] Enabled");
+		LoggerUtils.info("[GroupManager] Enabled");
 
 		tagUtils = new TagUtils(this);
 
@@ -96,7 +97,7 @@ public class NovaGuilds extends JavaPlugin {
             return;
 		}
 
-		info("Messages loaded");
+		LoggerUtils.info("Messages loaded");
         
 		//Version check
         checkVersion();
@@ -109,12 +110,13 @@ public class NovaGuilds extends JavaPlugin {
 			if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
 				MySQL = new MySQL(this, getConfig().getString("mysql.host") , getConfig().getString("mysql.port"), getConfig().getString("mysql.database"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password"));
 				connection = MySQL.openConnection();
-				info("Connected to MySQL database");
+				LoggerUtils.info("Connected to MySQL database");
 			}
-			else if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
+
+			if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
 				SQLite sqlite = new SQLite(this, "sqlite.db");
 				connection = sqlite.openConnection();
-				info("Connected to SQLite database");
+				LoggerUtils.info("Connected to SQLite database");
 			}
 
 			//Tables setup
@@ -122,42 +124,42 @@ public class NovaGuilds extends JavaPlugin {
 				DatabaseMetaData md = connection.getMetaData();
 				ResultSet rs = md.getTables(null, null, getConfigManager().getDatabasePrefix() + "%", null);
 				if(!rs.next()) {
-					info("Couldn't find tables in the base. Creating...");
+					LoggerUtils.info("Couldn't find tables in the base. Creating...");
 					String[] SQLCreateCode = getSQLCreateCode();
 					if(SQLCreateCode.length != 0) {
 						try {
 							for(String tableCode : SQLCreateCode) {
 								createTable(tableCode);
-								info("Tables added to the database!");
+								LoggerUtils.info("Tables added to the database!");
 							}
 						}
 						catch(SQLException e) {
-							info("Could not create tables. Disabling");
-							info("SQLException: " + e.getMessage());
+							LoggerUtils.exception(e);
+							LoggerUtils.info("Could not create tables. Disabling");
 							getServer().getPluginManager().disablePlugin(this);
 							return;
 						}
 					}
 					else {
-						info("Couldn't find SQL create code for tables!");
+						LoggerUtils.info("Couldn't find SQL create code for tables!");
 						getServer().getPluginManager().disablePlugin(this);
 						return;
 					}
 				}
 				else {
-					info("No database config required.");
+					LoggerUtils.info("No database config required.");
 				}
 			}
 			
 			//Data loading
 			getRegionManager().loadRegions();
-			info("Regions data loaded");
+			LoggerUtils.info("Regions data loaded");
 			getGuildManager().loadGuilds();
-			info("Guilds data loaded");
+			LoggerUtils.info("Guilds data loaded");
 			getPlayerManager().loadPlayers();
-			info("Players data loaded");
+			LoggerUtils.info("Players data loaded");
 
-			info("Post checks running");
+			LoggerUtils.info("Post checks running");
 			getGuildManager().postCheckGuilds();
 			getRegionManager().postCheckRegions();
 			
@@ -176,11 +178,11 @@ public class NovaGuilds extends JavaPlugin {
 			
 			//save scheduler
 			runSaveScheduler();
-			info("Save scheduler is running");
+			LoggerUtils.info("Save scheduler is running");
 
 			//live regeneration task
 			runLiveRegenerationTask();
-			info("Live regeneration task is running");
+			LoggerUtils.info("Live regeneration task is running");
 
 			//metrics
 			setupMetrics();
@@ -190,15 +192,14 @@ public class NovaGuilds extends JavaPlugin {
 				getMessageManager().broadcastMessageForPermitted("chat.update","novaguilds.admin.updateavailable");
 			}
 
-			info("#"+pdf.getVersion()+" Enabled");
+			LoggerUtils.info("#"+pdf.getVersion()+" Enabled");
 		}
 		catch (SQLException e) {
-			info("MySQL connection failed.");
-			info(e.getMessage());
+			LoggerUtils.exception(e);
 			pm.disablePlugin(this);
 		}
 		catch (ClassNotFoundException e) {
-			info("MySQL class not found.");
+			LoggerUtils.exception(e);
 		}
 	}
 	
@@ -206,7 +207,7 @@ public class NovaGuilds extends JavaPlugin {
 		getGuildManager().saveAll();
 		getRegionManager().saveAll();
 		getPlayerManager().saveAll();
-		info("Saved all data");
+		LoggerUtils.info("Saved all data");
 
 		//Stop schedulers
 		worker.shutdown();
@@ -245,7 +246,7 @@ public class NovaGuilds extends JavaPlugin {
 		}
 
 		//getConfigManager().disable();
-		info("#" + pdf.getVersion() + " Disabled");
+		LoggerUtils.info("#" + pdf.getVersion() + " Disabled");
 	}
 
 	public static NovaGuilds getInst() {
@@ -261,28 +262,24 @@ public class NovaGuilds extends JavaPlugin {
 				MySQL.closeConnection();
 				try {
 					connection = MySQL.openConnection();
-					info("MySQL reconnected");
+					LoggerUtils.info("MySQL reconnected");
 					MySQLReconnectStamp = System.currentTimeMillis();
 				}
 				catch (ClassNotFoundException e) {
-					info(e.getMessage());
+					LoggerUtils.exception(e);
 				}
 			}
 	    	catch (SQLException e1) {
-	    		info(e1.getMessage());
+			    LoggerUtils.exception(e1);
 			}
 		}
     }
-	
-	public void info(String msg) {
-		ConfigManager.getLogger().info(getConfigManager().getLogPrefix()+" "+msg);
-	}
 
-	public void debug(String msg) {
-		if(getConfigManager().isDebugEnabled()) {
-			ConfigManager.getLogger().info(getConfigManager().getLogPrefix() + "[DEBUG] " + msg);
-		}
-	}
+//	public void debug(String msg) {
+//		if(getConfigManager().isDebugEnabled()) {
+//			ConfigManager.getLogger().info(getConfigManager().getLogPrefix() + "[DEBUG] " + msg);
+//		}
+//	}
 	
 	//Managers
 	public GuildManager getGuildManager() {
@@ -398,12 +395,12 @@ public class NovaGuilds extends JavaPlugin {
 				metrics.start();
 			}
 			catch(IOException e) {
-				info("Failed to update stats!");
-				info(e.getMessage());
+				LoggerUtils.info("Failed to update stats!");
+				LoggerUtils.info(e.getMessage());
 			}
 		}
 		else {
-			info("Vault is not enabled, failed to setup Metrics");
+			LoggerUtils.info("Vault is not enabled, failed to setup Metrics");
 		}
 	}
 
@@ -460,7 +457,7 @@ public class NovaGuilds extends JavaPlugin {
 					for(String hologramLine : getConfigManager().getGuildBankHologramLines()) {
 						if(hologramLine.startsWith("[ITEM]")) {
 							hologramLine = hologramLine.substring(6);
-							debug(hologramLine);
+							LoggerUtils.debug(hologramLine);
 							ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
 							if(itemStack != null) {
 								hologram.appendItemLine(itemStack);
@@ -492,8 +489,8 @@ public class NovaGuilds extends JavaPlugin {
 
 	public void checkVersion() {
 		String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
-		info("You're using build: #"+pdf.getVersion());
-		info("Latest stable build of the plugin is: #"+latest);
+		LoggerUtils.info("You're using build: #"+pdf.getVersion());
+		LoggerUtils.info("Latest stable build of the plugin is: #"+latest);
 
 		int latestint = 0;
 		if(NumberUtils.isNumeric(latest)) {
@@ -506,7 +503,7 @@ public class NovaGuilds extends JavaPlugin {
 		}
 
 		if(version == latestint) {
-			info("Your plugin build is the latest stable one");
+			LoggerUtils.info("Your plugin build is the latest stable one");
 		}
 		else if(version > latestint) {
 			String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
@@ -516,17 +513,17 @@ public class NovaGuilds extends JavaPlugin {
 			}
 
 			if(version > devVersion) {
-				info("You are using unreleased build #" + version);
+				LoggerUtils.info("You are using unreleased build #" + version);
 			}
 			else if(version == devVersion) {
-				info("You're using latest development build");
+				LoggerUtils.info("You're using latest development build");
 			}
 			else {
-				info("Why the hell are you using outdated dev build?");
+				LoggerUtils.info("Why the hell are you using outdated dev build?");
 			}
 		}
 		else {
-			info("You should update your plugin to #"+latest+"!");
+			LoggerUtils.info("You should update your plugin to #"+latest+"!");
 			updateAvailable = true;
 		}
 	}
@@ -539,7 +536,7 @@ public class NovaGuilds extends JavaPlugin {
 				getConfigManager().disableHolographicDisplays();
 			}
 			else {
-				info("HolographicDisplays hooked");
+				LoggerUtils.info("HolographicDisplays hooked");
 			}
 		}
 
@@ -548,13 +545,13 @@ public class NovaGuilds extends JavaPlugin {
 			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Disabled due to no Vault dependency found!");
 			return false;
 		}
-		info("Vault hooked");
+		LoggerUtils.info("Vault hooked");
 
 		if(!setupEconomy()) {
 			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Could not setup Vault's economy, disabling");
 			return false;
 		}
-		info("Vault's Economy hooked");
+		LoggerUtils.info("Vault's Economy hooked");
 
 		//BarAPI
 		if(getConfigManager().useBarAPI()) {
@@ -563,7 +560,7 @@ public class NovaGuilds extends JavaPlugin {
 				getConfigManager().disableBarAPI();
 			}
 			else {
-				info("BarAPI hooked");
+				LoggerUtils.info("BarAPI hooked");
 			}
 		}
 
@@ -572,6 +569,10 @@ public class NovaGuilds extends JavaPlugin {
 
 	public Connection getConnection() {
 		return connection;
+	}
+
+	public int getBuild() {
+		return build;
 	}
 
 	//Utils

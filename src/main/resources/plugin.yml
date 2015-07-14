@@ -3,7 +3,7 @@ main: co.marcin.novaguilds.NovaGuilds
 author: Marcin Wieczorek
 description: The best polish guilds plugin!
 website: http://novaguilds.marcin.co/
-version: 13
+version: 14
 depend: [Vault]
 softdepend: [BarAPI]
 commands:
@@ -17,51 +17,33 @@ commands:
    guild:
       description: NovaGuilds guild command
       usage: /guild <cmd> [params]
-      permission: novaguilds.guild.access
-      permission-message: No permissions
       aliases: [g]
    guildmenu:
       description: NovaGuilds menu gui command
       usage: /guildmenu
-      permission: novaguilds.guild.gui
-      permission-message: No permissions
       aliases: [gg]
    gi:
       description: NovaGuilds Guild Info
       usage: /gi <tag>
-      permission: novaguilds.guild.info
-      permission-message: No permissions
       aliases: [guildinfo]
    create:
       description: Create a guild
       usage: /create <tag> <name>
-      permission: novaguilds.guild.create
-      permission-message: No permissions
    nghome:
       description: Guilds home
       usage: /nghome
-      permission: novaguilds.guild.home
-      permission-message: No permissions
    abandon:
       description: Abandon guild
       usage: /abandon
-      permission: novaguilds.guild.abandon
-      permission-message: No permissions
    invite:
       description: Invite to guild
       usage: /invite <player>
-      permission: novaguilds.guild.invite
-      permission-message: No permissions
    join:
       description: join a guild
       usage: /join [name]
-      permission: novaguilds.guild.join
-      permission-message: No permissions
    leave:
       description: leave the guild
       usage: /leave
-      permission: novaguilds.guild.leave
-      permission-message: No permissions
 
 permissions:
     novaguilds.region.create:

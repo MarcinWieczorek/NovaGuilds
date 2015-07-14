@@ -1,15 +1,14 @@
 package code.husky.sqlite;
 
+import co.marcin.novaguilds.util.LoggerUtils;
+import code.husky.Database;
+import org.bukkit.plugin.Plugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-
-import org.bukkit.plugin.Plugin;
-
-import code.husky.Database;
 
 /**
  * Connects to and uses a SQLite database
@@ -45,9 +44,9 @@ public class SQLite extends Database {
 		if (!(file.exists())) {
 			try {
 				file.createNewFile();
-			} catch (IOException e) {
-				plugin.getLogger().log(Level.SEVERE,
-						"Unable to create database!");
+			}
+			catch (IOException e) {
+				LoggerUtils.exception(e);
 			}
 		}
 		Class.forName("org.sqlite.JDBC");

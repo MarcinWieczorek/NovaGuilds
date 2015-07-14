@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -55,17 +56,7 @@ public class RegionInteractListener implements Listener {
 				// (has no guild) OR (has guild AND (not his guild AND not ally)
 				if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && (!nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()) && !isally))) {
 					if(!nPlayer.getBypass()) {
-						boolean isok = true;
-						
-						if(denyinteract.contains(clickedblockname)) {
-							isok = false;
-						}
-
-						if(denyuse.contains(useditemname)) {
-							isok = false;
-						}
-						
-						if(!isok) {
+						if(denyinteract.contains(clickedblockname) || denyuse.contains(useditemname)) {
 							event.setCancelled(true);
 							
 							if(!clickedblockname.contains("_PLATE")) {
@@ -117,9 +108,6 @@ public class RegionInteractListener implements Listener {
 		}
 		else {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
-			plugin.debug(event.getItemInHand().toString());
-			plugin.debug(event.getBlock().toString());
-			plugin.debug(event.getBlockPlaced().toString());
 
 			if(nPlayer.hasGuild()) {
 				if(event.getItemInHand().getType() == plugin.getConfigManager().getGuildBankItem().getType()) {
@@ -177,11 +165,11 @@ public class RegionInteractListener implements Listener {
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
 		List<String> denymobdamage = plugin.getConfig().getStringList("region.denymobdamage");
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getEntity().getLocation());
-		//plugin.debug("EntityDamageByEntity "+event.getEntityType().name());
+		//LoggerUtils.debug("EntityDamageByEntity "+event.getEntityType().name());
 		
 		if(rgatploc != null) {
-			//plugin.debug("There is a region");
-			//plugin.debug(denymobdamage.toString());
+			//LoggerUtils.debug("There is a region");
+			//LoggerUtils.debug(denymobdamage.toString());
 			if(denymobdamage.contains(event.getEntity().getType().name())) {
 				DamageCause cause = event.getCause();
 				boolean playercaused = false;
@@ -226,15 +214,15 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onHangingBreakByEntityEvent(HangingBreakByEntityEvent event) {
 		Entity entity = event.getEntity();
-		plugin.debug("hanging break by entity event");
+		LoggerUtils.debug("hanging break by entity event");
 
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(entity.getLocation());
 
 		if(rgatploc != null) {
-			plugin.debug("there is a region");
+			LoggerUtils.debug("there is a region");
 
 			if(entity instanceof ItemFrame) {
-				plugin.debug("item frame destroyed");
+				LoggerUtils.debug("item frame destroyed");
 				event.setCancelled(true);
 			}
 		}
@@ -245,11 +233,11 @@ public class RegionInteractListener implements Listener {
 		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
-		//plugin.debug("PlayerInteractEntityEvent - "+event.getRightClicked().getType().name());
+		//LoggerUtils.debug("PlayerInteractEntityEvent - "+event.getRightClicked().getType().name());
 		
 		if(rgatploc != null) {
-			plugin.debug("There is a region");
-			plugin.debug(denyriding.toString());
+			LoggerUtils.debug("There is a region");
+			LoggerUtils.debug(denyriding.toString());
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
 			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!nPlayer.getBypass()) {

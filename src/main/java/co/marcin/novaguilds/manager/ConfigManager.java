@@ -4,8 +4,10 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class ConfigManager {
 
 	private boolean useBarAPI;
 	private boolean useHolographicDisplays;
-	private boolean useMySQL;
+	private boolean useTitles;
 
 	private String databasePrefix;
 
@@ -56,6 +58,7 @@ public class ConfigManager {
 
 	private int guildEffectDuration;
 	private List<PotionEffectType> guildEffects = new ArrayList<>();
+	private ItemStack toolItem;
 
 	public ConfigManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
@@ -72,8 +75,8 @@ public class ConfigManager {
 		saveInterval = StringUtils.StringToSeconds(config.getString("saveinterval"));
 
 		raidEnabled = config.getBoolean("raid.enabled");
-		raidTimeRest = config.getLong("raid.timerest");
-		raidTimeInactive = config.getLong("raid.timeinactive");
+		raidTimeRest = StringUtils.StringToSeconds(config.getString("raid.timerest"));
+		raidTimeInactive = StringUtils.StringToSeconds(config.getString("raid.timeinactive"));
 
 		guildDistanceFromSpawn = config.getLong("guild.fromspawn");
 		guildLiveRegenerationTime = StringUtils.StringToSeconds(config.getString("liveregeneration.regentime"));
@@ -93,6 +96,14 @@ public class ConfigManager {
 
 		useHolographicDisplays = config.getBoolean("holographicdisplays.enabled");
 		useBarAPI = config.getBoolean("barapi.enabled");
+		useTitles = config.getBoolean("usetitles");
+
+		if(useTitles) {
+			if(!plugin.getServer().getBukkitVersion().startsWith("1.8")) {
+				useTitles = false;
+				logger.severe("You can't use Titles with Bukkit older than 1.8");
+			}
+		}
 
 		cleanupEnabled = config.getBoolean("cleanup.enabled");
 		cleanupInactiveTime = StringUtils.StringToSeconds(config.getString("cleanup.inactivetime"));
@@ -103,7 +114,6 @@ public class ConfigManager {
 			cleanupEnabled = false;
 		}
 
-		useMySQL = config.getBoolean("usemysql");
 		databasePrefix = config.getString("mysql.prefix");
 
 		chatDisplayNameTags = config.getBoolean("chat.displaynametags");
@@ -121,6 +131,23 @@ public class ConfigManager {
 				guildEffects.add(effectType);
 			}
 		}
+
+		//tool
+		Material toolMaterial = Material.getMaterial(plugin.getConfig().getString("region.tool.item").toUpperCase());
+		toolItem = new ItemStack(toolMaterial, 1);
+		ItemMeta meta = toolItem.getItemMeta();
+		meta.setDisplayName(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("items.tool.name")));
+
+		List<String> lorecodes = plugin.getMessageManager().getMessages().getStringList("items.tool.lore");
+		List<String> lore = new ArrayList<>();
+
+		for(String l : lorecodes) {
+			lore.add(StringUtils.fixColors(l));
+		}
+
+		meta.setLore(lore);
+
+		toolItem.setItemMeta(meta);
 	}
 
 	//getters
@@ -217,8 +244,8 @@ public class ConfigManager {
 		return useHolographicDisplays;
 	}
 
-	public boolean useMySQL() {
-		return useMySQL;
+	public boolean useTitles() {
+		return useTitles;
 	}
 
 	public boolean isDebugEnabled() {
@@ -256,5 +283,9 @@ public class ConfigManager {
 
 	public void setToPrimaryDataStorageType() {
 		dataStorageType = primaryDataStorageType;
+	}
+
+	public ItemStack getToolItem() {
+		return toolItem;
 	}
 }

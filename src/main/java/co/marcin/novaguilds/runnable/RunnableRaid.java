@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
+import co.marcin.novaguilds.util.LoggerUtils;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +24,7 @@ public class RunnableRaid implements Runnable {
 			plugin.setWarBar(guild, raid.getProgress(), raid.getGuildDefender());
 			NovaPlayer nPlayer = raid.getPlayersOccupying().get(0);
 			plugin.setWarBar(nPlayer.getGuild(), raid.getProgress(), raid.getGuildDefender());
-			plugin.debug(guild.getName() + " scheduler working " + plugin.guildRaids.size());
+			LoggerUtils.debug(guild.getName() + " scheduler working " + plugin.guildRaids.size());
 
 			//stepping progress
 			for(int count = 0; count < raid.getPlayersOccupyingCount(); count++) {
@@ -44,7 +45,7 @@ public class RunnableRaid implements Runnable {
 			//TODO: not working at all
 			if(NovaGuilds.systemSeconds() - raid.getInactiveTime() > plugin.getConfigManager().getRaidTimeInactive()) {
 				raid.finish();
-				plugin.debug("inactive for 10 seconds, removing.");
+				LoggerUtils.debug("inactive for 10 seconds, removing.");
 				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.defenderwon", vars);
 			}
 
@@ -84,8 +85,8 @@ public class RunnableRaid implements Runnable {
 			plugin.worker.schedule(this, 1, TimeUnit.SECONDS);
 		}
 		else {
-			plugin.debug("size: " + plugin.guildRaids.size());
-			plugin.debug("enabled: " + plugin.isEnabled());
+			LoggerUtils.debug("size: " + plugin.guildRaids.size());
+			LoggerUtils.debug("enabled: " + plugin.isEnabled());
 		}
 	}
 }

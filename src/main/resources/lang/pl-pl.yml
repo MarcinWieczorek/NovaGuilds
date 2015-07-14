@@ -38,18 +38,20 @@ chat:
    kick:
     leader: "Nie mozesz wyrzucic lidera. Musisz rozwiazac gildie."
    invited: "Zaproszono gracza &c{PLAYERNAME} &3do &a{GUILDNAME}"
-   teleported: "Teleportowano do bazy &a{GUILDNAME}"
-   teleportedother: "Teleportowano gracza &c{PLAYERNAME} &3do bazy &a{GUILDNAME}"
-   settag: "Tag zmieniony na &a{TAG}"
-   setpoints: "Points set."
-   setlives: "Lives set."
-   setname:
-    enternewname: "Wprowadz nowa nazwe"
-    success: "Nazwa gildii zmieniona."
-   setleader:
-    notinguild: "Ten gracz nie jest w gildii &a{GUILDNAME}"
-    alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
-    success: "Nowy lider ustalony!"
+   teleported:
+    self: "Teleportowano do bazy &a{GUILDNAME}"
+    other: "Teleportowano gracza &c{PLAYERNAME} &3do bazy &a{GUILDNAME}"
+   set:
+    tag: "Tag zmieniony na &a{TAG}"
+    points: "Points set."
+    lives: "Lives set."
+    name:
+     enternewname: "Wprowadz nowa nazwe"
+     success: "Nazwa gildii zmieniona."
+    leader:
+     notinguild: "Ten gracz nie jest w gildii &a{GUILDNAME}"
+     alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
+     success: "Nowy lider ustalony!"
   region:
    rgbypass:
     toggled: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
@@ -108,8 +110,8 @@ chat:
     header: "Komendy Admina, regiony:"
     items:
      - "&5* &7/nga &crg &6list &2- &3Lista regionow"
-     - "&5* &7/nga &crg &6del &c<guildname> &2- &3Usun region"
-     - "&5* &7/nga &crg &6tp &c<guildname> &2- &3Teleport do regionu"
+     - "&5* &7/nga &crg &6del &c<gildia> &2- &3Usun region"
+     - "&5* &7/nga &crg &6tp &c<gildia> &2- &3Teleport do regionu"
      - "&5* &7/nga &crg &6bypass &c[player] &2- &3Zmiena trybu ignorowania regionow"
    guild:
     header: "Komendy Admina, gildie:"
@@ -194,7 +196,7 @@ chat:
   notleader: "Nie jestes liderem"
   notenoughmoney: "W banku gildii nie ma wystarczajacej ilosci pieniedzy"
   setspawnpoint: "Ustawiono dom gildii!"
-  sethomeoutside: "You cannot set home outside your guild's region"
+  sethomeoutside: "Nie mozesz ustawic domu poza regionem gildii"
   tp: "Teleportowano do domu gildii"
   hasregionalready: "Twoja gildia ma juz region. Usun lub edytuj istniejacy."
   guildatlocsp: "Nie mozesz ustawic domu na terenie innej gildii"
@@ -355,7 +357,7 @@ broadcast:
   endally: "&a{GUILDNAME} &3i &a{ALLYNAME} &3zakonczyli sojusz!"
   kicked: "Gracz &c{PLAYERNAME} &3zostal wyrzucony z &a{GUILDNAME}"
   newleader: "Gracz &c{PLAYERNAME} &3jest teraz liderem &a{GUILDNAME}"
-  destroyed: "Guild &a{GUILDNAME} &3zostala zniszczona!"
+  destroyed: "Gildia &a{GUILDNAME} &3zostala zniszczona!"
   raid:
    finished:
     attackerwon: "Nalot zakonczony! &a{ATTACKER} &3vs &a{DEFENDER}&3! Atakujacy wygral."
@@ -399,4 +401,4 @@ inventory:
  requireditems:
   name: Wymagane przedmioty
  ggui:
-  name: Guild's Menu
+  name: Menu Gildii

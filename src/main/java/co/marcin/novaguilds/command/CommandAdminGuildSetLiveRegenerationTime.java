@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,7 +32,7 @@ public class CommandAdminGuildSetLiveRegenerationTime implements CommandExecutor
 		long seconds = Long.parseLong(iseconds+"");
 
 		long newregentime = NovaGuilds.systemSeconds() + (seconds - plugin.getConfigManager().getGuildLiveRegenerationTime());
-		plugin.debug("newregentime: "+newregentime);
+		LoggerUtils.debug("newregentime: " + newregentime);
 
 		guild.setLostLiveTime(newregentime);
 		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.timerest.set");

@@ -3,6 +3,8 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,35 +20,40 @@ public class CommandGuildLeave implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if(!Commands.GUILD_LEAVE.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return true;
+		}
+
 		if(!(sender instanceof Player)) {
-			plugin.info("Invalid command sender");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 		
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
-		if(nPlayer.hasGuild()) {
-			NovaGuild guild = nPlayer.getGuild();
-			
-			if(nPlayer.isLeader()) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.isleader");
-				return true;
-			}
-			
-			nPlayer.setGuild(null);
-			guild.removePlayer(nPlayer);
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.left");
-			
-			HashMap<String,String> vars = new HashMap<>();
-			vars.put("PLAYER",sender.getName());
-			vars.put("GUILDNAME",guild.getName());
-			plugin.getMessageManager().broadcastMessage("broadcast.guild.left", vars);
-
-			plugin.tagUtils.refreshAll();
-		}
-		else {
+		if(!nPlayer.hasGuild()) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			return true;
 		}
+
+		NovaGuild guild = nPlayer.getGuild();
+
+		if(nPlayer.isLeader()) {
+			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.isleader");
+			return true;
+		}
+
+		nPlayer.setGuild(null);
+		guild.removePlayer(nPlayer);
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.left");
+
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("PLAYER",sender.getName());
+		vars.put("GUILDNAME",guild.getName());
+		plugin.getMessageManager().broadcastMessage("broadcast.guild.left", vars);
+
+		plugin.tagUtils.refreshAll();
 		
 		return true;
 	}

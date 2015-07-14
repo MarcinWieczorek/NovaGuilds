@@ -10,7 +10,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public final class StringUtils {
 	public static String replace(String text, String searchString, String replacement) {
@@ -83,7 +82,7 @@ public final class StringUtils {
 			body = toString(in, encoding);
 		}
 		catch (Exception e) {
-			Logger.getLogger("Minecraft").info(e.getMessage());
+			LoggerUtils.exception(e);
 		}
 			    
 		return body;
@@ -138,6 +137,7 @@ public final class StringUtils {
 		return list;
 	}
 
+	//TODO dafuq
 	public static String join(List<String> items, String pattern, String separator) {
 		String joined = "";
 
@@ -356,5 +356,9 @@ public final class StringUtils {
 		}
 
 		return true;
+	}
+
+	public static void throwException(Exception exception) {
+
 	}
 }

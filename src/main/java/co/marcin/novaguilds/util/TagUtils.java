@@ -26,7 +26,7 @@ public class TagUtils {
 			tag = plugin.getConfig().getString("guild.tag");
 			guildTag = nPlayer.getGuild().getTag();
 
-			if(!plugin.getConfig().getBoolean("tabapi.colortags")) {
+			if(!plugin.getConfigManager().isChatTagColorsEnabled()) {
 				guildTag = StringUtils.removeColors(guildTag);
 			}
 

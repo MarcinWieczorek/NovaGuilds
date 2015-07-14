@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -29,7 +30,7 @@ public class CommandGuildInfo implements CommandExecutor {
 		}
 		else {
 			if(!(sender instanceof Player)) {
-				plugin.info("You cannot check console's guild!");
+				LoggerUtils.info("You cannot check console's guild!");
 				return true;
 			}
 			
@@ -124,8 +125,8 @@ public class CommandGuildInfo implements CommandExecutor {
 			String liveRegenerationString = StringUtils.secondsToString(liveRegenerationTime);
 
 			long timeWait = (guild.getTimeRest() + plugin.getConfigManager().getRaidTimeRest()) - NovaGuilds.systemSeconds();
-			plugin.debug("timewait="+timeWait);
-			plugin.debug(guild.getTimeRest() +"+"+ plugin.getConfigManager().getRaidTimeRest() +"-"+ NovaGuilds.systemSeconds());
+			LoggerUtils.debug("timewait="+timeWait);
+			LoggerUtils.debug(guild.getTimeRest() +"+"+ plugin.getConfigManager().getRaidTimeRest() +"-"+ NovaGuilds.systemSeconds());
 
 			vars.put("LIVEREGENERATIONTIME", liveRegenerationString);
 			vars.put("TIMEREST",StringUtils.secondsToString(timeWait));

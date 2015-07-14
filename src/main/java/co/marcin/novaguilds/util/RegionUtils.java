@@ -288,11 +288,14 @@ public class RegionUtils {
 
 	@SuppressWarnings("deprecation")
 	public static List<Block> getBorderBlocks(NovaRegion region) {
+		return getBorderBlocks(region.getCorner(0), region.getCorner(1));
+	}
+
+	public static List<Block> getBorderBlocks(Location l1, Location l2) {
 		List<Block> blocks = new ArrayList<>();
 
-		Location l1 = region.getCorner(0);
-		Location l2 = region.getCorner(1);
-		World world = region.getWorld();
+		//World world = region.getWorld();
+		World world = l1.getWorld()==null ? Bukkit.getWorlds().get(0) : l1.getWorld();
 
 		int x;
 		int z;
@@ -348,6 +351,23 @@ public class RegionUtils {
 
 	@SuppressWarnings("deprecation")
 	public static void sendSquare(Player player, Location l1, Location l2,Material material,byte data) {
+		if(player == null || l1 == null || l2 == null) {
+			return;
+		}
+
+		for(Block block : getBorderBlocks(l1,l2)) {
+			if(material == null) {
+				material = player.getWorld().getBlockAt(block.getLocation()).getType();
+				data = player.getWorld().getBlockAt(block.getLocation()).getData();
+			}
+
+			player.sendBlockChange(block.getLocation(), material, data);
+		}
+	}
+
+	@Deprecated
+	@SuppressWarnings("deprecation")
+	public static void sendSquareOld(Player player, Location l1, Location l2,Material material,byte data) {
 		if(player == null || l1 == null || l2 == null) {
 			return;
 		}

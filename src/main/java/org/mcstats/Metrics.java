@@ -339,8 +339,9 @@ public class Metrics {
             } else {
                 return ((Player[])onlinePlayerMethod.invoke(Bukkit.getServer())).length;
             }
-        } catch (Exception ex) {
-            if (debug) {
+        }
+        catch(Exception ex) {
+            if(debug) {
                 Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
             }
         }
@@ -565,7 +566,8 @@ public class Metrics {
                 Double.parseDouble(value);
                 isValueNumeric = true;
             }
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             isValueNumeric = false;
         }
 

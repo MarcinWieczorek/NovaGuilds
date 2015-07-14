@@ -1,14 +1,14 @@
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class ChatListener implements Listener {
@@ -122,7 +122,7 @@ public class ChatListener implements Listener {
 			cmd = split[0];
 		}
 
-		plugin.debug(event.getMessage());
+		LoggerUtils.debug(event.getMessage());
 
 		if(plugin.getCommandManager().existsAlias(cmd)) {
 			event.setMessage(event.getMessage().replaceFirst(cmd, plugin.getCommandManager().getMainCommand(cmd)));

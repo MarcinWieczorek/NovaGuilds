@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -35,7 +36,7 @@ public class GuildManager {
 	
 	public NovaGuild getGuildByTag(String tag) {
 		for(NovaGuild guild : getGuilds()) {
-			//plugin.debug(StringUtils.removeColors(guild.getTag())+" = "+tag);
+			//LoggerUtils.debug(StringUtils.removeColors(guild.getTag())+" = "+tag);
 			if(StringUtils.removeColors(guild.getTag()).equalsIgnoreCase(tag)) {
 				return guild;
 			}
@@ -87,13 +88,13 @@ public class GuildManager {
 					guilds.put(guildName.toLowerCase(),guild);
 				}
 				else {
-					plugin.info("Loaded guild is null. name: "+guildName);
+					LoggerUtils.info("Loaded guild is null. name: "+guildName);
 				}
 			}
 		}
 		else {
 			if(plugin.getConnection() == null) {
-				plugin.info("[GuildManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -177,7 +178,7 @@ public class GuildManager {
 						novaGuild.setSpawnPoint(spawnpoint);
 						novaGuild.setRegion(plugin.getRegionManager().getRegion(novaGuild));
 						novaGuild.setBankLocation(bankLocation);
-						plugin.debug("regionnull=" + (novaGuild.getRegion() == null));
+						LoggerUtils.debug("regionnull=" + (novaGuild.getRegion() == null));
 
 						novaGuild.setAllies(allies);
 						novaGuild.setAllyInvitations(alliesinv);
@@ -192,29 +193,29 @@ public class GuildManager {
 //							novaGuild.getRegion().setGuild(novaGuild);
 //						}
 
-						//plugin.debug("id = " + novaGuild.getId());
+						//LoggerUtils.debug("id = " + novaGuild.getId());
 						if(novaGuild.getId() > 0) {
 							guilds.put(res.getString("name").toLowerCase(), novaGuild);
 						}
 						else {
-							plugin.info("Failed to load guild " + res.getString("name") + ". Invalid ID");
+							LoggerUtils.info("Failed to load guild " + res.getString("name") + ". Invalid ID");
 						}
 					}
 					else {
-						plugin.info("Failed loading guild " + res.getString("name") + ", world does not exist");
+						LoggerUtils.info("Failed loading guild " + res.getString("name") + ", world does not exist");
 					}
 				}
 			}
 			catch(SQLException e) {
-				plugin.info("An error occured while loading guilds!");
-				plugin.info(e.getMessage());
+				LoggerUtils.info("An error occured while loading guilds!");
+				LoggerUtils.exception(e);
 			}
 		}
 
-		plugin.info("[GuildManager] Loaded "+guilds.size()+" guilds.");
+		LoggerUtils.info("[GuildManager] Loaded "+guilds.size()+" guilds.");
 
 		loadBankHolograms();
-		plugin.info("[GuildManager] Generated bank holograms.");
+		LoggerUtils.info("[GuildManager] Generated bank holograms.");
 	}
 	
 	public void addGuild(NovaGuild guild) {
@@ -224,7 +225,7 @@ public class GuildManager {
 		}
 		else {
 			if(plugin.getConnection() == null) {
-				plugin.info("[GuildManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -237,7 +238,7 @@ public class GuildManager {
 				}
 
 				//adding to MySQL
-				//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive
+				//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive,bankloc
 				String pSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
 				PreparedStatement preparedStatement = plugin.getConnection().prepareStatement(pSQL, Statement.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1, guild.getTag()); //tag
@@ -253,7 +254,7 @@ public class GuildManager {
 				int id = 0;
 				if(keys.next()) {
 					id = keys.getInt(1);
-					plugin.debug("id=" + id);
+					LoggerUtils.debug("id=" + id);
 				}
 
 				if(id > 0) {
@@ -265,8 +266,8 @@ public class GuildManager {
 				}
 			}
 			catch(SQLException e) {
-				plugin.info("SQLException while adding a guild!");
-				plugin.info(e.getMessage());
+				LoggerUtils.info("SQLException while adding a guild!");
+				LoggerUtils.exception(e);
 			}
 		}
 	}
@@ -278,7 +279,7 @@ public class GuildManager {
 			}
 			else {
 				if(plugin.getConnection() == null) {
-					plugin.info("[GuildManager] Connection is not estabilished, stopping current action");
+					LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 					return;
 				}
 
@@ -367,8 +368,8 @@ public class GuildManager {
 					guild.setUnchanged();
 				}
 				catch(SQLException e) {
-					plugin.info("SQLException while saving a guild.");
-					plugin.info(e.getMessage());
+					LoggerUtils.info("SQLException while saving a guild.");
+					LoggerUtils.exception(e);
 				}
 			}
 		}
@@ -386,7 +387,7 @@ public class GuildManager {
 		}
 		else {
 			if(plugin.getConnection() == null) {
-				plugin.info("[GuildManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -398,20 +399,20 @@ public class GuildManager {
 
 				//delete from database
 				String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` WHERE `id`=" + guild.getId();
-				plugin.debug(sql);
-				plugin.debug("id=" + guild.getId());
+				LoggerUtils.debug(sql);
+				LoggerUtils.debug("id=" + guild.getId());
 				statement.executeUpdate(sql);
 			}
 			catch(SQLException e) {
-				plugin.info("SQLException while deleting a guild.");
-				plugin.info(e.getMessage());
+				LoggerUtils.info("SQLException while deleting a guild.");
+				LoggerUtils.exception(e);
 			}
 		}
 
 //		//remove players
 //		for(NovaPlayer nP : guild.getPlayers()) {
 //			nP.setGuild(null);
-//			plugin.debug(nP.getName());
+//			LoggerUtils.debug(nP.getName());
 //
 //			//update tags
 //			if(nP.isOnline()) {
@@ -497,36 +498,36 @@ public class GuildManager {
 			boolean remove = false;
 			if(guild != null) {
 				if(guild.getLeaderName() != null) {
-					plugin.info("("+guild.getName()+") Leader's name is set. Probably leader is null");
+					LoggerUtils.info("("+guild.getName()+") Leader's name is set. Probably leader is null");
 				}
 
 				if(guild.getLeader() == null) {
-					plugin.info("("+guild.getName()+") Leader is null");
+					LoggerUtils.info("("+guild.getName()+") Leader is null");
 					remove = true;
 				}
 
 				if(guild.getPlayers().size() == 0) {
-					plugin.info("("+guild.getName()+") 0 players");
+					LoggerUtils.info("("+guild.getName()+") 0 players");
 					remove = true;
 				}
 
 				if(guild.getSpawnPoint()==null) {
-					plugin.info("("+guild.getName()+") Spawnpoint is null");
+					LoggerUtils.info("("+guild.getName()+") Spawnpoint is null");
 					remove = true;
 				}
 
 				if(guild.getId() <= 0 && plugin.getConfigManager().getDataStorageType()!=DataStorageType.FLAT) {
-					plugin.info("("+guild.getName()+") ID <= 0 !");
+					LoggerUtils.info("("+guild.getName()+") ID <= 0 !");
 					remove = true;
 				}
 			}
 			else {
-				plugin.info("guild is null!");
+				LoggerUtils.info("guild is null!");
 				remove = true;
 			}
 
 			if(remove) {
-				plugin.info("Unloaded guild "+(guild==null ? "null" : guild.getName()));
+				LoggerUtils.info("Unloaded guild "+(guild==null ? "null" : guild.getName()));
 				if(guild != null) {
 					if(guild.hasRegion()) {
 						guild.getRegion().setGuild(null);
@@ -562,7 +563,7 @@ public class GuildManager {
 			}
 		}
 
-		plugin.info("[GuildManager] Postcheck finished. Found "+i+" invalid guilds");
+		LoggerUtils.info("[GuildManager] Postcheck finished. Found "+i+" invalid guilds");
 	}
 
 	public void createHomeFloor(NovaGuild guild) {
@@ -581,7 +582,7 @@ public class GuildManager {
 			sp.clone().add(-1, -1, 1).getBlock().setType(material);
 		}
 		else {
-			plugin.info("Failed to create homefloor, invalid material.");
+			LoggerUtils.info("Failed to create homefloor, invalid material.");
 		}
 	}
 

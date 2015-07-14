@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.util.LoggerUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -386,7 +387,7 @@ public class NovaGuild {
 
 	public void addPlayer(NovaPlayer nPlayer) {
 		if(nPlayer == null) {
-			NovaGuilds.getInst().info("Tried to add null player to a guild! "+name);
+			LoggerUtils.info("Tried to add null player to a guild! " + name);
 			return;
 		}
 
@@ -397,7 +398,7 @@ public class NovaGuild {
 			if(getLeaderName()!=null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
 				setLeader(nPlayer);
 				leaderName = null;
-				NovaGuilds.getInst().debug("Changed leader "+name+"="+nPlayer.getName());
+				LoggerUtils.debug("Changed leader " + name + "=" + nPlayer.getName());
 			}
 		}
 	}

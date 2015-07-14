@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
@@ -16,7 +17,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class ToolListener implements Listener {
 	private final NovaGuilds plugin;
@@ -38,8 +38,8 @@ public class ToolListener implements Listener {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 				//Spigot and Cauldron (1.8/1.7.10)
-				Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
-				//Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
+				//Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
+				Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
 
 				pointedLocation.setWorld(player.getWorld());
 
@@ -66,7 +66,7 @@ public class ToolListener implements Listener {
 							//RegionUtils.setCorner(player,nPlayer.getGuild().getRegion().getCorner(1),Material.GOLD_BLOCK);
 							RegionUtils.highlightRegion(player,nPlayer.getGuild().getRegion(),Material.GOLD_BLOCK);
 							nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
-							plugin.debug("golden corners");
+							LoggerUtils.debug("golden corners");
 						}
 					}
 					else {
@@ -76,7 +76,7 @@ public class ToolListener implements Listener {
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("MODE", mode);
 					plugin.getMessageManager().sendMessagesMsg(player, "chat.region.tool.toggledmode", vars);
-					plugin.debug("toggle=" + plugin.getPlayerManager().getPlayer(player).regionMode());
+					LoggerUtils.debug("toggle=" + plugin.getPlayerManager().getPlayer(player).regionMode());
 
 					if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
 						RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
@@ -127,14 +127,14 @@ public class ToolListener implements Listener {
 								return;
 							}
 
-							//plugin.debug("guild null=" + (region.getGuild() == null));
+							//LoggerUtils.debug("guild null=" + (region.getGuild() == null));
 							if(region.getGuild().isMember(nPlayer) && nPlayer.isLeader()) {
 								Location pointedCornerLocation = pointedLocation.clone();
 								pointedCornerLocation.setY(0);
 								//pointedCornerLocation = pointedCornerLocation.getBlock().getLocation();
-								//plugin.debug("y: "+pointedCornerLocation.getBlockY() + " / " + region.getCorner(0).getBlockY() + " / " + region.getCorner(1).getBlockY());
-								//plugin.debug("0=" + pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()));
-								//plugin.debug("1=" + pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()));
+								//LoggerUtils.debug("y: "+pointedCornerLocation.getBlockY() + " / " + region.getCorner(0).getBlockY() + " / " + region.getCorner(1).getBlockY());
+								//LoggerUtils.debug("0=" + pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()));
+								//LoggerUtils.debug("1=" + pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()));
 
 								if(pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()) < 1 || pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()) < 1) { //clicked a corner
 									int corner = 1;
@@ -235,7 +235,7 @@ public class ToolListener implements Listener {
 											if(nPlayer.isResizing()) {
 												data = (byte) 6;
 												price = ppb * (regionsize - nPlayer.getGuild().getRegion().getSurface());
-												plugin.debug(ppb+" * ("+regionsize+" - "+nPlayer.getGuild().getRegion().getSurface()+") = "+price);
+												LoggerUtils.debug(ppb+" * ("+regionsize+" - "+nPlayer.getGuild().getRegion().getSurface()+") = "+price);
 											}
 											else {
 												data = (byte) 14;

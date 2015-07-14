@@ -1,13 +1,12 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.NovaGuilds;
+import java.util.HashMap;
 
 public class CommandAdminGuildSetTag implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -43,7 +42,7 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("TAG",newtag);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.settag",vars);
+		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.tag",vars);
 		return true;
 	}
 }

@@ -48,12 +48,12 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         vars.put("GUILDNAME", guild.getName());
 
         if(!guild.isMember(nPlayer)) { //is not member
-            plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setleader.notinguild",vars);
+            plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.leader.notinguild",vars);
             return true;
         }
 
         if(guild.getLeader().getName().equalsIgnoreCase(nPlayer.getName())) { //already leader
-            plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setleader.alreadyleader",vars);
+            plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.leader.alreadyleader",vars);
             return true;
         }
 
@@ -70,7 +70,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         }
 
 
-        plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.setleader.success",vars);
+        plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.leader.success",vars);
         plugin.getMessageManager().broadcastMessage("broadcast.guild.newleader",vars);
 
         return true;

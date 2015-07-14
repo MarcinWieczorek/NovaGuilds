@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -91,9 +92,9 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 		}
 
 		for(NovaGuild guild : plugin.getGuildManager().getMostInactiveGuilds()) {
-			plugin.debug(i + "");
-			plugin.debug(display + "");
-			plugin.debug(i + 1 + ">" + (page - 1) * perpage);
+			LoggerUtils.debug(i + "");
+			LoggerUtils.debug(display + "");
+			LoggerUtils.debug(i + 1 + ">" + (page - 1) * perpage);
 
 			if((i + 1 > (page - 1) * perpage || page == 1) && !display) {
 				display = true;
@@ -112,7 +113,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 					agonow = plugin.getMessageManager().getMessagesString("chat.admin.guild.inactive.list.now");
 				}
 
-				plugin.debug("leadernull="+(guild.getLeader()==null));
+				LoggerUtils.debug("leadernull="+(guild.getLeader()==null));
 
 				HashMap<String, String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
@@ -126,7 +127,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
 				if(i + 1 >= perpage) {
-					plugin.debug("break");
+					LoggerUtils.debug("break");
 					break;
 				}
 			}

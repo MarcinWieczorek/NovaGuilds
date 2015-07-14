@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -60,7 +61,7 @@ public class PlayerManager {
 			}
 			else {
 				if(plugin.getConnection() == null) {
-					plugin.info("[PlayerManager] Connection is not estabilished, stopping current action");
+					LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 					return;
 				}
 
@@ -84,12 +85,12 @@ public class PlayerManager {
 							"`guild`='" + guildname + "' " +
 							"WHERE `uuid`='" + nPlayer.getUUID() + "'";
 
-					plugin.debug(sql);
+					LoggerUtils.debug(sql);
 					statement.executeUpdate(sql);
 					nPlayer.setUnchanged();
 				}
 				catch(SQLException e) {
-					plugin.info(e.getMessage());
+					LoggerUtils.exception(e);
 				}
 			}
 		}
@@ -113,13 +114,13 @@ public class PlayerManager {
 					players.put(playerName.toLowerCase(), nPlayer);
 				}
 				else {
-					plugin.info("Loaded player is null. name: " + playerName);
+					LoggerUtils.info("Loaded player is null. name: " + playerName);
 				}
 			}
 		}
 		else {
 			if(plugin.getConnection() == null) {
-				plugin.info("[PlayerManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -136,11 +137,11 @@ public class PlayerManager {
 				}
 			}
 			catch(SQLException e) {
-				plugin.info(e.getMessage());
+				LoggerUtils.exception(e);
 			}
 		}
 
-		plugin.info("[PlayerManager] Loaded "+players.size()+" players.");
+		LoggerUtils.info("[PlayerManager] Loaded "+players.size()+" players.");
     }
 	
 	//add a player
@@ -152,7 +153,7 @@ public class PlayerManager {
 		}
 		else {
 			if(plugin.getConnection() == null) {
-				plugin.info("[PlayerManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 			plugin.mysqlReload();
@@ -167,11 +168,11 @@ public class PlayerManager {
 				statement.executeUpdate("INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'" + uuid + "','" + playername + "','','')");
 			}
 			catch(SQLException e) {
-				plugin.info("SQLException: " + e.getMessage());
+				LoggerUtils.exception(e);
 			}
 		}
 
-		plugin.info("New player " + player.getName() + " added to the database");
+		LoggerUtils.info("New player " + player.getName() + " added to the database");
 		players.put(player.getName().toLowerCase(), nPlayer);
 	}
 
@@ -203,7 +204,7 @@ public class PlayerManager {
 		if(nPlayer.isOnline()) {
 			if(!nPlayer.getUUID().toString().equals(nPlayer.getPlayer().getUniqueId().toString())) {
 				nPlayer.setUUID(nPlayer.getPlayer().getUniqueId());
-				plugin.info("[PlayerManager] UUID updated for player " + nPlayer.getName());
+				LoggerUtils.info("[PlayerManager] UUID updated for player " + nPlayer.getName());
 			}
 		}
 	}
@@ -257,7 +258,7 @@ public class PlayerManager {
 			nPlayer.setUnchanged();
 		}
 		catch(SQLException e) {
-			e.printStackTrace();
+			LoggerUtils.exception(e);
 		}
 
 		return nPlayer;

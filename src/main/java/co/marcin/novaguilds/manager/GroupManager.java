@@ -2,6 +2,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -32,7 +33,7 @@ public class GroupManager {
 		String groupName = "default";
 
 		if(player == null) {
-			plugin.debug("Player is null, return is default group");
+			LoggerUtils.debug("Player is null, return is default group");
 			return getGroup(groupName);
 		}
 

@@ -7,6 +7,7 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.runnable.RunnableRaid;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Effect;
@@ -68,13 +69,13 @@ public class RegionManager {
 					regions.put(guildName.toLowerCase(), region);
 				}
 				else {
-					plugin.info("Loaded region is null. name: " + guildName);
+					LoggerUtils.info("Loaded region is null. name: " + guildName);
 				}
 			}
 		}
 		else {
 			if(plugin.getConnection() == null) {
-				plugin.info("[RegionManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -112,16 +113,16 @@ public class RegionManager {
 						regions.put(res.getString("guild").toLowerCase(), novaRegion);
 					}
 					else {
-						plugin.info("Failed loading region for guild " + res.getString("guild") + ", world does not exist.");
+						LoggerUtils.info("Failed loading region for guild " + res.getString("guild") + ", world does not exist.");
 					}
 				}
 			}
 			catch(SQLException e) {
-				plugin.info(e.getMessage());
+				LoggerUtils.exception(e);
 			}
 		}
 
-		plugin.info("[RegionManager] Loaded "+regions.size()+" regions.");
+		LoggerUtils.info("[RegionManager] Loaded "+regions.size()+" regions.");
 	}
 	
 	public void addRegion(NovaRegion region, NovaGuild guild) {
@@ -130,7 +131,7 @@ public class RegionManager {
 		}
 		else {
 			if(plugin.getConnection() == null) {
-				plugin.info("[RegionManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -144,7 +145,7 @@ public class RegionManager {
 				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
 
 				if(guild == null) {
-					plugin.info("addRegion w/o guild attempt");
+					LoggerUtils.info("addRegion w/o guild attempt");
 					return;
 				}
 
@@ -161,7 +162,7 @@ public class RegionManager {
 				regions.put(guild.getName().toLowerCase(), region);
 			}
 			catch(SQLException e) {
-				plugin.info(e.getMessage());
+				LoggerUtils.exception(e);
 			}
 		}
 	}
@@ -174,7 +175,7 @@ public class RegionManager {
 				}
 				else {
 					if(plugin.getConnection() == null) {
-						plugin.info("[RegionManager] Connection is not estabilished, stopping current action");
+						LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 						return;
 					}
 
@@ -196,13 +197,13 @@ public class RegionManager {
 						region.setUnChanged();
 					}
 					catch(SQLException e) {
-						plugin.info(e.getMessage());
+						LoggerUtils.exception(e);
 					}
 				}
 			}
 		}
 		else {
-			plugin.info("null found while saving a region!");
+			LoggerUtils.info("null found while saving a region!");
 		}
 	}
 	
@@ -219,7 +220,7 @@ public class RegionManager {
 		}
 		else {
 			if(plugin.getConnection() == null) {
-				plugin.info("[RegionManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -234,8 +235,8 @@ public class RegionManager {
 				regions.remove(region.getGuildName().toLowerCase());
 			}
 			catch(SQLException e) {
-				plugin.info("[RegionManager] An error occured while deleting a guild's region ("+region.getGuild().getName()+")");
-				plugin.info(e.getMessage());
+				LoggerUtils.info("[RegionManager] An error occured while deleting a guild's region ("+region.getGuild().getName()+")");
+				LoggerUtils.exception(e);
 			}
 		}
 	}
@@ -249,7 +250,7 @@ public class RegionManager {
 			boolean remove = false;
 
 			if(region.getGuild() == null) {
-				plugin.info("[RegionManager] ("+region.getGuildName() + ") Guild is null");
+				LoggerUtils.info("[RegionManager] ("+region.getGuildName() + ") Guild is null");
 				remove = true;
 			}
 
@@ -259,7 +260,7 @@ public class RegionManager {
 			}
 		}
 
-		plugin.info("[RegionManager] PostCheck finished, unloaded " + i + " invalid regions");
+		LoggerUtils.info("[RegionManager] PostCheck finished, unloaded " + i + " invalid regions");
 	}
 	
 	public RegionValidity checkRegionSelect(Location l1, Location l2) {
@@ -270,12 +271,12 @@ public class RegionManager {
 		
 		int dif_x = Math.abs(x1 - x2) +1;
 		int dif_z = Math.abs(z1 - z2) +1;
-		plugin.debug(dif_x+","+dif_z);
+		LoggerUtils.debug(dif_x+","+dif_z);
 		
 		int minsize = plugin.getConfig().getInt("region.minsize");
 		int maxsize = plugin.getConfig().getInt("region.maxsize");
 
-		plugin.debug(minsize + "," + maxsize);
+		LoggerUtils.debug(minsize + "," + maxsize);
 
 		if(dif_x < minsize || dif_z < minsize) {
 			return RegionValidity.TOOSMALL;
@@ -366,13 +367,13 @@ public class RegionManager {
 		int diagonal = 0;
 
 		int min = diagonal + plugin.getConfig().getInt("region.mindistance");
-		plugin.debug("min="+min);
+		LoggerUtils.debug("min="+min);
 		Location centerLocation = getCenterLocation(l1, l2);
-		plugin.debug("center="+centerLocation.toString());
+		LoggerUtils.debug("center="+centerLocation.toString());
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
 			int diagonal2 = 0;
-			plugin.debug("checking guild "+guildLoop.getName());
+			LoggerUtils.debug("checking guild "+guildLoop.getName());
 
 			if(guildLoop.hasRegion()) {
 				diagonal2 = guildLoop.getRegion().getDiagonal();
@@ -383,9 +384,9 @@ public class RegionManager {
 			//RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"),centerLocation,Material.WOOL);
 			//RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"),spawnpointLocation,Material.GLOWSTONE);
 			double distance = centerLocation.distance(guildLoop.getSpawnPoint());
-			plugin.debug("distance="+distance);
+			LoggerUtils.debug("distance="+distance);
 			if(distance < min+diagonal2) {
-				plugin.debug("too close "+guildLoop.getName());
+				LoggerUtils.debug("too close "+guildLoop.getName());
 				return false;
 			}
 		}
@@ -479,7 +480,7 @@ public class RegionManager {
 						guild.getRaid().resetProgress();
 						plugin.resetWarBar(guild);
 						plugin.resetWarBar(nPlayer.getGuild());
-						plugin.debug("progress: " + guild.getRaid().getProgress());
+						LoggerUtils.debug("progress: " + guild.getRaid().getProgress());
 						guild.getRaid().updateInactiveTime();
 					}
 				}

@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.entity.Player;
 
 public class RunnableAutoSave implements Runnable {
@@ -14,7 +15,7 @@ public class RunnableAutoSave implements Runnable {
 		plugin.getGuildManager().saveAll();
 		plugin.getRegionManager().saveAll();
 		plugin.getPlayerManager().saveAll();
-		plugin.info("Saved data.");
+		LoggerUtils.info("Saved data.");
 
 		//send message to admins
 		for(Player player : plugin.getServer().getOnlinePlayers()) {
