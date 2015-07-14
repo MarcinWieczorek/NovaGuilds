@@ -53,15 +53,16 @@ chat:
      alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
      success: "Nowy lider ustalony!"
   region:
-   rgbypass:
-    toggled: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
-    toggledother: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER}&3. Aktualnie: &c{BYPASS}"
+   bypass:
+    toggled:
+     self: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
+     other: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER}&3. Aktualnie: &c{BYPASS}"
     notifyother: "Twoj tryb ignorowania regionow zostal zmieniony. Aktualnie: &c{BYPASS}"
    delete:
     success: "Pomyslnie usunieto region"
    teleport:
-    success: "Zostales teleportowany na teren gildii &a{GUILDNAME}"
-    successother: "Teleportowano gracza &c{PLAYERNAME} &3na teren gildii &a{GUILDNAME}"
+    self: "Zostales teleportowany na teren gildii &a{GUILDNAME}"
+    other: "Teleportowano gracza &c{PLAYERNAME} &3na teren gildii &a{GUILDNAME}"
     notifyother: "Zostales teleportowany na teren gildii &a{GUILDNAME}"
   save:
    players: "Gracze zapisani."

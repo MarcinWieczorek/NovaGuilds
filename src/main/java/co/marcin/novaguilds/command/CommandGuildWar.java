@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -70,12 +71,12 @@ public class CommandGuildWar implements CommandExecutor {
 				else { //inviting to no-war
 					cmdGuild.addNoWarInvitation(guild);
 					vars.put("GUILDNAME", cmdGuild.getName());
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.war.nowarinv", vars);
+					Message.CHAT_GUILD_WAR_NOWARINV_SUCCESS.vars(vars).send(sender);
 
 					//notify the guild
 					vars.clear();
 					vars.put("GUILDNAME",guild.getName());
-					plugin.getMessageManager().broadcastGuild(cmdGuild, "chat.guild.war.nowarinvnotify", vars,true);
+					Message.CHAT_GUILD_WAR_NOWARINV_NOTIFY.vars(vars).broadcast(cmdGuild);
 				}
 			}
 			else { //new war

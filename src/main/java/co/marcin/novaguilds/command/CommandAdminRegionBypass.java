@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +33,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 			nPlayer.toggleBypass();
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("BYPASS",nPlayer.getBypass()+"");
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.rgbypass.toggled",vars);
+			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF.send(sender);
 		}
 		else { //for other
 			if(sender.hasPermission("novaguilds.admin.region.bypass.other")) {
@@ -53,10 +54,10 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 			vars.put("BYPASS",nPlayer.getBypass() ? plugin.getMessageManager().getMessagesString("chat.basic.on") : plugin.getMessageManager().getMessagesString("chat.basic.off"));
 
 			if(nPlayer.isOnline()) {
-				plugin.getMessageManager().sendMessagesMsg(nPlayer.getPlayer(), "chat.admin.rgbypass.notifyother");
+				Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.send(sender);
 			}
 
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.rgbypass.toggledother",vars);
+			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER.send(sender);
 		}
 		return true;
 	}

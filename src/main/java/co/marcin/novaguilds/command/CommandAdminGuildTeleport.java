@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -62,11 +63,11 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 		}
 
 		if(other) {
-			vars.put("PLAYERNAME",player.getName());
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported.other", vars);
+			vars.put("PLAYERNAME", player.getName());
+			Message.CHAT_ADMIN_GUILD_TELEPORTED_OTHER.vars(vars).send(sender);
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.teleported.self", vars);
+			Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.vars(vars).send(sender);
 		}
 
 		player.teleport(home);

@@ -1,6 +1,13 @@
 # =-=-=-=-=-=-=-=-=-=-=-=-=#
 # NovaGuilds Configuration #
 # =-=-=-=-=-=-=-=-=-=-=-=-=#
+#      Time format:        #
+#     1y 1d 1h 1m 1s       #
+#           =              #
+#  One year, one day, one  #
+#     hour, one minute     #
+#     and one second       #
+# =-=-=-=-=-=-=-=-=-=-=-=-=#
 
 #Data storage type
 # mysql - MySQL database

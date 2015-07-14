@@ -15,6 +15,7 @@ import java.util.Map;
  * @version 1.0.4
  * @author Maxim Van de Wynckel
  */
+@SuppressWarnings({"unused", "ConstantConditions"})
 public class Title {
 	/* Title packet */
 	private Class<?> packetTitle;
@@ -35,6 +36,7 @@ public class Title {
 	private int fadeOutTime = -1;
 	private boolean ticks = false;
 
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private static final Map<Class<?>, Class<?>> CORRESPONDING_TYPES = new HashMap<>();
 
 	/**
@@ -71,13 +73,13 @@ public class Title {
 	public Title(Title title) {
 		// Copy title
 		this.title = title.title;
-		this.subtitle = title.subtitle;
-		this.titleColor = title.titleColor;
-		this.subtitleColor = title.subtitleColor;
-		this.fadeInTime = title.fadeInTime;
-		this.fadeOutTime = title.fadeOutTime;
-		this.stayTime = title.stayTime;
-		this.ticks = title.ticks;
+		subtitle = title.subtitle;
+		titleColor = title.titleColor;
+		subtitleColor = title.subtitleColor;
+		fadeInTime = title.fadeInTime;
+		fadeOutTime = title.fadeOutTime;
+		stayTime = title.stayTime;
+		ticks = title.ticks;
 		loadClasses();
 	}
 
@@ -131,7 +133,7 @@ public class Title {
 	 * @return Title text
 	 */
 	public String getTitle() {
-		return this.title;
+		return title;
 	}
 
 	/**
@@ -150,7 +152,7 @@ public class Title {
 	 * @return Subtitle text
 	 */
 	public String getSubtitle() {
-		return this.subtitle;
+		return subtitle;
 	}
 
 	/**
@@ -160,7 +162,7 @@ public class Title {
 	 *            Chat color
 	 */
 	public void setTitleColor(ChatColor color) {
-		this.titleColor = color;
+		titleColor = color;
 	}
 
 	/**
@@ -170,7 +172,7 @@ public class Title {
 	 *            Chat color
 	 */
 	public void setSubtitleColor(ChatColor color) {
-		this.subtitleColor = color;
+		subtitleColor = color;
 	}
 
 	/**
@@ -180,7 +182,7 @@ public class Title {
 	 *            Time
 	 */
 	public void setFadeInTime(int time) {
-		this.fadeInTime = time;
+		fadeInTime = time;
 	}
 
 	/**
@@ -190,7 +192,7 @@ public class Title {
 	 *            Time
 	 */
 	public void setFadeOutTime(int time) {
-		this.fadeOutTime = time;
+		fadeOutTime = time;
 	}
 
 	/**
@@ -200,7 +202,7 @@ public class Title {
 	 *            Time
 	 */
 	public void setStayTime(int time) {
-		this.stayTime = time;
+		stayTime = time;
 	}
 
 	/**
@@ -224,14 +226,13 @@ public class Title {
 	 *            Player
 	 */
 	public void send(Player player) {
-		if (packetTitle != null) {
+		if(packetTitle != null) {
 			// First reset previous settings
 			resetTitle(player);
 			try {
 				// Send timings first
 				Object handle = getHandle(player);
-				Object connection = getField(handle.getClass(),
-						"playerConnection").get(handle);
+				Object connection = getField(handle.getClass(), "playerConnection").get(handle);
 				Object[] actions = packetActions.getEnumConstants();
 				Method sendPacket = getMethod(connection.getClass(),
 						"sendPacket");
@@ -242,25 +243,21 @@ public class Title {
 						stayTime * (ticks ? 1 : 20),
 						fadeOutTime * (ticks ? 1 : 20));
 				// Send if set
-				if (fadeInTime != -1 && fadeOutTime != -1 && stayTime != -1)
+				if(fadeInTime != -1 && fadeOutTime != -1 && stayTime != -1) {
 					sendPacket.invoke(connection, packet);
+				}
 
 				// Send title
-				Object serialized = getMethod(nmsChatSerializer, "a",
-						String.class).invoke(
-						null,
-						"{text:\""
+				Object serialized = getMethod(nmsChatSerializer, "a", String.class).invoke(null, "{text:\""
 								+ ChatColor.translateAlternateColorCodes('&',
 								title) + "\",color:"
 								+ titleColor.name().toLowerCase() + "}");
-				packet = packetTitle.getConstructor(packetActions,
-						chatBaseComponent).newInstance(actions[0], serialized);
+				packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[0], serialized);
 				sendPacket.invoke(connection, packet);
-				if (subtitle != "") {
+				//if(subtitle != "") {
+				if(!subtitle.isEmpty()) {
 					// Send subtitle if present
-					serialized = getMethod(nmsChatSerializer, "a", String.class)
-							.invoke(null,
-									"{text:\""
+					serialized = getMethod(nmsChatSerializer, "a", String.class).invoke(null, "{text:\""
 											+ ChatColor
 											.translateAlternateColorCodes(
 													'&', subtitle)
@@ -298,14 +295,13 @@ public class Title {
 		try {
 			// Send timings first
 			Object handle = getHandle(player);
-			Object connection = getField(handle.getClass(), "playerConnection")
-					.get(handle);
+			Object connection = getField(handle.getClass(), "playerConnection").get(handle);
 			Object[] actions = packetActions.getEnumConstants();
 			Method sendPacket = getMethod(connection.getClass(), "sendPacket");
-			Object packet = packetTitle.getConstructor(packetActions,
-					chatBaseComponent).newInstance(actions[3], null);
+			Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[3], null);
 			sendPacket.invoke(connection, packet);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			LoggerUtils.exception(e);
 		}
 	}
@@ -320,12 +316,10 @@ public class Title {
 		try {
 			// Send timings first
 			Object handle = getHandle(player);
-			Object connection = getField(handle.getClass(), "playerConnection")
-					.get(handle);
+			Object connection = getField(handle.getClass(), "playerConnection").get(handle);
 			Object[] actions = packetActions.getEnumConstants();
 			Method sendPacket = getMethod(connection.getClass(), "sendPacket");
-			Object packet = packetTitle.getConstructor(packetActions,
-					chatBaseComponent).newInstance(actions[4], null);
+			Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[4], null);
 			sendPacket.invoke(connection, packet);
 		}
 		catch (Exception e) {
@@ -341,17 +335,21 @@ public class Title {
 	private Class<?>[] toPrimitiveTypeArray(Class<?>[] classes) {
 		int a = classes != null ? classes.length : 0;
 		Class<?>[] types = new Class<?>[a];
-		for (int i = 0; i < a; i++)
+		for(int i = 0; i < a; i++) {
 			types[i] = getPrimitiveType(classes[i]);
+		}
 		return types;
 	}
 
 	private static boolean equalsTypeArray(Class<?>[] a, Class<?>[] o) {
-		if (a.length != o.length)
+		if(a.length != o.length) {
 			return false;
-		for (int i = 0; i < a.length; i++)
-			if (!a[i].equals(o[i]) && !a[i].isAssignableFrom(o[i]))
+		}
+		for(int i = 0; i < a.length; i++) {
+			if(!a[i].equals(o[i]) && !a[i].isAssignableFrom(o[i])) {
 				return false;
+			}
+		}
 		return true;
 	}
 
@@ -368,18 +366,18 @@ public class Title {
 	private Method getMethod(String name, Class<?> clazz,
 							 Class<?>... paramTypes) {
 		Class<?>[] t = toPrimitiveTypeArray(paramTypes);
-		for (Method m : clazz.getMethods()) {
+		for(Method m : clazz.getMethods()) {
 			Class<?>[] types = toPrimitiveTypeArray(m.getParameterTypes());
-			if (m.getName().equals(name) && equalsTypeArray(types, t))
+			if(m.getName().equals(name) && equalsTypeArray(types, t)) {
 				return m;
+			}
 		}
 		return null;
 	}
 
 	private String getVersion() {
 		String name = Bukkit.getServer().getClass().getPackage().getName();
-		String version = name.substring(name.lastIndexOf('.') + 1) + ".";
-		return version;
+		return name.substring(name.lastIndexOf('.') + 1) + ".";
 	}
 
 	private Class<?> getNMSClass(String className) {
@@ -407,25 +405,29 @@ public class Title {
 	}
 
 	private Method getMethod(Class<?> clazz, String name, Class<?>... args) {
-		for (Method m : clazz.getMethods())
-			if (m.getName().equals(name)
+		for(Method m : clazz.getMethods()) {
+			if(m.getName().equals(name)
 					&& (args.length == 0 || ClassListEqual(args,
 					m.getParameterTypes()))) {
 				m.setAccessible(true);
 				return m;
 			}
+		}
 		return null;
 	}
 
 	private boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
 		boolean equal = true;
-		if (l1.length != l2.length)
+		if(l1.length != l2.length) {
 			return false;
-		for (int i = 0; i < l1.length; i++)
-			if (l1[i] != l2[i]) {
+		}
+
+		for(int i = 0; i < l1.length; i++) {
+			if(l1[i] != l2[i]) {
 				equal = false;
 				break;
 			}
+		}
 		return equal;
 	}
 }

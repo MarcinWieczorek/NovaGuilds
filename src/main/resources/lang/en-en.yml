@@ -53,15 +53,16 @@ chat:
      alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
      success: "New leader set!"
   region:
-   rgbypass:
-    toggled: "Region bypass toggled. Currently: &c{BYPASS}"
-    toggledother: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
+   bypass:
+    toggled:
+     self: "Region bypass toggled. Currently: &c{BYPASS}"
+     other: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
     notifyother: "Your region bypass has been toggled. Currently: &c{BYPASS}"
    delete:
     success: "Successfully deleted guild's region."
    teleport:
-    success: "Teleported you to &a{GUILDNAME}&3's region."
-    successother: "Teleported player &c{PLAYERNAME} &3to &a{GUILDNAME}&3's region"
+    self: "Teleported you to &a{GUILDNAME}&3's region."
+    other: "Teleported player &c{PLAYERNAME} &3to &a{GUILDNAME}&3's region"
     notifyother: "You have been teleported to &a{GUILDNAME}&3's region"
   save:
    players: "Players saved."
@@ -158,12 +159,15 @@ chat:
     - "&5* &7/abandon &2- &3abandon your guild"
     - "&5* &7/invite &6<playername> &2- &3invite player to your guild"
 
- teampvp: "You cannot hurt your teammates"
- allypvp: "You cannot hurt your allies."
+ pvp:
+  team: "You cannot hurt your teammates"
+  ally: "You cannot hurt your allies."
+
  noguild: "No guild"
  
  raid:
   resting: "You have to wait &c{TIMEREST} &3before attacking this guild."
+  protection: "This guild is new and still protected. Try tomorrow."
  
  guild:
   compasstarget:
@@ -195,11 +199,13 @@ chat:
   abandoned: "guild abandoned successfully"
   notleader: "You are not the leader"
   notenoughmoney: "There is not enough money in guild's bank."
-  setspawnpoint: "Guild's home set!"
-  sethomeoutside: "You cannot set home outside your guild's region"
-  tp: "Teleported to guild's home"
+  sethome:
+   success: "Guild's home set!"
+   outsideregion: "You cannot set home outside your guild's region"
+   overlaps: "You cannot set the spawnpoint at someone's guild location!"
+  home: "Teleported to guild's home"
   hasregionalready: "Your guild already has a region. Resize or delete current one."
-  guildatlocsp: "You cannot set the spawnpoint at someone's guild location!"
+  guildatlocsp: REMOVE!
   joined: "You have joined the guild!"
   explosionatregion: "There was an explosion at your guild's region!"
   kickyourself: "You cannot kick yourself from the guild!"
@@ -208,8 +214,9 @@ chat:
   war:
    ally: "First you need to end your ally with that guild."
    yourguildwar: "You cannot start a war with yourself!"
-   nowarinv: "You asked guild &a{GUILDNAME} &3to stop the war"
-   nowarinvnotify: "&a{GUILDNAME} &3asked you to stop the war"
+   nowarinv:
+    success: "You asked guild &a{GUILDNAME} &3to stop the war"
+    notify: "&a{GUILDNAME} &3asked you to stop the war"
    list:
     nowars: "No wars."
     warsheader: "List of wars:"

@@ -166,8 +166,8 @@ public class MessageManager {
 		sendMessagesMsg(sender, path, false);
 	}
 
-	public void sendMessagesMsg(CommandSender sender, Message message) {
-		sendMessagesMsg(sender,message.getPath(),message.getTitle());
+	public void sendMessagesMsg(CommandSender sender, Message message, HashMap<String,String> vars) {
+		sendMessagesMsg(sender, message.getPath(), vars, message.getTitle());
 	}
 
 	public void sendMessagesMsg(CommandSender sender, String path, boolean title) {
@@ -210,13 +210,17 @@ public class MessageManager {
 		}
 	}
 
-	//broadcast message from file to all players
+	//broadcast message from file to all players with permission
 	public void broadcastMessageForPermitted(String path, String permission) {
 		for(Player p : plugin.getServer().getOnlinePlayers()) {
 			if(p.hasPermission(permission)) {
 				sendMessagesMsg(p,path);
 			}
 		}
+	}
+
+	public void broadcastMessage(Message message, HashMap<String,String> vars) {
+		broadcastMessage(message.getPath(), vars);
 	}
 
 	public void broadcastMessage(String path,HashMap<String,String> vars) {
@@ -230,6 +234,10 @@ public class MessageManager {
 
 	public void broadcastGuild(NovaGuild guild, String path, boolean prefix) {
 		broadcastGuild(guild,path,new HashMap<String,String>(),prefix);
+	}
+
+	public void broadcastGuild(NovaGuild guild, Message message,HashMap<String,String> vars, boolean prefix) {
+		broadcastGuild(guild, message.getPath(), vars, prefix);
 	}
 
 	public void broadcastGuild(NovaGuild guild, String path,HashMap<String,String> vars, boolean prefix) {
@@ -260,12 +268,12 @@ public class MessageManager {
 	}
 
 	public void sendNoPermissionsMessage(CommandSender sender) {
-		sendMessagesMsg(sender,Message.CHAT_NOPERMISSIONS);
+		Message.CHAT_NOPERMISSIONS.send(sender);
 	}
 
-	public void sendNoPermissionsMessage(Player player) {
-		sendMessagesMsg(player, Message.CHAT_NOPERMISSIONS);
-	}
+//	public void sendNoPermissionsMessage(Player player) {
+//		sendMessagesMsg(player, Message.CHAT_NOPERMISSIONS);
+//	}
 
 	public void sendUsageMessage(CommandSender sender, String path) {
 		sender.sendMessage(StringUtils.fixColors(getMessagesString("chat.usage." + path)));

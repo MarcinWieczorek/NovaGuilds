@@ -4,6 +4,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -78,12 +79,12 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 
 		if(nPlayerOther != null) {
 			player = nPlayerOther.getPlayer();
-			plugin.getMessageManager().sendMessagesMsg(player,"chat.admin.region.teleport.notifyother",vars);
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.teleport.successother",vars);
+			Message.CHAT_ADMIN_REGION_TELEPORT_OTHER.send(sender);
+			Message.CHAT_ADMIN_REGION_TELEPORT_NOTIFYOTHER.send(player);
 		}
 		else {
 			player = (Player) sender;
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.region.teleport.success",vars);
+			Message.CHAT_ADMIN_REGION_TELEPORT_SELF.send(sender);
 		}
 
 		player.teleport(location);

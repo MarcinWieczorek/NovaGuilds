@@ -73,6 +73,10 @@ public class ConfigManager {
 		debug = config.getBoolean("debug");
 
 		saveInterval = StringUtils.StringToSeconds(config.getString("saveinterval"));
+		if(saveInterval < 60) {
+			logger.severe("Save interval can't be shorter than 60 seconds.");
+			saveInterval = 60;
+		}
 
 		raidEnabled = config.getBoolean("raid.enabled");
 		raidTimeRest = StringUtils.StringToSeconds(config.getString("raid.timerest"));

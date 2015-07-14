@@ -1,17 +1,18 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CommandGuildHome implements CommandExecutor {
@@ -28,14 +29,14 @@ private final NovaGuilds plugin;
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 
@@ -43,36 +44,36 @@ private final NovaGuilds plugin;
 
 		if(args.length>0 && args[0].equalsIgnoreCase("set")) {
 			if(!sender.hasPermission("novaguilds.guild.home.set")) {
-				plugin.getMessageManager().sendNoPermissionsMessage(sender);
+				Message.CHAT_NOPERMISSIONS.send(sender);
 				return true;
 			}
 
 			if(!nPlayer.isLeader()) {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notleader");
+				Message.CHAT_GUILD_NOTLEADER.send(sender);
 				return true;
 			}
 
 			NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
 
 			if(rgatloc==null && nPlayer.getGuild().hasRegion()) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.sethomeoutside");
+				Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);
 				return true;
 			}
 
 			if(!nPlayer.getGuild().hasRegion() && rgatloc != null) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.guildatlocsp");
+				Message.CHAT_GUILD_SETHOME_OVERLAPS.send(sender);
 				return true;
 			}
 
 			nPlayer.getGuild().setSpawnPoint(player.getLocation());
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.setspawnpoint");
+			Message.CHAT_GUILD_SETHOME_SUCCESS.send(sender);
 		}
 		else {
 			//items
 			List<ItemStack> homeItems = plugin.getGroupManager().getGroup(sender).getGuildHomeItems();
 			if(!homeItems.isEmpty()) {
 				List<ItemStack> missingItems = ItemStackUtils.getMissingItems(player, homeItems);
-				if(missingItems.size() > 0) {
+				if(!missingItems.isEmpty()) {
 					//TODO: list missing items and test messages/make other msgs
 					String itemlist = "";
 					int i = 0;
@@ -83,7 +84,10 @@ private final NovaGuilds plugin;
 
 						itemlist += itemrow;
 
-						if(i<missingItems.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+						if(i<missingItems.size()-1) {
+							itemlist += plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+						}
+
 						i++;
 					}
 
@@ -98,16 +102,16 @@ private final NovaGuilds plugin;
 			if(homeMoney > 0) {
 				if(plugin.econ.getBalance((Player) sender) < homeMoney) {
 					//TODO not enought money
-					String rmmsg = plugin.getMessageManager().getMessagesString("chat.createguild.notenoughmoney");
-					rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", homeMoney + "");
-					plugin.getMessageManager().sendMessagesMsg(sender, rmmsg);
+					HashMap<String, String> vars = new HashMap<>();
+					vars.put("{REQUIREDMONEY}", homeMoney + "");
+					Message.CHAT_GUILD_NOTENOUGHTMONEY.vars(vars).send(sender);
 					return true;
 				}
 			}
 
-			plugin.econ.withdrawPlayer((Player)sender,homeMoney);
+			plugin.econ.withdrawPlayer((Player) sender, homeMoney);
 			ItemStackUtils.takeItems(player, homeItems);
-			plugin.delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), "chat.guild.tp");
+			Message.CHAT_GUILD_HOME.send(sender);
 		}
 		return true;
 	}

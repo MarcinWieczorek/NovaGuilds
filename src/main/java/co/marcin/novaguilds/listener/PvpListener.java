@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -43,7 +44,7 @@ public class PvpListener implements Listener {
 					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {
 						if(plugin.getPlayerManager().isGuildMate(player,attacker)) { //same guild
 							if(!novaPlayer.getGuild().getFriendlyPvp()) {
-								plugin.getMessageManager().sendMessagesMsg(attacker, "chat.teampvp");
+								Message.CHAT_PVP_TEAM.send(player);
 								event.setCancelled(true);
 
 								//remove the arrow
@@ -54,7 +55,7 @@ public class PvpListener implements Listener {
 						}
 						else if(plugin.getPlayerManager().isAlly(player,attacker)) { //ally
 							if(!(novaPlayer.getGuild().getFriendlyPvp() && novaPlayerAttacker.getGuild().getFriendlyPvp())) {
-								plugin.getMessageManager().sendMessagesMsg(attacker, "chat.allypvp");
+								Message.CHAT_PVP_ALLY.send(player);
 								event.setCancelled(true);
 
 								//remove the arrow
