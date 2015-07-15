@@ -25,8 +25,8 @@ public class MoveListener implements Listener {
 		Location from = event.getFrom();
 		Location to = event.getTo();
 		
-		NovaRegion fromRegion = plugin.getRegionManager().getRegionAtLocation(from);
-		NovaRegion toRegion = plugin.getRegionManager().getRegionAtLocation(to);
+		NovaRegion fromRegion = plugin.getRegionManager().getRegion(from);
+		NovaRegion toRegion = plugin.getRegionManager().getRegion(to);
 
 		//entering
 		if(fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) {
@@ -46,8 +46,8 @@ public class MoveListener implements Listener {
 		Location from = event.getFrom();
 		Location to = event.getTo();
 
-		NovaRegion fromRegion = plugin.getRegionManager().getRegionAtLocation(from);
-		NovaRegion toRegion = plugin.getRegionManager().getRegionAtLocation(to);
+		NovaRegion fromRegion = plugin.getRegionManager().getRegion(from);
+		NovaRegion toRegion = plugin.getRegionManager().getRegion(to);
 
 		//entering
 		if(fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) {

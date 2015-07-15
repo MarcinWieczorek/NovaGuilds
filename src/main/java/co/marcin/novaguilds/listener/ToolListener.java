@@ -33,7 +33,7 @@ public class ToolListener implements Listener {
 		Material tool = Material.getMaterial(plugin.getConfig().getString("region.tool.item").toUpperCase());
 		String toolname = StringUtils.fixColors(plugin.getMessageManager().getMessagesString("items.tool.name"));
 
-		if(player.getItemInHand().getType().equals(tool)) {
+		if(player.getItemInHand().getType() == tool) {
 			if(player.getItemInHand().hasItemMeta() && player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(toolname)) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
@@ -44,7 +44,7 @@ public class ToolListener implements Listener {
 				pointedLocation.setWorld(player.getWorld());
 
 				//Change RegionMode
-				if((event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) && player.isSneaking()) {
+				if((event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) && player.isSneaking()) {
 					if(!player.hasPermission("novaguilds.tool.check") || !player.hasPermission("novaguilds.region.create")) {
 						return;
 					}
@@ -62,8 +62,6 @@ public class ToolListener implements Listener {
 						mode = plugin.getMessageManager().getMessagesString("chat.region.tool.modes.select");
 
 						if(nPlayer.hasGuild() && nPlayer.isLeader() && nPlayer.getGuild().hasRegion()) {
-							//RegionUtils.setCorner(player,nPlayer.getGuild().getRegion().getCorner(0),Material.GOLD_BLOCK);
-							//RegionUtils.setCorner(player,nPlayer.getGuild().getRegion().getCorner(1),Material.GOLD_BLOCK);
 							RegionUtils.highlightRegion(player,nPlayer.getGuild().getRegion(),Material.GOLD_BLOCK);
 							nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
 							LoggerUtils.debug("golden corners");
@@ -95,10 +93,10 @@ public class ToolListener implements Listener {
 				}
 
 
-				NovaRegion region = plugin.getRegionManager().getRegionAtLocation(pointedLocation);
+				NovaRegion region = plugin.getRegionManager().getRegion(pointedLocation);
 
 				if(!nPlayer.regionMode()) { //CHECK MODE
-					if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+					if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if(!player.hasPermission("novaguilds.tool.check")) { //permissions check
 							return;
 						}
@@ -121,13 +119,12 @@ public class ToolListener implements Listener {
 					}
 				}
 				else { //CREATE MODE
-					if(!event.getAction().equals(Action.PHYSICAL)) {
+					if(event.getAction() != Action.PHYSICAL) {
 						if(region != null && !nPlayer.isResizing()) { //resizing
 							if(!player.hasPermission("novaguilds.region.resize")) {
 								return;
 							}
 
-							//LoggerUtils.debug("guild null=" + (region.getGuild() == null));
 							if(region.getGuild().isMember(nPlayer) && nPlayer.isLeader()) {
 								Location pointedCornerLocation = pointedLocation.clone();
 								pointedCornerLocation.setY(0);
@@ -163,7 +160,7 @@ public class ToolListener implements Listener {
 							event.setCancelled(true);
 
 							//Corner 1
-							if(event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+							if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 								if(!nPlayer.isResizing()) {
 									if(nPlayer.getSelectedLocation(0) != null) {
 										RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(0));
@@ -180,7 +177,7 @@ public class ToolListener implements Listener {
 							}
 
 							//Corner 2
-							if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+							if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 								if(nPlayer.isResizing()) {
 									if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()) != null) {
 										RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(nPlayer.getResizingCorner()));
@@ -190,10 +187,12 @@ public class ToolListener implements Listener {
 										}
 									}
 
-									if(nPlayer.getResizingCorner()==0)
-										sl0=pointedLocation;
-									else
-										sl1=pointedLocation;
+									if(nPlayer.getResizingCorner()==0) {
+										sl0 = pointedLocation;
+									}
+									else {
+										sl1 = pointedLocation;
+									}
 
 									nPlayer.setSelectedLocation(nPlayer.getResizingCorner(), pointedLocation);
 								}

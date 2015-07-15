@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -18,9 +19,9 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +38,7 @@ public class RegionManager {
 		return regions.get(guild.getName().toLowerCase());
 	}
 	
-	public NovaRegion getRegionAtLocation(Location l) {
+	public NovaRegion getRegion(Location l) {
 		int x = l.getBlockX();
 		int z = l.getBlockZ();
 		
@@ -61,6 +62,8 @@ public class RegionManager {
 	}
 	
 	public void loadRegions() {
+		regions.clear();
+
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			for(String guildName : plugin.getFlatDataManager().getRegionList()) {
 				FileConfiguration regionData = plugin.getFlatDataManager().getRegionData(guildName);
@@ -75,19 +78,17 @@ public class RegionManager {
 			}
 		}
 		else {
-			if(plugin.getDatabaseManager().getConnection() == null) {
+			plugin.getDatabaseManager().mysqlReload();
+
+			if(!plugin.getDatabaseManager().isConnected()) {
 				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
-			plugin.getDatabaseManager().mysqlReload();
-
-			Statement statement;
 			try {
-				statement = plugin.getDatabaseManager().getConnection().createStatement();
+				PreparedStatement statement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_SELECT);
 
-				regions.clear();
-				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions`");
+				ResultSet res = statement.executeQuery();
 				while(res.next()) {
 					World world = plugin.getServer().getWorld(res.getString("world"));
 
@@ -131,17 +132,14 @@ public class RegionManager {
 			plugin.getFlatDataManager().addRegion(region);
 		}
 		else {
-			if(plugin.getDatabaseManager().getConnection() == null) {
+			if(!plugin.getDatabaseManager().isConnected()) {
 				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
 			plugin.getDatabaseManager().mysqlReload();
 
-			Statement statement;
 			try {
-				statement = plugin.getDatabaseManager().getConnection().createStatement();
-
 				String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
 				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
 
@@ -154,8 +152,15 @@ public class RegionManager {
 					region.setWorld(plugin.getServer().getWorlds().get(0));
 				}
 
-				String sql = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "regions` VALUES(0,'" + loc1 + "','" + loc2 + "','" + guild.getName() + "','" + guild.getSpawnPoint().getWorld().getName() + "');";
-				statement.execute(sql);
+				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_INSERT);
+
+				//"INSERT INTO `" + prefix + "regions` VALUES(0,'" + loc1 + "','" + loc2 + "','" + guild.getName() + "','" + guild.getSpawnPoint().getWorld().getName() + "');";
+
+				preparedStatement.setString(1, loc1);
+				preparedStatement.setString(2, loc2);
+				preparedStatement.setString(3, guild.getName());
+				preparedStatement.setString(4, region.getWorld().getName());
+				preparedStatement.executeUpdate();
 
 				guild.setRegion(region);
 				region.setGuildName(guild.getName());
@@ -175,26 +180,25 @@ public class RegionManager {
 					plugin.getFlatDataManager().saveRegion(region);
 				}
 				else {
-					if(plugin.getDatabaseManager().getConnection() == null) {
+					if(!plugin.getDatabaseManager().isConnected()) {
 						LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 						return;
 					}
 
 					plugin.getDatabaseManager().mysqlReload();
-					Statement statement;
 					try {
-						statement = plugin.getDatabaseManager().getConnection().createStatement();
+						PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_UPDATE);
 
 						String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
 						String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
 
-						String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "regions` SET " +
-								"`loc_1`='" + loc1 + "', " +
-								"`loc_2`='" + loc2 + "', " +
-								"`guild`='" + region.getGuildName() + "', " +
-								"`world`='" + region.getWorld().getName() + "' " +
-								"WHERE `id`=" + region.getId();
-						statement.executeUpdate(sql);
+						preparedStatement.setString(1, loc1);
+						preparedStatement.setString(2, loc2);
+						preparedStatement.setString(3, region.getGuild().getName());
+						preparedStatement.setString(4, region.getWorld().getName());
+						preparedStatement.setString(5, String.valueOf(region.getId()));
+						preparedStatement.executeUpdate();
+
 						region.setUnChanged();
 					}
 					catch(SQLException e) {
@@ -220,7 +224,7 @@ public class RegionManager {
 			plugin.getFlatDataManager().deleteRegion(region);
 		}
 		else {
-			if(plugin.getDatabaseManager().getConnection() == null) {
+			if(!plugin.getDatabaseManager().isConnected()) {
 				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
 				return;
 			}
@@ -228,10 +232,9 @@ public class RegionManager {
 			plugin.getDatabaseManager().mysqlReload();
 
 			try {
-				Statement statement = plugin.getDatabaseManager().getConnection().createStatement();
-
-				String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`='" + region.getGuildName() + "'";
-				statement.executeUpdate(sql);
+				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_DELETE);
+				preparedStatement.setString(1,region.getGuild().getName());
+				preparedStatement.executeUpdate();
 
 				regions.remove(region.getGuildName().toLowerCase());
 			}
@@ -350,18 +353,9 @@ public class RegionManager {
 	}
 
 	public boolean canBuild(Player player, Location location) {
-		NovaRegion region = getRegionAtLocation(location);
-
-		if(region == null)
-			return true;
-
+		NovaRegion region = getRegion(location);
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-
-		if(nPlayer == null)
-			return true;
-
-		return nPlayer.hasGuild() && (nPlayer.getBypass() || region.getGuild().isMember(nPlayer));
-
+		return region == null || nPlayer.hasGuild() && (nPlayer.getBypass() || region.getGuild().isMember(nPlayer));
 	}
 
 	public boolean isFarEnough(Location l1, Location l2) {
@@ -406,7 +400,7 @@ public class RegionManager {
 	}
 
 	public void playerEnteredRegion(Player player, Location toLocation) {
-		NovaRegion region = getRegionAtLocation(toLocation);
+		NovaRegion region = getRegion(toLocation);
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 		//border particles
@@ -463,7 +457,7 @@ public class RegionManager {
 	}
 
 	public void playerExitedRegion(Player player) {
-		NovaRegion region = getRegionAtLocation(player.getLocation());
+		NovaRegion region = getRegion(player.getLocation());
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 		NovaGuild guild = region.getGuild();
 

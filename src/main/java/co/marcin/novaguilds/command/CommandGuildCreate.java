@@ -72,7 +72,7 @@ public class CommandGuildCreate implements CommandExecutor {
 			return true;
 		}
 
-		if(plugin.getRegionManager().getRegionAtLocation(player.getLocation()) != null) {
+		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.regionhere");
 			return true;
 		}
@@ -203,7 +203,7 @@ public class CommandGuildCreate implements CommandExecutor {
 						LoggerUtils.debug("AutoRegion created!");
 
 						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
-							if(region.equals(plugin.getRegionManager().getRegionAtLocation(playerCheck.getLocation()))) {
+							if(region.equals(plugin.getRegionManager().getRegion(playerCheck.getLocation()))) {
 								plugin.getRegionManager().playerEnteredRegion(playerCheck,playerCheck.getLocation());
 							}
 						}

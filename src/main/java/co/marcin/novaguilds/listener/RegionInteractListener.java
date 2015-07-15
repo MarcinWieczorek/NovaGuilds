@@ -45,7 +45,7 @@ public class RegionInteractListener implements Listener {
 			String clickedblockname = event.getClickedBlock().getType().name();
 			String useditemname = event.getPlayer().getItemInHand().getType().name();
 			
-			NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getClickedBlock().getLocation());
+			NovaRegion rgatploc = plugin.getRegionManager().getRegion(event.getClickedBlock().getLocation());
 			
 			if(rgatploc != null) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
@@ -135,7 +135,7 @@ public class RegionInteractListener implements Listener {
 					if(nPlayer.hasGuild()) {
 						if(nPlayer.isLeader()) {
 							if(nPlayer.getGuild().getBankLocation() == null) {
-								NovaRegion region = plugin.getRegionManager().getRegionAtLocation(event.getBlockPlaced().getLocation());
+								NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
 								if(region != null && region.getGuild().isMember(nPlayer)) {
 									nPlayer.getGuild().setBankLocation(event.getBlockPlaced().getLocation());
 									plugin.appendBankHologram(nPlayer.getGuild());
@@ -164,7 +164,7 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
 		List<String> denymobdamage = plugin.getConfig().getStringList("region.denymobdamage");
-		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(event.getEntity().getLocation());
+		NovaRegion rgatploc = plugin.getRegionManager().getRegion(event.getEntity().getLocation());
 		//LoggerUtils.debug("EntityDamageByEntity "+event.getEntityType().name());
 		
 		if(rgatploc != null) {
@@ -216,7 +216,7 @@ public class RegionInteractListener implements Listener {
 		Entity entity = event.getEntity();
 		LoggerUtils.debug("hanging break by entity event");
 
-		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(entity.getLocation());
+		NovaRegion rgatploc = plugin.getRegionManager().getRegion(entity.getLocation());
 
 		if(rgatploc != null) {
 			LoggerUtils.debug("there is a region");
@@ -232,7 +232,7 @@ public class RegionInteractListener implements Listener {
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
 		Entity mob = event.getRightClicked();
-		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
+		NovaRegion rgatploc = plugin.getRegionManager().getRegion(mob.getLocation());
 		//LoggerUtils.debug("PlayerInteractEntityEvent - "+event.getRightClicked().getType().name());
 		
 		if(rgatploc != null) {
@@ -256,7 +256,7 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onExplosion(EntityExplodeEvent event) {
 		Location loc = event.getLocation();
-		NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(loc);
+		NovaRegion rgatloc = plugin.getRegionManager().getRegion(loc);
 		
 		if(rgatloc != null) {
 			Iterator<Block> iterator = event.blockList().iterator();
@@ -277,7 +277,7 @@ public class RegionInteractListener implements Listener {
 	public void onUnleash(PlayerUnleashEntityEvent event) {
 		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
 		Entity mob = event.getEntity();
-		NovaRegion rgatploc = plugin.getRegionManager().getRegionAtLocation(mob.getLocation());
+		NovaRegion rgatploc = plugin.getRegionManager().getRegion(mob.getLocation());
 
 		if(rgatploc != null) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());

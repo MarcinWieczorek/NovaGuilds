@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -16,7 +17,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -30,14 +30,11 @@ public class GuildManager {
 	
 	//getters
 	public NovaGuild getGuildByName(String name) {
-		if(guilds.containsKey(name.toLowerCase()))
-			return guilds.get(name.toLowerCase());
-		return null;
+		return guilds.get(name.toLowerCase());
 	}
 	
 	public NovaGuild getGuildByTag(String tag) {
 		for(NovaGuild guild : getGuilds()) {
-			//LoggerUtils.debug(StringUtils.removeColors(guild.getTag())+" = "+tag);
 			if(StringUtils.removeColors(guild.getTag()).equalsIgnoreCase(tag)) {
 				return guild;
 			}
@@ -94,18 +91,17 @@ public class GuildManager {
 			}
 		}
 		else {
-			if(plugin.getDatabaseManager().getConnection() == null) {
+			if(!plugin.getDatabaseManager().isConnected()) {
 				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
 			plugin.getDatabaseManager().mysqlReload();
 
-			Statement statement;
 			try {
-				statement = plugin.getDatabaseManager().getConnection().createStatement();
-
-				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`");
+				PreparedStatement statement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_SELECT);
+				ResultSet res = statement.executeQuery();
+				//ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`");
 				while(res.next()) {
 					String spawnpoint_coord = res.getString("spawn");
 
@@ -225,7 +221,7 @@ public class GuildManager {
 			guilds.put(guild.getName().toLowerCase(), guild);
 		}
 		else {
-			if(plugin.getDatabaseManager().getConnection() == null) {
+			if(!plugin.getDatabaseManager().isConnected()) {
 				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
@@ -240,8 +236,9 @@ public class GuildManager {
 
 				//adding to MySQL
 				//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive,bankloc
-				String pSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
-				PreparedStatement preparedStatement = plugin.getDatabaseManager().getConnection().prepareStatement(pSQL, Statement.RETURN_GENERATED_KEYS);
+//				String pSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
+//				PreparedStatement preparedStatement = plugin.getDatabaseManager().getConnection().prepareStatement(pSQL, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_INSERT);
 				preparedStatement.setString(1, guild.getTag()); //tag
 				preparedStatement.setString(2, guild.getName()); //name
 				preparedStatement.setString(3, guild.getLeader().getName()); //leader
@@ -278,7 +275,7 @@ public class GuildManager {
 				plugin.getFlatDataManager().saveGuild(guild);
 			}
 			else {
-				if(plugin.getDatabaseManager().getConnection() == null) {
+				if(!plugin.getDatabaseManager().isConnected()) {
 					LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 					return;
 				}
@@ -286,7 +283,7 @@ public class GuildManager {
 				plugin.getDatabaseManager().mysqlReload();
 
 				try {
-					Statement statement = plugin.getDatabaseManager().getConnection().createStatement();
+					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_UPDATE);
 
 					String spawnpointcoords = "";
 					if(guild.getSpawnPoint() != null) {
@@ -297,7 +294,7 @@ public class GuildManager {
 					String allies = "";
 					String alliesinv = "";
 
-					if(guild.getAllies().size() > 0) {
+					if(!guild.getAllies().isEmpty()) {
 						for(NovaGuild ally : guild.getAllies()) {
 							if(!allies.equals("")) {
 								allies += ";";
@@ -307,7 +304,7 @@ public class GuildManager {
 						}
 					}
 
-					if(guild.getAllyInvitations().size() > 0) {
+					if(!guild.getAllyInvitations().isEmpty()) {
 						for(String allyinv : guild.getAllyInvitations()) {
 							if(!alliesinv.equals("")) {
 								alliesinv += ";";
@@ -321,7 +318,7 @@ public class GuildManager {
 					String wars = "";
 					String nowar_inv = "";
 
-					if(guild.getWars().size() > 0) {
+					if(!guild.getWars().isEmpty()) {
 						for(NovaGuild war : guild.getWars()) {
 							if(!wars.equals("")) {
 								wars += ";";
@@ -331,7 +328,7 @@ public class GuildManager {
 						}
 					}
 
-					if(guild.getNoWarInvitations().size() > 0) {
+					if(!guild.getNoWarInvitations().isEmpty()) {
 						for(String nowarinv : guild.getNoWarInvitations()) {
 							if(!nowar_inv.equals("")) {
 								nowar_inv += ";";
@@ -345,6 +342,22 @@ public class GuildManager {
 					if(guild.getBankLocation() != null) {
 						bankLocationString = StringUtils.parseDBLocation(guild.getBankLocation());
 					}
+
+					preparedStatement.setString(1, guild.getTag());
+					preparedStatement.setString(2, guild.getName());
+					preparedStatement.setString(3, guild.getLeader().getName());
+					preparedStatement.setString(4, spawnpointcoords);
+					preparedStatement.setString(5, allies);
+					preparedStatement.setString(6, alliesinv);
+					preparedStatement.setString(7, wars);
+					preparedStatement.setString(8, nowar_inv);
+					preparedStatement.setDouble(9, guild.getMoney());
+					preparedStatement.setInt(10, guild.getPoints());
+					preparedStatement.setInt(11, guild.getLives());
+					preparedStatement.setLong(12, guild.getTimeRest());
+					preparedStatement.setLong(13, guild.getLostLiveTime());
+					preparedStatement.setLong(14, guild.getInactiveTime());
+					preparedStatement.setString(15, bankLocationString);
 
 					String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET " +
 							"`tag`='" + guild.getTag() + "', " +
@@ -364,7 +377,8 @@ public class GuildManager {
 							"`bankloc`='" + bankLocationString + "'" +
 							" WHERE `id`=" + guild.getId();
 
-					statement.executeUpdate(sql);
+
+					preparedStatement.executeUpdate();
 					guild.setUnchanged();
 				}
 				catch(SQLException e) {
@@ -386,22 +400,22 @@ public class GuildManager {
 			plugin.getFlatDataManager().deleteGuild(guild);
 		}
 		else {
-			if(plugin.getDatabaseManager().getConnection() == null) {
+			if(!plugin.getDatabaseManager().isConnected()) {
 				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
 			plugin.getDatabaseManager().mysqlReload();
 
-			Statement statement;
 			try {
-				statement = plugin.getDatabaseManager().getConnection().createStatement();
+				//Statement statement;
+				//statement = plugin.getDatabaseManager().getConnection().createStatement();
+				//statement.executeUpdate(sql);
 
 				//delete from database
-				String sql = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` WHERE `id`=" + guild.getId();
-				LoggerUtils.debug(sql);
-				LoggerUtils.debug("id=" + guild.getId());
-				statement.executeUpdate(sql);
+				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_DELETE);
+				preparedStatement.setInt(1,guild.getId());
+				preparedStatement.executeUpdate();
 			}
 			catch(SQLException e) {
 				LoggerUtils.info("SQLException while deleting a guild.");
@@ -466,7 +480,7 @@ public class GuildManager {
 
 		//remove region
 		if(guild.hasRegion()) {
-			NovaGuilds.getInst().getRegionManager().removeRegion(guild.getRegion());
+			plugin.getRegionManager().removeRegion(guild.getRegion());
 		}
 
 		guilds.remove(guild.getName().toLowerCase());

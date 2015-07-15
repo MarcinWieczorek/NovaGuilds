@@ -53,7 +53,7 @@ private final NovaGuilds plugin;
 				return true;
 			}
 
-			NovaRegion rgatloc = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
+			NovaRegion rgatloc = plugin.getRegionManager().getRegion(player.getLocation());
 
 			if(rgatloc==null && nPlayer.getGuild().hasRegion()) {
 				Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);

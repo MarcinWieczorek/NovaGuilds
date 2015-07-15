@@ -24,17 +24,19 @@ public class FlatDataManager {
 	private File regionsDir;
 	private String name;
 
+	private boolean connected = false;
+
 //	private FileConfiguration playerTemplate;
 
 	public FlatDataManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		setupDirectories();
+		connected = setupDirectories();
 
 //		File playerTemplateFile = new File(plugin.getDataFolder(), "defaultuser.yml");
 //		playerTemplate = YamlConfiguration.loadConfiguration(playerTemplateFile);
 	}
 
-	private void setupDirectories() {
+	private boolean setupDirectories() {
 		dataDir = new File(plugin.getDataFolder(),"data/");
 		playersDir = new File(plugin.getDataFolder(),"data/players/");
 		guildsDir = new File(plugin.getDataFolder(),"data/guilds/");
@@ -70,19 +72,10 @@ public class FlatDataManager {
 			ConfigManager.getLogger().severe("Could not setup directories!");
 			ConfigManager.getLogger().severe("Switching to secondary data storage type!");
 			plugin.getConfigManager().setToSecondaryDataStorageType();
+			return false;
 		}
 
-//		File messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
-//		if(!messagesFile.exists()) {
-//			if(plugin.getResource("lang/" + lang + ".yml") != null) {
-//				plugin.saveResource("lang/" + lang + ".yml", false);
-//				LoggerUtils.info("New messages file created: " + lang + ".yml");
-//			}
-//			else {
-//				LoggerUtils.info("Couldn't find language file: " + lang + ".yml");
-//				return false;
-//			}
-//		}
+		return true;
 	}
 
 	//save
@@ -120,7 +113,7 @@ public class FlatDataManager {
 				regionData.set("guild",region.getGuild().getName());
 
 				//corners
-				regionData.set("corner1.x",region.getCorner(0).getBlockX());
+				regionData.set("corner1.x", region.getCorner(0).getBlockX());
 				regionData.set("corner1.z",region.getCorner(0).getBlockZ());
 
 				regionData.set("corner2.x",region.getCorner(1).getBlockX());
@@ -346,5 +339,9 @@ public class FlatDataManager {
 		}
 
 		return list;
+	}
+
+	public boolean isConnected() {
+		return connected;
 	}
 }

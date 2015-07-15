@@ -4,17 +4,22 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
+@SuppressWarnings("deprecation")
 public class PlayerManager {
 	private final NovaGuilds plugin;
 	private final HashMap<String,NovaPlayer> players = new HashMap<>();
@@ -41,7 +46,7 @@ public class PlayerManager {
 	}
 
 	public NovaPlayer getPlayer(Player player) {
-		addIfNotExists(player.getName());
+		addIfNotExists(player);
 
 		return getPlayer(player.getName());
 	}
@@ -60,16 +65,15 @@ public class PlayerManager {
 				plugin.getFlatDataManager().savePlayer(nPlayer);
 			}
 			else {
-				if(plugin.getDatabaseManager().getConnection() == null) {
+				if(!plugin.getDatabaseManager().isConnected()) {
 					LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 					return;
 				}
 
 				plugin.getDatabaseManager().mysqlReload();
 
-				Statement statement;
 				try {
-					statement = plugin.getDatabaseManager().getConnection().createStatement();
+					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_UPDATE);
 
 					String guildname = "";
 					if(nPlayer.hasGuild()) {
@@ -79,14 +83,11 @@ public class PlayerManager {
 					List<String> invitedto = nPlayer.getInvitedTo();
 					String joined = StringUtils.join(invitedto, ";");
 
-					//TODO UUID is changeable, the username is not!
-					String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET " +
-							"`invitedto`='" + joined + "', " +
-							"`guild`='" + guildname + "' " +
-							"WHERE `uuid`='" + nPlayer.getUUID() + "'";
+					preparedStatement.setString(1, joined);
+					preparedStatement.setString(2, nPlayer.hasGuild() ? nPlayer.getGuild().getName() : "");
+					preparedStatement.setString(3, nPlayer.getUUID().toString());
+					preparedStatement.executeUpdate();
 
-					LoggerUtils.debug(sql);
-					statement.executeUpdate(sql);
 					nPlayer.setUnchanged();
 				}
 				catch(SQLException e) {
@@ -119,19 +120,16 @@ public class PlayerManager {
 			}
 		}
 		else {
-			if(plugin.getDatabaseManager().getConnection() == null) {
+			if(!plugin.getDatabaseManager().isConnected()) {
 				LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 
 			plugin.getDatabaseManager().mysqlReload();
 
-			Statement statement;
 			try {
-				statement = plugin.getDatabaseManager().getConnection().createStatement();
-
 				players.clear();
-				ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`");
+				ResultSet res = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_SELECT).executeQuery();
 				while(res.next()) {
 					players.put(res.getString("name").toLowerCase(), playerFromResult(res));
 				}
@@ -152,20 +150,20 @@ public class PlayerManager {
 			plugin.getFlatDataManager().addPlayer(nPlayer);
 		}
 		else {
-			if(plugin.getDatabaseManager().getConnection() == null) {
+			if(!plugin.getDatabaseManager().isConnected()) {
 				LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
 				return;
 			}
 			plugin.getDatabaseManager().mysqlReload();
-			Statement statement;
 
 			try {
-				statement = plugin.getDatabaseManager().getConnection().createStatement();
-
+				PreparedStatement statement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_INSERT);
 				UUID uuid = player.getUniqueId();
 				String playername = player.getName();
-				//TODO prepared
-				statement.executeUpdate("INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'" + uuid + "','" + playername + "','','')");
+
+				statement.setString(1, uuid.toString());
+				statement.setString(2, playername);
+				statement.executeUpdate();
 			}
 			catch(SQLException e) {
 				LoggerUtils.exception(e);
@@ -176,25 +174,14 @@ public class PlayerManager {
 		players.put(player.getName().toLowerCase(), nPlayer);
 	}
 
-//	public void postCheck() {
-//		for(NovaPlayer nPlayer : getPlayers()) {
-//			if(nPlayer.hasGuild()) {
-//				if(nPlayer.getGuild() == null) {
-//
-//				}
-//			}
-//		}
-//	}
-
-	public void addIfNotExists(Player player) {
-		addIfNotExists(player.getName());
-	}
-
 	private void addIfNotExists(String playername) {
 		Player player = plugin.getServer().getPlayerExact(playername);
+		addIfNotExists(player);
+	}
 
+	public void addIfNotExists(Player player) {
 		if(player != null) {
-			if(!players.containsKey(playername.toLowerCase())) {
+			if(!players.containsKey(player.getName().toLowerCase())) {
 				addPlayer(player);
 			}
 		}

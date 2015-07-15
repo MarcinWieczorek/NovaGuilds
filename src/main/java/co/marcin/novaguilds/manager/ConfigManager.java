@@ -3,6 +3,7 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,7 +17,6 @@ import java.util.logging.Logger;
 
 public class ConfigManager {
 	private static final Logger logger = Logger.getLogger("Minecraft");
-	private static final String logPrefix = "[NovaGuilds]";
 
 	private final NovaGuilds plugin;
 	private FileConfiguration config;
@@ -123,9 +123,40 @@ public class ConfigManager {
 		chatDisplayNameTags = config.getBoolean("chat.displaynametags");
 		chatTagColors = config.getBoolean("tagapi.colortags");
 
-		primaryDataStorageType = DataStorageType.valueOf(config.getString("datastorage.primary").toUpperCase());
-		secondaryDataStorageType = DataStorageType.valueOf(config.getString("datastorage.secondary").toUpperCase());
+		String primaryDataStorageTypeString = config.getString("datastorage.primary").toUpperCase();
+		String secondaryDataStorageTypeString = config.getString("datastorage.secondary").toUpperCase();
+
+		boolean primaryValid = false;
+		boolean secondaryValid = false;
+
+		if(primaryDataStorageTypeString.equals(secondaryDataStorageTypeString)) {
+			LoggerUtils.error("Primary and secondary data storage types cannot be the same!");
+			LoggerUtils.error("Resetting to defaults. (MySQL/Flat)");
+			primaryDataStorageTypeString = DataStorageType.MYSQL.name();
+			secondaryDataStorageTypeString = DataStorageType.FLAT.name();
+		}
+
+		for(DataStorageType dst : DataStorageType.values()) {
+			if(dst.name().equals(primaryDataStorageTypeString)) {
+				primaryValid = true;
+			}
+
+			if(dst.name().equals(secondaryDataStorageTypeString)) {
+				secondaryValid = true;
+			}
+		}
+
+		if(!primaryValid || !secondaryValid) {
+			LoggerUtils.error("Not valid Data Storage Types.");
+			LoggerUtils.error("Resetting to defaults. (MySQL/Flat)");
+			primaryDataStorageTypeString = DataStorageType.MYSQL.name();
+			secondaryDataStorageTypeString = DataStorageType.FLAT.name();
+		}
+
+		primaryDataStorageType = DataStorageType.valueOf(primaryDataStorageTypeString);
+		secondaryDataStorageType = DataStorageType.valueOf(secondaryDataStorageTypeString);
 		setToPrimaryDataStorageType();
+		LoggerUtils.info("Data storage: Primary: "+primaryDataStorageType.name()+", Secondary: "+secondaryDataStorageType.name());
 
 		guildEffectDuration = config.getInt("guild.effect.duration");
 		List<String> guildEffectsString = config.getStringList("guild.effect.list");
@@ -197,10 +228,6 @@ public class ConfigManager {
 
 	public long getRaidTimeInactive() {
 		return raidTimeInactive;
-	}
-
-	public String getLogPrefix() {
-		return logPrefix;
 	}
 
 	public static Logger getLogger() {

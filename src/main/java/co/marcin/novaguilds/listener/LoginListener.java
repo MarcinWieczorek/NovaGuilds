@@ -1,19 +1,14 @@
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
-import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-
-import java.util.List;
 
 public class LoginListener implements Listener {
 	private final NovaGuilds plugin;
@@ -49,26 +44,26 @@ public class LoginListener implements Listener {
 
 		//adding to raid TODO: not tested
 		//TODO should be done in playerEnteredRegion
-		if(nPlayer.hasGuild()) {
-			//Update his guild's inactive time
-			nPlayer.getGuild().updateInactiveTime();
+//		if(nPlayer.hasGuild()) {
+//			//Update his guild's inactive time
+//			nPlayer.getGuild().updateInactiveTime();
+//
+//			NovaRegion rgAtLocation = plugin.getRegionManager().getRegion(player.getLocation());
+//
+//			if(rgAtLocation != null) {
+//				NovaGuild guildAtRegion = rgAtLocation.getGuild();
+//
+//				List<NovaRaid> raidsTakingPart = plugin.getGuildManager().getRaidsTakingPart(nPlayer.getGuild());
+//
+//				for(NovaRaid raid : raidsTakingPart) {
+//					if(raid.getGuildDefender().equals(guildAtRegion)) {
+//						guildAtRegion.getRaid().addPlayerOccupying(nPlayer);
+//					}
+//				}
+//			}
+//		}
 
-			NovaRegion rgAtLocation = plugin.getRegionManager().getRegionAtLocation(player.getLocation());
-
-			if(rgAtLocation != null) {
-				NovaGuild guildAtRegion = rgAtLocation.getGuild();
-
-				List<NovaRaid> raidsTakingPart = plugin.getGuildManager().getRaidsTakingPart(nPlayer.getGuild());
-
-				for(NovaRaid raid : raidsTakingPart) {
-					if(raid.getGuildDefender().equals(guildAtRegion)) {
-						guildAtRegion.getRaid().addPlayerOccupying(nPlayer);
-					}
-				}
-			}
-		}
-
-		if(plugin.getRegionManager().getRegionAtLocation(player.getLocation()) != null) {
+		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
 			plugin.getRegionManager().playerEnteredRegion(player,player.getLocation());
 		}
 		

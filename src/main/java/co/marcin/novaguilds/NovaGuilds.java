@@ -55,6 +55,7 @@ public class NovaGuilds extends JavaPlugin {
 	private ConfigManager configManager;
 	private GroupManager groupManager;
 	private FlatDataManager flatDataManager;
+	private static final String logPrefix = "[NovaGuilds]";
 
 	public TagUtils tagUtils;
 	public boolean updateAvailable = false;
@@ -97,20 +98,38 @@ public class NovaGuilds extends JavaPlugin {
 		//Version check
         checkVersion();
 
-		if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-			flatDataManager = new FlatDataManager(this);
-		}
+		int attempts = 0;
+		// && (flatDataManager!=null && !flatDataManager.isConnected())
+		while(!databaseManager.isConnected()) {
+			if(attempts == 2) {
+				LoggerUtils.error("Tried to connect twice but failed.");
+				break;
+			}
 
-		if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
-			databaseManager.connectToMysql();
-		}
+			LoggerUtils.info("Connecting to "+ getConfigManager().getDataStorageType().name() +" storage");
+			attempts++;
 
-		if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
-			databaseManager.connectToSQLite();
+			if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
+				databaseManager.connectToMysql();
+			}
+
+			if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
+				databaseManager.connectToSQLite();
+			}
+
+			if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
+				flatDataManager = new FlatDataManager(this);
+				if(flatDataManager.isConnected()) {
+					LoggerUtils.info("Connected to FLAT storage.");
+					break;
+				}
+			}
 		}
 
 		//Tables setup
-		databaseManager.setupTables();
+		if(getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
+			databaseManager.setupTables();
+		}
 
 		//Data loading
 		getRegionManager().loadRegions();
@@ -435,7 +454,7 @@ public class NovaGuilds extends JavaPlugin {
 		//HolographicDisplays
 		if(getConfigManager().useHolographicDisplays()) {
 			if(!checkHolographicDisplays()) {
-				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find HolographicDisplays plugin, disabling this feature.");
+				LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
 				getConfigManager().disableHolographicDisplays();
 			}
 			else {
@@ -445,13 +464,13 @@ public class NovaGuilds extends JavaPlugin {
 
 		//Vault Economy
 		if(!checkVault()) {
-			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Disabled due to no Vault dependency found!");
+			LoggerUtils.error("Disabled due to no Vault dependency found!");
 			return false;
 		}
 		LoggerUtils.info("Vault hooked");
 
 		if(!setupEconomy()) {
-			ConfigManager.getLogger().severe(getConfigManager().getLogPrefix()+"Could not setup Vault's economy, disabling");
+			LoggerUtils.error("Could not setup Vault's economy, disabling");
 			return false;
 		}
 		LoggerUtils.info("Vault's Economy hooked");
@@ -459,7 +478,7 @@ public class NovaGuilds extends JavaPlugin {
 		//BarAPI
 		if(getConfigManager().useBarAPI()) {
 			if(!checkBarAPI()) {
-				ConfigManager.getLogger().severe(getConfigManager().getLogPrefix() + "Couldn't find BarAPI plugin, disabling this feature.");
+				LoggerUtils.error("Couldn't find BarAPI plugin, disabling this feature.");
 				getConfigManager().disableBarAPI();
 			}
 			else {
@@ -472,6 +491,10 @@ public class NovaGuilds extends JavaPlugin {
 
 	public int getBuild() {
 		return build;
+	}
+
+	public static String getLogPrefix() {
+		return logPrefix;
 	}
 
 	//Utils
