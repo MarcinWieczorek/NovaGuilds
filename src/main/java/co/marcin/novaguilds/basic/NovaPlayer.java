@@ -94,6 +94,10 @@ public class NovaPlayer implements Cloneable {
 		return deaths;
 	}
 
+	public int getKills() {
+		return kills;
+	}
+
 	public boolean getRegionMode() {
 		return regionMode;
 	}
@@ -168,6 +172,10 @@ public class NovaPlayer implements Cloneable {
 
 	public void setDeaths(int deaths) {
 		this.deaths = deaths;
+	}
+
+	public void setKills(int kills) {
+		this.kills = kills;
 	}
 
 	public void toggleBypass() {

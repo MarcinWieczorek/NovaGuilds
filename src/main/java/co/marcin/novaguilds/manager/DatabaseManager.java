@@ -64,7 +64,8 @@ public class DatabaseManager {
 
 			//Players update
 			// TODO UUID is changeable, the username is not!
-			String playersUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET `invitedto`='?', `guild`='?' WHERE `uuid`='?'";
+			// TODO Dunno how drunk I was, but it's the opposite, right?
+			String playersUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET `invitedto`='?', `guild`='?', `points`=?, `kills`=?, `deaths`=? WHERE `uuid`='?'";
 			PreparedStatement playersUpdate = getConnection().prepareStatement(playersUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
 

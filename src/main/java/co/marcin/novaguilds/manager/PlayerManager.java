@@ -75,12 +75,16 @@ public class PlayerManager {
 				try {
 					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_UPDATE);
 
-					List<String> invitedto = nPlayer.getInvitedTo();
-					String joined = StringUtils.join(invitedto, ";");
+					//prepare data
+					String joined = StringUtils.join(nPlayer.getInvitedTo(), ";");
 
+					//prepare and save
 					preparedStatement.setString(1, joined);
 					preparedStatement.setString(2, nPlayer.hasGuild() ? nPlayer.getGuild().getName() : "");
 					preparedStatement.setString(3, nPlayer.getUUID().toString());
+					preparedStatement.setInt(4, nPlayer.getPoints());
+					preparedStatement.setInt(5, nPlayer.getKills());
+					preparedStatement.setInt(6, nPlayer.getDeaths());
 					preparedStatement.executeUpdate();
 
 					nPlayer.setUnchanged();

@@ -88,6 +88,9 @@ public class FlatDataManager {
 				playerData.set("name", nPlayer.getName());
 				playerData.set("guild", nPlayer.hasGuild() ? nPlayer.getGuild().getName() : "");
 				playerData.set("invitedto",nPlayer.getInvitedTo());
+				playerData.set("points",nPlayer.getPoints());
+				playerData.set("kills",nPlayer.getKills());
+				playerData.set("deaths",nPlayer.getDeaths());
 
 				//save
 				playerData.save(getPlayerFile(nPlayer.getName()));
