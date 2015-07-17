@@ -74,10 +74,6 @@ public class ConfigManager {
 		debug = config.getBoolean("debug");
 
 		saveInterval = StringUtils.StringToSeconds(config.getString("saveinterval"));
-		if(saveInterval < 60) {
-			logger.severe("Save interval can't be shorter than 60 seconds.");
-			saveInterval = 60;
-		}
 
 		raidEnabled = config.getBoolean("raid.enabled");
 		raidTimeRest = StringUtils.StringToSeconds(config.getString("raid.timerest"));
@@ -94,11 +90,6 @@ public class ConfigManager {
 		guildBankItem = getItemStack("bank.item");
 		guildBankOnlyLeaderTake = config.getBoolean("bank.onlyleadertake");
 
-		if(guildLiveRegenerationTaskInterval < 60) {
-			logger.severe("Live regeneration task interval can't be shorter than 60 seconds.");
-			guildLiveRegenerationTaskInterval = 60;
-		}
-
 		useHolographicDisplays = config.getBoolean("holographicdisplays.enabled");
 		useBarAPI = config.getBoolean("barapi.enabled");
 		useTitles = config.getBoolean("usetitles");
@@ -113,11 +104,6 @@ public class ConfigManager {
 		cleanupEnabled = config.getBoolean("cleanup.enabled");
 		cleanupInactiveTime = StringUtils.StringToSeconds(config.getString("cleanup.inactivetime"));
 		cleanupInterval = StringUtils.StringToSeconds(config.getString("cleanup.interval"));
-
-		if(cleanupInterval < 60) {
-			logger.severe("Cleanup interval can't be shorter than 60 seconds.");
-			cleanupEnabled = false;
-		}
 
 		databasePrefix = config.getString("mysql.prefix");
 
@@ -184,6 +170,21 @@ public class ConfigManager {
 		meta.setLore(lore);
 
 		toolItem.setItemMeta(meta);
+
+		//Check time values
+		if(guildLiveRegenerationTaskInterval < 60) {
+			logger.severe("Live regeneration task interval can't be shorter than 60 seconds.");
+			guildLiveRegenerationTaskInterval = 60;
+		}
+
+		if(cleanupInterval < 60) {
+			logger.severe("Cleanup interval can't be shorter than 60 seconds.");
+			cleanupEnabled = false;
+		}
+		if(saveInterval < 60) {
+			logger.severe("Save interval can't be shorter than 60 seconds.");
+			saveInterval = 60;
+		}
 	}
 
 	//getters
