@@ -17,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
@@ -38,7 +37,6 @@ public class NovaGuilds extends JavaPlugin {
 	* Escape. ~Bukkit.PL
 	* */
 	private static NovaGuilds inst;
-	public final PluginDescriptionFile pdf = getDescription();
 	private final int build = Integer.parseInt(getDescription().getVersion());
 
 	//TODO kickowanie z admina dubluje userow gildii
@@ -79,11 +77,8 @@ public class NovaGuilds extends JavaPlugin {
 
 		//managers
 		configManager = new ConfigManager(this);
-		LoggerUtils.info("[ConfigManager] Enabled");
 		commandManager = new CustomCommandManager(this);
-		LoggerUtils.info("[CommandManager] Enabled");
 		groupManager = new GroupManager(this);
-		LoggerUtils.info("[GroupManager] Enabled");
 
 		tagUtils = new TagUtils(this);
 		databaseManager = new DatabaseManager(this);
@@ -172,7 +167,7 @@ public class NovaGuilds extends JavaPlugin {
 			getMessageManager().broadcastMessageForPermitted("chat.update","novaguilds.admin.updateavailable");
 		}
 
-		LoggerUtils.info("#"+pdf.getVersion()+" Enabled");
+		LoggerUtils.info("#" + getBuild() + " Enabled");
 	}
 	
 	public void onDisable() {
@@ -218,7 +213,7 @@ public class NovaGuilds extends JavaPlugin {
 		}
 
 		//getConfigManager().disable();
-		LoggerUtils.info("#" + pdf.getVersion() + " Disabled");
+		LoggerUtils.info("#" + getBuild() + " Disabled");
 	}
 
 	public static NovaGuilds getInst() {
@@ -411,7 +406,7 @@ public class NovaGuilds extends JavaPlugin {
 
 	public void checkVersion() {
 		String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
-		LoggerUtils.info("You're using build: #"+pdf.getVersion());
+		LoggerUtils.info("You're using build: #" + getBuild());
 		LoggerUtils.info("Latest stable build of the plugin is: #"+latest);
 
 		int latestint = 0;
@@ -419,25 +414,20 @@ public class NovaGuilds extends JavaPlugin {
 			latestint = Integer.parseInt(latest);
 		}
 
-		int version = 0;
-		if(NumberUtils.isNumeric(pdf.getVersion())) {
-			version = Integer.parseInt(pdf.getVersion());
-		}
-
-		if(version == latestint) {
+		if(getBuild() == latestint) {
 			LoggerUtils.info("Your plugin build is the latest stable one");
 		}
-		else if(version > latestint) {
+		else if(getBuild() > latestint) {
 			String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
 			int devVersion = 0;
 			if(NumberUtils.isNumeric(dev)) {
 				devVersion = Integer.parseInt(dev);
 			}
 
-			if(version > devVersion) {
-				LoggerUtils.info("You are using unreleased build #" + version);
+			if(getBuild() > devVersion) {
+				LoggerUtils.info("You are using unreleased build #" + getBuild());
 			}
-			else if(version == devVersion) {
+			else if(getBuild() == devVersion) {
 				LoggerUtils.info("You're using latest development build");
 			}
 			else {

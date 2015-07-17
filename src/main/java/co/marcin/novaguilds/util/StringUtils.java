@@ -1,11 +1,14 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import com.google.common.io.CharStreams;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
@@ -141,7 +144,7 @@ public final class StringUtils {
 	public static String join(List<String> items, String pattern, String separator) {
 		String joined = "";
 
-		if(items.size() > 0) {
+		if(!items.isEmpty()) {
 			for(String row : items) {
 				row = replace(pattern,"{GUILDNAME}",row);
 				joined = joined + row + separator;
@@ -176,37 +179,37 @@ public final class StringUtils {
 		return joined;
 	}
 
-	public String Capslock(String message) {
-		String ch;
-		int countCharsCaps = 0;
-		int countWords = 1;
-
-		int wordCount = 0;
-		int characterCount = 6;
-		int percentage = 40;
-
-		int countChars = message.length();
-		if(countChars > 0) {
-			if(countChars > characterCount) {
-				for(int i = 0; i < countChars; i++) {
-					char c = message.charAt(i);
-					ch = Character.toString(c);
-					if(ch.matches("[A-Z]")) {
-						countCharsCaps++;
-					}
-					if(c == ' ') {
-						countWords++;
-					}
-				}
-				if(countWords >= wordCount) {
-					if(100/countChars*countCharsCaps >= percentage) {
-						message = message.toLowerCase();
-					}
-				}
-			}
-		}
-		return message;
-	}
+//	public String Capslock(String message) {
+//		String ch;
+//		int countCharsCaps = 0;
+//		int countWords = 1;
+//
+//		int wordCount = 0;
+//		int characterCount = 6;
+//		int percentage = 40;
+//
+//		int countChars = message.length();
+//		if(countChars > 0) {
+//			if(countChars > characterCount) {
+//				for(int i = 0; i < countChars; i++) {
+//					char c = message.charAt(i);
+//					ch = Character.toString(c);
+//					if(ch.matches("[A-Z]")) {
+//						countCharsCaps++;
+//					}
+//					if(c == ' ') {
+//						countWords++;
+//					}
+//				}
+//				if(countWords >= wordCount) {
+//					if(100/countChars*countCharsCaps >= percentage) {
+//						message = message.toLowerCase();
+//					}
+//				}
+//			}
+//		}
+//		return message;
+//	}
 
 	public static String replaceMap(String msg, HashMap<String,String> vars) {
 		for(Map.Entry<String, String> entry : vars.entrySet()) {
@@ -315,32 +318,37 @@ public final class StringUtils {
 		for(String word : spacexp) {
 			if(word.endsWith("s")) {
 				word = word.substring(0, word.length() - 1);
-				if(NumberUtils.isNumeric(word))
+				if(NumberUtils.isNumeric(word)) {
 					seconds += Integer.parseInt(word);
+				}
 			}
 
 			if(word.endsWith("m")) {
 				word = word.substring(0,word.length()-1);
-				if(NumberUtils.isNumeric(word))
-					seconds += Integer.parseInt(word)*60;
+				if(NumberUtils.isNumeric(word)) {
+					seconds += Integer.parseInt(word) * 60;
+				}
 			}
 
 			if(word.endsWith("h")) {
 				word = word.substring(0,word.length()-1);
-				if(NumberUtils.isNumeric(word))
-					seconds += Integer.parseInt(word)*60*60;
+				if(NumberUtils.isNumeric(word)) {
+					seconds += Integer.parseInt(word) * 60 * 60;
+				}
 			}
 
 			if(word.endsWith("d")) {
 				word = word.substring(0,word.length()-1);
-				if(NumberUtils.isNumeric(word))
-					seconds += Integer.parseInt(word)*60*60*24;
+				if(NumberUtils.isNumeric(word)) {
+					seconds += Integer.parseInt(word) * 60 * 60 * 24;
+				}
 			}
 
 			if(word.endsWith("y")) {
 				word = word.substring(0,word.length()-1);
-				if(NumberUtils.isNumeric(word))
-					seconds += Integer.parseInt(word)*60*60*24*365;
+				if(NumberUtils.isNumeric(word)) {
+					seconds += Integer.parseInt(word) * 60 * 60 * 24 * 365;
+				}
 			}
 		}
 
@@ -358,7 +366,13 @@ public final class StringUtils {
 		return true;
 	}
 
-	public static void throwException(Exception exception) {
-
+	public static String inputStreamToString(InputStream inputStream) {
+		try {
+			return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
+		}
+		catch(IOException e) {
+			LoggerUtils.exception(e);
+		}
+		return null;
 	}
 }

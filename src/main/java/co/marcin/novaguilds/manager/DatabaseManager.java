@@ -9,6 +9,7 @@ import co.marcin.novaguilds.util.StringUtils;
 import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
 
+import java.io.InputStream;
 import java.sql.*;
 import java.util.HashMap;
 
@@ -120,7 +121,7 @@ public class DatabaseManager {
 					connection = mySQL.openConnection();
 					connected = true;
 					mySQLReconnectStamp = System.currentTimeMillis();
-					LoggerUtils.info("[DatabaseManager] MySQL reconnected in "+(System.nanoTime()-nanoTime)+"ns");
+					LoggerUtils.info("MySQL reconnected in "+(System.nanoTime()-nanoTime)+"ns");
 				}
 				catch (ClassNotFoundException e) {
 					connected = false;
@@ -137,7 +138,7 @@ public class DatabaseManager {
 	public void connectToMysql() {
 		try {
 			if(Config.MYSQL_HOST.getString().isEmpty()) {
-				LoggerUtils.error("[DatabaseManager] Please edit your MySQL connection info in config.yml");
+				LoggerUtils.error("Please edit your MySQL connection info in config.yml");
 				plugin.getConfigManager().setToSecondaryDataStorageType();
 				connected = false;
 			}
@@ -153,7 +154,7 @@ public class DatabaseManager {
 				connection = mySQL.openConnection();
 				connected = true;
 				prepareStatements();
-				LoggerUtils.info("[DatabaseManager] Connected to MySQL database");
+				LoggerUtils.info("Connected to MySQL database");
 			}
 		}
 		catch(SQLException|ClassNotFoundException e) {
@@ -170,7 +171,7 @@ public class DatabaseManager {
 			connected = true;
 			prepareStatements();
 
-			LoggerUtils.info("[DatabaseManager] Connected to SQLite database");
+			LoggerUtils.info("Connected to SQLite database");
 		}
 		catch(SQLException|ClassNotFoundException e) {
 			plugin.getConfigManager().setToSecondaryDataStorageType();
@@ -179,9 +180,59 @@ public class DatabaseManager {
 		}
 	}
 
+	public boolean checkTables() {
+		DatabaseMetaData md = null;
+		try {
+			md = getConnection().getMetaData();
+			ResultSet rs = md.getTables(null, null, plugin.getConfigManager().getDatabasePrefix() + "%", null);
+			return rs.next();
+		}
+		catch(SQLException e) {
+			LoggerUtils.exception(e);
+		}
+
+		return false;
+	}
+
 	public void setupTables() {
 		if(!plugin.getDatabaseManager().isConnected()) {
-			LoggerUtils.info("[DatabaseManager] Connection is not estabilished, stopping current action");
+			LoggerUtils.error("Connection is not estabilished, stopping current action");
+			return;
+		}
+
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
+			LoggerUtils.error("Using FLAT, cannot create sql tables.");
+			return;
+		}
+
+		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType()==DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
+		String sqlString = StringUtils.inputStreamToString(inputStream);
+
+		if(sqlString==null || sqlString.isEmpty() || !sqlString.contains("--")) {
+			LoggerUtils.error("Invalid SQL");
+			return;
+		}
+
+		sqlString = StringUtils.replace(sqlString, "{SQLPREFIX}", plugin.getConfigManager().getDatabasePrefix());
+		String[] actions = sqlString.split("--");
+
+		try {
+			for(String tableCode : actions) {
+				createTable(tableCode);
+				LoggerUtils.info("Table added to the database!");
+			}
+		}
+		catch(SQLException e) {
+			LoggerUtils.info("Could not create tables. Switching to secondary storage.");
+			plugin.getConfigManager().setToSecondaryDataStorageType();
+			LoggerUtils.exception(e);
+		}
+	}
+
+	@Deprecated
+	public void setupTablesOld() {
+		if(!plugin.getDatabaseManager().isConnected()) {
+			LoggerUtils.info("Connection is not estabilished, stopping current action");
 			return;
 		}
 
