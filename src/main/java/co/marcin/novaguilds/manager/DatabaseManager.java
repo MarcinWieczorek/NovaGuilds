@@ -210,12 +210,14 @@ public class DatabaseManager {
 			return;
 		}
 
+		mysqlReload();
 		sqlString = StringUtils.replace(sqlString, "{SQLPREFIX}", plugin.getConfigManager().getDatabasePrefix());
 		String[] actions = sqlString.split("--");
 
 		try {
 			for(String tableCode : actions) {
-				createTable(tableCode);
+				Statement statement = getConnection().createStatement();
+				statement.executeUpdate(tableCode);
 				LoggerUtils.info("Table added to the database!");
 			}
 		}
@@ -224,67 +226,6 @@ public class DatabaseManager {
 			plugin.getConfigManager().setToSecondaryDataStorageType();
 			LoggerUtils.exception(e);
 		}
-	}
-
-	@Deprecated
-	public void setupTablesOld() {
-		if(!plugin.getDatabaseManager().isConnected()) {
-			LoggerUtils.info("Connection is not estabilished, stopping current action");
-			return;
-		}
-
-		try {
-			if(plugin.getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
-				DatabaseMetaData md = getConnection().getMetaData();
-				ResultSet rs = md.getTables(null, null, plugin.getConfigManager().getDatabasePrefix() + "%", null);
-				if(!rs.next()) {
-					LoggerUtils.info("Couldn't find tables in the base. Creating...");
-					String[] SQLCreateCode = getSQLCreateCode();
-					if(SQLCreateCode.length != 0) {
-						try {
-							for(String tableCode : SQLCreateCode) {
-								createTable(tableCode);
-								LoggerUtils.info("Tables added to the database!");
-							}
-						}
-						catch(SQLException e) {
-							LoggerUtils.info("Could not create tables. Switching to secondary storage.");
-							plugin.getConfigManager().setToSecondaryDataStorageType();
-							LoggerUtils.exception(e);
-						}
-					}
-					else {
-						LoggerUtils.info("Couldn't find SQL create code for tables!");
-						plugin.getConfigManager().setDataStorageType(DataStorageType.FLAT);
-					}
-				}
-				else {
-					LoggerUtils.info("No database config required.");
-				}
-			}
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
-	}
-
-	//true=mysql, false=sqlite
-	private String[] getSQLCreateCode() {
-		int index = plugin.getConfigManager().getDataStorageType()==DataStorageType.MYSQL ? 0 : 1;
-
-		String url = "http://novaguilds.marcin.co/sqltables.txt";
-		String sql = StringUtils.getContent(url);
-
-		String[] types = sql.split("--TYPE--");
-		return types[index].split("--");
-	}
-
-	private void createTable(String sql) throws SQLException {
-		mysqlReload();
-		Statement statement;
-		sql = StringUtils.replace(sql, "{SQLPREFIX}", plugin.getConfigManager().getDatabasePrefix());
-		statement = getConnection().createStatement();
-		statement.executeUpdate(sql);
 	}
 
 	public Connection getConnection() {
