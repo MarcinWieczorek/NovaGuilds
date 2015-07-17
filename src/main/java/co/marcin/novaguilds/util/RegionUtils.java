@@ -15,20 +15,20 @@ public class RegionUtils {
 			material = player.getWorld().getBlockAt(location).getType();
 		}
 
-		player.sendBlockChange(location,material,(byte) 0);
+		player.sendBlockChange(location, material, (byte) 0);
 	}
 
 	@SuppressWarnings("deprecation")
 	public static void resetCorner(Player player, Location location) {
-		player.sendBlockChange(location,player.getWorld().getBlockAt(location).getType(),(byte) 0);
+		player.sendBlockChange(location, player.getWorld().getBlockAt(location).getType(), (byte) 0);
 	}
 
 	public static void highlightRegion(Player player, NovaRegion region, Material material) {
 		Location loc1 = region.getCorner(0).clone();
 		Location loc2 = region.getCorner(1).clone();
 
-		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(),loc1.getBlockZ()).getY()-1);
-		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(),loc2.getBlockZ()).getY()-1);
+		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(), loc1.getBlockZ()).getY() - 1);
+		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(), loc2.getBlockZ()).getY() - 1);
 
 		Material material1;
 		Material material2;
@@ -94,7 +94,7 @@ public class RegionUtils {
 
 		Bukkit.getLogger().info("-----------");
 		Bukkit.getLogger().info("x_left=" + x_left);
-		Bukkit.getLogger().info("x_right=" + x_right + "(" + xr1 +"|"+ xr2 +"|"+ xr3 +")");
+		Bukkit.getLogger().info("x_right=" + x_right + "(" + xr1 + "|" + xr2 + "|" + xr3 + ")");
 		Bukkit.getLogger().info("x_between=" + x_between);
 		Bukkit.getLogger().info("x_over=" + x_over);
 
@@ -142,44 +142,44 @@ public class RegionUtils {
 
 		boolean x_out = x_out_left || x_out_right;
 		Bukkit.getLogger().info("-----");
-		Bukkit.getLogger().info("x_out="+x_out);
+		Bukkit.getLogger().info("x_out=" + x_out);
 
 		boolean z_out_left = z2[0] < z1[0] && z2[1] < z1[0];
 		boolean z_out_right = z1[1] < z2[0] && z1[1] < z2[1];
 
 		boolean z_out = z_out_left || z_out_right;
-		Bukkit.getLogger().info("z_out="+z_out);
+		Bukkit.getLogger().info("z_out=" + z_out);
 
 		boolean out = x_out && z_out;
-		Bukkit.getLogger().info("out="+out);
+		Bukkit.getLogger().info("out=" + out);
 
-		Bukkit.getLogger().info("x1|0="+x1[0]);
-		Bukkit.getLogger().info("x1|1="+x1[1]);
-		Bukkit.getLogger().info("z1|0="+z1[0]);
-		Bukkit.getLogger().info("z1|1="+z1[1]);
-		Bukkit.getLogger().info("x2|0="+x2[0]);
-		Bukkit.getLogger().info("x2|1="+x2[1]);
-		Bukkit.getLogger().info("z2|0="+z2[0]);
-		Bukkit.getLogger().info("z2|1="+z2[1]);
+		Bukkit.getLogger().info("x1|0=" + x1[0]);
+		Bukkit.getLogger().info("x1|1=" + x1[1]);
+		Bukkit.getLogger().info("z1|0=" + z1[0]);
+		Bukkit.getLogger().info("z1|1=" + z1[1]);
+		Bukkit.getLogger().info("x2|0=" + x2[0]);
+		Bukkit.getLogger().info("x2|1=" + x2[1]);
+		Bukkit.getLogger().info("z2|0=" + z2[0]);
+		Bukkit.getLogger().info("z2|1=" + z2[1]);
 
 		World world = region1.getWorld();
 		List<Location> corners1 = new ArrayList<>();
 		List<Location> corners2 = new ArrayList<>();
 
-		corners1.add(new Location(world,x1[0],0,x1[0]));
-		corners1.add(new Location(world,x1[0],0,x1[1]));
-		corners1.add(new Location(world,x1[1],0,x1[1]));
-		corners1.add(new Location(world,x1[1],0,x1[0]));
+		corners1.add(new Location(world, x1[0], 0, x1[0]));
+		corners1.add(new Location(world, x1[0], 0, x1[1]));
+		corners1.add(new Location(world, x1[1], 0, x1[1]));
+		corners1.add(new Location(world, x1[1], 0, x1[0]));
 
-		corners2.add(new Location(world,x2[0],0,x2[0]));
-		corners2.add(new Location(world,x2[0],0,x2[1]));
-		corners2.add(new Location(world,x2[1],0,x2[1]));
-		corners2.add(new Location(world,x2[1],0,x2[0]));
+		corners2.add(new Location(world, x2[0], 0, x2[0]));
+		corners2.add(new Location(world, x2[0], 0, x2[1]));
+		corners2.add(new Location(world, x2[1], 0, x2[1]));
+		corners2.add(new Location(world, x2[1], 0, x2[0]));
 
 		//corners distances
 		if(out) {
-			Bukkit.getLogger().info("rectangle1 corners="+corners1.size());
-			Bukkit.getLogger().info("rectangle2 corners="+corners2.size());
+			Bukkit.getLogger().info("rectangle1 corners=" + corners1.size());
+			Bukkit.getLogger().info("rectangle2 corners=" + corners2.size());
 
 			for(Location corner1 : corners1) {
 				//setCorner(region1.getGuild().getPlayers().get(0).getPlayer(),corner1,Material.BRICK);
@@ -190,8 +190,8 @@ public class RegionUtils {
 
 					double cacheDistance = corner2.distance(corner1);
 
-					if(distance > cacheDistance || distance==-1 ) {
-						Bukkit.getLogger().info("Changed distance. "+distance+" -> "+cacheDistance);
+					if(distance > cacheDistance || distance == -1) {
+						Bukkit.getLogger().info("Changed distance. " + distance + " -> " + cacheDistance);
 						distance = cacheDistance;
 					}
 				}
@@ -210,7 +210,9 @@ public class RegionUtils {
 
 				dif = Math.abs(x1[1] - x2[1]);
 				Bukkit.getLogger().info("dif=" + dif);
-				if(distance > dif || distance == -1) distance = dif;
+				if(distance > dif || distance == -1) {
+					distance = dif;
+				}
 			}
 			else {
 				Bukkit.getLogger().info("z_inside");
@@ -220,12 +222,14 @@ public class RegionUtils {
 
 				dif = Math.abs(z1[1] - z2[1]);
 				Bukkit.getLogger().info("dif=" + dif);
-				if(distance > dif || distance == -1) distance = dif;
+				if(distance > dif || distance == -1) {
+					distance = dif;
+				}
 			}
 		}
 
-		Bukkit.getLogger().info("distance="+Math.round(distance));
-		Bukkit.getLogger().info("Time: "+((System.nanoTime()-millis))+"ns");
+		Bukkit.getLogger().info("distance=" + Math.round(distance));
+		Bukkit.getLogger().info("Time: " + ((System.nanoTime() - millis)) + "ns");
 		return Integer.parseInt(Math.round(distance) + "");
 	}
 
@@ -271,7 +275,9 @@ public class RegionUtils {
 
 			dif = Math.abs(x1[1] - x2[1]);
 			Bukkit.getLogger().info("dif=" + dif);
-			if(distance > dif || distance == -1) distance = dif;
+			if(distance > dif || distance == -1) {
+				distance = dif;
+			}
 		}
 		else {
 			int dif = Math.abs(z1[0] - z2[0]);
@@ -280,7 +286,9 @@ public class RegionUtils {
 
 			dif = Math.abs(z1[1] - z2[1]);
 			Bukkit.getLogger().info("dif=" + dif);
-			if(distance > dif || distance == -1) distance = dif;
+			if(distance > dif || distance == -1) {
+				distance = dif;
+			}
 		}
 
 		return distance;
@@ -295,7 +303,7 @@ public class RegionUtils {
 		List<Block> blocks = new ArrayList<>();
 
 		//World world = region.getWorld();
-		World world = l1.getWorld()==null ? Bukkit.getWorlds().get(0) : l1.getWorld();
+		World world = l1.getWorld() == null ? Bukkit.getWorlds().get(0) : l1.getWorld();
 
 		int x;
 		int z;
@@ -310,8 +318,8 @@ public class RegionUtils {
 
 		int t;
 
-		int dif_x = Math.abs(x1 - x2) +1;
-		int dif_z = Math.abs(z1 - z2) +1;
+		int dif_x = Math.abs(x1 - x2) + 1;
+		int dif_z = Math.abs(z1 - z2) + 1;
 
 		if(l1.getBlockX() < l2.getBlockX()) {
 			xs = l1.getBlockX();
@@ -327,129 +335,41 @@ public class RegionUtils {
 			zs = l2.getBlockZ();
 		}
 
-		for(t=0;t<dif_x;t++) {
+		for(t = 0; t < dif_x; t++) {
 			x = xs + t;
-			int highest1 = world.getHighestBlockYAt(x, z1)-1;
-			int highest2 = world.getHighestBlockYAt(x, z2)-1;
+			int highest1 = world.getHighestBlockYAt(x, z1) - 1;
+			int highest2 = world.getHighestBlockYAt(x, z2) - 1;
 
 			blocks.add(world.getBlockAt(x, highest1, z1));
-			blocks.add(world.getBlockAt(x,highest2,z2));
+			blocks.add(world.getBlockAt(x, highest2, z2));
 		}
 
 
-		for(t=0;t<dif_z;t++) {
+		for(t = 0; t < dif_z; t++) {
 			z = zs + t;
-			int highest1 = world.getHighestBlockYAt(x1, z)-1;
-			int highest2 = world.getHighestBlockYAt(x2, z)-1;
+			int highest1 = world.getHighestBlockYAt(x1, z) - 1;
+			int highest2 = world.getHighestBlockYAt(x2, z) - 1;
 
 			blocks.add(world.getBlockAt(x1, highest1, z));
-			blocks.add(world.getBlockAt(x2,highest2,z));
+			blocks.add(world.getBlockAt(x2, highest2, z));
 		}
 
 		return blocks;
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void sendSquare(Player player, Location l1, Location l2,Material material,byte data) {
+	public static void sendSquare(Player player, Location l1, Location l2, Material material, byte data) {
 		if(player == null || l1 == null || l2 == null) {
 			return;
 		}
 
-		for(Block block : getBorderBlocks(l1,l2)) {
+		for(Block block : getBorderBlocks(l1, l2)) {
 			if(material == null) {
 				material = player.getWorld().getBlockAt(block.getLocation()).getType();
 				data = player.getWorld().getBlockAt(block.getLocation()).getData();
 			}
 
 			player.sendBlockChange(block.getLocation(), material, data);
-		}
-	}
-
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	public static void sendSquareOld(Player player, Location l1, Location l2,Material material,byte data) {
-		if(player == null || l1 == null || l2 == null) {
-			return;
-		}
-
-		Material material1 = null;
-		Material material2 = null;
-
-		Byte data1 = null;
-		Byte data2 = null;
-
-		if(material != null) {
-			material1 = material2 = material;
-			data1 = data2 = data;
-		}
-
-		int x;
-		int z;
-
-		int xs;
-		int zs;
-
-		int x1 = l1.getBlockX();
-		int x2 = l2.getBlockX();
-		int z1 = l1.getBlockZ();
-		int z2 = l2.getBlockZ();
-
-		int t;
-
-		int dif_x = Math.abs(x1 - x2) +1;
-		int dif_z = Math.abs(z1 - z2) +1;
-
-		if(l1.getBlockX() < l2.getBlockX()) {
-			xs = l1.getBlockX();
-		}
-		else {
-			xs = l2.getBlockX();
-		}
-
-		if(l1.getBlockZ() < l2.getBlockZ()) {
-			zs = l1.getBlockZ();
-		}
-		else {
-			zs = l2.getBlockZ();
-		}
-
-		for(t=0;t<dif_x;t++) {
-			x = xs + t;
-			int highest1 = player.getWorld().getHighestBlockYAt(x,z1)-1;
-			int highest2 = player.getWorld().getHighestBlockYAt(x,z2)-1;
-			Location loc1 = player.getWorld().getBlockAt(x,highest1,z1).getLocation();
-			Location loc2 = player.getWorld().getBlockAt(x,highest2,z2).getLocation();
-
-			if(material == null) {
-				material1 = player.getWorld().getBlockAt(loc1).getType();
-				material2 = player.getWorld().getBlockAt(loc2).getType();
-
-				data1 = player.getWorld().getBlockAt(loc1).getData();
-				data2 = player.getWorld().getBlockAt(loc2).getData();
-			}
-
-			player.sendBlockChange(loc1, material1, data1);
-			player.sendBlockChange(loc2, material2, data2);
-		}
-
-
-		for(t=0;t<dif_z;t++) {
-			z = zs + t;
-			int highest1 = player.getWorld().getHighestBlockYAt(x1,z)-1;
-			int highest2 = player.getWorld().getHighestBlockYAt(x2,z)-1;
-			Location loc1 = player.getWorld().getBlockAt(x1,highest1,z).getLocation();
-			Location loc2 = player.getWorld().getBlockAt(x2,highest2,z).getLocation();
-
-			if(material == null) {
-				material1 = player.getWorld().getBlockAt(loc1).getType();
-				material2 = player.getWorld().getBlockAt(loc2).getType();
-
-				data1 = player.getWorld().getBlockAt(loc1).getData();
-				data2 = player.getWorld().getBlockAt(loc2).getData();
-			}
-
-			player.sendBlockChange(loc1, material1, data1);
-			player.sendBlockChange(loc2, material2, data2);
 		}
 	}
 }

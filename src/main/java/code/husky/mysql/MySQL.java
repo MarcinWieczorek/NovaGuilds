@@ -1,12 +1,11 @@
 package code.husky.mysql;
 
+import code.husky.Database;
+import org.bukkit.plugin.Plugin;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import org.bukkit.plugin.Plugin;
-
-import code.husky.Database;
 
 /**
  * Connects to and uses a MySQL database
@@ -44,7 +43,7 @@ public class MySQL extends Database {
 		this.hostname = hostname;
 		this.port = port;
 		this.database = database;
-		this.user = username;
+		user = username;
 		this.password = password;
 	}
 
@@ -56,8 +55,8 @@ public class MySQL extends Database {
 		}
 		Class.forName("com.mysql.jdbc.Driver");
 		connection = DriverManager.getConnection("jdbc:mysql://"
-				+ this.hostname + ":" + this.port + "/" + this.database,
-				this.user, this.password);
+				+ hostname + ":" + port + "/" + database,
+				user, password);
 		return connection;
 	}
 }

@@ -24,7 +24,7 @@ public class CommandGuildTop implements CommandExecutor {
 
 		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
 
-		if(guilds.size() == 0) {
+		if(guilds.isEmpty()) {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.noguilds");
 			return true;
 		}

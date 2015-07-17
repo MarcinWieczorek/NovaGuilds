@@ -57,7 +57,7 @@ public class ConfigManager {
 	private List<String> guildBankHologramLines; //supports items, [ITEM]
 
 	private int guildEffectDuration;
-	private List<PotionEffectType> guildEffects = new ArrayList<>();
+	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 	private ItemStack toolItem;
 
 	public ConfigManager(NovaGuilds novaGuilds) {

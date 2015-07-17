@@ -133,7 +133,9 @@ public class CommandGuildCreate implements CommandExecutor {
 
 				itemlist += itemrow;
 
-				if(i<items.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+				if(i<items.size()-1) {
+					itemlist += plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+				}
 				i++;
 			}
 

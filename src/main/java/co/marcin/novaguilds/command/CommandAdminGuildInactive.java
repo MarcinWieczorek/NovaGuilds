@@ -20,7 +20,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(plugin.getGuildManager().getGuilds().size() == 0) {
+		if(plugin.getGuildManager().getGuilds().isEmpty()) {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.noguilds");
 			return true;
 		}
@@ -101,7 +101,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 				i = 0;
 			}
 
-			if(guild.getOnlinePlayers().size() > 0) {
+			if(!guild.getOnlinePlayers().isEmpty()) {
 				guild.updateInactiveTime();
 			}
 

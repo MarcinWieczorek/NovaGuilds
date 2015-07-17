@@ -87,19 +87,6 @@ public class InventoryListener implements Listener {
 					player.closeInventory();
 				}
 				else if(event.getInventory().getTitle().equals(nameBank)) {
-					List<InventoryAction> dissalowedActions = new ArrayList<>();
-					dissalowedActions.add(InventoryAction.CLONE_STACK);
-					dissalowedActions.add(InventoryAction.COLLECT_TO_CURSOR);
-					dissalowedActions.add(InventoryAction.HOTBAR_MOVE_AND_READD);
-					dissalowedActions.add(InventoryAction.HOTBAR_SWAP);
-					dissalowedActions.add(InventoryAction.MOVE_TO_OTHER_INVENTORY);
-					dissalowedActions.add(InventoryAction.PICKUP_ALL);
-					dissalowedActions.add(InventoryAction.PICKUP_HALF);
-					dissalowedActions.add(InventoryAction.PICKUP_ONE);
-					dissalowedActions.add(InventoryAction.PICKUP_SOME);
-					dissalowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
-					dissalowedActions.add(InventoryAction.UNKNOWN);
-
 					if(!nPlayer.isLeader()) {
 						if(dissalowedActions.contains(event.getAction())) {
 							event.setCancelled(true);

@@ -520,7 +520,7 @@ public class GuildManager {
 					remove = true;
 				}
 
-				if(guild.getPlayers().size() == 0) {
+				if(guild.getPlayers().isEmpty()) {
 					LoggerUtils.info("("+guild.getName()+") 0 players");
 					remove = true;
 				}

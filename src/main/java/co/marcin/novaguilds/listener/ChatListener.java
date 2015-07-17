@@ -71,7 +71,7 @@ public class ChatListener implements Listener {
 					}
 
 					//TODO replace with MessageManager.broadcastAllies()
-					if(guild.getAllies().size() > 0) {
+					if(!guild.getAllies().isEmpty()) {
 						for(NovaGuild allyGuild : guild.getAllies()) {
 							for(NovaPlayer nP : allyGuild.getPlayers()) {
 								if(nP.isOnline()) {

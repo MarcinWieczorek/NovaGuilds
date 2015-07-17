@@ -36,25 +36,13 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
 
@@ -121,7 +109,7 @@ public class Metrics {
     private volatile BukkitTask task = null;
 
     public Metrics(final Plugin plugin) throws IOException {
-        if (plugin == null) {
+        if(plugin == null) {
             throw new IllegalArgumentException("Plugin cannot be null");
         }
 
@@ -397,7 +385,7 @@ public class Metrics {
             appendJSONPair(json, "ping", "1");
         }
 
-        if (graphs.size() > 0) {
+        if (!graphs.isEmpty()) {
             synchronized (graphs) {
                 json.append(',');
                 json.append('"');
@@ -527,9 +515,11 @@ public class Metrics {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (gzos != null) try {
-                gzos.close();
-            } catch (IOException ignore) {
+            if(gzos != null) {
+                try {
+                    gzos.close();
+                }
+                catch(IOException ignore) {}
             }
         }
 

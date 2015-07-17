@@ -82,7 +82,7 @@ public class RunnableRaid implements Runnable {
 			}
 		}
 
-		if(plugin.guildRaids.size() > 0 && plugin.isEnabled()) {
+		if(!plugin.guildRaids.isEmpty() && plugin.isEnabled()) {
 			plugin.worker.schedule(this, 1, TimeUnit.SECONDS);
 		}
 		else {

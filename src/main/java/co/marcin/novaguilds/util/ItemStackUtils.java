@@ -19,7 +19,7 @@ public class ItemStackUtils {
 	@SuppressWarnings("deprecation")
 	public static ItemStack stringToItemStack(String str) {
 		if(!str.isEmpty()) {
-			ItemStack itemStack = null;
+			ItemStack itemStack;
 			Material material;
 			String name = "";
 			int amount = 0;
@@ -126,7 +126,7 @@ public class ItemStackUtils {
 									}
 								}
 								else if(material == Material.FIREWORK) {
-
+									//TODO
 								}
 								break;
 							case "effect":

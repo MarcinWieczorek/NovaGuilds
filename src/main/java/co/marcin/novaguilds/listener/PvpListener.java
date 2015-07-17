@@ -28,7 +28,7 @@ public class PvpListener implements Listener {
 			if(event.getDamager() instanceof Player) {
 				attacker = (Player)event.getDamager();
 			}
-			else if(event.getDamager().getType().equals(EntityType.ARROW)) {
+			else if(event.getDamager().getType() == EntityType.ARROW) {
 				Arrow arrow = (Arrow)event.getDamager();
 				
 				if(arrow.getShooter() instanceof Player) {
@@ -48,7 +48,7 @@ public class PvpListener implements Listener {
 								event.setCancelled(true);
 
 								//remove the arrow
-								if(event.getDamager().getType().equals(EntityType.ARROW)) {
+								if(event.getDamager().getType() == EntityType.ARROW) {
 									event.getDamager().remove();
 								}
 							}
@@ -59,7 +59,7 @@ public class PvpListener implements Listener {
 								event.setCancelled(true);
 
 								//remove the arrow
-								if(event.getDamager().getType().equals(EntityType.ARROW)) {
+								if(event.getDamager().getType() == EntityType.ARROW) {
 									event.getDamager().remove();
 								}
 							}

@@ -40,7 +40,10 @@ public class CommandNovaGuilds implements CommandExecutor {
 					return true;
 				}
 
-				if(!plugin.getConfigManager().isDebugEnabled()) return false;
+				if(!plugin.getConfigManager().isDebugEnabled()) {
+					return false;
+				}
+
 		        ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 		        BookMeta bm = (BookMeta)book.getItemMeta();
 		        bm.setPages(Arrays.asList(new String[] { 
@@ -155,7 +158,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						String leaderp; //String to insert to playername (leader prefix)
 						String leaderprefix = plugin.getMessageManager().getMessagesString("chat.guildinfo.leaderprefix"); //leader prefix
 						
-						if(gplayers.size()>0) {
+						if(!gplayers.isEmpty()) {
 							for(i=0;i<gplayers.size();i++) {
 								NovaPlayer nPlayer = gplayers.get(i);
 								Player p = plugin.getServer().getPlayer(nPlayer.getName());
@@ -174,7 +177,9 @@ public class CommandNovaGuilds implements CommandExecutor {
 								
 								players += pcolor+leaderp+nPlayer.getName();
 								
-								if(i<gplayers.size()-1) players += plugin.getMessageManager().getMessagesString("chat.guildinfo.playerseparator");
+								if(i<gplayers.size()-1) {
+									players += plugin.getMessageManager().getMessagesString("chat.guildinfo.playerseparator");
+								}
 							}
 						}
 						

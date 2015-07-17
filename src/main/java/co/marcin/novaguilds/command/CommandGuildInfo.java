@@ -68,7 +68,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			String leaderprefix = plugin.getMessageManager().getMessagesString("chat.guildinfo.leaderprefix"); //leader prefix
 
 			//players list
-			if(gplayers.size()>0) {
+			if(!gplayers.isEmpty()) {
 				for(NovaPlayer nPlayerList : guild.getPlayers()) {
 					if(nPlayerList.isOnline()) {
 						pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.online");
@@ -84,7 +84,9 @@ public class CommandGuildInfo implements CommandExecutor {
 					
 					players += pcolor+leaderp+nPlayerList.getName();
 					
-					if(!nPlayerList.equals(gplayers.get(gplayers.size()-1))) players += separator;
+					if(!nPlayerList.equals(gplayers.get(gplayers.size()-1))) {
+						players += separator;
+					}
 				}
 			}
 

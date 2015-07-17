@@ -52,9 +52,17 @@ public class NovaGroup {
 			guildJoinMoney = section.getDouble("guild.join.money");
 
 			//check values
-			if(guildCreateItems == null) guildCreateItems = new ArrayList<>();
-			if(guildHomeItems == null) guildHomeItems = new ArrayList<>();
-			if(guildJoinItems == null) guildJoinItems = new ArrayList<>();
+			if(guildCreateItems == null) {
+				guildCreateItems = new ArrayList<>();
+			}
+
+			if(guildHomeItems == null) {
+				guildHomeItems = new ArrayList<>();
+			}
+
+			if(guildJoinItems == null) {
+				guildJoinItems = new ArrayList<>();
+			}
 		}
 	}
 

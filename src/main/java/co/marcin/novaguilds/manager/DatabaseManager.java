@@ -18,13 +18,11 @@ public class DatabaseManager {
 	private long mySQLReconnectStamp = System.currentTimeMillis();
 	private MySQL mySQL;
 	private Connection connection = null;
-	private String prefix;
 	private boolean connected = false;
 	private final HashMap<PreparedStatements,PreparedStatement> preparedStatementMap = new HashMap<>();
 
 	public DatabaseManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		prefix = plugin.getConfigManager().getDatabasePrefix();
 	}
 
 	private void prepareStatements() {
@@ -34,60 +32,60 @@ public class DatabaseManager {
 			preparedStatementMap.clear();
 
 			//Guilds insert
-			String guildsInsertSQL = "INSERT INTO `" + prefix + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
+			String guildsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
 			PreparedStatement guildsInsert = getConnection().prepareStatement(guildsInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.GUILDS_INSERT, guildsInsert);
 
 			//Guilds select
-			String guildsSelectSQL = "SELECT * FROM `" + prefix + "guilds`";
+			String guildsSelectSQL = "SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`";
 			PreparedStatement guildsSelect = getConnection().prepareStatement(guildsSelectSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_SELECT, guildsSelect);
 
 			//Guilds delete
-			String guildsDeleteSQL = "DELETE FROM `" + prefix + "guilds` WHERE `id`=?";
+			String guildsDeleteSQL = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` WHERE `id`=?";
 			PreparedStatement guildsDelete = getConnection().prepareStatement(guildsDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_DELETE, guildsDelete);
 
 			//Guilds update
-			String guildsUpdateSQL = "UPDATE `" + prefix + "guilds` SET `tag`='?', `name`='?', `leader`='?', `spawn`='?', `allies`='?', `alliesinv`='?', `war`='?', `nowarinv`='?', `money`='?', `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`='?' WHERE `id`=?";
+			String guildsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET `tag`='?', `name`='?', `leader`='?', `spawn`='?', `allies`='?', `alliesinv`='?', `war`='?', `nowarinv`='?', `money`='?', `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`='?' WHERE `id`=?";
 			PreparedStatement guildsUpdate = getConnection().prepareStatement(guildsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
 
 			//Players insert
-			String playersInsertSQL = "INSERT INTO `" + prefix + "players` VALUES(0,'?','?','','')";
+			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'?','?','','')";
 			PreparedStatement playersInsert = getConnection().prepareStatement(playersInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_INSERT, playersInsert);
 
 			//Players select
-			String playerSelectSQL = "SELECT * FROM `" + prefix + "players`";
+			String playerSelectSQL = "SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`";
 			PreparedStatement playersSelect = getConnection().prepareStatement(playerSelectSQL);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_SELECT, playersSelect);
 
 			//Players update
 			// TODO UUID is changeable, the username is not!
-			String playersUpdateSQL = "UPDATE `" + prefix + "players` SET `invitedto`='?', `guild`='?' WHERE `uuid`='?'";
+			String playersUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET `invitedto`='?', `guild`='?' WHERE `uuid`='?'";
 			PreparedStatement playersUpdate = getConnection().prepareStatement(playersUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
 
 
 			//Regions insert
-			String regionsInsertSQL = "INSERT INTO `" + prefix + "regions` VALUES(0,'?','?','?','?');";
+			String regionsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "regions` VALUES(0,'?','?','?','?');";
 			PreparedStatement regionsInsert = getConnection().prepareStatement(regionsInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.REGIONS_INSERT, regionsInsert);
 
 			//Regions select
-			String regionsSelectSQL = "SELECT * FROM `" + prefix + "regions`";
+			String regionsSelectSQL = "SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions`";
 			PreparedStatement regionsSelect = getConnection().prepareStatement(regionsSelectSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_SELECT, regionsSelect);
 
 			//Regions delete
-			String regionsDeleteSQL = "DELETE FROM `" + prefix + "regions` WHERE `guild`='?'";
+			String regionsDeleteSQL = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`='?'";
 			PreparedStatement regionsDelete = getConnection().prepareStatement(regionsDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_DELETE, regionsDelete);
 
 			//Regions update
-			String regionsUpdateSQL = "UPDATE `" + prefix + "regions` SET `loc_1`='?', `loc_2`='?', `guild`='?', `world`='?' WHERE `id`=?";
+			String regionsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "regions` SET `loc_1`='?', `loc_2`='?', `guild`='?', `world`='?' WHERE `id`=?";
 			PreparedStatement regionsUpdate = getConnection().prepareStatement(regionsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
@@ -181,9 +179,8 @@ public class DatabaseManager {
 	}
 
 	public boolean checkTables() {
-		DatabaseMetaData md = null;
 		try {
-			md = getConnection().getMetaData();
+			DatabaseMetaData md = getConnection().getMetaData();
 			ResultSet rs = md.getTables(null, null, plugin.getConfigManager().getDatabasePrefix() + "%", null);
 			return rs.next();
 		}

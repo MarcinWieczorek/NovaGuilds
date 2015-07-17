@@ -79,12 +79,12 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 
 		if(nPlayerOther != null) {
 			player = nPlayerOther.getPlayer();
-			Message.CHAT_ADMIN_REGION_TELEPORT_OTHER.send(sender);
-			Message.CHAT_ADMIN_REGION_TELEPORT_NOTIFYOTHER.send(player);
+			Message.CHAT_ADMIN_REGION_TELEPORT_OTHER.vars(vars).send(sender);
+			Message.CHAT_ADMIN_REGION_TELEPORT_NOTIFYOTHER.vars(vars).send(player);
 		}
 		else {
 			player = (Player) sender;
-			Message.CHAT_ADMIN_REGION_TELEPORT_SELF.send(sender);
+			Message.CHAT_ADMIN_REGION_TELEPORT_SELF.vars(vars).send(sender);
 		}
 
 		player.teleport(location);

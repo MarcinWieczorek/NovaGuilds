@@ -24,7 +24,7 @@ public class CommandAdminGuildList implements CommandExecutor {
 			return true;
 		}
 
-		if(plugin.getGuildManager().getGuilds().size() == 0) {
+		if(plugin.getGuildManager().getGuilds().isEmpty()) {
 			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.noguilds");
 			return true;
 		}

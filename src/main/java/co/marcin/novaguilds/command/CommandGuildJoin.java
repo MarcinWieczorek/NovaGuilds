@@ -40,7 +40,7 @@ public class CommandGuildJoin implements CommandExecutor {
 			return true;
 		}
 
-		if(invitedTo.size() == 0) {
+		if(invitedTo.isEmpty()) {
 			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.invitedtonothing");
 			return true;
 		}
@@ -82,7 +82,7 @@ public class CommandGuildJoin implements CommandExecutor {
 		List<ItemStack> joinItems = plugin.getGroupManager().getGroup(sender).getGuildJoinItems();
 		if(!joinItems.isEmpty()) {
 			List<ItemStack> missingItems = ItemStackUtils.getMissingItems((Player)sender, joinItems);
-			if(missingItems.size() > 0) {
+			if(!missingItems.isEmpty()) {
 				//TODO: list missing items and test messages/make other msgs
 				String itemlist = "";
 				int i = 0;
@@ -93,7 +93,9 @@ public class CommandGuildJoin implements CommandExecutor {
 
 					itemlist += itemrow;
 
-					if(i<missingItems.size()-1) itemlist+= plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+					if(i<missingItems.size()-1) {
+						itemlist += plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+					}
 					i++;
 				}
 

@@ -75,11 +75,6 @@ public class PlayerManager {
 				try {
 					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_UPDATE);
 
-					String guildname = "";
-					if(nPlayer.hasGuild()) {
-						guildname = nPlayer.getGuild().getName();
-					}
-
 					List<String> invitedto = nPlayer.getInvitedTo();
 					String joined = StringUtils.join(invitedto, ";");
 

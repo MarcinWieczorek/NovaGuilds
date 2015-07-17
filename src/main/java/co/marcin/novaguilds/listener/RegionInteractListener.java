@@ -176,7 +176,7 @@ public class RegionInteractListener implements Listener {
 				Player player = null;
 				Arrow arrow = null;
 
-				if(cause.equals(DamageCause.PROJECTILE) && event.getDamager() instanceof Arrow) {
+				if(cause == DamageCause.PROJECTILE && event.getDamager() instanceof Arrow) {
 					arrow = (Arrow) event.getDamager();
 
 					if(arrow.getShooter() instanceof Player) {

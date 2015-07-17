@@ -18,7 +18,6 @@ import java.util.List;
 
 public class FlatDataManager {
 	private final NovaGuilds plugin;
-	private File dataDir;
 	private File playersDir;
 	private File guildsDir;
 	private File regionsDir;
@@ -37,7 +36,7 @@ public class FlatDataManager {
 	}
 
 	private boolean setupDirectories() {
-		dataDir = new File(plugin.getDataFolder(),"data/");
+		File dataDir = new File(plugin.getDataFolder(), "data/");
 		playersDir = new File(plugin.getDataFolder(),"data/players/");
 		guildsDir = new File(plugin.getDataFolder(),"data/guilds/");
 		regionsDir = new File(plugin.getDataFolder(),"data/regions/");
