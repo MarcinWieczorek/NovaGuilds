@@ -63,6 +63,7 @@ public class ConfigManager {
 	public ConfigManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
 		reload();
+		LoggerUtils.info("Enabled");
 	}
 
 	public void reload() {

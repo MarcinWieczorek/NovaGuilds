@@ -17,6 +17,7 @@ public class GroupManager {
 		plugin = novaguilds;
 
 		loadGroups();
+		LoggerUtils.info("Enabled");
 	}
 
 	public void loadGroups() {

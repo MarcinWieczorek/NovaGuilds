@@ -44,26 +44,26 @@ public class FlatDataManager {
 
 		if(!dataDir.exists()) {
 			if(dataDir.mkdir()) {
-				LoggerUtils.info("[FlatDataManager] Data directory created");
+				LoggerUtils.info("Data directory created");
 			}
 		}
 
 		if(dataDir.exists()) {
 			if(!playersDir.exists()) {
 				if(playersDir.mkdir()) {
-					LoggerUtils.info("[FlatDataManager] Players directory created");
+					LoggerUtils.info("Players directory created");
 				}
 			}
 
 			if(!guildsDir.exists()) {
 				if(guildsDir.mkdir()) {
-					LoggerUtils.info("[FlatDataManager] Guilds directory created");
+					LoggerUtils.info("Guilds directory created");
 				}
 			}
 
 			if(!regionsDir.exists()) {
 				if(regionsDir.mkdir()) {
-					LoggerUtils.info("[FlatDataManager] Regions directory created");
+					LoggerUtils.info("Regions directory created");
 				}
 			}
 
@@ -98,7 +98,7 @@ public class FlatDataManager {
 			}
 		}
 		else {
-			LoggerUtils.debug("[FlatDataManager] Attempting to save non-existing player. "+nPlayer.getName());
+			LoggerUtils.debug("Attempting to save non-existing player. "+nPlayer.getName());
 		}
 	}
 
@@ -127,7 +127,7 @@ public class FlatDataManager {
 			}
 		}
 		else {
-			LoggerUtils.debug("[FlatDataManager] Attempting to save non-existing region. " + region.getGuild().getName());
+			LoggerUtils.debug("Attempting to save non-existing region. " + region.getGuild().getName());
 		}
 	}
 
@@ -170,7 +170,7 @@ public class FlatDataManager {
 			}
 		}
 		else {
-			LoggerUtils.debug("[FlatDataManager] Attempting to save non-existing guild. "+guild.getName());
+			LoggerUtils.debug("Attempting to save non-existing guild. "+guild.getName());
 		}
 	}
 
@@ -179,10 +179,10 @@ public class FlatDataManager {
 		boolean deleted = getGuildFile(guild.getName()).delete();
 
 		if(deleted) {
-			LoggerUtils.info("[FlatDataManager] Deleted guild "+guild.getName()+"'s file.");
+			LoggerUtils.info("Deleted guild "+guild.getName()+"'s file.");
 		}
 		else {
-			LoggerUtils.info("[FlatDataManager] Failed to delete guild " + guild.getName() + "'s file.");
+			LoggerUtils.info("Failed to delete guild " + guild.getName() + "'s file.");
 		}
 	}
 
@@ -190,10 +190,10 @@ public class FlatDataManager {
 		boolean deleted = getRegionFile(region.getGuild().getName()).delete();
 
 		if(deleted) {
-			LoggerUtils.info("[FlatDataManager] Deleted guild "+region.getGuild().getName()+" region's file.");
+			LoggerUtils.info("Deleted guild "+region.getGuild().getName()+" region's file.");
 		}
 		else {
-			LoggerUtils.info("[FlatDataManager] Failed to delete guild " + region.getGuild().getName() + " region's file.");
+			LoggerUtils.info("Failed to delete guild " + region.getGuild().getName() + " region's file.");
 		}
 	}
 

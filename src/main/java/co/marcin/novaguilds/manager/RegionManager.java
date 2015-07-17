@@ -81,7 +81,7 @@ public class RegionManager {
 			plugin.getDatabaseManager().mysqlReload();
 
 			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -124,7 +124,7 @@ public class RegionManager {
 			}
 		}
 
-		LoggerUtils.info("[RegionManager] Loaded "+regions.size()+" regions.");
+		LoggerUtils.info("Loaded "+regions.size()+" regions.");
 	}
 	
 	public void addRegion(NovaRegion region, NovaGuild guild) {
@@ -133,7 +133,7 @@ public class RegionManager {
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -181,7 +181,7 @@ public class RegionManager {
 				}
 				else {
 					if(!plugin.getDatabaseManager().isConnected()) {
-						LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
+						LoggerUtils.info("Connection is not estabilished, stopping current action");
 						return;
 					}
 
@@ -225,7 +225,7 @@ public class RegionManager {
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("[RegionManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -239,7 +239,7 @@ public class RegionManager {
 				regions.remove(region.getGuildName().toLowerCase());
 			}
 			catch(SQLException e) {
-				LoggerUtils.info("[RegionManager] An error occured while deleting a guild's region ("+region.getGuild().getName()+")");
+				LoggerUtils.info("An error occured while deleting a guild's region ("+region.getGuild().getName()+")");
 				LoggerUtils.exception(e);
 			}
 		}
@@ -254,7 +254,7 @@ public class RegionManager {
 			boolean remove = false;
 
 			if(region.getGuild() == null) {
-				LoggerUtils.info("[RegionManager] ("+region.getGuildName() + ") Guild is null");
+				LoggerUtils.info("("+region.getGuildName() + ") Guild is null");
 				remove = true;
 			}
 
@@ -264,7 +264,7 @@ public class RegionManager {
 			}
 		}
 
-		LoggerUtils.info("[RegionManager] PostCheck finished, unloaded " + i + " invalid regions");
+		LoggerUtils.info("PostCheck finished, unloaded " + i + " invalid regions");
 	}
 	
 	public RegionValidity checkRegionSelect(Location l1, Location l2) {

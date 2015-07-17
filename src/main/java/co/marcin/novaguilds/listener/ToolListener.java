@@ -55,10 +55,10 @@ public class ToolListener implements Listener {
 					}
 
 					event.setCancelled(true);
-					nPlayer.setRegionMode(!nPlayer.regionMode());
+					nPlayer.setRegionMode(!nPlayer.getRegionMode());
 
 					String mode;
-					if(nPlayer.regionMode()) {
+					if(nPlayer.getRegionMode()) {
 						mode = plugin.getMessageManager().getMessagesString("chat.region.tool.modes.select");
 
 						if(nPlayer.hasGuild() && nPlayer.isLeader() && nPlayer.getGuild().hasRegion()) {
@@ -74,7 +74,7 @@ public class ToolListener implements Listener {
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("MODE", mode);
 					plugin.getMessageManager().sendMessagesMsg(player, "chat.region.tool.toggledmode", vars);
-					LoggerUtils.debug("toggle=" + plugin.getPlayerManager().getPlayer(player).regionMode());
+					LoggerUtils.debug("toggle=" + plugin.getPlayerManager().getPlayer(player).getRegionMode());
 
 					if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
 						RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
@@ -95,7 +95,7 @@ public class ToolListener implements Listener {
 
 				NovaRegion region = plugin.getRegionManager().getRegion(pointedLocation);
 
-				if(!nPlayer.regionMode()) { //CHECK MODE
+				if(!nPlayer.getRegionMode()) { //CHECK MODE
 					if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 						if(!player.hasPermission("novaguilds.tool.check")) { //permissions check
 							return;

@@ -92,7 +92,7 @@ public class GuildManager {
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -209,10 +209,10 @@ public class GuildManager {
 			}
 		}
 
-		LoggerUtils.info("[GuildManager] Loaded "+guilds.size()+" guilds.");
+		LoggerUtils.info("Loaded "+guilds.size()+" guilds.");
 
 		loadBankHolograms();
-		LoggerUtils.info("[GuildManager] Generated bank holograms.");
+		LoggerUtils.info("Generated bank holograms.");
 	}
 	
 	public void addGuild(NovaGuild guild) {
@@ -222,7 +222,7 @@ public class GuildManager {
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -276,7 +276,7 @@ public class GuildManager {
 			}
 			else {
 				if(!plugin.getDatabaseManager().isConnected()) {
-					LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
+					LoggerUtils.info("Connection is not estabilished, stopping current action");
 					return;
 				}
 
@@ -401,7 +401,7 @@ public class GuildManager {
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("[GuildManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -577,7 +577,7 @@ public class GuildManager {
 			}
 		}
 
-		LoggerUtils.info("[GuildManager] Postcheck finished. Found "+i+" invalid guilds");
+		LoggerUtils.info("Postcheck finished. Found "+i+" invalid guilds");
 	}
 
 	public void createHomeFloor(NovaGuild guild) {

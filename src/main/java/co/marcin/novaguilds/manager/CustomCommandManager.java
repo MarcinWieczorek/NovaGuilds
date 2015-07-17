@@ -2,6 +2,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.command.*;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +29,8 @@ public class CustomCommandManager {
 
 		//GUI commands
 		guiCommands.put(new ItemStack(Material.EYE_OF_ENDER,1),"g home");
+
+		LoggerUtils.info("Enabled");
 	}
 
 	public String getMainCommand(String alias) {

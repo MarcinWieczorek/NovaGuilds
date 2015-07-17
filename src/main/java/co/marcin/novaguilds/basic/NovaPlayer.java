@@ -12,6 +12,10 @@ public class NovaPlayer implements Cloneable {
 	private NovaGuild guild;
 	private String name;
 	private UUID uuid;
+	private int points;
+	private int kills;
+	private int deaths;
+
 	private List<String> invitedTo = new ArrayList<>();
 	private boolean regionMode = false;
 	private boolean bypass = false;
@@ -21,7 +25,6 @@ public class NovaPlayer implements Cloneable {
 	private boolean changed = false;
 	private boolean resizing = false;
 	private int resizingCorner = 0;
-	private int points;
 	private boolean compassPointingGuild = false;
 
 	public static NovaPlayer fromPlayer(Player player) {
@@ -87,15 +90,19 @@ public class NovaPlayer implements Cloneable {
 		return points;
 	}
 
+	public int getDeaths() {
+		return deaths;
+	}
+
+	public boolean getRegionMode() {
+		return regionMode;
+	}
+
 	/*
 	* Get raid the player is taking part in
 	* */
 	public NovaRaid getPartRaid() {
 		return partRaid;
-	}
-
-	public boolean isPartRaid() {
-		return !(partRaid == null);
 	}
 
 	//setters
@@ -159,12 +166,12 @@ public class NovaPlayer implements Cloneable {
 		this.compassPointingGuild = compassPointingGuild;
 	}
 
-	public void addPoints(int points) {
-		this.points += points;
+	public void setDeaths(int deaths) {
+		this.deaths = deaths;
 	}
 
-	public void takePoints(int points) {
-		this.points -= points;
+	public void toggleBypass() {
+		bypass = !bypass;
 	}
 	
 	//check stuff
@@ -191,15 +198,19 @@ public class NovaPlayer implements Cloneable {
 	public boolean isInvitedTo(NovaGuild guild) {
 		return invitedTo.contains(guild.getName());
 	}
-	
-	public boolean regionMode() {
-		return regionMode;
+
+	public boolean isPartRaid() {
+		return !(partRaid == null);
 	}
 	
 	//add stuff
 	public void addInvitation(NovaGuild guild) {
 		invitedTo.add(guild.getName());
 		changed = true;
+	}
+
+	public void addPoints(int points) {
+		this.points += points;
 	}
 	
 	//delete stuff
@@ -208,7 +219,7 @@ public class NovaPlayer implements Cloneable {
 		changed = true;
 	}
 
-	public void toggleBypass() {
-		bypass = !bypass;
+	public void takePoints(int points) {
+		this.points -= points;
 	}
 }

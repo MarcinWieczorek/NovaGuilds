@@ -66,7 +66,7 @@ public class PlayerManager {
 			}
 			else {
 				if(!plugin.getDatabaseManager().isConnected()) {
-					LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
+					LoggerUtils.info("Connection is not estabilished, stopping current action");
 					return;
 				}
 
@@ -121,7 +121,7 @@ public class PlayerManager {
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
 
@@ -139,7 +139,7 @@ public class PlayerManager {
 			}
 		}
 
-		LoggerUtils.info("[PlayerManager] Loaded "+players.size()+" players.");
+		LoggerUtils.info("Loaded "+players.size()+" players.");
     }
 	
 	//add a player
@@ -151,7 +151,7 @@ public class PlayerManager {
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("[PlayerManager] Connection is not estabilished, stopping current action");
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
 			plugin.getDatabaseManager().mysqlReload();
@@ -191,7 +191,7 @@ public class PlayerManager {
 		if(nPlayer.isOnline()) {
 			if(!nPlayer.getUUID().toString().equals(nPlayer.getPlayer().getUniqueId().toString())) {
 				nPlayer.setUUID(nPlayer.getPlayer().getUniqueId());
-				LoggerUtils.info("[PlayerManager] UUID updated for player " + nPlayer.getName());
+				LoggerUtils.info("UUID updated for player " + nPlayer.getName());
 			}
 		}
 	}
