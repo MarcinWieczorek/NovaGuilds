@@ -31,7 +31,7 @@ public class DatabaseManager {
 			LoggerUtils.info("Preparing statements...");
 			preparedStatementMap.clear();
 
-			//Guilds insert
+			//Guilds insert (id, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, bankloc)
 			String guildsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
 			PreparedStatement guildsInsert = getConnection().prepareStatement(guildsInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.GUILDS_INSERT, guildsInsert);
@@ -52,8 +52,8 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
 
-			//Players insert
-			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'?','?','','')";
+			//Players insert (id, uuid, name, guild, invitedto, points, kills, deaths)
+			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'?','?','','',0,0,0)";
 			PreparedStatement playersInsert = getConnection().prepareStatement(playersInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_INSERT, playersInsert);
 
@@ -69,7 +69,7 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
 
 
-			//Regions insert
+			//Regions insert (id, loc_1, loc_2, guild, world)
 			String regionsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "regions` VALUES(0,'?','?','?','?');";
 			PreparedStatement regionsInsert = getConnection().prepareStatement(regionsInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.REGIONS_INSERT, regionsInsert);
