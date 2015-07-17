@@ -257,7 +257,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 		}
 		else {
 			String[] info = {
-				"NovaGuilds &6#&c"+plugin.pdf.getVersion(),
+				"NovaGuilds &6#&c"+plugin.getBuild(),
 				"Authors: &6Marcin (CTRL) Wieczorek&2, &dartur9010",
 				"2015 &4Pol&fand",
 				"&bhttp://novaguilds.marcin.co/",
