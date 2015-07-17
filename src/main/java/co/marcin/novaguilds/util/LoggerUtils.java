@@ -9,7 +9,7 @@ public class LoggerUtils {
 	public static final Logger logger = Bukkit.getLogger();
 
 	public static void error(String error) {
-		logger.severe(NovaGuilds.getLogPrefix() + classPrefix() + space(error) +error);
+		logger.severe(NovaGuilds.getLogPrefix() + classPrefix() + space(error) + error);
 	}
 
 	public static void info(String msg) {
@@ -43,29 +43,31 @@ public class LoggerUtils {
 
 	public static void exception(Throwable cause) {
 		//Throwable cause = e.getCause();
-		StackTraceElement[] ste = cause.getStackTrace();
-		error("");
-		error("[NovaGuilds] Severe error:");
-		error("");
-		error("Server Information:");
-		error("  NovaGuilds: #" + NovaGuilds.getInst().getBuild());
-		error("  Storage Type: " + NovaGuilds.getInst().getConfigManager().getDataStorageType().name());
-		error("  Bukkit: " + Bukkit.getBukkitVersion());
-		error("  Java: " + System.getProperty("java.version"));
-		error("  Thread: " + Thread.currentThread());
-		error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"));
-		error("");
+		if(cause != null) {
+			StackTraceElement[] ste = cause.getStackTrace();
+			error("");
+			error("[NovaGuilds] Severe error:");
+			error("");
+			error("Server Information:");
+			error("  NovaGuilds: #" + NovaGuilds.getInst().getBuild());
+			error("  Storage Type: " + NovaGuilds.getInst().getConfigManager().getDataStorageType().name());
+			error("  Bukkit: " + Bukkit.getBukkitVersion());
+			error("  Java: " + System.getProperty("java.version"));
+			error("  Thread: " + Thread.currentThread());
+			error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"));
+			error("");
 
-		if(ste != null && ste.length > 0) {
-			error("Stack trace: ");
-			error("Caused by: " + cause);
-			for(StackTraceElement st : ste) {
-				error("	at " + st.toString());
+			if(ste != null && ste.length > 0) {
+				error("Stack trace: ");
+				error("Caused by: " + cause);
+				for(StackTraceElement st : ste) {
+					error("	at " + st.toString());
+				}
+
+				error("");
+				error("End of Error.");
+				error("");
 			}
-
-			error("");
-			error("End of Error.");
-			error("");
 		}
 	}
 
