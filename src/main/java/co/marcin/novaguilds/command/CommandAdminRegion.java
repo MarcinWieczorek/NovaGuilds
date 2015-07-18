@@ -18,20 +18,24 @@ public class CommandAdminRegion implements CommandExecutor {
 		if(args.length>0) {
 			String[] newargs = StringUtils.parseArgs(args, 1);
 
-			if(args[0].equalsIgnoreCase("bypass")) { //togglebypass
-				new CommandAdminRegionBypass(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del")) { //remove region
-				new CommandAdminRegionDelete(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(args[0].equalsIgnoreCase("list")) { //list regions
-				new CommandAdminRegionList(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else if(args[0].equalsIgnoreCase("tp")) { //list regions
-				new CommandAdminRegionTeleport(plugin).onCommand(sender, cmd, label, newargs);
-			}
-			else {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+			switch(args[0].toLowerCase()) {
+				case "bypass":
+					new CommandAdminRegionBypass(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "delete":
+				case "del":
+					new CommandAdminRegionDelete(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "list":
+					new CommandAdminRegionList(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				case "tp":
+				case "teleport":
+					new CommandAdminRegionTeleport(plugin).onCommand(sender, cmd, label, newargs);
+					break;
+				default:
+					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+					break;
 			}
 		}
 		else {
