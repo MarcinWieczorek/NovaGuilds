@@ -37,7 +37,7 @@ public class SQLite extends Database {
 			return connection;
 		}
 
-		if (!plugin.getDataFolder().exists()) {
+		if(!plugin.getDataFolder().exists()) {
 			plugin.getDataFolder().mkdirs();
 		}
 
