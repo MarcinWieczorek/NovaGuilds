@@ -69,6 +69,13 @@ public class LoggerUtils {
 				error("");
 			}
 		}
+		else {
+			error("Invalid Cause!");
+			error("Stack trace: ");
+			for(StackTraceElement st : Thread.currentThread().getStackTrace()) {
+				error("	at " + st.toString());
+			}
+		}
 	}
 
 	public static Logger getLogger() {
