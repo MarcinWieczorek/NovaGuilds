@@ -66,12 +66,15 @@ public class CommandAdminGuild implements CommandExecutor {
 						new CommandAdminGuildAbandon(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 						break;
 					case "setname":
+					case "name":
 						new CommandAdminGuildSetName(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 						break;
 					case "settag":
+					case "tag":
 						new CommandAdminGuildSetTag(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 						break;
 					case "setpoints":
+					case "points":
 						new CommandAdminGuildSetPoints(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 						break;
 					case "invite":
@@ -105,6 +108,7 @@ public class CommandAdminGuild implements CommandExecutor {
 						new CommandAdminGuildKick(plugin).onCommand(sender, cmd, label, newArgs);
 						break;
 					case "promote":
+					case "leader":
 						new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs);
 						break;
 					default:
