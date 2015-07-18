@@ -249,14 +249,18 @@ chat:
   hasguild: "That player already has a guild."
   hasnoguild: "That player doesn't have a guild"
   alreadyinvited: "This player is already invited to that guild."
-  invited: "Player has been invited to the guild."
-  invitedtonothing: "You aren't invited to any guild."
-  notinvitedtoguild: "You aren't invited to this guild!"
-  uvebeeninvited: "You have been invited to guild &a{GUILDNAME}"
-  ureinvitedto: "List of guilds you've been invited to:"
   notinyourguild: "That player is not in your guild!"
-  invitecanceled: "Canceled invitation for player &c{PLAYER}"
-  invitecancelednotify: "Your invitation to guild &a{GUILDNAME} &3has been canceled"
+  invite:
+   invited: "Player has been invited to the guild."
+   list:
+    header: "List of guilds you've been invited to:"
+    nothing: "You aren't invited to any guild."
+    item: "&c{GUILDNAME}"
+    separator: "&f, "
+   notinvited: "You aren't invited to this guild!"
+   notify: "You have been invited to guild &a{GUILDNAME}"
+   canceled: "Canceled invitation for player &c{PLAYER}"
+   cancelednotify: "Your invitation to guild &a{GUILDNAME} &3has been canceled"
 
  region:
   cannotinteract: "You cannot interact here"

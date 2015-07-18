@@ -16,7 +16,7 @@ public class NovaPlayer implements Cloneable {
 	private int kills;
 	private int deaths;
 
-	private List<String> invitedTo = new ArrayList<>();
+	private List<NovaGuild> invitedTo = new ArrayList<>();
 	private boolean regionMode = false;
 	private boolean bypass = false;
 	private NovaRegion selectedRegion;
@@ -58,7 +58,17 @@ public class NovaPlayer implements Cloneable {
 		return name;
 	}
 	
-	public List<String> getInvitedTo() {
+	public List<String> getInvitedToNames() {
+		List<String> invitedToNames = new ArrayList<>();
+
+		for(NovaGuild guild : invitedTo) {
+			invitedToNames.add(guild.getName());
+		}
+
+		return invitedToNames;
+	}
+
+	public List<NovaGuild> getInvitedTo() {
 		return invitedTo;
 	}
 	
@@ -128,8 +138,8 @@ public class NovaPlayer implements Cloneable {
 		uuid = id;
 		changed = true;
 	}
-	
-	public void setInvitedTo(List<String> invto) {
+
+	public void setInvitedTo(List<NovaGuild> invto) {
 		invitedTo = invto;
 		changed = true;
 	}
@@ -204,7 +214,7 @@ public class NovaPlayer implements Cloneable {
 	}
 	
 	public boolean isInvitedTo(NovaGuild guild) {
-		return invitedTo.contains(guild.getName());
+		return invitedTo.contains(guild);
 	}
 
 	public boolean isPartRaid() {
@@ -213,7 +223,7 @@ public class NovaPlayer implements Cloneable {
 	
 	//add stuff
 	public void addInvitation(NovaGuild guild) {
-		invitedTo.add(guild.getName());
+		invitedTo.add(guild);
 		changed = true;
 	}
 
@@ -223,11 +233,15 @@ public class NovaPlayer implements Cloneable {
 	
 	//delete stuff
 	public void deleteInvitation(NovaGuild guild) {
-		invitedTo.remove(guild.getName());
+		invitedTo.remove(guild);
 		changed = true;
 	}
 
 	public void takePoints(int points) {
 		this.points -= points;
+	}
+
+	public void setPartRaid(NovaRaid partRaid) {
+		this.partRaid = partRaid;
 	}
 }

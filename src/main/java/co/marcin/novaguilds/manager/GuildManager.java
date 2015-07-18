@@ -73,7 +73,17 @@ public class GuildManager {
 	public boolean exists(String guildname) {
 		return guilds.containsKey(guildname.toLowerCase());
 	}
-	
+
+	public List<NovaGuild> nameListToGuildsList(List<String> namesList) {
+		List<NovaGuild> invitedToList = new ArrayList<>();
+
+		for(String guildName : namesList) {
+			invitedToList.add(getGuildByName(guildName));
+		}
+
+		return invitedToList;
+	}
+
 	public void loadGuilds() {
 		guilds.clear();
 

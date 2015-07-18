@@ -14,10 +14,7 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class PlayerManager {
@@ -76,7 +73,7 @@ public class PlayerManager {
 					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_UPDATE);
 
 					//prepare data
-					String joined = StringUtils.join(nPlayer.getInvitedTo(), ";");
+					String joined = StringUtils.join(nPlayer.getInvitedToNames(), ";");
 
 					//prepare and save
 					preparedStatement.setString(1, joined);
@@ -231,7 +228,8 @@ public class PlayerManager {
 			String guildname = res.getString("guild").toLowerCase();
 
 			String invitedTo = res.getString("invitedto");
-			List<String> invitedToList = StringUtils.semicolonToList(invitedTo);
+			List<String> invitedToListNames = StringUtils.semicolonToList(invitedTo);
+			List<NovaGuild> invitedToList = plugin.getGuildManager().nameListToGuildsList(invitedToListNames);
 
 			UUID uuid = UUID.fromString(res.getString("uuid"));
 
@@ -271,12 +269,11 @@ public class PlayerManager {
 
 			String guildname = playerData.getString("guild").toLowerCase();
 
-			List<String> invitedToList = playerData.getStringList("invitedto");
-
 			UUID uuid = UUID.fromString(playerData.getString("uuid"));
 
 			nPlayer.setUUID(uuid);
 			nPlayer.setName(playerData.getString("name"));
+			List<NovaGuild> invitedToList = plugin.getGuildManager().nameListToGuildsList(playerData.getStringList("invitedto"));
 			nPlayer.setInvitedTo(invitedToList);
 
 			if(!guildname.isEmpty()) {
