@@ -32,16 +32,18 @@ public class SQLite extends Database {
 	}
 
 	@Override
-	public Connection openConnection() throws SQLException,
-			ClassNotFoundException {
-		if (checkConnection()) {
+	public Connection openConnection() throws SQLException, ClassNotFoundException {
+		if(checkConnection()) {
 			return connection;
 		}
+
 		if (!plugin.getDataFolder().exists()) {
 			plugin.getDataFolder().mkdirs();
 		}
+
 		File file = new File(plugin.getDataFolder(), dbLocation);
-		if (!(file.exists())) {
+
+		if(!(file.exists())) {
 			try {
 				file.createNewFile();
 			}
@@ -49,11 +51,9 @@ public class SQLite extends Database {
 				LoggerUtils.exception(e);
 			}
 		}
+
 		Class.forName("org.sqlite.JDBC");
-		connection = DriverManager
-				.getConnection("jdbc:sqlite:"
-						+ plugin.getDataFolder().toPath().toString() + "/"
-						+ dbLocation);
+		connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toPath().toString() + "/" + dbLocation);
 		return connection;
 	}
 }

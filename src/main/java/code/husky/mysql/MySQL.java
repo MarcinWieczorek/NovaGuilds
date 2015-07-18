@@ -37,8 +37,7 @@ public class MySQL extends Database {
 	 * @param password
 	 *            Password
 	 */
-	public MySQL(Plugin plugin, String hostname, String port, String database,
-			String username, String password) {
+	public MySQL(Plugin plugin, String hostname, String port, String database, String username, String password) {
 		super(plugin);
 		this.hostname = hostname;
 		this.port = port;
@@ -48,15 +47,12 @@ public class MySQL extends Database {
 	}
 
 	@Override
-	public Connection openConnection() throws SQLException,
-			ClassNotFoundException {
-		if (checkConnection()) {
+	public Connection openConnection() throws SQLException, ClassNotFoundException {
+		if(checkConnection()) {
 			return connection;
 		}
 		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection("jdbc:mysql://"
-				+ hostname + ":" + port + "/" + database,
-				user, password);
+		connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user, password);
 		return connection;
 	}
 }
