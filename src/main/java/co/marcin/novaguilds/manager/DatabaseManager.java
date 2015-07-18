@@ -53,7 +53,7 @@ public class DatabaseManager {
 
 
 			//Players insert (id, uuid, name, guild, invitedto, points, kills, deaths)
-			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'?','?','','',0,0,0)";
+			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'?','?','','',?,0,0)";
 			PreparedStatement playersInsert = getConnection().prepareStatement(playersInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_INSERT, playersInsert);
 
@@ -111,23 +111,17 @@ public class DatabaseManager {
 			return;
 		}
 
-		long nanoTime = System.nanoTime();
+		long millisTime = System.currentTimeMillis();
 
-		if( System.currentTimeMillis() - mySQLReconnectStamp > 3000) {
+		if(System.currentTimeMillis() - mySQLReconnectStamp > 3000) {
 			try {
 				mySQL.closeConnection();
-				try {
-					connection = mySQL.openConnection();
-					connected = true;
-					mySQLReconnectStamp = System.currentTimeMillis();
-					LoggerUtils.info("MySQL reconnected in "+(System.nanoTime()-nanoTime)+"ns");
-				}
-				catch (ClassNotFoundException e) {
-					connected = false;
-					LoggerUtils.exception(e);
-				}
+				connection = mySQL.openConnection();
+				connected = true;
+				mySQLReconnectStamp = System.currentTimeMillis();
+				LoggerUtils.info("MySQL reconnected in " + (System.currentTimeMillis() - millisTime) + "ms");
 			}
-			catch (SQLException e1) {
+			catch (SQLException|ClassNotFoundException e1) {
 				connected = false;
 				LoggerUtils.exception(e1);
 			}
@@ -142,6 +136,7 @@ public class DatabaseManager {
 				connected = false;
 			}
 			else {
+				long nanoTime = System.nanoTime();
 				mySQL = new MySQL(plugin,
 						Config.MYSQL_HOST.getString(),
 						Config.MYSQL_PORT.getString(),
@@ -152,8 +147,9 @@ public class DatabaseManager {
 
 				connection = mySQL.openConnection();
 				connected = true;
+				mySQLReconnectStamp = System.currentTimeMillis();
+				LoggerUtils.info("Connected to MySQL database in "+(System.nanoTime()-nanoTime)+"ns");
 				prepareStatements();
-				LoggerUtils.info("Connected to MySQL database");
 			}
 		}
 		catch(SQLException|ClassNotFoundException e) {

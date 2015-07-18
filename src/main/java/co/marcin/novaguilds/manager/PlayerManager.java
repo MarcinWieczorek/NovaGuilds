@@ -153,6 +153,7 @@ public class PlayerManager {
 				LoggerUtils.info("Connection is not estabilished, stopping current action");
 				return;
 			}
+
 			plugin.getDatabaseManager().mysqlReload();
 
 			try {
@@ -160,17 +161,23 @@ public class PlayerManager {
 				UUID uuid = player.getUniqueId();
 				String playername = player.getName();
 
-				statement.setString(1, uuid.toString());
-				statement.setString(2, playername);
-				statement.executeUpdate();
+				if(!statement.isClosed()) {
+					statement.setString(1, uuid.toString());
+					statement.setString(2, playername);
+					statement.setInt(3, 0); //TODO points from config
+					statement.executeUpdate();
+
+					LoggerUtils.info("New player " + player.getName() + " added to the database");
+					players.put(player.getName().toLowerCase(), nPlayer);
+				}
+				else {
+					LoggerUtils.error("Statement is closed.");
+				}
 			}
 			catch(SQLException e) {
-				LoggerUtils.exception(e);
+				LoggerUtils.exception((Throwable)e);
 			}
 		}
-
-		LoggerUtils.info("New player " + player.getName() + " added to the database");
-		players.put(player.getName().toLowerCase(), nPlayer);
 	}
 
 	private void addIfNotExists(String playername) {
