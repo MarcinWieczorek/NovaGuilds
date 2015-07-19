@@ -9,17 +9,17 @@ public class LoggerUtils {
 	public static final Logger logger = Bukkit.getLogger();
 
 	public static void error(String error) {
-		logger.severe(NovaGuilds.getLogPrefix() + classPrefix() + space(error) + error);
+		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + classPrefix() + space(error) + error));
 	}
 
 	public static void info(String msg) {
-		logger.info(NovaGuilds.getLogPrefix() + classPrefix() + space(msg) + msg);
+		logger.info(StringUtils.fixColors(NovaGuilds.getLogPrefix() + classPrefix() + space(msg) + msg));
 	}
 
 	public static void debug(String msg) {
 		if(NovaGuilds.getInst().getConfigManager() != null) {
 			if(NovaGuilds.getInst().getConfigManager().isDebugEnabled()) {
-				logger.info(NovaGuilds.getLogPrefix() + "[DEBUG] " + classPrefix() + msg);
+				info("[DEBUG] " + classPrefix() + msg);
 			}
 		}
 	}
