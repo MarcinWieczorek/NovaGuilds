@@ -62,7 +62,7 @@ public class InventoryListener implements Listener {
 						LoggerUtils.debug(nameBank);
 						LoggerUtils.debug(plugin.getConfigManager().getGuildBankItem().toString());
 						if(event.getInventory().getTitle().equals(nameBank)) {
-							if(!nPlayer.isLeader()) {
+							if(!nPlayer.isLeader() && plugin.getConfigManager().getGuildBankOnlyLeaderTake()) {
 								if(dissalowedActions.contains(event.getAction())) {
 									event.setCancelled(true);
 								}
