@@ -32,26 +32,26 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 
 			nPlayer.toggleBypass();
 			HashMap<String,String> vars = new HashMap<>();
-			vars.put("BYPASS",nPlayer.getBypass()+"");
+			vars.put("BYPASS",Message.getOnOff(nPlayer.getBypass()));
 			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF.vars(vars).send(sender);
 		}
 		else { //for other
 			if(sender.hasPermission("novaguilds.admin.region.bypass.other")) {
-				plugin.getMessageManager().sendNoPermissionsMessage(sender);
+				Message.CHAT_NOPERMISSIONS.send(sender);
 				return true;
 			}
 
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(args[0]);
 
 			if(nPlayer == null) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 				return true;
 			}
 
 			nPlayer.toggleBypass();
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("PLAYER",nPlayer.getName());
-			vars.put("BYPASS",nPlayer.getBypass() ? plugin.getMessageManager().getMessagesString("chat.basic.on") : plugin.getMessageManager().getMessagesString("chat.basic.off"));
+			vars.put("BYPASS",Message.getOnOff(nPlayer.getBypass()));
 
 			if(nPlayer.isOnline()) {
 				Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.vars(vars).send(sender);
