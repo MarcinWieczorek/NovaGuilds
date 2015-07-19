@@ -196,7 +196,7 @@ public class RegionManager {
 						preparedStatement.setString(2, loc2);
 						preparedStatement.setString(3, region.getGuild().getName());
 						preparedStatement.setString(4, region.getWorld().getName());
-						preparedStatement.setString(5, String.valueOf(region.getId()));
+						preparedStatement.setInt(5, region.getId());
 						preparedStatement.executeUpdate();
 
 						region.setUnChanged();
