@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -23,25 +24,25 @@ public class CommandGuildJoin implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 
 		if(!sender.hasPermission("novaguilds.guild.join")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-		List<String> invitedTo = nPlayer.getInvitedTo();
+		List<NovaGuild> invitedTo = nPlayer.getInvitedTo();
 		
 		if(nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.createguild.hasguild");
+			Message.CHAT_PLAYER_HASGUILD.send(sender);
 			return true;
 		}
 
 		if(invitedTo.isEmpty()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.invitedtonothing");
+			Message.CHAT_PLAYER_INVITE_LIST_NOTHING.send(sender);
 			return true;
 		}
 
@@ -50,7 +51,7 @@ public class CommandGuildJoin implements CommandExecutor {
 		//one or more guilds
 		if(invitedTo.size()==1) {
 			if(args.length == 0) {
-				guildname = invitedTo.get(0);
+				guildname = invitedTo.get(0).getName();
 			}
 			else {
 				guildname = args[0];
@@ -58,7 +59,24 @@ public class CommandGuildJoin implements CommandExecutor {
 		}
 		else {
 			if(args.length == 0) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.ureinvitedto");
+				Message.CHAT_PLAYER_INVITE_LIST_HEADER.send(sender);
+
+				String invitedlist = "";
+				int i = 0;
+				for(NovaGuild invitedGuild : invitedTo) {
+					String itemrow = Message.CHAT_PLAYER_INVITE_LIST_ITEM.get();
+					itemrow = StringUtils.replace(itemrow, "{GUILDNAME}", invitedGuild.getName());
+					itemrow = StringUtils.replace(itemrow, "{TAG}", invitedGuild.getTag());
+
+					invitedlist += itemrow;
+
+					if(i<invitedTo.size()-1) {
+						invitedlist += Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR.get();
+					}
+					i++;
+				}
+
+				sender.sendMessage(StringUtils.fixColors(invitedlist));
 				return true;
 			}
 			else {
@@ -69,12 +87,12 @@ public class CommandGuildJoin implements CommandExecutor {
 		NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
 
 		if(guild == null) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
+			Message.CHAT_GUILD_NAMENOEXIST.send(sender);
 			return true;
 		}
 
 		if(!nPlayer.isInvitedTo(guild)) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notinvitedtoguild");
+			Message.CHAT_PLAYER_INVITE_NOTINVITED.send(sender);
 			return true;
 		}
 
@@ -105,27 +123,34 @@ public class CommandGuildJoin implements CommandExecutor {
 			}
 		}
 
+		HashMap<String, String> vars = new HashMap<>();
+
 		//money
 		double joinMoney = plugin.getGroupManager().getGroup(sender).getGuildJoinMoney();
 		if(joinMoney > 0) {
 			if(plugin.econ.getBalance((Player) sender) < joinMoney) {
 				//TODO not enought money msg
-				String rmmsg = plugin.getMessageManager().getMessagesString("chat.createguild.notenoughmoney");
-				rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", joinMoney + "");
-				plugin.getMessageManager().sendMessagesMsg(sender, rmmsg);
+				vars.put("{REQUIREDMONEY}", joinMoney + "");
+				Message.CHAT_GUILD_NOTENOUGHTMONEY.vars(vars).send(sender);
 				return true;
 			}
 		}
 
-		ItemStackUtils.takeItems((Player)sender,joinItems);
-		plugin.econ.withdrawPlayer((Player)sender,joinMoney);
+		if(joinItems.size() > 0) {
+			ItemStackUtils.takeItems((Player) sender, joinItems);
+		}
+
+		if(joinMoney > 0) {
+			plugin.econ.withdrawPlayer((Player) sender, joinMoney);
+		}
+
 		guild.addPlayer(nPlayer);
 		nPlayer.setGuild(guild);
 		nPlayer.deleteInvitation(guild);
 		plugin.tagUtils.refreshAll();
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.joined");
+		Message.CHAT_CHAT_GUILD_JOINED.send(sender);
 
-		HashMap<String,String> vars = new HashMap<>();
+		vars.clear();
 		vars.put("PLAYER",sender.getName());
 		vars.put("GUILDNAME",guild.getName());
 		plugin.getMessageManager().broadcastMessage("broadcast.guild.joined", vars);
