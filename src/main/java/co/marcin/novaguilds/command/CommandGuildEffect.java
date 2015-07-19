@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,24 +23,24 @@ public class CommandGuildEffect implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.effect")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 
 		if(!nPlayer.isLeader()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
+			Message.CHAT_GUILD_NOTLEADER.send(sender);
 			return true;
 		}
 
 		if(nPlayer.getGuild().getMoney() < plugin.getGroupManager().getGroup(sender).getGuildEffectPrice()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughmoney");
+			Message.CHAT_GUILD_NOTENOUGHTMONEY.send(sender);
 			return true;
 		}
 
@@ -70,8 +71,7 @@ public class CommandGuildEffect implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("EFFECTTYPE",effectType.getName());
 
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.effect.success",vars);
-
+		Message.CHAT_GUILD_EFFECT_SUCCESS.vars(vars).send(sender);
 		return true;
 	}
 }
