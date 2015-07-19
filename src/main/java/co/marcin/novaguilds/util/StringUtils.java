@@ -212,8 +212,10 @@ public final class StringUtils {
 //	}
 
 	public static String replaceMap(String msg, HashMap<String,String> vars) {
-		for(Map.Entry<String, String> entry : vars.entrySet()) {
-			msg = replace(msg,"{"+entry.getKey()+"}",entry.getValue());
+		if(vars != null) {
+			for(Map.Entry<String, String> entry : vars.entrySet()) {
+				msg = replace(msg, "{" + entry.getKey() + "}", entry.getValue());
+			}
 		}
 
 		return msg;
