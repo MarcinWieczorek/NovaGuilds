@@ -369,24 +369,7 @@ public class GuildManager {
 					preparedStatement.setLong(14, guild.getInactiveTime());
 					preparedStatement.setString(15, bankLocationString);
 
-					String sql = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET " +
-							"`tag`='" + guild.getTag() + "', " +
-							"`name`='" + guild.getName() + "', " +
-							"`leader`='" + guild.getLeader().getName() + "', " +
-							"`spawn`='" + spawnpointcoords + "', " +
-							"`allies`='" + allies + "', " +
-							"`alliesinv`='" + alliesinv + "', " +
-							"`war`='" + wars + "', " +
-							"`nowarinv`='" + nowar_inv + "', " +
-							"`money`='" + guild.getMoney() + "', " +
-							"`points`=" + guild.getPoints() + ", " +
-							"`lives`=" + guild.getLives() + ", " +
-							"`timerest`=" + guild.getTimeRest() + ", " +
-							"`lostlive`=" + guild.getLostLiveTime() + ", " +
-							"`activity`=" + guild.getInactiveTime() + ", " +
-							"`bankloc`='" + bankLocationString + "'" +
-							" WHERE `id`=" + guild.getId();
-
+					preparedStatement.setInt(16, guild.getId());
 
 					preparedStatement.executeUpdate();
 					guild.setUnchanged();
@@ -418,10 +401,6 @@ public class GuildManager {
 			plugin.getDatabaseManager().mysqlReload();
 
 			try {
-				//Statement statement;
-				//statement = plugin.getDatabaseManager().getConnection().createStatement();
-				//statement.executeUpdate(sql);
-
 				//delete from database
 				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_DELETE);
 				preparedStatement.setInt(1,guild.getId());
