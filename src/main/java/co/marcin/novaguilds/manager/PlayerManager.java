@@ -78,10 +78,10 @@ public class PlayerManager {
 					//prepare and save
 					preparedStatement.setString(1, joined);
 					preparedStatement.setString(2, nPlayer.hasGuild() ? nPlayer.getGuild().getName() : "");
-					preparedStatement.setString(3, nPlayer.getUUID().toString());
-					preparedStatement.setInt(4, nPlayer.getPoints());
-					preparedStatement.setInt(5, nPlayer.getKills());
-					preparedStatement.setInt(6, nPlayer.getDeaths());
+					preparedStatement.setInt(3, nPlayer.getPoints());
+					preparedStatement.setInt(4, nPlayer.getKills());
+					preparedStatement.setInt(5, nPlayer.getDeaths());
+					preparedStatement.setString(6, nPlayer.getUUID().toString());
 					preparedStatement.executeUpdate();
 
 					nPlayer.setUnchanged();
@@ -237,6 +237,10 @@ public class PlayerManager {
 			nPlayer.setName(res.getString("name"));
 			nPlayer.setInvitedTo(invitedToList);
 
+			nPlayer.setPoints(res.getInt("points"));
+			nPlayer.setKills(res.getInt("kills"));
+			nPlayer.setDeaths(res.getInt("deaths"));
+
 			if(!guildname.isEmpty()) {
 				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
 
@@ -275,6 +279,10 @@ public class PlayerManager {
 			nPlayer.setName(playerData.getString("name"));
 			List<NovaGuild> invitedToList = plugin.getGuildManager().nameListToGuildsList(playerData.getStringList("invitedto"));
 			nPlayer.setInvitedTo(invitedToList);
+
+			nPlayer.setPoints(playerData.getInt("points"));
+			nPlayer.setKills(playerData.getInt("kills"));
+			nPlayer.setDeaths(playerData.getInt("deaths"));
 
 			if(!guildname.isEmpty()) {
 				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
