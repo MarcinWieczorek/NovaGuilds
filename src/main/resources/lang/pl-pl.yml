@@ -159,12 +159,15 @@ chat:
     - "&5* &7/rozwiaz &2- &3Porzuc gildie"
     - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
 
- teampvp: "Nie mozesz bic swoich kolegow z gildii"
- allypvp: "Nie mozesz ranic swoich sojusznikow"
+ pvp:
+  team: "Nie mozesz bic swoich kolegow z gildii"
+  ally: "Nie mozesz ranic swoich sojusznikow"
+
  noguild: "Brak gildii"
 
  raid:
   resting: "Musisz poczekac &c{TIMEREST} &3Przed atakowaniem tej gildii."
+  protection: "This guild is new and still protected. Try tomorrow."
 
  guild:
   compasstarget:
@@ -196,11 +199,13 @@ chat:
   abandoned: "Porzuciles swoja gildie"
   notleader: "Nie jestes liderem"
   notenoughmoney: "W banku gildii nie ma wystarczajacej ilosci pieniedzy"
-  setspawnpoint: "Ustawiono dom gildii!"
-  sethomeoutside: "Nie mozesz ustawic domu poza regionem gildii"
+  sethome:
+   success: "Ustawiono dom gildii!"
+   outsideregion: "Nie mozesz ustawic domu poza regionem gildii"
+   overlaps: "Nie mozesz ustawic domu na terenie innej gildii"
   tp: "Teleportowano do domu gildii"
   hasregionalready: "Twoja gildia ma juz region. Usun lub edytuj istniejacy."
-  guildatlocsp: "Nie mozesz ustawic domu na terenie innej gildii"
+  guildatlocsp: REMOVE
   joined: "Dolaczyles do gildii!"
   explosionatregion: "Na terenie Twojej gildii nastapil wybuch!"
   kickyourself: "Nie mozesz wyrzucic siebie z gildii!"
@@ -209,8 +214,9 @@ chat:
   war:
    ally: "Najpierw zakoncz sojusz z ta gildia"
    yourguildwar: "Nie mozesz wywolac wojny sam ze soba"
-   nowarinv: "Poprosiles &a{GUILDNAME} &3aby zakonczyc wojne"
-   nowarinvnotify: "&a{GUILDNAME} &3poprosila o zakonczenie wojny"
+   nowarinv:
+    success: "Poprosiles &a{GUILDNAME} &3aby zakonczyc wojne"
+    notify: "&a{GUILDNAME} &3poprosila o zakonczenie wojny"
    list:
     nowars: "Brak wojen."
     warsheader: "Lista wojen:"
@@ -243,14 +249,18 @@ chat:
   hasguild: "Ten gracz ma gildie"
   hasnoguild: "Ten gracz nie ma gildii"
   alreadyinvited: "Ten gracz jest juz zaproszony do tej gildii"
-  invited: "Gracz zostal zaproszony do gildii"
-  invitedtonothing: "Nie jestes zaproszony do zadnej gildii"
-  notinvitedtoguild: "Nie jestes zaproszony do tej gildii"
-  uvebeeninvited: "Zostales zaproszony do gildii &a{GUILDNAME}"
-  ureinvitedto: "Lista gildii do ktorych jestes zaproszony:"
   notinyourguild: "Ten gracz nie nalezy do Twojej gildii"
-  invitecanceled: "Cofnieto zaproszenie dla gracza &c{PLAYER}"
-  invitecancelednotify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
+  invite:
+   invited: "Gracz zostal zaproszony do gildii"
+   list:
+    header: "Lista gildii do ktorych jestes zaproszony:"
+    nothing: "Nie jestes zaproszony do zadnej gildii"
+    item: "&c{GUILDNAME}"
+    separator: "&f, "
+   notinvited: "Nie jestes zaproszony do tej gildii"
+   notify: "Zostales zaproszony do gildii &a{GUILDNAME}"
+   canceled: "Cofnieto zaproszenie dla gracza &c{PLAYER}"
+   cancelednotify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
 
  region:
   cannotinteract: "Nie mozesz tutaj ingerowac"
