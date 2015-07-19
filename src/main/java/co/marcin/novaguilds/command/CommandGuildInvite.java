@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +19,7 @@ public class CommandGuildInvite implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.invite")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 
@@ -31,24 +32,24 @@ public class CommandGuildInvite implements CommandExecutor {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 
 		if(!nPlayer.isLeader()) { //only leaders can invite
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
+			Message.CHAT_GUILD_NOTLEADER.send(sender);
 			return true;
 		}
 
 		NovaPlayer invitePlayer = plugin.getPlayerManager().getPlayer(playername);
 
 		if(invitePlayer == null) { //player exists
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.notexists");
+			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return true;
 		}
 
 		if(invitePlayer.hasGuild()) { //if player being invited has no guild
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.hasguild");
+			Message.CHAT_PLAYER_HASGUILD.send(sender);
 			return true;
 		}
 
@@ -59,18 +60,18 @@ public class CommandGuildInvite implements CommandExecutor {
 
 		if(!invitePlayer.isInvitedTo(guild)) { //invite
 			plugin.getPlayerManager().addInvitation(invitePlayer, guild);
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.invited");
+			Message.CHAT_PLAYER_INVITE_INVITED.vars(vars).send(sender);
 
 			if(invitePlayer.isOnline()) {
-				plugin.getMessageManager().sendMessagesMsg(invitePlayer.getPlayer(), "chat.player.uvebeeninvited", vars);
+				Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(invitePlayer.getPlayer());
 			}
 		}
 		else { //cancel invitation
 			invitePlayer.deleteInvitation(guild);
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.invitecanceled", vars);
+			Message.CHAT_PLAYER_INVITE_CANCELED.vars(vars).send(sender);
 
 			if(invitePlayer.isOnline()) {
-				plugin.getMessageManager().sendMessagesMsg(invitePlayer.getPlayer(), "chat.guild.invitecancelednotify", vars);
+				Message.CHAT_PLAYER_INVITE_CANCELED_NOTIFY.vars(vars).send(sender);
 			}
 		}
 		return true;
