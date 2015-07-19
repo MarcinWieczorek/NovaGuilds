@@ -47,15 +47,16 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.GUILDS_DELETE, guildsDelete);
 
 			//Guilds update
-			String guildsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET `tag`='?', `name`='?', `leader`='?', `spawn`='?', `allies`='?', `alliesinv`='?', `war`='?', `nowarinv`='?', `money`='?', `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`='?' WHERE `id`=?";
+			String guildsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=? WHERE `id`=?";
 			PreparedStatement guildsUpdate = getConnection().prepareStatement(guildsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
 
 			//Players insert (id, uuid, name, guild, invitedto, points, kills, deaths)
-			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,'?','?','','',?,0,0)";
+			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,?,?,'','',?,0,0)";
 			PreparedStatement playersInsert = getConnection().prepareStatement(playersInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_INSERT, playersInsert);
+			LoggerUtils.info("PlayerInsert param count: "+playersInsert.getParameterMetaData().getParameterCount());
 
 			//Players select
 			String playerSelectSQL = "SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`";
@@ -65,13 +66,13 @@ public class DatabaseManager {
 			//Players update
 			// TODO UUID is changeable, the username is not!
 			// TODO Dunno how drunk I was, but it's the opposite, right?
-			String playersUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET `invitedto`='?', `guild`='?', `points`=?, `kills`=?, `deaths`=? WHERE `uuid`='?'";
+			String playersUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET `invitedto`=?, `guild`=?, `points`=?, `kills`=?, `deaths`=? WHERE `uuid`=?";
 			PreparedStatement playersUpdate = getConnection().prepareStatement(playersUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
 
 
 			//Regions insert (id, loc_1, loc_2, guild, world)
-			String regionsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "regions` VALUES(0,'?','?','?','?');";
+			String regionsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "regions` VALUES(0,?,?,?,?);";
 			PreparedStatement regionsInsert = getConnection().prepareStatement(regionsInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.REGIONS_INSERT, regionsInsert);
 
@@ -81,12 +82,12 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.REGIONS_SELECT, regionsSelect);
 
 			//Regions delete
-			String regionsDeleteSQL = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`='?'";
+			String regionsDeleteSQL = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`=?";
 			PreparedStatement regionsDelete = getConnection().prepareStatement(regionsDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_DELETE, regionsDelete);
 
 			//Regions update
-			String regionsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "regions` SET `loc_1`='?', `loc_2`='?', `guild`='?', `world`='?' WHERE `id`=?";
+			String regionsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "regions` SET `loc_1`=?, `loc_2`=?, `guild`=?, `world`=? WHERE `id`=?";
 			PreparedStatement regionsUpdate = getConnection().prepareStatement(regionsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
@@ -98,12 +99,15 @@ public class DatabaseManager {
 		}
 	}
 
-	public PreparedStatement getPreparedStatement(PreparedStatements statement) {
+	public PreparedStatement getPreparedStatement(PreparedStatements statement) throws SQLException {
 		if(preparedStatementMap.isEmpty() || !preparedStatementMap.containsKey(statement)) {
 			prepareStatements();
 		}
 
-		return preparedStatementMap.get(statement);
+		PreparedStatement preparedStatement = preparedStatementMap.get(statement);
+		preparedStatement.clearParameters();
+
+		return preparedStatement;
 	}
 
 	public void mysqlReload() {
@@ -113,18 +117,19 @@ public class DatabaseManager {
 
 		long millisTime = System.currentTimeMillis();
 
-		if(System.currentTimeMillis() - mySQLReconnectStamp > 3000) {
-			try {
+		try {
+			if(getConnection().isClosed()) {
 				mySQL.closeConnection();
 				connection = mySQL.openConnection();
 				connected = true;
 				mySQLReconnectStamp = System.currentTimeMillis();
+				prepareStatements();
 				LoggerUtils.info("MySQL reconnected in " + (System.currentTimeMillis() - millisTime) + "ms");
 			}
-			catch (SQLException|ClassNotFoundException e1) {
-				connected = false;
-				LoggerUtils.exception(e1);
-			}
+		}
+		catch (SQLException|ClassNotFoundException e1) {
+			connected = false;
+			LoggerUtils.exception(e1);
 		}
 	}
 
