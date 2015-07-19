@@ -14,7 +14,9 @@ public class NumberUtils {
 	}
 
 	public static double roundOffTo2DecPlaces(double val) {
-		return Double.parseDouble(String.format("%.2f", val));
+		//return Double.parseDouble(String.format("%.2f", val));
+		//TODO fix
+		return val;
 	}
 
 	public static long systemSeconds() {
