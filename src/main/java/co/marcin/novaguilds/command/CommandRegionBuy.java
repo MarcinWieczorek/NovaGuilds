@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -23,31 +24,31 @@ public class CommandRegionBuy implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.region.create")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return false;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
 
 		if(!nPlayer.isLeader()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
+			Message.CHAT_GUILD_NOTLEADER.send(sender);
 			return true;
 		}
 
 		if(guild.hasRegion() && !nPlayer.isResizing()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.hasregionalready");
+			Message.CHAT_GUILD_HASREGIONALREADY.send(sender);
 			return true;
 		}
 
@@ -55,7 +56,7 @@ public class CommandRegionBuy implements CommandExecutor {
 		Location sl1 = nPlayer.getSelectedLocation(1);
 
 		if(sl0 == null || sl1 == null) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.areanotselected");
+			Message.CHAT_REGION_AREANOTSELECTED.send(sender);
 			return true;
 		}
 
