@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class ToolListener implements Listener {
 	private final NovaGuilds plugin;
@@ -38,8 +39,8 @@ public class ToolListener implements Listener {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 				//Spigot and Cauldron (1.8/1.7.10)
-				//Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
-				Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
+				Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
+				//Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
 
 				pointedLocation.setWorld(player.getWorld());
 
