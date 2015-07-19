@@ -459,6 +459,11 @@ public class RegionManager {
 	public void playerExitedRegion(Player player) {
 		NovaRegion region = getRegion(player.getLocation());
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+
+		if(region == null) {
+			return;
+		}
+
 		NovaGuild guild = region.getGuild();
 
 		nPlayer.setAtRegion(null);
