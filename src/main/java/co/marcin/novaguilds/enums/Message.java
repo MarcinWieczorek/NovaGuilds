@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.manager.MessageManager;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public enum Message {
@@ -132,13 +133,34 @@ public enum Message {
 	CHAT_GUILD_WAR_LIST_WARSHEADER,
 	CHAT_GUILD_WAR_LIST_NOWARINVHEADER,
 	CHAT_GUILD_WAR_LIST_ITEM,
-	CHAT_GUILD_WAR_LIST_SEPARATOR;
+	CHAT_GUILD_WAR_LIST_SEPARATOR,
+
+	CHAT_PLAYER_ENTERNAME,
+	CHAT_PLAYER_NOTEXISTS,
+	CHAT_PLAYER_NOTONLINE,
+	CHAT_PLAYER_HASGUILD,
+	CHAT_PLAYER_HASNOGUILD,
+	CHAT_PLAYER_ALREADYINVITED,
+	CHAT_PLAYER_NOTINYOURGUILD,
+	CHAT_PLAYER_INVITE_INVITED,
+	CHAT_PLAYER_INVITE_LIST_HEADER,
+	CHAT_PLAYER_INVITE_LIST_ITEM,
+	CHAT_PLAYER_INVITE_LIST_SEPARATOR,
+	CHAT_PLAYER_INVITE_LIST_NOTHING,
+	CHAT_PLAYER_INVITE_NOTINVITED,
+	CHAT_PLAYER_INVITE_NOTIFY,
+	CHAT_PLAYER_INVITE_CANCELED,
+	CHAT_PLAYER_INVITE_CANCELED_NOTIFY,
+
+	CHAT_REGION_AREANOTSELECTED
+
+	;
 
 	private static final NovaGuilds plugin = NovaGuilds.getInst();
 	private static final MessageManager messageManager = NovaGuilds.getInst().getMessageManager();
 	private boolean title = false;
 	private String path;
-	private HashMap<String,String> vars;
+	private HashMap<String,String> vars = new HashMap<>();
 	private boolean prefix = true;
 
 	Message(boolean title) {
@@ -191,5 +213,9 @@ public enum Message {
 
 	public String get() {
 		return messageManager.getMessagesString(path); //TODO replace with Message
+	}
+
+	public static String getOnOff(boolean b) {
+		return b ? Message.CHAT_BASIC_ON.get() : Message.CHAT_BASIC_OFF.get();
 	}
 }
