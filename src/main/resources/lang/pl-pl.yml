@@ -11,8 +11,8 @@ chat:
  update: "&4Dostepna jest aktualizacja! &6https://www.spigotmc.org/resources/novaguilds.8135/"
  basic:
   negativenumber: "Wprowadz liczbe wieksza lub rowna zeru."
-  on: "ON"
-  off: "OFF"
+  'on': "ON"
+  'off': "OFF"
 
  admin:
   guild:
@@ -184,8 +184,8 @@ chat:
     notleader: "Only leader can destroy the vault!"
 
   compasstarget:
-   on: "Kompas wskazuje teraz dom Twojej gildii."
-   off: "Kompas wskazuje teraz spawn."
+   'on': "Kompas wskazuje teraz dom Twojej gildii."
+   'off': "Kompas wskazuje teraz spawn."
   noguilds: "Brak gildii"
   fpvptoggled: "Przelaczono sojusznicze pvp. Obecnie: &c{FPVP}"
   effect:
@@ -216,7 +216,7 @@ chat:
    success: "Ustawiono dom gildii!"
    outsideregion: "Nie mozesz ustawic domu poza regionem gildii"
    overlaps: "Nie mozesz ustawic domu na terenie innej gildii"
-  tp: "Teleportowano do domu gildii"
+  home: "Teleportowano do domu gildii"
   hasregionalready: "Twoja gildia ma juz region. Usun lub edytuj istniejacy."
   guildatlocsp: REMOVE
   joined: "Dolaczyles do gildii!"
@@ -272,31 +272,44 @@ chat:
     separator: "&f, "
    notinvited: "Nie jestes zaproszony do tej gildii"
    notify: "Zostales zaproszony do gildii &a{GUILDNAME}"
-   canceled: "Cofnieto zaproszenie dla gracza &c{PLAYER}"
-   cancelednotify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
+   cancel:
+    success: "Cofnieto zaproszenie dla gracza &c{PLAYER}"
+    notify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
+  info:
+   header: "&4*** &3Player information &4***"
+   items:
+   - " &c* &2Nick: &6{PLAYERNAME}"
+   - " &c* &2Guild: {TAG}&6{GUILDNAME}"
+   - " &c* &2Points: &6{POINTS}"
+   - " &c* &2Kills: &6{KILLS}"
+   - " &c* &2Deaths: &6{DEATHS}"
+   - " &c* &2KDR: &6{KDR}"
 
  region:
-  cannotinteract: "Nie mozesz tutaj ingerowac"
-  cannotridemob: "Nie mozesz jezdzic na tym zwierzeciu"
-  cannotattackmob: "Nie mozesz atakowac tego zwierzecia"
+  deny:
+   interact: "Nie mozesz tutaj ingerowac"
+   ridemob: "Nie mozesz jezdzic na tym zwierzeciu"
+   attackmob: "Nie mozesz atakowac tego zwierzecia"
   noregionhere: "Nie ma tutaj zadnej gildii"
   regionhere: "Tutaj jest teren innej gildii!"
-  toosmall: "Zaznaczony teren jest za maly. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
-  toobig: "Zaznaczony teren jest za duzy. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
+  validation:
+   toosmall: "Zaznaczony teren jest za maly. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
+   toobig: "Zaznaczony teren jest za duzy. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
+   tooclose:
+   overlaps: "Zaznaczony teren nachodzi na region innej gildii"
+   notvalid: "Zaznaczony teren jest niepoprawny."
+   valid: "Teren zaznaczony. &c/g buyregion"
+   notselected: "Prosze zaznaczyc teren"
   size: "Rozmiar zaznaczonego terenu: &c{SIZE} &3blokow"
   price: "Kupienie terenu bedzie Cie kosztowalo: &c${PRICE}"
-  confirm: "&cKucnij &3i kliknij &cprawy &3aby &fpotwierdzic"
   cnotafford: "Nie stac Cie na ten teren. Potrzebujesz jeszcze &c${NEEDMORE}"
-  overlaps: "Zaznaczony teren nachodzi na region innej gildii"
-  notvalid: "Zaznaczony teren jest niepoprawny."
   created: "Region stworzony pomyslnie."
-  selectsuccess: "Teren zaznaczony. &c/g buyregion"
-  areanotselected: "Prosze zaznaczyc teren"
   mustveguild: "Potrzebujesz gildii aby kupic teren. &c/create"
   entered: "Wkroczyles na teren gildii &a{GUILDNAME}"
   exited: "Opusciles teren gildii &a{GUILDNAME}"
-  startresizing: "Zmienianie rozmiaru regionu... Zaznacz rog &cprawym."
-  resized: "Zmieniono rozmiar regionu."
+  resize:
+   start: "Zmienianie rozmiaru regionu... Zaznacz rog &cprawym."
+   success: "Zmieniono rozmiar regionu."
   notifyguild:
    entered: "Gracz &c{PLAYERNAME} &3wkroczyl na teren Twojej gildii!"
   belongsto: "Ten teren nalezy do &a{GUILDNAME}"
