@@ -37,25 +37,28 @@ public class LoggerUtils {
 		return s.contains("Manager]") ? "" : " ";
 	}
 
-	public static void exception(Exception e) {
-		exception(e.getCause());
-	}
+//	public static void exception(Exception e) {
+//		exception(e.getCause());
+//	}
 
-	public static void exception(Throwable cause) {
-		//Throwable cause = e.getCause();
+	public static void exception(Exception e) {
+		Throwable cause = e.getCause();
+		error("");
+		error("[NovaGuilds] Severe error:");
+		error("");
+		error("Server Information:");
+		error("  NovaGuilds: #" + NovaGuilds.getInst().getBuild());
+		error("  Storage Type: " + NovaGuilds.getInst().getConfigManager().getDataStorageType().name());
+		error("  Bukkit: " + Bukkit.getBukkitVersion());
+		error("  Java: " + System.getProperty("java.version"));
+		error("  Thread: " + Thread.currentThread());
+		error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"));
+		error("  Exception Message: ");
+		error("   "+e.getMessage());
+		error("");
+
 		if(cause != null) {
 			StackTraceElement[] ste = cause.getStackTrace();
-			error("");
-			error("[NovaGuilds] Severe error:");
-			error("");
-			error("Server Information:");
-			error("  NovaGuilds: #" + NovaGuilds.getInst().getBuild());
-			error("  Storage Type: " + NovaGuilds.getInst().getConfigManager().getDataStorageType().name());
-			error("  Bukkit: " + Bukkit.getBukkitVersion());
-			error("  Java: " + System.getProperty("java.version"));
-			error("  Thread: " + Thread.currentThread());
-			error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"));
-			error("");
 
 			if(ste != null && ste.length > 0) {
 				error("Stack trace: ");
