@@ -21,45 +21,50 @@ public class DeathListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
-		if(event.getEntity().getKiller() != null) {
-			Player player = event.getEntity();
-			Player attacker = event.getEntity().getKiller();
-			
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-			NovaPlayer nPlayerAttacker = plugin.getPlayerManager().getPlayer(attacker);
-			
-			String tag1 = "";
-			String tag2 = "";
-			String tagscheme = plugin.getConfig().getString("guild.tag");
-			tagscheme = StringUtils.replace(tagscheme, "{RANK}", "");
-			
-			if(nPlayer.hasGuild()) {
-				tag1 = StringUtils.replace(tagscheme, "{TAG}", nPlayer.getGuild().getTag());
-			}
-
-			if(nPlayerAttacker.hasGuild()) {
-				tag2 = StringUtils.replace(tagscheme, "{TAG}", nPlayerAttacker.getGuild().getTag());
-			}
-			
-			HashMap<String,String> vars = new HashMap<>();
-			vars.put("PLAYER1",player.getName());
-			vars.put("PLAYER2",attacker.getName());
-			vars.put("TAG1",tag1);
-			vars.put("TAG2",tag2);
-			plugin.getMessageManager().broadcastMessage("broadcast.pvp.killed", vars);
-			
-			if(nPlayer.hasGuild()) {
-				NovaGuild guildVictim = nPlayer.getGuild();
-				guildVictim.takePoints(plugin.getConfig().getInt("guild.deathpoints"));
-			}
-			
-			if(nPlayerAttacker.hasGuild()) {
-				NovaGuild guildAttacker = nPlayerAttacker.getGuild();
-				guildAttacker.addPoints(plugin.getConfig().getInt("guild.killpoints"));
-			}
-			
-			//disable death message
-			event.setDeathMessage(null);
+		if(event.getEntity().getKiller() == null) {
+			return;
 		}
+
+		Player player = event.getEntity();
+		Player attacker = event.getEntity().getKiller();
+
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayerAttacker = plugin.getPlayerManager().getPlayer(attacker);
+
+		nPlayerAttacker.addKill();
+		nPlayer.addDeath();
+
+		String tag1 = "";
+		String tag2 = "";
+		String tagscheme = plugin.getConfig().getString("guild.tag");
+		tagscheme = StringUtils.replace(tagscheme, "{RANK}", "");
+
+		if(nPlayer.hasGuild()) {
+			tag1 = StringUtils.replace(tagscheme, "{TAG}", nPlayer.getGuild().getTag());
+		}
+
+		if(nPlayerAttacker.hasGuild()) {
+			tag2 = StringUtils.replace(tagscheme, "{TAG}", nPlayerAttacker.getGuild().getTag());
+		}
+
+		HashMap<String, String> vars = new HashMap<>();
+		vars.put("PLAYER1", player.getName());
+		vars.put("PLAYER2", attacker.getName());
+		vars.put("TAG1", tag1);
+		vars.put("TAG2", tag2);
+		plugin.getMessageManager().broadcastMessage("broadcast.pvp.killed", vars);
+
+		if(nPlayer.hasGuild()) {
+			NovaGuild guildVictim = nPlayer.getGuild();
+			guildVictim.takePoints(plugin.getConfig().getInt("guild.deathpoints"));
+		}
+
+		if(nPlayerAttacker.hasGuild()) {
+			NovaGuild guildAttacker = nPlayerAttacker.getGuild();
+			guildAttacker.addPoints(plugin.getConfig().getInt("guild.killpoints"));
+		}
+
+		//disable death message
+		event.setDeathMessage(null);
 	}
 }
