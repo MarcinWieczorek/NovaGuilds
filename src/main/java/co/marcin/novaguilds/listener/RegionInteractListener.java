@@ -51,15 +51,15 @@ public class RegionInteractListener implements Listener {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
 				NovaGuild guild = rgatploc.getGuild();
 
-				boolean isally = nPlayer.hasGuild() && guild.isAlly(nPlayer.getGuild());
+				//boolean isally = nPlayer.hasGuild() && guild.isAlly(nPlayer.getGuild());
 
-				// (has no guild) OR (has guild AND (not his guild AND not ally)
-				if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && (!nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()) && !isally))) {
+				// (has no guild) OR (not his guild AND not ally)
+				if(!nPlayer.hasGuild() || (!guild.isMember(nPlayer) && !guild.isAlly(nPlayer.getGuild()))) {
 					if(!nPlayer.getBypass()) {
 						if(denyinteract.contains(clickedblockname) || denyuse.contains(useditemname)) {
 							event.setCancelled(true);
 							
-							if(!clickedblockname.contains("_PLATE")) {
+							if(!clickedblockname.contains("_PLATE")) { //Supress for plates
 								plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
 							}
 						}
@@ -76,28 +76,6 @@ public class RegionInteractListener implements Listener {
 			event.setCancelled(true);
 			plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
 		}
-		else {
-			if(plugin.isBankBlock(event.getBlock())) {
-				Chest chest = (Chest) event.getBlock().getState();
-				if(ItemStackUtils.isEmpty(chest.getInventory())) {
-					if(nPlayer.isLeader()) {
-						if(nPlayer.getGuild().getBankHologram() != null) {
-							nPlayer.getGuild().getBankHologram().delete();
-							nPlayer.getGuild().setBankHologram(null);
-						}
-						nPlayer.getGuild().setBankLocation(null);
-					}
-					else { //TODO bank destroy msg
-						event.setCancelled(true);
-						plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
-					}
-				}
-				else {
-					event.setCancelled(true);
-					event.getPlayer().sendMessage("not empty");
-				}
-			}
-		}
 	}
 	
 	@EventHandler
@@ -106,70 +84,14 @@ public class RegionInteractListener implements Listener {
 			event.setCancelled(true);
 			plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.cannotinteract");
 		}
-		else {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
-
-			if(nPlayer.hasGuild()) {
-				if(event.getItemInHand().getType() == plugin.getConfigManager().getGuildBankItem().getType()) {
-					if(nPlayer.getGuild().getBankLocation() != null) {
-						BlockFace[] doubleChestFaces = {
-								BlockFace.EAST,
-								BlockFace.NORTH,
-								BlockFace.SOUTH,
-								BlockFace.WEST
-						};
-
-						for(BlockFace face : doubleChestFaces) {
-							if(event.getBlock().getRelative(face) != null) {
-								if(plugin.isBankBlock(event.getBlock().getRelative(face))) {
-									event.setCancelled(true);
-									event.getPlayer().sendMessage("Cannot place double chest");
-									return;
-								}
-							}
-						}
-					}
-				}
-
-				if(plugin.isBankItemStack(event.getItemInHand())) {
-					if(nPlayer.hasGuild()) {
-						if(nPlayer.isLeader()) {
-							if(nPlayer.getGuild().getBankLocation() == null) {
-								NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
-								if(region != null && region.getGuild().isMember(nPlayer)) {
-									nPlayer.getGuild().setBankLocation(event.getBlockPlaced().getLocation());
-									plugin.appendBankHologram(nPlayer.getGuild());
-									event.getPlayer().sendMessage("bank placed");
-								}
-								else {
-									event.getPlayer().sendMessage("Cannot place bank outside region");
-									event.setCancelled(true);
-								}
-							}
-							else {
-								event.getPlayer().sendMessage("bank exists");
-								event.setCancelled(true);
-							}
-						}
-						else {
-							event.getPlayer().sendMessage("not leader");
-							event.setCancelled(true);
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
 		List<String> denymobdamage = plugin.getConfig().getStringList("region.denymobdamage");
 		NovaRegion rgatploc = plugin.getRegionManager().getRegion(event.getEntity().getLocation());
-		//LoggerUtils.debug("EntityDamageByEntity "+event.getEntityType().name());
 		
 		if(rgatploc != null) {
-			//LoggerUtils.debug("There is a region");
-			//LoggerUtils.debug(denymobdamage.toString());
 			if(denymobdamage.contains(event.getEntity().getType().name())) {
 				DamageCause cause = event.getCause();
 				boolean playercaused = false;
