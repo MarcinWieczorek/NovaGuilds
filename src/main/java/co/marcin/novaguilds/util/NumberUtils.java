@@ -3,6 +3,14 @@ package co.marcin.novaguilds.util;
 import java.util.Random;
 
 public class NumberUtils {
+	public static int negativeIsPlusOne(int i) {
+		return i<0 ? i+1 : i;
+	}
+
+	public static double negativeIsPlusOne(double i) {
+		return i<0 ? i+1 : i;
+	}
+
 	public static boolean isNumeric(String str) {
 		return str.matches("[+-]?\\d*(\\.\\d+)?");
 	}
@@ -14,9 +22,9 @@ public class NumberUtils {
 	}
 
 	public static double roundOffTo2DecPlaces(double val) {
-		//return Double.parseDouble(String.format("%.2f", val));
+		return Double.parseDouble(String.format("%.2f", val));
 		//TODO fix
-		return val;
+		//return val;
 	}
 
 	public static long systemSeconds() {
