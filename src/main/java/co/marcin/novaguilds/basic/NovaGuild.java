@@ -1,10 +1,14 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -526,6 +530,13 @@ public class NovaGuild {
 		//bank and hologram
 		if(this.getBankHologram() != null) {
 			this.getBankHologram().delete();
+		}
+
+
+		GuildManager.checkVaultDestroyed(this);
+		if(getBankLocation() != null) {
+			getBankLocation().getBlock().breakNaturally();
+			getBankLocation().getWorld().playEffect(getBankLocation(), Effect.SMOKE,1000);
 		}
 	}
 }
