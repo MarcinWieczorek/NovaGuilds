@@ -295,7 +295,7 @@ chat:
   validation:
    toosmall: "Selected area is too small. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
    toobig: "Selected area is too big. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
-   tooclose: "-----------------------"
+   tooclose: "Selected area is too close to other region."
    overlaps: "This area overlaps other guild's region"
    notvalid: "Area you selected is not valid. Try again."
    valid: "Area selected. &c/g buyregion"

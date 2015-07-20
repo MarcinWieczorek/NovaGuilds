@@ -295,7 +295,7 @@ chat:
   validation:
    toosmall: "Zaznaczony teren jest za maly. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
    toobig: "Zaznaczony teren jest za duzy. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
-   tooclose:
+   tooclose: "Zaznaczony teren jest zbyt blisko innej gildii."
    overlaps: "Zaznaczony teren nachodzi na region innej gildii"
    notvalid: "Zaznaczony teren jest niepoprawny."
    valid: "Teren zaznaczony. &c/g buyregion"
