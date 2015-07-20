@@ -83,8 +83,6 @@ public class PlayerManager {
 					preparedStatement.setInt(5, nPlayer.getDeaths());
 					preparedStatement.setString(6, nPlayer.getUUID().toString());
 					preparedStatement.executeUpdate();
-
-					nPlayer.setUnchanged();
 				}
 				catch(SQLException e) {
 					LoggerUtils.exception(e);
@@ -172,7 +170,7 @@ public class PlayerManager {
 				}
 			}
 			catch(SQLException e) {
-				LoggerUtils.exception((Throwable)e);
+				LoggerUtils.exception(e);
 			}
 		}
 	}

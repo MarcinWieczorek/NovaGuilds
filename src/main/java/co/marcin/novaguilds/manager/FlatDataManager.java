@@ -68,8 +68,8 @@ public class FlatDataManager {
 
 		}
 		else {
-			ConfigManager.getLogger().severe("Could not setup directories!");
-			ConfigManager.getLogger().severe("Switching to secondary data storage type!");
+			LoggerUtils.error("Could not setup directories!");
+			LoggerUtils.error("Switching to secondary data storage type!");
 			plugin.getConfigManager().setToSecondaryDataStorageType();
 			return false;
 		}

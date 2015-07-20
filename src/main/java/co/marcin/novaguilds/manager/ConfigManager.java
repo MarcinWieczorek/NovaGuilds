@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class ConfigManager {
-	private static final Logger logger = Logger.getLogger("Minecraft");
-
 	private final NovaGuilds plugin;
 	private FileConfiguration config;
 
@@ -97,7 +95,7 @@ public class ConfigManager {
 		if(useTitles) {
 			if(!plugin.getServer().getBukkitVersion().startsWith("1.8")) {
 				useTitles = false;
-				logger.severe("You can't use Titles with Bukkit older than 1.8");
+				LoggerUtils.error("You can't use Titles with Bukkit older than 1.8");
 			}
 		}
 
@@ -173,16 +171,16 @@ public class ConfigManager {
 
 		//Check time values
 		if(guildLiveRegenerationTaskInterval < 60) {
-			logger.severe("Live regeneration task interval can't be shorter than 60 seconds.");
+			LoggerUtils.error("Live regeneration task interval can't be shorter than 60 seconds.");
 			guildLiveRegenerationTaskInterval = 60;
 		}
 
 		if(cleanupInterval < 60) {
-			logger.severe("Cleanup interval can't be shorter than 60 seconds.");
+			LoggerUtils.error("Cleanup interval can't be shorter than 60 seconds.");
 			cleanupEnabled = false;
 		}
 		if(saveInterval < 60) {
-			logger.severe("Save interval can't be shorter than 60 seconds.");
+			LoggerUtils.error("Save interval can't be shorter than 60 seconds.");
 			saveInterval = 60;
 		}
 	}
@@ -230,10 +228,6 @@ public class ConfigManager {
 
 	public long getRaidTimeInactive() {
 		return raidTimeInactive;
-	}
-
-	public static Logger getLogger() {
-		return logger;
 	}
 
 	public int getGuildEffectDuration() {
