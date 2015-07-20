@@ -3,6 +3,8 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -30,6 +32,7 @@ public class ToolListener implements Listener {
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
+		HashMap<String, String> vars = new HashMap<>();
 		
 		Material tool = Material.getMaterial(plugin.getConfig().getString("region.tool.item").toUpperCase());
 		String toolname = StringUtils.fixColors(plugin.getMessageManager().getMessagesString("items.tool.name"));
@@ -60,22 +63,19 @@ public class ToolListener implements Listener {
 
 					String mode;
 					if(nPlayer.getRegionMode()) {
-						mode = plugin.getMessageManager().getMessagesString("chat.region.tool.modes.select");
+						mode = Message.CHAT_REGION_TOOL_MODES_SELECT.get();
 
 						if(nPlayer.hasGuild() && nPlayer.isLeader() && nPlayer.getGuild().hasRegion()) {
-							RegionUtils.highlightRegion(player,nPlayer.getGuild().getRegion(),Material.GOLD_BLOCK);
+							RegionUtils.highlightRegion(player, nPlayer.getGuild().getRegion(), Material.GOLD_BLOCK);
 							nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
-							LoggerUtils.debug("golden corners");
 						}
 					}
 					else {
-						mode = plugin.getMessageManager().getMessagesString("chat.region.tool.modes.check");
+						mode = Message.CHAT_REGION_TOOL_MODES_CHECK.get();
 					}
 
-					HashMap<String, String> vars = new HashMap<>();
 					vars.put("MODE", mode);
-					plugin.getMessageManager().sendMessagesMsg(player, "chat.region.tool.toggledmode", vars);
-					LoggerUtils.debug("toggle=" + plugin.getPlayerManager().getPlayer(player).getRegionMode());
+					Message.CHAT_REGION_TOOL_TOGGLEDMODE.vars(vars).send(player);
 
 					if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
 						RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
@@ -108,13 +108,12 @@ public class ToolListener implements Listener {
 
 						if(region != null) {
 							RegionUtils.highlightRegion(player, region, Material.DIAMOND_BLOCK);
-							HashMap<String, String> vars = new HashMap<>();
 							vars.put("GUILDNAME", region.getGuildName());
-							plugin.getMessageManager().sendMessagesMsg(event.getPlayer(), "chat.region.belongsto", vars);
+							Message.CHAT_REGION_BELONGSTO.vars(vars).send(player);
 							nPlayer.setSelectedRegion(region);
 						}
 						else {
-							plugin.getMessageManager().sendMessagesMsg(player,"chat.region.noregionhere");
+							Message.CHAT_REGION_NOREGIONHERE.send(player);
 							nPlayer.setSelectedRegion(null);
 						}
 					}
@@ -143,7 +142,7 @@ public class ToolListener implements Listener {
 
 									nPlayer.setResizing(true);
 									nPlayer.setResizingCorner(corner);
-									plugin.getMessageManager().sendMessagesMsg(player,"chat.region.resizing");
+									Message.CHAT_REGION_RESIZE_START.send(player);
 									RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
 									nPlayer.setSelectedLocation(0, null);
 									nPlayer.setSelectedLocation(1, null);
@@ -242,50 +241,44 @@ public class ToolListener implements Listener {
 												price = ppb * regionsize + plugin.getGroupManager().getGroup(player).getRegionCreateMoney();
 											}
 
-											String sizemsg = plugin.getMessageManager().getMessagesString("chat.region.size");
-											sizemsg = StringUtils.replace(sizemsg, "{SIZE}", regionsize + "");
+											vars.put("SIZE", String.valueOf(regionsize));
+											vars.put("PRICE", String.valueOf(price));
 
-											String pricemsg = plugin.getMessageManager().getMessagesString("chat.region.price");
-											pricemsg = StringUtils.replace(pricemsg, "{PRICE}", price + "");
-
-											plugin.getMessageManager().sendPrefixMessage(player, sizemsg);
+											Message.CHAT_REGION_SIZE.vars(vars).send(player);
 
 											if(price > 0) {
-												plugin.getMessageManager().sendPrefixMessage(player, pricemsg);
+												Message.CHAT_REGION_PRICE.vars(vars).send(player);
 
 												double guildBalance = nPlayer.getGuild().getMoney();
 												if(guildBalance < price) {
-													String cnotaffordmsg = plugin.getMessageManager().getMessagesString("chat.region.cnotafford");
-													cnotaffordmsg = StringUtils.replace(cnotaffordmsg, "{NEEDMORE}", price - guildBalance + "");
-													plugin.getMessageManager().sendPrefixMessage(player, cnotaffordmsg);
+													vars.put("NEEDMORE", String.valueOf(price - guildBalance));
+													Message.CHAT_REGION_CNOTAFFORD.vars(vars).send(player);
 													return;
 												}
 											}
 
-											plugin.getMessageManager().sendMessagesMsg(player, "chat.region.selectsuccess");
+											Message.CHAT_REGION_VALIDATION_VALID.send(player);
 										}
 										else {
-											plugin.getMessageManager().sendMessagesMsg(player, "chat.region.mustveguild");
+											Message.CHAT_REGION_MUSTVEGUILD.send(player);
 										}
 										break;
 									case TOOSMALL:
-										String msg = plugin.getMessageManager().getMessagesString("chat.region.toosmall");
-										msg = StringUtils.replace(msg, "{MINSIZE}", plugin.getConfig().getInt("region.minsize") + "");
-										plugin.getMessageManager().sendPrefixMessage(player, msg);
+										vars.put("MINSIZE", Config.REGION_MINSIZE.getString());
+										Message.CHAT_REGION_VALIDATION_TOOSMALL.vars(vars).send(player);
 										break;
 									case TOOBIG:
-										msg = plugin.getMessageManager().getMessagesString("chat.region.toobig");
-										msg = StringUtils.replace(msg, "{MAXSIZE}", plugin.getConfig().getInt("region.maxsize") + "");
-										plugin.getMessageManager().sendPrefixMessage(player, msg);
+										vars.put("MAXSIZE", Config.REGION_MAXSIZE.getString());
+										Message.CHAT_REGION_VALIDATION_TOOBIG.vars(vars).send(player);
 										break;
 									case OVERLAPS:
 										//TODO
 										//NovaRegion rgoverlaped = plugin.getRegionManager().regionInsideArea(sl1,sl2);
 										//plugin.getRegionManager().highlightRegion(player, rgoverlaped);
-										plugin.getMessageManager().sendMessagesMsg(player, "chat.region.overlaps");
+										Message.CHAT_REGION_VALIDATION_OVERLAPS.send(player);
 										break;
 									case TOOCLOSE:
-										plugin.getMessageManager().sendMessagesMsg(player, "chat.guild.tooclose");
+										Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(player);
 										break;
 								}
 

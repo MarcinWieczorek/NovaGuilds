@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.runnable.RunnableRaid;
@@ -415,8 +416,8 @@ public class RegionManager {
 		//Chat message
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("GUILDNAME",region.getGuildName());
-		vars.put("PLAYERNAME",player.getName());
-		plugin.getMessageManager().sendMessagesMsg(player, "chat.region.entered", vars);
+		vars.put("PLAYERNAME", player.getName());
+		Message.CHAT_REGION_ENTERED.vars(vars).send(player);
 
 		//Player is at region
 		nPlayer.setAtRegion(region);
@@ -450,7 +451,6 @@ public class RegionManager {
 					}
 				}
 
-				//TODO: notify
 				plugin.getMessageManager().broadcastGuild(region.getGuild(), "chat.region.notifyguild.entered", vars,true);
 			}
 		}
@@ -469,7 +469,7 @@ public class RegionManager {
 		nPlayer.setAtRegion(null);
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("GUILDNAME", region.getGuildName());
-		plugin.getMessageManager().sendMessagesMsg(player, "chat.region.exited", vars);
+		Message.CHAT_REGION_EXITED.vars(vars).send(player);
 
 		if(nPlayer.hasGuild()) {
 			if(nPlayer.getGuild().isWarWith(guild)) {
