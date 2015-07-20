@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -31,7 +32,7 @@ public class CommandGuildInfo implements CommandExecutor {
 		}
 		else {
 			if(!(sender instanceof Player)) {
-				LoggerUtils.info("You cannot check console's guild!");
+				Message.CHAT_CMDFROMCONSOLE.send(sender);
 				return true;
 			}
 			
@@ -39,7 +40,7 @@ public class CommandGuildInfo implements CommandExecutor {
 				guildname = nPlayer.getGuild().getName();
 			}
 			else {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
+				Message.CHAT_GUILD_NOTINGUILD.send(sender);
 				return true;
 			}
 		}
@@ -182,7 +183,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
+			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
 		}
 		return true;
 	}

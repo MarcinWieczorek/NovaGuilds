@@ -15,51 +15,48 @@ public class CommandAdminReload implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission("novaguilds.admin.reload")) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.reloading");
-
-			//plugin's vars from config
-			plugin.getConfigManager().reload();
-
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.config");
-
-			//MySQL
-			//TODO reload mysql
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.mysql");
-
-			//messages
-			plugin.getMessageManager().loadMessages();
-
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.messages");
-
-			//regions
-			plugin.getRegionManager().loadRegions();
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.regions");
-
-			//guilds
-			plugin.getGuildManager().loadGuilds();
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.guilds");
-
-			//players
-			plugin.getPlayerManager().loadPlayers();
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.players");
-
-			//groups
-			plugin.getGroupManager().loadGroups();
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.reload.groups");
-
-			LoggerUtils.info("Post checks running");
-			plugin.getGuildManager().postCheckGuilds();
-			plugin.getRegionManager().postCheckRegions();
-
-			//all done
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.reload.reloaded");
-			
+		if(!sender.hasPermission("novaguilds.admin.reload")) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
-		else {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-		}
+		
+		Message.CHAT_RELOAD_RELOADING.send(sender);
+
+		//plugin's vars from config
+		plugin.getConfigManager().reload();
+		Message.CHAT_RELOAD_CONFIG.send(sender);
+
+		//MySQL
+		//TODO reload mysql
+		Message.CHAT_RELOAD_MYSQL.send(sender);
+
+		//messages
+		plugin.getMessageManager().loadMessages();
+		Message.CHAT_RELOAD_MESSAGES.send(sender);
+
+		//regions
+		plugin.getRegionManager().loadRegions();
+		Message.CHAT_RELOAD_REGIONS.send(sender);
+
+		//guilds
+		plugin.getGuildManager().loadGuilds();
+		Message.CHAT_RELOAD_GUILDS.send(sender);
+
+		//players
+		plugin.getPlayerManager().loadPlayers();
+		Message.CHAT_RELOAD_PLAYERS.send(sender);
+
+		//groups
+		plugin.getGroupManager().loadGroups();
+		Message.CHAT_RELOAD_GROUPS.send(sender);
+
+		LoggerUtils.info("Post checks running");
+		plugin.getGuildManager().postCheckGuilds();
+		plugin.getRegionManager().postCheckRegions();
+
+		//all done
+		Message.CHAT_RELOAD_RELOADED.send(sender);
+
 		return true;
 	}
 }

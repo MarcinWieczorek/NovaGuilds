@@ -56,7 +56,7 @@ public class CommandRegionBuy implements CommandExecutor {
 		Location sl1 = nPlayer.getSelectedLocation(1);
 
 		if(sl0 == null || sl1 == null) {
-			Message.CHAT_REGION_AREANOTSELECTED.send(sender);
+			Message.CHAT_REGION_VALIDATION_NOTSELECTED.send(sender);
 			return true;
 		}
 
@@ -70,7 +70,7 @@ public class CommandRegionBuy implements CommandExecutor {
 		}
 
 		if(selectionValidity != RegionValidity.VALID) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.notvalid");
+			Message.CHAT_REGION_VALIDATION_NOTVALID.send(sender);
 			return true;
 		}
 
@@ -88,15 +88,15 @@ public class CommandRegionBuy implements CommandExecutor {
 		}
 
 		if(price > 0 && guild.getMoney() < price) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notenoughmoney");
+			Message.CHAT_GUILD_NOTENOUGHTMONEY.send(sender);
 			return true;
 		}
 
 		if(nPlayer.isResizing()) {
 			NovaRegion region = guild.getRegion();
-			region.setCorner(nPlayer.getResizingCorner(),nPlayer.getResizingCorner()==0 ? sl0 : sl1);
+			region.setCorner(nPlayer.getResizingCorner(), nPlayer.getResizingCorner() == 0 ? sl0 : sl1);
 			region.getCorner(nPlayer.getResizingCorner()).setY(0);
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.region.resized");
+			Message.CHAT_REGION_RESIZE_SUCCESS.send(sender);
 		}
 		else {
 			NovaRegion region = new NovaRegion();
@@ -105,7 +105,7 @@ public class CommandRegionBuy implements CommandExecutor {
 			region.setWorld(nPlayer.getPlayer().getWorld());
 			region.setGuild(nPlayer.getGuild());
 			plugin.getRegionManager().addRegion(region, guild);
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.region.created");
+			Message.CHAT_REGION_CREATED.send(sender);
 		}
 
 		if(price > 0) {

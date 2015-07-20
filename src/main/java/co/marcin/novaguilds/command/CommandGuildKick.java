@@ -26,41 +26,41 @@ public class CommandGuildKick  implements CommandExecutor {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 		
 		NovaGuild guild = nPlayer.getGuild();
 		
 		if(!guild.getLeader().getName().equalsIgnoreCase(sender.getName())) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notleader");
+			Message.CHAT_GUILD_NOTLEADER.send(sender);
 			return true;
 		}
 		
 		if(args.length == 0) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
+			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return true;
 		}
 		
 		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayer(args[0]);
 		
 		if(nPlayerKick == null) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return true;
 		}
 
 		if(!nPlayerKick.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasnoguild");
+			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
 			return true;
 		}
 		
 		if(!nPlayerKick.getGuild().getName().equalsIgnoreCase(guild.getName())) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notinyourguild");
+			Message.CHAT_PLAYER_NOTINYOURGUILD.send(sender);
 			return true;
 		}
 
 		if(nPlayer.getName().equalsIgnoreCase(nPlayerKick.getName())) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.kickyourself");
+			Message.CHAT_GUILD_KICKYOURSELF.send(sender);
 			return true;
 		}
 		
@@ -72,7 +72,7 @@ public class CommandGuildKick  implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
 		vars.put("GUILDNAME",guild.getName());
-		plugin.getMessageManager().broadcastMessage("broadcast.guild.kicked", vars);
+		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
 		
 		//tab/tag
 		plugin.tagUtils.refreshAll();

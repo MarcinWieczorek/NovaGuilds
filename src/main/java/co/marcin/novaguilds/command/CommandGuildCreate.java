@@ -59,57 +59,57 @@ public class CommandGuildCreate implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		
 		if(nPlayer.hasGuild()) { //has guild already
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.hasguild");
+			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
 			return true;
 		}
 
 		if(plugin.getGuildManager().getGuildByName(guildname) != null) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.nameexists");
+			Message.CHAT_CREATEGUILD_NAMEEXISTS.send(sender);
 			return true;
 		}
 
 		if(plugin.getGuildManager().getGuildByTag(tag) != null) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.tagexists");
+			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
 			return true;
 		}
 
 		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.regionhere");
+			Message.CHAT_CREATEGUILD_REGIONHERE.send(sender);
 			return true;
 		}
 
 		//tag length
 		if(tag.length() > plugin.getConfig().getInt("guild.settings.tag.max")) { //too long
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.tag.toolong");
+			Message.CHAT_CREATEGUILD_TAG_TOOLONG.send(sender);
 			return true;
 		}
 
 		if(StringUtils.removeColors(tag).length() < plugin.getConfig().getInt("guild.settings.tag.min")) { //too short
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.tag.tooshort");
+			Message.CHAT_CREATEGUILD_TAG_TOOSHORT.send(sender);
 			return true;
 		}
 
 		//name length
 		if(guildname.length() > plugin.getConfig().getInt("guild.settings.name.max")) { //too long
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.name.toolong");
+			Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
 			return true;
 		}
 
 		if(guildname.length() < plugin.getConfig().getInt("guild.settings.name.min")) { //too short
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.name.tooshort");
+			Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
 			return true;
 		}
 
 		//allowed strings (tag, name)
 		if(!StringUtils.isStringAllowed(tag) || !StringUtils.isStringAllowed(guildname)) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.name.notallowedstring");
+			Message.CHAT_CREATEGUILD_NOTALLOWEDSTRING.send(sender);
 			return true;
 		}
 
 		//distance from spawn
 		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < plugin.getConfigManager().getGuildDistanceFromSpawn()) {
-			vars.put("DISTANCE",plugin.getConfigManager().getGuildDistanceFromSpawn()+"");
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.tooclosespawn", vars);
+			vars.put("DISTANCE", String.valueOf(plugin.getConfigManager().getGuildDistanceFromSpawn()));
+			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.send(sender);
 			return true;
 		}
 
@@ -118,9 +118,8 @@ public class CommandGuildCreate implements CommandExecutor {
 		double requiredmoney = plugin.getGroupManager().getGroup(sender).getGuildCreateMoney();
 
 		if(requiredmoney>0 && plugin.econ.getBalance(player.getName()) < requiredmoney) {
-			String rmmsg = plugin.getMessageManager().getMessagesString("chat.createguild.notenoughmoney");
-			rmmsg = StringUtils.replace(rmmsg, "{REQUIREDMONEY}", requiredmoney + "");
-			plugin.getMessageManager().sendMessagesMsg(sender, rmmsg);
+			vars.put("REQUIREDMONEY", String.valueOf(requiredmoney));
+			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 			return true;
 		}
 
@@ -140,7 +139,7 @@ public class CommandGuildCreate implements CommandExecutor {
 				i++;
 			}
 
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.noitems");
+			Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 			sender.sendMessage(StringUtils.fixColors(itemlist));
 			return true;
 		}
@@ -216,18 +215,18 @@ public class CommandGuildCreate implements CommandExecutor {
 					plugin.getGuildManager().createHomeFloor(newGuild);
 
 					//messages
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.success");
+					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);
 
 					vars.put("GUILDNAME", newGuild.getName());
 					vars.put("PLAYER", sender.getName());
-					plugin.getMessageManager().broadcastMessage("broadcast.guild.created", vars);
+					Message.BROADCAST_GUILD_CREATED.vars(vars).broadcast();
 				}
 				break;
 			case OVERLAPS:
-				plugin.getMessageManager().sendMessagesMsg(player, "chat.region.overlaps");
+				Message.CHAT_REGION_VALIDATION_OVERLAPS.send(sender);
 				break;
 			case TOOCLOSE:
-				plugin.getMessageManager().sendMessagesMsg(player, "chat.guild.tooclose");
+				Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(sender);
 				break;
 			default:
 				LoggerUtils.debug("Not expected RegionValidity result.");

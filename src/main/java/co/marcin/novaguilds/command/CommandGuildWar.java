@@ -26,14 +26,14 @@ public class CommandGuildWar implements CommandExecutor {
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.player.hasnoguild");
+			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
 			return true;
 		}
 
@@ -41,7 +41,7 @@ public class CommandGuildWar implements CommandExecutor {
 
 		if(args.length > 0) { //adding wars and no war invs
 			if(!nPlayer.isLeader()) {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notleader");
+				Message.CHAT_GUILD_NOTLEADER.send(sender);
 				return true;
 			}
 
@@ -50,7 +50,7 @@ public class CommandGuildWar implements CommandExecutor {
 			NovaGuild cmdGuild = plugin.getGuildManager().getGuildFind(guildname);
 
 			if(cmdGuild == null) {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.couldnotfind");
+				Message.CHAT_GUILD_COULDNOTFIND.send(sender);
 				return true;
 			}
 
@@ -65,8 +65,8 @@ public class CommandGuildWar implements CommandExecutor {
 
 					//broadcast
 					vars.put("GUILD1",guild.getName());
-					vars.put("GUILD2",cmdGuild.getName());
-					plugin.getMessageManager().broadcastMessage("broadcast.guild.nowar", vars);
+					vars.put("GUILD2", cmdGuild.getName());
+					Message.BROADCAST_GUILD_NOWAR.vars(vars).broadcast();
 				}
 				else { //inviting to no-war
 					cmdGuild.addNoWarInvitation(guild);
@@ -81,12 +81,12 @@ public class CommandGuildWar implements CommandExecutor {
 			}
 			else { //new war
 				if(guild.getName().equalsIgnoreCase(cmdGuild.getName())) {
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.war.yourguildwar");
+					Message.CHAT_GUILD_WAR_YOURGUILDWAR.send(sender);
 					return true;
 				}
 
 				if(guild.isAlly(cmdGuild)) {
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.war.ally");
+					Message.CHAT_GUILD_WAR_ALLY.send(sender);
 					return true;
 				}
 
@@ -96,14 +96,14 @@ public class CommandGuildWar implements CommandExecutor {
 				//broadcasts
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("GUILD1",guild.getName());
-				vars.put("GUILD2",cmdGuild.getName());
-				plugin.getMessageManager().broadcastMessage("broadcast.guild.war",vars);
+				vars.put("GUILD2", cmdGuild.getName());
+				Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
 
 				plugin.tagUtils.refreshAll();
 			}
 		}
 		else { //List wars
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.war.list.warsheader");
+			Message.CHAT_GUILD_WAR_LIST_WARSHEADER.send(sender);
 			String separator = plugin.getMessageManager().getMessagesString("chat.guild.war.list.separator");
 			String guildnameformat = plugin.getMessageManager().getMessagesString("chat.guild.war.list.item");
 
@@ -112,11 +112,11 @@ public class CommandGuildWar implements CommandExecutor {
 				plugin.getMessageManager().sendPrefixMessage(sender,warsstr);
 			}
 			else {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.war.list.nowars");
+				Message.CHAT_GUILD_WAR_LIST_NOWARS.send(sender);
 			}
 
 			if(!guild.getNoWarInvitations().isEmpty()) {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.war.list.nowarinvheader");
+				Message.CHAT_GUILD_WAR_LIST_NOWARINVHEADER.send(sender);
 
 				String nowarinvs = StringUtils.join(guild.getNoWarInvitations(), guildnameformat, separator);
 

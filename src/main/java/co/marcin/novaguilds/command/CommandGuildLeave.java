@@ -33,25 +33,26 @@ public class CommandGuildLeave implements CommandExecutor {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
 
 		if(nPlayer.isLeader()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.isleader");
+			Message.CHAT_GUILD_LEAVE_ISLEADER.send(sender);
 			return true;
 		}
 
 		nPlayer.setGuild(null);
 		guild.removePlayer(nPlayer);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.leave.left");
+		Message.CHAT_GUILD_LEAVE_LEFT.send(sender);
 
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYER",sender.getName());
 		vars.put("GUILDNAME",guild.getName());
 		plugin.getMessageManager().broadcastMessage("broadcast.guild.left", vars);
+		Message.BROADCAST_GUILD_LEFT.vars(vars).broadcast();
 
 		plugin.tagUtils.refreshAll();
 		

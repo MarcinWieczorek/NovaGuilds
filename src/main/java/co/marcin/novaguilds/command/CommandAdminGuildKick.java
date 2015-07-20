@@ -44,7 +44,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		NovaGuild guild = nPlayerKick.getGuild();
 
 		if(nPlayerKick.isLeader()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.kick.leader");
+			Message.CHAT_ADMIN_GUILD_KICK_LEADER.send(sender);
 			return true;
 		}
 		
@@ -54,7 +54,7 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
 		vars.put("GUILDNAME",guild.getName());
-		plugin.getMessageManager().broadcastMessage("broadcast.guild.kicked", vars);
+		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
 		
 		//tab/tag
 		plugin.tagUtils.refreshAll();

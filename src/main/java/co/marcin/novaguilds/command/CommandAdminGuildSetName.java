@@ -37,17 +37,17 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 		String newName = args[0];
 		
 		if(newName.length() < plugin.getConfig().getInt("guild.settings.name.min")) { //too short name
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.name.tooshort");
+			Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
 			return true;
 		}
 		
 		if(newName.length() > plugin.getConfig().getInt("guild.settings.name.max")) { //too long name
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.name.toolong");
+			Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
 			return true;
 		}
 		
 		if(plugin.getGuildManager().exists(newName)) { //name exists
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.nameexists");
+			Message.CHAT_CREATEGUILD_NAMEEXISTS.send(sender);
 			return true;
 		}
 

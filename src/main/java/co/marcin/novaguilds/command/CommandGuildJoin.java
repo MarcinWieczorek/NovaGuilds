@@ -87,7 +87,7 @@ public class CommandGuildJoin implements CommandExecutor {
 		NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
 
 		if(guild == null) {
-			Message.CHAT_GUILD_NAMENOEXIST.send(sender);
+			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
 			return true;
 		}
 
@@ -117,7 +117,7 @@ public class CommandGuildJoin implements CommandExecutor {
 					i++;
 				}
 
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.noitems");
+				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 				sender.sendMessage(StringUtils.fixColors(itemlist));
 				return true;
 			}

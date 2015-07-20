@@ -24,7 +24,7 @@ public class CommandAdminRegionList implements CommandExecutor {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 		}
 
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.list.header");
+		Message.CHAT_REGION_LIST_HEADER.send(sender);
 //		HashMap<String,String> vars = new HashMap<>();
 //		for(Entry<String, NovaRegion> r : plugin.getRegionManager().getRegions()) {
 //			NovaRegion region = r.getValue();
@@ -57,20 +57,23 @@ public class CommandAdminRegionList implements CommandExecutor {
 		String rowformat = plugin.getMessageManager().getMessagesString("chat.region.list.item");
 		int i=0;
 		boolean display = false;
+		HashMap<String,String> vars = new HashMap<>();
 
 		if(size>perpage) {
-			String pagemsg = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.page.nonext");
-			if(pages_number > page) {
-				pagemsg = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.page.hasnext");
-			}
+			vars.put("PAGE", String.valueOf(page));
+			vars.put("NEXT", String.valueOf(page+1));
+			vars.put("PAGES", String.valueOf(pages_number));
 
-			pagemsg = StringUtils.replace(pagemsg, "{PAGE}", page + "");
-			pagemsg = StringUtils.replace(pagemsg, "{NEXT}", page + 1 + "");
-			pagemsg = StringUtils.replace(pagemsg, "{PAGES}", pages_number + "");
-			plugin.getMessageManager().sendMessagesMsg(sender, StringUtils.fixColors(pagemsg));
+			if(pages_number > page) {
+				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.vars(vars).send(sender);
+			}
+			else {
+				Message.CHAT_ADMIN_GUILD_LIST_PAGE_NONEXT.vars(vars).send(sender);
+			}
 		}
 
 		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
+			vars.clear();
 			LoggerUtils.debug(i + "");
 			LoggerUtils.debug(display+"");
 			LoggerUtils.debug(i+1+">"+(page-1)*perpage);
@@ -81,10 +84,9 @@ public class CommandAdminRegionList implements CommandExecutor {
 			}
 
 			if(display) {
-				HashMap<String,String> vars = new HashMap<>();
-				vars.put("GUILDNAME",region.getGuild().getName());
-				vars.put("X",region.getCorner(0).getBlockX()+"");
-				vars.put("Z",region.getCorner(0).getBlockZ()+"");
+				vars.put("GUILDNAME", region.getGuild().getName());
+				vars.put("X", region.getCorner(0).getBlockX()+"");
+				vars.put("Z", region.getCorner(0).getBlockZ()+"");
 
 				String rowmsg = StringUtils.replaceMap(rowformat,vars);
 				sender.sendMessage(StringUtils.fixColors(rowmsg));

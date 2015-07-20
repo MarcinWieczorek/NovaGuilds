@@ -89,7 +89,7 @@ public class CommandGuild implements CommandExecutor {
 					new CommandGuildPvpToggle(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				default:
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+					Message.CHAT_UNKNOWNCMD.send(sender);
 					break;
 			}
 		}

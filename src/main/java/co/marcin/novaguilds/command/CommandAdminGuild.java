@@ -33,7 +33,7 @@ public class CommandAdminGuild implements CommandExecutor {
 		if(sender.hasPermission("novaguilds.admin.guild.access")) {
 			//command list
 			if(args.length == 0) {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.commands.admin.guild.header");
+				Message.CHAT_COMMANDS_ADMIN_GUILD_HEADER.send(sender);
 
 				for(String cItem : plugin.getMessageManager().getMessages().getStringList("chat.commands.admin.guild.items")) {
 					sender.sendMessage(StringUtils.fixColors(cItem));
@@ -118,7 +118,7 @@ public class CommandAdminGuild implements CommandExecutor {
 				}
 			}
 			else {
-				Message.CHAT_GUILD_NAMENOEXIST.send(sender);
+				Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
 			}
 		}
 		else {

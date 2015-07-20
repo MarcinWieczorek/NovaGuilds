@@ -40,12 +40,12 @@ public class CommandAdmin implements CommandExecutor {
 					new CommandAdminSave(plugin).onCommand(sender, cmd, label, newArgs);
 					break;
 				default:
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+					Message.CHAT_UNKNOWNCMD.send(sender);
 					break;
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.commands.admin.main.header");
+			Message.CHAT_COMMANDS_ADMIN_MAIN_HEADER.send(sender);
 			plugin.getMessageManager().sendMessagesList(sender,"chat.commands.admin.main.items",null,false);
 		}
 		

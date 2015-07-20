@@ -26,14 +26,14 @@ public class CommandGuildTop implements CommandExecutor {
 		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
 
 		if(guilds.isEmpty()) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.noguilds");
+			Message.CHAT_GUILD_NOGUILDS.send(sender);
 			return true;
 		}
 
 		int limit = plugin.getMessageManager().getMessages().getInt("holographicdisplays.topguilds.toprows");
 		int i=1;
 
-		plugin.getMessageManager().sendMessagesMsg(sender, "holographicdisplays.topguilds.header");
+		Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.send(sender);
 
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
 			String rowmsg = plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.row");

@@ -1,11 +1,14 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.StringUtils;
+
+import java.util.Map;
 
 public class CommandAdminRegion implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -34,12 +37,12 @@ public class CommandAdminRegion implements CommandExecutor {
 					new CommandAdminRegionTeleport(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				default:
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+					Message.CHAT_UNKNOWNCMD.send(sender);
 					break;
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.commands.admin.region.header");
+			Message.CHAT_COMMANDS_ADMIN_REGION_HEADER.send(sender);
 			plugin.getMessageManager().sendMessagesList(sender,"chat.commands.admin.region.items",null,false);
 		}
 		return true;

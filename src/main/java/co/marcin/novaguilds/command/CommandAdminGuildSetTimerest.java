@@ -37,7 +37,7 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 		LoggerUtils.debug("add seconds = "+seconds);
 
 		guild.setTimeRest(newtimerest);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.timerest.set");
+		Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
 
 		return true;
 	}

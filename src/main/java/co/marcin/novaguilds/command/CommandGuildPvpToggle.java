@@ -24,26 +24,26 @@ public class CommandGuildPvpToggle implements CommandExecutor {
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 
 		if(!nPlayer.isLeader()) {
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notleader");
+			Message.CHAT_GUILD_NOTLEADER.send(sender);
 			return true;
 		}
 
 		HashMap<String,String> vars = new HashMap<>();
 		nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
-		vars.put("FPVP",nPlayer.getGuild().getFriendlyPvp() ? plugin.getMessageManager().getMessagesString("chat.basic.on") : plugin.getMessageManager().getMessagesString("chat.basic.off"));
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.fpvptoggled",vars);
+		vars.put("FPVP", nPlayer.getGuild().getFriendlyPvp() ? plugin.getMessageManager().getMessagesString("chat.basic.on") : plugin.getMessageManager().getMessagesString("chat.basic.off"));
+		Message.CHAT_GUILD_FPVPTOGGLED.vars(vars).send(sender);
 
 		return true;
 	}

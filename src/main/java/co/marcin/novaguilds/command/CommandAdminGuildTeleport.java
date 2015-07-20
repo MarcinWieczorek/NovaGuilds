@@ -49,12 +49,12 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 			NovaPlayer nPlayerOther = plugin.getPlayerManager().getPlayer(playerName);
 
 			if(nPlayerOther == null) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 				return true;
 			}
 
 			if(!nPlayerOther.isOnline()) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notonline");
+				Message.CHAT_PLAYER_NOTONLINE.send(sender);
 				return true;
 			}
 

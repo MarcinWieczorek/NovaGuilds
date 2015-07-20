@@ -37,7 +37,9 @@ public class CommandAdminGuildSetLiveRegenerationTime implements CommandExecutor
 		LoggerUtils.debug("newregentime: " + newregentime);
 
 		guild.setLostLiveTime(newregentime);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.timerest.set");
+		//Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
+		sender.sendMessage("Invalid message");
+		//TODO
 
 		return true;
 	}

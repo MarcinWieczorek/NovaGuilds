@@ -21,7 +21,7 @@ public class CommandGuildBankPay implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 
@@ -35,14 +35,14 @@ public class CommandGuildBankPay implements CommandExecutor {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
 
 		if(args.length==0 || !NumberUtils.isNumeric(args[0])) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.enteramount");
+			Message.CHAT_GUILD_BANK_ENTERAMOUNT.send(sender);
 			return true;
 		}
 
@@ -51,14 +51,15 @@ public class CommandGuildBankPay implements CommandExecutor {
 		money = NumberUtils.roundOffTo2DecPlaces(money);
 
 		if(plugin.econ.getBalance(player) < money) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.notenough");
+			Message.CHAT_GUILD_BANK_PAY_NOTENOUGH.send(sender);
 			return true;
 		}
 
-		plugin.econ.withdrawPlayer(player,money);
+		plugin.econ.withdrawPlayer(player, money);
 		guild.addMoney(money);
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
+		Message.CHAT_ADMIN_GUILD_BANK_PAID.vars(vars).send(sender);
 		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);
 
 		return true;

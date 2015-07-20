@@ -91,7 +91,7 @@ private final NovaGuilds plugin;
 						i++;
 					}
 
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.createguild.noitems");
+					Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 					sender.sendMessage(StringUtils.fixColors(itemlist));
 					return true;
 				}
@@ -103,7 +103,7 @@ private final NovaGuilds plugin;
 				if(plugin.econ.getBalance((Player) sender) < homeMoney) {
 					//TODO not enought money
 					HashMap<String, String> vars = new HashMap<>();
-					vars.put("{REQUIREDMONEY}", homeMoney + "");
+					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
 					Message.CHAT_GUILD_NOTENOUGHTMONEY.vars(vars).send(sender);
 					return true;
 				}
@@ -112,7 +112,7 @@ private final NovaGuilds plugin;
 			plugin.econ.withdrawPlayer((Player) sender, homeMoney);
 			ItemStackUtils.takeItems(player, homeItems);
 			Message.CHAT_GUILD_HOME.send(sender);
-			player.teleport(nPlayer.getGuild().getSpawnPoint());
+			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_DELAYEDTELEPORT);
 		}
 		return true;
 	}

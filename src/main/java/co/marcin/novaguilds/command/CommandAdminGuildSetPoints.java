@@ -44,7 +44,7 @@ public class CommandAdminGuildSetPoints implements CommandExecutor {
 
 		guild.setPoints(pointsInteger);
 
-		plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.set.points");
+		Message.CHAT_ADMIN_GUILD_SET_POINTS.send(sender);
 		return true;
 	}
 }

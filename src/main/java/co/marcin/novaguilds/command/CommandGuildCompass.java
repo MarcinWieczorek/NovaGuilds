@@ -22,7 +22,7 @@ public class CommandGuildCompass implements CommandExecutor {
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 
@@ -30,19 +30,19 @@ public class CommandGuildCompass implements CommandExecutor {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return true;
 		}
 
 		if(nPlayer.isCompassPointingGuild()) { //disable
 			nPlayer.setCompassPointingGuild(false);
 			player.setCompassTarget(player.getWorld().getSpawnLocation());
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.compasstarget.off");
+			Message.CHAT_GUILD_COMPASSTARGET_OFF.send(sender);
 		}
 		else { //enable
 			nPlayer.setCompassPointingGuild(true);
 			player.setCompassTarget(nPlayer.getGuild().getSpawnPoint());
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.compasstarget.on");
+			Message.CHAT_GUILD_COMPASSTARGET_ON.send(sender);
 		}
 
 		return true;

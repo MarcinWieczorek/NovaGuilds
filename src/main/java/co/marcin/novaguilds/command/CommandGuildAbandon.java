@@ -23,7 +23,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!(sender instanceof Player)) {
-			LoggerUtils.info("Consoles cant have guilds!");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 		

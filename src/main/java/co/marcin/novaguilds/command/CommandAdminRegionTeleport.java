@@ -27,7 +27,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		}
 
 		if(args.length == 0) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.entername");
+			Message.CHAT_GUILD_ENTERNAME.send(sender);
 			return true;
 		}
 
@@ -40,12 +40,12 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 
 			 nPlayerOther = plugin.getPlayerManager().getPlayer(playername);
 			if(nPlayerOther == null) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 				return true;
 			}
 
 			if(!nPlayerOther.isOnline()) {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notonline");
+				Message.CHAT_PLAYER_NOTONLINE.send(sender);
 				return true;
 			}
 		}
@@ -53,19 +53,19 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
 
 		if(guild == null) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.namenotexist");
+			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
 			return true;
 		}
 
 		if(!guild.hasRegion()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.hasnoregion");
+			Message.CHAT_GUILD_HASNOREGION.send(sender);
 			return true;
 		}
 
 		NovaRegion region = plugin.getRegionManager().getRegion(guild);
 
 		if(!(sender instanceof Player) && nPlayerOther == null) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 

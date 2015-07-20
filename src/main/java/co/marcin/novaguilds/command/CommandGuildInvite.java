@@ -68,10 +68,10 @@ public class CommandGuildInvite implements CommandExecutor {
 		}
 		else { //cancel invitation
 			invitePlayer.deleteInvitation(guild);
-			Message.CHAT_PLAYER_INVITE_CANCELED.vars(vars).send(sender);
+			Message.CHAT_PLAYER_INVITE_CANCEL_SUCCESS.vars(vars).send(sender);
 
 			if(invitePlayer.isOnline()) {
-				Message.CHAT_PLAYER_INVITE_CANCELED_NOTIFY.vars(vars).send(sender);
+				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.vars(vars).send(sender);
 			}
 		}
 		return true;

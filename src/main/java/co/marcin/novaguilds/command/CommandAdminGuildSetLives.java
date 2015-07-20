@@ -41,7 +41,7 @@ public class CommandAdminGuildSetLives implements CommandExecutor {
 		}
 
 		guild.setLives(lives);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.lives");
+		Message.CHAT_ADMIN_GUILD_SET_LIVES.send(sender);
 		return true;
 	}
 }

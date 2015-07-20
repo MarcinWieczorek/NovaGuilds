@@ -216,7 +216,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 						}
 					}
 					else {
-						plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
+						Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
 					}
 				}
 				else {
@@ -258,7 +258,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				player.getInventory().addItem(book);
 			}
 			else {
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.unknowncmd");
+				Message.CHAT_UNKNOWNCMD.send(sender);
 			}
 		}
 		else {

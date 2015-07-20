@@ -50,7 +50,7 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 		}
 
 		if(guild.getMoney() < money) { //guild has not enough money
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.withdraw.notenough");
+			Message.CHAT_GUILD_BANK_WITHDRAW_NOTENOUGH.send(sender);
 			return true;
 		}
 

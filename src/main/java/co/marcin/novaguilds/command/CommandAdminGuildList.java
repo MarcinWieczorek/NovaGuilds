@@ -48,22 +48,24 @@ public class CommandAdminGuildList implements CommandExecutor {
 			pages_number++;
 		}
 
-		plugin.getMessageManager().sendMessagesMsg(sender, plugin.getMessageManager().getMessagesString("chat.admin.guild.list.header"));
+		Message.CHAT_ADMIN_GUILD_LIST_HEADER.send(sender);
 		String rowformat = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.item");
 
 		int i=0;
 		boolean display = false;
 
 		if(size>perpage) {
-			String pagemsg = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.page.nonext");
-			if(pages_number > page) {
-				pagemsg = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.page.hasnext");
-			}
+			HashMap<String, String> vars = new HashMap<>();
+			vars.put("PAGE", String.valueOf(page));
+			vars.put("NEXT", String.valueOf(page+1));
+			vars.put("PAGES", String.valueOf(pages_number));
 
-			pagemsg = StringUtils.replace(pagemsg, "{PAGE}", page + "");
-			pagemsg = StringUtils.replace(pagemsg, "{NEXT}", page + 1 + "");
-			pagemsg = StringUtils.replace(pagemsg, "{PAGES}", pages_number + "");
-			plugin.getMessageManager().sendMessagesMsg(sender, StringUtils.fixColors(pagemsg));
+			if(pages_number > page) {
+				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.vars(vars).send(sender);
+			}
+			else {
+				Message.CHAT_ADMIN_GUILD_LIST_PAGE_NONEXT.vars(vars).send(sender);
+			}
 		}
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {

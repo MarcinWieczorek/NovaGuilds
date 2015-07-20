@@ -42,7 +42,7 @@ public class CommandGuildAlly implements CommandExecutor {
 		NovaGuild allyGuild = plugin.getGuildManager().getGuildFind(allyname);
 
 		if(allyGuild == null) {
-			Message.CHAT_GUILD_NAMENOEXIST.send(sender);
+			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
 			return true;
 		}
 

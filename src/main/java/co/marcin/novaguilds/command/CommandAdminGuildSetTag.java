@@ -32,7 +32,7 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 		String newtag = args[0];
 
 		if(plugin.getGuildManager().getGuildFind(newtag) != null) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.tagexists");
+			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
 			return true;
 		}
 
