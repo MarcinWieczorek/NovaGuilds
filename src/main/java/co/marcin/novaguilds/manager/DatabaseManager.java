@@ -90,10 +90,6 @@ public class DatabaseManager {
 			PreparedStatement regionsUpdate = getConnection().prepareStatement(regionsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
-			//Heart beat
-			PreparedStatement heartBeatStatement = getConnection().prepareStatement("SELECT `id` FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players` LIMIT 1");
-			preparedStatementMap.put(PreparedStatements.HEARTBEAT, heartBeatStatement);
-
 			//Log
 			LoggerUtils.info("Statements prepared in "+(System.nanoTime()-nanoTimeStart)+"ns");
 		}
