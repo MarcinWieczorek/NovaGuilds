@@ -6,6 +6,8 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
@@ -79,6 +81,12 @@ public class VaultListener implements Listener {
 					if(nPlayer.getGuild().getBankHologram() != null) {
 						nPlayer.getGuild().getBankHologram().delete();
 						nPlayer.getGuild().setBankHologram(null);
+
+						if(player.getGameMode() != GameMode.CREATIVE) {
+							event.setCancelled(true);
+							event.getBlock().setType(Material.AIR);
+							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), plugin.getConfigManager().getGuildBankItem());
+						}
 					}
 
 					nPlayer.getGuild().setBankLocation(null);
