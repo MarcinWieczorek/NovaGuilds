@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -294,5 +295,22 @@ public class PlayerManager {
 			nPlayer.setUnchanged();
 		}
 		return nPlayer;
+	}
+
+	public void sendPlayerInfo(CommandSender sender, NovaPlayer nCPlayer) {
+		HashMap<String, String> vars = new HashMap<>();
+		vars.put("PLAYERNAME", nCPlayer.getName());
+		vars.put("POINTS", String.valueOf(nCPlayer.getPoints()));
+		vars.put("KILLS", String.valueOf(nCPlayer.getKills()));
+		vars.put("DEATHS", String.valueOf(nCPlayer.getDeaths()));
+		vars.put("KDR", String.valueOf(nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : nCPlayer.getDeaths())));
+
+		if(nCPlayer.hasGuild()) {
+			vars.put("GUILDNAME", nCPlayer.getGuild().getName());
+			vars.put("TAG", nCPlayer.getGuild().getTag());
+		}
+
+		Message.CHAT_PLAYER_INFO_HEADER.send(sender);
+		Message.CHAT_PLAYER_INFO_ITEMS.list().vars(vars).send(sender);
 	}
 }

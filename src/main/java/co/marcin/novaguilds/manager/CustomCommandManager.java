@@ -56,6 +56,8 @@ public class CustomCommandManager {
 
 		plugin.getCommand("invite").setExecutor(new CommandGuildInvite(plugin));
 		plugin.getCommand("guildmenu").setExecutor(new CommandGuildMenu(plugin));
+
+		plugin.getCommand("playerinfo").setExecutor(new CommandPlayerInfo(plugin));
 	}
 
 	public String getGuiCommand(ItemStack itemStack) {

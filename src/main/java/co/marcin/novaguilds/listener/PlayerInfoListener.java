@@ -24,23 +24,8 @@ public class PlayerInfoListener implements Listener {
 		Player player = event.getPlayer();
 		if(event.getRightClicked() instanceof Player) {
 			if(event.getPlayer().hasPermission("novaguilds.playerinfo")) { //TODO better permission node
-				Player clickedPlayer = (Player) event.getRightClicked();
-				NovaPlayer nCPlayer = plugin.getPlayerManager().getPlayer(clickedPlayer);
-
-				HashMap<String, String> vars = new HashMap<>();
-				vars.put("PLAYERNAME", nCPlayer.getName());
-				vars.put("POINTS", String.valueOf(nCPlayer.getPoints()));
-				vars.put("KILLS", String.valueOf(nCPlayer.getKills()));
-				vars.put("DEATHS", String.valueOf(nCPlayer.getDeaths()));
-				vars.put("KDR", String.valueOf(nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : nCPlayer.getDeaths())));
-
-				if(nCPlayer.hasGuild()) {
-					vars.put("GUILDNAME", nCPlayer.getGuild().getName());
-					vars.put("TAG", plugin.tagUtils.getTag(nCPlayer.getPlayer()));
-				}
-
-				Message.CHAT_PLAYER_INFO_HEADER.send(player);
-				Message.CHAT_PLAYER_INFO_ITEMS.list().vars(vars).send(player);
+				NovaPlayer nCPlayer = plugin.getPlayerManager().getPlayer(event.getRightClicked());
+				plugin.getPlayerManager().sendPlayerInfo(player, nCPlayer);
 			}
 		}
 	}

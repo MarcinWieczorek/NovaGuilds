@@ -279,7 +279,7 @@ chat:
    header: "&4*** &3Player information &4***"
    items:
    - " &c* &2Nick: &6{PLAYERNAME}"
-   - " &c* &2Guild: {TAG}&6{GUILDNAME}"
+   - " &c* &2Guild: &7[&a{TAG}&7] &6{GUILDNAME}"
    - " &c* &2Points: &6{POINTS}"
    - " &c* &2Kills: &6{KILLS}"
    - " &c* &2Deaths: &6{DEATHS}"

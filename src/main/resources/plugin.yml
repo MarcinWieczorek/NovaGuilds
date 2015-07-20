@@ -44,6 +44,10 @@ commands:
    leave:
       description: leave the guild
       usage: /leave
+   playerinfo:
+      description: Show player's info
+      usage: /pi [player]
+      aliases: [pi]
 
 permissions:
     novaguilds.region.create:
