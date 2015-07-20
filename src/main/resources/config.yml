@@ -171,14 +171,14 @@ groups:
    ppb: 1
 
 bank:
- enabled: false
+ enabled: true
  onlyleadertake: true
- item: CHEST 1 name:&6Guild's_Bank
+ item: CHEST 1 name:&6Guild's_Vault
  hologram:
-  enabled: false
+  enabled: true
   lines:
    - "[ITEM]GOLD_INGOT 1"
-   - "&6Guild's Bank"
+   - "&6Guild's Vault"
 
 region:
  autoregion: true
