@@ -6,13 +6,18 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.PreparedStatements;
+import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -619,7 +624,7 @@ public class GuildManager {
 
 		Collections.sort(guildsByInactive, new Comparator<NovaGuild>() {
 			public int compare(NovaGuild o1, NovaGuild o2) {
-				return (int)(NumberUtils.systemSeconds()-o2.getInactiveTime()) - (int)(NumberUtils.systemSeconds()-o1.getInactiveTime());
+				return (int) (NumberUtils.systemSeconds() - o2.getInactiveTime()) - (int) (NumberUtils.systemSeconds() - o1.getInactiveTime());
 			}
 		});
 
@@ -669,8 +674,58 @@ public class GuildManager {
 	public void loadBankHolograms() {
 		for(NovaGuild guild : getGuilds()) {
 			if(guild.getBankLocation() != null) {
-				plugin.appendBankHologram(guild);
+				appendVaultHologram(guild);
 			}
 		}
+	}
+
+	public boolean isBankItemStack(ItemStack itemStack) {
+		return itemStack.equals(plugin.getConfigManager().getGuildBankItem());
+		//return itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName().contains("Guild's Bank") && itemStack.getType()==Material.CHEST;
+	}
+
+	public void appendVaultHologram(NovaGuild guild) {
+		if(plugin.getConfigManager().useHolographicDisplays()) {
+			if(plugin.getConfigManager().isGuildBankHologramEnabled()) {
+				if(guild.getBankHologram() == null) {
+					Location hologramLocation = guild.getBankLocation().clone();
+
+					double x = hologramLocation.getX() > 0 ? 0.5 : -0.5;
+					double z = hologramLocation.getZ() > 0 ? 0.5 : -0.5;
+					x = NumberUtils.negativeIsPlusOne(x);
+
+					hologramLocation.add(x, 2, z);
+					Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
+					for(String hologramLine : plugin.getConfigManager().getGuildBankHologramLines()) {
+						if(hologramLine.startsWith("[ITEM]")) {
+							hologramLine = hologramLine.substring(6);
+							LoggerUtils.debug(hologramLine);
+							ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
+							if(itemStack != null) {
+								hologram.appendItemLine(itemStack);
+							}
+						}
+						else {
+							hologram.appendTextLine(StringUtils.fixColors(hologramLine));
+						}
+					}
+
+					guild.setBankHologram(hologram);
+				}
+			}
+		}
+	}
+
+	public boolean isBankBlock(Block block) {
+		if(block.getType()== plugin.getConfigManager().getGuildBankItem().getType()) {
+			for(NovaGuild guild : getGuilds()) {
+				if(guild.getBankLocation() != null) {
+					if(guild.getBankLocation().distance(block.getLocation()) < 1) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

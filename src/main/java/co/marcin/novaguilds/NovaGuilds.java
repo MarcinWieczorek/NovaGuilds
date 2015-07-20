@@ -348,64 +348,6 @@ public class NovaGuilds extends JavaPlugin {
 		}
 	}
 
-	public void delayedTeleport(Player player, Location location, String path) {
-		Runnable task = new RunnableTeleportRequest(this,player,location,path);
-		worker.schedule(task,getGroupManager().getGroup(player).getGuildTeleportDelay(),TimeUnit.SECONDS);
-
-		if(getGroupManager().getGroup(player).getGuildTeleportDelay() > 0) {
-			getMessageManager().sendDelayedTeleportMessage(player);
-		}
-	}
-
-	public boolean isBankItemStack(ItemStack itemStack) {
-		return itemStack.equals(getConfigManager().getGuildBankItem());
-		//return itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName().contains("Guild's Bank") && itemStack.getType()==Material.CHEST;
-	}
-
-	public void appendBankHologram(NovaGuild guild) {
-		if(getConfigManager().useHolographicDisplays()) {
-			if(getConfigManager().isGuildBankHologramEnabled()) {
-				if(guild.getBankHologram() == null) {
-					Location hologramLocation = guild.getBankLocation().clone();
-
-					double x = hologramLocation.getX() > 0 ? -0.5 : 0.5;
-					double z = hologramLocation.getZ() > 0 ? 0.5 : -0.5;
-
-					hologramLocation.add(x, 2, z);
-					Hologram hologram = HologramsAPI.createHologram(this, hologramLocation);
-					for(String hologramLine : getConfigManager().getGuildBankHologramLines()) {
-						if(hologramLine.startsWith("[ITEM]")) {
-							hologramLine = hologramLine.substring(6);
-							LoggerUtils.debug(hologramLine);
-							ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
-							if(itemStack != null) {
-								hologram.appendItemLine(itemStack);
-							}
-						}
-						else {
-							hologram.appendTextLine(StringUtils.fixColors(hologramLine));
-						}
-					}
-
-					guild.setBankHologram(hologram);
-				}
-			}
-		}
-	}
-
-	public boolean isBankBlock(Block block) {
-		if(block.getType()== getConfigManager().getGuildBankItem().getType()) {
-			for(NovaGuild guild : getGuildManager().getGuilds()) {
-				if(guild.getBankLocation() != null) {
-					if(guild.getBankLocation().distance(block.getLocation()) < 1) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
 	public void checkVersion() {
 		String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
 		LoggerUtils.info("You're using build: #" + getBuild());
@@ -488,6 +430,4 @@ public class NovaGuilds extends JavaPlugin {
 	public static String getLogPrefix() {
 		return logPrefix;
 	}
-
-	//Utils
 }

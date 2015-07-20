@@ -45,7 +45,7 @@ public class VaultListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		if(plugin.isBankItemStack(event.getItemDrop().getItemStack())) {
+		if(plugin.getGuildManager().isBankItemStack(event.getItemDrop().getItemStack())) {
 			event.setCancelled(true);
 			Message.CHAT_GUILD_VAULT_DROP.send(event.getPlayer());
 		}
@@ -72,7 +72,7 @@ public class VaultListener implements Listener {
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
-		if(plugin.isBankBlock(event.getBlock())) {
+		if(plugin.getGuildManager().isBankBlock(event.getBlock())) {
 			Chest chest = (Chest) event.getBlock().getState();
 			if(ItemStackUtils.isEmpty(chest.getInventory())) {
 				if(nPlayer.isLeader()) {
@@ -115,7 +115,7 @@ public class VaultListener implements Listener {
 
 						for(BlockFace face : doubleChestFaces) {
 							if(event.getBlock().getRelative(face) != null) {
-								if(plugin.isBankBlock(event.getBlock().getRelative(face))) {
+								if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {
 									event.setCancelled(true);
 									Message.CHAT_GUILD_VAULT_PLACE_DOUBLECHEST.send(player);
 									return;
@@ -125,14 +125,14 @@ public class VaultListener implements Listener {
 					}
 				}
 
-				if(plugin.isBankItemStack(event.getItemInHand())) {
+				if(plugin.getGuildManager().isBankItemStack(event.getItemInHand())) {
 					if(nPlayer.hasGuild()) {
 						if(nPlayer.isLeader()) {
 							if(nPlayer.getGuild().getBankLocation() == null) {
 								NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
 								if(region != null && region.getGuild().isMember(nPlayer)) {
 									nPlayer.getGuild().setBankLocation(event.getBlockPlaced().getLocation());
-									//plugin.getGuildManager().appendBankHologram(nPlayer.getGuild());
+									plugin.getGuildManager().appendVaultHologram(nPlayer.getGuild());
 									Message.CHAT_GUILD_VAULT_PLACE_SUCCESS.send(player);
 								}
 								else {
