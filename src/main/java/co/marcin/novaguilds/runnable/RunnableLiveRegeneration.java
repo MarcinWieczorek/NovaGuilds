@@ -24,7 +24,5 @@ public class RunnableLiveRegeneration implements Runnable {
 				}
 			}
 		}
-
-		plugin.runLiveRegenerationTask();
 	}
 }

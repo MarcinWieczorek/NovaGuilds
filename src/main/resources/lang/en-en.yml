@@ -11,8 +11,8 @@ chat:
  update: "&4There is an update available! &6https://www.spigotmc.org/resources/novaguilds.8135/"
  basic:
   negativenumber: "Please give a number greater or equal to zero."
-  on: "ON"
-  off: "OFF"
+  'on': "ON"
+  'off': "OFF"
 
  admin:
   guild:
@@ -184,8 +184,8 @@ chat:
     notleader: "Only leader can destroy the vault!"
 
   compasstarget:
-   on: "The compass is now pointing your guild's home."
-   off: "The compass is now pointing the spawn."
+   'on': "The compass is now pointing your guild's home."
+   'off': "The compass is now pointing the spawn."
   noguilds: "No guilds found."
   fpvptoggled: "Toggled friendly PVP for your guild. Currently: &c{FPVP}"
   effect:
@@ -272,31 +272,44 @@ chat:
     separator: "&f, "
    notinvited: "You aren't invited to this guild!"
    notify: "You have been invited to guild &a{GUILDNAME}"
-   canceled: "Canceled invitation for player &c{PLAYER}"
-   cancelednotify: "Your invitation to guild &a{GUILDNAME} &3has been canceled"
+   cancel:
+    success: "Canceled invitation for player &c{PLAYER}"
+    notify: "Your invitation to guild &a{GUILDNAME} &3has been canceled"
+  info:
+   header: "&4*** &3Player information &4***"
+   items:
+   - " &c* &2Nick: &6{PLAYERNAME}"
+   - " &c* &2Guild: {TAG}&6{GUILDNAME}"
+   - " &c* &2Points: &6{POINTS}"
+   - " &c* &2Kills: &6{KILLS}"
+   - " &c* &2Deaths: &6{DEATHS}"
+   - " &c* &2KDR: &6{KDR}"
 
  region:
-  cannotinteract: "You cannot interact here"
-  cannotridemob: "You cannot ride this mob, its protected!"
-  cannotattackmob: "You cannot attack this mob"
+  deny:
+   interact: "You cannot interact here"
+   ridemob: "You cannot ride this mob, its protected!"
+   attackmob: "You cannot attack this mob"
   noregionhere: "There's not guild here."
   regionhere: "There's other guild's region!"
-  toosmall: "Selected area is too small. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
-  toobig: "Selected area is too big. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
+  validation:
+   toosmall: "Selected area is too small. &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
+   toobig: "Selected area is too big. &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
+   tooclose: "-----------------------"
+   overlaps: "This area overlaps other guild's region"
+   notvalid: "Area you selected is not valid. Try again."
+   valid: "Area selected. &c/g buyregion"
+   notselected: "Please select the area"
   size: "Selected area's size: &c{SIZE} &3blocks"
   price: "Buying this area will cost you: &c${PRICE}"
-  confirm: "&cSneak &3and &cRight click &3to &fconfirm"
   cnotafford: "You can't afford this claim. You need &c${NEEDMORE} &3more"
-  overlaps: "This area overlaps other guild's region"
-  notvalid: "Area you selected is not valid. Try again."
   created: "Region created successfully"
-  selectsuccess: "Area selected. &c/g buyregion"
-  areanotselected: "Please select the area"
   mustveguild: "You need a guild to buy this area. &c/create"
   entered: "You entered the region of guild &a{GUILDNAME}"
   exited: "You exited the region of guild &a{GUILDNAME}"
-  startresizing: "Resizing the region... Set with a &cright-click"
-  resized: "Region resized successfuly"
+  resize:
+   start: "Resizing the region... Set with a &cright-click"
+   success: "Region resized successfuly"
   notifyguild:
    entered: "Player &c{PLAYERNAME} &3entered your guild's region!"
   belongsto: "This region belongs to &a{GUILDNAME}"

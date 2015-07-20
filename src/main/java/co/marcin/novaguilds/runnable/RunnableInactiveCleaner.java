@@ -9,15 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 public class RunnableInactiveCleaner implements Runnable {
 	private final NovaGuilds plugin;
-	private boolean fake = false;
 
 	public RunnableInactiveCleaner(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-	}
-
-	public RunnableInactiveCleaner(NovaGuilds novaGuilds, boolean fake) {
-		plugin = novaGuilds;
-		this.fake = fake;
 	}
 
 	public void run() {
@@ -28,11 +22,6 @@ public class RunnableInactiveCleaner implements Runnable {
 
 			//TODO deleting
 			LoggerUtils.debug("Fake removing guild " + guild.getName());
-		}
-
-		if(!fake) {
-			Runnable task = new RunnableLiveRegeneration(plugin);
-			plugin.worker.schedule(task,plugin.getConfigManager().getCleanupInterval(), TimeUnit.SECONDS);
 		}
 	}
 }
