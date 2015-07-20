@@ -40,7 +40,7 @@ public class CommandGuildEffect implements CommandExecutor {
 		}
 
 		if(nPlayer.getGuild().getMoney() < plugin.getGroupManager().getGroup(sender).getGuildEffectPrice()) {
-			Message.CHAT_GUILD_NOTENOUGHTMONEY.send(sender);
+			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
 			return true;
 		}
 

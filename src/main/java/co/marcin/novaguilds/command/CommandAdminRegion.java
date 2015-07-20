@@ -18,32 +18,32 @@ public class CommandAdminRegion implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(args.length>0) {
-			String[] newargs = StringUtils.parseArgs(args, 1);
-
-			switch(args[0].toLowerCase()) {
-				case "bypass":
-					new CommandAdminRegionBypass(plugin).onCommand(sender, cmd, label, newargs);
-					break;
-				case "delete":
-				case "del":
-					new CommandAdminRegionDelete(plugin).onCommand(sender, cmd, label, newargs);
-					break;
-				case "list":
-					new CommandAdminRegionList(plugin).onCommand(sender, cmd, label, newargs);
-					break;
-				case "tp":
-				case "teleport":
-					new CommandAdminRegionTeleport(plugin).onCommand(sender, cmd, label, newargs);
-					break;
-				default:
-					Message.CHAT_UNKNOWNCMD.send(sender);
-					break;
-			}
-		}
-		else {
+		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_REGION_HEADER.send(sender);
 			plugin.getMessageManager().sendMessagesList(sender,"chat.commands.admin.region.items",null,false);
+			return true;
+		}
+
+		String[] newargs = StringUtils.parseArgs(args, 1);
+
+		switch(args[0].toLowerCase()) {
+			case "bypass":
+				new CommandAdminRegionBypass(plugin).onCommand(sender, cmd, label, newargs);
+				break;
+			case "delete":
+			case "del":
+				new CommandAdminRegionDelete(plugin).onCommand(sender, cmd, label, newargs);
+				break;
+			case "list":
+				new CommandAdminRegionList(plugin).onCommand(sender, cmd, label, newargs);
+				break;
+			case "tp":
+			case "teleport":
+				new CommandAdminRegionTeleport(plugin).onCommand(sender, cmd, label, newargs);
+				break;
+			default:
+				Message.CHAT_UNKNOWNCMD.send(sender);
+				break;
 		}
 		return true;
 	}

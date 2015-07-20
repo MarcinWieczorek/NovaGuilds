@@ -131,7 +131,7 @@ public class CommandGuildJoin implements CommandExecutor {
 			if(plugin.econ.getBalance((Player) sender) < joinMoney) {
 				//TODO not enought money msg
 				vars.put("{REQUIREDMONEY}", joinMoney + "");
-				Message.CHAT_GUILD_NOTENOUGHTMONEY.vars(vars).send(sender);
+				Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 				return true;
 			}
 		}
@@ -148,7 +148,7 @@ public class CommandGuildJoin implements CommandExecutor {
 		nPlayer.setGuild(guild);
 		nPlayer.deleteInvitation(guild);
 		plugin.tagUtils.refreshAll();
-		Message.CHAT_CHAT_GUILD_JOINED.send(sender);
+		Message.CHAT_GUILD_JOINED.send(sender);
 
 		vars.clear();
 		vars.put("PLAYER",sender.getName());

@@ -88,7 +88,7 @@ public class CommandRegionBuy implements CommandExecutor {
 		}
 
 		if(price > 0 && guild.getMoney() < price) {
-			Message.CHAT_GUILD_NOTENOUGHTMONEY.send(sender);
+			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
 			return true;
 		}
 

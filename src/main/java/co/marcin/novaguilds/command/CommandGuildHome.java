@@ -104,7 +104,7 @@ private final NovaGuilds plugin;
 					//TODO not enought money
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
-					Message.CHAT_GUILD_NOTENOUGHTMONEY.vars(vars).send(sender);
+					Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 					return true;
 				}
 			}

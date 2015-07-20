@@ -34,7 +34,25 @@ public class CommandNovaGuilds implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(args.length > 0) {
+		if(args.length == 0) {
+			String[] info = {
+					"NovaGuilds &6#&c"+plugin.getBuild(),
+					"Authors: &6Marcin (CTRL) Wieczorek&2, &dartur9010",
+					"2015 &4Pol&fand",
+					"&bhttp://novaguilds.marcin.co/",
+					"Latest plugin build: &6#&c{LATEST}"
+			};
+
+			plugin.getMessageManager().sendPrefixMessage(sender, "NovaGuilds Information");
+			String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
+
+			for(int i=0;i<info.length;i++) {
+				info[i] = StringUtils.replace(info[i], "{LATEST}", latest);
+				sender.sendMessage(StringUtils.fixColors("&2" + info[i]));
+			}
+			return true;
+		}
+
 			if(args[0].equalsIgnoreCase("book")) {
 				if(!sender.hasPermission("novaguilds.test.book")) {
 					Message.CHAT_NOPERMISSIONS.send(sender);
@@ -98,10 +116,6 @@ public class CommandNovaGuilds implements CommandExecutor {
 				sender.sendMessage("guildTeleportDelay = "+ group.getGuildTeleportDelay()+"s");
 				sender.sendMessage("regionCreateMoney = "+ group.getRegionCreateMoney());
 				sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
-
-//				Location l = (Player)sender.getLocation();
-//				l.setX(l.getBlockX()+5);
-//				plugin.delayedTeleport((Player)sender,l);
 			}
 			else if(args[0].equalsIgnoreCase("version")) {
 				String version = plugin.getServer().getVersion();
@@ -260,24 +274,6 @@ public class CommandNovaGuilds implements CommandExecutor {
 			else {
 				Message.CHAT_UNKNOWNCMD.send(sender);
 			}
-		}
-		else {
-			String[] info = {
-				"NovaGuilds &6#&c"+plugin.getBuild(),
-				"Authors: &6Marcin (CTRL) Wieczorek&2, &dartur9010",
-				"2015 &4Pol&fand",
-				"&bhttp://novaguilds.marcin.co/",
-				"Latest plugin build: &6#&c{LATEST}"
-			};
-
-			plugin.getMessageManager().sendPrefixMessage(sender, "NovaGuilds Information");
-			String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
-			
-			for(int i=0;i<info.length;i++) {
-				info[i] = StringUtils.replace(info[i], "{LATEST}", latest);
-				sender.sendMessage(StringUtils.fixColors("&2" + info[i]));
-			}
-		}
 		
 		return true;
 	}
