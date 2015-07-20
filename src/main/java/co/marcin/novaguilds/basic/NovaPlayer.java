@@ -191,6 +191,10 @@ public class NovaPlayer implements Cloneable {
 	public void toggleBypass() {
 		bypass = !bypass;
 	}
+
+	public void setPartRaid(NovaRaid partRaid) {
+		this.partRaid = partRaid;
+	}
 	
 	//check stuff
 	public boolean isCompassPointingGuild() {
@@ -229,6 +233,17 @@ public class NovaPlayer implements Cloneable {
 
 	public void addPoints(int points) {
 		this.points += points;
+		changed = true;
+	}
+
+	public void addKill() {
+		kills++;
+		changed = true;
+	}
+
+	public void addDeath() {
+		deaths++;
+		changed = true;
 	}
 	
 	//delete stuff
@@ -239,9 +254,6 @@ public class NovaPlayer implements Cloneable {
 
 	public void takePoints(int points) {
 		this.points -= points;
-	}
-
-	public void setPartRaid(NovaRaid partRaid) {
-		this.partRaid = partRaid;
+		changed = true;
 	}
 }
