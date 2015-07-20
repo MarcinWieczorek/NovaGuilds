@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,12 +21,13 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.guild.setname")) { //no perms
+		if(!sender.hasPermission("novaguilds.admin.guild.invite")) { //no perms
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 		
 		if(args.length == 0) { //no player name
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
+			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return true;
 		}
 		
@@ -33,28 +35,28 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
 		
 		if(nPlayer == null) { //noplayer
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return true;
 		}
 			
 		if(nPlayer.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasguild");
+			Message.CHAT_PLAYER_HASGUILD.send(sender);
 			return true;
 		}
 		
 		if(nPlayer.isInvitedTo(guild)) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.alreadyinvited");
+			Message.CHAT_PLAYER_ALREADYINVITED.send(sender);
 			return true;
 		}
 		
 		//all passed
 		plugin.getPlayerManager().addInvitation(nPlayer, guild);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.invited");
+		Message.CHAT_PLAYER_INVITE_INVITED.send(sender);
 		
 		if(nPlayer.getPlayer() != null) {
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("GUILDNAME",guild.getName());
-			plugin.getMessageManager().sendMessagesMsg(nPlayer.getPlayer(),"chat.player.uvebeeninvited",vars);
+			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(sender);
 		}
 	
 		return true;

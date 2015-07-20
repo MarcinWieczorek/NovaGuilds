@@ -32,7 +32,7 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 		}
 		
 		if(!sender.hasPermission("novaguilds.admin.guild.tp")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 

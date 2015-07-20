@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -57,7 +58,7 @@ public class CommandAdminReload implements CommandExecutor {
 			return true;
 		}
 		else {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 		}
 		return true;
 	}

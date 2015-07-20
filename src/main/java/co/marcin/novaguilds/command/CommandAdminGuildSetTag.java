@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,12 +20,12 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.settag")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 
 		if(args.length==0) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.entertag");
+			Message.CHAT_GUILD_ENTERTAG.send(sender);
 			return true;
 		}
 
@@ -42,7 +43,7 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("TAG",newtag);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.tag",vars);
+		Message.CHAT_ADMIN_GUILD_SET_TAG.vars(vars).send(sender);
 		return true;
 	}
 }

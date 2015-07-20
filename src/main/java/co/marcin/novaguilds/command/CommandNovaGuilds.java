@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -36,7 +37,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 		if(args.length > 0) {
 			if(args[0].equalsIgnoreCase("book")) {
 				if(!sender.hasPermission("novaguilds.test.book")) {
-					plugin.getMessageManager().sendNoPermissionsMessage(sender);
+					Message.CHAT_NOPERMISSIONS.send(sender);
 					return true;
 				}
 
@@ -60,7 +61,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			}
 			else if(args[0].equalsIgnoreCase("bank")) { //bank
 				if(!sender.hasPermission("novaguilds.test.bank")) {
-					plugin.getMessageManager().sendNoPermissionsMessage(sender);
+					Message.CHAT_NOPERMISSIONS.send(sender);
 					return true;
 				}
 
@@ -110,7 +111,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			}
 			else if(args[0].equalsIgnoreCase("hd")) { //HolographicDisplays
 				if(!sender.hasPermission("novaguilds.test.hd")) {
-					plugin.getMessageManager().sendNoPermissionsMessage(sender);
+					Message.CHAT_NOPERMISSIONS.send(sender);
 					return true;
 				}
 				if(args.length>1) { //GUILDINFO

@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import java.util.HashMap;
 
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,24 +20,24 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.kick")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 		
 		if(args.length == 0) { //no playername
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
+			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return true;
 		}
 		
 		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayer(args[0]);
 		
 		if(nPlayerKick == null) { //no player
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return true;
 		}
 
 		if(!nPlayerKick.hasGuild()) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasnoguild");
+			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
 			return true;
 		}
 

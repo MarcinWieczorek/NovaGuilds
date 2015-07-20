@@ -24,7 +24,7 @@ public class CommandAdminRegionBypass implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length==0) {
 			if(!sender.hasPermission("novaguilds.admin.region.bypass")) {
-				plugin.getMessageManager().sendNoPermissionsMessage(sender);
+				Message.CHAT_NOPERMISSIONS.send(sender);
 				return true;
 			}
 

@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,7 +48,7 @@ public class CommandAdminGuild implements CommandExecutor {
 				guild = plugin.getGuildManager().getGuildFind(args[0]);
 
 				if(guild == null) {
-					plugin.getMessageManager().sendPrefixMessage(sender,"chat.guild.couldnotfind");
+					Message.CHAT_GUILD_COULDNOTFIND.send(sender);
 					return true;
 				}
 
@@ -112,16 +113,16 @@ public class CommandAdminGuild implements CommandExecutor {
 						new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs);
 						break;
 					default:
-						plugin.getMessageManager().sendMessagesMsg(sender, "chat.unknowncmd");
+						Message.CHAT_UNKNOWNCMD.send(sender);
 						break;
 				}
 			}
 			else {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
+				Message.CHAT_GUILD_NAMENOEXIST.send(sender);
 			}
 		}
 		else {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 		}
 
 		return true;

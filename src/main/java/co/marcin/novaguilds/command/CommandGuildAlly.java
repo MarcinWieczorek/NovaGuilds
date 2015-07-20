@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import java.util.HashMap;
 
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -102,7 +103,7 @@ public class CommandGuildAlly implements CommandExecutor {
 			}
 		}
 		else {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 		}
 		
 		return true;

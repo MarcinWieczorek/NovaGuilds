@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,19 +20,19 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(!sender.hasPermission("novaguilds.admin.guild.leader")) {
-            plugin.getMessageManager().sendNoPermissionsMessage(sender);
+            Message.CHAT_NOPERMISSIONS.send(sender);
             return true;
         }
 
         if(args.length == 0) { //no leader
-            plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.entername");
+            Message.CHAT_PLAYER_ENTERNAME.send(sender);
             return true;
         }
 
         String playername = args[0];
 
         if(!plugin.getPlayerManager().exists(playername)) { //invalid player
-            plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.notexists");
+            Message.CHAT_PLAYER_NOTEXISTS.send(sender);
             return true;
         }
 
@@ -40,7 +41,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         vars.put("PLAYERNAME",nPlayer.getName());
 
         if(!nPlayer.hasGuild()) { //has no guild
-            plugin.getMessageManager().sendMessagesMsg(sender,"chat.player.hasnoguild");
+            Message.CHAT_PLAYER_HASNOGUILD.send(sender);
             return true;
         }
 

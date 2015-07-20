@@ -5,7 +5,6 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.manager.MessageManager;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public enum Message {
@@ -152,24 +151,32 @@ public enum Message {
 	CHAT_PLAYER_INVITE_CANCELED,
 	CHAT_PLAYER_INVITE_CANCELED_NOTIFY,
 
-	CHAT_REGION_AREANOTSELECTED
+	CHAT_REGION_AREANOTSELECTED,
+
+	CHAT_GUILD_VAULT_OUTSIDEREGION(true),
+	CHAT_GUILD_VAULT_PLACE_SUCCESS(true),
+	CHAT_GUILD_VAULT_PLACE_NOTLEADER(true),
+	CHAT_GUILD_VAULT_DROP(true),
+	CHAT_GUILD_VAULT_PLACE_EXISTS(true),
+	CHAT_GUILD_VAULT_PLACE_DOUBLECHEST(true),
+	CHAT_GUILD_VAULT_BREAK_NOTEMPTY(true),
+	CHAT_GUILD_VAULT_BREAK_SUCCESS(true),
+	CHAT_GUILD_VAULT_BREAK_NOTLEADER(true)
 
 	;
 
-	private static final NovaGuilds plugin = NovaGuilds.getInst();
 	private static final MessageManager messageManager = NovaGuilds.getInst().getMessageManager();
 	private boolean title = false;
-	private String path;
+	private String path = null;
 	private HashMap<String,String> vars = new HashMap<>();
 	private boolean prefix = true;
 
 	Message(boolean title) {
-		generatePath();
 		this.title = title;
 	}
 
 	Message() {
-		generatePath();
+
 	}
 
 	public boolean getTitle() {
@@ -177,11 +184,11 @@ public enum Message {
 	}
 
 	public String getPath() {
-		return path;
-	}
+		if(path == null) {
+			path = name().replace("_",".").toLowerCase();
+		}
 
-	private void generatePath() {
-		path = name().replace("_",".").toLowerCase();
+		return path;
 	}
 
 	public void send(CommandSender sender) {

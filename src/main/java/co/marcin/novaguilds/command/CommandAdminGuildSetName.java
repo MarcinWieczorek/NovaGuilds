@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,12 +25,12 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 		* */
 
 		if(!sender.hasPermission("novaguilds.admin.guild.setname")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 		
 		if(args.length == 0) { //no new name
-			plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.setname.enternewname");
+			Message.CHAT_ADMIN_GUILD_SET_NAME_ENTERNEWNAME.send(sender);
 			return true;
 		}
 
@@ -59,8 +60,8 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 		
 		guild.setName(newName);
 		plugin.getGuildManager().changeName(guild, newName);
-		
-		plugin.getMessageManager().sendMessagesMsg(sender, "chat.admin.guild.set.name.success");
+
+		Message.CHAT_ADMIN_GUILD_SET_NAME_SUCCESS.send(sender);
 		
 		return true;
 	}

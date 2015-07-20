@@ -31,7 +31,6 @@ public class CommandToolGet implements CommandExecutor {
 		Material tool = Material.getMaterial(plugin.getConfig().getString("region.tool.item").toUpperCase());
 
 		if(tool != null) {
-
 	        Player player = plugin.getServer().getPlayer(sender.getName());
 			player.getInventory().addItem(plugin.getConfigManager().getToolItem());
 		}

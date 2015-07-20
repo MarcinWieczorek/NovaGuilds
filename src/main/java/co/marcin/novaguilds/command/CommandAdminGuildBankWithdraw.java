@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +26,7 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 	* */
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.admin.guild.bank.withdraw")) { //no permissions
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 
@@ -37,14 +38,14 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 		String money_str = args[0];
 
 		if(!NumberUtils.isNumeric(money_str)) { //money not int
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.enterinteger");
+			Message.CHAT_ENTERINTEGER.send(sender);
 			return true;
 		}
 
 		double money = Double.parseDouble(money_str);
 
 		if(money < 0) {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.basic.negativenumber");
+			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
 			return true;
 		}
 
@@ -59,8 +60,8 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("MONEY",money_str);
-		vars.put("GUILDNAME",guild.getName());
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.bank.withdrew",vars);
+		vars.put("GUILDNAME", guild.getName());
+		Message.CHAT_ADMIN_GUILD_BANK_WITHDREW.vars(vars).send(sender);
 
 		return true;
 	}

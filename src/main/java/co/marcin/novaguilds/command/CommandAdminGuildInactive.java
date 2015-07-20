@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -32,7 +33,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 			}
 			else if(args[0].equalsIgnoreCase("update")) {
 				if(!sender.hasPermission("novaguilds.admin.guild.inactive.update")) {
-					plugin.getMessageManager().sendNoPermissionsMessage(sender);
+					Message.CHAT_NOPERMISSIONS.send(sender);
 					return true;
 				}
 
@@ -48,7 +49,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 			}
 			else if(args[0].equalsIgnoreCase("clean")) {
 				if(!sender.hasPermission("novaguilds.admin.guild.inactive.clean")) {
-					plugin.getMessageManager().sendNoPermissionsMessage(sender);
+					Message.CHAT_NOPERMISSIONS.send(sender);
 					return true;
 				}
 
@@ -58,7 +59,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 
 		//list
 		if(!sender.hasPermission("novaguilds.admin.guild.inactive.list")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 

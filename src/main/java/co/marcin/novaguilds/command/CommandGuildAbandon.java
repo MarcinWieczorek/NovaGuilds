@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.AbandonCause;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.Command;
@@ -39,7 +40,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 				if(!guildAbandonEvent.isCancelled()) {
 					plugin.getGuildManager().deleteGuild(guild);
 
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.abandoned");
+					Message.CHAT_GUILD_ABANDONED.send(sender);
 
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("PLAYER", sender.getName());
@@ -49,11 +50,11 @@ public class CommandGuildAbandon implements CommandExecutor {
 				}
 			}
 			else {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notleader");
+				Message.CHAT_GUILD_NOTLEADER.send(sender);
 			}
 		}
 		else {
-			plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.notinguild");
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 		}
 		return true;
 	}

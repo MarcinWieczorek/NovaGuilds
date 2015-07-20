@@ -24,7 +24,7 @@ private final NovaGuilds plugin;
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.home")) {
-			plugin.getMessageManager().sendNoPermissionsMessage(sender);
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 
@@ -112,6 +112,7 @@ private final NovaGuilds plugin;
 			plugin.econ.withdrawPlayer((Player) sender, homeMoney);
 			ItemStackUtils.takeItems(player, homeItems);
 			Message.CHAT_GUILD_HOME.send(sender);
+			player.teleport(nPlayer.getGuild().getSpawnPoint());
 		}
 		return true;
 	}
