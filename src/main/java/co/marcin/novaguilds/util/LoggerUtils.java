@@ -57,28 +57,27 @@ public class LoggerUtils {
 		error("   "+e.getMessage());
 		error("");
 
-		if(cause != null) {
-			StackTraceElement[] ste = cause.getStackTrace();
+		StackTraceElement[] ste = cause==null ? e.getStackTrace() : cause.getStackTrace();
 
-			if(ste != null && ste.length > 0) {
-				error("Stack trace: ");
-				error("Caused by: " + cause);
-				for(StackTraceElement st : ste) {
-					error("	at " + st.toString());
-				}
-
-				error("");
-				error("End of Error.");
-				error("");
+		if(ste != null && ste.length > 0) {
+			error("Stack trace: ");
+			error(cause==null ? "Invalid Cause!" : "Caused by: "+cause);
+			for(StackTraceElement st : ste) {
+				error("	at " + st.toString());
 			}
+
 		}
 		else {
-			error("Invalid Cause!");
+			error("Null or empty stacktrace. Printing current:");
 			error("Stack trace: ");
 			for(StackTraceElement st : Thread.currentThread().getStackTrace()) {
 				error("	at " + st.toString());
 			}
 		}
+
+		error("");
+		error("End of Error.");
+		error("");
 	}
 
 	public static Logger getLogger() {
