@@ -67,8 +67,6 @@ public class NovaGuilds extends JavaPlugin {
 
 	public void onEnable() {
 		inst = this;
-		//TODO not working
-		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
 
 		if(!getMessageManager().loadMessages()) {
 			getServer().getPluginManager().disablePlugin(this);
