@@ -10,19 +10,20 @@ import java.util.List;
 
 public class RegionUtils {
 	@SuppressWarnings("deprecation")
-	public static void setCorner(Player player, Location location, Material material) {
+	public static void setCorner(Player player, Location location, Material material, byte data) {
 		if(material == null) {
-			material = player.getWorld().getBlockAt(location).getType();
+			material = location.getBlock().getType();
+			data = location.getBlock().getData();
 		}
 
-		player.sendBlockChange(location, material, (byte) 0);
+		player.sendBlockChange(location, material, data);
+	}
+
+	public static void setCorner(Player player, Location location, Material material) {
+		setCorner(player, location, material, (byte) 0);
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void resetCorner(Player player, Location location) {
-		player.sendBlockChange(location, player.getWorld().getBlockAt(location).getType(), (byte) 0);
-	}
-
 	public static void highlightRegion(Player player, NovaRegion region, Material material) {
 		Location loc1 = region.getCorner(0).clone();
 		Location loc2 = region.getCorner(1).clone();
@@ -33,16 +34,22 @@ public class RegionUtils {
 		Material material1;
 		Material material2;
 
+		byte data1 = 0;
+		byte data2 = 0;
+
 		if(material != null) {
 			material1 = material2 = material;
 		}
 		else {
 			material1 = loc1.getBlock().getType();
 			material2 = loc2.getBlock().getType();
+
+			data1 = loc1.getBlock().getData();
+			data2 = loc2.getBlock().getData();
 		}
 
-		setCorner(player, loc1, material1);
-		setCorner(player, loc2, material2);
+		setCorner(player, loc1, material1, data1);
+		setCorner(player, loc2, material2, data2);
 	}
 
 	//public static int distanceBetweenRegions(NovaRegion region1, NovaRegion region2) {
