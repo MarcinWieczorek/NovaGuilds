@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 public class DatabaseManager {
 	private final NovaGuilds plugin;
-	private long mySQLReconnectStamp = System.currentTimeMillis();
 	private MySQL mySQL;
 	private Connection connection = null;
 	private boolean connected = false;
@@ -29,6 +28,7 @@ public class DatabaseManager {
 		try {
 			long nanoTimeStart = System.nanoTime();
 			LoggerUtils.info("Preparing statements...");
+			mysqlReload();
 			preparedStatementMap.clear();
 
 			//Guilds insert (id, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, bankloc)
@@ -56,7 +56,6 @@ public class DatabaseManager {
 			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,?,?,'','',?,0,0)";
 			PreparedStatement playersInsert = getConnection().prepareStatement(playersInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_INSERT, playersInsert);
-			LoggerUtils.info("PlayerInsert param count: "+playersInsert.getParameterMetaData().getParameterCount());
 
 			//Players select
 			String playerSelectSQL = "SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`";
@@ -91,6 +90,10 @@ public class DatabaseManager {
 			PreparedStatement regionsUpdate = getConnection().prepareStatement(regionsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
+			//Heart beat
+			PreparedStatement heartBeatStatement = getConnection().prepareStatement("SELECT `id` FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players` LIMIT 1");
+			preparedStatementMap.put(PreparedStatements.HEARTBEAT, heartBeatStatement);
+
 			//Log
 			LoggerUtils.info("Statements prepared in "+(System.nanoTime()-nanoTimeStart)+"ns");
 		}
@@ -101,6 +104,10 @@ public class DatabaseManager {
 
 	public PreparedStatement getPreparedStatement(PreparedStatements statement) throws SQLException {
 		if(preparedStatementMap.isEmpty() || !preparedStatementMap.containsKey(statement)) {
+			prepareStatements();
+		}
+
+		if(preparedStatementMap.get(statement) != null && preparedStatementMap.get(statement).isClosed()) {
 			prepareStatements();
 		}
 
@@ -117,12 +124,22 @@ public class DatabaseManager {
 
 		long millisTime = System.currentTimeMillis();
 
+		boolean reconnect;
 		try {
-			if(getConnection().isClosed()) {
+			getConnection().isValid(1000);
+			getConnection().isClosed();
+			reconnect = !mySQL.checkConnection();
+		}
+		catch(SQLException e) {
+			reconnect = true;
+			LoggerUtils.info("MySQL reconnect is required.");
+		}
+
+		try {
+			if(reconnect) {
 				mySQL.closeConnection();
 				connection = mySQL.openConnection();
 				connected = true;
-				mySQLReconnectStamp = System.currentTimeMillis();
 				prepareStatements();
 				LoggerUtils.info("MySQL reconnected in " + (System.currentTimeMillis() - millisTime) + "ms");
 			}
@@ -152,8 +169,7 @@ public class DatabaseManager {
 
 				connection = mySQL.openConnection();
 				connected = true;
-				mySQLReconnectStamp = System.currentTimeMillis();
-				LoggerUtils.info("Connected to MySQL database in "+(System.nanoTime()-nanoTime)+"ns");
+				LoggerUtils.info("Connected to MySQL database in " + (System.nanoTime() - nanoTime) + "ns");
 				prepareStatements();
 			}
 		}
