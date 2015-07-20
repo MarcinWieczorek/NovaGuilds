@@ -704,7 +704,6 @@ public class GuildManager {
 					for(String hologramLine : plugin.getConfigManager().getGuildBankHologramLines()) {
 						if(hologramLine.startsWith("[ITEM]")) {
 							hologramLine = hologramLine.substring(6);
-							LoggerUtils.debug(hologramLine);
 							ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
 							if(itemStack != null) {
 								hologram.appendItemLine(itemStack);
@@ -735,9 +734,9 @@ public class GuildManager {
 		return false;
 	}
 
-	public void checkVaultDestroyed(NovaGuild guild) {
+	public static void checkVaultDestroyed(NovaGuild guild) {
 		if(guild.getBankLocation() != null) {
-			if(guild.getBankLocation().getBlock().getType() != plugin.getConfigManager().getGuildBankItem().getType()) {
+			if(guild.getBankLocation().getBlock().getType() != Material.CHEST) {
 				guild.setBankLocation(null);
 				Hologram hologram = guild.getBankHologram();
 
