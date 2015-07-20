@@ -21,89 +21,83 @@ public class CommandGuildAlly implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
-		if(sender.hasPermission("novaguilds.guild.ally")) {
-			if(args.length==1) {
-				String allyname = args[0];
+		if(!sender.hasPermission("novaguilds.guild.ally")) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return true;
+		}
 
-				if(nPlayer.hasGuild()) {
-					NovaGuild guild = nPlayer.getGuild();
-					NovaGuild allyGuild = plugin.getGuildManager().getGuildFind(allyname);
+		if(args.length != 1) {
+			Message.CHAT_GUILD_ENTERNAME.send(sender);
+			return true;
+		}
 
-					if(allyGuild != null) {
-						if(!allyGuild.equals(guild)) {
-							if(guild.isLeader(sender)) {
-								HashMap<String,String> vars = new HashMap<>();
-								vars.put("GUILDNAME",guild.getName());
-								vars.put("ALLYNAME", allyGuild.getName());
+		String allyname = args[0];
 
-								if(!guild.isAlly(allyGuild)) {
-									if(guild.isWarWith(allyGuild)) {
-										plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.war");
-										return true;
-									}
+		if(!nPlayer.hasGuild()) {
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
+			return true;
+		}
 
-									for(NovaPlayer allyP : allyGuild.getPlayers()) {
-										if(allyP.isOnline()) {
-											plugin.getMessageManager().sendMessagesMsg(allyP.getPlayer(), "chat.guild.ally.newinvite", vars);
-										}
-									}
+		NovaGuild guild = nPlayer.getGuild();
+		NovaGuild allyGuild = plugin.getGuildManager().getGuildFind(allyname);
 
-									if(guild.isInvitedToAlly(allyGuild)) { //Accepting
-										allyGuild.addAlly(guild);
-										guild.addAlly(allyGuild);
-										guild.removeAllyInvitation(allyGuild);
-										plugin.getMessageManager().broadcastMessage("broadcast.guild.allied", vars);
+		if(allyGuild == null) {
+			Message.CHAT_GUILD_NAMENOEXIST.send(sender);
+			return true;
+		}
 
-										plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.accepted", vars);
+		if(allyGuild.equals(guild)) {
+			Message.CHAT_GUILD_ALLY_SAMENAME.send(sender);
+			return true;
+		}
 
-										//tags
-										plugin.tagUtils.refreshAll();
-									}
-									else { //Inviting
-										if(!allyGuild.isInvitedToAlly(guild)) {
-											allyGuild.addAllyInvitation(guild);
-											plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.invited", vars);
-											plugin.getMessageManager().broadcastGuild(allyGuild, "chat.guild.ally.notifyguild", vars,true);
-										}
-										else { //cancel inv
-											allyGuild.removeAllyInvitation(guild);
+		if(!guild.isLeader(sender)) {
+			Message.CHAT_GUILD_NOTLEADER.send(sender);
+			return true;
+		}
 
-											plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.canceled",vars);
-											plugin.getMessageManager().broadcastGuild(allyGuild,"chat.guild.ally.notifyguildcanceled",vars,true);
-										}
-									}
-								}
-								else { //UN-ALLY
-									guild.removeAlly(allyGuild);
-									allyGuild.removeAlly(guild);
+		HashMap<String,String> vars = new HashMap<>();
+		vars.put("GUILDNAME",guild.getName());
+		vars.put("ALLYNAME", allyGuild.getName());
 
-									plugin.getMessageManager().broadcastMessage("broadcast.guild.endally",vars);
-
-									plugin.tagUtils.refreshAll();
-								}
-							}
-							else {
-								plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notleader");
-							}
-						}
-						else {
-							plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.ally.samename");
-						}
-					}
-					else {
-						plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.namenotexist");
-					}
-				}
-				else {
-					plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.notinguild");
-				}
+		if(!guild.isAlly(allyGuild)) {
+			if(guild.isWarWith(allyGuild)) {
+				Message.CHAT_GUILD_ALLY_WAR.vars(vars).send(sender);
+				return true;
 			}
-			else {
-				plugin.getMessageManager().sendMessagesMsg(sender, "chat.guild.entername");
+
+			if(guild.isInvitedToAlly(allyGuild)) { //Accepting
+				allyGuild.addAlly(guild);
+				guild.addAlly(allyGuild);
+				guild.removeAllyInvitation(allyGuild);
+				plugin.getMessageManager().broadcastMessage("broadcast.guild.allied", vars);
+
+				Message.CHAT_GUILD_ALLY_ACCEPTED.vars(vars).send(sender);
+
+				//tags
+				plugin.tagUtils.refreshAll();
+			}
+			else { //Inviting
+				if(!allyGuild.isInvitedToAlly(guild)) {
+					allyGuild.addAllyInvitation(guild);
+					Message.CHAT_GUILD_ALLY_INVITED.vars(vars).send(sender);
+					Message.CHAT_GUILD_ALLY_NOTIFYGUILD.vars(vars).broadcast(allyGuild);
+				}
+				else { //cancel inv
+					allyGuild.removeAllyInvitation(guild);
+
+					Message.CHAT_GUILD_ALLY_CANCELED.vars(vars).send(sender);
+					Message.CHAT_GUILD_ALLY_NOTIFYGUILDCANCELED.vars(vars).broadcast(allyGuild);
+				}
 			}
 		}
-		else {
-			Message.CHAT_NOPERMISSIONS.send(sender);
+		else { //UN-ALLY
+			guild.removeAlly(allyGuild);
+			allyGuild.removeAlly(guild);
+
+			plugin.getMessageManager().broadcastMessage("broadcast.guild.endally",vars);
+
+			plugin.tagUtils.refreshAll();
 		}
 		
 		return true;
