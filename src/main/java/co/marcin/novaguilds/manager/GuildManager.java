@@ -687,6 +687,7 @@ public class GuildManager {
 	public void appendVaultHologram(NovaGuild guild) {
 		if(plugin.getConfigManager().useHolographicDisplays()) {
 			if(plugin.getConfigManager().isGuildBankHologramEnabled()) {
+				checkVaultDestroyed(guild);
 				if(guild.getBankHologram() == null) {
 					Location hologramLocation = guild.getBankLocation().clone();
 
@@ -719,6 +720,7 @@ public class GuildManager {
 	public boolean isBankBlock(Block block) {
 		if(block.getType()== plugin.getConfigManager().getGuildBankItem().getType()) {
 			for(NovaGuild guild : getGuilds()) {
+				checkVaultDestroyed(guild);
 				if(guild.getBankLocation() != null) {
 					if(guild.getBankLocation().distance(block.getLocation()) < 1) {
 						return true;
@@ -727,5 +729,19 @@ public class GuildManager {
 			}
 		}
 		return false;
+	}
+
+	public void checkVaultDestroyed(NovaGuild guild) {
+		if(guild.getBankLocation() != null) {
+			if(guild.getBankLocation().getBlock().getType() != plugin.getConfigManager().getGuildBankItem().getType()) {
+				guild.setBankLocation(null);
+				Hologram hologram = guild.getBankHologram();
+
+				if(hologram != null) {
+					hologram.delete();
+				}
+				guild.setBankHologram(null);
+			}
+		}
 	}
 }
