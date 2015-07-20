@@ -5,7 +5,9 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
+import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -17,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.sql.PreparedStatement;
@@ -24,6 +27,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
 	private final NovaGuilds plugin;
@@ -49,7 +53,7 @@ public class GuildManager {
 
 	/*
 	* Find by player/tag/guildname
-	* @Param: String mixed
+	* @param: String mixed
 	* */
 	public NovaGuild getGuildFind(String mixed) {
 		NovaGuild guild = getGuildByTag(mixed);
@@ -659,8 +663,8 @@ public class GuildManager {
 
 			if(world != null) {
 				int x = guildData.getInt("home.x");
-				int y = guildData.getInt("home.x");
-				int z = guildData.getInt("home.x");
+				int y = guildData.getInt("home.y");
+				int z = guildData.getInt("home.z");
 				float yaw = (float) guildData.getDouble("home.yaw");
 				spawnpoint = new Location(world, x, y, z);
 				spawnpoint.setYaw(yaw);
@@ -742,6 +746,15 @@ public class GuildManager {
 				}
 				guild.setBankHologram(null);
 			}
+		}
+	}
+
+	public void delayedTeleport(Player player, Location location, Message message) {
+		Runnable task = new RunnableTeleportRequest(plugin,player,location, message);
+		plugin.worker.schedule(task,plugin.getGroupManager().getGroup(player).getGuildTeleportDelay(), TimeUnit.SECONDS);
+
+		if(plugin.getGroupManager().getGroup(player).getGuildTeleportDelay() > 0) {
+			plugin.getMessageManager().sendDelayedTeleportMessage(player);
 		}
 	}
 }
