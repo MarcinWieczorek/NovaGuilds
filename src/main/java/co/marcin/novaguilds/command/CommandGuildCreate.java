@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.event.GuildCreateEvent;
@@ -213,6 +214,11 @@ public class CommandGuildCreate implements CommandExecutor {
 
 					//homefloor
 					plugin.getGuildManager().createHomeFloor(newGuild);
+
+					//vault item
+					if(Config.BANK_ENABLED.getBoolean()) {
+						nPlayer.getPlayer().getInventory().addItem(Config.BANK_ITEM.getItemStack());
+					}
 
 					//messages
 					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);
