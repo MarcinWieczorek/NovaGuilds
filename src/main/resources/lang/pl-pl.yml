@@ -170,6 +170,19 @@ chat:
   protection: "This guild is new and still protected. Try tomorrow."
 
  guild:
+  vault:
+   outsideregion: "You cannot place the vault outside guild's region"
+   drop: "You cannot drop guild's vault item"
+   place:
+    success: "Guild's vault placed."
+    notleader: "Only leader can place the vault."
+    exists: "The vault already exists!"
+    doublechest: "Vault can be only a single chest"
+   break:
+    notempty: "The vault is not empty!"
+    success: "Vault destroyed."
+    notleader: "Only leader can destroy the vault!"
+
   compasstarget:
    on: "Kompas wskazuje teraz dom Twojej gildii."
    off: "Kompas wskazuje teraz spawn."
