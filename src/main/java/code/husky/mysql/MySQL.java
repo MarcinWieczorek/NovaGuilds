@@ -52,7 +52,7 @@ public class MySQL extends Database {
 			return connection;
 		}
 		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user, password);
+		connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database +"?autoReconnect=true", user, password);
 		return connection;
 	}
 }

@@ -74,58 +74,10 @@ public abstract class Database {
 	 *             if the connection cannot be closed
 	 */
 	public boolean closeConnection() throws SQLException {
-		if (connection == null) {
+		if(connection == null) {
 			return false;
 		}
 		connection.close();
 		return true;
-	}
-
-
-	/**
-	 * Executes a SQL Query<br>
-	 * 
-	 * If the connection is closed, it will be opened
-	 * 
-	 * @param query
-	 *            Query to be run
-	 * @return the results of the query
-	 * @throws SQLException
-	 *             If the query cannot be executed
-	 * @throws ClassNotFoundException
-	 *             If the driver cannot be found; see {@link #openConnection()}
-	 */
-	public ResultSet querySQL(String query) throws SQLException, ClassNotFoundException {
-		if (!checkConnection()) {
-			openConnection();
-		}
-
-		Statement statement = connection.createStatement();
-
-		return statement.executeQuery(query);
-	}
-
-	/**
-	 * Executes an Update SQL Query<br>
-	 * See {@link java.sql.Statement#executeUpdate(String)}<br>
-	 * If the connection is closed, it will be opened
-	 * 
-	 * @param query
-	 *            Query to be run
-	 * @return Result Code, see {@link java.sql.Statement#executeUpdate(String)}
-	 * @throws SQLException
-	 *             If the query cannot be executed
-	 * @throws ClassNotFoundException
-	 *             If the driver cannot be found; see {@link #openConnection()}
-	 */
-	public int updateSQL(String query) throws SQLException,
-			ClassNotFoundException {
-		if (!checkConnection()) {
-			openConnection();
-		}
-
-		Statement statement = connection.createStatement();
-
-		return statement.executeUpdate(query);
 	}
 }
