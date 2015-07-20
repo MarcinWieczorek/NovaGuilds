@@ -146,6 +146,10 @@ public class NovaGuilds extends JavaPlugin {
 		new DeathListener(this);
 		new InventoryListener(this);
 
+		if(getConfigManager().isGuildBankEnabled()) {
+			new VaultListener(this);
+		}
+
 		//Tablist/tag update
 		tagUtils.refreshAll();
 
@@ -200,8 +204,8 @@ public class NovaGuilds extends JavaPlugin {
 
 				if(l1 != null && l2 != null) {
 					RegionUtils.sendSquare(p, l1, l2, null, (byte) -1);
-					RegionUtils.resetCorner(p, l1);
-					RegionUtils.resetCorner(p, l2);
+					RegionUtils.setCorner(p, l1, null);
+					RegionUtils.setCorner(p, l2, null);
 
 					if(nPlayer.getSelectedRegion() != null) {
 						RegionUtils.highlightRegion(p, nPlayer.getSelectedRegion(), null);

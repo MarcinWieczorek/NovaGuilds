@@ -79,8 +79,8 @@ public class ToolListener implements Listener {
 
 					if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
 						RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
-						RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(0));
-						RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(1));
+						RegionUtils.setCorner(player, nPlayer.getSelectedLocation(0), null);
+						RegionUtils.setCorner(player, nPlayer.getSelectedLocation(1), null);
 					}
 
 					//unselect corners
@@ -164,7 +164,7 @@ public class ToolListener implements Listener {
 							if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 								if(!nPlayer.isResizing()) {
 									if(nPlayer.getSelectedLocation(0) != null) {
-										RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(0));
+										RegionUtils.setCorner(player, nPlayer.getSelectedLocation(0), null);
 
 										if(nPlayer.getSelectedLocation(1) != null) {
 											RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
@@ -181,7 +181,7 @@ public class ToolListener implements Listener {
 							if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 								if(nPlayer.isResizing()) {
 									if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()) != null) {
-										RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(nPlayer.getResizingCorner()));
+										RegionUtils.setCorner(player, nPlayer.getSelectedLocation(nPlayer.getResizingCorner()), null);
 
 										if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()==0 ? 1 : 0) != null) {
 											RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
@@ -199,7 +199,7 @@ public class ToolListener implements Listener {
 								}
 								else {
 									if(nPlayer.getSelectedLocation(1) != null) {
-										RegionUtils.resetCorner(player, nPlayer.getSelectedLocation(1));
+										RegionUtils.setCorner(player, nPlayer.getSelectedLocation(1), null);
 
 										if(nPlayer.getSelectedLocation(0) != null) {
 											RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
