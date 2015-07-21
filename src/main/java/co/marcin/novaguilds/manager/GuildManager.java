@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
@@ -574,26 +575,28 @@ public class GuildManager {
 			}
 		}
 
-		LoggerUtils.info("Postcheck finished. Found "+i+" invalid guilds");
+		LoggerUtils.info("Postcheck finished. Found " + i + " invalid guilds");
 	}
 
-	public void createHomeFloor(NovaGuild guild) {
-		Location sp = guild.getSpawnPoint();
-		Material material = Material.getMaterial(plugin.getConfig().getString("guild.homefloor").toUpperCase());
+	public static void createHomeFloor(NovaGuild guild) {
+		if(Config.GUILD_HOMEFLOOR_ENABLED.getBoolean()) {
+			Location sp = guild.getSpawnPoint();
+			Material material = Config.GUILD_HOMEFLOOR_MATERIAL.getMaterial();
 
-		if(material != null) {
-			sp.clone().add(1, -1, 0).getBlock().setType(material);
-			sp.clone().add(0, -1, 0).getBlock().setType(material);
-			sp.clone().add(1, -1, 1).getBlock().setType(material);
-			sp.clone().add(0, -1, 1).getBlock().setType(material);
-			sp.clone().add(-1, -1, -1).getBlock().setType(material);
-			sp.clone().add(-1, -1, 0).getBlock().setType(material);
-			sp.clone().add(0, -1, -1).getBlock().setType(material);
-			sp.clone().add(1, -1, -1).getBlock().setType(material);
-			sp.clone().add(-1, -1, 1).getBlock().setType(material);
-		}
-		else {
-			LoggerUtils.info("Failed to create homefloor, invalid material.");
+			if(material != null) {
+				sp.clone().add(1, -1, 0).getBlock().setType(material);
+				sp.clone().add(0, -1, 0).getBlock().setType(material);
+				sp.clone().add(1, -1, 1).getBlock().setType(material);
+				sp.clone().add(0, -1, 1).getBlock().setType(material);
+				sp.clone().add(-1, -1, -1).getBlock().setType(material);
+				sp.clone().add(-1, -1, 0).getBlock().setType(material);
+				sp.clone().add(0, -1, -1).getBlock().setType(material);
+				sp.clone().add(1, -1, -1).getBlock().setType(material);
+				sp.clone().add(-1, -1, 1).getBlock().setType(material);
+			}
+			else {
+				LoggerUtils.error("Failed creating homefloor, invalid material.");
+			}
 		}
 	}
 
