@@ -3,6 +3,7 @@ package co.marcin.novaguilds.enums;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,6 +39,9 @@ public enum Config {
 
 	REGION_MINSIZE,
 	REGION_MAXSIZE,
+
+	GUILD_HOMEFLOOR_ENABLED,
+	GUILD_HOMEFLOOR_MATERIAL,
 	;
 
 
@@ -70,5 +74,9 @@ public enum Config {
 
 	public ItemStack getItemStack() {
 		return ItemStackUtils.stringToItemStack(getString());
+	}
+
+	public Material getMaterial() {
+		return Material.getMaterial(this.getString().toUpperCase());
 	}
 }
