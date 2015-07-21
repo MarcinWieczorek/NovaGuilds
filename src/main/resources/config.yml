@@ -113,8 +113,12 @@ killing:
 guild:
  #time to remove inactive guilds (minutes) (default 7 days)
  inactivetime: 604800
+
+
  tag: "&a{RANK}{TAG} &r"
- homefloor: obsidian
+ homefloor:
+  enabled: true
+  material: obsidian
  startpoints: 1000
  startmoney: 0
  startlives: 2
