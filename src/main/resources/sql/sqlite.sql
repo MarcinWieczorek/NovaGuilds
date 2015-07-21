@@ -1,7 +1,7 @@
 PRAGMA encoding = "UTF-8";
 --
 CREATE TABLE `{SQLPREFIX}guilds` (
-  `id` unsigned int(11) primary key NOT NULL,
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `tag` tinytext NOT NULL,
   `name` tinytext NOT NULL,
   `leader` tinytext NOT NULL,
@@ -16,19 +16,23 @@ CREATE TABLE `{SQLPREFIX}guilds` (
   `timerest` int(11) NOT NULL,
   `lostlive` int(11) NOT NULL,
   `activity` int(11) NOT NULL,
-  `banklock` tinytext NOT NULL
+  `created` int(11) NOT NULL,
+  `bankloc` tinytext NOT NULL
 );
 --
 CREATE TABLE `{SQLPREFIX}players` (
-  `id` unsigned int(11) primary key NOT NULL,
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `uuid` tinytext NOT NULL,
   `name` tinytext NOT NULL,
   `guild` tinytext NOT NULL,
-  `invitedto` tinytext NOT NULL
+  `invitedto` tinytext NOT NULL,
+  `points` int(11) NOT NULL,
+  `kills` int(11) NOT NULL,
+  `deaths` int(11) NOT NULL
 );
 --
 CREATE TABLE `{SQLPREFIX}regions` (
-  `id` unsigned int(11) primary key NOT NULL,
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `loc_1` tinytext NOT NULL,
   `loc_2` tinytext NOT NULL,
   `guild` tinytext NOT NULL,

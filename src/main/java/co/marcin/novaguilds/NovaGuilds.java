@@ -117,11 +117,6 @@ public class NovaGuilds extends JavaPlugin {
 			}
 		}
 
-		//Tables setup
-		if(getConfigManager().getDataStorageType() != DataStorageType.FLAT && !databaseManager.checkTables()) {
-			databaseManager.setupTables();
-		}
-
 		//Data loading
 		getRegionManager().loadRegions();
 		LoggerUtils.info("Regions data loaded");

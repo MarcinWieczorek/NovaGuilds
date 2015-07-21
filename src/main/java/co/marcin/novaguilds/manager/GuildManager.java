@@ -255,8 +255,6 @@ public class GuildManager {
 
 				//adding to MySQL
 				//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive,bankloc
-//				String pSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
-//				PreparedStatement preparedStatement = plugin.getDatabaseManager().getConnection().prepareStatement(pSQL, Statement.RETURN_GENERATED_KEYS);
 				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_INSERT);
 				preparedStatement.setString(1, guild.getTag()); //tag
 				preparedStatement.setString(2, guild.getName()); //name
@@ -265,6 +263,7 @@ public class GuildManager {
 				preparedStatement.setDouble(5, guild.getMoney()); //money
 				preparedStatement.setInt(6, guild.getPoints()); //points
 				preparedStatement.setInt(7, guild.getLives()); //lives
+				preparedStatement.setLong(8, NumberUtils.systemSeconds()); //lives
 
 				preparedStatement.execute();
 				ResultSet keys = preparedStatement.getGeneratedKeys();

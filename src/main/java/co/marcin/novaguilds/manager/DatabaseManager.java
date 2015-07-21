@@ -31,8 +31,8 @@ public class DatabaseManager {
 			mysqlReload();
 			preparedStatementMap.clear();
 
-			//Guilds insert (id, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, bankloc)
-			String guildsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,'');";
+			//Guilds insert (id, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, created, bankloc)
+			String guildsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,?,'');";
 			PreparedStatement guildsInsert = getConnection().prepareStatement(guildsInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.GUILDS_INSERT, guildsInsert);
 
@@ -166,6 +166,11 @@ public class DatabaseManager {
 				connection = mySQL.openConnection();
 				connected = true;
 				LoggerUtils.info("Connected to MySQL database in " + (System.nanoTime() - nanoTime) + "ns");
+
+				if(!checkTables()) {
+					setupTables();
+				}
+
 				prepareStatements();
 			}
 		}
@@ -181,6 +186,11 @@ public class DatabaseManager {
 		try {
 			connection = sqlite.openConnection();
 			connected = true;
+
+			if(!checkTables()) {
+				setupTables();
+			}
+
 			prepareStatements();
 
 			LoggerUtils.info("Connected to SQLite database");
