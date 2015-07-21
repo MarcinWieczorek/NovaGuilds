@@ -24,7 +24,7 @@ public class PlayerInfoListener implements Listener {
 		Player player = event.getPlayer();
 		if(event.getRightClicked() instanceof Player) {
 			if(event.getPlayer().hasPermission("novaguilds.playerinfo")) { //TODO better permission node
-				NovaPlayer nCPlayer = plugin.getPlayerManager().getPlayer(event.getRightClicked());
+				NovaPlayer nCPlayer = plugin.getPlayerManager().getPlayer((Player) event.getRightClicked());
 				plugin.getPlayerManager().sendPlayerInfo(player, nCPlayer);
 			}
 		}

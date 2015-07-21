@@ -55,7 +55,7 @@ public class VaultListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onInventoryClick(InventoryClickEvent event) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getWhoClicked());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
 		String nameBank = plugin.getConfigManager().getGuildBankItem().getItemMeta().getDisplayName();
 
 		if(event.getInventory().getName().equals(nameBank)) {
