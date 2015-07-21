@@ -30,17 +30,18 @@ public class CommandGuildTop implements CommandExecutor {
 			return true;
 		}
 
-		int limit = plugin.getMessageManager().getMessages().getInt("holographicdisplays.topguilds.toprows");
+		int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
 		int i=1;
 
 		Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.send(sender);
 
+		HashMap<String, String> vars = new HashMap<>();
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
-			String rowmsg = plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.row");
-			rowmsg = StringUtils.replace(rowmsg, "{GUILDNAME}", guild.getName());
-			rowmsg = StringUtils.replace(rowmsg, "{N}", i + "");
-			rowmsg = StringUtils.replace(rowmsg, "{POINTS}", guild.getPoints()+"");
-			sender.sendMessage(StringUtils.fixColors(rowmsg));
+			vars.clear();
+			vars.put("GUILDNAME", guild.getName());
+			vars.put("N", String.valueOf(i));
+			vars.put("POINTS", String.valueOf(guild.getPoints()));
+			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).send(sender);
 			i++;
 		}
 

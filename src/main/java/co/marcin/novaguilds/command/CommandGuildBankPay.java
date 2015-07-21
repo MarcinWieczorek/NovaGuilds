@@ -50,12 +50,14 @@ public class CommandGuildBankPay implements CommandExecutor {
 
 		money = NumberUtils.roundOffTo2DecPlaces(money);
 
-		if(plugin.econ.getBalance(player) < money) {
+//		if(plugin.econ.getBalance(player) < money) { //1.8
+		if(plugin.econ.getBalance(player.getName()) < money) { //1.7
 			Message.CHAT_GUILD_BANK_PAY_NOTENOUGH.send(sender);
 			return true;
 		}
 
-		plugin.econ.withdrawPlayer(player, money);
+//		plugin.econ.withdrawPlayer(player, money); //1.8
+		plugin.econ.withdrawPlayer(player.getName(), money); //1.7
 		guild.addMoney(money);
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");

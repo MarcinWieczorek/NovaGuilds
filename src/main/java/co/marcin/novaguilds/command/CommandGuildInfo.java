@@ -51,11 +51,14 @@ public class CommandGuildInfo implements CommandExecutor {
 		if(guild != null) {
 			HashMap<String,String> vars = new HashMap<>();
 
-			List<String> guildInfoMessages = plugin.getMessageManager().getMessages().getStringList("chat.guildinfo.info");
-			String separator = plugin.getMessageManager().getMessagesString("chat.guildinfo.playerseparator");
+			List<String> guildInfoMessages;
+			String separator = Message.CHAT_GUILDINFO_PLAYERSEPARATOR.get();
 			
 			if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
-				guildInfoMessages = plugin.getMessageManager().getMessages().getStringList("chat.guildinfo.fullinfo");
+				guildInfoMessages = Message.CHAT_GUILDINFO_FULLINFO.getList();
+			}
+			else {
+				guildInfoMessages = Message.CHAT_GUILDINFO_INFO.getList();
 			}
 
 			plugin.getMessageManager().sendPrefixMessage(sender, guildInfoMessages.get(0));
@@ -66,16 +69,16 @@ public class CommandGuildInfo implements CommandExecutor {
 			String players = "";
 			String pcolor;
 			String leaderp; //String to insert to playername (leader prefix)
-			String leaderprefix = plugin.getMessageManager().getMessagesString("chat.guildinfo.leaderprefix"); //leader prefix
+			String leaderprefix = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 
 			//players list
 			if(!gplayers.isEmpty()) {
 				for(NovaPlayer nPlayerList : guild.getPlayers()) {
 					if(nPlayerList.isOnline()) {
-						pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.online");
+						pcolor = Message.CHAT_GUILDINFO_PLAYERCOLOR_ONLINE.get();
 					}
 					else {
-						pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.offline");
+						pcolor = Message.CHAT_GUILDINFO_PLAYERCOLOR_OFFLINE.get();
 					}
 					
 					leaderp = "";
@@ -94,7 +97,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			//allies
 			String allies = "";
 			if(!guild.getAllies().isEmpty()) {
-				String allyformat = plugin.getMessageManager().getMessagesString("chat.guildinfo.ally");
+				String allyformat = Message.CHAT_GUILDINFO_ALLY.get();
 				for(NovaGuild allyGuild : guild.getAllies()) {
 					String guildName = StringUtils.replace(allyformat, "{GUILDNAME}", allyGuild.getName());
 					allies = allies + guildName + separator;
@@ -106,7 +109,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			//wars
 			String wars = "";
 			if(!guild.getWars().isEmpty()) {
-				String warformat = plugin.getMessageManager().getMessagesString("chat.guildinfo.war");
+				String warformat = Message.CHAT_GUILDINFO_WAR.get();
 				for(NovaGuild war : guild.getWars()) {
 					String warName = StringUtils.replace(warformat, "{GUILDNAME}", war.getName());
 					wars = wars + warName + separator;

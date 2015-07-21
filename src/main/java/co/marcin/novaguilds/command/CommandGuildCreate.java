@@ -8,6 +8,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.event.GuildCreateEvent;
+import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -213,7 +214,7 @@ public class CommandGuildCreate implements CommandExecutor {
 					}
 
 					//homefloor
-					plugin.getGuildManager().createHomeFloor(newGuild);
+					GuildManager.createHomeFloor(newGuild);
 
 					//vault item
 					if(Config.BANK_ENABLED.getBoolean()) {

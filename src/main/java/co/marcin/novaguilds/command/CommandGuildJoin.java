@@ -128,7 +128,8 @@ public class CommandGuildJoin implements CommandExecutor {
 		//money
 		double joinMoney = plugin.getGroupManager().getGroup(sender).getGuildJoinMoney();
 		if(joinMoney > 0) {
-			if(plugin.econ.getBalance((Player) sender) < joinMoney) {
+			//if(plugin.econ.getBalance((Player) sender) < joinMoney) { //1.8
+			if(plugin.econ.getBalance(sender.getName()) < joinMoney) {
 				//TODO not enought money msg
 				vars.put("{REQUIREDMONEY}", joinMoney + "");
 				Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
@@ -141,7 +142,8 @@ public class CommandGuildJoin implements CommandExecutor {
 		}
 
 		if(joinMoney > 0) {
-			plugin.econ.withdrawPlayer((Player) sender, joinMoney);
+//			plugin.econ.withdrawPlayer((Player) sender, joinMoney); //1.8
+			plugin.econ.withdrawPlayer(sender.getName(), joinMoney); //1.7
 		}
 
 		guild.addPlayer(nPlayer);

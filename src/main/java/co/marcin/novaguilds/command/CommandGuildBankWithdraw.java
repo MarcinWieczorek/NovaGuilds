@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.NumberUtils;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -64,7 +65,8 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 		}
 
 		guild.takeMoney(money);
-		plugin.econ.depositPlayer((Player) sender, money);
+		//plugin.econ.depositPlayer((Player) sender, money); //1.8
+		plugin.econ.depositPlayer(sender.getName(), money); //1.7
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
 		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.vars(vars).send(sender);

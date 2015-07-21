@@ -100,7 +100,8 @@ private final NovaGuilds plugin;
 			//money
 			double homeMoney = plugin.getGroupManager().getGroup(sender).getGuildHomeMoney();
 			if(homeMoney > 0) {
-				if(plugin.econ.getBalance((Player) sender) < homeMoney) {
+//				if(plugin.econ.getBalance((Player)sender) < homeMoney) { //1.8
+				if(plugin.econ.getBalance(sender.getName()) < homeMoney) { //1.7
 					//TODO not enought money
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
@@ -109,7 +110,8 @@ private final NovaGuilds plugin;
 				}
 			}
 
-			plugin.econ.withdrawPlayer((Player) sender, homeMoney);
+			//plugin.econ.withdrawPlayer((Player) sender, homeMoney); //1.8
+			plugin.econ.withdrawPlayer(sender.getName(), homeMoney); //1.7
 			ItemStackUtils.takeItems(player, homeItems);
 			Message.CHAT_GUILD_HOME.send(sender);
 			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_DELAYEDTELEPORT);

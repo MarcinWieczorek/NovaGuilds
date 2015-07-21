@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class CommandNovaGuilds implements CommandExecutor {
@@ -130,29 +131,16 @@ public class CommandNovaGuilds implements CommandExecutor {
 				}
 				if(args.length>1) { //GUILDINFO
 					if(args[1].equalsIgnoreCase("top")) {
-						Statement statement;
-						
-						try {
-							statement = plugin.getDatabaseManager().getConnection().createStatement();
-							
-							Player player = (Player)sender;
-							Hologram hologram = HologramsAPI.createHologram(plugin,player.getLocation());
-							hologram.appendTextLine(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.header")));
-							
-							ResultSet res = statement.executeQuery("SELECT `name`,`points` FROM `"+plugin.getConfigManager().getDatabasePrefix()+"guilds` ORDER BY `points` DESC LIMIT "+plugin.getMessageManager().getMessages().getInt("holographicdisplays.topguilds.toprows"));
-							
-							int i=1;
-							while(res.next()) {
-								String rowmsg = plugin.getMessageManager().getMessagesString("holographicdisplays.topguilds.row");
-								rowmsg = StringUtils.replace(rowmsg, "{GUILDNAME}", res.getString("name"));
-								rowmsg = StringUtils.replace(rowmsg, "{N}", i + "");
-								rowmsg = StringUtils.replace(rowmsg, "{POINTS}", res.getString("points"));
-								hologram.appendTextLine(StringUtils.fixColors(rowmsg));
-								i++;
-							}
-						}
-						catch (SQLException e) {
-							LoggerUtils.exception(e);
+						int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get());
+						int i=1;
+						HashMap<String, String> vars = new HashMap<>();
+						for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
+							vars.clear();
+							vars.put("GUILDNAME", guild.getName());
+							vars.put("N", String.valueOf(i));
+							vars.put("POINTS", String.valueOf(guild.getPoints()));
+							Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).send(sender);
+							i++;
 						}
 						return true;
 					}

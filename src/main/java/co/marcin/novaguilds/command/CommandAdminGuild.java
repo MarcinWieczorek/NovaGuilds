@@ -35,7 +35,7 @@ public class CommandAdminGuild implements CommandExecutor {
 			if(args.length == 0) {
 				Message.CHAT_COMMANDS_ADMIN_GUILD_HEADER.send(sender);
 
-				for(String cItem : plugin.getMessageManager().getMessages().getStringList("chat.commands.admin.guild.items")) {
+				for(String cItem : Message.CHAT_COMMANDS_ADMIN_GUILD_ITEMS.getList()) {
 					sender.sendMessage(StringUtils.fixColors(cItem));
 				}
 
