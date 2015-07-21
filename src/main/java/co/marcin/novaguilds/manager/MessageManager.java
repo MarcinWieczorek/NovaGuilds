@@ -50,7 +50,7 @@ public class MessageManager {
 			LoggerUtils.exception(e);
 		}
 
-		prefix = messages.getString("chat.prefix");
+		prefix = Message.CHAT_PREFIX.get();
 		String prefixwospace = StringUtils.replace(prefix," ","");
 		prefixwospace = prefixwospace.substring(prefixwospace.length() - 2);
 		if(prefixwospace.startsWith("&")) {
