@@ -197,7 +197,7 @@ public class GuildManager {
 						novaGuild.setBankLocation(bankLocation);
 						LoggerUtils.debug("regionnull=" + (novaGuild.getRegion() == null));
 
-						novaGuild.setAllies(allies);
+						novaGuild.setAlliesNames(allies);
 						novaGuild.setAllyInvitations(alliesinv);
 
 						novaGuild.setWarsNames(wars);
@@ -474,12 +474,13 @@ public class GuildManager {
 //		if(guild.getBankHologram() != null) {
 //			guild.getBankHologram().delete();
 //		}
-		guild.destroy();
 
 		//remove region
 		if(guild.hasRegion()) {
 			plugin.getRegionManager().removeRegion(guild.getRegion());
 		}
+
+		guild.destroy();
 
 		guilds.remove(guild.getName().toLowerCase());
 	}
@@ -550,22 +551,28 @@ public class GuildManager {
 			}
 			else { //Add allies, wars etc
 				//Allies
+				List<NovaGuild> allies = new ArrayList<>();
 				for(String allyName : guild.getAlliesNames()) {
 					NovaGuild allyGuild = getGuildByName(allyName);
 
 					if(allyGuild != null) {
-						guild.addAlly(allyGuild);
+						allies.add(allyGuild);
 					}
 				}
+				guild.setAllies(allies);
 
 				//Wars
+				List<NovaGuild> wars = new ArrayList<>();
 				for(String warName : guild.getWarsNames()) {
 					NovaGuild warGuild = getGuildByName(warName);
 
 					if(warGuild != null) {
-						guild.addWar(warGuild);
+						wars.add(warGuild);
 					}
 				}
+				guild.setWars(wars);
+
+				guild.setUnchanged();
 
 				//No-war invitations
 				//TODO
@@ -650,7 +657,7 @@ public class GuildManager {
 			guild.setLeaderName(guildData.getString("leader"));
 			guild.setLives(guildData.getInt("lives"));
 
-			guild.setAllies(guildData.getStringList("allies"));
+			guild.setAlliesNames(guildData.getStringList("allies"));
 			guild.setWarsNames(guildData.getStringList("wars"));
 			guild.setNoWarInvitations(guildData.getStringList("nowar"));
 			guild.setAllyInvitations(guildData.getStringList("alliesinv"));
@@ -694,29 +701,31 @@ public class GuildManager {
 		if(plugin.getConfigManager().useHolographicDisplays()) {
 			if(plugin.getConfigManager().isGuildBankHologramEnabled()) {
 				checkVaultDestroyed(guild);
-				if(guild.getBankHologram() == null) {
-					Location hologramLocation = guild.getBankLocation().clone();
+				if(guild.getBankLocation() != null) {
+					if(guild.getBankHologram() == null) {
+						Location hologramLocation = guild.getBankLocation().clone();
 
-					double x = hologramLocation.getX() > 0 ? 0.5 : -0.5;
-					double z = hologramLocation.getZ() > 0 ? 0.5 : -0.5;
-					x = NumberUtils.negativeIsPlusOne(x);
+						double x = hologramLocation.getX() > 0 ? 0.5 : -0.5;
+						double z = hologramLocation.getZ() > 0 ? 0.5 : -0.5;
+						x = NumberUtils.negativeIsPlusOne(x);
 
-					hologramLocation.add(x, 2, z);
-					Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
-					for(String hologramLine : plugin.getConfigManager().getGuildBankHologramLines()) {
-						if(hologramLine.startsWith("[ITEM]")) {
-							hologramLine = hologramLine.substring(6);
-							ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
-							if(itemStack != null) {
-								hologram.appendItemLine(itemStack);
+						hologramLocation.add(x, 2, z);
+						Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
+						for(String hologramLine : plugin.getConfigManager().getGuildBankHologramLines()) {
+							if(hologramLine.startsWith("[ITEM]")) {
+								hologramLine = hologramLine.substring(6);
+								ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
+								if(itemStack != null) {
+									hologram.appendItemLine(itemStack);
+								}
+							}
+							else {
+								hologram.appendTextLine(StringUtils.fixColors(hologramLine));
 							}
 						}
-						else {
-							hologram.appendTextLine(StringUtils.fixColors(hologramLine));
-						}
-					}
 
-					guild.setBankHologram(hologram);
+						guild.setBankHologram(hologram);
+					}
 				}
 			}
 		}
