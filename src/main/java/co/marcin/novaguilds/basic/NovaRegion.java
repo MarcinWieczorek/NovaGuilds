@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.basic;
 
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -38,7 +39,6 @@ public class NovaRegion {
 
 	public int getWidth() {
 		if(width == 0) {
-			//width = (int) Math.round(Math.abs(getCorner(0).getX() - getCorner(1).getX()));
 			width = Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX()) + 1;
 		}
 
@@ -47,7 +47,6 @@ public class NovaRegion {
 
 	public int getHeight() {
 		if(height == 0) {
-			//height = (int) Math.round(Math.abs(getCorner(0).getZ() - getCorner(1).getZ()));
 			height = Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
 		}
 
@@ -56,8 +55,11 @@ public class NovaRegion {
 
 	public int getDiagonal() {
 		if(size == 0) {
-			size = Math.round((int)Math.sqrt(getWidth()^2 + getHeight()^2));
-			//size = Math.round(Double.parseDouble(Math.sqrt(getWidth()^2 + getHeight()^2)+""));
+			int w = getWidth();
+			int h = getHeight();
+
+			int sumsq = (int)(Math.pow(w,2) + Math.pow(h,2));
+			size = Math.round((int)Math.sqrt(sumsq));
 		}
 
 		return size;
