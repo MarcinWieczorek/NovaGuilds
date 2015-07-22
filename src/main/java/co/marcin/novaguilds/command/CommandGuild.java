@@ -21,7 +21,7 @@ public class CommandGuild implements CommandExecutor {
 			return true;
 		}
 
-		if(!Commands.GUILD_ACCESS.allowedSender(sender)) {
+		if((!Commands.GUILD_ACCESS.allowedSender(sender) && args.length==0) || !args[0].equalsIgnoreCase("top")) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
