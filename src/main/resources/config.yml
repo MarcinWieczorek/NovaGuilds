@@ -98,7 +98,6 @@ chat:
 raid:
  enabled: true
  minonline: 1
- minonlineenemy: 1
 
  #time guild has to rest in seconds (24h)
  timerest: 24h
@@ -112,8 +111,10 @@ killing:
 
 guild:
  #time to remove inactive guilds (minutes) (default 7 days)
- inactivetime: 604800
+ inactivetime: 7d
 
+ #New guilds protection
+ createprotection: 24h
 
  tag: "&a{RANK}{TAG} &r"
  homefloor:
