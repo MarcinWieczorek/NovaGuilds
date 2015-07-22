@@ -19,6 +19,9 @@ public enum Config {
 	RAID_ENABLED,
 	RAID_TIMEREST,
 	RAID_TIMEINACTIVE,
+	RAID_MINONLINE,
+
+	LIVEREGENERATION_TASKINTERVAL,
 
 	CLEANUP_ENABLED,
 	CLEANUP_INACTIVETIME,
@@ -39,6 +42,8 @@ public enum Config {
 
 	REGION_MINSIZE,
 	REGION_MAXSIZE,
+
+	GUILD_CREATEPROTECTION,
 
 	GUILD_HOMEFLOOR_ENABLED,
 	GUILD_HOMEFLOOR_MATERIAL,
@@ -68,7 +73,7 @@ public enum Config {
 		return config.getBoolean(path);
 	}
 
-	public int stringToSeconds() {
+	public int getSeconds() {
 		return StringUtils.StringToSeconds(getString());
 	}
 
