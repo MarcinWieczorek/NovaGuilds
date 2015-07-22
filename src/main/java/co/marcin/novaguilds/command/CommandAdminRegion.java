@@ -8,8 +8,6 @@ import org.bukkit.command.CommandSender;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.StringUtils;
 
-import java.util.Map;
-
 public class CommandAdminRegion implements CommandExecutor {
 	private final NovaGuilds plugin;
 	

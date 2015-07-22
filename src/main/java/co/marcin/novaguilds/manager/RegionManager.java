@@ -357,7 +357,7 @@ public class RegionManager {
 		return region == null || nPlayer.hasGuild() && (nPlayer.getBypass() || region.getGuild().isMember(nPlayer));
 	}
 
-	public boolean isFarEnough(Location l1, Location l2) {
+	private boolean isFarEnough(Location l1, Location l2) {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;
 		int diagonal = Math.round((int)Math.sqrt((int)(Math.pow(width,2) + Math.pow(height,2))));
@@ -396,7 +396,7 @@ public class RegionManager {
 	}
 
 	//TODO fix
-	public static Location getCenterLocation(Location l1, Location l2) {
+	private static Location getCenterLocation(Location l1, Location l2) {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX());
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ());
 
@@ -501,7 +501,7 @@ public class RegionManager {
 		}
 	}
 
-	public NovaRegion regionFromFlat(FileConfiguration regionData) {
+	private NovaRegion regionFromFlat(FileConfiguration regionData) {
 		NovaRegion region = null;
 
 		if(regionData != null) {

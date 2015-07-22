@@ -333,7 +333,7 @@ public class FlatDataManager {
 		return getFilesWithoutExtension(regionsDir);
 	}
 
-	public List<String> getFilesWithoutExtension(File directory) {
+	private List<String> getFilesWithoutExtension(File directory) {
 		List<String> list = new ArrayList<>();
 		File[] filesList = directory.listFiles();
 

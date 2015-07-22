@@ -14,7 +14,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ConfigManager {
 	private final NovaGuilds plugin;

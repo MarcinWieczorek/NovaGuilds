@@ -3,9 +3,7 @@ package code.husky;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Abstract Database class, serves as a base for any connection method (MySQL,

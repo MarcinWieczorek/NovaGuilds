@@ -38,10 +38,6 @@ public class LoggerUtils {
 		return s.contains("Manager]") ? "" : " ";
 	}
 
-//	public static void exception(Exception e) {
-//		exception(e.getCause());
-//	}
-
 	public static void exception(Exception e) {
 		Throwable cause = e.getCause();
 		error("");
@@ -82,9 +78,5 @@ public class LoggerUtils {
 
 		//notify all permitted players
 		Message.CHAT_ERROROCCURED.broadcast("novaguilds.error");
-	}
-
-	public static Logger getLogger() {
-		return logger;
 	}
 }

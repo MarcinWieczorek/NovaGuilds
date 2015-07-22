@@ -5,8 +5,6 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 
-import java.util.concurrent.TimeUnit;
-
 public class RunnableInactiveCleaner implements Runnable {
 	private final NovaGuilds plugin;
 

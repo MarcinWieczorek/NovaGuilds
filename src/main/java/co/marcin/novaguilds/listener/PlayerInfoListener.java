@@ -2,14 +2,11 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Message;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-
-import java.util.HashMap;
 
 public class PlayerInfoListener implements Listener {
 	private final NovaGuilds plugin;

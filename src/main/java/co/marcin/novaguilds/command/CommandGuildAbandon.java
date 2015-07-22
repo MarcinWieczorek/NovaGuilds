@@ -6,7 +6,6 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

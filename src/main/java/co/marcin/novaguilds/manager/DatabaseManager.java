@@ -202,7 +202,7 @@ public class DatabaseManager {
 		}
 	}
 
-	public boolean checkTables() {
+	private boolean checkTables() {
 		try {
 			DatabaseMetaData md = getConnection().getMetaData();
 			ResultSet rs = md.getTables(null, null, plugin.getConfigManager().getDatabasePrefix() + "%", null);
@@ -215,7 +215,7 @@ public class DatabaseManager {
 		return false;
 	}
 
-	public void setupTables() {
+	private void setupTables() {
 		if(!plugin.getDatabaseManager().isConnected()) {
 			LoggerUtils.error("Connection is not estabilished, stopping current action");
 			return;

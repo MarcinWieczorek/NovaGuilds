@@ -5,7 +5,6 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.NumberUtils;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

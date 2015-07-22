@@ -98,7 +98,7 @@ public class MessageManager {
 		sender.sendMessage(StringUtils.fixColors(msg));
 	}
 
-	public void sendMessage(Player player, String msg) {
+	private void sendMessage(Player player, String msg) {
 		player.sendMessage(StringUtils.fixColors(msg));
 	}
 

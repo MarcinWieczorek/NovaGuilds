@@ -279,15 +279,15 @@ public class NovaGuilds extends JavaPlugin {
 	}
 
 	//HolographicDisplays
-	public boolean checkHolographicDisplays() {
+	private boolean checkHolographicDisplays() {
 		return getServer().getPluginManager().getPlugin("HolographicDisplays") != null;
 	}
 	
-	public void runSaveScheduler() {
+	private void runSaveScheduler() {
 		worker.scheduleAtFixedRate(new RunnableAutoSave(this), Config.SAVEINTERVAL.getSeconds(), Config.SAVEINTERVAL.getSeconds(), TimeUnit.SECONDS);
 	}
 
-	public void runLiveRegenerationTask() {
+	private void runLiveRegenerationTask() {
 		Runnable task = new RunnableLiveRegeneration(this);
 		worker.scheduleAtFixedRate(task, Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), TimeUnit.SECONDS);
 	}
@@ -384,7 +384,7 @@ public class NovaGuilds extends JavaPlugin {
 		}
 	}
 
-	public void checkVersion() {
+	private void checkVersion() {
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
@@ -426,7 +426,7 @@ public class NovaGuilds extends JavaPlugin {
 		thread.start();
 	}
 
-	public boolean checkDependencies() {
+	private boolean checkDependencies() {
 		//HolographicDisplays
 		if(getConfigManager().useHolographicDisplays()) {
 			if(!checkHolographicDisplays()) {

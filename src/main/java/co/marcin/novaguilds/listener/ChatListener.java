@@ -34,7 +34,7 @@ public class ChatListener implements Listener {
 			NovaGuild guild = nPlayer.getGuild();
 			
 			if(guild.getLeader().getName().equalsIgnoreCase(player.getName())) {
-				rank = StringUtils.fixColors(plugin.getMessageManager().getMessagesString("chat.guildinfo.leaderprefix"));
+				rank = StringUtils.fixColors(plugin.getMessageManager().getMessagesString("chat.Kguildinfo.leaderprefix"));
 			}
 			
 			tag = StringUtils.fixColors(StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag()));

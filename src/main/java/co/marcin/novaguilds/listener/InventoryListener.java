@@ -1,18 +1,12 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InventoryListener implements Listener {
 	private final NovaGuilds plugin;

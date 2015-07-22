@@ -15,7 +15,6 @@ import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -124,19 +123,19 @@ public class GuildManager {
 				ResultSet res = statement.executeQuery();
 				//ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`");
 				while(res.next()) {
-					String spawnpoint_coord = res.getString("spawn");
+					String spawnpointCoords = res.getString("spawn");
 
 					Location spawnpoint = null;
-					if(!spawnpoint_coord.isEmpty()) {
-						String[] spawnpoint_split = spawnpoint_coord.split(";");
-						if(spawnpoint_split.length == 5) { //LENGTH
-							String worldname = spawnpoint_split[0];
+					if(!spawnpointCoords.isEmpty()) {
+						String[] spawnpointSplit = spawnpointCoords.split(";");
+						if(spawnpointSplit.length == 5) { //LENGTH
+							String worldname = spawnpointSplit[0];
 
 							if(plugin.getServer().getWorld(worldname) != null) {
-								int x = Integer.parseInt(spawnpoint_split[1]);
-								int y = Integer.parseInt(spawnpoint_split[2]);
-								int z = Integer.parseInt(spawnpoint_split[3]);
-								float yaw = Float.parseFloat(spawnpoint_split[4]);
+								int x = Integer.parseInt(spawnpointSplit[1]);
+								int y = Integer.parseInt(spawnpointSplit[2]);
+								int z = Integer.parseInt(spawnpointSplit[3]);
+								float yaw = Float.parseFloat(spawnpointSplit[4]);
 								spawnpoint = new Location(plugin.getServer().getWorld(worldname), x, y, z);
 								spawnpoint.setYaw(yaw);
 							}
@@ -207,12 +206,6 @@ public class GuildManager {
 						novaGuild.setTimeCreated(res.getLong("created"));
 						novaGuild.setUnchanged();
 
-						//Done in NovaGuild.java (setRegion())
-//						if(novaGuild.hasRegion()) {
-//							novaGuild.getRegion().setGuild(novaGuild);
-//						}
-
-						//LoggerUtils.debug("id = " + novaGuild.getId());
 						if(novaGuild.getId() > 0) {
 							guilds.put(res.getString("name").toLowerCase(), novaGuild);
 						}
@@ -555,7 +548,6 @@ public class GuildManager {
 		}
 	}
 
-	//Pozdro dla Artura
 	public List<NovaGuild> getTopGuildsByPoints(int count) {
 		List<NovaGuild> guildsByPoints = new ArrayList<>(guilds.values());
 
@@ -592,7 +584,7 @@ public class GuildManager {
 		return guildsByInactive;
 	}
 
-	public NovaGuild guildFromFlat(FileConfiguration guildData) {
+	private NovaGuild guildFromFlat(FileConfiguration guildData) {
 		NovaGuild guild = null;
 
 		if(guildData != null) {
@@ -633,7 +625,7 @@ public class GuildManager {
 		return guild;
 	}
 
-	public void loadBankHolograms() {
+	private void loadBankHolograms() {
 		for(NovaGuild guild : getGuilds()) {
 			if(guild.getBankLocation() != null) {
 				appendVaultHologram(guild);
@@ -643,7 +635,6 @@ public class GuildManager {
 
 	public boolean isBankItemStack(ItemStack itemStack) {
 		return itemStack.equals(plugin.getConfigManager().getGuildBankItem());
-		//return itemStack.hasItemMeta() && itemStack.getItemMeta().getDisplayName().contains("Guild's Bank") && itemStack.getType()==Material.CHEST;
 	}
 
 	public void appendVaultHologram(NovaGuild guild) {
@@ -709,7 +700,7 @@ public class GuildManager {
 	}
 
 	public void delayedTeleport(Player player, Location location, Message message) {
-		Runnable task = new RunnableTeleportRequest(plugin,player,location, message);
+		Runnable task = new RunnableTeleportRequest(player,location, message);
 		plugin.worker.schedule(task,plugin.getGroupManager().getGroup(player).getGuildTeleportDelay(), TimeUnit.SECONDS);
 
 		if(plugin.getGroupManager().getGroup(player).getGuildTeleportDelay() > 0) {

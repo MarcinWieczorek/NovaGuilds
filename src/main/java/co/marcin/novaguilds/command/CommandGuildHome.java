@@ -6,7 +6,6 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
