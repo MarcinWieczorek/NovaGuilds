@@ -290,6 +290,7 @@ chat:
    interact: "Nie mozesz tutaj ingerowac"
    ridemob: "Nie mozesz jezdzic na tym zwierzeciu"
    attackmob: "Nie mozesz atakowac tego zwierzecia"
+   unleash: "You cannot unleash this mob"
   noregionhere: "Nie ma tutaj zadnej gildii"
   regionhere: "Tutaj jest teren innej gildii!"
   validation:
