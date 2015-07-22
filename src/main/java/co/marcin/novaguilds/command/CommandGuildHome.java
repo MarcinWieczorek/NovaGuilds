@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -113,8 +114,7 @@ private final NovaGuilds plugin;
 			//plugin.econ.withdrawPlayer((Player) sender, homeMoney); //1.8
 			plugin.econ.withdrawPlayer(sender.getName(), homeMoney); //1.7
 			ItemStackUtils.takeItems(player, homeItems);
-			Message.CHAT_GUILD_HOME.send(sender);
-			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_DELAYEDTELEPORT);
+			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_GUILD_HOME);
 		}
 		return true;
 	}
