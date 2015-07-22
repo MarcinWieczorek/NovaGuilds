@@ -22,9 +22,7 @@ public class NumberUtils {
 	}
 
 	public static double roundOffTo2DecPlaces(double val) {
-		return Double.parseDouble(String.format("%.2f", val));
-		//TODO fix
-		//return val;
+		return Math.round(val*100)/100;
 	}
 
 	public static long systemSeconds() {
