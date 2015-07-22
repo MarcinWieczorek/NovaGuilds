@@ -4,10 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
-import co.marcin.novaguilds.enums.DataStorageType;
-import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.PreparedStatements;
-import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.enums.*;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -15,6 +12,7 @@ import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -360,7 +358,10 @@ public class RegionManager {
 	}
 
 	public boolean isFarEnough(Location l1, Location l2) {
-		int diagonal = 0;
+		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
+		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;
+		int diagonal = Math.round((int)Math.sqrt((int)(Math.pow(width,2) + Math.pow(height,2))));
+		LoggerUtils.debug(String.valueOf(width + " " + height + " " + diagonal));
 
 		int min = diagonal + plugin.getConfig().getInt("region.mindistance");
 		LoggerUtils.debug("min="+min);
@@ -373,12 +374,17 @@ public class RegionManager {
 
 			if(guildLoop.hasRegion()) {
 				diagonal2 = guildLoop.getRegion().getDiagonal();
-				//spawnpointLocation = getCenterLocation(guildLoop.getRegion());
+				LoggerUtils.debug(String.valueOf(guildLoop.getRegion().getWidth()+" "+guildLoop.getRegion().getHeight()+" "+diagonal2));
 			}
 
 			centerLocation.setY(guildLoop.getSpawnPoint().getY());
-			//RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"),centerLocation,Material.WOOL);
-			//RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"),spawnpointLocation,Material.GLOWSTONE);
+
+			RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"), centerLocation, Material.WOOL);
+			RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"), guildLoop.getSpawnPoint(), Material.GLOWSTONE);
+
+			RegionUtils.setCorner(plugin.getServer().getPlayer("Kennar"), centerLocation, Material.WOOL);
+			RegionUtils.setCorner(plugin.getServer().getPlayer("Kennar"), guildLoop.getSpawnPoint(), Material.GLOWSTONE);
+
 			double distance = centerLocation.distance(guildLoop.getSpawnPoint());
 			LoggerUtils.debug("distance="+distance);
 			if(distance < min+diagonal2) {
@@ -394,7 +400,8 @@ public class RegionManager {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX());
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ());
 
-		int newx = l1.getBlockX()<0 ? l1.getBlockX()+width/2 : l1.getBlockX()-width/2;
+		//int newx = l1.getBlockX()<0 ? l1.getBlockX()+width/2 : l1.getBlockX()-width/2;
+		int newx = l1.getBlockX()+width/2;
 		int newz = l1.getBlockZ()>0 ? l1.getBlockZ()+height/2 : l1.getBlockZ()-height/2;
 
 		return new Location(l1.getWorld(),newx,l1.getBlockY(),newz);
@@ -423,23 +430,28 @@ public class RegionManager {
 		nPlayer.setAtRegion(region);
 
 		//TODO add config
-		if(nPlayer.hasGuild()) {
-			if(!nPlayer.getGuild().getName().equalsIgnoreCase(region.getGuildName())) {
+		if(!region.getGuild().isMember(nPlayer)) {
+			if(nPlayer.hasGuild()) {
 				NovaGuild guildDefender = region.getGuild();
 
 				//RAIDS
-				if(plugin.getConfigManager().isRaidEnabled()) {
+				if(Config.RAID_ENABLED.getBoolean()) {
+					//raid
 					if(nPlayer.getGuild().isWarWith(guildDefender)) {
 						if(!guildDefender.isRaid()) {
 							if(NumberUtils.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
-								guildDefender.createRaid(nPlayer.getGuild());
-								plugin.guildRaids.add(guildDefender);
+								if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt()) {
+									if(NumberUtils.systemSeconds()-guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
+										guildDefender.createRaid(nPlayer.getGuild());
+										plugin.guildRaids.add(guildDefender);
+									}
+								}
 							}
 							else {
 								long timeWait = plugin.getConfigManager().getRaidTimeRest() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 								vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
 
-								plugin.getMessageManager().sendMessagesMsg(player, "chat.raid.resting", vars);
+								Message.CHAT_RAID_RESTING.vars(vars).send(player);
 							}
 						}
 
@@ -451,8 +463,9 @@ public class RegionManager {
 					}
 				}
 
-				plugin.getMessageManager().broadcastGuild(region.getGuild(), "chat.region.notifyguild.entered", vars,true);
 			}
+
+			plugin.getMessageManager().broadcastGuild(region.getGuild(), "chat.region.notifyguild.entered", vars,true);
 		}
 	}
 
