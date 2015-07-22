@@ -2,6 +2,8 @@ package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.listener.*;
@@ -21,6 +23,7 @@ import org.mcstats.Metrics;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -281,12 +284,12 @@ public class NovaGuilds extends JavaPlugin {
 	}
 	
 	public void runSaveScheduler() {
-		worker.scheduleAtFixedRate(new RunnableAutoSave(this), getConfigManager().getSaveInterval(), getConfigManager().getSaveInterval(), TimeUnit.SECONDS);
+		worker.scheduleAtFixedRate(new RunnableAutoSave(this), Config.SAVEINTERVAL.getSeconds(), Config.SAVEINTERVAL.getSeconds(), TimeUnit.SECONDS);
 	}
 
 	public void runLiveRegenerationTask() {
 		Runnable task = new RunnableLiveRegeneration(this);
-		worker.scheduleAtFixedRate(task, getConfigManager().getGuildLiveRegenerationTaskInterval(), getConfigManager().getGuildLiveRegenerationTaskInterval(), TimeUnit.SECONDS);
+		worker.scheduleAtFixedRate(task, Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), TimeUnit.SECONDS);
 	}
 
 	private void setupMetrics() {
@@ -327,6 +330,46 @@ public class NovaGuilds extends JavaPlugin {
 			else {
 				//TODO
 				getMessageManager().sendPrefixMessage(player,msg);
+			}
+		}
+	}
+
+	public void showRaidBar(NovaRaid raid) {
+		if(raid.getFinished()) {
+			resetWarBar(raid.getGuildAttacker());
+			resetWarBar(raid.getGuildDefender());
+		}
+		else {
+			HashMap<String,String> vars = new HashMap<>();
+			vars.put("DEFENDER", raid.getGuildDefender().getName());
+			List<Player> players = raid.getGuildAttacker().getOnlinePlayers();
+			players.addAll(raid.getGuildDefender().getOnlinePlayers());
+
+			for(Player player : players) {
+				if(Config.BARAPI_ENABLED.getBoolean()) {
+					BarAPI.setMessage(player, Message.BARAPI_WARPROGRESS.vars(vars).get(), raid.getProgress());
+				}
+				else {
+					//TODO
+					if(raid.getProgress() == 0 || raid.getProgress()%10 == 0 || raid.getProgress() >= 90) {
+						String lines;
+						if(raid.getProgress() == 0) {
+							lines = "&f";
+						}
+						else {
+							lines = "&4";
+						}
+
+						for(int i=1; i<=100; i++) {
+							lines += "|";
+							if(i == raid.getProgress()) {
+								lines += "&f";
+							}
+						}
+
+						getMessageManager().sendPrefixMessage(player, lines);
+					}
+				}
 			}
 		}
 	}
