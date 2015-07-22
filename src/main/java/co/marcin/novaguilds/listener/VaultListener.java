@@ -3,6 +3,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -26,6 +27,7 @@ import java.util.List;
 public class VaultListener implements Listener {
 	private final NovaGuilds plugin;
 	private final List<InventoryAction> dissalowedActions = new ArrayList<>();
+	private BlockFace[] doubleChestFaces;
 
 	public VaultListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
@@ -43,6 +45,15 @@ public class VaultListener implements Listener {
 		dissalowedActions.add(InventoryAction.PICKUP_SOME);
 		dissalowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
 		dissalowedActions.add(InventoryAction.UNKNOWN);
+
+		//double chest faces
+		doubleChestFaces = new BlockFace[] {
+				BlockFace.EAST,
+				BlockFace.NORTH,
+				BlockFace.SOUTH,
+				BlockFace.WEST
+		};
+
 	}
 
 	@EventHandler
@@ -110,25 +121,13 @@ public class VaultListener implements Listener {
 
 		if(plugin.getRegionManager().canBuild(player,event.getBlock().getLocation())) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-
-			if(nPlayer.hasGuild()) {
-				if(event.getItemInHand().getType() == plugin.getConfigManager().getGuildBankItem().getType()) {
-					if(nPlayer.getGuild().getBankLocation() != null) {
-						BlockFace[] doubleChestFaces = {
-								BlockFace.EAST,
-								BlockFace.NORTH,
-								BlockFace.SOUTH,
-								BlockFace.WEST
-						};
-
-						for(BlockFace face : doubleChestFaces) {
-							if(event.getBlock().getRelative(face) != null) {
-								if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {
-									event.setCancelled(true);
-									Message.CHAT_GUILD_VAULT_PLACE_DOUBLECHEST.send(player);
-									return;
-								}
-							}
+			if(event.getPlayer().getItemInHand().getType() == Config.BANK_ITEM.getItemStack().getType()) {
+				for(BlockFace face : doubleChestFaces) {
+					if(event.getBlock().getRelative(face) != null) {
+						if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {
+							event.setCancelled(true);
+							Message.CHAT_GUILD_VAULT_PLACE_DOUBLECHEST.send(player);
+							return;
 						}
 					}
 				}
