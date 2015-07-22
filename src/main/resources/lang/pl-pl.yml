@@ -27,10 +27,10 @@ chat:
    inactive:
     updated: "Wszystkie gildie uaktualnione. (&c{COUNT} &3gildii)"
     list:
-     header: "Most inactive guilds"
-     item: " &2- &a{GUILDNAME} &3active {AGONOW}"
-     ago: "&c{INACTIVE}&3ago"
-     now: "&cnow"
+     header: "Najmniej aktywne gildie:"
+     item: " &2- &a{GUILDNAME} &3aktywna {AGONOW}"
+     ago: "&c{INACTIVE}&3 temu"
+     now: "&cteraz"
    bank:
     paid: "Wplaciles &c${MONEY} &3do banku gildii &a{GUILDNAME}&3"
     withdrew: "Zabrales &c${MONEY} &3z banku &a{GUILDNAME}"
@@ -167,21 +167,21 @@ chat:
 
  raid:
   resting: "Musisz poczekac &c{TIMEREST} &3Przed atakowaniem tej gildii."
-  protection: "This guild is new and still protected. Try tomorrow."
+  protection: "Ta gildia jest nowa i obejmuje ja ochrona. Sprobuj jutro."
 
  guild:
   vault:
-   outsideregion: "You cannot place the vault outside guild's region"
-   drop: "You cannot drop guild's vault item"
+   outsideregion: "Nie mozesz postawic skarbca poza regionem gildii"
+   drop: "Nie mozesz upuscic przedmiotu skarbca"
    place:
-    success: "Guild's vault placed."
-    notleader: "Only leader can place the vault."
-    exists: "The vault already exists!"
-    doublechest: "Vault can be only a single chest"
+    success: "Utworzono skarbiec."
+    notleader: "Tylko lider moze polozyc skarbiec."
+    exists: "Skarbiec juz istenieje!"
+    doublechest: "Skarbiec moze byc tylko pojedyncza skrzynka"
    break:
-    notempty: "The vault is not empty!"
-    success: "Vault destroyed."
-    notleader: "Only leader can destroy the vault!"
+    notempty: "Skarbiec nie jest pusty!"
+    success: "Skarbiec zniszczony."
+    notleader: "Tylko lider moze zniszczyc skarbiec!"
 
   compasstarget:
    'on': "Kompas wskazuje teraz dom Twojej gildii."
@@ -218,7 +218,6 @@ chat:
    overlaps: "Nie mozesz ustawic domu na terenie innej gildii"
   home: "Teleportowano do domu gildii"
   hasregionalready: "Twoja gildia ma juz region. Usun lub edytuj istniejacy."
-  guildatlocsp: REMOVE
   joined: "Dolaczyles do gildii!"
   explosionatregion: "Na terenie Twojej gildii nastapil wybuch!"
   kickyourself: "Nie mozesz wyrzucic siebie z gildii!"
@@ -287,10 +286,10 @@ chat:
 
  region:
   deny:
-   interact: "Nie mozesz tutaj ingerowac"
-   ridemob: "Nie mozesz jezdzic na tym zwierzeciu"
-   attackmob: "Nie mozesz atakowac tego zwierzecia"
-   unleash: "You cannot unleash this mob"
+   interact: "Nie mozesz tutaj ingerowac."
+   ridemob: "Nie mozesz jezdzic na tym zwierzeciu."
+   attackmob: "Nie mozesz atakowac tego zwierzecia."
+   unleash: "Nie mozesz zdjac smyczy tego zwierzecia."
   noregionhere: "Nie ma tutaj zadnej gildii"
   regionhere: "Tutaj jest teren innej gildii!"
   validation:

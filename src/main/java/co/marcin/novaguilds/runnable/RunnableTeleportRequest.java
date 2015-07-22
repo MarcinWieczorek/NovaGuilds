@@ -29,7 +29,6 @@ public class RunnableTeleportRequest implements Runnable {
 		}
 		else {
 			Message.CHAT_DELAYEDTPMOVED.send(player);
-			plugin.getMessageManager().sendMessagesMsg(player,"chat.delayedtpmoved");
 		}
 	}
 }

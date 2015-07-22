@@ -7,7 +7,7 @@ chat:
  enterinteger: "Please enter a number."
  delayedteleport: "You will be teleported in &c{DELAY} &3seconds"
  delayedtpmoved: "You moved! Teleportation canceled!"
- erroroccured: "An error occured. Contact server administrator"
+ erroroccured: "&cAn error occured. Contact server administrator."
  update: "&4There is an update available! &6https://www.spigotmc.org/resources/novaguilds.8135/"
  basic:
   negativenumber: "Please give a number greater or equal to zero."
@@ -209,7 +209,7 @@ chat:
   entertag: "Please give new tag"
   namenotexist: "Could not find a guild with this name"
   notinguild: "You don't have a guild"
-  abandoned: "guild abandoned successfully"
+  abandoned: "Guild abandoned successfully"
   notleader: "You are not the leader"
   notenoughmoney: "There is not enough money in guild's bank."
   sethome:
@@ -218,7 +218,6 @@ chat:
    overlaps: "You cannot set the spawnpoint at someone's guild location!"
   home: "Teleported to guild's home"
   hasregionalready: "Your guild already has a region. Resize or delete current one."
-  guildatlocsp: REMOVE!
   joined: "You have joined the guild!"
   explosionatregion: "There was an explosion at your guild's region!"
   kickyourself: "You cannot kick yourself from the guild!"
