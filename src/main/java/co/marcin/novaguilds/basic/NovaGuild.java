@@ -27,6 +27,7 @@ public class NovaGuild {
 	private long timeRest;
 	private long lostLiveTime;
 	private long inactiveTime;
+	private long timeCreated;
 	private int lives;
 	private boolean changed = false;
 	private boolean friendlyPvp = false;
@@ -168,6 +169,10 @@ public class NovaGuild {
 
 	public List<NovaPlayer> getInvitedPlayers() {
 		return invitedPlayers;
+	}
+
+	public long getTimeCreated() {
+		return timeCreated;
 	}
 
 	//setters
@@ -322,6 +327,10 @@ public class NovaGuild {
 
 	public void isNotRaid() {
 		raid = null;
+	}
+
+	public void setTimeCreated(long timeCreated) {
+		this.timeCreated = timeCreated;
 	}
 
 	//check

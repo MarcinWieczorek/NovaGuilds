@@ -11,6 +11,7 @@ import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -179,6 +180,7 @@ public class CommandGuildCreate implements CommandExecutor {
 				newGuild.setLives(plugin.getConfig().getInt("guild.startlives"));
 				newGuild.setPoints(plugin.getConfig().getInt("guild.startpoints"));
 				newGuild.setMoney(plugin.getConfig().getDouble("guild.startmoney"));
+				newGuild.setTimeCreated(NumberUtils.systemSeconds());
 
 				//fire event
 				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(newGuild,(Player)sender);

@@ -15,6 +15,7 @@ import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -203,6 +204,7 @@ public class GuildManager {
 						novaGuild.setWarsNames(wars);
 						novaGuild.setNoWarInvitations(nowarinv);
 						novaGuild.setInactiveTime(res.getLong("activity"));
+						novaGuild.setTimeCreated(res.getLong("created"));
 						novaGuild.setUnchanged();
 
 						//Done in NovaGuild.java (setRegion())
@@ -264,7 +266,7 @@ public class GuildManager {
 				preparedStatement.setDouble(5, guild.getMoney()); //money
 				preparedStatement.setInt(6, guild.getPoints()); //points
 				preparedStatement.setInt(7, guild.getLives()); //lives
-				preparedStatement.setLong(8, NumberUtils.systemSeconds()); //lives
+				preparedStatement.setLong(8, guild.getTimeCreated()); //created
 
 				preparedStatement.execute();
 				ResultSet keys = preparedStatement.getGeneratedKeys();
@@ -420,60 +422,6 @@ public class GuildManager {
 				LoggerUtils.exception(e);
 			}
 		}
-
-//		//remove players
-//		for(NovaPlayer nP : guild.getPlayers()) {
-//			nP.setGuild(null);
-//			LoggerUtils.debug(nP.getName());
-//
-//			//update tags
-//			if(nP.isOnline()) {
-//				plugin.tagUtils.updatePrefix(nP.getPlayer());
-//			}
-//		}
-//
-//		//remove guild invitations
-//		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
-//			if(nPlayer.isInvitedTo(guild)) {
-//				nPlayer.deleteInvitation(guild);
-//			}
-//		}
-//
-//		//remove allies and wars
-//		for(NovaGuild nGuild : guilds.values()) {
-//			//ally
-//			if(nGuild.isAlly(guild)) {
-//				nGuild.removeAlly(guild);
-//			}
-//
-//			//ally invitation
-//			if(nGuild.isInvitedToAlly(guild)) {
-//				nGuild.removeAllyInvitation(guild);
-//			}
-//
-//			//war
-//			if(nGuild.isWarWith(guild)) {
-//				nGuild.removeWar(guild);
-//			}
-//
-//			//no war invitation
-//			if(nGuild.isNoWarInvited(guild)) {
-//				nGuild.removeNoWarInvitation(guild);
-//			}
-//		}
-//
-//		//remove raid
-//		//TODO
-//
-//		//remove region
-//		if(guild.hasRegion()) {
-//			plugin.getRegionManager().removeRegion(guild.getRegion());
-//		}
-//
-//		//bank and hologram
-//		if(guild.getBankHologram() != null) {
-//			guild.getBankHologram().delete();
-//		}
 
 		//remove region
 		if(guild.hasRegion()) {
@@ -665,6 +613,7 @@ public class GuildManager {
 			guild.setInactiveTime(guildData.getLong("activity"));
 			guild.setTimeRest(guildData.getLong("timerest"));
 			guild.setLostLiveTime(guildData.getLong("lostlive"));
+			guild.setTimeCreated(guildData.getLong("created"));
 
 			//home
 			Location spawnpoint = null;
