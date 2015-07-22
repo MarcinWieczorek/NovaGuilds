@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.Bukkit;
 
 import java.util.logging.Logger;
@@ -78,6 +79,9 @@ public class LoggerUtils {
 		error("");
 		error("End of Error.");
 		error("");
+
+		//notify all permitted players
+		Message.CHAT_ERROROCCURED.broadcast("novaguilds.error");
 	}
 
 	public static Logger getLogger() {
