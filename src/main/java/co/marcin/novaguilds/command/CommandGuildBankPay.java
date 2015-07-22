@@ -62,7 +62,6 @@ public class CommandGuildBankPay implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
 		Message.CHAT_ADMIN_GUILD_BANK_PAID.vars(vars).send(sender);
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.guild.bank.pay.paid",vars);
 
 		return true;
 	}
