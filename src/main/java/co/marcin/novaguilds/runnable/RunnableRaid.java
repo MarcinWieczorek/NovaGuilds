@@ -22,9 +22,9 @@ public class RunnableRaid implements Runnable {
 	public void run() {
 		for(NovaGuild guild : plugin.guildRaids) {
 			NovaRaid raid = guild.getRaid();
-			plugin.setWarBar(guild, raid.getProgress(), raid.getGuildDefender());
+			plugin.showRaidBar(raid);
+
 			NovaPlayer nPlayer = raid.getPlayersOccupying().get(0);
-			plugin.setWarBar(nPlayer.getGuild(), raid.getProgress(), raid.getGuildDefender());
 			LoggerUtils.debug(guild.getName() + " scheduler working " + plugin.guildRaids.size());
 
 			//stepping progress
