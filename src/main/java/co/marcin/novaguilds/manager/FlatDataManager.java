@@ -147,10 +147,20 @@ public class FlatDataManager {
 				guildData.set("leader",guild.getLeader()==null ? "" : guild.getLeader().getName());
 				guildData.set("lives",guild.getLives());
 
-				guildData.set("allies",guild.getAlliesNames());
-				guildData.set("wars",guild.getWarsNames());
-				guildData.set("nowar",guild.getNoWarInvitations());
-				guildData.set("alliesinv",guild.getAllyInvitations());
+				List<String> alliesNames = new ArrayList<>();
+				for(NovaGuild ally : guild.getAllies()) {
+					alliesNames.add(ally.getName());
+				}
+
+				List<String> warsNames = new ArrayList<>();
+				for(NovaGuild war : guild.getWars()) {
+					warsNames.add(war.getName());
+				}
+
+				guildData.set("allies", alliesNames);
+				guildData.set("wars", warsNames);
+				guildData.set("nowar", guild.getNoWarInvitations());
+				guildData.set("alliesinv", guild.getAllyInvitations());
 
 				guildData.set("activity",guild.getInactiveTime());
 				guildData.set("timerest",guild.getTimeRest());
