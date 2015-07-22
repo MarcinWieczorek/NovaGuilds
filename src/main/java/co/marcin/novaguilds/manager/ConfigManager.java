@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -30,8 +31,6 @@ public class ConfigManager {
 	private boolean useTitles;
 
 	private String databasePrefix;
-
-	private int saveInterval;
 
 	private long cleanupInactiveTime;
 	private long cleanupInterval;
@@ -69,9 +68,7 @@ public class ConfigManager {
 		plugin.reloadConfig();
 		config = plugin.getConfig();
 
-		debug = config.getBoolean("debug");
-
-		saveInterval = StringUtils.StringToSeconds(config.getString("saveinterval"));
+		debug = Config.DEBUG.getBoolean();
 
 		raidEnabled = config.getBoolean("raid.enabled");
 		raidTimeRest = StringUtils.StringToSeconds(config.getString("raid.timerest"));
@@ -179,9 +176,9 @@ public class ConfigManager {
 			LoggerUtils.error("Cleanup interval can't be shorter than 60 seconds.");
 			cleanupEnabled = false;
 		}
-		if(saveInterval < 60) {
+		if(Config.SAVEINTERVAL.getSeconds() < 60) {
 			LoggerUtils.error("Save interval can't be shorter than 60 seconds.");
-			saveInterval = 60;
+			config.set("saveinterval",60);
 		}
 	}
 
@@ -196,10 +193,6 @@ public class ConfigManager {
 
 	public DataStorageType getDataStorageType() {
 		return dataStorageType;
-	}
-
-	public int getSaveInterval() {
-		return saveInterval;
 	}
 
 	public long getCleanupInactiveTime() {
