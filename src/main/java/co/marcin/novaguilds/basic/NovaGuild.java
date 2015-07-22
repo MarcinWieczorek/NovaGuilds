@@ -1,14 +1,12 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -39,12 +37,12 @@ public class NovaGuild {
 
 	private final List<NovaGuild> allies = new ArrayList<>();
 	private final List<String> alliesNames = new ArrayList<>();
-	private final List<String> allies_invited = new ArrayList<>();
+	private final List<String> alliesInvited = new ArrayList<>();
 
 	private final List<NovaGuild> war = new ArrayList<>();
 	private final List<String> warNames = new ArrayList<>();
 
-	private final List<String> nowar_inv = new ArrayList<>();
+	private final List<String> nowarInvited = new ArrayList<>();
 
 	private final List<String> invitedPlayersNames = new ArrayList<>();
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
@@ -67,7 +65,7 @@ public class NovaGuild {
 	}
 
 	public List<String> getAllyInvitations() {
-		return allies_invited;
+		return alliesInvited;
 	}
 
 	public List<String> getWarsNames() {
@@ -79,7 +77,7 @@ public class NovaGuild {
 	}
 
 	public List<String> getNoWarInvitations() {
-		return nowar_inv;
+		return nowarInvited;
 	}
 
 	public String getTag() {
@@ -168,10 +166,6 @@ public class NovaGuild {
 		return friendlyPvp;
 	}
 
-	public List<String> getInvitedPlayersNames() {
-		return invitedPlayersNames;
-	}
-
 	public List<NovaPlayer> getInvitedPlayers() {
 		return invitedPlayers;
 	}
@@ -237,42 +231,42 @@ public class NovaGuild {
 		changed();
 	}
 
-	public void setAllies(List<String> a) {
+	public void setAllies(List<NovaGuild> guilds) {
 		allies.clear();
-
-		for(String ally : a) {
-			alliesNames.add(ally.toLowerCase());
-		}
+		allies.addAll(guilds);
 
 		changed();
 	}
 
-	public void setAllyInvitations(List<String> ai) {
-		allies_invited.clear();
-
-		for(String allyinv : ai) {
-			allies_invited.add(allyinv.toLowerCase());
-		}
+	public void setAlliesNames(List<String> list) {
+		alliesNames.clear();
+		alliesNames.addAll(list);
 
 		changed();
 	}
 
-	public void setWarsNames(List<String> w) {
+	public void setAllyInvitations(List<String> list) {
+		alliesInvited.clear();
+		alliesInvited.addAll(list);
+
+		changed();
+	}
+
+	public void setWars(List<NovaGuild> list) {
+		war.clear();
+		war.addAll(list);
+	}
+
+	public void setWarsNames(List<String> list) {
 		warNames.clear();
-
-		for(String warr : w) {
-			warNames.add(warr.toLowerCase());
-		}
+		warNames.addAll(list);
 
 		changed();
 	}
 
-	public void setNoWarInvitations(List<String> nwi) {
-		nowar_inv.clear();
-
-		for(String nowar : nwi) {
-			nowar_inv.add(nowar.toLowerCase());
-		}
+	public void setNoWarInvitations(List<String> list) {
+		nowarInvited.clear();
+		nowarInvited.addAll(list);
 
 		changed();
 	}
@@ -332,7 +326,7 @@ public class NovaGuild {
 
 	//check
 	public boolean isInvitedToAlly(NovaGuild guild) {
-		return allies_invited.contains(guild.getName().toLowerCase());
+		return alliesInvited.contains(guild.getName().toLowerCase());
 	}
 
 	public boolean isWarWith(NovaGuild guild) {
@@ -340,7 +334,7 @@ public class NovaGuild {
 	}
 
 	public boolean isNoWarInvited(NovaGuild guild) {
-		return nowar_inv.contains(guild.getName().toLowerCase());
+		return nowarInvited.contains(guild.getName().toLowerCase());
 	}
 
 	public boolean isLeader(NovaPlayer nPlayer) {
@@ -375,7 +369,7 @@ public class NovaGuild {
 	}
 
 	public void addAllyInvitation(NovaGuild guild) {
-		allies_invited.add(guild.getName().toLowerCase());
+		alliesInvited.add(guild.getName().toLowerCase());
 		changed();
 	}
 
@@ -386,7 +380,7 @@ public class NovaGuild {
 	}
 
 	public void addNoWarInvitation(NovaGuild guild) {
-		nowar_inv.add(guild.getName().toLowerCase());
+		nowarInvited.add(guild.getName().toLowerCase());
 		changed();
 	}
 
@@ -442,8 +436,8 @@ public class NovaGuild {
 	}
 
 	public void removeNoWarInvitation(NovaGuild guild) {
-		if(nowar_inv.contains(guild.getName().toLowerCase())) {
-			nowar_inv.remove(guild.getName().toLowerCase());
+		if(nowarInvited.contains(guild.getName().toLowerCase())) {
+			nowarInvited.remove(guild.getName().toLowerCase());
 			changed();
 		}
 	}
@@ -469,8 +463,8 @@ public class NovaGuild {
 	}
 
 	public void removeAllyInvitation(NovaGuild guild) {
-		if(allies_invited.contains(guild.getName().toLowerCase())) {
-			allies_invited.remove(guild.getName().toLowerCase());
+		if(alliesInvited.contains(guild.getName().toLowerCase())) {
+			alliesInvited.remove(guild.getName().toLowerCase());
 			changed();
 		}
 	}
