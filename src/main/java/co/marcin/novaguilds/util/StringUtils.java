@@ -136,6 +136,9 @@ public final class StringUtils {
 			String[] split = str.split(";");
 			Collections.addAll(list, split);
 		}
+		else {
+			list.add(str);
+		}
 		
 		return list;
 	}
