@@ -91,12 +91,12 @@ public class VaultListener implements Listener {
 					if(nPlayer.getGuild().getBankHologram() != null) {
 						nPlayer.getGuild().getBankHologram().delete();
 						nPlayer.getGuild().setBankHologram(null);
+					}
 
-						if(player.getGameMode() != GameMode.CREATIVE) {
-							event.setCancelled(true);
-							event.getBlock().setType(Material.AIR);
-							event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), plugin.getConfigManager().getGuildBankItem());
-						}
+					if(player.getGameMode() != GameMode.CREATIVE) {
+						event.setCancelled(true);
+						event.getBlock().setType(Material.AIR);
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), plugin.getConfigManager().getGuildBankItem());
 					}
 
 					nPlayer.getGuild().setBankLocation(null);
