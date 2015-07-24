@@ -159,7 +159,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			String gmsg = guildInfoMessages.get(i);
 
 			//lost live
-			if(guild.getLostLiveTime() <= 0 && gmsg.contains("{LIVEREGENERATIONTIME}")) {
+			if(liveRegenerationTime <= 0 && gmsg.contains("{LIVEREGENERATIONTIME}")) {
 				skipmsg = true;
 			}
 
