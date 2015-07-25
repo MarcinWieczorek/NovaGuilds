@@ -59,11 +59,11 @@ public class RunnableRaid implements Runnable {
 				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.attackerwon", vars);
 				plugin.resetWarBar(guild);
 				plugin.resetWarBar(nPlayer.getGuild());
-				plugin.guildRaids.remove(guild);
 				guild.takeLive();
 				guild.updateTimeRest();
 				guild.updateLostLive();
 				guild.isNotRaid();
+				plugin.guildRaids.remove(guild);
 
 				if(guild.getLives() == 0) {
 					//fire event
