@@ -53,10 +53,6 @@ public class PlayerManager {
 		return players.values();
 	}
 	
-	public void addInvitation(NovaPlayer nPlayer, NovaGuild guild) {
-		nPlayer.addInvitation(guild);
-	}
-	
 	private void savePlayer(NovaPlayer nPlayer) {
 		if(nPlayer.isChanged()) { //only if there were changes
 			if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {

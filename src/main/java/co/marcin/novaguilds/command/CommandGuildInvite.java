@@ -59,7 +59,7 @@ public class CommandGuildInvite implements CommandExecutor {
 		vars.put("PLAYERNAME", invitePlayer.getName());
 
 		if(!invitePlayer.isInvitedTo(guild)) { //invite
-			plugin.getPlayerManager().addInvitation(invitePlayer, guild);
+			invitePlayer.addInvitation(guild);
 			Message.CHAT_PLAYER_INVITE_INVITED.vars(vars).send(sender);
 
 			if(invitePlayer.isOnline()) {

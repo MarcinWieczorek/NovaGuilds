@@ -50,7 +50,7 @@ public class CommandAdminGuildInvite implements CommandExecutor {
 		}
 		
 		//all passed
-		plugin.getPlayerManager().addInvitation(nPlayer, guild);
+		nPlayer.addInvitation(guild);
 		Message.CHAT_PLAYER_INVITE_INVITED.send(sender);
 		
 		if(nPlayer.getPlayer() != null) {
