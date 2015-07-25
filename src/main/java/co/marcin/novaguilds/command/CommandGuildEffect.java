@@ -39,7 +39,9 @@ public class CommandGuildEffect implements CommandExecutor {
 			return true;
 		}
 
-		if(nPlayer.getGuild().getMoney() < plugin.getGroupManager().getGroup(sender).getGuildEffectPrice()) {
+		double price = plugin.getGroupManager().getGroup(sender).getGuildEffectPrice();
+
+		if(nPlayer.getGuild().getMoney() < price) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
 			return true;
 		}
@@ -65,7 +67,7 @@ public class CommandGuildEffect implements CommandExecutor {
 		}
 
 		//remove money
-		nPlayer.getGuild().takeMoney(plugin.getGroupManager().getGroup(sender).getGuildEffectPrice());
+		nPlayer.getGuild().takeMoney(price);
 
 		//message
 		HashMap<String,String> vars = new HashMap<>();
