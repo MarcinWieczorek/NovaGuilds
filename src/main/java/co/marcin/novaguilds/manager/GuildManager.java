@@ -88,7 +88,10 @@ public class GuildManager {
 		List<NovaGuild> invitedToList = new ArrayList<>();
 
 		for(String guildName : namesList) {
-			invitedToList.add(getGuildByName(guildName));
+			NovaGuild guild = getGuildByName(guildName);
+			if(guild != null) {
+				invitedToList.add(guild);
+			}
 		}
 
 		return invitedToList;
@@ -421,9 +424,8 @@ public class GuildManager {
 			plugin.getRegionManager().removeRegion(guild.getRegion());
 		}
 
-		guild.destroy();
-
 		guilds.remove(guild.getName().toLowerCase());
+		guild.destroy();
 	}
 	
 	public void changeName(NovaGuild guild, String newname) {
