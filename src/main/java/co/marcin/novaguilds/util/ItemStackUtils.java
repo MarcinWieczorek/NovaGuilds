@@ -6,7 +6,9 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -99,7 +101,7 @@ public class ItemStackUtils {
 					if(detail.contains(":")) {
 						String[] detailSplit = detail.split(":");
 						String value = detailSplit[1];
-						Bukkit.getLogger().info(detailSplit[0] + " : " + value);
+						//Bukkit.getLogger().info(detailSplit[0] + " : " + value);
 						switch(detailSplit[0].toLowerCase()) {
 							case "name":
 								name = value;
@@ -228,7 +230,7 @@ public class ItemStackUtils {
 
 
 			itemStack = new ItemStack(material,amount,data);
-			System.out.println(itemStack==null);
+			//System.out.println(itemStack==null);
 			itemStack.addUnsafeEnchantments(enchantments);
 			ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -322,5 +324,20 @@ public class ItemStackUtils {
 			}
 		}
 		return true;
+	}
+
+	public static Inventory getClickedInventory(InventoryClickEvent event) {
+		int slot = event.getRawSlot();
+		InventoryView view = event.getView();
+
+		if(slot < 0) {
+			return null;
+		}
+		else if(view.getTopInventory() != null && slot < view.getTopInventory().getSize()) {
+			return view.getTopInventory();
+		}
+		else {
+			return view.getBottomInventory();
+		}
 	}
 }
