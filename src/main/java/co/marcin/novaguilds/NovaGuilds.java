@@ -319,21 +319,6 @@ public class NovaGuilds extends JavaPlugin {
 		}
 	}
 
-	public void setWarBar(NovaGuild guild, float percent, NovaGuild defender) {
-		String msg = getMessageManager().getMessagesString("barapi.warprogress");
-		msg = StringUtils.replace(msg, "{DEFENDER}", defender.getName());
-
-		for(Player player : guild.getOnlinePlayers()) {
-			if(getConfigManager().useBarAPI()) {
-				BarAPI.setMessage(player, StringUtils.fixColors(msg), percent);
-			}
-			else {
-				//TODO
-				getMessageManager().sendPrefixMessage(player,msg);
-			}
-		}
-	}
-
 	public void showRaidBar(NovaRaid raid) {
 		if(raid.getFinished()) {
 			resetWarBar(raid.getGuildAttacker());
@@ -376,10 +361,8 @@ public class NovaGuilds extends JavaPlugin {
 
 	public void resetWarBar(NovaGuild guild) {
 		if(getConfigManager().useBarAPI()) {
-			for(NovaPlayer nPlayer : guild.getPlayers()) {
-				if(nPlayer.isOnline()) {
-					BarAPI.removeBar(nPlayer.getPlayer());
-				}
+			for(Player player : guild.getOnlinePlayers()) {
+				BarAPI.removeBar(player);
 			}
 		}
 	}
