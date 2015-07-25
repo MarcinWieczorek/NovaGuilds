@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ConfigManager {
@@ -56,13 +57,18 @@ public class ConfigManager {
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 	private ItemStack toolItem;
 
+	private HashMap<Config, Object> cache = new HashMap<>();
+
 	public ConfigManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
+		NovaGuilds.getInst().setConfigManager(this);
 		reload();
 		LoggerUtils.info("Enabled");
 	}
 
 	public void reload() {
+		cache.clear();
+
 		plugin.saveDefaultConfig();
 		plugin.reloadConfig();
 		config = plugin.getConfig();
@@ -182,9 +188,6 @@ public class ConfigManager {
 	}
 
 	//getters
-	public ItemStack getItemStack(String path) {
-		return ItemStackUtils.stringToItemStack(config.getString(path));
-	}
 
 	public String getDatabasePrefix() {
 		return databasePrefix;
@@ -306,5 +309,49 @@ public class ConfigManager {
 
 	public ItemStack getToolItem() {
 		return toolItem;
+	}
+
+	public Object getEnumConfig(Config c) {
+		return cache.get(c);
+	}
+
+	public boolean isInCache(Config c) {
+		return cache.containsKey(c);
+	}
+
+	public void putInCache(Config c, Object o) {
+		if(!cache.containsKey(c)) {
+			cache.put(c, o);
+		}
+	}
+
+	//methods from enum
+
+	public String getString(String path) {
+		return config.getString(path) == null ? "" : config.getString(path);
+	}
+
+	public long getLong(String path) {
+		return config.getLong(path);
+	}
+
+	public int getInt(String path) {
+		return config.getInt(path);
+	}
+
+	public boolean getBoolean(String path) {
+		return config.getBoolean(path);
+	}
+
+	public int getSeconds(String path) {
+		return StringUtils.StringToSeconds(getString(path));
+	}
+
+	public ItemStack getItemStack(String path) {
+		return ItemStackUtils.stringToItemStack(getString(path));
+	}
+
+	public Material getMaterial(String path) {
+		return Material.getMaterial(this.getString(path).toUpperCase());
 	}
 }

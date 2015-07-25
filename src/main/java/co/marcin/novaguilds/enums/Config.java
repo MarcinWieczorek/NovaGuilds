@@ -1,10 +1,9 @@
 package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 public enum Config {
@@ -49,8 +48,7 @@ public enum Config {
 	GUILD_HOMEFLOOR_MATERIAL,
 	;
 
-
-	private final FileConfiguration config = NovaGuilds.getInst().getConfig();
+	private final ConfigManager cM = NovaGuilds.getInst().getConfigManager();
 	private final String path;
 
 	Config() {
@@ -58,30 +56,44 @@ public enum Config {
 	}
 
 	public String getString() {
-		return config.getString(path)==null ? "" : config.getString(path);
+		String r = cM.isInCache(this) ? (String) cM.getEnumConfig(this) : cM.getString(path);
+		cM.putInCache(this, r);
+		return r;
 	}
 
 	public long getLong() {
-		return config.getLong(path);
+		long r = cM.isInCache(this) ? (long) cM.getEnumConfig(this) : cM.getLong(path);
+		cM.putInCache(this, r);
+		return r;
 	}
 
 	public int getInt() {
-		return config.getInt(path);
+		int r = cM.isInCache(this) ? (int) cM.getEnumConfig(this) : cM.getInt(path);
+		cM.putInCache(this, r);
+		return r;
 	}
 
 	public boolean getBoolean() {
-		return config.getBoolean(path);
+		boolean r = cM.isInCache(this) ? (boolean) cM.getEnumConfig(this) : cM.getBoolean(path);
+		cM.putInCache(this, r);
+		return r;
 	}
 
 	public int getSeconds() {
-		return StringUtils.StringToSeconds(getString());
+		int r = cM.isInCache(this) ? (int) cM.getEnumConfig(this) : cM.getSeconds(path);
+		cM.putInCache(this, r);
+		return r;
 	}
 
 	public ItemStack getItemStack() {
-		return ItemStackUtils.stringToItemStack(getString());
+		ItemStack r = cM.isInCache(this) ? (ItemStack) cM.getEnumConfig(this) : cM.getItemStack(path);
+		cM.putInCache(this, r);
+		return r;
 	}
 
 	public Material getMaterial() {
-		return Material.getMaterial(this.getString().toUpperCase());
+		Material r = cM.isInCache(this) ? (Material) cM.getEnumConfig(this) : cM.getMaterial(path);
+		cM.putInCache(this, r);
+		return r;
 	}
 }

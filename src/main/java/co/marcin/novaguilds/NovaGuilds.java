@@ -472,4 +472,8 @@ public class NovaGuilds extends JavaPlugin {
 	public static String getLogPrefix() {
 		return logPrefix;
 	}
+
+	public void setConfigManager(ConfigManager configManager) {
+		this.configManager = configManager;
+	}
 }
