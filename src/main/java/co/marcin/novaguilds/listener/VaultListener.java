@@ -69,10 +69,12 @@ public class VaultListener implements Listener {
 		String nameBank = plugin.getConfigManager().getGuildBankItem().getItemMeta().getDisplayName();
 
 		if(event.getInventory().getName().equals(nameBank)) {
-			if(nPlayer.hasGuild()) {
-				if(!nPlayer.isLeader() && plugin.getConfigManager().getGuildBankOnlyLeaderTake()) {
-					if(dissalowedActions.contains(event.getAction())) {
-						event.setCancelled(true);
+			if(event.getView().getTopInventory().equals(ItemStackUtils.getClickedInventory(event))) {
+				if(nPlayer.hasGuild()) {
+					if(!nPlayer.isLeader() && plugin.getConfigManager().getGuildBankOnlyLeaderTake()) {
+						if(dissalowedActions.contains(event.getAction())) {
+							event.setCancelled(true);
+						}
 					}
 				}
 			}

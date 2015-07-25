@@ -1,11 +1,13 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class InventoryListener implements Listener {
@@ -22,10 +24,12 @@ public class InventoryListener implements Listener {
 		String nameGGUI = plugin.getMessageManager().getMessagesString("inventory.ggui.name");
 		Player player = (Player) event.getWhoClicked();
 
+		Inventory clickedInventory = ItemStackUtils.getClickedInventory(event);
+
 		//1.8
-		if(event.getClickedInventory() != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
+		if(clickedInventory != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
 			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
-				if(event.getClickedInventory().equals(event.getView().getTopInventory()) || event.isShiftClick()) {
+				if(clickedInventory.equals(event.getView().getTopInventory()) || event.isShiftClick()) {
 					//gui
 					if(event.getInventory().getTitle().equals(nameGGUI)) {
 						ItemStack clickedItem = event.getCurrentItem();
@@ -49,7 +53,7 @@ public class InventoryListener implements Listener {
 //					player.chat("/"+menuCommand);
 //					player.closeInventory();
 //				}
-
+//
 //				event.setCancelled(true);
 //
 //			}
