@@ -445,6 +445,9 @@ public class RegionManager {
 										guildDefender.createRaid(nPlayer.getGuild());
 										plugin.guildRaids.add(guildDefender);
 									}
+									else {
+										Message.CHAT_RAID_PROTECTION.send(player);
+									}
 								}
 							}
 							else {
@@ -456,6 +459,7 @@ public class RegionManager {
 						}
 
 						if(guildDefender.isRaid()) {
+							nPlayer.setPartRaid(guildDefender.getRaid());
 							guildDefender.getRaid().addPlayerOccupying(nPlayer);
 							Runnable task = new RunnableRaid(plugin);
 							plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
