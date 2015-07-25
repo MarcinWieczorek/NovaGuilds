@@ -71,7 +71,7 @@ public class MessageManager {
 
 	//set string from file
 	public String getMessagesString(String path) {
-		String msg = getMessages().getString(path);
+		String msg = StringUtils.fixColors(getMessages().getString(path));
 
 		if(msg == null) {
 			return path;
@@ -98,29 +98,6 @@ public class MessageManager {
 		sender.sendMessage(StringUtils.fixColors(msg));
 	}
 
-	private void sendMessage(Player player, String msg) {
-		player.sendMessage(StringUtils.fixColors(msg));
-	}
-
-	public void sendMessagesList(Player player, String path, HashMap<String,String> vars, boolean prefix) {
-		List<String> list = messages.getStringList(path);
-
-		if(list != null) {
-			for(String msg : list) {
-				if(vars != null) {
-					msg = StringUtils.replaceMap(msg, vars);
-				}
-
-				if(prefix) {
-					sendPrefixMessage(player, msg);
-				}
-				else {
-					sendMessage(player, msg);
-				}
-			}
-		}
-	}
-
 	public void sendMessagesList(CommandSender sender, String path, HashMap<String,String> vars, boolean prefix) {
 		List<String> list = messages.getStringList(path);
 
@@ -138,28 +115,6 @@ public class MessageManager {
 				}
 			}
 		}
-	}
-
-	//TODO finish
-	public void sendMessagesList(Player player, String path, HashMap<String,String> vars) {
-		sendMessagesList(player, path, vars, true);
-	}
-
-	//TODO finish
-	public void sendMessagesList(Player player, String path) {
-		sendMessagesList(player, path, null, true);
-	}
-
-	//send message from file with prefix to a player
-	public void sendMessagesMsg(Player p, String path) {
-		sendPrefixMessage(p, getMessagesString(path));
-	}
-
-	//send message from file with prefix and vars to a player
-	public void sendMessagesMsg(Player p, String path, HashMap<String,String> vars) {
-		String msg = getMessagesString(path);
-		msg = StringUtils.replaceMap(msg, vars);
-		p.sendMessage(StringUtils.fixColors(prefix + msg));
 	}
 
 	public void sendMessagesMsg(CommandSender sender, String path) {
@@ -232,16 +187,8 @@ public class MessageManager {
 		}
 	}
 
-	public void broadcastGuild(NovaGuild guild, String path, boolean prefix) {
-		broadcastGuild(guild,path,new HashMap<String,String>(),prefix);
-	}
-
-	public void broadcastGuild(NovaGuild guild, Message message,HashMap<String,String> vars, boolean prefix) {
-		broadcastGuild(guild, message.getPath(), vars, prefix);
-	}
-
-	public void broadcastGuild(NovaGuild guild, String path,HashMap<String,String> vars, boolean prefix) {
-		String msg = getMessagesString(path);
+	public void broadcastGuild(NovaGuild guild, Message message, HashMap<String,String> vars, boolean prefix) {
+		String msg = getMessagesString(message.getPath());
 		msg = StringUtils.replaceMap(msg, vars);
 
 		for(Player p : guild.getOnlinePlayers()) {
@@ -251,13 +198,6 @@ public class MessageManager {
 			else {
 				sendMessage(p, msg);
 			}
-		}
-	}
-
-	//TODO finish
-	public void broadcastAllies(NovaGuild guild, String path, HashMap<String,String> vars, boolean prefix) {
-		for(NovaGuild ally : guild.getAllies()) {
-			broadcastGuild(ally,path,vars,prefix);
 		}
 	}
 

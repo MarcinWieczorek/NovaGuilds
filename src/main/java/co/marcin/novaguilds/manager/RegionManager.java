@@ -469,7 +469,7 @@ public class RegionManager {
 
 			}
 
-			plugin.getMessageManager().broadcastGuild(region.getGuild(), "chat.region.notifyguild.entered", vars,true);
+			Message.CHAT_REGION_NOTIFYGUILD_ENTERED.vars(vars).broadcast(region.getGuild());
 		}
 	}
 

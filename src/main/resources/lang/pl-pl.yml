@@ -272,7 +272,7 @@ chat:
    notinvited: "Nie jestes zaproszony do tej gildii"
    notify: "Zostales zaproszony do gildii &a{GUILDNAME}"
    cancel:
-    success: "Cofnieto zaproszenie dla gracza &c{PLAYER}"
+    success: "Cofnieto zaproszenie dla gracza &c{PLAYERNAME}"
     notify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
   info:
    header: "&4*** &3Player information &4***"

@@ -3,6 +3,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
@@ -34,7 +35,7 @@ public class ChatListener implements Listener {
 			NovaGuild guild = nPlayer.getGuild();
 			
 			if(guild.getLeader().getName().equalsIgnoreCase(player.getName())) {
-				rank = StringUtils.fixColors(plugin.getMessageManager().getMessagesString("chat.Kguildinfo.leaderprefix"));
+				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 			}
 			
 			tag = StringUtils.fixColors(StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag()));

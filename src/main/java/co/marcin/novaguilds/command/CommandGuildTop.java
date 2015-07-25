@@ -40,7 +40,7 @@ public class CommandGuildTop implements CommandExecutor {
 			vars.put("GUILDNAME", guild.getName());
 			vars.put("N", String.valueOf(i));
 			vars.put("POINTS", String.valueOf(guild.getPoints()));
-			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).send(sender);
+			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.title(false).vars(vars).send(sender);
 			i++;
 		}
 

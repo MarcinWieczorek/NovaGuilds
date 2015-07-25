@@ -61,7 +61,7 @@ public class CommandGuildBankPay implements CommandExecutor {
 		guild.addMoney(money);
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
-		Message.CHAT_ADMIN_GUILD_BANK_PAID.vars(vars).send(sender);
+		Message.CHAT_GUILD_BANK_PAY_PAID.vars(vars).send(sender);
 
 		return true;
 	}

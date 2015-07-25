@@ -3,6 +3,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -52,7 +53,7 @@ public class DeathListener implements Listener {
 		vars.put("PLAYER2", attacker.getName());
 		vars.put("TAG1", tag1);
 		vars.put("TAG2", tag2);
-		plugin.getMessageManager().broadcastMessage("broadcast.pvp.killed", vars);
+		Message.BROADCAST_PVP_KILLED.vars(vars).broadcast();
 
 		if(nPlayer.hasGuild()) {
 			NovaGuild guildVictim = nPlayer.getGuild();

@@ -71,7 +71,7 @@ public class CommandGuildInvite implements CommandExecutor {
 			Message.CHAT_PLAYER_INVITE_CANCEL_SUCCESS.vars(vars).send(sender);
 
 			if(invitePlayer.isOnline()) {
-				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.vars(vars).send(sender);
+				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.vars(vars).send(invitePlayer.getPlayer());
 			}
 		}
 		return true;

@@ -42,7 +42,7 @@ public class CommandGuildPvpToggle implements CommandExecutor {
 
 		HashMap<String,String> vars = new HashMap<>();
 		nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
-		vars.put("FPVP", nPlayer.getGuild().getFriendlyPvp() ? plugin.getMessageManager().getMessagesString("chat.basic.on") : plugin.getMessageManager().getMessagesString("chat.basic.off"));
+		vars.put("FPVP", Message.getOnOff(nPlayer.getGuild().getFriendlyPvp()));
 		Message.CHAT_GUILD_FPVPTOGGLED.vars(vars).send(sender);
 
 		return true;

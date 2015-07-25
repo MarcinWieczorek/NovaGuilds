@@ -272,7 +272,7 @@ chat:
    notinvited: "You aren't invited to this guild!"
    notify: "You have been invited to guild &a{GUILDNAME}"
    cancel:
-    success: "Canceled invitation for player &c{PLAYER}"
+    success: "Canceled invitation for player &c{PLAYERNAME}"
     notify: "Your invitation to guild &a{GUILDNAME} &3has been canceled"
   info:
    header: "&4*** &3Player information &4***"

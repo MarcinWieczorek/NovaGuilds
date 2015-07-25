@@ -49,7 +49,7 @@ public class CommandAdminGuildList implements CommandExecutor {
 		}
 
 		Message.CHAT_ADMIN_GUILD_LIST_HEADER.send(sender);
-		String rowformat = plugin.getMessageManager().getMessagesString("chat.admin.guild.list.item");
+		String rowformat = Message.CHAT_ADMIN_GUILD_LIST_ITEM.get();
 
 		int i=0;
 		boolean display = false;

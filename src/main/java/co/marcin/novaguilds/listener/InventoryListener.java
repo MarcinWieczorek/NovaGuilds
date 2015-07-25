@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,8 +21,8 @@ public class InventoryListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		String nameRequiredItems = plugin.getMessageManager().getMessagesString("inventory.requireditems.name");
-		String nameGGUI = plugin.getMessageManager().getMessagesString("inventory.ggui.name");
+		String nameRequiredItems = Message.INVENTORY_REQUIREDITEMS_NAME.get();
+		String nameGGUI = Message.INVENTORY_GGUI_NAME.get();
 		Player player = (Player) event.getWhoClicked();
 
 		Inventory clickedInventory = ItemStackUtils.getClickedInventory(event);

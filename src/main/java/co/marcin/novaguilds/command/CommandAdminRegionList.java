@@ -54,7 +54,7 @@ public class CommandAdminRegionList implements CommandExecutor {
 			page = 1;
 		}
 
-		String rowformat = plugin.getMessageManager().getMessagesString("chat.region.list.item");
+		String rowformat = Message.CHAT_REGION_LIST_ITEM.get();
 		int i=0;
 		boolean display = false;
 		HashMap<String,String> vars = new HashMap<>();

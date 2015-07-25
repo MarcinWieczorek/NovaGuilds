@@ -362,7 +362,7 @@ public enum Message {
 	}
 
 	public String get() {
-		return messageManager.getMessagesString(getPath()); //TODO replace with Message
+		return StringUtils.replaceMap(messageManager.getMessagesString(getPath()), vars); //TODO replace with Message
 	}
 
 	public List<String> getList() {

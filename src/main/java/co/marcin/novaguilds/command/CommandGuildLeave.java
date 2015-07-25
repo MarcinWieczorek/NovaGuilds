@@ -51,7 +51,6 @@ public class CommandGuildLeave implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYER",sender.getName());
 		vars.put("GUILDNAME",guild.getName());
-		plugin.getMessageManager().broadcastMessage("broadcast.guild.left", vars);
 		Message.BROADCAST_GUILD_LEFT.vars(vars).broadcast();
 
 		plugin.tagUtils.refreshAll();

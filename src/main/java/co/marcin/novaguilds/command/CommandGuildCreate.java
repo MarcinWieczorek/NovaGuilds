@@ -38,7 +38,7 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 
 		if(!(sender instanceof Player)) {
-			plugin.getMessageManager().sendMessage(sender, "chat.cmdfromconsole");
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 

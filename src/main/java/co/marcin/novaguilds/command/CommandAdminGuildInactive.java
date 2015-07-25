@@ -75,7 +75,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 		}
 
 		Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_HEADER.send(sender);
-		String rowformat = plugin.getMessageManager().getMessagesString("chat.admin.guild.inactive.list.item");
+		String rowformat = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_ITEM.get();
 
 		int i = 0;
 		boolean display = false;
@@ -111,9 +111,9 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 			if(display) {
 				String inactiveString = StringUtils.secondsToString(NumberUtils.systemSeconds() - guild.getInactiveTime(), TimeUnit.SECONDS);
 
-				String agonow = plugin.getMessageManager().getMessagesString("chat.admin.guild.inactive.list.ago");
+				String agonow = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_AGO.get();
 				if(inactiveString.isEmpty()) {
-					agonow = plugin.getMessageManager().getMessagesString("chat.admin.guild.inactive.list.now");
+					agonow = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_NOW.get();
 				}
 
 				LoggerUtils.debug("leadernull="+(guild.getLeader()==null));
