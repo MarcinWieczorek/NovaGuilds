@@ -354,7 +354,7 @@ public class RegionManager {
 	public boolean canBuild(Player player, Location location) {
 		NovaRegion region = getRegion(location);
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-		return region == null || nPlayer.hasGuild() && (nPlayer.getBypass() || region.getGuild().isMember(nPlayer));
+		return region == null || nPlayer.getBypass() || (nPlayer.hasGuild() && region.getGuild().isMember(nPlayer));
 	}
 
 	private boolean isFarEnough(Location l1, Location l2) {
