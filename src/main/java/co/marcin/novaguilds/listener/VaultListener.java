@@ -5,7 +5,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -69,7 +69,7 @@ public class VaultListener implements Listener {
 		String nameBank = plugin.getConfigManager().getGuildBankItem().getItemMeta().getDisplayName();
 
 		if(event.getInventory().getName().equals(nameBank)) {
-			if(event.getView().getTopInventory().equals(ItemStackUtils.getClickedInventory(event))) {
+			if(event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
 				if(nPlayer.hasGuild()) {
 					if(!nPlayer.isLeader() && plugin.getConfigManager().getGuildBankOnlyLeaderTake()) {
 						if(dissalowedActions.contains(event.getAction())) {
@@ -88,7 +88,7 @@ public class VaultListener implements Listener {
 
 		if(plugin.getGuildManager().isBankBlock(event.getBlock())) {
 			Chest chest = (Chest) event.getBlock().getState();
-			if(ItemStackUtils.isEmpty(chest.getInventory())) {
+			if(InventoryUtils.isEmpty(chest.getInventory())) {
 				if(nPlayer.isLeader()) {
 					if(nPlayer.getGuild().getBankHologram() != null) {
 						nPlayer.getGuild().getBankHologram().delete();
