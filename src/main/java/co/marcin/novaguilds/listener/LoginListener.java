@@ -47,27 +47,6 @@ public class LoginListener implements Listener {
 
 		nPlayer.getGuild().showBankHologram(player);
 
-		//adding to raid TODO: not tested
-		//TODO should be done in playerEnteredRegion
-//		if(nPlayer.hasGuild()) {
-//			//Update his guild's inactive time
-//			nPlayer.getGuild().updateInactiveTime();
-//
-//			NovaRegion rgAtLocation = plugin.getRegionManager().getRegion(player.getLocation());
-//
-//			if(rgAtLocation != null) {
-//				NovaGuild guildAtRegion = rgAtLocation.getGuild();
-//
-//				List<NovaRaid> raidsTakingPart = plugin.getGuildManager().getRaidsTakingPart(nPlayer.getGuild());
-//
-//				for(NovaRaid raid : raidsTakingPart) {
-//					if(raid.getGuildDefender().equals(guildAtRegion)) {
-//						guildAtRegion.getRaid().addPlayerOccupying(nPlayer);
-//					}
-//				}
-//			}
-//		}
-
 		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
 			plugin.getRegionManager().playerEnteredRegion(player,player.getLocation());
 		}

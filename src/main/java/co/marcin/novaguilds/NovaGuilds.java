@@ -185,7 +185,7 @@ public class NovaGuilds extends JavaPlugin {
 			}
 		}
 
-		//removing holographic displays
+		//removing holograms
 		if(getConfigManager().useHolographicDisplays()) {
 			for(Hologram h : HologramsAPI.getHolograms(this)) {
 				h.delete();
