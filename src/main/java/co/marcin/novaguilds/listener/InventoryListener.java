@@ -2,7 +2,7 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +25,7 @@ public class InventoryListener implements Listener {
 		String nameGGUI = Message.INVENTORY_GGUI_NAME.get();
 		Player player = (Player) event.getWhoClicked();
 
-		Inventory clickedInventory = ItemStackUtils.getClickedInventory(event);
+		Inventory clickedInventory = InventoryUtils.getClickedInventory(event);
 
 		//1.8
 		if(clickedInventory != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
@@ -38,8 +38,9 @@ public class InventoryListener implements Listener {
 						String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
 
 						player.chat("/" + menuCommand);
-						event.setCancelled(true);
 					}
+
+					event.setCancelled(true);
 				}
 			}
 		}
