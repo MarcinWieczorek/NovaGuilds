@@ -542,4 +542,16 @@ public class NovaGuild {
 			getBankLocation().getWorld().playEffect(getBankLocation(), Effect.SMOKE,1000);
 		}
 	}
+
+	public void showBankHologram(Player player) {
+		if(bankHologram != null) {
+			bankHologram.getVisibilityManager().showTo(player);
+		}
+	}
+
+	public void hideBankHologram(Player player) {
+		if(bankHologram != null) {
+			bankHologram.getVisibilityManager().hideTo(player);
+		}
+	}
 }

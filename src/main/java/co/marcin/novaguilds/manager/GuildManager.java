@@ -653,6 +653,7 @@ public class GuildManager {
 
 						hologramLocation.add(x, 2, z);
 						Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
+						hologram.getVisibilityManager().setVisibleByDefault(false);
 						for(String hologramLine : plugin.getConfigManager().getGuildBankHologramLines()) {
 							if(hologramLine.startsWith("[ITEM]")) {
 								hologramLine = hologramLine.substring(6);
@@ -667,6 +668,10 @@ public class GuildManager {
 						}
 
 						guild.setBankHologram(hologram);
+
+						for(Player player : guild.getOnlinePlayers()) {
+							guild.showBankHologram(player);
+						}
 					}
 				}
 			}

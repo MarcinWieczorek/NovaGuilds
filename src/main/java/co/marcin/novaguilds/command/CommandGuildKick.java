@@ -68,6 +68,10 @@ public class CommandGuildKick  implements CommandExecutor {
 		nPlayerKick.setGuild(null);
 
 		nPlayer.getGuild().removePlayer(nPlayerKick);
+
+		if(nPlayerKick.isOnline()) {
+			guild.hideBankHologram(nPlayerKick.getPlayer());
+		}
 		
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());

@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Message;
@@ -43,6 +44,8 @@ public class LoginListener implements Listener {
 		if(plugin.getConfigManager().useChatDisplayNameTags()) {
 			player.setDisplayName(plugin.tagUtils.getTag(player)+player.getDisplayName());
 		}
+
+		nPlayer.getGuild().showBankHologram(player);
 
 		//adding to raid TODO: not tested
 		//TODO should be done in playerEnteredRegion
