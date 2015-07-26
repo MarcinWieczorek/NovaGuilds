@@ -9,10 +9,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.manager.GuildManager;
-import co.marcin.novaguilds.util.ItemStackUtils;
-import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.NumberUtils;
-import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.*;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -126,10 +123,10 @@ public class CommandGuildCreate implements CommandExecutor {
 			return true;
 		}
 
-		if(!ItemStackUtils.hasAllRequiredItems(player,items)) {
+		if(!InventoryUtils.containsItems(player.getInventory(), items)) {
 			String itemlist = "";
 			int i = 0;
-			for(ItemStack missingItemStack : ItemStackUtils.getMissingItems(player,items)) {
+			for(ItemStack missingItemStack : InventoryUtils.getMissingItems(player.getInventory(), items)) {
 				String itemrow = plugin.getMessageManager().getMessagesString("chat.createguild.itemlist");
 				itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
 				itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
@@ -197,7 +194,7 @@ public class CommandGuildCreate implements CommandExecutor {
 					plugin.econ.withdrawPlayer(sender.getName(), requiredmoney);
 
 					//taking items away
-					ItemStackUtils.takeItems(player,items);
+					InventoryUtils.removeItems(player, items);
 
 					//update tag and tabs
 					plugin.tagUtils.updatePrefix((Player)sender);

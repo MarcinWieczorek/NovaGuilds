@@ -4,7 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -72,7 +72,7 @@ private final NovaGuilds plugin;
 			//items
 			List<ItemStack> homeItems = plugin.getGroupManager().getGroup(sender).getGuildHomeItems();
 			if(!homeItems.isEmpty()) {
-				List<ItemStack> missingItems = ItemStackUtils.getMissingItems(player, homeItems);
+				List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
 				if(!missingItems.isEmpty()) {
 					//TODO: list missing items and test messages/make other msgs
 					String itemlist = "";
@@ -112,7 +112,7 @@ private final NovaGuilds plugin;
 
 			//plugin.econ.withdrawPlayer((Player) sender, homeMoney); //1.8
 			plugin.econ.withdrawPlayer(sender.getName(), homeMoney); //1.7
-			ItemStackUtils.takeItems(player, homeItems);
+			InventoryUtils.removeItems(player, homeItems);
 			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_GUILD_HOME);
 		}
 		return true;
