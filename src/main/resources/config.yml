@@ -98,6 +98,7 @@ chat:
 raid:
  enabled: true
  minonline: 1
+ pointstake: 100
 
  #time guild has to rest in seconds (24h)
  timerest: 24h
