@@ -301,12 +301,22 @@ public class PlayerManager {
 		vars.put("DEATHS", String.valueOf(nCPlayer.getDeaths()));
 		vars.put("KDR", String.valueOf(nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : nCPlayer.getDeaths())));
 
+		String guildRow = "";
 		if(nCPlayer.hasGuild()) {
 			vars.put("GUILDNAME", nCPlayer.getGuild().getName());
 			vars.put("TAG", nCPlayer.getGuild().getTag());
+			guildRow = Message.CHAT_PLAYER_INFO_GUILDROW.vars(vars).get();
 		}
 
+		vars.put("GUILDROW", guildRow);
+
 		Message.CHAT_PLAYER_INFO_HEADER.send(sender);
-		Message.CHAT_PLAYER_INFO_ITEMS.list().vars(vars).send(sender);
+
+		for(String row : Message.CHAT_PLAYER_INFO_ITEMS.getList()) {
+			if(!row.contains("{GUILDROW}") || nCPlayer.hasGuild()) {
+				row = StringUtils.replaceMap(row, vars);
+				plugin.getMessageManager().sendMessage(sender, row);
+			}
+		}
 	}
 }
