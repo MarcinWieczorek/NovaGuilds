@@ -29,6 +29,7 @@ public class ToolListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this,plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -102,7 +103,8 @@ public class ToolListener implements Listener {
 							return;
 						}
 
-						if(nPlayer.getSelectedRegion() != null && !(nPlayer.getGuild().hasRegion() && nPlayer.getGuild().getRegion().equals(nPlayer.getSelectedRegion()))) {
+						//if(nPlayer.getSelectedRegion() != null && !(nPlayer.getGuild().hasRegion() && nPlayer.getGuild().getRegion().equals(nPlayer.getSelectedRegion()))) {
+						if(nPlayer.getSelectedRegion() != null) {
 							RegionUtils.highlightRegion(event.getPlayer(), nPlayer.getSelectedRegion(), null);
 						}
 
@@ -272,9 +274,6 @@ public class ToolListener implements Listener {
 										Message.CHAT_REGION_VALIDATION_TOOBIG.vars(vars).send(player);
 										break;
 									case OVERLAPS:
-										//TODO
-										//NovaRegion rgoverlaped = plugin.getRegionManager().regionInsideArea(sl1,sl2);
-										//plugin.getRegionManager().highlightRegion(player, rgoverlaped);
 										Message.CHAT_REGION_VALIDATION_OVERLAPS.send(player);
 										break;
 									case TOOCLOSE:
