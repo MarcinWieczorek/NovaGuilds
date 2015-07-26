@@ -29,6 +29,7 @@ public class ToolListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this,plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -42,8 +43,8 @@ public class ToolListener implements Listener {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 				//Spigot and Cauldron (1.8/1.7.10)
-				Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
-				//Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
+				//Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
+				Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
 
 				pointedLocation.setWorld(player.getWorld());
 
@@ -102,7 +103,8 @@ public class ToolListener implements Listener {
 							return;
 						}
 
-						if(nPlayer.getSelectedRegion() != null && !(nPlayer.getGuild().hasRegion() && nPlayer.getGuild().getRegion().equals(nPlayer.getSelectedRegion()))) {
+						//if(nPlayer.getSelectedRegion() != null && !(nPlayer.getGuild().hasRegion() && nPlayer.getGuild().getRegion().equals(nPlayer.getSelectedRegion()))) {
+						if(nPlayer.getSelectedRegion() != null) {
 							RegionUtils.highlightRegion(event.getPlayer(), nPlayer.getSelectedRegion(), null);
 						}
 

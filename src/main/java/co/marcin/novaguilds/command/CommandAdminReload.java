@@ -1,8 +1,11 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,6 +24,13 @@ public class CommandAdminReload implements CommandExecutor {
 		}
 		
 		Message.CHAT_RELOAD_RELOADING.send(sender);
+
+		//Remove holograms
+		if(plugin.getConfigManager().useHolographicDisplays()) {
+			for(Hologram h : HologramsAPI.getHolograms(plugin)) {
+				h.delete();
+			}
+		}
 
 		//plugin's vars from config
 		plugin.getConfigManager().reload();

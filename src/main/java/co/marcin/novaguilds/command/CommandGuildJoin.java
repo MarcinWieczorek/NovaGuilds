@@ -4,7 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -99,7 +99,7 @@ public class CommandGuildJoin implements CommandExecutor {
 		//items
 		List<ItemStack> joinItems = plugin.getGroupManager().getGroup(sender).getGuildJoinItems();
 		if(!joinItems.isEmpty()) {
-			List<ItemStack> missingItems = ItemStackUtils.getMissingItems((Player)sender, joinItems);
+			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), joinItems);
 			if(!missingItems.isEmpty()) {
 				//TODO: list missing items and test messages/make other msgs
 				String itemlist = "";
@@ -138,7 +138,7 @@ public class CommandGuildJoin implements CommandExecutor {
 		}
 
 		if(joinItems.size() > 0) {
-			ItemStackUtils.takeItems((Player) sender, joinItems);
+			InventoryUtils.removeItems((Player) sender, joinItems);
 		}
 
 		if(joinMoney > 0) {
@@ -151,6 +151,7 @@ public class CommandGuildJoin implements CommandExecutor {
 		nPlayer.deleteInvitation(guild);
 		plugin.tagUtils.refreshAll();
 		Message.CHAT_GUILD_JOINED.send(sender);
+		guild.showBankHologram(nPlayer.getPlayer());
 
 		vars.clear();
 		vars.put("PLAYER",sender.getName());
