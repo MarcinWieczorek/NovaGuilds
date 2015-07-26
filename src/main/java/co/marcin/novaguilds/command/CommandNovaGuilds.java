@@ -35,7 +35,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 		if(args.length == 0) {
 			String[] info = {
 					"NovaGuilds &6#&c"+plugin.getBuild(),
-					"Authors: &6Marcin (CTRL) Wieczorek&2, &dartur9010",
+					"Author: &6Marcin (CTRL) Wieczorek",
 					"2015 &4Pol&fand",
 					"&bhttp://novaguilds.pl/",
 					"Latest plugin build: &6#&c{LATEST}"
