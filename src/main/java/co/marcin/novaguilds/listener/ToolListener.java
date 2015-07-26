@@ -18,6 +18,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -41,10 +42,7 @@ public class ToolListener implements Listener {
 		if(player.getItemInHand().getType() == tool) {
 			if(player.getItemInHand().hasItemMeta() && player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(toolname)) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-
-				//Spigot and Cauldron (1.8/1.7.10)
-				Location pointedLocation = player.getTargetBlock((Set<Material>)null, 200).getLocation(); //TODO: spigot
-				//Location pointedLocation = player.getTargetBlock(null, 200).getLocation(); //TODO: CAULDRON
+				Location pointedLocation = player.getTargetBlock((HashSet<Byte>)null, 200).getLocation();
 
 				pointedLocation.setWorld(player.getWorld());
 
