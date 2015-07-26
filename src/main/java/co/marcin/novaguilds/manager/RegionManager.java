@@ -10,10 +10,7 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -360,35 +357,36 @@ public class RegionManager {
 	private boolean isFarEnough(Location l1, Location l2) {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;
-		int diagonal = Math.round((int)Math.sqrt((int)(Math.pow(width,2) + Math.pow(height,2))));
-		LoggerUtils.debug(String.valueOf(width + " " + height + " " + diagonal));
+		int radius1 = Math.round((int)Math.sqrt((int)(Math.pow(width,2) + Math.pow(height,2))) /2);
+		LoggerUtils.debug(String.valueOf(width + " " + height + " " + radius1));
 
-		int min = diagonal + plugin.getConfig().getInt("region.mindistance");
+		int min = radius1 + Config.REGION_MINDISTANCE.getInt();
 		LoggerUtils.debug("min="+min);
 		Location centerLocation = getCenterLocation(l1, l2);
 		LoggerUtils.debug("center="+centerLocation.toString());
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
-			int diagonal2 = 0;
-			LoggerUtils.debug("checking guild "+guildLoop.getName());
+			int radius2 = 0;
+			LoggerUtils.debug("checking guild " + guildLoop.getName());
 
 			if(guildLoop.hasRegion()) {
-				diagonal2 = guildLoop.getRegion().getDiagonal();
-				LoggerUtils.debug(String.valueOf(guildLoop.getRegion().getWidth()+" "+guildLoop.getRegion().getHeight()+" "+diagonal2));
+				radius2 = guildLoop.getRegion().getDiagonal() /2;
+				LoggerUtils.debug(String.valueOf(guildLoop.getRegion().getWidth()+" "+guildLoop.getRegion().getHeight()+" "+radius2));
 			}
 
 			centerLocation.setY(guildLoop.getSpawnPoint().getY());
 
-			RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"), centerLocation, Material.WOOL);
-			RegionUtils.setCorner(plugin.getServer().getPlayer("CTRL"), guildLoop.getSpawnPoint(), Material.GLOWSTONE);
-
-			RegionUtils.setCorner(plugin.getServer().getPlayer("Kennar"), centerLocation, Material.WOOL);
-			RegionUtils.setCorner(plugin.getServer().getPlayer("Kennar"), guildLoop.getSpawnPoint(), Material.GLOWSTONE);
+			if(Config.DEBUG.getBoolean()) {
+				for(Player player : Bukkit.getOnlinePlayers()) {
+					RegionUtils.setCorner(player, centerLocation, Material.WOOL);
+					RegionUtils.setCorner(player, guildLoop.getSpawnPoint(), Material.GLOWSTONE);
+				}
+			}
 
 			double distance = centerLocation.distance(guildLoop.getSpawnPoint());
-			LoggerUtils.debug("distance="+distance);
-			if(distance < min+diagonal2) {
-				LoggerUtils.debug("too close "+guildLoop.getName());
+			LoggerUtils.debug("distance=" + distance);
+			if(distance < min+radius2) {
+				LoggerUtils.debug("too close " + guildLoop.getName());
 				return false;
 			}
 		}
