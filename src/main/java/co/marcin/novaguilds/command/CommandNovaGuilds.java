@@ -37,12 +37,12 @@ public class CommandNovaGuilds implements CommandExecutor {
 					"NovaGuilds &6#&c"+plugin.getBuild(),
 					"Authors: &6Marcin (CTRL) Wieczorek&2, &dartur9010",
 					"2015 &4Pol&fand",
-					"&bhttp://novaguilds.marcin.co/",
+					"&bhttp://novaguilds.pl/",
 					"Latest plugin build: &6#&c{LATEST}"
 			};
 
 			plugin.getMessageManager().sendPrefixMessage(sender, "NovaGuilds Information");
-			String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
+			String latest = StringUtils.getContent("http://novaguilds.pl/latest");
 
 			for(int i=0;i<info.length;i++) {
 				info[i] = StringUtils.replace(info[i], "{LATEST}", latest);
