@@ -16,6 +16,11 @@ public class CommandAdminRegion implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if(!sender.hasPermission("novaguilds.admin.region.access")) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return true;
+		}
+
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_REGION_HEADER.send(sender);
 			plugin.getMessageManager().sendMessagesList(sender,"chat.commands.admin.region.items",null,false);
