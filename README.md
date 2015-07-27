@@ -133,128 +133,232 @@ Please leave feedback!<br/><br/>
 <br/>
 <h2><b>Permissions</b></h2>
 <table>
-    <tr>
-        <td>Permission</td>
-        <td>Description</td>
-    </tr>
-    <tr>
-        <td>novaguilds.region.create</td>
-        <td>Create a region</td>
-    </tr>
-    <tr>
-        <td>novaguilds.region.resize</td>
-        <td>Resize regions</td>
-    </tr>
-    <tr>
-        <td>novaguilds.region.delete</td>
-        <td>Delete region</td>
-    </tr>
-    
-    <tr>
-        <td>novaguilds.guild.access</td>
-        <td>Access to /g</td>
-    </tr>
-    <tr>
-        <td>novaguilds.guild.home</td>
-        <td>TP to guild's home</td>
-    </tr>
-    <tr>
-        <td>novaguilds.guild.create</td>
-        <td>Create a guild</td>
-    </tr>
-    <tr>
-        <td>novaguilds.guild.abandon</td>
-        <td>Abandon your guild</td>
-    </tr>
-    <tr>
-        <td>novaguilds.guild.info</td>
-        <td>Guild's information</td>
-    </tr>
-    <tr>
-        <td>novaguilds.guild.leave</td>
-        <td>Leaving the guild</td>
-    </tr>
-    
-    <tr>
-        <td>novaguilds.tool.get</td>
-        <td>/ng tool permission</td>
-    </tr>
-    <tr>
-        <td>novaguilds.tool.check</td>
-        <td>Check Mode</td>
-    </tr>
-    
-    <tr>
-        <td>novaguilds.admin.access</td>
-        <td>Access to <b>/nga</b></td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.kick</td>
-        <td>Kick player from his guild</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.abandon</td>
-        <td>Abandon any guild</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.tp</td>
-        <td>TP to any guild's home</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.tp.other</td>
-        <td>TP somebody to guild's home</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.money</td>
-        <td>Manage money of any guild</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.fullinfo</td>
-        <td>Show guild's full info</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.setname</td>
-        <td>Change guild's name</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.settag</td>
-        <td>Change guild's tag</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.guild.list</td>
-        <td>Show all guilds</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.region.remove</td>
-        <td>Remove any region</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.region.list</td>
-        <td>List regions</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.region.resize</td>
-        <td>Resize any region</td>
-        <td>Not implemented</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.region.bypass</td>
-        <td>Region bypass</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.region.bypass.other</td>
-        <td>Toggle someones region bypass</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.reload</td>
-        <td>Reload the plugin</td>
-    </tr>
-    <tr>
-        <td>novaguilds.admin.save</td>
-        <td>Save plugin data</td>
-    </tr>
-    <tr>
-        <td>novaguilds.chat.notag</td>
-        <td>No tag in chat</td>
-    </tr>
+    <thead>
+        <tr>
+            <td>Permission</td>
+            <td>Description</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>novaguilds.admin.access</td>
+            <td>Access to /nga</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.access</td>
+            <td>Access to /nga g</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.abandon</td>
+            <td>/nga g <guild> abandon</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.bank.pay</td>
+            <td>/nga g <guild> pay <amount></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.bank.withdraw</td>
+            <td>/nga g <guild> withdraw <amount></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.inactive.update</td>
+            <td>/nga g inactive update</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.inactive.clean</td>
+            <td>/nga g inactive clean</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.inactive.list</td>
+            <td>/nga g inactive list</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.invite</td>
+            <td>/nga g <guild> invite <player></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.kick</td>
+            <td>/nga g <guild> kick <player></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.list</td>
+            <td>/nga g list</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.leader</td>
+            <td>/nga g <guild> leader <player></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.liveregenerationtime</td>
+            <td>/nga g <guild> liveregentime <timestring></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.lives</td>
+            <td>/nga g <guild> lives <lives></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.setname</td>
+            <td>/nga g <guild> setname <newname></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.setpoints</td>
+            <td>/nga g <guild> setpoints <points></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.settag</td>
+            <td>/nga g <guild> setpoints <points></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.timerest</td>
+            <td>/nga g <guild> timerest <timestring></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.tp</td>
+            <td>/nga g <guild> tp</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.bypass</td>
+            <td>/nga rg bypass</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.bypass.other</td>
+            <td>/nga rg bypass <player></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.delete</td>
+            <td>/nga rg delete <guild></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.list</td>
+            <td>/nga rg list</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.tp</td>
+            <td>/nga rg tp <guild></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.reload</td>
+            <td>/nga reload</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.save</td>
+            <td>/nga save [guilds/players/regions]</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.save.notify</td>
+            <td>Autosave notify message</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.updateavailable</td>
+            <td>Update notify message</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.access</td>
+            <td>/g</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.leave</td>
+            <td>/leave</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.ally</td>
+            <td>/g ally [guild]</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.bank.pay</td>
+            <td>/g pay <amount></td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.bank.withdraw</td>
+            <td>/g withdraw <amount></td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.compass</td>
+            <td>/g compass</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.create</td>
+            <td>/create <tag> <guildname></td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.effect</td>
+            <td>/g effect</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.home</td>
+            <td>/g home</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.home.set</td>
+            <td>/g home set</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.invite</td>
+            <td>/invite <player></td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.join</td>
+            <td>/join [guild]</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.kick</td>
+            <td>/g kick <player></td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.gui</td>
+            <td>/gg</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.pvptoggle</td>
+            <td>/g pvp</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.requireditems</td>
+            <td>/g items</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.top</td>
+            <td>/g top</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.war</td>
+            <td>/g war [guild]</td>
+        </tr>
+        <tr>
+            <td>novaguilds.region.create</td>
+            <td>/g buyregion</td>
+        </tr>
+        <tr>
+            <td>novaguilds.region.resize</td>
+            <td>Resize with the tool</td>
+        </tr>
+        <tr>
+            <td>novaguilds.chat.notag</td>
+            <td>No tag in chat</td>
+        </tr>
+        <tr>
+            <td>novaguilds.playerinfo</td>
+            <td>/pi or right click player</td>
+        </tr>
+        <tr>
+            <td>novaguilds.tool.check</td>
+            <td>Checking regions with the tool</td>
+        </tr>
+        <tr>
+            <td>novaguilds.tool.get</td>
+            <td>/ng tool</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.test.book</td>
+            <td>Test permission</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.test.bank</td>
+            <td>Test permission</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.test.hd</td>
+            <td>Test permission</td>
+        </tr>
+    </tbody>
 </table>
