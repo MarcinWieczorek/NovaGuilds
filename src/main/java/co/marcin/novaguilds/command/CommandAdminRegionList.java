@@ -25,15 +25,6 @@ public class CommandAdminRegionList implements CommandExecutor {
 		}
 
 		Message.CHAT_REGION_LIST_HEADER.send(sender);
-//		HashMap<String,String> vars = new HashMap<>();
-//		for(Entry<String, NovaRegion> r : plugin.getRegionManager().getRegions()) {
-//			NovaRegion region = r.getValue();
-//			vars.put("GUILDNAME",region.getGuildName());
-//			vars.put("X",region.getCorner(0).getBlockX()+"");
-//			vars.put("Z",region.getCorner(0).getBlockZ()+"");
-//			plugin.getMessageManager().sendMessagesMsg(sender,"chat.region.list.item", vars);
-//			vars.clear();
-//		}
 
 		int perpage = 10;
 		int size = plugin.getRegionManager().getRegions().size();
