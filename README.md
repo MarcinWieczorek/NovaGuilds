@@ -1,4 +1,4 @@
-<img src="http://novaguilds.marcin.co/img/newlogo.png" /><br/><br/>
+<a href="http://novaguilds.pl/"><img src="http://novaguilds.marcin.co/img/newlogo.png" /></a><br/><br/>
 
 NovaGuilds is my own guilds plugin, still in development, but I want to hear your opinions and ideas.<br/>
 Please leave feedback!<br/><br/>
@@ -10,7 +10,7 @@ Please leave feedback!<br/><br/>
 <br/>
 
 <h2><b>Downloads</b></h2>
-<a href="http://novaguilds.marcin.co/download/">http://novaguilds.marcin.co/download/</a>
+<a href="http://novaguilds.pl">http://novaguilds.marcin.pl/</a>
 <br/><br/><br/>
 
 <h2><b>Setup</b></h2>
