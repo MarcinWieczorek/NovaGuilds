@@ -78,6 +78,9 @@ aliases:
  join:
   - dolacz
 
+gguicmd:
+ g_home: ENDER_PEARL 1 name:Home
+ TOP: Sign 1
 
 chat:
  displaynametags: false
