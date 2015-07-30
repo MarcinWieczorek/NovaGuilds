@@ -58,6 +58,11 @@ public class CommandGuildBankWithdraw implements CommandExecutor {
 		double money = Double.parseDouble(moneyString);
 		money = NumberUtils.roundOffTo2DecPlaces(money);
 
+		if(money < 0) {
+			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+			return true;
+		}
+
 		if(guild.getMoney() < money) {
 			Message.CHAT_GUILD_BANK_WITHDRAW_NOTENOUGH.send(sender);
 			return true;

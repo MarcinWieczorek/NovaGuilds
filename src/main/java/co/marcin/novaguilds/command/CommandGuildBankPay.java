@@ -50,6 +50,11 @@ public class CommandGuildBankPay implements CommandExecutor {
 
 		money = NumberUtils.roundOffTo2DecPlaces(money);
 
+		if(money < 0) {
+			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+			return true;
+		}
+
 //		if(plugin.econ.getBalance(player) < money) { //1.8
 		if(plugin.econ.getBalance(player.getName()) < money) { //1.7
 			Message.CHAT_GUILD_BANK_PAY_NOTENOUGH.send(sender);
