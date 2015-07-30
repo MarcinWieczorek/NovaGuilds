@@ -117,6 +117,9 @@ guild:
  #time to remove inactive guilds (minutes) (default 7 days)
  inactivetime: 7d
 
+ #max amount of players in one guild
+ maxplayers: 10
+
  #New guilds protection
  createprotection: 24h
 

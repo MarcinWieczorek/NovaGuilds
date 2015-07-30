@@ -222,6 +222,7 @@ chat:
   explosionatregion: "Na terenie Twojej gildii nastapil wybuch!"
   kickyourself: "Nie mozesz wyrzucic siebie z gildii!"
   tooclose: "Jestes zbyt blisko innej gildii"
+  isfull: "Ta gildia osiagnela limit graczy."
 
   war:
    ally: "Najpierw zakoncz sojusz z ta gildia"

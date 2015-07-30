@@ -44,6 +44,7 @@ public enum Config {
 	REGION_MINDISTANCE,
 
 	GUILD_CREATEPROTECTION,
+	GUILD_MAXPLAYERS,
 
 	GUILD_HOMEFLOOR_ENABLED,
 	GUILD_HOMEFLOOR_MATERIAL,
@@ -96,5 +97,13 @@ public enum Config {
 		Material r = cM.isInCache(this) ? (Material) cM.getEnumConfig(this) : cM.getMaterial(path);
 		cM.putInCache(this, r);
 		return r;
+	}
+
+	public static String[] getTablistScheme() {
+		String[] scheme = new String[]{
+				"potato {PLAYER}",
+				"lel {SECOND}"
+		};
+		return scheme;
 	}
 }

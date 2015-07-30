@@ -146,6 +146,11 @@ public class CommandGuildJoin implements CommandExecutor {
 			plugin.econ.withdrawPlayer(sender.getName(), joinMoney); //1.7
 		}
 
+		if(guild.isFull()) {
+			Message.CHAT_GUILD_ISFULL.send(sender);
+			return true;
+		}
+
 		guild.addPlayer(nPlayer);
 		nPlayer.setGuild(guild);
 		nPlayer.deleteInvitation(guild);
