@@ -363,28 +363,30 @@ public class RegionManager {
 		LoggerUtils.debug("center="+centerLocation.toString());
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
-			int radius2 = 0;
-			LoggerUtils.debug("checking guild " + guildLoop.getName());
+			if(guildLoop.getSpawnPoint().getWorld().equals(l1.getWorld())) {
+				int radius2 = 0;
+				LoggerUtils.debug("checking guild " + guildLoop.getName());
 
-			if(guildLoop.hasRegion()) {
-				radius2 = guildLoop.getRegion().getDiagonal() /2;
-				LoggerUtils.debug(String.valueOf(guildLoop.getRegion().getWidth()+" "+guildLoop.getRegion().getHeight()+" "+radius2));
-			}
-
-			centerLocation.setY(guildLoop.getSpawnPoint().getY());
-
-			if(Config.DEBUG.getBoolean()) {
-				for(Player player : Bukkit.getOnlinePlayers()) {
-					RegionUtils.setCorner(player, centerLocation, Material.WOOL);
-					RegionUtils.setCorner(player, guildLoop.getSpawnPoint(), Material.GLOWSTONE);
+				if(guildLoop.hasRegion()) {
+					radius2 = guildLoop.getRegion().getDiagonal() / 2;
+					LoggerUtils.debug(String.valueOf(guildLoop.getRegion().getWidth() + " " + guildLoop.getRegion().getHeight() + " " + radius2));
 				}
-			}
 
-			double distance = centerLocation.distance(guildLoop.getSpawnPoint());
-			LoggerUtils.debug("distance=" + distance);
-			if(distance < min+radius2) {
-				LoggerUtils.debug("too close " + guildLoop.getName());
-				return false;
+				centerLocation.setY(guildLoop.getSpawnPoint().getY());
+
+				if(Config.DEBUG.getBoolean()) {
+					for(Player player : Bukkit.getOnlinePlayers()) {
+						RegionUtils.setCorner(player, centerLocation, Material.WOOL);
+						RegionUtils.setCorner(player, guildLoop.getSpawnPoint(), Material.GLOWSTONE);
+					}
+				}
+
+				double distance = centerLocation.distance(guildLoop.getSpawnPoint());
+				LoggerUtils.debug("distance=" + distance);
+				if(distance < min + radius2) {
+					LoggerUtils.debug("too close " + guildLoop.getName());
+					return false;
+				}
 			}
 		}
 		return true;
