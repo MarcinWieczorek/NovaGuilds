@@ -149,9 +149,6 @@ public class RegionManager {
 				}
 
 				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_INSERT);
-
-				//"INSERT INTO `" + prefix + "regions` VALUES(0,'" + loc1 + "','" + loc2 + "','" + guild.getName() + "','" + guild.getSpawnPoint().getWorld().getName() + "');";
-
 				preparedStatement.setString(1, loc1);
 				preparedStatement.setString(2, loc2);
 				preparedStatement.setString(3, guild.getName());
@@ -438,7 +435,7 @@ public class RegionManager {
 					if(nPlayer.getGuild().isWarWith(guildDefender)) {
 						if(!guildDefender.isRaid()) {
 							if(NumberUtils.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
-								if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt()) {
+								if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size()==guildDefender.getPlayers().size()) {
 									if(NumberUtils.systemSeconds()-guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
 										guildDefender.createRaid(nPlayer.getGuild());
 										plugin.guildRaids.add(guildDefender);
