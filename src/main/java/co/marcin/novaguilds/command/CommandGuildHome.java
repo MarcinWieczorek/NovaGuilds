@@ -60,7 +60,7 @@ private final NovaGuilds plugin;
 				return true;
 			}
 
-			if(!nPlayer.getGuild().hasRegion() && rgatloc != null) {
+			if(rgatloc != null && !rgatloc.getGuild().isMember(nPlayer)) {
 				Message.CHAT_GUILD_SETHOME_OVERLAPS.send(sender);
 				return true;
 			}
