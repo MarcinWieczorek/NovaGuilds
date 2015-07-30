@@ -182,38 +182,6 @@ public final class StringUtils {
 		return joined;
 	}
 
-//	public String Capslock(String message) {
-//		String ch;
-//		int countCharsCaps = 0;
-//		int countWords = 1;
-//
-//		int wordCount = 0;
-//		int characterCount = 6;
-//		int percentage = 40;
-//
-//		int countChars = message.length();
-//		if(countChars > 0) {
-//			if(countChars > characterCount) {
-//				for(int i = 0; i < countChars; i++) {
-//					char c = message.charAt(i);
-//					ch = Character.toString(c);
-//					if(ch.matches("[A-Z]")) {
-//						countCharsCaps++;
-//					}
-//					if(c == ' ') {
-//						countWords++;
-//					}
-//				}
-//				if(countWords >= wordCount) {
-//					if(100/countChars*countCharsCaps >= percentage) {
-//						message = message.toLowerCase();
-//					}
-//				}
-//			}
-//		}
-//		return message;
-//	}
-
 	public static String replaceMap(String msg, HashMap<String,String> vars) {
 		if(vars != null) {
 			for(Map.Entry<String, String> entry : vars.entrySet()) {
