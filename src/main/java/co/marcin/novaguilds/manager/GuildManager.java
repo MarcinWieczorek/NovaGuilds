@@ -646,12 +646,7 @@ public class GuildManager {
 				if(guild.getBankLocation() != null) {
 					if(guild.getBankHologram() == null) {
 						Location hologramLocation = guild.getBankLocation().clone();
-
-						double x = hologramLocation.getX() > 0 ? 0.5 : -0.5;
-						double z = hologramLocation.getZ() > 0 ? 0.5 : -0.5;
-						x = NumberUtils.negativeIsPlusOne(x);
-
-						hologramLocation.add(x, 2, z);
+						hologramLocation.add(0.5, 2, 0.5);
 						Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 						hologram.getVisibilityManager().setVisibleByDefault(false);
 						for(String hologramLine : plugin.getConfigManager().getGuildBankHologramLines()) {
