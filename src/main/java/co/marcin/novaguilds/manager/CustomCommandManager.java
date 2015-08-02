@@ -39,6 +39,7 @@ public class CustomCommandManager {
 		//GUI commands
 		//guiCommands.put(new ItemStack(Material.EYE_OF_ENDER,1),"g home");
 
+		guiCommands.clear();
 		ConfigurationSection sectionGUI = plugin.getConfig().getConfigurationSection("gguicmd");
 
 		for(String key : sectionGUI.getKeys(false)) {
