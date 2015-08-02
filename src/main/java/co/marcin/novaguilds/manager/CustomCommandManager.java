@@ -36,28 +36,7 @@ public class CustomCommandManager {
 			}
 		}
 
-		//GUI commands
-		//guiCommands.put(new ItemStack(Material.EYE_OF_ENDER,1),"g home");
-
-		guiCommands.clear();
-		ConfigurationSection sectionGUI = plugin.getConfig().getConfigurationSection("gguicmd");
-
-		for(String key : sectionGUI.getKeys(false)) {
-			LoggerUtils.debug(key);
-			String gcmd = key.replaceAll("_", " ");
-			LoggerUtils.debug(gcmd);
-			ItemStack is = ItemStackUtils.stringToItemStack(sectionGUI.getString(key));
-			if(is != null) LoggerUtils.debug(is.toString());
-
-			if(is != null) {
-				if(key.equalsIgnoreCase("top")) {
-					topItem = is;
-				}
-				else {
-					guiCommands.put(is, gcmd);
-				}
-			}
-		}
+		setupGuildMenu();
 
 		LoggerUtils.info("Enabled");
 	}
@@ -120,5 +99,23 @@ public class CustomCommandManager {
 
 	public void setupGuildMenu() {
 		guiCommands.clear();
+		ConfigurationSection sectionGUI = plugin.getConfig().getConfigurationSection("gguicmd");
+
+		for(String key : sectionGUI.getKeys(false)) {
+			LoggerUtils.debug(key);
+			String gcmd = key.replaceAll("_", " ");
+			LoggerUtils.debug(gcmd);
+			ItemStack is = ItemStackUtils.stringToItemStack(sectionGUI.getString(key));
+			if(is != null) LoggerUtils.debug(is.toString());
+
+			if(is != null) {
+				if(key.equalsIgnoreCase("top")) {
+					topItem = is;
+				}
+				else {
+					guiCommands.put(is, gcmd);
+				}
+			}
+		}
 	}
 }
