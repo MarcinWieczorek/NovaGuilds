@@ -24,6 +24,9 @@ public class NovaGroup {
 	private double guildEffectPrice = 0;
 	private int guildTeleportDelay = 0;
 
+	private List<ItemStack> guildBuylifeItems = new ArrayList<>();
+	private double guildBuylifeMoney = 0;
+
 	private double regionPricePerBlock = 0;
 	private double regionCreateMoney = 0;
 	private int regionAutoSize = 0;
@@ -41,15 +44,22 @@ public class NovaGroup {
 			ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups." + group);
 			guildCreateItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.create.items"));
 			guildCreateMoney = section.getDouble("guild.create.money");
+
 			guildTeleportDelay = section.getInt("guild.home.tpdelay");
+
 			guildHomeItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.home.items"));
 			guildJoinItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.join.items"));
+
 			regionPricePerBlock = section.getDouble("region.ppb");
 			regionCreateMoney = section.getDouble("region.createmoney");
 			guildEffectPrice = section.getDouble("effectprice");
 			regionAutoSize = section.getInt("region.autoregionsize");
+
 			guildHomeMoney = section.getDouble("guild.home.money");
 			guildJoinMoney = section.getDouble("guild.join.money");
+
+			guildBuylifeItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.buylife.items"));
+			guildBuylifeMoney = section.getDouble("guild.buylife.money");
 
 			//check values
 			if(guildCreateItems == null) {
@@ -114,5 +124,14 @@ public class NovaGroup {
 
 	public List<ItemStack> getGuildJoinItems() {
 		return guildJoinItems;
+	}
+
+	//buylife
+	public double getGuildBuylifeMoney() {
+		return guildBuylifeMoney;
+	}
+
+	public List<ItemStack> getGuildBuylifeItems() {
+		return guildBuylifeItems;
 	}
 }
