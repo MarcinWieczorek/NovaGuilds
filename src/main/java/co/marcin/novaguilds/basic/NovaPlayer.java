@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.basic;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.wstab.Tab;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
@@ -153,6 +154,10 @@ public class NovaPlayer implements Cloneable {
 		return kills;
 	}
 
+	public double getMoney() {
+		return NovaGuilds.getInst().econ.getBalance(name);
+	}
+
 	public boolean getRegionMode() {
 		return regionMode;
 	}
@@ -274,6 +279,10 @@ public class NovaPlayer implements Cloneable {
 	public boolean isPartRaid() {
 		return !(partRaid == null);
 	}
+
+	public boolean hasMoney(double money) {
+		return getMoney() >= money;
+	}
 	
 	//add stuff
 	public void addInvitation(NovaGuild guild) {
@@ -295,6 +304,10 @@ public class NovaPlayer implements Cloneable {
 		deaths++;
 		changed = true;
 	}
+
+	public void addMoney(double money) {
+		NovaGuilds.getInst().econ.depositPlayer(name, money);
+	}
 	
 	//delete stuff
 	public void deleteInvitation(NovaGuild guild) {
@@ -305,6 +318,10 @@ public class NovaPlayer implements Cloneable {
 	public void takePoints(int points) {
 		this.points -= points;
 		changed = true;
+	}
+
+	public void takeMoney(double money) {
+		NovaGuilds.getInst().econ.withdrawPlayer(name, money);
 	}
 
 	public void setScoreBoard(Scoreboard sb) {
