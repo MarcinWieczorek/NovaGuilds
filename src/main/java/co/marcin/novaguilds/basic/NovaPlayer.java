@@ -142,6 +142,12 @@ public class NovaPlayer implements Cloneable {
 		return resizingCorner;
 	}
 
+	public void setScoreBoard(Scoreboard sb) {
+		if(isOnline()) {
+			player.setScoreboard(sb);
+		}
+	}
+
 	public int getPoints() {
 		return points;
 	}
@@ -322,11 +328,5 @@ public class NovaPlayer implements Cloneable {
 
 	public void takeMoney(double money) {
 		NovaGuilds.getInst().econ.withdrawPlayer(name, money);
-	}
-
-	public void setScoreBoard(Scoreboard sb) {
-		if(isOnline()) {
-			player.setScoreboard(sb);
-		}
 	}
 }
