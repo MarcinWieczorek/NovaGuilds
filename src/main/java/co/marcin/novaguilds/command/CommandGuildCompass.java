@@ -1,29 +1,30 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandGuildCompass implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandGuildCompass implements Executor {
+	private final Commands command;
 
-	public CommandGuildCompass(NovaGuilds pl) {
-		plugin = pl;
+	public CommandGuildCompass(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.guild.compass")) {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
-		if(!(sender instanceof Player)) {
+		if(!command.allowedSender(sender)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
+			return;
 		}
 
 		Player player = (Player)sender;
@@ -31,7 +32,7 @@ public class CommandGuildCompass implements CommandExecutor {
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		if(nPlayer.isCompassPointingGuild()) { //disable
@@ -44,7 +45,5 @@ public class CommandGuildCompass implements CommandExecutor {
 			player.setCompassTarget(nPlayer.getGuild().getSpawnPoint());
 			Message.CHAT_GUILD_COMPASSTARGET_ON.send(sender);
 		}
-
-		return true;
 	}
 }
