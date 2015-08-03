@@ -331,6 +331,10 @@ public class ConfigManager {
 		return config.getString(path) == null ? "" : config.getString(path);
 	}
 
+	public List<String> getStringList(String path) {
+		return config.getStringList(path) == null ? new ArrayList<String>() : config.getStringList(path);
+	}
+
 	public long getLong(String path) {
 		return config.getLong(path);
 	}
@@ -353,5 +357,20 @@ public class ConfigManager {
 
 	public Material getMaterial(String path) {
 		return Material.getMaterial(this.getString(path).toUpperCase());
+	}
+
+	public List<ItemStack> getItemStackList(String path) {
+		List<String> stringList = getStringList(path);
+		List<ItemStack> itemStackList = new ArrayList<>();
+
+		for(String string : stringList) {
+			ItemStack is = ItemStackUtils.stringToItemStack(string);
+
+			if(is != null) {
+				itemStackList.add(is);
+			}
+		}
+
+		return itemStackList;
 	}
 }
