@@ -173,6 +173,10 @@ groups:
     money: 0
     items:
      - dirt 1
+   buylife:
+    money: 10
+    items:
+     - GOLD_BLOCK 1
 
   region:
    #size (radius) of auto created region (5 = 10x10)
