@@ -3,15 +3,15 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.command.*;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +23,11 @@ public class CustomCommandManager {
 	private final HashMap<String,String> aliases = new HashMap<>();
 	private final HashMap<ItemStack,String> guiCommands = new HashMap<>();
 	private ItemStack topItem;
+	private final HashMap<Commands, Executor> executors = new HashMap<>();
 
 	public CustomCommandManager(NovaGuilds plugin) {
 		this.plugin = plugin;
+		plugin.setCommandManager(this);
 		registerCommands();
 
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("aliases");
@@ -117,5 +119,13 @@ public class CustomCommandManager {
 				}
 			}
 		}
+	}
+
+	public void registerExecutor(Commands command, Executor executor) {
+		executors.put(command, executor);
+	}
+
+	public Executor getExecutor(Commands command) {
+		return executors.get(command);
 	}
 }
