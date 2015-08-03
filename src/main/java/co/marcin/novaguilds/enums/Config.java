@@ -2,9 +2,12 @@ package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public enum Config {
 	MYSQL_HOST,
@@ -48,6 +51,8 @@ public enum Config {
 
 	GUILD_HOMEFLOOR_ENABLED,
 	GUILD_HOMEFLOOR_MATERIAL,
+
+	TABLIST_SCHEME
 	;
 
 	private final ConfigManager cM = NovaGuilds.getInst().getConfigManager();
@@ -59,6 +64,18 @@ public enum Config {
 
 	public String getString() {
 		String r = cM.isInCache(this) ? (String) cM.getEnumConfig(this) : cM.getString(path);
+		cM.putInCache(this, r);
+		return r;
+	}
+
+	public List<String> getStringList() {
+		List<String> r = cM.isInCache(this) ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path);
+		cM.putInCache(this, r);
+		return r;
+	}
+
+	public List<ItemStack> getItemStackList() {
+		List<ItemStack> r = cM.isInCache(this) ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path);
 		cM.putInCache(this, r);
 		return r;
 	}
@@ -100,10 +117,33 @@ public enum Config {
 	}
 
 	public static String[] getTablistScheme() {
-		String[] scheme = new String[]{
-				"potato {PLAYER}",
-				"lel {SECOND}"
-		};
+		List<String> contentList = Config.TABLIST_SCHEME.getStringList();
+		String[] content = contentList.toArray(new String[60]);
+
+		String[] scheme = new String[60];
+		System.arraycopy(content, 0, scheme, 0, content.length);
+		int co = 1;
+		int coi = 0;
+
+		for(int i=0; i<60; i++) {
+			if(coi!=0 && coi % 10 == 0) {
+				co++;
+				coi = 0;
+			}
+
+			if(scheme[i]==null || scheme[i].isEmpty()) {
+				scheme[i] = "";
+				for(int i2=0; i2<co; i2++) {
+					scheme[i] += StringUtils.fixColors("&" + coi);
+				}
+			}
+			else {
+				scheme[i] = StringUtils.fixColors(scheme[i]);
+			}
+
+			coi++;
+		}
+
 		return scheme;
 	}
 }
