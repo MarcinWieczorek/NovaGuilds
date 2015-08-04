@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -73,7 +74,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 		        player.getInventory().addItem(book);
 			}
 			else if(args[0].equalsIgnoreCase("tool")) { //TOOL
-				new CommandToolGet(plugin).onCommand(sender, cmd, label, args);
+				plugin.getCommandManager().getExecutor(Commands.TOOL_GET).execute(sender, args);
 			}
 			else if(args[0].equalsIgnoreCase("bank")) { //bank
 				if(!sender.hasPermission("novaguilds.test.bank")) {
