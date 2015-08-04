@@ -2,7 +2,9 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,36 +16,42 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.HashMap;
 import java.util.List;
 
-public class CommandGuildEffect implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandGuildEffect implements Executor {
+	private final Commands command;
 
-	public CommandGuildEffect(NovaGuilds pl) {
-		plugin = pl;
+	public CommandGuildEffect(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.guild.effect")) {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
+		}
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		if(!nPlayer.isLeader()) {
 			Message.CHAT_GUILD_NOTLEADER.send(sender);
-			return true;
+			return;
 		}
 
 		double price = plugin.getGroupManager().getGroup(sender).getGuildEffectPrice();
 
 		if(nPlayer.getGuild().getMoney() < price) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
-			return true;
+			return;
 		}
 
 		//TODO: configurable duration
@@ -74,6 +82,5 @@ public class CommandGuildEffect implements CommandExecutor {
 		vars.put("EFFECTTYPE",effectType.getName());
 
 		Message.CHAT_GUILD_EFFECT_SUCCESS.vars(vars).send(sender);
-		return true;
 	}
 }
