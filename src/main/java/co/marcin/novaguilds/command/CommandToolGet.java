@@ -1,39 +1,32 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandToolGet implements CommandExecutor {
-	private final NovaGuilds plugin;
-	private final Commands command = Commands.TOOL_GET;
-	
-	public CommandToolGet(NovaGuilds pl) {
-		plugin = pl;
+public class CommandToolGet implements Executor {
+	private final Commands command;
+
+	public CommandToolGet(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
 		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
 		if(!command.allowedSender(sender)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
+			return;
 		}
 
-		Material tool = Material.getMaterial(plugin.getConfig().getString("region.tool.item").toUpperCase());
-
-		if(tool != null) {
-	        Player player = plugin.getServer().getPlayer(sender.getName());
-			player.getInventory().addItem(plugin.getConfigManager().getToolItem());
-		}
-		return true;
+		((Player) sender).getInventory().addItem(Config.getManager().getToolItem());
 	}
 }
