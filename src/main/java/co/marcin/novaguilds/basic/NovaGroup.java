@@ -3,6 +3,7 @@ package co.marcin.novaguilds.basic;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -73,7 +74,15 @@ public class NovaGroup {
 			if(guildJoinItems == null) {
 				guildJoinItems = new ArrayList<>();
 			}
+
+			if(guildBuylifeItems == null) {
+				guildBuylifeItems = new ArrayList<>();
+			}
 		}
+	}
+
+	public static NovaGroup get(CommandSender sender) {
+		return NovaGuilds.getInst().getGroupManager().getGroup(sender);
 	}
 
 	public String getName() {
