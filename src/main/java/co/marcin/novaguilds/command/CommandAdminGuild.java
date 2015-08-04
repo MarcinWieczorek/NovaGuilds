@@ -20,8 +20,8 @@ public class CommandAdminGuild implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		String[] newArgs = StringUtils.parseArgs(args, 1);
-		String[] newArgs2 = StringUtils.parseArgs(args, 2);
+		String[] newArgs = StringUtils.parseArgs(args, 1); //nga g <guild> [command args]
+		String[] newArgs2 = StringUtils.parseArgs(args, 2); //nga g <guild> command [args]
 
 		List<String> noguildcmds = new ArrayList<>();
 		noguildcmds.add("list");
