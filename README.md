@@ -10,7 +10,7 @@ Please leave feedback!<br/><br/>
 <br/>
 
 <h2><b>Downloads</b></h2>
-<a href="http://novaguilds.pl">http://novaguilds.marcin.pl/</a>
+<a href="http://novaguilds.pl">http://novaguilds.pl/</a>
 <br/><br/><br/>
 
 <h2><b>Setup</b></h2>
