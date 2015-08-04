@@ -3,7 +3,9 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -15,29 +17,31 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 
-public class CommandGuildHome implements CommandExecutor {
-private final NovaGuilds plugin;
-	
-	public CommandGuildHome(NovaGuilds pl) {
-		plugin = pl;
+public class CommandGuildHome implements Executor {
+	private final Commands command;
+
+	public CommandGuildHome(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.guild.home")) {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
-		if(!(sender instanceof Player)) {
+		if(!command.allowedSender(sender)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
+			return;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		Player player = (Player)sender;
@@ -45,24 +49,24 @@ private final NovaGuilds plugin;
 		if(args.length>0 && args[0].equalsIgnoreCase("set")) {
 			if(!sender.hasPermission("novaguilds.guild.home.set")) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
-				return true;
+				return;
 			}
 
 			if(!nPlayer.isLeader()) {
 				Message.CHAT_GUILD_NOTLEADER.send(sender);
-				return true;
+				return;
 			}
 
 			NovaRegion rgatloc = plugin.getRegionManager().getRegion(player.getLocation());
 
 			if(rgatloc==null && nPlayer.getGuild().hasRegion()) {
 				Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);
-				return true;
+				return;
 			}
 
 			if(rgatloc != null && !rgatloc.getGuild().isMember(nPlayer)) {
 				Message.CHAT_GUILD_SETHOME_OVERLAPS.send(sender);
-				return true;
+				return;
 			}
 
 			nPlayer.getGuild().setSpawnPoint(player.getLocation());
@@ -93,7 +97,7 @@ private final NovaGuilds plugin;
 
 					Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 					sender.sendMessage(StringUtils.fixColors(itemlist));
-					return true;
+					return;
 				}
 			}
 
@@ -106,7 +110,7 @@ private final NovaGuilds plugin;
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
 					Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
-					return true;
+					return;
 				}
 			}
 
@@ -115,6 +119,5 @@ private final NovaGuilds plugin;
 			InventoryUtils.removeItems(player, homeItems);
 			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_GUILD_HOME);
 		}
-		return true;
 	}
 }
