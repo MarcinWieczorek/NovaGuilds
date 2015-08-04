@@ -32,13 +32,13 @@ public class CommandGuild implements CommandExecutor {
 
 			switch(command) {
 				case "pay":
-					new CommandGuildBankPay(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_BANK_PAY).execute(sender, newargs);
 					break;
 				case "withdraw":
-					new CommandGuildBankWithdraw(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_BANK_WITHDRAW).execute(sender, newargs);
 					break;
 				case "leader":
-					new CommandGuildLeader(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_LEADER).execute(sender, newargs);
 					break;
 				case "info":
 					new CommandGuildInfo(plugin).onCommand(sender, cmd, label, newargs);
@@ -47,16 +47,16 @@ public class CommandGuild implements CommandExecutor {
 					new CommandGuildLeave(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				case "home":
-					new CommandGuildHome(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_HOME).execute(sender, newargs);
 					break;
 				case "buyregion":
 					new CommandRegionBuy(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				case "ally":
-					new CommandGuildAlly(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_ALLY).execute(sender, newargs);
 					break;
 				case "kick":
-					new CommandGuildKick(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_KICK).execute(sender, newargs);
 					break;
 				case "abandon":
 					new CommandGuildAbandon(plugin).onCommand(sender, cmd, label, newargs);
@@ -74,10 +74,10 @@ public class CommandGuild implements CommandExecutor {
 					new CommandGuildWar(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				case "compass":
-					new CommandGuildCompass(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_COMPASS).execute(sender, newargs);
 					break;
 				case "effect":
-					new CommandGuildEffect(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_EFFECT).execute(sender, newargs);
 					break;
 				case "top":
 					new CommandGuildTop(plugin).onCommand(sender, cmd, label, newargs);
@@ -86,7 +86,10 @@ public class CommandGuild implements CommandExecutor {
 					new CommandGuildRequiredItems(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				case "pvp":
-					new CommandGuildPvpToggle(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_PVPTOGGLE).execute(sender, newargs);
+					break;
+				case "buylife":
+					plugin.getCommandManager().getExecutor(Commands.GUILD_BUYLIFE).execute(sender, newargs);
 					break;
 				default:
 					Message.CHAT_UNKNOWNCMD.send(sender);
