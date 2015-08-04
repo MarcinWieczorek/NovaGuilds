@@ -370,13 +370,20 @@ public class RegionUtils {
 			return;
 		}
 
+		Material useMaterial;
+		byte useData;
+
 		for(Block block : getBorderBlocks(l1, l2)) {
 			if(material == null) {
-				material = player.getWorld().getBlockAt(block.getLocation()).getType();
-				data = player.getWorld().getBlockAt(block.getLocation()).getData();
+				useMaterial = player.getWorld().getBlockAt(block.getLocation()).getType();
+				useData = player.getWorld().getBlockAt(block.getLocation()).getData();
+			}
+			else {
+				useMaterial = material;
+				useData = data;
 			}
 
-			player.sendBlockChange(block.getLocation(), material, data);
+			player.sendBlockChange(block.getLocation(), useMaterial, useData);
 		}
 	}
 }
