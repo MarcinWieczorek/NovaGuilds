@@ -15,7 +15,7 @@ public class CommandPlayerInfo implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.region.create")) {
+		if(!sender.hasPermission("novaguilds.playerinfo")) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
