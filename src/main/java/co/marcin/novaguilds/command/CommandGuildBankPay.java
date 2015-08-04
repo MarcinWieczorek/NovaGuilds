@@ -1,49 +1,50 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class CommandGuildBankPay implements CommandExecutor {
-	private final NovaGuilds plugin;
-	
-	public CommandGuildBankPay(NovaGuilds pl) {
-		plugin = pl;
+public class CommandGuildBankPay implements Executor {
+	private final Commands command;
+
+	public CommandGuildBankPay(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!(sender instanceof Player)) {
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.allowedSender(sender)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
+			return;
 		}
 
 		Player player = (Player)sender;
 		
-		if(!sender.hasPermission("novaguilds.guild.bank.pay")) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
 
 		if(args.length==0 || !NumberUtils.isNumeric(args[0])) {
 			Message.CHAT_GUILD_BANK_ENTERAMOUNT.send(sender);
-			return true;
+			return;
 		}
 
 		Double money = Double.parseDouble(args[0]);
@@ -52,13 +53,13 @@ public class CommandGuildBankPay implements CommandExecutor {
 
 		if(money < 0) {
 			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
-			return true;
+			return;
 		}
 
 //		if(plugin.econ.getBalance(player) < money) { //1.8
 		if(plugin.econ.getBalance(player.getName()) < money) { //1.7
 			Message.CHAT_GUILD_BANK_PAY_NOTENOUGH.send(sender);
-			return true;
+			return;
 		}
 
 //		plugin.econ.withdrawPlayer(player, money); //1.8
@@ -67,7 +68,5 @@ public class CommandGuildBankPay implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
 		Message.CHAT_GUILD_BANK_PAY_PAID.vars(vars).send(sender);
-
-		return true;
 	}
 }
