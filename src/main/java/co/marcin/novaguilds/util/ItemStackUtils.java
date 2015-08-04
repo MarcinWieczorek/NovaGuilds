@@ -222,7 +222,7 @@ public class ItemStackUtils {
 			loreString = StringUtils.fixColors(loreString);
 
 			if(loreString.contains("|")) {
-				Collections.addAll(lore, loreString.split("|"));
+				Collections.addAll(lore, org.apache.commons.lang.StringUtils.split(loreString, '|'));
 			}
 			else {
 				lore.add(loreString);
@@ -230,7 +230,6 @@ public class ItemStackUtils {
 
 
 			itemStack = new ItemStack(material,amount,data);
-			//System.out.println(itemStack==null);
 			itemStack.addUnsafeEnchantments(enchantments);
 			ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -239,7 +238,6 @@ public class ItemStackUtils {
 			}
 
 			if(!loreString.isEmpty()) {
-				lore.add(loreString);
 				itemMeta.setLore(lore);
 			}
 
