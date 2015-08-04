@@ -45,6 +45,7 @@ public enum Config {
 	REGION_MINSIZE,
 	REGION_MAXSIZE,
 	REGION_MINDISTANCE,
+	REGION_TOOL,
 
 	GUILD_CREATEPROTECTION,
 	GUILD_MAXPLAYERS,
@@ -55,7 +56,7 @@ public enum Config {
 	TABLIST_SCHEME
 	;
 
-	private final ConfigManager cM = NovaGuilds.getInst().getConfigManager();
+	private static final ConfigManager cM = NovaGuilds.getInst().getConfigManager();
 	private final String path;
 
 	Config() {
@@ -145,5 +146,9 @@ public enum Config {
 		}
 
 		return scheme;
+	}
+
+	public static ConfigManager getManager() {
+		return cM;
 	}
 }

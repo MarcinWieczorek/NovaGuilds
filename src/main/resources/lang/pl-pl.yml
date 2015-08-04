@@ -412,20 +412,6 @@ holographicdisplays:
   header: "&2Gildie &cTOP5"
   row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
 
-items:
- tool:
-  name: "&5NovaGuilds &6Patyk"
-  lore:
-   - "&cLewy + SHIFT"
-   - "&6Aby zmienic tryb"
-   - "&e****&2SPRAWDZANIE&e****"
-   - "&6Kliknij prawy"
-   - "&e****&2ZAZNACZANIE&e***"
-   - "&cLewy/Prawy"
-   - "&6przycisk aby zaznaczyc"
-   - "&6Kliknij prawy na rog"
-   - "&6by zmienic rozmiar"
-
 #no prefix, start with color
 barapi:
  warprogress: "&3Gildia &a{DEFENDER} &3jest atakowana!"

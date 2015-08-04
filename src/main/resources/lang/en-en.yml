@@ -412,20 +412,6 @@ holographicdisplays:
   header: "&2Guilds &cTOP5"
   row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
   
-items:
- tool:
-  name: "&5NovaGuilds &6Tool"
-  lore:
-   - "&cLeft Click + SHIFT"
-   - "&6To toggle the mode"
-   - "&e****&2Check Mode&e****"
-   - "&6Right click to check"
-   - "&e****&2Select Mode&e***"
-   - "&cLeft/Right"
-   - "&6click to select"
-   - "&6Right click a corner"
-   - "&6to resize"
-  
 #no prefix, start with color
 barapi:
  warprogress: "&3Guild &a{DEFENDER} &3is under attack!"

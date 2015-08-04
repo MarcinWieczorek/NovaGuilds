@@ -9,7 +9,6 @@ import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -155,21 +154,7 @@ public class ConfigManager {
 		}
 
 		//tool
-		Material toolMaterial = Material.getMaterial(plugin.getConfig().getString("region.tool.item").toUpperCase());
-		toolItem = new ItemStack(toolMaterial, 1);
-		ItemMeta meta = toolItem.getItemMeta();
-		meta.setDisplayName(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("items.tool.name")));
-
-		List<String> lorecodes = plugin.getMessageManager().getMessages().getStringList("items.tool.lore");
-		List<String> lore = new ArrayList<>();
-
-		for(String l : lorecodes) {
-			lore.add(StringUtils.fixColors(l));
-		}
-
-		meta.setLore(lore);
-
-		toolItem.setItemMeta(meta);
+		toolItem = Config.REGION_TOOL.getItemStack();
 
 		//Check time values
 		if(guildLiveRegenerationTaskInterval < 60) {
