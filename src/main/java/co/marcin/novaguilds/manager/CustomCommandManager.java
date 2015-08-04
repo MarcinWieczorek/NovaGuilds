@@ -60,7 +60,6 @@ public class CustomCommandManager {
 		plugin.getCommand("guild").setExecutor(new CommandGuild(plugin));
 		plugin.getCommand("gi").setExecutor(new CommandGuildInfo(plugin));
 		plugin.getCommand("create").setExecutor(new CommandGuildCreate(plugin));
-		plugin.getCommand("nghome").setExecutor(new CommandGuildHome(plugin));
 		plugin.getCommand("join").setExecutor(new CommandGuildJoin(plugin));
 		plugin.getCommand("leave").setExecutor(new CommandGuildLeave(plugin));
 
@@ -68,6 +67,23 @@ public class CustomCommandManager {
 		plugin.getCommand("guildmenu").setExecutor(new CommandGuildMenu(plugin));
 
 		plugin.getCommand("playerinfo").setExecutor(new CommandPlayerInfo(plugin));
+
+		//register custom executors
+		new CommandGuildBuyLife(Commands.GUILD_BUYLIFE);
+		new CommandGuildCompass(Commands.GUILD_COMPASS);
+		new CommandToolGet(Commands.TOOL_GET);
+		new CommandGuildAlly(Commands.GUILD_ALLY);
+		new CommandGuildBankPay(Commands.GUILD_BANK_PAY);
+		new CommandGuildBankWithdraw(Commands.GUILD_BANK_WITHDRAW);
+		new CommandGuildEffect(Commands.GUILD_EFFECT);
+		new CommandGuildHome(Commands.GUILD_HOME);
+		new CommandGuildKick(Commands.GUILD_KICK);
+		new CommandGuildLeader(Commands.GUILD_LEADER);
+		new CommandGuildPvpToggle(Commands.GUILD_PVPTOGGLE);
+//		new CommandGuildTop(Commands.GUILD_TOP);
+//		new CommandGuildRequiredItems(Commands.GUILD_REQUIREDITEMS);
+//		new CommandGuildWar(Commands.GUILD_WAR);
+//		new CommandGuildBoss(Commands.GUILD_BOSS);
 	}
 
 	public String getGuiCommand(ItemStack itemStack) {
