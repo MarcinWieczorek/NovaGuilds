@@ -31,12 +31,13 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
         String playername = args[0];
 
-        if(!plugin.getPlayerManager().exists(playername)) { //invalid player
+        NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
+
+        if(nPlayer == null) { //invalid player
             Message.CHAT_PLAYER_NOTEXISTS.send(sender);
             return true;
         }
 
-        NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
         HashMap<String,String> vars = new HashMap<>();
         vars.put("PLAYERNAME",nPlayer.getName());
 
