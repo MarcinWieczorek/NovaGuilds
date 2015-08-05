@@ -74,7 +74,12 @@ public class TagUtils {
 		Scoreboard board = p.getScoreboard();
 		Team team;
 		if(board.getPlayerTeam(player) == null) {
-			team = board.registerNewTeam("ng_"+player.getName());
+			String tName = "ng_"+player.getName();
+			if(tName.length() > 16) {
+				tName = tName.substring(0, 16);
+			}
+
+			team = board.registerNewTeam(tName);
 			team.addPlayer(player);
 		}
 		else {
