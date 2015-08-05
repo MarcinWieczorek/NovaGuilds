@@ -62,6 +62,7 @@ Please leave feedback!<br/><br/>
 <br/>
 <h2><b>Undocumented features (bugs)</b></h2>
 <ul>
+    <li>Flat and SQLite are not stable, use MySQL</li>
     <li>Found any? Github -> issues</li>
 </ul>
 
