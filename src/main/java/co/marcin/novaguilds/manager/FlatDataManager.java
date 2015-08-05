@@ -5,9 +5,12 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.util.LoggerUtils;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -182,7 +185,7 @@ public class FlatDataManager {
 			}
 		}
 		else {
-			LoggerUtils.debug("Attempting to save non-existing guild. "+guild.getName());
+			LoggerUtils.debug("Attempting to save non-existing guild. " + guild.getName());
 		}
 	}
 
@@ -341,11 +344,11 @@ public class FlatDataManager {
 			for(File file : filesList) {
 				if(file.isFile()) {
 					String name = file.getName();
-					if(name.contains(".")) {
-						name = name.split(".")[0];
+					LoggerUtils.debug(name);
+					if(StringUtils.contains(name, '.')) {
+						name = StringUtils.split(name, '.')[0];
+						list.add(name);
 					}
-
-					list.add(name);
 				}
 			}
 		}
