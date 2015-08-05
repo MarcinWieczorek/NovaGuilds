@@ -83,7 +83,7 @@ public class CustomCommandManager {
 //		new CommandGuildTop(Commands.GUILD_TOP);
 //		new CommandGuildRequiredItems(Commands.GUILD_REQUIREDITEMS);
 //		new CommandGuildWar(Commands.GUILD_WAR);
-//		new CommandGuildBoss(Commands.GUILD_BOSS);
+		new CommandGuildBoss(Commands.GUILD_BOSS);
 	}
 
 	public String getGuiCommand(ItemStack itemStack) {
@@ -95,6 +95,8 @@ public class CustomCommandManager {
 	}
 
 	public void updateGuiTop() {int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
+		guiCommands.remove(topItem);
+
 		int i=1;
 		List<String> lore = new ArrayList<>();
 		HashMap<String, String> vars = new HashMap<>();
