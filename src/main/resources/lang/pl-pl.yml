@@ -427,3 +427,26 @@ inventory:
   name: Wymagane przedmioty
  ggui:
   name: Menu Gildii
+
+timeunit:
+ second:
+  singular: sekunda
+  plural: sekundy
+ minute:
+  singular: minuta
+  plural: minuty
+ hour:
+  singular: godzina
+  plural: godziny
+ day:
+  singular: dzien
+  plural: dni
+ week:
+  singular: tydzien
+  plural: tygodni
+ month:
+  singular: miesiac
+  plural: miesiecy
+ year:
+  singular: rok
+  plural: lata

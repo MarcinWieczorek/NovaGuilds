@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Message;
 import com.google.common.io.CharStreams;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -216,72 +217,52 @@ public final class StringUtils {
 		int minutes = seconds / minute;
 		seconds = seconds % minute;
 
-		String str_years="", str_days="", str_hours="", str_seconds="", str_minutes="";
+		String stringYears="", stringDays="", stringHours="", stringSeconds="", stringMinutes="";
 
 		if(years > 0) {
-			String formYear = "year";
+			Message formYear = years > 1 ? Message.TIMEUNIT_YEAR_PLURAL : Message.TIMEUNIT_YEAR_SINGULAR;
 
-			if(years > 1) {
-				formYear = "years";
-			}
-
-			str_years = years + " "+formYear+" ";
+			stringYears = years + " "+formYear.get()+" ";
 		}
 
 		if(days > 0) {
-			String formDay = "day";
+			Message formDay = days > 1 ? Message.TIMEUNIT_DAY_PLURAL : Message.TIMEUNIT_DAY_SINGULAR;
 
-			if(days > 1) {
-				formDay = "days";
-			}
-
-			str_days = days + " "+formDay+" ";
+			stringDays = days + " "+formDay.get()+" ";
 		}
 
 		if(hours > 0) {
-			String formHour = "hour";
+			Message formHour = hours > 1 ? Message.TIMEUNIT_HOUR_PLURAL : Message.TIMEUNIT_HOUR_SINGULAR;
 
-			if(hours > 1) {
-				formHour = "hours";
-			}
-
-			str_hours = hours + " "+formHour+" ";
+			stringHours = hours + " "+formHour.get()+" ";
 		}
 
 		if(minutes > 0) {
-			String formMinute = "minute";
+			Message formMinute = minutes > 1 ? Message.TIMEUNIT_MINUTE_PLURAL : Message.TIMEUNIT_MINUTE_SINGULAR;
 
-			if(minutes > 1) {
-				formMinute = "minutes";
-			}
-
-			str_minutes = minutes + " "+formMinute+" ";
+			stringMinutes = minutes + " "+formMinute.get()+" ";
 		}
 
 		if(seconds > 0) {
-			String formSecond = "second";
+			Message formSecond = seconds > 1 ? Message.TIMEUNIT_SECOND_PLURAL : Message.TIMEUNIT_SECOND_SINGULAR;
 
-			if(seconds > 1) {
-				formSecond = "seconds";
-			}
-
-			str_seconds = seconds + " "+formSecond+" ";
+			stringSeconds = seconds + " "+formSecond.get()+" ";
 		}
 
 		if(unit == TimeUnit.DAYS) {
-			str_hours="";
-			str_minutes="";
-			str_seconds="";
+			stringHours="";
+			stringMinutes="";
+			stringSeconds="";
 		}
 		else if(unit == TimeUnit.HOURS) {
-			str_minutes="";
-			str_seconds="";
+			stringMinutes="";
+			stringSeconds="";
 		}
 		else if(unit == TimeUnit.MINUTES) {
-			str_seconds="";
+			stringSeconds="";
 		}
 
-		return str_years + str_days + str_hours + str_minutes + str_seconds;
+		return stringYears + stringDays + stringHours + stringMinutes + stringSeconds;
 	}
 
 	public static int StringToSeconds(String str) {
