@@ -2,10 +2,8 @@ package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.wstab.Tab;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -15,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaPlayer implements Cloneable {
+public class NovaPlayer {
 	private Player player;
 	private NovaGuild guild;
 	private String name;
@@ -36,7 +34,6 @@ public class NovaPlayer implements Cloneable {
 	private boolean resizing = false;
 	private int resizingCorner = 0;
 	private boolean compassPointingGuild = false;
-	private Tab tab;
 
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
