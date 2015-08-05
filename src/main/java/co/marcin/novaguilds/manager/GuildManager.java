@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
@@ -703,10 +704,17 @@ public class GuildManager {
 
 	public void delayedTeleport(Player player, Location location, Message message) {
 		Runnable task = new RunnableTeleportRequest(player,location, message);
-		plugin.worker.schedule(task,plugin.getGroupManager().getGroup(player).getGuildTeleportDelay(), TimeUnit.SECONDS);
 
-		if(plugin.getGroupManager().getGroup(player).getGuildTeleportDelay() > 0) {
+		int delay = NovaGroup.get(player)==null ? 0 : NovaGroup.get(player).getGuildTeleportDelay();
+
+		plugin.getWorker().schedule(task, delay, TimeUnit.SECONDS);
+
+		if(delay > 0) {
 			plugin.getMessageManager().sendDelayedTeleportMessage(player);
+		}
+		else {
+			player.teleport(location);
+			message.send(player);
 		}
 	}
 }
