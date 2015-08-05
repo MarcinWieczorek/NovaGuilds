@@ -159,7 +159,6 @@ guild:
 #there's no need for admin group. novaguilds.group.admin for all stuff free
 groups:
  default: #this is default
-  #teleport delay in seconds
   effectprice: 100
   guild:
    home:
