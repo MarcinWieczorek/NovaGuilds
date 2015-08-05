@@ -118,3 +118,5 @@ permissions:
         default: op
     novaguilds.group.default:
         default: true
+    novaguilds.info:
+        default: true

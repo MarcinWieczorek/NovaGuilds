@@ -34,6 +34,11 @@ public class CommandNovaGuilds implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length == 0) {
+			if(!sender.hasPermission("novaguilds.info")) {
+				Message.CHAT_NOPERMISSIONS.send(sender);
+				return true;
+			}
+
 			String[] info = {
 					"NovaGuilds &6#&c"+plugin.getBuild(),
 					"Author: &6Marcin (CTRL) Wieczorek",
