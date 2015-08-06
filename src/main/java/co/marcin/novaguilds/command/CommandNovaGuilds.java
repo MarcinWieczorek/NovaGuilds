@@ -95,9 +95,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			}
 		}
 		else if(args[0].equalsIgnoreCase("admin")) { //Admin commands
-			if(sender.hasPermission("novaguilds.admin.access")) {
-				new CommandAdmin(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
-			}
+			new CommandAdmin(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 		}
 		else if(args[0].equalsIgnoreCase("group")) { //Admin commands
 			NovaGroup group = plugin.getGroupManager().getGroup(sender);
