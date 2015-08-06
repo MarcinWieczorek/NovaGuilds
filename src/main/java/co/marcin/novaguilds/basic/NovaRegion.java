@@ -1,6 +1,5 @@
 package co.marcin.novaguilds.basic;
 
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 

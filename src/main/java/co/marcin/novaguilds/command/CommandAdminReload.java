@@ -1,7 +1,6 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;

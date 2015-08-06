@@ -2,7 +2,6 @@ package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.manager.ConfigManager;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

@@ -8,7 +8,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.RegionUtils;
-import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,7 +19,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ToolListener implements Listener {
 	private final NovaGuilds plugin;
