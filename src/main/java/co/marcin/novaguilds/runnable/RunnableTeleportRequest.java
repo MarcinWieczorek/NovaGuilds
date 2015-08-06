@@ -20,7 +20,7 @@ public class RunnableTeleportRequest implements Runnable {
 
 	@Override
 	public void run() {
-		if(player.getLocation().distance(startLocation) == 0) {
+		if(player.getLocation().distance(startLocation) < 1) {
 			player.teleport(location);
 			message.send(player);
 		}
