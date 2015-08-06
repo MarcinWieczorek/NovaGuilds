@@ -45,12 +45,15 @@ public class LoginListener implements Listener {
 			player.setDisplayName(plugin.tagUtils.getTag(player)+player.getDisplayName());
 		}
 
-		nPlayer.getGuild().showBankHologram(player);
+		//Show bank hologram
+		if(nPlayer.hasGuild()) {
+			nPlayer.getGuild().showBankHologram(player);
+		}
 
 		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
 			plugin.getRegionManager().playerEnteredRegion(player,player.getLocation());
 		}
-		
+
 		//TabAPI
 		plugin.tagUtils.updatePrefix(player);
 	}
