@@ -52,10 +52,12 @@ public class CommandGuildBuyLife implements Executor {
 
 		if(items.size() > 0 && missingItems.size() > 0) {
 			Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+			return;
 		}
 
 		if(money > 0 && !nPlayer.hasMoney(money)) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
+			return;
 		}
 
 		InventoryUtils.removeItems(nPlayer.getPlayer(), items);
