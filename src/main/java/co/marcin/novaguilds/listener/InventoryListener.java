@@ -27,7 +27,6 @@ public class InventoryListener implements Listener {
 
 		Inventory clickedInventory = InventoryUtils.getClickedInventory(event);
 
-		//1.8
 		if(clickedInventory != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
 			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
 				if(clickedInventory.equals(event.getView().getTopInventory()) || event.isShiftClick()) {
@@ -44,21 +43,5 @@ public class InventoryListener implements Listener {
 				}
 			}
 		}
-
-		//1.7
-//		if(event.getInventory() != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
-//			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
-//				if(event.getInventory().getTitle().equals(nameGGUI)) {
-//					ItemStack clickedItem = event.getCurrentItem();
-//
-//					String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
-//					player.chat("/"+menuCommand);
-//					player.closeInventory();
-//				}
-//
-//				event.setCancelled(true);
-//
-//			}
-//		}
 	}
 }
