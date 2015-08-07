@@ -36,7 +36,10 @@ public class InventoryListener implements Listener {
 
 						String menuCommand = plugin.getCommandManager().getGuiCommand(clickedItem);
 
-						player.chat("/" + menuCommand);
+						if(menuCommand != null && !menuCommand.isEmpty()) {
+							player.chat("/" + menuCommand);
+							player.closeInventory();
+						}
 					}
 
 					event.setCancelled(true);
