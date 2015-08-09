@@ -326,6 +326,7 @@ chat:
 
 
  createguild:
+  disabledworld: "Nie mozesz stworzyc gildii na tym swiecie."
   notenoughmoney: "Nie masz wystarczajacej ilosci pieniedzy"
   itemlist: "&c{AMOUNT} {ITEMNAME}"
   itemlistsep: "&f, "

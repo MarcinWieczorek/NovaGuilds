@@ -118,6 +118,10 @@ killing:
  moneyforrevenge: 10%
 
 guild:
+ disabledworlds:
+  - world_nether
+  - world_the_end
+
  #time to remove inactive guilds (minutes) (default 7 days)
  inactivetime: 7d
 

@@ -113,6 +113,12 @@ public class CommandGuildCreate implements CommandExecutor {
 			return true;
 		}
 
+		//Disabled worlds
+		if(Config.GUILD_DISABLEDWORLDS.getStringList().contains(player.getWorld().getName())) {
+			Message.CHAT_CREATEGUILD_DISABLEDWORLD.send(sender);
+			return true;
+		}
+
 		//items required
 		List<ItemStack> items = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
 		double requiredmoney = plugin.getGroupManager().getGroup(sender).getGuildCreateMoney();

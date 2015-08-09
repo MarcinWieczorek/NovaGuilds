@@ -326,6 +326,7 @@ chat:
   
   
  createguild:
+  disabledworld: "Guilds are disabled in this world."
   notenoughmoney: "Not enough money"
   itemlist: "&c{AMOUNT} {ITEMNAME}"
   itemlistsep: "&f, "
