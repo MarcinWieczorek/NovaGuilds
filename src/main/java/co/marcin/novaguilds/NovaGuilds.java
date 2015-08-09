@@ -459,4 +459,12 @@ public class NovaGuilds extends JavaPlugin {
 	public void setConfigManager(ConfigManager configManager) {
 		this.configManager = configManager;
 	}
+
+	public void setCommandManager(CustomCommandManager commandManager) {
+		this.commandManager = commandManager;
+	}
+
+	public ScheduledExecutorService getWorker() {
+		return worker;
+	}
 }
