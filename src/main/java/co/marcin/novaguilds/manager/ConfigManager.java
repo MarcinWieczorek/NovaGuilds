@@ -33,16 +33,12 @@ public class ConfigManager {
 	private String databasePrefix;
 
 	private long cleanupInactiveTime;
-	private long cleanupInterval;
-	private boolean cleanupEnabled;
 
-	private boolean raidEnabled;
 	private long raidTimeRest;
 	private long raidTimeInactive;
 
 	private long guildLiveRegenerationTime;
 	private long guildDistanceFromSpawn;
-	private long guildLiveRegenerationTaskInterval;
 
 	private boolean chatTagColors;
 	private boolean chatDisplayNameTags;
@@ -79,13 +75,12 @@ public class ConfigManager {
 
 		debug = Config.DEBUG.getBoolean();
 
-		raidEnabled = config.getBoolean("raid.enabled");
 		raidTimeRest = StringUtils.StringToSeconds(config.getString("raid.timerest"));
 		raidTimeInactive = StringUtils.StringToSeconds(config.getString("raid.timeinactive"));
 
 		guildDistanceFromSpawn = config.getLong("guild.fromspawn");
 		guildLiveRegenerationTime = StringUtils.StringToSeconds(config.getString("liveregeneration.regentime"));
-		guildLiveRegenerationTaskInterval = StringUtils.StringToSeconds(config.getString("liveregeneration.taskinterval"));
+		long guildLiveRegenerationTaskInterval = StringUtils.StringToSeconds(config.getString("liveregeneration.taskinterval"));
 
 		//bank
 		guildBankEnabled = config.getBoolean("bank.enabled");
@@ -105,9 +100,8 @@ public class ConfigManager {
 			}
 		}
 
-		cleanupEnabled = config.getBoolean("cleanup.enabled");
 		cleanupInactiveTime = StringUtils.StringToSeconds(config.getString("cleanup.inactivetime"));
-		cleanupInterval = StringUtils.StringToSeconds(config.getString("cleanup.interval"));
+		long cleanupInterval = StringUtils.StringToSeconds(config.getString("cleanup.interval"));
 
 		databasePrefix = config.getString("mysql.prefix");
 
@@ -164,13 +158,14 @@ public class ConfigManager {
 		//Check time values
 		if(guildLiveRegenerationTaskInterval < 60) {
 			LoggerUtils.error("Live regeneration task interval can't be shorter than 60 seconds.");
-			guildLiveRegenerationTaskInterval = 60;
+			config.set("liveregeneration.taskinterval", 60);
 		}
 
 		if(cleanupInterval < 60) {
 			LoggerUtils.error("Cleanup interval can't be shorter than 60 seconds.");
-			cleanupEnabled = false;
+			config.set("cleanup.interval", 60);
 		}
+
 		if(Config.SAVEINTERVAL.getSeconds() < 60) {
 			LoggerUtils.error("Save interval can't be shorter than 60 seconds.");
 			config.set("saveinterval",60);
@@ -191,16 +186,8 @@ public class ConfigManager {
 		return cleanupInactiveTime;
 	}
 
-	public long getCleanupInterval() {
-		return cleanupInterval;
-	}
-
 	public long getGuildLiveRegenerationTime() {
 		return guildLiveRegenerationTime;
-	}
-
-	public long getGuildLiveRegenerationTaskInterval() {
-		return guildLiveRegenerationTaskInterval;
 	}
 
 	public long getGuildDistanceFromSpawn() {
@@ -240,14 +227,6 @@ public class ConfigManager {
 	}
 
 	//checkers
-	public boolean isCleanupEnabled() {
-		return cleanupEnabled;
-	}
-
-	public boolean isRaidEnabled() {
-		return raidEnabled;
-	}
-
 	public boolean useBarAPI() {
 		return useBarAPI;
 	}
@@ -283,10 +262,6 @@ public class ConfigManager {
 
 	public void disableBarAPI() {
 		useBarAPI = false;
-	}
-
-	public void setDataStorageType(DataStorageType dataStorageType) {
-		this.dataStorageType = dataStorageType;
 	}
 
 	public void setToSecondaryDataStorageType() {
