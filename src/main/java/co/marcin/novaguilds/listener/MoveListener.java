@@ -50,8 +50,8 @@ public class MoveListener implements Listener {
 		NovaRegion toRegion = plugin.getRegionManager().getRegion(to);
 
 		//entering
-		if(fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) {
-			plugin.getRegionManager().playerEnteredRegion(player,event.getTo());
+		if((fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) || (fromRegion!=null && toRegion!=null && !fromRegion.equals(toRegion))) {
+			plugin.getRegionManager().playerEnteredRegion(player, event.getTo());
 		}
 
 		//exiting
