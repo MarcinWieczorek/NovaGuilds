@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,11 @@ public class ConfigManager {
 	public void reload() {
 		cache.clear();
 
-		plugin.saveDefaultConfig();
+		if(!new File(plugin.getDataFolder(),"config.yml").exists()) {
+			LoggerUtils.info("Creating default config...");
+			plugin.saveDefaultConfig();
+		}
+
 		plugin.reloadConfig();
 		config = plugin.getConfig();
 
