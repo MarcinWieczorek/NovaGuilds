@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,12 +20,12 @@ public class CommandGuildRequiredItems implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!sender.hasPermission("novaguilds.guild.requireditems")) {
-
+			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
 
 		if(!(sender instanceof Player)) {
-
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
 		}
 
