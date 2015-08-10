@@ -308,6 +308,10 @@ public class ConfigManager {
 		return config.getInt(path);
 	}
 
+	public double getDouble(String path) {
+		return config.getDouble(path);
+	}
+
 	public boolean getBoolean(String path) {
 		return config.getBoolean(path);
 	}

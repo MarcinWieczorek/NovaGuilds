@@ -91,6 +91,12 @@ public enum Config {
 		return r;
 	}
 
+	public double getDouble() {
+		double r = cM.isInCache(this) ? (double) cM.getEnumConfig(this) : cM.getDouble(path);
+		cM.putInCache(this, r);
+		return r;
+	}
+
 	public int getInt() {
 		int r = cM.isInCache(this) ? (int) cM.getEnumConfig(this) : cM.getInt(path);
 		cM.putInCache(this, r);
