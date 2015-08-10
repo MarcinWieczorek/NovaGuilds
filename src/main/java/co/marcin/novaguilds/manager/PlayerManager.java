@@ -300,7 +300,7 @@ public class PlayerManager {
 		vars.put("POINTS", String.valueOf(nCPlayer.getPoints()));
 		vars.put("KILLS", String.valueOf(nCPlayer.getKills()));
 		vars.put("DEATHS", String.valueOf(nCPlayer.getDeaths()));
-		vars.put("KDR", String.valueOf(nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : nCPlayer.getDeaths())));
+		vars.put("KDR", String.valueOf((double)nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : (double)nCPlayer.getDeaths())));
 
 		String guildRow = "";
 		if(nCPlayer.hasGuild()) {
