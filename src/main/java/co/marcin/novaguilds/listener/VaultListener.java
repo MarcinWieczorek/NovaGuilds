@@ -30,7 +30,7 @@ public class VaultListener implements Listener {
 
 	public VaultListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this,plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
 		//Add disallowed actions
 		dissalowedActions.add(InventoryAction.CLONE_STACK);
@@ -43,6 +43,10 @@ public class VaultListener implements Listener {
 		dissalowedActions.add(InventoryAction.PICKUP_ONE);
 		dissalowedActions.add(InventoryAction.PICKUP_SOME);
 		dissalowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
+		dissalowedActions.add(InventoryAction.DROP_ALL_CURSOR);
+		dissalowedActions.add(InventoryAction.DROP_ALL_SLOT);
+		dissalowedActions.add(InventoryAction.DROP_ONE_CURSOR);
+		dissalowedActions.add(InventoryAction.DROP_ONE_SLOT);
 		dissalowedActions.add(InventoryAction.UNKNOWN);
 
 		//double chest faces
