@@ -3,6 +3,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
@@ -64,6 +65,11 @@ public class DeathListener implements Listener {
 			NovaGuild guildAttacker = nPlayerAttacker.getGuild();
 			guildAttacker.addPoints(plugin.getConfig().getInt("guild.killpoints"));
 		}
+
+		int points = (int) Math.round(nPlayer.getPoints() * (Config.KILLING_RANKPERCENT.getDouble()/100));
+
+		nPlayer.takePoints(points);
+		nPlayerAttacker.addPoints(points);
 
 		//disable death message
 		event.setDeathMessage(null);
