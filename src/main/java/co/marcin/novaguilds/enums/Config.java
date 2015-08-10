@@ -127,37 +127,6 @@ public enum Config {
 		return r;
 	}
 
-	public static String[] getTablistScheme() {
-		List<String> contentList = Config.TABLIST_SCHEME.getStringList();
-		String[] content = contentList.toArray(new String[60]);
-
-		String[] scheme = new String[60];
-		System.arraycopy(content, 0, scheme, 0, content.length);
-		int co = 1;
-		int coi = 0;
-
-		for(int i=0; i<60; i++) {
-			if(coi!=0 && coi % 10 == 0) {
-				co++;
-				coi = 0;
-			}
-
-			if(scheme[i]==null || scheme[i].isEmpty()) {
-				scheme[i] = "";
-				for(int i2=0; i2<co; i2++) {
-					scheme[i] += StringUtils.fixColors("&" + coi);
-				}
-			}
-			else {
-				scheme[i] = StringUtils.fixColors(scheme[i]);
-			}
-
-			coi++;
-		}
-
-		return scheme;
-	}
-
 	public static ConfigManager getManager() {
 		return cM;
 	}

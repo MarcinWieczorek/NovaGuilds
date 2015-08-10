@@ -22,7 +22,6 @@ public class NovaPlayer {
 	private int kills;
 	private int deaths;
 	private GameProfile profile;
-	private Tablist tablist;
 
 	private List<NovaGuild> invitedTo = new ArrayList<>();
 	private boolean regionMode = false;
