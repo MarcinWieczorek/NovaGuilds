@@ -53,6 +53,7 @@ chat:
      alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
      success: "New leader set!"
   region:
+   blockedcmd: "This command is blocked at regions."
    bypass:
     toggled:
      self: "Region bypass toggled. Currently: &c{BYPASS}"

@@ -3,6 +3,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -123,7 +124,22 @@ public class ChatListener implements Listener {
 			cmd = split[0];
 		}
 
-		LoggerUtils.debug(event.getMessage());
+		if(Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+
+			if(nPlayer.getAtRegion() != null) {
+				if(nPlayer.hasGuild()) {
+					if(!nPlayer.getAtRegion().getGuild().isMember(nPlayer) && !nPlayer.getAtRegion().getGuild().isAlly(nPlayer.getGuild())) {
+						Message.CHAT_REGION_BLOCKEDCMD.send(event.getPlayer());
+						event.setCancelled(true);
+					}
+				}
+				else {
+					Message.CHAT_REGION_BLOCKEDCMD.send(event.getPlayer());
+					event.setCancelled(true);
+				}
+			}
+		}
 
 		if(plugin.getCommandManager().existsAlias(cmd)) {
 			event.setMessage(event.getMessage().replaceFirst(cmd, plugin.getCommandManager().getMainCommand(cmd)));
