@@ -83,7 +83,7 @@ public class CommandGuild implements CommandExecutor {
 					new CommandGuildTop(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				case "items":
-					new CommandGuildRequiredItems(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_REQUIREDITEMS).execute(sender, newargs);
 					break;
 				case "pvp":
 					plugin.getCommandManager().getExecutor(Commands.GUILD_PVPTOGGLE).execute(sender, newargs);

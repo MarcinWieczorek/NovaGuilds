@@ -1,9 +1,8 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -11,22 +10,24 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class CommandGuildRequiredItems implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandGuildRequiredItems implements Executor {
+	private final Commands command;
 
-	public CommandGuildRequiredItems(NovaGuilds pl) {
-		plugin = pl;
+	public CommandGuildRequiredItems(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.guild.requireditems")) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
-		if(!(sender instanceof Player)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
+		if(!command.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
 		}
 
 		Player player = (Player)sender;
@@ -44,7 +45,5 @@ public class CommandGuildRequiredItems implements CommandExecutor {
 		}
 
 		player.openInventory(inventory);
-
-		return true;
 	}
 }

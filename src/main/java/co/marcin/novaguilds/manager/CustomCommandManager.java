@@ -81,7 +81,7 @@ public class CustomCommandManager {
 		new CommandGuildLeader(Commands.GUILD_LEADER);
 		new CommandGuildPvpToggle(Commands.GUILD_PVPTOGGLE);
 //		new CommandGuildTop(Commands.GUILD_TOP);
-//		new CommandGuildRequiredItems(Commands.GUILD_REQUIREDITEMS);
+		new CommandGuildRequiredItems(Commands.GUILD_REQUIREDITEMS);
 //		new CommandGuildWar(Commands.GUILD_WAR);
 	}
 
