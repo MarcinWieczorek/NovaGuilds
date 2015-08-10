@@ -60,7 +60,7 @@ public enum Config {
 	TABLIST_SCHEME
 	;
 
-	private static final ConfigManager cM = NovaGuilds.getInst().getConfigManager();
+	private static final ConfigManager cM = NovaGuilds.getInstance().getConfigManager();
 	private final String path;
 
 	Config() {

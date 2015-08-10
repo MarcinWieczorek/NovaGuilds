@@ -498,19 +498,19 @@ public class NovaGuild {
 
 			//update tags
 			if(nP.isOnline()) {
-				NovaGuilds.getInst().tagUtils.updatePrefix(nP.getPlayer());
+				NovaGuilds.getInstance().tagUtils.updatePrefix(nP.getPlayer());
 			}
 		}
 
 		//remove guild invitations
-		for(NovaPlayer nPlayer : NovaGuilds.getInst().getPlayerManager().getPlayers()) {
+		for(NovaPlayer nPlayer : NovaGuilds.getInstance().getPlayerManager().getPlayers()) {
 			if(nPlayer.isInvitedTo(this)) {
 				nPlayer.deleteInvitation(this);
 			}
 		}
 
 		//remove allies and wars
-		for(NovaGuild nGuild : NovaGuilds.getInst().getGuildManager().getGuilds()) {
+		for(NovaGuild nGuild : NovaGuilds.getInstance().getGuildManager().getGuilds()) {
 			//ally
 			if(nGuild.isAlly(this)) {
 				nGuild.removeAlly(this);

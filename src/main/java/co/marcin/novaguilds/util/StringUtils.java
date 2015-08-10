@@ -310,7 +310,7 @@ public final class StringUtils {
 	}
 
 	public static boolean isStringAllowed(String string) {
-		String allowed = NovaGuilds.getInst().getConfig().getString("guild.allowedchars");
+		String allowed = NovaGuilds.getInstance().getConfig().getString("guild.allowedchars");
 		for(int i=0;i<string.length();i++) {
 			if(allowed.indexOf(string.charAt(i)) == -1) {
 				return false;

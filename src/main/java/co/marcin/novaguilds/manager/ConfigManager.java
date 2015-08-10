@@ -57,7 +57,7 @@ public class ConfigManager {
 
 	public ConfigManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		NovaGuilds.getInst().setConfigManager(this);
+		NovaGuilds.getInstance().setConfigManager(this);
 		reload();
 		LoggerUtils.info("Enabled");
 	}

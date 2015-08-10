@@ -215,7 +215,7 @@ public class NovaGuilds extends JavaPlugin {
 		LoggerUtils.info("#" + getBuild() + " Disabled");
 	}
 
-	public static NovaGuilds getInst() {
+	public static NovaGuilds getInstance() {
 		return inst;
 	}
 	

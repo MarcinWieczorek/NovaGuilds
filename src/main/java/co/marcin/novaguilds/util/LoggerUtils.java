@@ -18,8 +18,8 @@ public class LoggerUtils {
 	}
 
 	public static void debug(String msg) {
-		if(NovaGuilds.getInst().getConfigManager() != null) {
-			if(NovaGuilds.getInst().getConfigManager().isDebugEnabled()) {
+		if(NovaGuilds.getInstance().getConfigManager() != null) {
+			if(NovaGuilds.getInstance().getConfigManager().isDebugEnabled()) {
 				info("[DEBUG] " + classPrefix() + msg);
 			}
 		}
@@ -44,8 +44,8 @@ public class LoggerUtils {
 		error("[NovaGuilds] Severe error:");
 		error("");
 		error("Server Information:");
-		error("  NovaGuilds: #" + NovaGuilds.getInst().getBuild());
-		error("  Storage Type: " + NovaGuilds.getInst().getConfigManager().getDataStorageType().name());
+		error("  NovaGuilds: #" + NovaGuilds.getInstance().getBuild());
+		error("  Storage Type: " + NovaGuilds.getInstance().getConfigManager().getDataStorageType().name());
 		error("  Bukkit: " + Bukkit.getBukkitVersion());
 		error("  Java: " + System.getProperty("java.version"));
 		error("  Thread: " + Thread.currentThread());

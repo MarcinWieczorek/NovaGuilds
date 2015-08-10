@@ -311,7 +311,7 @@ public enum Message {
 
 	;
 
-	private static final MessageManager messageManager = NovaGuilds.getInst().getMessageManager();
+	private static final MessageManager messageManager = NovaGuilds.getInstance().getMessageManager();
 	private boolean title = false;
 	private String path = null;
 	private HashMap<String,String> vars = new HashMap<>();

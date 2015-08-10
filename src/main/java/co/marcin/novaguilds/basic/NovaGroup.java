@@ -82,7 +82,7 @@ public class NovaGroup {
 	}
 
 	public static NovaGroup get(CommandSender sender) {
-		return NovaGuilds.getInst().getGroupManager().getGroup(sender);
+		return NovaGuilds.getInstance().getGroupManager().getGroup(sender);
 	}
 
 	public String getName() {

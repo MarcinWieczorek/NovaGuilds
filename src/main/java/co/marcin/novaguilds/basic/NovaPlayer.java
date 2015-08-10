@@ -157,7 +157,7 @@ public class NovaPlayer {
 	}
 
 	public double getMoney() {
-		return NovaGuilds.getInst().econ.getBalance(name);
+		return NovaGuilds.getInstance().econ.getBalance(name);
 	}
 
 	public boolean getRegionMode() {
@@ -308,7 +308,7 @@ public class NovaPlayer {
 	}
 
 	public void addMoney(double money) {
-		NovaGuilds.getInst().econ.depositPlayer(name, money);
+		NovaGuilds.getInstance().econ.depositPlayer(name, money);
 	}
 	
 	//delete stuff
@@ -323,6 +323,6 @@ public class NovaPlayer {
 	}
 
 	public void takeMoney(double money) {
-		NovaGuilds.getInst().econ.withdrawPlayer(name, money);
+		NovaGuilds.getInstance().econ.withdrawPlayer(name, money);
 	}
 }
