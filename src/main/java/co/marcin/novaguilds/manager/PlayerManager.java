@@ -3,6 +3,7 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
@@ -156,7 +157,7 @@ public class PlayerManager {
 				if(!statement.isClosed()) {
 					statement.setString(1, uuid.toString());
 					statement.setString(2, playername);
-					statement.setInt(3, 0); //TODO points from config
+					statement.setInt(3, Config.KILLING_STARTPOINTS.getInt());
 					statement.executeUpdate();
 
 					LoggerUtils.info("New player " + player.getName() + " added to the database");

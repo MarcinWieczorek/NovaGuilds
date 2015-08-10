@@ -116,6 +116,8 @@ raid:
 killing:
  moneyforkill: 5%
  moneyforrevenge: 10%
+ rankpercent: 1%
+ startpoints: 1000
 
 guild:
  disabledworlds:
