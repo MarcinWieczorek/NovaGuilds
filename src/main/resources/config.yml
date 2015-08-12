@@ -118,6 +118,7 @@ killing:
  moneyforrevenge: 10
  rankpercent: 1
  startpoints: 1000
+ cooldown: 10m
 
 guild:
  disabledworlds:

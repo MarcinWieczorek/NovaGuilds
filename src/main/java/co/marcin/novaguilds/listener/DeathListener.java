@@ -27,10 +27,10 @@ public class DeathListener implements Listener {
 			return;
 		}
 
-		Player player = event.getEntity();
+		Player victim = event.getEntity();
 		Player attacker = event.getEntity().getKiller();
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(victim);
 		NovaPlayer nPlayerAttacker = plugin.getPlayerManager().getPlayer(attacker);
 
 		nPlayerAttacker.addKill();
@@ -50,26 +50,31 @@ public class DeathListener implements Listener {
 		}
 
 		HashMap<String, String> vars = new HashMap<>();
-		vars.put("PLAYER1", player.getName());
+		vars.put("PLAYER1", victim.getName());
 		vars.put("PLAYER2", attacker.getName());
 		vars.put("TAG1", tag1);
 		vars.put("TAG2", tag2);
 		Message.BROADCAST_PVP_KILLED.vars(vars).broadcast();
 
-		if(nPlayer.hasGuild()) {
-			NovaGuild guildVictim = nPlayer.getGuild();
-			guildVictim.takePoints(plugin.getConfig().getInt("guild.deathpoints"));
+		//guildpoints
+		if(nPlayerAttacker.canGetKillPoints(victim)) {
+			if(nPlayer.hasGuild()) {
+				NovaGuild guildVictim = nPlayer.getGuild();
+				guildVictim.takePoints(plugin.getConfig().getInt("guild.deathpoints"));
+			}
+
+			if(nPlayerAttacker.hasGuild()) {
+				NovaGuild guildAttacker = nPlayerAttacker.getGuild();
+				guildAttacker.addPoints(plugin.getConfig().getInt("guild.killpoints"));
+			}
+
+			//player points
+			int points = (int) Math.round(nPlayer.getPoints() * (Config.KILLING_RANKPERCENT.getDouble() / 100));
+			nPlayer.takePoints(points);
+			nPlayerAttacker.addPoints(points);
+
+			nPlayerAttacker.addKillHistory(victim);
 		}
-
-		if(nPlayerAttacker.hasGuild()) {
-			NovaGuild guildAttacker = nPlayerAttacker.getGuild();
-			guildAttacker.addPoints(plugin.getConfig().getInt("guild.killpoints"));
-		}
-
-		int points = (int) Math.round(nPlayer.getPoints() * (Config.KILLING_RANKPERCENT.getDouble()/100));
-
-		nPlayer.takePoints(points);
-		nPlayerAttacker.addPoints(points);
 
 		//disable death message
 		event.setDeathMessage(null);

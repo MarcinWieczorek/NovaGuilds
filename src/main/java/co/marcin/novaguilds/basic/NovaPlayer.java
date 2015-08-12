@@ -1,17 +1,16 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class NovaPlayer {
 	private Player player;
@@ -33,6 +32,7 @@ public class NovaPlayer {
 	private boolean resizing = false;
 	private int resizingCorner = 0;
 	private boolean compassPointingGuild = false;
+	private HashMap<UUID, Long> killingHistory = new HashMap<>();
 
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
@@ -285,6 +285,10 @@ public class NovaPlayer {
 	public boolean hasMoney(double money) {
 		return getMoney() >= money;
 	}
+
+	public boolean canGetKillPoints(Player player) {
+		return !killingHistory.containsKey(player.getUniqueId()) || NumberUtils.systemSeconds() - killingHistory.get(player.getUniqueId()) > Config.KILLING_COOLDOWN.getSeconds();
+	}
 	
 	//add stuff
 	public void addInvitation(NovaGuild guild) {
@@ -309,6 +313,14 @@ public class NovaPlayer {
 
 	public void addMoney(double money) {
 		NovaGuilds.getInstance().econ.depositPlayer(name, money);
+	}
+
+	public void addKillHistory(Player player) {
+		if(killingHistory.containsKey(player.getUniqueId())) {
+			killingHistory.remove(player.getUniqueId());
+		}
+
+		killingHistory.put(player.getUniqueId(), NumberUtils.systemSeconds());
 	}
 	
 	//delete stuff
