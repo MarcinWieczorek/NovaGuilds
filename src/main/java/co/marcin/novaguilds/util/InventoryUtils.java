@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryUtils {
+public final class InventoryUtils {
 	public static void removeItems(Player player, List<ItemStack> items) {
 		if(player.getGameMode() != GameMode.CREATIVE) {
 			for(ItemStack item : items) {

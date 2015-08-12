@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegionUtils {
+public final class RegionUtils {
 	@SuppressWarnings("deprecation")
 	public static void setCorner(Player player, Location location, Material material, byte data) {
 		if(material == null) {

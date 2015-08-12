@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionType;
 
 import java.util.*;
 
-public class ItemStackUtils {
+public final class ItemStackUtils {
 	@SuppressWarnings("deprecation")
 	public static ItemStack stringToItemStack(String str) {
 		if(!str.isEmpty()) {

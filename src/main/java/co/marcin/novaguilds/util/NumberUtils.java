@@ -2,7 +2,7 @@ package co.marcin.novaguilds.util;
 
 import java.util.Random;
 
-public class NumberUtils {
+public final class NumberUtils {
 	public static int negativeIsPlusOne(int i) {
 		return i<0 ? i+1 : i;
 	}
