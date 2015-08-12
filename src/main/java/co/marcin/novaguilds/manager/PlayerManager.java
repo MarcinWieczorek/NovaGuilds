@@ -8,6 +8,7 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -300,7 +301,7 @@ public class PlayerManager {
 		vars.put("POINTS", String.valueOf(nCPlayer.getPoints()));
 		vars.put("KILLS", String.valueOf(nCPlayer.getKills()));
 		vars.put("DEATHS", String.valueOf(nCPlayer.getDeaths()));
-		vars.put("KDR", String.valueOf((double)nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : (double)nCPlayer.getDeaths())));
+		vars.put("KDR", String.valueOf(NumberUtils.roundOffTo2DecPlaces((double)nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : (double)nCPlayer.getDeaths()))));
 
 		String guildRow = "";
 		if(nCPlayer.hasGuild()) {
