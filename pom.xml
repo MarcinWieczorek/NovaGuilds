@@ -29,10 +29,6 @@
             <id>confuser-repo</id>
             <url>http://ci.frostcast.net/plugin/repository/everything</url>
         </repository>
-        <repository>
-            <id>Plugin Metrics</id>
-            <url>http://repo.mcstats.org/content/repositories/public</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -56,11 +52,6 @@
             <groupId>me.confuser</groupId>
             <artifactId>BarAPI</artifactId>
             <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mcstats.bukkit</groupId>
-            <artifactId>metrics</artifactId>
-            <version>R7</version>
         </dependency>
     </dependencies>
 </project>
