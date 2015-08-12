@@ -55,4 +55,18 @@
             <version>3.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>co.marcin</groupId>
+                <artifactId>NovaGuilds</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
