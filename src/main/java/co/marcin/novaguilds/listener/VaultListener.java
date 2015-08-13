@@ -69,15 +69,17 @@ public class VaultListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onInventoryClick(InventoryClickEvent event) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
-		String nameBank = plugin.getConfigManager().getGuildBankItem().getItemMeta().getDisplayName();
+		if(event.getInventory() != null) {
+			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
+			String nameBank = plugin.getConfigManager().getGuildBankItem().getItemMeta().getDisplayName();
 
-		if(event.getInventory().getName().equals(nameBank)) {
-			if(event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
-				if(nPlayer.hasGuild()) {
-					if(!nPlayer.isLeader() && plugin.getConfigManager().getGuildBankOnlyLeaderTake()) {
-						if(dissalowedActions.contains(event.getAction())) {
-							event.setCancelled(true);
+			if(event.getInventory().getName().equals(nameBank)) {
+				if(event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
+					if(nPlayer.hasGuild()) {
+						if(!nPlayer.isLeader() && Config.BANK_ONLYLEADERTAKE.getBoolean()) {
+							if(dissalowedActions.contains(event.getAction())) {
+								event.setCancelled(true);
+							}
 						}
 					}
 				}
