@@ -2,14 +2,11 @@ package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.lang.reflect.Constructor;
 import java.util.*;
 
 public class NovaPlayer {
@@ -20,7 +17,6 @@ public class NovaPlayer {
 	private int points;
 	private int kills;
 	private int deaths;
-	private GameProfile profile;
 
 	private List<NovaGuild> invitedTo = new ArrayList<>();
 	private boolean regionMode = false;
@@ -40,44 +36,9 @@ public class NovaPlayer {
 			nPlayer.setUUID(player.getUniqueId());
 			nPlayer.setName(player.getName());
 			nPlayer.setPlayer(player);
-			nPlayer.generateProfile();
 			return nPlayer;
 		}
 		return null;
-	}
-
-	//generate profile
-	public void generateProfile() {
-		int type = 0;
-		for(Constructor c : GameProfile.class.getConstructors()) {
-			if(Arrays.equals(c.getParameterTypes(), new Class<?>[]{ String.class, String.class })) {
-				type = 1;
-			}
-			else if(Arrays.equals(c.getParameterTypes(), new Class<?>[] {UUID.class, String.class})) {
-				type = 2;
-			}
-			else {
-				LoggerUtils.error("GameProfile constructor not found!");
-			}
-		}
-
-		try {
-			if(type == 1) {
-				this.profile = GameProfile.class.getConstructor(new Class<?>[] {
-						String.class,
-						String.class
-				}).newInstance(uuid.toString(), name);
-			}
-			else if(type == 2) {
-				this.profile = GameProfile.class.getConstructor(new Class<?>[] {
-						UUID.class,
-						String.class
-				}).newInstance(uuid, name);
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	//Region selecting
@@ -170,10 +131,6 @@ public class NovaPlayer {
 
 	public NovaRaid getPartRaid() {
 		return partRaid;
-	}
-
-	public GameProfile getProfile() {
-		return profile;
 	}
 
 	//setters
