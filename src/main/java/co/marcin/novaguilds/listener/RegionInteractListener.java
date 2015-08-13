@@ -48,7 +48,7 @@ public class RegionInteractListener implements Listener {
 			NovaRegion rgatploc = plugin.getRegionManager().getRegion(event.getClickedBlock().getLocation());
 			
 			if(rgatploc != null) {
-				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+				NovaPlayer nPlayer = NovaPlayer.get(event.getPlayer());
 				NovaGuild guild = rgatploc.getGuild();
 
 				//boolean isally = nPlayer.hasGuild() && guild.isAlly(nPlayer.getGuild());
@@ -114,7 +114,7 @@ public class RegionInteractListener implements Listener {
 				}
 
 				if(playercaused) {
-					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+					NovaPlayer nPlayer = NovaPlayer.get(player);
 
 					if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 						if(!nPlayer.getBypass()) {
@@ -162,7 +162,7 @@ public class RegionInteractListener implements Listener {
 			LoggerUtils.debug("There is a region");
 			LoggerUtils.debug(denyriding.toString());
 			Player player = event.getPlayer();
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+			NovaPlayer nPlayer = NovaPlayer.get(player);
 			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!nPlayer.getBypass()) {
 					//TODO: fix messages and names for sheep and all
@@ -205,7 +205,8 @@ public class RegionInteractListener implements Listener {
 
 		Player player = event.getPlayer();
 		if(rgatploc != null) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+			NovaPlayer nPlayer = NovaPlayer.get(player);
+
 			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
 				if(!nPlayer.getBypass()) {
 					if(denyriding.contains(mob.getType().name())) {
