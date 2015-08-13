@@ -136,17 +136,10 @@ public class RegionInteractListener implements Listener {
 
 	@EventHandler
 	public void onHangingBreakByEntityEvent(HangingBreakByEntityEvent event) {
-		Entity entity = event.getEntity();
-		LoggerUtils.debug("hanging break by entity event");
-
-		NovaRegion rgatploc = plugin.getRegionManager().getRegion(entity.getLocation());
-
-		if(rgatploc != null) {
-			LoggerUtils.debug("there is a region");
-
-			if(entity instanceof ItemFrame) {
-				LoggerUtils.debug("item frame destroyed");
+		if(event.getRemover() instanceof Player) {
+			if(!plugin.getRegionManager().canBuild((Player) event.getRemover(), event.getEntity().getLocation())) {
 				event.setCancelled(true);
+				Message.CHAT_REGION_DENY_INTERACT.send((Player) event.getRemover());
 			}
 		}
 	}
