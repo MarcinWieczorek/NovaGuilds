@@ -8,7 +8,7 @@ chat:
  delayedteleport: "You will be teleported in &c{DELAY} &3seconds"
  delayedtpmoved: "You moved! Teleportation canceled!"
  erroroccured: "&cAn error occured. Contact server administrator."
- update: "&4There is an update available! &6https://www.spigotmc.org/resources/novaguilds.8135/"
+ update: "&4There is an update available! &6http://www.novaguilds.pl/"
  basic:
   negativenumber: "Please give a number greater or equal to zero."
   'on': "ON"

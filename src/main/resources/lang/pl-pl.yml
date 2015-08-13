@@ -8,7 +8,7 @@ chat:
  delayedteleport: "Zostaniesz teleportowany w ciagu &c{DELAY} &3sekund"
  delayedtpmoved: "Ruszyles sie, teleportacja anulowana."
  erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
- update: "&4Dostepna jest aktualizacja! &6https://www.spigotmc.org/resources/novaguilds.8135/"
+ update: "&4Dostepna jest aktualizacja! &6http://www.novaguilds.pl/"
  basic:
   negativenumber: "Wprowadz liczbe wieksza lub rowna zeru."
   'on': "ON"
