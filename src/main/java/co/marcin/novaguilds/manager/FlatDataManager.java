@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Location;
@@ -287,74 +288,16 @@ public class FlatDataManager {
 		return file.exists() ? YamlConfiguration.loadConfiguration(file) : null;
 	}
 
-	//util
-	private static void saveInputStreamToFile(InputStream inputStream, File file) {
-		FileOutputStream outputStream = null;
-		try {
-			outputStream = new FileOutputStream(file);
-
-			int read;
-			byte[] bytes = new byte[1024];
-
-			while((read = inputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, read);
-			}
-
-		}
-		catch(IOException e) {
-			LoggerUtils.exception(e);
-		}
-		finally {
-			if(inputStream != null) {
-				try {
-					inputStream.close();
-				}
-				catch (IOException e) {
-					LoggerUtils.exception(e);
-				}
-			}
-			if(outputStream != null) {
-				try {
-					outputStream.close();
-				}
-				catch (IOException e) {
-					LoggerUtils.exception(e);
-				}
-
-			}
-		}
-	}
-
 	public List<String> getPlayerList() {
-		return getFilesWithoutExtension(playersDir);
+		return IOUtils.getFilesWithoutExtension(playersDir);
 	}
 
 	public List<String> getGuildList() {
-		return getFilesWithoutExtension(guildsDir);
+		return IOUtils.getFilesWithoutExtension(guildsDir);
 	}
 
 	public List<String> getRegionList() {
-		return getFilesWithoutExtension(regionsDir);
-	}
-
-	private List<String> getFilesWithoutExtension(File directory) {
-		List<String> list = new ArrayList<>();
-		File[] filesList = directory.listFiles();
-
-		if(filesList != null) {
-			for(File file : filesList) {
-				if(file.isFile()) {
-					String name = file.getName();
-					LoggerUtils.debug(name);
-					if(StringUtils.contains(name, '.')) {
-						name = StringUtils.split(name, '.')[0];
-						list.add(name);
-					}
-				}
-			}
-		}
-
-		return list;
+		return IOUtils.getFilesWithoutExtension(regionsDir);
 	}
 
 	public boolean isConnected() {

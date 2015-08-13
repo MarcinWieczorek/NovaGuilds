@@ -83,25 +83,13 @@ public final class StringUtils {
 			InputStream in = con.getInputStream();
 			String encoding = con.getContentEncoding();
 			encoding = encoding == null ? "UTF-8" : encoding;
-			body = toString(in, encoding);
+			body = IOUtils.toString(in, encoding);
 		}
 		catch (Exception e) {
 			LoggerUtils.exception(e);
 		}
 			    
 		return body;
-	}
-		  
-	private static String toString(InputStream in, String encoding) throws Exception {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		byte[] buf = new byte[8192];
-		int len;
-		
-		while ((len = in.read(buf)) != -1) {
-			baos.write(buf, 0, len);
-		}
-		
-		return new String(baos.toByteArray(), encoding);
 	}
 	
 	public static String parseDBLocation(Location l) {
@@ -318,15 +306,5 @@ public final class StringUtils {
 		}
 
 		return true;
-	}
-
-	public static String inputStreamToString(InputStream inputStream) {
-		try {
-			return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
-		}
-		catch(IOException e) {
-			LoggerUtils.exception(e);
-		}
-		return null;
 	}
 }
