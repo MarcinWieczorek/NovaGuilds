@@ -22,18 +22,12 @@ public class FlatDataManager {
 	private File playersDir;
 	private File guildsDir;
 	private File regionsDir;
-	private String name;
 
 	private boolean connected = false;
-
-//	private FileConfiguration playerTemplate;
 
 	public FlatDataManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
 		connected = setupDirectories();
-
-//		File playerTemplateFile = new File(plugin.getDataFolder(), "defaultuser.yml");
-//		playerTemplate = YamlConfiguration.loadConfiguration(playerTemplateFile);
 	}
 
 	private boolean setupDirectories() {
