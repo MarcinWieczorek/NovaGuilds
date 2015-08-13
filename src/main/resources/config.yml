@@ -254,9 +254,6 @@ region:
   - BEACON
   - ITEM_FRAME
  denyuse:
-  - LAVA_BUCKET
-  - WATER_BUCKET
-  - BUCKET
   - ITEM_FRAME
  denymobdamage:
   - PIG
