@@ -1,1 +1,4 @@
 language: java
+install:
+ - wget HolographicDisplaysAPI_v2.1.3.jar
+ - mvn install:install-file -Dfile=HolographicDisplaysAPI_v2.1.3.jar -DgroupId=com.cmabreu -DartifactId=mylocal-lib -Dversion=2.1.3 -D packaging=jar -DgeneratePom=true
