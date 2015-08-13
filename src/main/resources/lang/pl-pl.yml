@@ -87,13 +87,13 @@ chat:
  usage:
   nga:
    guild:
-    setpoints: "&5* &7/nga &cg &6<guild> &cpoints &6<points> &2- &3Zmien punkty"
+    setpoints: "&5* &7/nga &cg &6<gildia> &cpoints &6<punkty> &2- &3Zmien punkty"
     abandon: "&5* &7/nga &cg &6abandon &c<gildia> &2- &3porzuc gildie"
     lives: "&5* &7/nga &cg &6lives &c<ilosc> &2- &3ustaw zycia"
     bank:
      pay: "&7/nga &cg &6pay &c<gildia> &6<ilosc>"
      withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
-    tp: "&7/nga &cg &6tp &c<gildia> &6[player]"
+    tp: "&7/nga &cg &6tp &c<gildia> &6[gracz]"
   ng:
    broadcast: "&c/ng bc <wiadomosc>"
   guild:
@@ -114,7 +114,7 @@ chat:
      - "&5* &7/nga &crg &6list &2- &3Lista regionow"
      - "&5* &7/nga &crg &6del &c<gildia> &2- &3Usun region"
      - "&5* &7/nga &crg &6tp &c<gildia> &2- &3Teleport do regionu"
-     - "&5* &7/nga &crg &6bypass &c[player] &2- &3Zmiena trybu ignorowania regionow"
+     - "&5* &7/nga &crg &6bypass &c[gracz] &2- &3Zmiena trybu ignorowania regionow"
    guild:
     header: "Komendy Admina, gildie:"
     items:
@@ -277,14 +277,14 @@ chat:
     success: "Cofnieto zaproszenie dla gracza &c{PLAYERNAME}"
     notify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
   info:
-   header: "&4*** &3Player information &4***"
-   guildrow: " &c* &2Guild: &7[&a{TAG}&7] &6{GUILDNAME}"
+   header: "&4*** &3Informacje o graczu &4***"
+   guildrow: " &c* &2Gildia: &7[&a{TAG}&7] &6{GUILDNAME}"
    items:
    - " &c* &2Nick: &6{PLAYERNAME}"
    - "{GUILDROW}"
-   - " &c* &2Points: &6{POINTS}"
-   - " &c* &2Kills: &6{KILLS}"
-   - " &c* &2Deaths: &6{DEATHS}"
+   - " &c* &2Punkty: &6{POINTS}"
+   - " &c* &2Zabicia: &6{KILLS}"
+   - " &c* &2Smierci: &6{DEATHS}"
    - " &c* &2KDR: &6{KDR}"
 
  region:
