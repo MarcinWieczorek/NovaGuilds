@@ -227,11 +227,15 @@ public class FlatDataManager {
 	}
 
 	private void savePlayerTemplate(String name) {
-		saveInputStreamToFile(plugin.getResource("templates/player.yml"), getPlayerFile(name));
+		try {
+			getGuildFile(name).createNewFile();
+		}
+		catch(IOException e) {
+			LoggerUtils.exception(e);
+		}
 	}
 
 	private void saveGuildTemplate(String name) {
-		//saveInputStreamToFile(plugin.getResource("templates/player.yml"), getGuildFile(name));
 		try {
 			getGuildFile(name).createNewFile();
 		}
@@ -241,7 +245,12 @@ public class FlatDataManager {
 	}
 
 	private void saveRegionTemplate(String name) {
-		saveInputStreamToFile(plugin.getResource("templates/player.yml"), getRegionFile(name));
+		try {
+			getGuildFile(name).createNewFile();
+		}
+		catch(IOException e) {
+			LoggerUtils.exception(e);
+		}
 	}
 
 	//Get files
