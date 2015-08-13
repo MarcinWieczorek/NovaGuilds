@@ -710,7 +710,9 @@ public class GuildManager {
 		plugin.getWorker().schedule(task, delay, TimeUnit.SECONDS);
 
 		if(delay > 0) {
-			plugin.getMessageManager().sendDelayedTeleportMessage(player);
+			HashMap<String,String> vars = new HashMap<>();
+			vars.put("DELAY", plugin.getGroupManager().getGroup(player).getGuildTeleportDelay()+"");
+			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
 		}
 		else {
 			player.teleport(location);
