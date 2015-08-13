@@ -31,7 +31,7 @@
             <url>http://ci.frostcast.net/plugin/repository/everything</url>
         </repository>
         <repository>
-            <id>filoghost-repo</id>
+            <id>novaguilds-repo</id>
             <url>http://novaguilds.pl/repo/</url>
         </repository>
     </repositories>
