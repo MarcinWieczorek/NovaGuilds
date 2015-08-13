@@ -45,7 +45,6 @@ public class ConfigManager {
 
 	private ItemStack guildBankItem;
 	private boolean guildBankEnabled;
-	private boolean guildBankOnlyLeaderTake;
 	private boolean guildBankHologramEnabled;
 	private List<String> guildBankHologramLines; //supports items, [ITEM]
 
@@ -87,7 +86,6 @@ public class ConfigManager {
 		guildBankHologramEnabled = config.getBoolean("bank.hologram.enabled");
 		guildBankHologramLines = config.getStringList("bank.hologram.lines");
 		guildBankItem = getItemStack("bank.item");
-		guildBankOnlyLeaderTake = config.getBoolean("bank.onlyleadertake");
 
 		useHolographicDisplays = config.getBoolean("holographicdisplays.enabled");
 		useBarAPI = config.getBoolean("barapi.enabled");
@@ -245,10 +243,6 @@ public class ConfigManager {
 
 	public boolean isChatTagColorsEnabled() {
 		return chatTagColors;
-	}
-
-	public boolean getGuildBankOnlyLeaderTake() {
-		return guildBankOnlyLeaderTake;
 	}
 
 	public boolean useChatDisplayNameTags() {
