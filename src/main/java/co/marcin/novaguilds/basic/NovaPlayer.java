@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -39,6 +40,10 @@ public class NovaPlayer {
 			return nPlayer;
 		}
 		return null;
+	}
+
+	public static NovaPlayer get(CommandSender sender) {
+		return NovaGuilds.getInstance().getPlayerManager().getPlayer(sender);
 	}
 
 	//Region selecting
