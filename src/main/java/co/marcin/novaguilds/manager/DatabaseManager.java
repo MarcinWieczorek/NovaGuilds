@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.PreparedStatements;
+import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import code.husky.mysql.MySQL;
@@ -227,7 +228,7 @@ public class DatabaseManager {
 		}
 
 		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType()==DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
-		String sqlString = StringUtils.inputStreamToString(inputStream);
+		String sqlString = IOUtils.inputStreamToString(inputStream);
 
 		if(sqlString==null || sqlString.isEmpty() || !sqlString.contains("--")) {
 			LoggerUtils.error("Invalid SQL");
