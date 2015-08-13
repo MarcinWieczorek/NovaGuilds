@@ -224,4 +224,17 @@ public class RegionInteractListener implements Listener {
 			Message.CHAT_REGION_DENY_INTERACT.send(event.getPlayer());
 		}
 	}
+
+	@EventHandler
+	public void onBlockFromTo(BlockFromToEvent event) {
+		if(!Config.REGION_WATERFLOW.getBoolean()) {
+			if(event.getBlock().getType().name().contains("WATER") || event.getBlock().getType().name().contains("LAVA")) {
+				if(plugin.getRegionManager().getRegion(event.getBlock().getLocation()) == null) {
+					if(plugin.getRegionManager().getRegion(event.getToBlock().getLocation()) != null) {
+						event.setCancelled(true);
+					}
+				}
+			}
+		}
+	}
 }
