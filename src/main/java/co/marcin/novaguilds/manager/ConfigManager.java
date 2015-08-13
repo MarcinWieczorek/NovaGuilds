@@ -29,6 +29,7 @@ public class ConfigManager {
 	private boolean useBarAPI;
 	private boolean useHolographicDisplays;
 	private boolean useTitles;
+	private boolean useVanishNoPacket = true;
 
 	private String databasePrefix;
 
@@ -241,6 +242,10 @@ public class ConfigManager {
 		return debug;
 	}
 
+	public boolean useVanishNoPacket() {
+		return useVanishNoPacket;
+	}
+
 	public boolean isChatTagColorsEnabled() {
 		return chatTagColors;
 	}
@@ -256,6 +261,10 @@ public class ConfigManager {
 
 	public void disableBarAPI() {
 		useBarAPI = false;
+	}
+
+	public void disableVanishNoPacket() {
+		useVanishNoPacket = false;
 	}
 
 	public void setToSecondaryDataStorageType() {

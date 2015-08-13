@@ -405,6 +405,12 @@ public class RegionManager {
 	}
 
 	public void playerEnteredRegion(Player player, Location toLocation) {
+		if(plugin.getConfigManager().useVanishNoPacket()) {
+			if(plugin.getVanishNoPacket().getManager().isVanished(player)) {
+				return;
+			}
+		}
+
 		NovaRegion region = getRegion(toLocation);
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 

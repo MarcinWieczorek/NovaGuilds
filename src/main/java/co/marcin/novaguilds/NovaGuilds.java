@@ -17,8 +17,10 @@ import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.kitteh.vanish.VanishPlugin;
 import org.mcstats.Metrics;
 
 import java.io.IOException;
@@ -65,6 +67,7 @@ public class NovaGuilds extends JavaPlugin {
 
 	//Database
 	private DatabaseManager databaseManager;
+	private VanishPlugin vanishNoPacket;
 
 	public void onEnable() {
 		inst = this;
@@ -145,6 +148,10 @@ public class NovaGuilds extends JavaPlugin {
 
 		if(getConfigManager().isGuildBankEnabled()) {
 			new VaultListener(this);
+		}
+
+		if(getConfigManager().useVanishNoPacket()) {
+			new VanishListener(this);
 		}
 
 		//Tablist/tag update
@@ -276,6 +283,17 @@ public class NovaGuilds extends JavaPlugin {
 	//BarAPI
 	private boolean checkBarAPI() {
 		return getServer().getPluginManager().getPlugin("BarAPI") != null;
+	}
+
+	//VanishNoPacket
+	private boolean checkVanishNoPacket() {
+		Plugin p = getServer().getPluginManager().getPlugin("VanishNoPacket");
+
+		if(p instanceof VanishPlugin) {
+			vanishNoPacket = (VanishPlugin) p;
+		}
+
+		return vanishNoPacket != null;
 	}
 
 	//HolographicDisplays
@@ -445,6 +463,15 @@ public class NovaGuilds extends JavaPlugin {
 			}
 		}
 
+		//VanishNoPacket
+		if(checkVanishNoPacket()) {
+			LoggerUtils.info("VanishNoPacket hooked");
+		}
+		else {
+			LoggerUtils.info("VanishNoPacket not found, support disabled");
+			getConfigManager().disableVanishNoPacket();
+		}
+
 		return true;
 	}
 
@@ -466,5 +493,9 @@ public class NovaGuilds extends JavaPlugin {
 
 	public ScheduledExecutorService getWorker() {
 		return worker;
+	}
+
+	public VanishPlugin getVanishNoPacket() {
+		return vanishNoPacket;
 	}
 }
