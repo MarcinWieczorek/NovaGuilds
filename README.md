@@ -7,6 +7,7 @@ Please leave feedback!<br/><br/>
 <b>HolographicDisplays</b> is required unless you turn it off in config!<br/>
 <br/><br/>
 [![Join the chat at https://gitter.im/MarcinWieczorek/NovaGuilds](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MarcinWieczorek/NovaGuilds?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/MarcinWieczorek/NovaGuilds.svg?branch=master)](https://travis-ci.org/MarcinWieczorek/NovaGuilds)
 <br/>
 
 <h2><b>Downloads</b></h2>
