@@ -612,31 +612,26 @@ public class GuildManager {
 			guild.setTimeCreated(guildData.getLong("created"));
 
 			//home
-			Location spawnpoint = null;
-			World world = plugin.getServer().getWorld(guildData.getString("home.world"));
-
-			if(world != null) {
+			World homeWorld = plugin.getServer().getWorld(guildData.getString("home.world"));
+			if(homeWorld != null) {
 				int x = guildData.getInt("home.x");
 				int y = guildData.getInt("home.y");
 				int z = guildData.getInt("home.z");
 				float yaw = (float) guildData.getDouble("home.yaw");
-				spawnpoint = new Location(world, x, y, z);
+				Location spawnpoint = new Location(homeWorld, x, y, z);
 				spawnpoint.setYaw(yaw);
+				guild.setSpawnPoint(spawnpoint);
 			}
-			guild.setSpawnPoint(spawnpoint);
 
 			//bankloc
-			Location bankloc = null;
 			World bankWorld = plugin.getServer().getWorld(guildData.getString("bankloc.world"));
-
 			if(bankWorld != null) {
 				int x = guildData.getInt("bankloc.x");
 				int y = guildData.getInt("bankloc.y");
 				int z = guildData.getInt("bankloc.z");
-				bankloc = new Location(world, x, y, z);
+				Location bankloc = new Location(bankWorld, x, y, z);
+				guild.setBankLocation(bankloc);
 			}
-
-			guild.setBankLocation(bankloc);
 		}
 
 		return guild;
