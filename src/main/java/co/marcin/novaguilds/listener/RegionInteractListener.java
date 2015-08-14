@@ -54,10 +54,8 @@ public class RegionInteractListener implements Listener {
 				NovaPlayer nPlayer = NovaPlayer.get(event.getPlayer());
 				NovaGuild guild = rgatploc.getGuild();
 
-				//boolean isally = nPlayer.hasGuild() && guild.isAlly(nPlayer.getGuild());
-
-				// (has no guild) OR (not his guild AND not ally)
-				if(!nPlayer.hasGuild() || (!guild.isMember(nPlayer) && !guild.isAlly(nPlayer.getGuild()))) {
+				// (has no guild) OR (not his guild AND !(ally AND allyinteract) )
+				if(!nPlayer.hasGuild() || (!guild.isMember(nPlayer) && !(guild.isAlly(nPlayer.getGuild()) && Config.REGION_ALLYINTERACT.getBoolean()))) {
 					if(!nPlayer.getBypass()) {
 						if(denyinteract.contains(clickedblockname) || denyuse.contains(useditemname)) {
 							event.setCancelled(true);
