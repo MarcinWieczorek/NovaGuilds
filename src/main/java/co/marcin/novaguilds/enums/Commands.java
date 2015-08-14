@@ -23,7 +23,7 @@ public enum Commands {
 	GUILD_MENU("novaguilds.guild.menu", false),
 	GUILD_PVPTOGGLE("novaguilds.guild.pvptoggle", false),
 	GUILD_REQUIREDITEMS("novaguilds.guild.requireditems", false),
-	GUILD_TOP("novaguilds.guild.top", false),
+	GUILD_TOP("novaguilds.guild.top", true),
 	GUILD_WAR("novaguilds.guild.war", false),
 	GUILD_BOSS("novaguilds.guild.boss", false),
 	TOOL_GET("novaguilds.tool.get",false);

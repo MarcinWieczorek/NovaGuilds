@@ -1,32 +1,38 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.*;
 
-public class CommandGuildTop implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandGuildTop implements Executor {
+	private final Commands command;
 
-	public CommandGuildTop(NovaGuilds pl) {
-		plugin = pl;
+	public CommandGuildTop(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.guild.top")) {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
+		}
+
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
 		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
 
 		if(guilds.isEmpty()) {
 			Message.CHAT_GUILD_NOGUILDS.send(sender);
-			return true;
+			return;
 		}
 
 		int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
@@ -43,7 +49,5 @@ public class CommandGuildTop implements CommandExecutor {
 			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.title(false).vars(vars).send(sender);
 			i++;
 		}
-
-		return true;
 	}
 }
