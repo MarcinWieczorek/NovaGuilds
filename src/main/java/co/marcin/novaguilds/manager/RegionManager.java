@@ -374,13 +374,6 @@ public class RegionManager {
 
 				centerLocation.setY(guildLoop.getSpawnPoint().getY());
 
-				if(Config.DEBUG.getBoolean()) {
-					for(Player player : Bukkit.getOnlinePlayers()) {
-						RegionUtils.setCorner(player, centerLocation, Material.WOOL);
-						RegionUtils.setCorner(player, guildLoop.getSpawnPoint(), Material.GLOWSTONE);
-					}
-				}
-
 				double distance = centerLocation.distance(guildLoop.getSpawnPoint());
 				LoggerUtils.debug("distance=" + distance);
 				if(distance < min + radius2) {
