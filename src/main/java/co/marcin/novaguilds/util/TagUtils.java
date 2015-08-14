@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -18,54 +19,30 @@ public class TagUtils {
 	}
 
 	public String getTag(Player namedplayer) { //TODO deleted second arg Player player
-		String tag = "";
+		String tag = Config.GUILD_TAG.getString();
 		String guildTag;
 		String rank = "";
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(namedplayer);
 
-		if(nPlayer.hasGuild()) {
-			tag = plugin.getConfig().getString("guild.tag");
-			guildTag = nPlayer.getGuild().getTag();
+		if(namedplayer.hasPermission("novaguilds.chat.notag") || !nPlayer.hasGuild()) {
+			return "";
+		}
 
-			if(!Config.TAGAPI_COLORTAGS.getBoolean()) {
-				guildTag = StringUtils.removeColors(guildTag);
-			}
+		guildTag = nPlayer.getGuild().getTag();
 
-			tag = StringUtils.replace(tag, "{TAG}", guildTag);
+		if(!Config.TAGAPI_COLORTAGS.getBoolean()) {
+			guildTag = StringUtils.removeColors(guildTag);
+		}
 
-			if(plugin.getConfig().getBoolean("tabapi.rankprefix")) {
-				if(nPlayer.getGuild().getLeader().getName().equalsIgnoreCase(namedplayer.getName())) {
-					rank = plugin.getMessageManager().getMessages().getString("chat.guildinfo.leaderprefix");
-				}
-			}
+		tag = StringUtils.replace(tag, "{TAG}", guildTag);
 
-			tag = StringUtils.replace(tag, "{RANK}", rank);
-
-			//TODO: ally/war colors
-//			NovaPlayer nPlayerReceiver = plugin.getPlayerManager().getPlayer(player);
-//			if(nPlayerReceiver.hasGuild()) {
-//				if(nPlayerReceiver.getGuild().isAlly(nPlayer.getGuild())) {
-//					if(plugin.getConfig().getBoolean("tagapi.allycolor.enabled")) {
-//						tabName = plugin.getConfig().getString("tagapi.allycolor.color") + tabName;
-//					}
-//				}
-//				else if(plugin.getPlayerManager().isGuildMate(player,namedplayer)) {
-//					if(plugin.getConfig().getBoolean("tagapi.guildcolor.enabled")) {
-//						tabName = plugin.getConfig().getString("tagapi.guildcolor.color") + tabName;
-//					}
-//				}
-//				else if(nPlayer.getGuild().isWarWith(nPlayerReceiver.getGuild())) {
-//					if(plugin.getConfig().getBoolean("tagapi.warcolor.enabled")) {
-//						tabName = plugin.getConfig().getString("tagapi.warcolor.color") + tabName;
-//					}
-//				}
-//			}
-
-			//TODO: using chat permissions
-			if(namedplayer.hasPermission("novaguilds.chat.notag")) {
-				tag = "";
+		if(plugin.getConfig().getBoolean("tabapi.rankprefix")) {
+			if(nPlayer.getGuild().getLeader().getName().equalsIgnoreCase(namedplayer.getName())) {
+				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 			}
 		}
+
+		tag = StringUtils.replace(tag, "{RANK}", rank);
 
 		return StringUtils.fixColors(tag);
 	}
@@ -73,8 +50,8 @@ public class TagUtils {
 	@SuppressWarnings("deprecation")
 	private static void setPrefix(OfflinePlayer player, String tag, Player p) {
 		Scoreboard board = p.getScoreboard();
-		Team team;
-		if(board.getPlayerTeam(player) == null) {
+		Team team = board.getPlayerTeam(player);
+		if(team == null) {
 			String tName = "ng_"+player.getName();
 			if(tName.length() > 16) {
 				tName = tName.substring(0, 16);
@@ -83,9 +60,7 @@ public class TagUtils {
 			team = board.registerNewTeam(tName);
 			team.addPlayer(player);
 		}
-		else {
-			team = board.getPlayerTeam(player);
-		}
+
 		team.setPrefix(StringUtils.fixColors(tag));
 	}
 
