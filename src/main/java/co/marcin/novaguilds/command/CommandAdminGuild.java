@@ -1,13 +1,12 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

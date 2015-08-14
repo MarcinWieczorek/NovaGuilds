@@ -24,7 +24,7 @@ public class CommandAdminGuildSetPoints implements CommandExecutor {
 		}
 
 		if(args.length != 1) { //no new name
-			plugin.getMessageManager().sendUsageMessage(sender, "nga.guild.setpoints");
+			Message.CHAT_USAGE_NGA_GUILD_SETPOINTS.send(sender);
 			return true;
 		}
 

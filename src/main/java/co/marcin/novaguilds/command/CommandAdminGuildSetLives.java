@@ -24,7 +24,7 @@ public class CommandAdminGuildSetLives implements CommandExecutor {
 		}
 
 		if(args.length == 0) {
-			plugin.getMessageManager().sendUsageMessage(sender,"nga.guild.lives");
+			Message.CHAT_USAGE_NGA_GUILD_LIVES.send(sender);
 			return true;
 		}
 

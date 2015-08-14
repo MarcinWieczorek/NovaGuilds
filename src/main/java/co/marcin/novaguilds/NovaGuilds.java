@@ -370,7 +370,7 @@ public class NovaGuilds extends JavaPlugin {
 							}
 						}
 
-						getMessageManager().sendPrefixMessage(player, lines);
+						MessageManager.sendPrefixMessage(player, lines);
 					}
 				}
 			}

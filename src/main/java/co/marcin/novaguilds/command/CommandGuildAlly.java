@@ -1,14 +1,13 @@
 package co.marcin.novaguilds.command;
 
-import java.util.HashMap;
-
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import java.util.HashMap;
 
 public class CommandGuildAlly implements Executor {
 	private final Commands command;
@@ -75,7 +74,7 @@ public class CommandGuildAlly implements Executor {
 				allyGuild.addAlly(guild);
 				guild.addAlly(allyGuild);
 				guild.removeAllyInvitation(allyGuild);
-				plugin.getMessageManager().broadcastMessage("broadcast.guild.allied", vars);
+				Message.BROADCAST_GUILD_ALLIED.vars(vars).broadcast();
 
 				Message.CHAT_GUILD_ALLY_ACCEPTED.vars(vars).send(sender);
 
@@ -100,7 +99,7 @@ public class CommandGuildAlly implements Executor {
 			guild.removeAlly(allyGuild);
 			allyGuild.removeAlly(guild);
 
-			plugin.getMessageManager().broadcastMessage("broadcast.guild.endally",vars);
+			Message.BROADCAST_GUILD_ENDALLY.vars(vars).broadcast();
 
 			plugin.tagUtils.refreshAll();
 		}

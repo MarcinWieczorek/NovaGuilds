@@ -6,7 +6,8 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class CommandGuildTop implements Executor {
 	private final Commands command;

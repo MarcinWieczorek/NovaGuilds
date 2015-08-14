@@ -31,7 +31,7 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 		}
 
 		if(args.length != 1) {
-			plugin.getMessageManager().sendUsageMessage(sender,"nga.guild.bank.pay");
+			Message.CHAT_USAGE_NGA_GUILD_BANK_PAY.send(sender);
 			return true;
 		}
 
@@ -56,7 +56,7 @@ public class CommandAdminGuildBankPay implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("MONEY",money_str);
 		vars.put("GUILDNAME",guild.getName());
-		plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.bank.paid",vars);
+		Message.CHAT_ADMIN_GUILD_BANK_PAID.vars(vars).send(sender);
 
 		return true;
 	}

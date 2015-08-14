@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -46,7 +47,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 					"Latest plugin build: &6#&c{LATEST}"
 			};
 
-			plugin.getMessageManager().sendPrefixMessage(sender, "NovaGuilds Information");
+			MessageManager.sendPrefixMessage(sender, "NovaGuilds Information");
 			String latest = StringUtils.getContent("http://novaguilds.pl/latest");
 
 			for(int i=0;i<info.length;i++) {
@@ -153,7 +154,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 					String players = "";
 					String pcolor;
 					String leaderp; //String to insert to playername (leader prefix)
-					String leaderprefix = plugin.getMessageManager().getMessagesString("chat.guildinfo.leaderprefix"); //leader prefix
+					String leaderprefix = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 
 					if(!gplayers.isEmpty()) {
 						for(i=0;i<gplayers.size();i++) {
@@ -161,10 +162,10 @@ public class CommandNovaGuilds implements CommandExecutor {
 							Player p = plugin.getServer().getPlayer(nPlayer.getName());
 
 							if(p != null && p.isOnline()) {
-								pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.online");
+								pcolor = MessageManager.getMessagesString("chat.guildinfo.playercolor.online");
 							}
 							else {
-								pcolor = plugin.getMessageManager().getMessagesString("chat.guildinfo.playercolor.offline");
+								pcolor = MessageManager.getMessagesString("chat.guildinfo.playercolor.offline");
 							}
 
 							leaderp = "";
@@ -175,7 +176,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 							players += pcolor+leaderp+nPlayer.getName();
 
 							if(i<gplayers.size()-1) {
-								players += plugin.getMessageManager().getMessagesString("chat.guildinfo.playerseparator");
+								players += MessageManager.getMessagesString("chat.guildinfo.playerseparator");
 							}
 						}
 					}
@@ -248,7 +249,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 
 			bm.setPages(pagesColor);
 			bm.setAuthor("CTRL");
-			bm.setTitle(StringUtils.fixColors(plugin.getMessageManager().getMessagesString("book.help.title")));
+			bm.setTitle(StringUtils.fixColors(MessageManager.getMessagesString("book.help.title")));
 			book.setItemMeta(bm);
 			Player player = plugin.getServer().getPlayer(sender.getName());
 			player.getInventory().addItem(book);

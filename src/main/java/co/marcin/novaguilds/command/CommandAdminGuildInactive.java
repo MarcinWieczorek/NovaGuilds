@@ -44,7 +44,7 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 				}
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("COUNT",count+"");
-				plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.inactive.updated",vars);
+				Message.CHAT_ADMIN_GUILD_INACTIVE_UPDATED.vars(vars).send(sender);
 				return true;
 			}
 			else if(args[0].equalsIgnoreCase("clean")) {

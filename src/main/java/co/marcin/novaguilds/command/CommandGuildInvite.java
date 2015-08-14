@@ -24,7 +24,7 @@ public class CommandGuildInvite implements CommandExecutor {
 		}
 
 		if(args.length != 1) {
-			plugin.getMessageManager().sendUsageMessage(sender, "guild.invite");
+			Message.CHAT_USAGE_GUILD_INVITE.send(sender);
 			return true;
 		}
 

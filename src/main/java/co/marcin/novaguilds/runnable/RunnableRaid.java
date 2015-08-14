@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -47,7 +48,7 @@ public class RunnableRaid implements Runnable {
 			if(NumberUtils.systemSeconds() - raid.getInactiveTime() > plugin.getConfigManager().getRaidTimeInactive()) {
 				raid.finish();
 				LoggerUtils.debug("inactive for 10 seconds, removing.");
-				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.defenderwon", vars);
+				Message.BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON.vars(vars).broadcast();
 			}
 
 			if(raid.isProgressFinished()) {
@@ -56,7 +57,7 @@ public class RunnableRaid implements Runnable {
 
 			//finishing raid
 			if(raid.getFinished()) {
-				plugin.getMessageManager().broadcastMessage("broadcast.guild.raid.finished.attackerwon", vars);
+				Message.BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON.vars(vars).broadcast();
 				plugin.resetWarBar(guild);
 				plugin.resetWarBar(nPlayer.getGuild());
 				guild.takeLive();
@@ -73,7 +74,7 @@ public class RunnableRaid implements Runnable {
 					//if event is not cancelled
 					if(!guildAbandonEvent.isCancelled()) {
 						vars.put("GUILDNAME", raid.getGuildDefender().getName());
-						plugin.getMessageManager().broadcastMessage("broadcast.guild.destroyed", vars);
+						Message.BROADCAST_GUILD_DESTROYED.vars(vars).broadcast();
 
 						NovaGuild guildDefender = raid.getGuildDefender();
 						plugin.getGuildManager().deleteGuild(guildDefender);

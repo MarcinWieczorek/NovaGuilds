@@ -1,5 +1,7 @@
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -7,9 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
 
 public class PvpListener implements Listener {
 	private final NovaGuilds plugin;

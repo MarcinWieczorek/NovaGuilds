@@ -31,7 +31,7 @@ public class CommandAdminGuildBankWithdraw implements CommandExecutor {
 		}
 
 		if(args.length != 1) { //invalid arguments
-			plugin.getMessageManager().sendUsageMessage(sender,"nga.guild.bank.withdraw");
+			Message.CHAT_USAGE_NGA_GUILD_BANK_WITHDRAW.send(sender);
 			return true;
 		}
 

@@ -9,7 +9,10 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.manager.GuildManager;
-import co.marcin.novaguilds.util.*;
+import co.marcin.novaguilds.util.InventoryUtils;
+import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,7 +43,7 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 
 		if(args.length != 2) {
-			plugin.getMessageManager().sendUsageMessage(sender, "guild.create");
+			Message.CHAT_USAGE_GUILD_CREATE.send(sender);
 			return true;
 		}
 
@@ -133,14 +136,14 @@ public class CommandGuildCreate implements CommandExecutor {
 			String itemlist = "";
 			int i = 0;
 			for(ItemStack missingItemStack : InventoryUtils.getMissingItems(player.getInventory(), items)) {
-				String itemrow = plugin.getMessageManager().getMessagesString("chat.createguild.itemlist");
+				String itemrow = Message.CHAT_CREATEGUILD_ITEMLIST.get();
 				itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
 				itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
 
 				itemlist += itemrow;
 
 				if(i<items.size()-1) {
-					itemlist += plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+					itemlist += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
 				}
 				i++;
 			}

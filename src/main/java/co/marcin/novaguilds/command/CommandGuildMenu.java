@@ -29,7 +29,7 @@ public class CommandGuildMenu implements CommandExecutor {
 		}
 
 		Player player = (Player)sender;
-		Inventory inv = Bukkit.createInventory(null,9,plugin.getMessageManager().getMessagesString("inventory.ggui.name"));
+		Inventory inv = Bukkit.createInventory(null, 9, Message.INVENTORY_GGUI_NAME.get());
 		plugin.getCommandManager().updateGuiTop();
 
 		for(ItemStack item : plugin.getCommandManager().getGuiItems()) {

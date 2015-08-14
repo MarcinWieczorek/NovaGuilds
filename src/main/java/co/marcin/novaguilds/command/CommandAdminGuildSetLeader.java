@@ -1,7 +1,7 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
@@ -50,12 +50,12 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
         vars.put("GUILDNAME", guild.getName());
 
         if(!guild.isMember(nPlayer)) { //is not member
-            plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.leader.notinguild",vars);
+            Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.vars(vars).send(sender);
             return true;
         }
 
         if(guild.getLeader().getName().equalsIgnoreCase(nPlayer.getName())) { //already leader
-            plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.leader.alreadyleader",vars);
+            Message.CHAT_ADMIN_GUILD_SET_LEADER_ALREADYLEADER.vars(vars).send(sender);
             return true;
         }
 
@@ -71,9 +71,8 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
             plugin.tagUtils.updatePrefix(nPlayer.getPlayer());
         }
 
-
-        plugin.getMessageManager().sendMessagesMsg(sender,"chat.admin.guild.set.leader.success",vars);
-        plugin.getMessageManager().broadcastMessage("broadcast.guild.newleader",vars);
+        Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.vars(vars).send(sender);
+        Message.BROADCAST_GUILD_NEWLEADER.vars(vars).broadcast();
 
         return true;
     }

@@ -38,7 +38,7 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 			HashMap<String, String> vars = new HashMap<>();
 			vars.put("PLAYERNAME", sender.getName());
 			vars.put("GUILDNAME", guild.getName());
-			plugin.getMessageManager().broadcastMessage("broadcast.admin.guild.abandon", vars);
+			Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast();
 		}
 
 		plugin.tagUtils.refreshGuild(guild);

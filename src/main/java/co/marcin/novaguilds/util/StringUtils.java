@@ -2,14 +2,10 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Message;
-import com.google.common.io.CharStreams;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;

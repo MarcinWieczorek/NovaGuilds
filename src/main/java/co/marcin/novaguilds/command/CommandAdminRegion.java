@@ -1,12 +1,11 @@
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.util.StringUtils;
 
 public class CommandAdminRegion implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -23,7 +22,7 @@ public class CommandAdminRegion implements CommandExecutor {
 
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_REGION_HEADER.send(sender);
-			plugin.getMessageManager().sendMessagesList(sender,"chat.commands.admin.region.items",null,false);
+			Message.CHAT_COMMANDS_ADMIN_REGION_ITEMS.send(sender);
 			return true;
 		}
 

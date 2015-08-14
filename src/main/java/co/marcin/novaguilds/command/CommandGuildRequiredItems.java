@@ -38,7 +38,7 @@ public class CommandGuildRequiredItems implements Executor {
 			size = 9;
 		}
 
-		Inventory inventory = plugin.getServer().createInventory(null,size,plugin.getMessageManager().getMessagesString("inventory.requireditems.name"));
+		Inventory inventory = plugin.getServer().createInventory(null, size, Message.INVENTORY_REQUIREDITEMS_NAME.get());
 
 		for(ItemStack item : requiredItems) {
 			inventory.addItem(item);

@@ -79,16 +79,15 @@ public class CommandGuildHome implements Executor {
 					String itemlist = "";
 					int i = 0;
 					for(ItemStack missingItemStack : missingItems) {
-						String itemrow = plugin.getMessageManager().getMessagesString("chat.createguild.itemlist");
+						String itemrow = Message.CHAT_CREATEGUILD_ITEMLIST.get();
 						itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
 						itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
 
 						itemlist += itemrow;
 
 						if(i<missingItems.size()-1) {
-							itemlist += plugin.getMessageManager().getMessagesString("chat.createguild.itemlistsep");
+							itemlist += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
 						}
-
 						i++;
 					}
 

@@ -1,7 +1,6 @@
 package co.marcin.novaguilds.util;
 
 import com.google.common.io.CharStreams;
-import org.apache.commons.lang.*;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -17,7 +17,10 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class PlayerManager {
@@ -317,7 +320,7 @@ public class PlayerManager {
 		for(String row : Message.CHAT_PLAYER_INFO_ITEMS.getList()) {
 			if(!row.contains("{GUILDROW}") || nCPlayer.hasGuild()) {
 				row = StringUtils.replaceMap(row, vars);
-				plugin.getMessageManager().sendMessage(sender, row);
+				MessageManager.sendMessage(sender, row);
 			}
 		}
 	}

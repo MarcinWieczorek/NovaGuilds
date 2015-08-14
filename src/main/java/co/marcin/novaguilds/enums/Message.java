@@ -224,9 +224,9 @@ public enum Message {
 	CHAT_USAGE_GUILD_INVITE,
 
 	CHAT_COMMANDS_ADMIN_MAIN_HEADER,
-	CHAT_COMMANDS_ADMIN_MAIN_ITEMS,
+	CHAT_COMMANDS_ADMIN_MAIN_ITEMS(false, true),
 	CHAT_COMMANDS_ADMIN_REGION_HEADER,
-	CHAT_COMMANDS_ADMIN_REGION_ITEMS,
+	CHAT_COMMANDS_ADMIN_REGION_ITEMS(false, true),
 	CHAT_COMMANDS_ADMIN_GUILD_HEADER,
 	CHAT_COMMANDS_ADMIN_GUILD_ITEMS,
 	CHAT_COMMANDS_GUILD_HASGUILD(false, true),
@@ -330,6 +330,10 @@ public enum Message {
 	Message(boolean title, boolean list) {
 		this.title = title;
 		this.list = list;
+
+		if(list) {
+			prefix = false;
+		}
 	}
 
 	public boolean getTitle() {
@@ -346,10 +350,10 @@ public enum Message {
 
 	public void send(CommandSender sender) {
 		if(list) {
-			messageManager.sendMessagesList(sender, getPath(), vars, prefix);
+			MessageManager.sendMessagesList(sender, getPath(), vars, prefix);
 		}
 		else {
-			messageManager.sendMessagesMsg(sender, this, vars);
+			MessageManager.sendMessagesMsg(sender, this, vars);
 		}
 	}
 
@@ -374,19 +378,19 @@ public enum Message {
 	}
 
 	public void broadcast(NovaGuild guild) {
-		messageManager.broadcastGuild(guild, this, vars, prefix);
+		MessageManager.broadcastGuild(guild, this, vars, prefix);
 	}
 
 	public void broadcast() {
-		messageManager.broadcastMessage(this, vars);
+		MessageManager.broadcastMessage(this, vars);
 	}
 
 	public void broadcast(String permission) {
-		messageManager.broadcastMessageForPermitted(getPath(), permission);
+		MessageManager.broadcastMessageForPermitted(getPath(), permission);
 	}
 
 	public String get() {
-		return StringUtils.replaceMap(messageManager.getMessagesString(getPath()), vars); //TODO replace with Message
+		return StringUtils.replaceMap(MessageManager.getMessagesString(getPath()), vars); //TODO replace with Message
 	}
 
 	public List<String> getList() {
@@ -395,16 +399,5 @@ public enum Message {
 
 	public static String getOnOff(boolean b) {
 		return b ? Message.CHAT_BASIC_ON.get() : Message.CHAT_BASIC_OFF.get();
-	}
-
-	public static Message fromPath(String path) {
-		path = StringUtils.replace(path, ".", "_").toUpperCase();
-		for(Message message : values()) {
-			if(message.name().equalsIgnoreCase(path)) {
-				return message;
-			}
-		}
-
-		return null;
 	}
 }
