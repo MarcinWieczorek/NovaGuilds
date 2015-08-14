@@ -81,6 +81,8 @@ aliases:
   - rozwiaz
  join:
   - dolacz
+ leave:
+  - opusc
 
 gguicmd:
  g_home: ENDER_PEARL 1 name:Home
