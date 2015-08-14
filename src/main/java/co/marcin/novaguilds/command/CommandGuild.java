@@ -98,14 +98,14 @@ public class CommandGuild implements CommandExecutor {
 		}
 		else {
 			if(plugin.getPlayerManager().getPlayer(sender).hasGuild()) {
-				plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.hasguild",null,false);
+				Message.CHAT_COMMANDS_GUILD_HASGUILD.prefix(false).send(sender);
 
 				if(plugin.getPlayerManager().getPlayer(sender).isLeader()) {
-					plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.leader",null,false);
+					Message.CHAT_COMMANDS_GUILD_LEADER.prefix(false).send(sender);
 				}
 			}
 			else {
-				plugin.getMessageManager().sendMessagesList(sender,"chat.commands.guild.noguild",null,false);
+				Message.CHAT_COMMANDS_GUILD_NOGUILD.prefix(false).send(sender);
 			}
 		}
 		return true;
