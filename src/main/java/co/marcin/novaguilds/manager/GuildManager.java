@@ -593,21 +593,22 @@ public class GuildManager {
 		if(guildData != null) {
 			guild = new NovaGuild();
 			guild.setId(guildData.getInt("id"));
-			guild.setMoney(guildData.getDouble("money"));
-			guild.setPoints(guildData.getInt("points"));
 			guild.setName(guildData.getString("name"));
 			guild.setTag(guildData.getString("tag"));
 			guild.setLeaderName(guildData.getString("leader"));
-			guild.setLives(guildData.getInt("lives"));
 
 			guild.setAlliesNames(guildData.getStringList("allies"));
 			guild.setWarsNames(guildData.getStringList("wars"));
 			guild.setNoWarInvitations(guildData.getStringList("nowar"));
 			guild.setAllyInvitations(guildData.getStringList("alliesinv"));
 
-			guild.setInactiveTime(guildData.getLong("activity"));
+			guild.setMoney(guildData.getDouble("money"));
+			guild.setPoints(guildData.getInt("points"));
+			guild.setLives(guildData.getInt("lives"));
+
 			guild.setTimeRest(guildData.getLong("timerest"));
 			guild.setLostLiveTime(guildData.getLong("lostlive"));
+			guild.setInactiveTime(guildData.getLong("activity"));
 			guild.setTimeCreated(guildData.getLong("created"));
 
 			//home
@@ -623,6 +624,19 @@ public class GuildManager {
 				spawnpoint.setYaw(yaw);
 			}
 			guild.setSpawnPoint(spawnpoint);
+
+			//bankloc
+			Location bankloc = null;
+			World bankWorld = plugin.getServer().getWorld(guildData.getString("bankloc.world"));
+
+			if(bankWorld != null) {
+				int x = guildData.getInt("bankloc.x");
+				int y = guildData.getInt("bankloc.y");
+				int z = guildData.getInt("bankloc.z");
+				bankloc = new Location(world, x, y, z);
+			}
+
+			guild.setBankLocation(bankloc);
 		}
 
 		return guild;
