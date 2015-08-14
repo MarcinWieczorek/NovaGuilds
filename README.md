@@ -47,6 +47,7 @@ Please leave feedback!<br/><br/>
     <li>Automatic regions</li>
     <li>Region resizing</li>
     <li>Banks</li>
+    <li>VanishNoPacket support</li>
 </ul>
 
 <br/>
@@ -57,7 +58,6 @@ Please leave feedback!<br/><br/>
     <li>Auto update config (?)</li>
     <li>Advanced horse protection</li>
     <li>You tell me!</li>
-    <li>VanishNoPacket support</li>
 </ul>
 
 <br/>
