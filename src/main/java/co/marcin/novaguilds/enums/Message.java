@@ -229,9 +229,9 @@ public enum Message {
 	CHAT_COMMANDS_ADMIN_REGION_ITEMS,
 	CHAT_COMMANDS_ADMIN_GUILD_HEADER,
 	CHAT_COMMANDS_ADMIN_GUILD_ITEMS,
-	CHAT_COMMANDS_GUILD_HASGUILD,
-	CHAT_COMMANDS_GUILD_NOGUILD,
-	CHAT_COMMANDS_GUILD_LEADER,
+	CHAT_COMMANDS_GUILD_HASGUILD(false, true),
+	CHAT_COMMANDS_GUILD_NOGUILD(false, true),
+	CHAT_COMMANDS_GUILD_LEADER(false, true),
 
 	CHAT_CREATEGUILD_NOTENOUGHMONEY,
 	CHAT_CREATEGUILD_ITEMLIST,
@@ -325,6 +325,11 @@ public enum Message {
 
 	Message() {
 
+	}
+
+	Message(boolean title, boolean list) {
+		this.title = title;
+		this.list = list;
 	}
 
 	public boolean getTitle() {
