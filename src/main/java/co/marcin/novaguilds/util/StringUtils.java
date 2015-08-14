@@ -237,16 +237,16 @@ public final class StringUtils {
 			stringSeconds = seconds + " "+formSecond.get()+" ";
 		}
 
-		if(unit == TimeUnit.DAYS) {
+		if(unit == TimeUnit.DAYS && days > 0) {
 			stringHours="";
 			stringMinutes="";
 			stringSeconds="";
 		}
-		else if(unit == TimeUnit.HOURS) {
+		else if(unit == TimeUnit.HOURS && hours > 0) {
 			stringMinutes="";
 			stringSeconds="";
 		}
-		else if(unit == TimeUnit.MINUTES) {
+		else if(unit == TimeUnit.MINUTES && minutes > 0) {
 			stringSeconds="";
 		}
 
