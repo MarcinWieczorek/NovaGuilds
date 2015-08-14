@@ -361,7 +361,7 @@ public class RegionManager {
 
 		int min = radius1 + Config.REGION_MINDISTANCE.getInt();
 		LoggerUtils.debug("min="+min);
-		Location centerLocation = getCenterLocation(l1, l2);
+		Location centerLocation = RegionUtils.getCenterLocation(l1, l2);
 		LoggerUtils.debug("center="+centerLocation.toString());
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
@@ -385,18 +385,6 @@ public class RegionManager {
 			}
 		}
 		return true;
-	}
-
-	//TODO fix
-	private static Location getCenterLocation(Location l1, Location l2) {
-		int width = Math.abs(l1.getBlockX() - l2.getBlockX());
-		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ());
-
-		//int newx = l1.getBlockX()<0 ? l1.getBlockX()+width/2 : l1.getBlockX()-width/2;
-		int newx = l1.getBlockX()+width/2;
-		int newz = l1.getBlockZ()>0 ? l1.getBlockZ()+height/2 : l1.getBlockZ()-height/2;
-
-		return new Location(l1.getWorld(),newx,l1.getBlockY(),newz);
 	}
 
 	public void playerEnteredRegion(Player player, Location toLocation) {
