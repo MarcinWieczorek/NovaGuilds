@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public enum Config {
 	MYSQL_HOST,
 	MYSQL_PORT,
