@@ -3,7 +3,9 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -15,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class CommandGuildInfo implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -65,7 +68,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			guildInfoMessages = Message.CHAT_GUILDINFO_INFO.getList();
 		}
 
-		plugin.getMessageManager().sendPrefixMessage(sender, guildInfoMessages.get(0));
+		MessageManager.sendPrefixMessage(sender, guildInfoMessages.get(0));
 
 		int i;
 		List<NovaPlayer> gplayers = guild.getPlayers();
@@ -142,6 +145,13 @@ public class CommandGuildInfo implements CommandExecutor {
 		vars.put("LIVEREGENERATIONTIME", liveRegenerationString);
 		vars.put("TIMEREST",StringUtils.secondsToString(timeWait));
 
+		//time created and protection
+		long createdAgo = NumberUtils.systemSeconds() - guild.getTimeCreated();
+		long protLeft = Config.GUILD_CREATEPROTECTION.getSeconds() - createdAgo;
+
+		vars.put("CREATEDAGO", StringUtils.secondsToString(createdAgo, TimeUnit.HOURS));
+		vars.put("PROTLEFT", StringUtils.secondsToString(protLeft, TimeUnit.HOURS));
+
 		//spawnpoint location coords
 		Location sp = guild.getSpawnPoint();
 		if(sp != null) {
@@ -180,6 +190,14 @@ public class CommandGuildInfo implements CommandExecutor {
 
 			//displaying wars
 			if(gmsg.contains("{WARS}") && wars.isEmpty()) {
+				skipmsg = true;
+			}
+
+			if(gmsg.contains("{PROTLEFT}") && protLeft <= 0) {
+				skipmsg = true;
+			}
+
+			if(gmsg.contains("{CREATEDAGO}") && protLeft > 0) {
 				skipmsg = true;
 			}
 

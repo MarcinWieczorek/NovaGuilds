@@ -359,6 +359,8 @@ chat:
    - " &c* &2Nazwa: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Lider: &6{LEADER}"
+   - " &c* &2Stworzona: &6{CREATEDAGO}&2temu"
+   - " &c* &2Ochrona: &6{PROTLEFT}"
    - " &c* &2Zycia: &6{LIVES}"
    - " &c* &2Regenaracja zycia: &6{LIVEREGENERATIONTIME}"
    - " &c* &2Czas odpoczynku: &6{TIMEREST}"
