@@ -3,6 +3,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -126,10 +127,11 @@ public class ChatListener implements Listener {
 
 		if(Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+			NovaRegion region = plugin.getRegionManager().getRegion(event.getPlayer().getLocation());
 
-			if(nPlayer.getAtRegion() != null) {
+			if(region != null) {
 				if(nPlayer.hasGuild()) {
-					if(!nPlayer.getAtRegion().getGuild().isMember(nPlayer) && !nPlayer.getAtRegion().getGuild().isAlly(nPlayer.getGuild())) {
+					if(!region.getGuild().isMember(nPlayer) && !region.getGuild().isAlly(nPlayer.getGuild())) {
 						Message.CHAT_REGION_BLOCKEDCMD.send(event.getPlayer());
 						event.setCancelled(true);
 					}
