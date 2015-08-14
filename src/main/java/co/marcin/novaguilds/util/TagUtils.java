@@ -3,6 +3,7 @@ package co.marcin.novaguilds.util;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -26,7 +27,7 @@ public class TagUtils {
 			tag = plugin.getConfig().getString("guild.tag");
 			guildTag = nPlayer.getGuild().getTag();
 
-			if(!plugin.getConfigManager().isChatTagColorsEnabled()) {
+			if(!Config.TAGAPI_COLORTAGS.getBoolean()) {
 				guildTag = StringUtils.removeColors(guildTag);
 			}
 

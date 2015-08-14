@@ -41,7 +41,6 @@ public class ConfigManager {
 	private long guildLiveRegenerationTime;
 	private long guildDistanceFromSpawn;
 
-	private boolean chatTagColors;
 	private boolean chatDisplayNameTags;
 
 	private ItemStack guildBankItem;
@@ -105,7 +104,6 @@ public class ConfigManager {
 		databasePrefix = config.getString("mysql.prefix");
 
 		chatDisplayNameTags = config.getBoolean("chat.displaynametags");
-		chatTagColors = config.getBoolean("tagapi.colortags");
 
 		String primaryDataStorageTypeString = config.getString("datastorage.primary").toUpperCase();
 		String secondaryDataStorageTypeString = config.getString("datastorage.secondary").toUpperCase();
@@ -244,10 +242,6 @@ public class ConfigManager {
 
 	public boolean useVanishNoPacket() {
 		return useVanishNoPacket;
-	}
-
-	public boolean isChatTagColorsEnabled() {
-		return chatTagColors;
 	}
 
 	public boolean useChatDisplayNameTags() {
