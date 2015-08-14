@@ -131,15 +131,6 @@ public class FlatDataManager {
 
 		if(guildData != null) {
 			try {
-				//set values
-				guildData.set("id",guild.getId());
-				guildData.set("money",guild.getMoney());
-				guildData.set("points",guild.getPoints());
-				guildData.set("name",guild.getName());
-				guildData.set("tag",guild.getTag());
-				guildData.set("leader",guild.getLeader()==null ? "" : guild.getLeader().getName());
-				guildData.set("lives",guild.getLives());
-
 				List<String> alliesNames = new ArrayList<>();
 				for(NovaGuild ally : guild.getAllies()) {
 					alliesNames.add(ally.getName());
@@ -150,14 +141,23 @@ public class FlatDataManager {
 					warsNames.add(war.getName());
 				}
 
+				//set values
+				guildData.set("id",guild.getId());
+				guildData.set("name",guild.getName());
+				guildData.set("tag",guild.getTag());
+				guildData.set("leader",guild.getLeader()==null ? "" : guild.getLeader().getName());
 				guildData.set("allies", alliesNames);
+				guildData.set("alliesinv", guild.getAllyInvitations());
 				guildData.set("wars", warsNames);
 				guildData.set("nowar", guild.getNoWarInvitations());
-				guildData.set("alliesinv", guild.getAllyInvitations());
+				guildData.set("money",guild.getMoney());
+				guildData.set("points",guild.getPoints());
+				guildData.set("lives",guild.getLives());
 
-				guildData.set("activity",guild.getInactiveTime());
 				guildData.set("timerest",guild.getTimeRest());
 				guildData.set("lostlive",guild.getLostLiveTime());
+				guildData.set("activity",guild.getInactiveTime());
+				guildData.set("created",guild.getTimeCreated());
 
 				//spawnpoint
 				Location home = guild.getSpawnPoint();
@@ -166,6 +166,18 @@ public class FlatDataManager {
 				guildData.set("home.y",home.getBlockY());
 				guildData.set("home.z",home.getBlockZ());
 				guildData.set("home.yaw",home.getYaw());
+
+				//bankloc
+				Location bankloc = guild.getBankLocation();
+				if(bankloc != null) {
+					guildData.set("bankloc.world", bankloc.getWorld().getName());
+					guildData.set("bankloc.x", bankloc.getBlockX());
+					guildData.set("bankloc.y", bankloc.getBlockY());
+					guildData.set("bankloc.z", bankloc.getBlockZ());
+				}
+				else {
+					guildData.set("bankloc", null);
+				}
 
 				//save
 				guildData.save(getGuildFile(guild.getName()));
