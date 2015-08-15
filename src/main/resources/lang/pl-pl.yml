@@ -39,12 +39,12 @@ chat:
     leader: "Nie mozesz wyrzucic lidera. Musisz rozwiazac gildie."
    invited: "Zaproszono gracza &c{PLAYERNAME} &3do &a{GUILDNAME}"
    teleported:
-    self: "Teleportowano do bazy &a{GUILDNAME}"
+    self: "Teleportowano do bazy gildii &a{GUILDNAME}"
     other: "Teleportowano gracza &c{PLAYERNAME} &3do bazy &a{GUILDNAME}"
    set:
     tag: "Tag zmieniony na &a{TAG}"
-    points: "Points set."
-    lives: "Lives set."
+    points: "Punkty zmienione."
+    lives: "Ilosc zyc zmieniona."
     name:
      enternewname: "Wprowadz nowa nazwe"
      success: "Nazwa gildii zmieniona."
@@ -114,7 +114,7 @@ chat:
      - "&5* &7/nga &crg &6list &2- &3Lista regionow"
      - "&5* &7/nga &crg &6del &c<gildia> &2- &3Usun region"
      - "&5* &7/nga &crg &6tp &c<gildia> &2- &3Teleport do regionu"
-     - "&5* &7/nga &crg &6bypass &c[gracz] &2- &3Zmiena trybu ignorowania regionow"
+     - "&5* &7/nga &crg &6bypass &c[gracz] &2- &3Zmiana trybu ignorowania regionow"
    guild:
     header: "Komendy Admina, gildie:"
     items:
@@ -137,17 +137,19 @@ chat:
    hasguild:
     - "&5* &7/g &cpay &6<ilosc> &2- &3Wplac pieniadze do banku"
     - "&5* &7/g &chome &2- &3Teleport do domu gildii"
-    - "&5* &7/g &cinfo &2- &3Informacje o gildii. &9/gi"
-    - "&5* &7/g &cleave &2- &3Opusc gildie"
+    - "&5* &7/gi &2- &3Informacje o gildii."
+    - "&5* &7/opusc &2- &3Opusc gildie"
     - "&5* &7/g &ccompass &2- &3Niech kompas wskazuje dom Twojej gildii!"
     - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/ng &ctool &2- &3Sprawdz lub zaznacz teren patykiem!"
+    - "&5* &7/gg &2- &3Menu gildii"
    noguild:
     - "&5* &7/zaloz &6<tag> <nazwa> &2- &3Zaloz gildie"
     - "&5* &7/dolacz &6[gildia] &2- &3Dolacz do gildii"
     - "&5* &7/gi &c[gildia/gracz] &2- &3Informacje o gildii"
     - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/g &citems &2- &3Wymagane przedmioty"
+    - "&5* &7/gg &2- &3Menu gildii"
    leader:
     - "&5* &7/g &cbuyregion &2- &3Kup zaznaczony teren"
     - "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
@@ -159,6 +161,7 @@ chat:
     - "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuc gracza"
     - "&5* &7/rozwiaz &2- &3Porzuc gildie"
     - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
+    - "&5* &7/gg &2- &3Menu gildii"
 
  pvp:
   team: "Nie mozesz bic swoich kolegow z gildii"
@@ -375,6 +378,8 @@ chat:
    - " &c* &2Nazwa: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Lider: &6{LEADER}"
+   - " &c* &2Stworzona: &6{CREATEDAGO}&2temu"
+   - " &c* &2Ochrona: &6{PROTLEFT}"
    - " &c* &2Zycia: &6{LIVES}"
    - " &c* &2Czas odpoczynku: &6{TIMEREST}"
    - " &c* &2Gracze: {PLAYERS}"

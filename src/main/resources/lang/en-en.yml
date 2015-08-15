@@ -138,16 +138,18 @@ chat:
     - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
     - "&5* &7/g &chome &2- &3TP to guild's home"
     - "&5* &7/gi &2- &3Guild's info."
-    - "&5* &7/g &cleave &2- &3Leave the guild"
+    - "&5* &7/leave &2- &3Leave the guild"
     - "&5* &7/g &ccompass &2- &3Let the compass point your guild's home!"
     - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/ng &ctool &2- &3Check or select area with the tool!"
+    - "&5* &7/gg &2- &3Guild's menu"
    noguild:
     - "&5* &7/create &6<tag> <name> &2- &3Create a guild"
     - "&5* &7/join &6[guildname] &2- &3Join a guild"
     - "&5* &7/gi &c[guild/tag/player] &2- &3Guild's info"
     - "&5* &7/g &ctop &2- &3Top 5"
     - "&5* &7/g &citems &2- &3Required items"
+    - "&5* &7/gg &2- &3Guild's menu"
    leader:
     - "&5* &7/g &cbuyregion &2- &3Buy selected area"
     - "&5* &7/g &ceffect &2- &3Effect for guild"
@@ -159,6 +161,7 @@ chat:
     - "&5* &7/g &ckick &6<playername> &2- &3Kick a player from the guild"
     - "&5* &7/abandon &2- &3abandon your guild"
     - "&5* &7/invite &6<playername> &2- &3invite player to your guild"
+    - "&5* &7/gg &2- &3Guild's menu"
 
  pvp:
   team: "You cannot hurt your teammates"
@@ -375,6 +378,8 @@ chat:
    - " &c* &2Name: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Leader: &6{LEADER}"
+   - " &c* &2Created: &6{CREATEDAGO}&2ago"
+   - " &c* &2Protection: &6{PROTLEFT}&2left"
    - " &c* &2Lives: &6{LIVES}"
    - " &c* &2Resting time: &6{TIMEREST}"
    - " &c* &2Players: {PLAYERS}"
