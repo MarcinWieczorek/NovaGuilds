@@ -199,6 +199,7 @@ public class GuildManager {
 						novaGuild.setSpawnPoint(spawnpoint);
 						novaGuild.setRegion(plugin.getRegionManager().getRegion(novaGuild));
 						novaGuild.setBankLocation(bankLocation);
+						novaGuild.setSlots(res.getInt("slots"));
 						LoggerUtils.debug("regionnull=" + (novaGuild.getRegion() == null));
 
 						novaGuild.setAlliesNames(allies);
@@ -264,6 +265,7 @@ public class GuildManager {
 				preparedStatement.setInt(6, guild.getPoints()); //points
 				preparedStatement.setInt(7, guild.getLives()); //lives
 				preparedStatement.setLong(8, guild.getTimeCreated()); //created
+				preparedStatement.setInt(9, guild.getSlots()); //created
 
 				preparedStatement.execute();
 				ResultSet keys = preparedStatement.getGeneratedKeys();
@@ -376,8 +378,9 @@ public class GuildManager {
 					preparedStatement.setLong(13, guild.getLostLiveTime());
 					preparedStatement.setLong(14, guild.getInactiveTime());
 					preparedStatement.setString(15, bankLocationString);
+					preparedStatement.setInt(16, guild.getSlots());
 
-					preparedStatement.setInt(16, guild.getId());
+					preparedStatement.setInt(17, guild.getId());
 
 					preparedStatement.executeUpdate();
 					guild.setUnchanged();

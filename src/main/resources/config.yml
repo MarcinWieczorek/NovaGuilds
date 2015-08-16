@@ -143,6 +143,7 @@ guild:
  startpoints: 1000
  startmoney: 0
  startlives: 2
+ startslots: 10
  #distance from spawn
  fromspawn: 100
  allowedchars: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
