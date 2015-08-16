@@ -30,6 +30,7 @@ public class NovaGuild {
 	private long inactiveTime;
 	private long timeCreated;
 	private int lives;
+	private int slots;
 	private boolean changed = false;
 	private boolean friendlyPvp = false;
 	private Location bankLocation;
@@ -174,6 +175,10 @@ public class NovaGuild {
 
 	public long getTimeCreated() {
 		return timeCreated;
+	}
+
+	public int getSlots() {
+		return slots;
 	}
 
 	//setters
@@ -332,6 +337,10 @@ public class NovaGuild {
 
 	public void setTimeCreated(long timeCreated) {
 		this.timeCreated = timeCreated;
+	}
+
+	public void setSlots(int slots) {
+		this.slots = slots;
 	}
 
 	//check
