@@ -7,12 +7,16 @@ import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
 import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
+import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DatabaseManager {
 	private final NovaGuilds plugin;
@@ -172,6 +176,8 @@ public class DatabaseManager {
 					setupTables();
 				}
 
+				analyze();
+
 				prepareStatements();
 			}
 		}
@@ -227,17 +233,7 @@ public class DatabaseManager {
 			return;
 		}
 
-		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType()==DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
-		String sqlString = IOUtils.inputStreamToString(inputStream);
-
-		if(sqlString==null || sqlString.isEmpty() || !sqlString.contains("--")) {
-			LoggerUtils.error("Invalid SQL");
-			return;
-		}
-
-		mysqlReload();
-		sqlString = StringUtils.replace(sqlString, "{SQLPREFIX}", plugin.getConfigManager().getDatabasePrefix());
-		String[] actions = sqlString.split("--");
+		String[] actions = getSqlActions();
 
 		try {
 			for(String tableCode : actions) {
@@ -253,11 +249,42 @@ public class DatabaseManager {
 		}
 	}
 
+	private void analyze() {
+		try {
+			TableAnalyzer analyzer = new TableAnalyzer(plugin);
+
+			for(String action : getSqlActions()) {
+				if(action.contains("CREATE TABLE")) {
+					String table = org.apache.commons.lang.StringUtils.split(action, '`')[1];
+					analyzer.analyze(table, action);
+					analyzer.update();
+				}
+			}
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
+		}
+	}
+
 	public Connection getConnection() {
 		return connection;
 	}
 
 	public boolean isConnected() {
 		return connected;
+	}
+
+	private String[] getSqlActions() {
+		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType()==DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
+		String sqlString = IOUtils.inputStreamToString(inputStream);
+
+		if(sqlString==null || sqlString.isEmpty() || !sqlString.contains("--")) {
+			LoggerUtils.error("Invalid SQL");
+			return new String[0];
+		}
+
+		mysqlReload();
+		sqlString = StringUtils.replace(sqlString, "{SQLPREFIX}", plugin.getConfigManager().getDatabasePrefix());
+		return sqlString.split("--");
 	}
 }
