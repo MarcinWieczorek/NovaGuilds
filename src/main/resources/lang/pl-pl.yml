@@ -53,7 +53,6 @@ chat:
      alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
      success: "Nowy lider ustalony!"
   region:
-   blockedcmd: "Ta komenda jest zablokowana na regionach."
    bypass:
     toggled:
      self: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
@@ -291,6 +290,7 @@ chat:
    - " &c* &2KDR: &6{KDR}"
 
  region:
+  blockedcmd: "Ta komenda jest zablokowana na regionach."
   deny:
    interact: "Nie mozesz tutaj ingerowac."
    ridemob: "Nie mozesz jezdzic na tym zwierzeciu."

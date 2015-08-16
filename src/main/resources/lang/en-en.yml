@@ -53,7 +53,6 @@ chat:
      alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
      success: "New leader set!"
   region:
-   blockedcmd: "This command is blocked at regions."
    bypass:
     toggled:
      self: "Region bypass toggled. Currently: &c{BYPASS}"
@@ -291,6 +290,7 @@ chat:
    - " &c* &2KDR: &6{KDR}"
 
  region:
+   blockedcmd: "This command is blocked at regions."
   deny:
    interact: "You cannot interact here"
    ridemob: "You cannot ride this mob, its protected!"
