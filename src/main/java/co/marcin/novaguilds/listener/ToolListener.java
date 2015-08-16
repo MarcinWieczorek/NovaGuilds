@@ -122,10 +122,6 @@ public class ToolListener implements Listener {
 						if(region.getGuild().isMember(nPlayer) && nPlayer.isLeader()) {
 							Location pointedCornerLocation = pointedLocation.clone();
 							pointedCornerLocation.setY(0);
-							//pointedCornerLocation = pointedCornerLocation.getBlock().getLocation();
-							//LoggerUtils.debug("y: "+pointedCornerLocation.getBlockY() + " / " + region.getCorner(0).getBlockY() + " / " + region.getCorner(1).getBlockY());
-							//LoggerUtils.debug("0=" + pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()));
-							//LoggerUtils.debug("1=" + pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()));
 
 							if(pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()) < 1 || pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()) < 1) { //clicked a corner
 								int corner = 1;
@@ -228,7 +224,6 @@ public class ToolListener implements Listener {
 										if(nPlayer.isResizing()) {
 											data = (byte) 6;
 											price = ppb * (regionsize - nPlayer.getGuild().getRegion().getSurface());
-											LoggerUtils.debug(ppb+" * ("+regionsize+" - "+nPlayer.getGuild().getRegion().getSurface()+") = "+price);
 										}
 										else {
 											data = (byte) 14;

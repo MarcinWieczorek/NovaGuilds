@@ -153,11 +153,8 @@ public class RegionInteractListener implements Listener {
 		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegion(mob.getLocation());
-		//LoggerUtils.debug("PlayerInteractEntityEvent - "+event.getRightClicked().getType().name());
 		
 		if(rgatploc != null) {
-			LoggerUtils.debug("There is a region");
-			LoggerUtils.debug(denyriding.toString());
 			Player player = event.getPlayer();
 			NovaPlayer nPlayer = NovaPlayer.get(player);
 			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
@@ -218,7 +215,6 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
 		Block block = event.getBlockClicked().getRelative(event.getBlockFace());
-		LoggerUtils.debug("BucketEmpty");
 
 		if(!plugin.getRegionManager().canBuild(event.getPlayer(), block.getLocation())) {
 			event.setCancelled(true);

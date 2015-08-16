@@ -200,7 +200,6 @@ public class GuildManager {
 						novaGuild.setRegion(plugin.getRegionManager().getRegion(novaGuild));
 						novaGuild.setBankLocation(bankLocation);
 						novaGuild.setSlots(res.getInt("slots"));
-						LoggerUtils.debug("regionnull=" + (novaGuild.getRegion() == null));
 
 						novaGuild.setAlliesNames(allies);
 						novaGuild.setAllyInvitations(alliesinv);

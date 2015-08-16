@@ -213,7 +213,6 @@ public class CommandGuildCreate implements CommandExecutor {
 					if(region != null) {
 						region.setGuild(nPlayer.getGuild());
 						plugin.getRegionManager().addRegion(region, nPlayer.getGuild());
-						LoggerUtils.debug("AutoRegion created!");
 
 						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
 							if(region.equals(plugin.getRegionManager().getRegion(playerCheck.getLocation()))) {
@@ -243,9 +242,6 @@ public class CommandGuildCreate implements CommandExecutor {
 				break;
 			case TOOCLOSE:
 				Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(sender);
-				break;
-			default:
-				LoggerUtils.debug("Not expected RegionValidity result.");
 				break;
 		}
 		return true;
