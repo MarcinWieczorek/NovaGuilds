@@ -17,7 +17,8 @@ CREATE TABLE `{SQLPREFIX}guilds` (
   `lostlive` int(11) NOT NULL,
   `activity` int(11) NOT NULL,
   `created` int(11) NOT NULL,
-  `bankloc` tinytext NOT NULL
+  `bankloc` tinytext NOT NULL,
+  `slots` tinytext NOT NULL,
 );
 --
 CREATE TABLE `{SQLPREFIX}players` (

@@ -16,6 +16,7 @@ CREATE TABLE `{SQLPREFIX}guilds` (
   `activity` int(11) NOT NULL,
   `created` int(11) NOT NULL,
   `bankloc` tinytext NOT NULL,
+  `slots` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 --
