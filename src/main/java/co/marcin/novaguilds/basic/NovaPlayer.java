@@ -32,7 +32,7 @@ public class NovaPlayer {
 	private boolean resizing = false;
 	private int resizingCorner = 0;
 	private boolean compassPointingGuild = false;
-	private HashMap<UUID, Long> killingHistory = new HashMap<>();
+	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
 
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {

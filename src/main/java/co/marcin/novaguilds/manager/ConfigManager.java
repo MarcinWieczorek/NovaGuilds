@@ -52,7 +52,7 @@ public class ConfigManager {
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 	private ItemStack toolItem;
 
-	private HashMap<Config, Object> cache = new HashMap<>();
+	private final HashMap<Config, Object> cache = new HashMap<>();
 
 	public ConfigManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
