@@ -226,8 +226,9 @@ chat:
   kickyourself: "You cannot kick yourself from the guild!"
   tooclose: "You are too close to other guild"
   isfull: "This guild has reached the limit of players"
+  buylife: "You bought a life for your guild."
   buyslot: "You bought an additional slot for your guild."
-  
+
   war:
    ally: "First you need to end your ally with that guild."
    yourguildwar: "You cannot start a war with yourself!"
