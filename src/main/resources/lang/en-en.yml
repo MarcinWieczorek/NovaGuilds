@@ -294,7 +294,7 @@ chat:
    - " &c* &2KDR: &6{KDR}"
 
  region:
-   blockedcmd: "This command is blocked at regions."
+  blockedcmd: "This command is blocked at regions."
   deny:
    interact: "You cannot interact here"
    ridemob: "You cannot ride this mob, its protected!"
