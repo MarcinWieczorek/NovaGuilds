@@ -14,21 +14,21 @@ public class NovaGroup {
 
 	private final String name;
 	private double guildCreateMoney = 0;
-	private List<ItemStack> guildCreateItems = new ArrayList<>();
+	private final List<ItemStack> guildCreateItems = new ArrayList<>();
 
-	private List<ItemStack> guildHomeItems = new ArrayList<>();
+	private final List<ItemStack> guildHomeItems = new ArrayList<>();
 	private double guildHomeMoney = 0;
 
-	private List<ItemStack> guildJoinItems = new ArrayList<>();
+	private final List<ItemStack> guildJoinItems = new ArrayList<>();
 	private double guildJoinMoney;
 
 	private double guildEffectPrice = 0;
 	private int guildTeleportDelay = 0;
 
-	private List<ItemStack> guildBuylifeItems = new ArrayList<>();
+	private final List<ItemStack> guildBuylifeItems = new ArrayList<>();
 	private double guildBuylifeMoney = 0;
 
-	private List<ItemStack> guildBuySlotItems = new ArrayList<>();
+	private final List<ItemStack> guildBuySlotItems = new ArrayList<>();
 	private double guildBuySlotMoney = 0;
 
 	private double regionPricePerBlock = 0;
@@ -42,49 +42,32 @@ public class NovaGroup {
 
 		if(name.equalsIgnoreCase("admin")) {
 			regionAutoSize = plugin.getConfig().getInt("region.adminautosize");
+			return;
 		}
-		else {
-			//setting all values
-			ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups." + group);
-			guildCreateItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.create.items"));
-			guildCreateMoney = section.getDouble("guild.create.money");
 
-			guildTeleportDelay = section.getInt("guild.home.tpdelay");
+		//setting all values
+		ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups." + group);
+		guildCreateItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.create.items")));
+		guildCreateMoney = section.getDouble("guild.create.money");
 
-			guildHomeItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.home.items"));
-			guildJoinItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.join.items"));
+		guildTeleportDelay = section.getInt("guild.home.tpdelay");
 
-			regionPricePerBlock = section.getDouble("region.ppb");
-			regionCreateMoney = section.getDouble("region.createmoney");
-			guildEffectPrice = section.getDouble("effectprice");
-			regionAutoSize = section.getInt("region.autoregionsize");
+		guildHomeItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.home.items")));
+		guildJoinItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.join.items")));
 
-			guildHomeMoney = section.getDouble("guild.home.money");
-			guildJoinMoney = section.getDouble("guild.join.money");
+		regionPricePerBlock = section.getDouble("region.ppb");
+		regionCreateMoney = section.getDouble("region.createmoney");
+		guildEffectPrice = section.getDouble("effectprice");
+		regionAutoSize = section.getInt("region.autoregionsize");
 
-			guildBuylifeItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.buylife.items"));
-			guildBuylifeMoney = section.getDouble("guild.buylife.money");
+		guildHomeMoney = section.getDouble("guild.home.money");
+		guildJoinMoney = section.getDouble("guild.join.money");
 
-			guildBuySlotItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.buyslot.items"));
-			guildBuySlotMoney = section.getDouble("guild.buyslot.money");
+		guildBuylifeItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.buylife.items")));
+		guildBuylifeMoney = section.getDouble("guild.buylife.money");
 
-			//check values
-			if(guildCreateItems == null) {
-				guildCreateItems = new ArrayList<>();
-			}
-
-			if(guildHomeItems == null) {
-				guildHomeItems = new ArrayList<>();
-			}
-
-			if(guildJoinItems == null) {
-				guildJoinItems = new ArrayList<>();
-			}
-
-			if(guildBuylifeItems == null) {
-				guildBuylifeItems = new ArrayList<>();
-			}
-		}
+		guildBuySlotItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.buyslot.items")));
+		guildBuySlotMoney = section.getDouble("guild.buyslot.money");
 	}
 
 	public static NovaGroup get(CommandSender sender) {
