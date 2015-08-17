@@ -29,6 +29,14 @@ mysql:
  prefix: novaguilds_
 
 debug: false
+
+# =-=-= # =-=-=-= #
+# Available langs #
+# =-=-= # =-=-=-= #
+# en-en # English #
+# pl-pl # Polish  #
+# de-de # German  #
+# =-=-= # =-=-=-= #
 lang: en-en
 usetitles: false
 
