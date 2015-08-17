@@ -48,13 +48,13 @@ Please leave feedback!<br/><br/>
     <li>Region resizing</li>
     <li>Banks</li>
     <li>VanishNoPacket support</li>
+    <li>Auto update MySQL tables</li>
 </ul>
 
 <br/>
 <h2><b>Planned features</b></h2>
 <ul>
     <li>Auto update to latest build (?)</li>
-    <li>Auto update MySQL tables</li>
     <li>Auto update config (?)</li>
     <li>Advanced horse protection</li>
     <li>You tell me!</li>
