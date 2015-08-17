@@ -381,7 +381,7 @@ public class NovaGuild {
 	}
 
 	public boolean isFull() {
-		return getPlayers().size() >= Config.GUILD_MAXPLAYERS.getInt();
+		return getPlayers().size() >= slots;
 	}
 
 	//add/remove
