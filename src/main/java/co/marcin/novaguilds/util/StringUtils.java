@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -302,5 +303,24 @@ public final class StringUtils {
 		}
 
 		return true;
+	}
+
+	public static String getItemList(List<ItemStack> items) {
+		String itemlist = "";
+		int i = 0;
+		for(ItemStack missingItemStack : items) {
+			String itemrow = Message.CHAT_CREATEGUILD_ITEMLIST.get();
+			itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
+			itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
+
+			itemlist += itemrow;
+
+			if(i<items.size()-1) {
+				itemlist += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
+			}
+			i++;
+		}
+
+		return fixColors(itemlist);
 	}
 }
