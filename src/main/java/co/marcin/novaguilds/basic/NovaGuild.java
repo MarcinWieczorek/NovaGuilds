@@ -435,6 +435,10 @@ public class NovaGuild {
 		changed();
 	}
 
+	public void addSlot() {
+		slots++;
+	}
+
 	public void removePlayer(NovaPlayer nPlayer) {
 		if(players.contains(nPlayer)) {
 			players.remove(nPlayer);
