@@ -153,6 +153,7 @@ public class FlatDataManager {
 				guildData.set("money",guild.getMoney());
 				guildData.set("points",guild.getPoints());
 				guildData.set("lives",guild.getLives());
+				guildData.set("slots", guild.getSlots());
 
 				guildData.set("timerest",guild.getTimeRest());
 				guildData.set("lostlive",guild.getLostLiveTime());

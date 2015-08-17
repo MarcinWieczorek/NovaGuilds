@@ -607,6 +607,7 @@ public class GuildManager {
 			guild.setMoney(guildData.getDouble("money"));
 			guild.setPoints(guildData.getInt("points"));
 			guild.setLives(guildData.getInt("lives"));
+			guild.setSlots(guildData.getInt("slots"));
 
 			guild.setTimeRest(guildData.getLong("timerest"));
 			guild.setLostLiveTime(guildData.getLong("lostlive"));
