@@ -198,6 +198,8 @@ public class DatabaseManager {
 				setupTables();
 			}
 
+			analyze();
+
 			prepareStatements();
 
 			LoggerUtils.info("Connected to SQLite database");
