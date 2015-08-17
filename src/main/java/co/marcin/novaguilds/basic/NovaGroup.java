@@ -28,6 +28,9 @@ public class NovaGroup {
 	private List<ItemStack> guildBuylifeItems = new ArrayList<>();
 	private double guildBuylifeMoney = 0;
 
+	private List<ItemStack> guildBuySlotItems = new ArrayList<>();
+	private double guildBuySlotMoney = 0;
+
 	private double regionPricePerBlock = 0;
 	private double regionCreateMoney = 0;
 	private int regionAutoSize = 0;
@@ -61,6 +64,9 @@ public class NovaGroup {
 
 			guildBuylifeItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.buylife.items"));
 			guildBuylifeMoney = section.getDouble("guild.buylife.money");
+
+			guildBuySlotItems = ItemStackUtils.stringToItemStackList(section.getStringList("guild.buyslot.items"));
+			guildBuySlotMoney = section.getDouble("guild.buyslot.money");
 
 			//check values
 			if(guildCreateItems == null) {
@@ -142,5 +148,14 @@ public class NovaGroup {
 
 	public List<ItemStack> getGuildBuylifeItems() {
 		return guildBuylifeItems;
+	}
+
+	//buySlot
+	public List<ItemStack> getGuildBuySlotItems() {
+		return guildBuySlotItems;
+	}
+
+	public double getGuildBuySlotMoney() {
+		return guildBuySlotMoney;
 	}
 }
