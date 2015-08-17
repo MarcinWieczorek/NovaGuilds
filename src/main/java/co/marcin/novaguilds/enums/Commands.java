@@ -4,6 +4,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public enum Commands {
+	ADMIN_GUILD_ABANDON("novaguilds.admin.guild.abandon", true),
+	ADMIN_GUILD_PURGE("novaguilds.admin.guild.purge", true),
+	ADMIN_GUILD_BANK_PAY("novaguilds.admin.guild.bank.pay", true),
+	ADMIN_GUILD_BANK_WITHDRAW("novaguilds.admin.guild.bank.withdraw", true),
+	ADMIN_GUILD_INACTIVE("novaguilds.admin.guild.inactive.list", true),
+	ADMIN_GUILD_INVITE("novaguilds.admin.guild.invite", true),
+	ADMIN_GUILD_KICK("novaguilds.admin.guild.kick", true),
+	ADMIN_GUILD_LIST("novaguilds.admin.guild.list", true),
+	ADMIN_GUILD_SET_LEADER("novaguilds.admin.guild.set.leader", true),
+	ADMIN_GUILD_SET_LIVEREGENERATIONTIME("novaguilds.admin.guild.set.liveregenerationtime", true),
+	ADMIN_GUILD_SET_LIVES("novaguilds.admin.guild.set.lives", true),
+	ADMIN_GUILD_SET_NAME("novaguilds.admin.guild.set.name", true),
+	ADMIN_GUILD_SET_POINTS("novaguilds.admin.guild.set.points", true),
+	ADMIN_GUILD_SET_TAG("novaguilds.admin.guild.set.tag", true),
+	ADMIN_GUILD_SET_TIMEREST("novaguilds.admin.guild.set.timerest", true),
+	ADMIN_GUILD_SET_SLOTS("novaguilds.admin.guild.set.slots", true),
+	ADMIN_GUILD_TELEPORT("novaguilds.admin.guild.teleport", true),
+
 	GUILD_ACCESS("novaguilds.guild.access",false),
 	GUILD_ABANDON("novaguilds.guild.abandon", false),
 	GUILD_ALLY("novaguilds.guild.ally", false),
