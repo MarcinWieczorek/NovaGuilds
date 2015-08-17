@@ -70,6 +70,7 @@ public class CustomCommandManager {
 
 		//register custom executors
 		new CommandGuildBuyLife(Commands.GUILD_BUYLIFE);
+		new CommandGuildBuySlot(Commands.GUILD_BUYSLOT);
 		new CommandGuildCompass(Commands.GUILD_COMPASS);
 		new CommandToolGet(Commands.TOOL_GET);
 		new CommandGuildAlly(Commands.GUILD_ALLY);

@@ -10,6 +10,7 @@ public enum Commands {
 	GUILD_BANK_PAY("novaguilds.guild.bank.pay", false),
 	GUILD_BANK_WITHDRAW("novaguilds.guild.bank.withdraw", false),
 	GUILD_BUYLIFE("novaguilds.guild.buylife",false),
+	GUILD_BUYSLOT("novaguilds.guild.buyslot",false),
 	GUILD_COMPASS("novaguilds.guild.compass",false),
 	GUILD_CREATE("novaguilds.guild.create", false),
 	GUILD_EFFECT("novaguilds.guild.effect", false),
