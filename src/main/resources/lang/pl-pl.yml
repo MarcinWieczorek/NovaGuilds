@@ -226,6 +226,7 @@ chat:
   kickyourself: "Nie mozesz wyrzucic siebie z gildii!"
   tooclose: "Jestes zbyt blisko innej gildii"
   isfull: "Ta gildia osiagnela limit graczy."
+  buyslot: "Kupiles dodatkowy slot dla swojej gildii"
 
   war:
    ally: "Najpierw zakoncz sojusz z ta gildia"
