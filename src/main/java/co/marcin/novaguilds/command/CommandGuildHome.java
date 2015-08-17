@@ -101,7 +101,7 @@ public class CommandGuildHome implements Executor {
 			double homeMoney = plugin.getGroupManager().getGroup(sender).getGuildHomeMoney();
 			if(homeMoney > 0) {
 //				if(plugin.econ.getBalance((Player)sender) < homeMoney) { //1.8
-				if(plugin.econ.getBalance(sender.getName()) < homeMoney) { //1.7
+				if(!nPlayer.hasMoney(homeMoney)) { //1.7
 					//TODO not enought money
 					HashMap<String, String> vars = new HashMap<>();
 					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
@@ -110,8 +110,7 @@ public class CommandGuildHome implements Executor {
 				}
 			}
 
-			//plugin.econ.withdrawPlayer((Player) sender, homeMoney); //1.8
-			plugin.econ.withdrawPlayer(sender.getName(), homeMoney); //1.7
+			nPlayer.takeMoney(homeMoney);
 			InventoryUtils.removeItems(player, homeItems);
 			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_GUILD_HOME);
 		}

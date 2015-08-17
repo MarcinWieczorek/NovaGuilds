@@ -56,14 +56,12 @@ public class CommandGuildBankPay implements Executor {
 			return;
 		}
 
-//		if(plugin.econ.getBalance(player) < money) { //1.8
-		if(plugin.econ.getBalance(player.getName()) < money) { //1.7
+		if(!nPlayer.hasMoney(money)) {
 			Message.CHAT_GUILD_BANK_PAY_NOTENOUGH.send(sender);
 			return;
 		}
 
-//		plugin.econ.withdrawPlayer(player, money); //1.8
-		plugin.econ.withdrawPlayer(player.getName(), money); //1.7
+		nPlayer.takeMoney(money);
 		guild.addMoney(money);
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");

@@ -70,8 +70,7 @@ public class CommandGuildBankWithdraw implements Executor {
 		}
 
 		guild.takeMoney(money);
-		//plugin.econ.depositPlayer((Player) sender, money); //1.8
-		plugin.econ.depositPlayer(sender.getName(), money); //1.7
+		nPlayer.addMoney(money);
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
 		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.vars(vars).send(sender);
