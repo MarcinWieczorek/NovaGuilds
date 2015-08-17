@@ -151,6 +151,8 @@ chat:
     - "&5* &7/gg &2- &3Menu gildii"
    leader:
     - "&5* &7/g &cbuyregion &2- &3Kup zaznaczony teren"
+    - "&5* &7/g &cbuylife &2- &3Kup zycie"
+    - "&5* &7/g &cbuyslot &2- &3Kup dodatkowy slot w gildii."
     - "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
     - "&5* &7/g &chome set &2- &3Ustaw dom gildii"
     - "&5* &7/g &cwithdraw &6<ilosc> &2- &3Zabierz pieniadze z banku"

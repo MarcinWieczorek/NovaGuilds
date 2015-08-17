@@ -151,6 +151,8 @@ chat:
     - "&5* &7/gg &2- &3Guild's menu"
    leader:
     - "&5* &7/g &cbuyregion &2- &3Buy selected area"
+    - "&5* &7/g &cbuylife &2- &3Buy a life"
+    - "&5* &7/g &cbuyslot &2- &3Extend players count limit!"
     - "&5* &7/g &ceffect &2- &3Effect for guild"
     - "&5* &7/g &chome set &2- &3Set guild's home"
     - "&5* &7/g &cwithdraw &6<amount> &2- &3Withdraw money from guild's bank"
