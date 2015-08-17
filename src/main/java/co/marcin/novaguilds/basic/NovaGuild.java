@@ -1,7 +1,6 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;

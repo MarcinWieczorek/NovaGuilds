@@ -10,13 +10,10 @@ import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
 import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
-import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class DatabaseManager {
 	private final NovaGuilds plugin;
