@@ -45,6 +45,11 @@ public class CommandAdminGuildTeleport implements CommandExecutor {
 		vars.put("GUILDNAME",guild.getName());
 
 		if(args.length==1) {
+			if(!sender.hasPermission("novaguilds.admin.guild.other")) {
+				Message.CHAT_NOPERMISSIONS.send(sender);
+				return true;
+			}
+
 			String playerName = args[0];
 			NovaPlayer nPlayerOther = plugin.getPlayerManager().getPlayer(playerName);
 
