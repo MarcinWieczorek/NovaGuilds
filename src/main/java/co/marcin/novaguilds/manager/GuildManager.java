@@ -209,13 +209,13 @@ public class GuildManager {
 						novaGuild.setInactiveTime(res.getLong("activity"));
 						novaGuild.setTimeCreated(res.getLong("created"));
 
+						//set unchanged
+						novaGuild.setUnchanged();
+
 						//Fix slots amount
 						if(novaGuild.getSlots() <= 0) {
 							novaGuild.setSlots(Config.GUILD_STARTSLOTS.getInt());
 						}
-
-						//set unchanged
-						novaGuild.setUnchanged();
 
 						if(novaGuild.getId() > 0) {
 							guilds.put(res.getString("name").toLowerCase(), novaGuild);
@@ -641,6 +641,13 @@ public class GuildManager {
 				int z = guildData.getInt("bankloc.z");
 				Location bankloc = new Location(bankWorld, x, y, z);
 				guild.setBankLocation(bankloc);
+			}
+
+			guild.setUnchanged();
+
+			//Fix slots amount
+			if(guild.getSlots() <= 0) {
+				guild.setSlots(Config.GUILD_STARTSLOTS.getInt());
 			}
 		}
 
