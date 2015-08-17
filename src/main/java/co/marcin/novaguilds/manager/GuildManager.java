@@ -208,6 +208,13 @@ public class GuildManager {
 						novaGuild.setNoWarInvitations(nowarinv);
 						novaGuild.setInactiveTime(res.getLong("activity"));
 						novaGuild.setTimeCreated(res.getLong("created"));
+
+						//Fix slots amount
+						if(novaGuild.getSlots() <= 0) {
+							novaGuild.setSlots(Config.GUILD_STARTSLOTS.getInt());
+						}
+
+						//set unchanged
 						novaGuild.setUnchanged();
 
 						if(novaGuild.getId() > 0) {
