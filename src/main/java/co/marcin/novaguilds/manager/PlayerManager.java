@@ -108,6 +108,10 @@ public class PlayerManager {
 				NovaPlayer nPlayer = playerFromFlat(playerData);
 
 				if(nPlayer != null) {
+					if(nPlayer.getPoints()==0 && nPlayer.getKills()==0 && nPlayer.getDeaths()==0) {
+						nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
+					}
+
 					players.put(playerName.toLowerCase(), nPlayer);
 				}
 				else {
@@ -127,7 +131,13 @@ public class PlayerManager {
 				players.clear();
 				ResultSet res = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_SELECT).executeQuery();
 				while(res.next()) {
-					players.put(res.getString("name").toLowerCase(), playerFromResult(res));
+					NovaPlayer nPlayer = playerFromResult(res);
+
+					if(nPlayer.getPoints()==0 && nPlayer.getKills()==0 && nPlayer.getDeaths()==0) {
+						nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
+					}
+
+					players.put(res.getString("name").toLowerCase(), nPlayer);
 				}
 			}
 			catch(SQLException e) {
