@@ -11,10 +11,10 @@ import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildAbandonAll implements CommandExecutor {
+public class CommandAdminGuildPurge implements CommandExecutor {
 	private final NovaGuilds plugin;
 
-	public CommandAdminGuildAbandonAll(NovaGuilds novaGuilds) {
+	public CommandAdminGuildPurge(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
 	}
 

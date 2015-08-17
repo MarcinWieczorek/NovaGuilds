@@ -96,7 +96,7 @@ public class CommandAdminGuild implements CommandExecutor {
 						new CommandAdminGuildSetLives(plugin,guild).onCommand(sender, cmd, label, newArgs2);
 						break;
 					case "purge":
-						new CommandAdminGuildAbandonAll(plugin).onCommand(sender, cmd, label, newArgs2);
+						new CommandAdminGuildPurge(plugin).onCommand(sender, cmd, label, newArgs2);
 						break;
 					case "list":
 						new CommandAdminGuildList(plugin).onCommand(sender, cmd, label, newArgs);
