@@ -1,33 +1,39 @@
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildList implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandAdminGuildList implements Executor {
+	private final Commands command;
 
-	public CommandAdminGuildList(NovaGuilds pl) {
-		plugin = pl;
+	public CommandAdminGuildList(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.guild.list")) {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
 		if(plugin.getGuildManager().getGuilds().isEmpty()) {
 			Message.CHAT_GUILD_NOGUILDS.send(sender);
-			return true;
+			return;
 		}
 
 		int page = 1;
@@ -99,6 +105,5 @@ public class CommandAdminGuildList implements CommandExecutor {
 
 			i++;
 		}
-		return true;
 	}
 }

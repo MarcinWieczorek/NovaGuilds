@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -99,7 +100,7 @@ public class CommandAdminGuild implements CommandExecutor {
 						new CommandAdminGuildPurge(plugin).onCommand(sender, cmd, label, newArgs2);
 						break;
 					case "list":
-						new CommandAdminGuildList(plugin).onCommand(sender, cmd, label, newArgs);
+						plugin.getCommandManager().getExecutor(Commands.ADMIN_GUILD_LIST).execute(sender, newArgs);
 						break;
 					case "inactive":
 						new CommandAdminGuildInactive(plugin).onCommand(sender, cmd, label, newArgs);

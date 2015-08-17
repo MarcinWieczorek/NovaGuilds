@@ -84,6 +84,7 @@ public class CustomCommandManager {
 		new CommandGuildTop(Commands.GUILD_TOP);
 		new CommandGuildRequiredItems(Commands.GUILD_REQUIREDITEMS);
 //		new CommandGuildWar(Commands.GUILD_WAR);
+		new CommandAdminGuildList(Commands.ADMIN_GUILD_LIST);
 	}
 
 	public String getGuiCommand(ItemStack itemStack) {
