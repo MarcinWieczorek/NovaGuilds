@@ -131,6 +131,8 @@ public class CommandGuildInfo implements CommandExecutor {
 		vars.put("TAG", guild.getTag());
 		vars.put("MONEY", guild.getMoney() + "");
 		vars.put("PLAYERS", players);
+		vars.put("PLAYERSCOUNT", String.valueOf(guild.getPlayers().size()));
+		vars.put("SLOTS", String.valueOf(guild.getSlots()));
 		vars.put("POINTS", guild.getPoints() + "");
 		vars.put("LIVES", guild.getLives() + "");
 
