@@ -14,6 +14,10 @@ import java.util.List;
 public final class RegionUtils {
 	@SuppressWarnings("deprecation")
 	public static void setCorner(Player player, Location location, Material material, byte data) {
+		if(player == null || location == null) {
+			return;
+		}
+
 		if(material == null) {
 			material = location.getBlock().getType();
 			data = location.getBlock().getData();
