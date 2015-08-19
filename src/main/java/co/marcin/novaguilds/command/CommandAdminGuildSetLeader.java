@@ -61,6 +61,8 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
         Player oldleader = plugin.getServer().getPlayer(guild.getLeader().getName());
 
+        guild.getLeader().cancelToolProgress();
+
         guild.setLeader(nPlayer);
 
         if(oldleader != null) {

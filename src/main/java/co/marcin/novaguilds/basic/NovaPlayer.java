@@ -3,6 +3,7 @@ package co.marcin.novaguilds.basic;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -301,5 +302,17 @@ public class NovaPlayer {
 
 	public void takeMoney(double money) {
 		NovaGuilds.getInstance().econ.withdrawPlayer(name, money);
+	}
+
+	public void cancelToolProgress() {
+		RegionUtils.sendSquare(getPlayer(), getSelectedLocation(0), getSelectedLocation(1), null, (byte)0);
+		RegionUtils.setCorner(getPlayer(), getSelectedLocation(0), null, (byte)0);
+		RegionUtils.setCorner(getPlayer(), getSelectedLocation(1), null, (byte)0);
+
+		setResizingCorner(0);
+		setResizing(false);
+		setSelectedRegion(null);
+		setSelectedLocation(0, null);
+		setSelectedLocation(1, null);
 	}
 }

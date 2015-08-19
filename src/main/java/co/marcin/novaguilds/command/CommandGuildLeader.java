@@ -64,6 +64,8 @@ public class CommandGuildLeader implements Executor {
 			return;
 		}
 
+		guild.getLeader().cancelToolProgress();
+
 		//set guild leader
 		guild.setLeader(newLeader);
 		plugin.getGuildManager().saveGuild(guild);

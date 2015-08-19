@@ -41,6 +41,8 @@ public class CommandAdminGuildPurge implements CommandExecutor {
 
 			//if event is not cancelled
 			if(!guildAbandonEvent.isCancelled()) {
+				guild.getLeader().cancelToolProgress();
+
 				//delete guild
 				plugin.getGuildManager().deleteGuild(guild);
 
