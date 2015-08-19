@@ -128,7 +128,9 @@ public class VaultListener implements Listener {
 
 		if(plugin.getRegionManager().canBuild(player,event.getBlock().getLocation())) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-			if(event.getPlayer().getItemInHand().getType() == Config.BANK_ITEM.getItemStack().getType()) {
+			Material itemType = player.getItemInHand().getType();
+
+			if(itemType == Config.BANK_ITEM.getItemStack().getType()) {
 				for(BlockFace face : doubleChestFaces) {
 					if(event.getBlock().getRelative(face) != null) {
 						if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {
@@ -164,6 +166,13 @@ public class VaultListener implements Listener {
 							event.setCancelled(true);
 						}
 					}
+				}
+			}
+			else {
+				List<Material> blockedMaterials = Config.BANK_DENYRELATIVE.getMaterialList();
+				if(blockedMaterials.contains(itemType)) {
+					Message.CHAT_GUILD_VAULT_DENYRELATIVE.send(player);
+					event.setCancelled(true);
 				}
 			}
 		}
