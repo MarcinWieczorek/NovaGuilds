@@ -94,6 +94,12 @@ public enum Config {
 		return r;
 	}
 
+	public List<Material> getMaterialList() {
+		List<Material> r = cM.isInCache(this) ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path);
+		cM.putInCache(this, r);
+		return r;
+	}
+
 	public long getLong() {
 		long r = cM.isInCache(this) ? (long) cM.getEnumConfig(this) : cM.getLong(path);
 		cM.putInCache(this, r);

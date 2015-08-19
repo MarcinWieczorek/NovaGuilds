@@ -322,7 +322,7 @@ public class ConfigManager {
 	}
 
 	public Material getMaterial(String path) {
-		return Material.getMaterial(this.getString(path).toUpperCase());
+		return Material.getMaterial(getString(path).toUpperCase());
 	}
 
 	public List<ItemStack> getItemStackList(String path) {
@@ -338,5 +338,19 @@ public class ConfigManager {
 		}
 
 		return itemStackList;
+	}
+
+	public List<Material> getMaterialList(String path) {
+		List<String> stringList = getStringList(path);
+		List<Material> materialList = new ArrayList<>();
+
+		for(String string : stringList) {
+			Material material = Material.getMaterial(string);
+			if(material != null) {
+				materialList.add(material);
+			}
+		}
+
+		return materialList;
 	}
 }
