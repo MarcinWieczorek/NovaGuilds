@@ -187,6 +187,7 @@ chat:
     notempty: "The vault is not empty!"
     success: "Vault destroyed."
     notleader: "Only leader can destroy the vault!"
+   denyrelative: "You cannot place this block next to the vault"
 
   compasstarget:
    'on': "The compass is now pointing your guild's home."

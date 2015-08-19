@@ -187,6 +187,7 @@ chat:
     notempty: "Skarbiec nie jest pusty!"
     success: "Skarbiec zniszczony."
     notleader: "Tylko lider moze zniszczyc skarbiec!"
+   denyrelative: "Nie mozesz postawic tego bloku obok skarbca."
 
   compasstarget:
    'on': "Kompas wskazuje teraz dom Twojej gildii."
