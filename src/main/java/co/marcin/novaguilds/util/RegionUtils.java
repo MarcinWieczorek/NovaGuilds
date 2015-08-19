@@ -35,8 +35,11 @@ public final class RegionUtils {
 		Location loc1 = region.getCorner(0).clone();
 		Location loc2 = region.getCorner(1).clone();
 
-		loc1.setY(player.getWorld().getHighestBlockAt(loc1.getBlockX(), loc1.getBlockZ()).getY() - 1);
-		loc2.setY(player.getWorld().getHighestBlockAt(loc2.getBlockX(), loc2.getBlockZ()).getY() - 1);
+		Block highest1 = player.getWorld().getHighestBlockAt(loc1.getBlockX(), loc1.getBlockZ());
+		Block highest2 = player.getWorld().getHighestBlockAt(loc2.getBlockX(), loc2.getBlockZ());
+
+		loc1.setY(highest1.getY() - (highest1.getType()==Material.SNOW ? 0 : 1));
+		loc2.setY(highest2.getY() - (highest2.getType()==Material.SNOW ? 0 : 1));
 
 		Material material1;
 		Material material2;
