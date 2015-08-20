@@ -25,13 +25,11 @@ public class YamlEnumTest {
         File configFile = new File(YamlParseTest.resourcesDirectory, "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         List<String> configEnumNames = new ArrayList<>();
-        List<String> missing = new ArrayList<>();
         for(Config v : Config.values()) {
             configEnumNames.add(v.name());
         }
 
         for(String key : config.getKeys(true)) {
-            //System.out.println(key);
             boolean ig = config.isConfigurationSection(key);
             for(String ignore : ignoreConfig) {
                 if(key.startsWith(ignore)) {
@@ -43,17 +41,9 @@ public class YamlEnumTest {
             if(!ig) {
                 String name = StringUtils.replace(key, ".", "_").toUpperCase();
                 if(!configEnumNames.contains(name)) {
-                    missing.add(name);
+                    throw new Exception("Missing config enums: "+name);
                 }
             }
-        }
-
-        for(String name : missing) {
-            System.out.println(name+",");
-        }
-
-        if(missing.size() > 0) {
-            throw new Exception("Missing config enums!");
         }
     }
 }
