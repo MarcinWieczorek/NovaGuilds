@@ -62,10 +62,6 @@ public class NovaPlayer {
 		return guild;
 	}
 	
-	public boolean isLeader() {
-		return hasGuild() && getGuild().isLeader(this);
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -246,6 +242,10 @@ public class NovaPlayer {
 
 	public boolean isPartRaid() {
 		return !(partRaid == null);
+	}
+
+	public boolean isLeader() {
+		return hasGuild() && getGuild().isLeader(this);
 	}
 
 	public boolean hasMoney(double money) {
