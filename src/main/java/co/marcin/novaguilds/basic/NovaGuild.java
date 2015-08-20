@@ -383,6 +383,10 @@ public class NovaGuild {
 		return getPlayers().size() >= slots;
 	}
 
+	public boolean hasMoney(double money) {
+		return this.money >= money;
+	}
+
 	//add/remove
 	public void addAlly(NovaGuild guild) {
 		alliesNames.add(guild.getName().toLowerCase());
