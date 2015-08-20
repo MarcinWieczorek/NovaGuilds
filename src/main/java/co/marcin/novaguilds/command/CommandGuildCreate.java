@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
@@ -54,7 +55,7 @@ public class CommandGuildCreate implements CommandExecutor {
 		
 		//remove colors
 		guildname = StringUtils.removeColors(guildname);
-		if(!plugin.getConfig().getBoolean("guild.settings.tag.color")) {
+		if(!Config.GUILD_SETTINGS_TAG_COLOR.getBoolean()) {
 			tag = StringUtils.removeColors(tag);
 		}
 			
@@ -82,23 +83,23 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 
 		//tag length
-		if(tag.length() > plugin.getConfig().getInt("guild.settings.tag.max")) { //too long
+		if(tag.length() > Config.GUILD_SETTINGS_TAG_MAX.getInt()) { //too long
 			Message.CHAT_CREATEGUILD_TAG_TOOLONG.send(sender);
 			return true;
 		}
 
-		if(StringUtils.removeColors(tag).length() < plugin.getConfig().getInt("guild.settings.tag.min")) { //too short
+		if(StringUtils.removeColors(tag).length() < Config.GUILD_SETTINGS_TAG_MIN.getInt()) { //too short
 			Message.CHAT_CREATEGUILD_TAG_TOOSHORT.send(sender);
 			return true;
 		}
 
 		//name length
-		if(guildname.length() > plugin.getConfig().getInt("guild.settings.name.max")) { //too long
+		if(guildname.length() > Config.GUILD_SETTINGS_NAME_MAX.getInt()) { //too long
 			Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
 			return true;
 		}
 
-		if(guildname.length() < plugin.getConfig().getInt("guild.settings.name.min")) { //too short
+		if(guildname.length() < Config.GUILD_SETTINGS_NAME_MIN.getInt()) { //too short
 			Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
 			return true;
 		}
@@ -123,8 +124,9 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 
 		//items required
-		List<ItemStack> items = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
-		double requiredmoney = plugin.getGroupManager().getGroup(sender).getGuildCreateMoney();
+		NovaGroup group = plugin.getGroupManager().getGroup(sender);
+		List<ItemStack> items = group.getGuildCreateItems();
+		double requiredmoney = group.getGuildCreateMoney();
 
 		if(requiredmoney>0 && plugin.econ.getBalance(player.getName()) < requiredmoney) {
 			vars.put("REQUIREDMONEY", String.valueOf(requiredmoney));
@@ -157,8 +159,8 @@ public class CommandGuildCreate implements CommandExecutor {
 		NovaRegion region = null;
 
 		//Automatic Region
-		if(plugin.getConfig().getBoolean("region.autoregion")) {
-			int size = plugin.getGroupManager().getGroup(sender).getRegionAutoSize();
+		if(Config.REGION_AUTOREGION.getBoolean()) {
+			int size = group.getRegionAutoSize();
 			Location playerLocation = player.getLocation();
 			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
 			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
@@ -183,9 +185,9 @@ public class CommandGuildCreate implements CommandExecutor {
 				newGuild.setSpawnPoint(player.getLocation());
 				newGuild.addPlayer(nPlayer);
 				newGuild.updateInactiveTime();
-				newGuild.setLives(plugin.getConfig().getInt("guild.startlives"));
-				newGuild.setPoints(plugin.getConfig().getInt("guild.startpoints"));
-				newGuild.setMoney(plugin.getConfig().getDouble("guild.startmoney"));
+				newGuild.setLives(Config.GUILD_STARTLIVES.getInt());
+				newGuild.setPoints(Config.GUILD_STARTPOINTS.getInt());
+				newGuild.setMoney(Config.GUILD_STARTMONEY.getInt());
 				newGuild.setSlots(Config.GUILD_STARTSLOTS.getInt());
 				newGuild.setTimeCreated(NumberUtils.systemSeconds());
 
