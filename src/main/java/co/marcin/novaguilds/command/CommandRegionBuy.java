@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -73,7 +74,7 @@ public class CommandRegionBuy implements CommandExecutor {
 			return true;
 		}
 
-		int regionsize = plugin.getRegionManager().checkRegionSize(sl0 ,sl1);
+		int regionsize = RegionUtils.checkRegionSize(sl0, sl1);
 
 		//region's price
 		double price;

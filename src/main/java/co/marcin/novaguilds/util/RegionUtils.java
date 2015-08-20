@@ -408,4 +408,16 @@ public final class RegionUtils {
 
 		return new Location(l1.getWorld(),newx,l1.getBlockY(),newz);
 	}
+
+	public static int checkRegionSize(Location l1, Location l2) {
+		int x1 = l1.getBlockX();
+		int x2 = l2.getBlockX();
+		int z1 = l1.getBlockZ();
+		int z2 = l2.getBlockZ();
+
+		int dif_x = Math.abs(x1 - x2) +1;
+		int dif_z = Math.abs(z1 - z2) +1;
+
+		return dif_x * dif_z;
+	}
 }
