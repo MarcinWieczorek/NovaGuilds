@@ -57,35 +57,18 @@ public class ToolListener implements Listener {
 			event.setCancelled(true);
 			nPlayer.setRegionMode(!nPlayer.getRegionMode());
 
-			String mode;
-			if(nPlayer.getRegionMode()) {
-				mode = Message.CHAT_REGION_TOOL_MODES_SELECT.get();
-
-				if(nPlayer.hasGuild() && nPlayer.isLeader() && nPlayer.getGuild().hasRegion()) {
-					RegionUtils.highlightRegion(player, nPlayer.getGuild().getRegion(), Material.GOLD_BLOCK);
-					nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
-				}
-			}
-			else {
-				mode = Message.CHAT_REGION_TOOL_MODES_CHECK.get();
+			//highlight corners for resizing
+			if(nPlayer.getRegionMode() && nPlayer.isLeader() && nPlayer.getGuild().hasRegion()) {
+				RegionUtils.highlightRegion(player, nPlayer.getGuild().getRegion(), Material.GOLD_BLOCK);
+				nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
 			}
 
-			vars.put("MODE", mode);
+			Message mode = nPlayer.getRegionMode() ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
+
+			vars.put("MODE", mode.get());
 			Message.CHAT_REGION_TOOL_TOGGLEDMODE.vars(vars).send(player);
 
-			if(nPlayer.getSelectedLocation(0) != null && nPlayer.getSelectedLocation(1) != null) {
-				RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
-				RegionUtils.setCorner(player, nPlayer.getSelectedLocation(0), null);
-				RegionUtils.setCorner(player, nPlayer.getSelectedLocation(1), null);
-			}
-
-			//unselect corners
-			nPlayer.setSelectedLocation(0, null);
-			nPlayer.setSelectedLocation(1, null);
-
-			//disable resizing mode
-			nPlayer.setResizing(false);
-
+			nPlayer.cancelToolProgress();
 			return;
 		}
 
@@ -97,9 +80,10 @@ public class ToolListener implements Listener {
 				return;
 			}
 
-			//if(nPlayer.getSelectedRegion() != null && !(nPlayer.getGuild().hasRegion() && nPlayer.getGuild().getRegion().equals(nPlayer.getSelectedRegion()))) {
+			//Reset region highlighted already
 			if(nPlayer.getSelectedRegion() != null) {
 				RegionUtils.highlightRegion(event.getPlayer(), nPlayer.getSelectedRegion(), null);
+				nPlayer.setSelectedRegion(null);
 			}
 
 			if(region != null) {
@@ -110,7 +94,6 @@ public class ToolListener implements Listener {
 			}
 			else {
 				Message.CHAT_REGION_NOREGIONHERE.send(player);
-				nPlayer.setSelectedRegion(null);
 			}
 		}
 		else if(event.getAction() != Action.PHYSICAL) { //CREATE MODE
@@ -150,12 +133,12 @@ public class ToolListener implements Listener {
 				event.setCancelled(true);
 
 				//Corner 1
-				if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+				if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
 					if(!nPlayer.isResizing()) {
-						if(nPlayer.getSelectedLocation(0) != null) {
-							RegionUtils.setCorner(player, nPlayer.getSelectedLocation(0), null);
+						if(sl0 != null) {
+							RegionUtils.setCorner(player, sl0, null);
 
-							if(nPlayer.getSelectedLocation(1) != null) {
+							if(sl1 != null) {
 								RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
 							}
 						}
@@ -167,7 +150,7 @@ public class ToolListener implements Listener {
 				}
 
 				//Corner 2
-				if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
 					if(nPlayer.isResizing()) {
 						if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()) != null) {
 							RegionUtils.setCorner(player, nPlayer.getSelectedLocation(nPlayer.getResizingCorner()), null);
@@ -217,7 +200,7 @@ public class ToolListener implements Listener {
 					switch(validSelect) {
 						case VALID:  //valid
 							if(nPlayer.hasGuild()) {
-								int regionsize = plugin.getRegionManager().checkRegionSize(sl0, sl1);
+								int regionsize = RegionUtils.checkRegionSize(sl0, sl1);
 								double price;
 								double ppb = plugin.getGroupManager().getGroup(player).getRegionPricePerBlock();
 
@@ -238,11 +221,10 @@ public class ToolListener implements Listener {
 								if(price > 0) {
 									Message.CHAT_REGION_PRICE.vars(vars).send(player);
 
-									double guildBalance = nPlayer.getGuild().getMoney();
-									if(guildBalance < price) {
-										vars.put("NEEDMORE", String.valueOf(price - guildBalance));
+									if(!nPlayer.getGuild().hasMoney(price)) {
+										vars.put("NEEDMORE", String.valueOf(price - nPlayer.getGuild().getMoney()));
 										Message.CHAT_REGION_CNOTAFFORD.vars(vars).send(player);
-										return;
+										break;
 									}
 								}
 
