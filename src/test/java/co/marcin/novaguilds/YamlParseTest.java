@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class YamlParseTest {
-	private static final File resourcesDirectory = new File("./src/main/resources/");
+	public static final File resourcesDirectory = new File("./src/main/resources/");
 
 	@Test
 	public void testConfig() throws FileNotFoundException, InvalidConfigurationException {
