@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
@@ -176,14 +177,14 @@ public class CommandNovaGuilds implements CommandExecutor {
 							players += pcolor+leaderp+nPlayer.getName();
 
 							if(i<gplayers.size()-1) {
-								players += MessageManager.getMessagesString("chat.guildinfo.playerseparator");
+								players += Message.CHAT_GUILDINFO_PLAYERSEPARATOR.get();
 							}
 						}
 					}
 
 					for(i=0;i < guildinfomsg.size();i++) {
 						boolean skipmsg = false;
-						String tagmsg = plugin.getConfig().getString("guild.tag");
+						String tagmsg = Config.GUILD_TAG.getString();
 						String gmsg = guildinfomsg.get(i);
 
 						tagmsg = StringUtils.replace(tagmsg, "{TAG}", guild.getTag());

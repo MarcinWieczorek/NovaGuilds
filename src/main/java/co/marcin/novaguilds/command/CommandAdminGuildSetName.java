@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,12 +36,12 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 
 		String newName = args[0];
 		
-		if(newName.length() < plugin.getConfig().getInt("guild.settings.name.min")) { //too short name
+		if(newName.length() < Config.GUILD_SETTINGS_NAME_MIN.getInt()) { //too short name
 			Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
 			return true;
 		}
 		
-		if(newName.length() > plugin.getConfig().getInt("guild.settings.name.max")) { //too long name
+		if(newName.length() > Config.GUILD_SETTINGS_NAME_MAX.getInt()) { //too long name
 			Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
 			return true;
 		}

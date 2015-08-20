@@ -44,8 +44,8 @@ public class RegionInteractListener implements Listener {
 		Player player = event.getPlayer();
 
 		if(event.getClickedBlock() != null) {
-			List<String> denyinteract = plugin.getConfig().getStringList("region.denyinteract");
-			List<String> denyuse = plugin.getConfig().getStringList("region.denyuse");
+			List<String> denyinteract = Config.REGION_DENYINTERACT.getStringList();
+			List<String> denyuse = Config.REGION_DENYUSE.getStringList();
 			
 			String clickedblockname = event.getClickedBlock().getType().name();
 			String useditemname = event.getPlayer().getItemInHand().getType().name();
@@ -92,7 +92,7 @@ public class RegionInteractListener implements Listener {
 	
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
-		List<String> denymobdamage = plugin.getConfig().getStringList("region.denymobdamage");
+		List<String> denymobdamage = Config.REGION_DENYMOBDAMAGE.getStringList();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegion(event.getEntity().getLocation());
 		
 		if(rgatploc != null) {
@@ -149,7 +149,7 @@ public class RegionInteractListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
+		List<String> denyriding = Config.REGION_DENYRIDING.getStringList();
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegion(mob.getLocation());
 		
@@ -192,7 +192,7 @@ public class RegionInteractListener implements Listener {
 
 	@EventHandler
 	public void onUnleash(PlayerUnleashEntityEvent event) {
-		List<String> denyriding = plugin.getConfig().getStringList("region.denyriding");
+		List<String> denyriding = Config.REGION_DENYRIDING.getStringList();
 		Entity mob = event.getEntity();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegion(mob.getLocation());
 

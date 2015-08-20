@@ -36,7 +36,7 @@ public class TagUtils {
 
 		tag = StringUtils.replace(tag, "{TAG}", guildTag);
 
-		if(plugin.getConfig().getBoolean("tabapi.rankprefix")) {
+		if(Config.TABAPI_RANKPREFIX.getBoolean()) {
 			if(nPlayer.getGuild().getLeader().getName().equalsIgnoreCase(namedplayer.getName())) {
 				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 			}

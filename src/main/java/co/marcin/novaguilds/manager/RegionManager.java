@@ -272,8 +272,8 @@ public class RegionManager {
 		int dif_z = Math.abs(z1 - z2) +1;
 		LoggerUtils.debug(dif_x+","+dif_z);
 		
-		int minsize = plugin.getConfig().getInt("region.minsize");
-		int maxsize = plugin.getConfig().getInt("region.maxsize");
+		int minsize = Config.REGION_MINSIZE.getInt();
+		int maxsize = Config.REGION_MAXSIZE.getInt();
 
 		LoggerUtils.debug(minsize + "," + maxsize);
 
@@ -386,7 +386,7 @@ public class RegionManager {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
 		//border particles
-		if(plugin.getConfig().getBoolean("region.borderparticles")) {
+		if(Config.REGION_BORDERPARTICLES.getBoolean()) {
 			List<Block> blocks = RegionUtils.getBorderBlocks(region);
 			for(Block block : blocks) {
 				block.getLocation().setY(block.getLocation().getY() + 1);

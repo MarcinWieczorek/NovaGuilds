@@ -32,7 +32,7 @@ public class ChatListener implements Listener {
 		String rank = "";
 
 		if(nPlayer.hasGuild()) {
-			tag = plugin.getConfig().getString("guild.tag");
+			tag = Config.GUILD_TAG.getString();
 			NovaGuild guild = nPlayer.getGuild();
 			
 			if(guild.getLeader().getName().equalsIgnoreCase(player.getName())) {
@@ -43,23 +43,23 @@ public class ChatListener implements Listener {
 
 			tag = StringUtils.replace(tag, "{RANK}", rank);
 
-			String prefixChatGuild = plugin.getConfig().getString("chat.guild.prefix");
-			String prefixChatAlly = plugin.getConfig().getString("chat.ally.prefix");
+			String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
+			String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
 
 			if(msg.startsWith(prefixChatAlly)) { //ally chat
-				if(plugin.getConfig().getBoolean("chat.ally.enabled")) {
-					if(!plugin.getConfig().getBoolean("chat.ally.colortags")) {
+				if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
+					if(!Config.CHAT_ALLY_COLORTAGS.getBoolean()) {
 						tag = StringUtils.removeColors(tag);
 					}
 
-					if(plugin.getConfig().getBoolean("chat.ally.leaderprefix")) {
+					if(Config.CHAT_ALLY_LEADERPREFIX.getBoolean()) {
 						tag = StringUtils.replace(tag, "{RANK}", rank);
 					}
 					else {
 						tag = StringUtils.replace(tag, "{RANK}", "");
 					}
 
-					String format = plugin.getConfig().getString("chat.ally.format");
+					String format = Config.CHAT_ALLY_FORMAT.getString();
 					format = StringUtils.replace(format, "{TAG}", tag);
 					format = StringUtils.replace(format, "{PLAYERNAME}", nPlayer.getName());
 					format = StringUtils.fixColors(format);
@@ -88,8 +88,8 @@ public class ChatListener implements Listener {
 				}
 			}
 			else if(msg.startsWith(prefixChatGuild)) { //guild chat
-				if(plugin.getConfig().getBoolean("chat.guild.enabled")) {
-					String format = plugin.getConfig().getString("chat.guild.format");
+				if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
+					String format = Config.CHAT_GUILD_FORMAT.getString();
 					format = StringUtils.replace(format, "{PLAYERNAME}", nPlayer.getName());
 					format = StringUtils.fixColors(format);
 

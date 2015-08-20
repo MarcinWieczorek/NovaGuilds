@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -295,7 +296,7 @@ public final class StringUtils {
 	}
 
 	public static boolean isStringAllowed(String string) {
-		String allowed = NovaGuilds.getInstance().getConfig().getString("guild.allowedchars");
+		String allowed = Config.GUILD_ALLOWEDCHARS.getString();
 		for(int i=0;i<string.length();i++) {
 			if(allowed.indexOf(string.charAt(i)) == -1) {
 				return false;

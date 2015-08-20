@@ -2,6 +2,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -32,7 +33,7 @@ public class MessageManager {
 
 	public boolean loadMessages() {
 		setupDirectories();
-		String lang = plugin.getConfig().getString("lang");
+		String lang = Config.LANG.getString();
 		File messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
 		if(!messagesFile.exists()) {
 			if(plugin.getResource("lang/" + lang + ".yml") != null) {

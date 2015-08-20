@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
@@ -41,7 +42,7 @@ public class NovaGroup {
 		LoggerUtils.info("Loading group '" + name + "'...");
 
 		if(name.equalsIgnoreCase("admin")) {
-			regionAutoSize = plugin.getConfig().getInt("region.adminautosize");
+			regionAutoSize = Config.REGION_ADMINAUTOSIZE.getInt();
 			return;
 		}
 

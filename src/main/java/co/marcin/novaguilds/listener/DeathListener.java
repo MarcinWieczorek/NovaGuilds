@@ -38,7 +38,7 @@ public class DeathListener implements Listener {
 
 		String tag1 = "";
 		String tag2 = "";
-		String tagscheme = plugin.getConfig().getString("guild.tag");
+		String tagscheme = Config.GUILD_TAG.getString();
 		tagscheme = StringUtils.replace(tagscheme, "{RANK}", "");
 
 		if(nPlayer.hasGuild()) {
@@ -60,12 +60,12 @@ public class DeathListener implements Listener {
 		if(nPlayerAttacker.canGetKillPoints(victim)) {
 			if(nPlayer.hasGuild()) {
 				NovaGuild guildVictim = nPlayer.getGuild();
-				guildVictim.takePoints(plugin.getConfig().getInt("guild.deathpoints"));
+				guildVictim.takePoints(Config.GUILD_DEATHPOINTS.getInt());
 			}
 
 			if(nPlayerAttacker.hasGuild()) {
 				NovaGuild guildAttacker = nPlayerAttacker.getGuild();
-				guildAttacker.addPoints(plugin.getConfig().getInt("guild.killpoints"));
+				guildAttacker.addPoints(Config.GUILD_KILLPOINTS.getInt());
 			}
 
 			//player points
