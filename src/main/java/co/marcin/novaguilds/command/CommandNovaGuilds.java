@@ -76,7 +76,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			bm.setAuthor("CTRL");
 			bm.setTitle("Guilds Bank");
 			book.setItemMeta(bm);
-			Player player = plugin.getServer().getPlayer(sender.getName());
+			Player player = (Player) sender;
 			player.getInventory().addItem(book);
 		}
 		else if(args[0].equalsIgnoreCase("tool")) { //TOOL
@@ -160,9 +160,8 @@ public class CommandNovaGuilds implements CommandExecutor {
 					if(!gplayers.isEmpty()) {
 						for(i=0;i<gplayers.size();i++) {
 							NovaPlayer nPlayer = gplayers.get(i);
-							Player p = plugin.getServer().getPlayer(nPlayer.getName());
 
-							if(p != null && p.isOnline()) {
+							if(nPlayer.isOnline()) {
 								pcolor = MessageManager.getMessagesString("chat.guildinfo.playercolor.online");
 							}
 							else {
@@ -252,7 +251,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			bm.setAuthor("CTRL");
 			bm.setTitle(StringUtils.fixColors(MessageManager.getMessagesString("book.help.title")));
 			book.setItemMeta(bm);
-			Player player = plugin.getServer().getPlayer(sender.getName());
+			Player player = (Player) sender;
 			player.getInventory().addItem(book);
 		}
 		else {
