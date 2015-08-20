@@ -49,7 +49,7 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.GUILDS_DELETE, guildsDelete);
 
 			//Guilds update
-			String guildsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=? `slots`=? WHERE `id`=?";
+			String guildsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=? WHERE `id`=?";
 			PreparedStatement guildsUpdate = getConnection().prepareStatement(guildsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
