@@ -160,7 +160,7 @@ public class CommandGuildCreate implements CommandExecutor {
 		if(plugin.getConfig().getBoolean("region.autoregion")) {
 			int size = plugin.getGroupManager().getGroup(sender).getRegionAutoSize();
 			Location playerLocation = player.getLocation();
-			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size+1, 0, playerLocation.getBlockZ() - size+1);
+			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
 			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
 
 			region = new NovaRegion();
