@@ -90,15 +90,21 @@ public class MessageManager {
 
 	//send string with prefix to a player
 	public static void sendPrefixMessage(Player p, String msg) {
-		p.sendMessage(StringUtils.fixColors(instance.prefix + msg));
+		if(!msg.equals("none")) {
+			p.sendMessage(StringUtils.fixColors(instance.prefix + msg));
+		}
 	}
 
 	public static void sendPrefixMessage(CommandSender sender, String msg) {
-		sender.sendMessage(StringUtils.fixColors(instance.prefix + msg));
+		if(!msg.equals("none")) {
+			sender.sendMessage(StringUtils.fixColors(instance.prefix + msg));
+		}
 	}
 
 	public static void sendMessage(CommandSender sender, String msg) {
-		sender.sendMessage(StringUtils.fixColors(msg));
+		if(!msg.equals("none")) {
+			sender.sendMessage(StringUtils.fixColors(msg));
+		}
 	}
 
 	public static void sendMessagesList(CommandSender sender, String path, HashMap<String,String> vars, boolean prefix) {
@@ -136,10 +142,6 @@ public class MessageManager {
 		else {
 			sendPrefixMessage(sender, msg);
 		}
-	}
-
-	public static void sendMessagesMsg(CommandSender sender, String path, HashMap<String,String> vars) {
-		sendMessagesMsg(sender,path,vars,true);
 	}
 
 	public static void sendMessagesMsg(CommandSender sender, String path, HashMap<String, String> vars, boolean title) {
@@ -202,9 +204,5 @@ public class MessageManager {
 				sendMessage(p, msg);
 			}
 		}
-	}
-
-	public static void sendUsageMessage(CommandSender sender, String path) {
-		sender.sendMessage(StringUtils.fixColors(getMessagesString("chat.usage." + path)));
 	}
 }
