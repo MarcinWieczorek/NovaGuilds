@@ -1,6 +1,7 @@
 package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
@@ -44,6 +45,48 @@ public class YamlEnumTest {
                     throw new Exception("Missing config enums: "+name);
                 }
             }
+        }
+    }
+
+    @Test
+    public void testMessages() throws Exception {
+        System.out.println();
+        System.out.println("Testing message enums...");
+        File motherFile = new File(YamlParseTest.resourcesDirectory, "lang/en-en.yml");
+        YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherFile);
+        List<String> messageEnumNames = new ArrayList<>();
+        for(Message v : Message.values()) {
+            messageEnumNames.add(v.name());
+        }
+
+        int missingCount = 0;
+        for(String key : motherConfiguration.getKeys(true)) {
+            boolean ig = motherConfiguration.isConfigurationSection(key);
+            for(String ignore : ignoreConfig) {
+                if(key.startsWith(ignore)) {
+                    ig = true;
+                    break;
+                }
+            }
+
+            if(!ig) {
+                String name = StringUtils.replace(key, ".", "_").toUpperCase();
+                if(!messageEnumNames.contains(name)) {
+                    if(missingCount == 0) {
+                        System.out.println("Missing keys:");
+                    }
+
+                    System.out.println(" - "+name);
+                    missingCount++;
+                }
+            }
+        }
+
+        if(missingCount == 0) {
+            System.out.println("All values are present in Message enum");
+        }
+        else {
+            throw new Exception("Found "+missingCount+" missing Message enums");
         }
     }
 }
