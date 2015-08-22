@@ -1,5 +1,6 @@
 package co.marcin.novaguilds;
 
+import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
@@ -31,7 +32,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class NovaGuilds extends JavaPlugin {
+public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	/*
 	* Dioricie nasz, ktorys jest w javie, swiec sie bugi Twoje, przyjdz ficzery Twoje,
 	* badz kod Twoj jako w gicie tak i w mavenie, stacktrace naszego powszedniego
