@@ -73,13 +73,14 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	public void onEnable() {
 		inst = this;
 
+		//managers
+		configManager = new ConfigManager(this);
+
 		if(!getMessageManager().loadMessages()) {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
 
-		//managers
-		configManager = new ConfigManager(this);
 		commandManager = new CustomCommandManager(this);
 		groupManager = new GroupManager(this);
 
@@ -146,6 +147,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		new DeathListener(this);
 		new InventoryListener(this);
 		new PlayerInfoListener(this);
+		new PacketReceiveListener(this);
 
 		if(getConfigManager().isGuildBankEnabled()) {
 			new VaultListener(this);
