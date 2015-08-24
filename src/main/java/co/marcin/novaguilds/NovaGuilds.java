@@ -12,6 +12,8 @@ import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.util.*;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
@@ -69,6 +71,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	//Database
 	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
+	private ProtocolManager protocolManager;
 
 	public void onEnable() {
 		inst = this;
@@ -473,6 +476,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		else {
 			LoggerUtils.info("VanishNoPacket not found, support disabled");
 			getConfigManager().disableVanishNoPacket();
+		}
+
+		//ProtocolLib
+		if(getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
+			protocolManager = ProtocolLibrary.getProtocolManager();
+			LoggerUtils.info("ProtocolLib hooked");
 		}
 
 		return true;
