@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -24,7 +25,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
 
@@ -146,9 +146,19 @@ public class RegionInteractListener implements Listener {
 			}
 		}
 	}
+
+	@EventHandler
+	public void onPlayerClickEntityEvent(PlayerInteractEntityEvent event) {
+		Player player = event.getPlayer();
+
+		if(!plugin.getRegionManager().canBuild(player, event.getEntity().getLocation())) {
+			event.setCancelled(true);
+			Message.CHAT_REGION_DENY_INTERACT.send(player);
+		}
+	}
 	
 	@EventHandler
-	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+	public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {
 		List<String> denyriding = Config.REGION_DENYRIDING.getStringList();
 		Entity mob = event.getRightClicked();
 		NovaRegion rgatploc = plugin.getRegionManager().getRegion(mob.getLocation());
