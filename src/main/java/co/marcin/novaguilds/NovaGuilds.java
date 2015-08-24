@@ -84,6 +84,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			return;
 		}
 
+		LoggerUtils.info("Messages loaded");
+
 		commandManager = new CustomCommandManager(this);
 		groupManager = new GroupManager(this);
 
@@ -94,8 +96,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-
-		LoggerUtils.info("Messages loaded");
         
 		//Version check
         checkVersion();
