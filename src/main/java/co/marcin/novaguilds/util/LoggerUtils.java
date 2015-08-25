@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import java.util.logging.Logger;
 
 public final class LoggerUtils {
-	public static final Logger logger = Bukkit.getLogger();
+	public static final Logger logger = Logger.getLogger("Minecraft");
 
 	public static void error(String error) {
 		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + classPrefix() + space(error) + error));
