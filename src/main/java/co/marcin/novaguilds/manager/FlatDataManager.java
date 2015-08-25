@@ -30,6 +30,7 @@ public class FlatDataManager {
 
 	public FlatDataManager(File dataDirectory) {
 		this.dataDirectory = dataDirectory;
+		connected = setupDirectories();
 	}
 
 	private boolean setupDirectories() {
@@ -96,7 +97,7 @@ public class FlatDataManager {
 			}
 		}
 		else {
-			LoggerUtils.debug("Attempting to save non-existing player. "+nPlayer.getName());
+			LoggerUtils.error("Attempting to save non-existing player. "+nPlayer.getName());
 		}
 	}
 
@@ -125,7 +126,7 @@ public class FlatDataManager {
 			}
 		}
 		else {
-			LoggerUtils.debug("Attempting to save non-existing region. " + region.getGuild().getName());
+			LoggerUtils.error("Attempting to save non-existing region. " + region.getGuild().getName());
 		}
 	}
 
@@ -191,7 +192,7 @@ public class FlatDataManager {
 			}
 		}
 		else {
-			LoggerUtils.debug("Attempting to save non-existing guild. " + guild.getName());
+			LoggerUtils.error("Attempting to save non-existing guild. " + guild.getName());
 		}
 	}
 
