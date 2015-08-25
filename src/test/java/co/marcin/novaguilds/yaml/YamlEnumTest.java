@@ -1,4 +1,4 @@
-package co.marcin.novaguilds;
+package co.marcin.novaguilds.yaml;
 
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;

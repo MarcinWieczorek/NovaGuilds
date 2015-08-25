@@ -1,4 +1,4 @@
-package co.marcin.novaguilds;
+package co.marcin.novaguilds.yaml;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
