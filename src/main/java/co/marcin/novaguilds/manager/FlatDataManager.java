@@ -28,6 +28,10 @@ public class FlatDataManager {
 		connected = setupDirectories();
 	}
 
+	public FlatDataManager(File dataDirectory) {
+		this.dataDirectory = dataDirectory;
+	}
+
 	private boolean setupDirectories() {
 		File dataDir = new File(dataDirectory, "data/");
 		playersDir = new File(dataDirectory,"data/players/");
