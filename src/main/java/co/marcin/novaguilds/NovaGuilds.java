@@ -151,6 +151,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					LoggerUtils.info("Connected to FLAT storage.");
 					break;
 				}
+				else {
+					getConfigManager().setToSecondaryDataStorageType();
+				}
 			}
 		}
 
