@@ -237,7 +237,7 @@ public class FlatDataManager {
 
 	private void savePlayerTemplate(String name) {
 		try {
-			getGuildFile(name).createNewFile();
+			getPlayerFile(name).createNewFile();
 		}
 		catch(IOException e) {
 			LoggerUtils.exception(e);
@@ -255,7 +255,7 @@ public class FlatDataManager {
 
 	private void saveRegionTemplate(String name) {
 		try {
-			getGuildFile(name).createNewFile();
+			getRegionFile(name).createNewFile();
 		}
 		catch(IOException e) {
 			LoggerUtils.exception(e);
