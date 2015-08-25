@@ -16,23 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlatDataManager {
-	private final NovaGuilds plugin;
 	private File playersDir;
 	private File guildsDir;
 	private File regionsDir;
+	private File dataDirectory;
 
 	private boolean connected = false;
 
 	public FlatDataManager(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
+		dataDirectory = novaGuilds.getDataFolder();
 		connected = setupDirectories();
 	}
 
 	private boolean setupDirectories() {
-		File dataDir = new File(plugin.getDataFolder(), "data/");
-		playersDir = new File(plugin.getDataFolder(),"data/players/");
-		guildsDir = new File(plugin.getDataFolder(),"data/guilds/");
-		regionsDir = new File(plugin.getDataFolder(),"data/regions/");
+		File dataDir = new File(dataDirectory, "data/");
+		playersDir = new File(dataDirectory,"data/players/");
+		guildsDir = new File(dataDirectory,"data/guilds/");
+		regionsDir = new File(dataDirectory,"data/regions/");
 
 		if(!dataDir.exists()) {
 			if(dataDir.mkdir()) {
@@ -63,7 +63,6 @@ public class FlatDataManager {
 		else {
 			LoggerUtils.error("Could not setup directories!");
 			LoggerUtils.error("Switching to secondary data storage type!");
-			plugin.getConfigManager().setToSecondaryDataStorageType();
 			return false;
 		}
 
