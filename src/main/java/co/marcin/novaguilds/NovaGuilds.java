@@ -423,7 +423,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		Thread thread = new Thread() {
 			@Override
 			public void run() {
-				String latest = StringUtils.getContent("http://novaguilds.marcin.co/latest.info");
+				String latest = StringUtils.getContent("http://novaguilds.pl/latest.info");
 				LoggerUtils.info("You're using build: #" + getBuild());
 				LoggerUtils.info("Latest stable build of the plugin is: #" + latest);
 
@@ -436,7 +436,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					LoggerUtils.info("Your plugin build is the latest stable one");
 				}
 				else if(getBuild() > latestint) {
-					String dev = StringUtils.getContent("http://novaguilds.marcin.co/dev.info");
+					String dev = StringUtils.getContent("http://novaguilds.pl/dev.info");
 					int devVersion = 0;
 					if(NumberUtils.isNumeric(dev)) {
 						devVersion = Integer.parseInt(dev);
