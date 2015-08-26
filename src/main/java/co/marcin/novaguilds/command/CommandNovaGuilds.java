@@ -9,6 +9,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.VersionUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
@@ -16,15 +17,11 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class CommandNovaGuilds implements CommandExecutor {
 	private final NovaGuilds plugin;
@@ -35,26 +32,32 @@ public class CommandNovaGuilds implements CommandExecutor {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(args.length == 0) {
-			if(!sender.hasPermission("novaguilds.info")) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return true;
-			}
+			Map<String, String[]> langInfo = new HashMap<>();
 
-			String[] info = {
-					"NovaGuilds &6#&c"+plugin.getBuild(),
-					"Author: &6Marcin (CTRL) Wieczorek",
-					"2015 &4Pol&fand",
+			langInfo.put("en-en", new String[]{
+					Message.CHAT_PREFIX.get()+"NovaGuilds Information",
+					"&2NovaGuilds &6#&c"+ VersionUtils.buildCurrent,
+					"&2Author: &6Marcin (CTRL) Wieczorek",
+					"&22015 &4Pol&fand",
 					"&bhttp://novaguilds.pl/",
-					"Latest plugin build: &6#&c{LATEST}"
-			};
+					"&2Latest plugin build: &6#&c" + VersionUtils.buildLatest
+			});
 
-			MessageManager.sendPrefixMessage(sender, "NovaGuilds Information");
-			String latest = StringUtils.getContent("http://novaguilds.pl/latest");
+			langInfo.put("pl-pl", new String[]{
+					Message.CHAT_PREFIX.get()+"NovaGuilds Informacje",
+					"&2NovaGuilds &6#&c"+ VersionUtils.buildCurrent,
+					"&2Autor: &6Marcin (CTRL) Wieczorek",
+					"&22015 &4Pol&fska",
+					"&bhttp://novaguilds.pl/",
+					"&2Najnowsza wersja pluginu: &6#&c" + VersionUtils.buildLatest
+			});
 
-			for(int i=0;i<info.length;i++) {
-				info[i] = StringUtils.replace(info[i], "{LATEST}", latest);
-				sender.sendMessage(StringUtils.fixColors("&2" + info[i]));
+			String[] info = langInfo.get(Config.LANG.getString());
+
+			for(String i : info) {
+				sender.sendMessage(StringUtils.fixColors(i));
 			}
+
 			return true;
 		}
 
