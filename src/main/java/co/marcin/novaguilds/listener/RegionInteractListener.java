@@ -234,7 +234,8 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onBlockFromTo(BlockFromToEvent event) {
 		if(!Config.REGION_WATERFLOW.getBoolean()) {
-			if(event.getBlock().getType().name().contains("WATER") || event.getBlock().getType().name().contains("LAVA")) {
+			Material type = event.getBlock().getType();
+			if(type==Material.WATER || type==Material.STATIONARY_WATER || type==Material.LAVA || type==Material.STATIONARY_LAVA) {
 				if(plugin.getRegionManager().getRegion(event.getBlock().getLocation()) == null) {
 					if(plugin.getRegionManager().getRegion(event.getToBlock().getLocation()) != null) {
 						event.setCancelled(true);
