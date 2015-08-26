@@ -18,7 +18,7 @@ public final class LoggerUtils {
 	}
 
 	public static void debug(String msg) {
-		if(NovaGuilds.getInstance().getConfigManager() != null) {
+		if(NovaGuilds.getInstance()!=null && NovaGuilds.getInstance().getConfigManager() != null) {
 			if(NovaGuilds.getInstance().getConfigManager().isDebugEnabled()) {
 				info("[DEBUG] " + classPrefix() + msg);
 			}
