@@ -85,4 +85,14 @@ public final class IOUtils {
 
 		return new String(baos.toByteArray(), encoding);
 	}
+
+	public static String read(File file) {
+		try {
+			return inputStreamToString(new FileInputStream(file));
+		}
+		catch(FileNotFoundException e) {
+			LoggerUtils.exception(e);
+			return null;
+		}
+	}
 }
