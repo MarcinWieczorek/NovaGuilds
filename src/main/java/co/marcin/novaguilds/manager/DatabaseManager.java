@@ -250,7 +250,7 @@ public class DatabaseManager {
 
 	private void analyze() {
 		try {
-			TableAnalyzer analyzer = new TableAnalyzer(plugin);
+			TableAnalyzer analyzer = new TableAnalyzer(plugin.getDatabaseManager().getConnection());
 
 			for(String action : getSqlActions()) {
 				if(action.contains("CREATE TABLE")) {

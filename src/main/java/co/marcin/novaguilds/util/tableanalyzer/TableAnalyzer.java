@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.*;
 
 public class TableAnalyzer {
-	private final NovaGuilds plugin;
 	private final Connection connection;
 	private final HashMap<String, String> sqlStructure = new HashMap<>();
 	private final HashMap<Integer, String> sqlNames = new HashMap<>();
@@ -16,9 +15,8 @@ public class TableAnalyzer {
 	private final HashMap<String, String> tableStructure = new HashMap<>();
 	private final List<Missmatch> missmatches = new ArrayList<>();
 
-	public TableAnalyzer(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		connection = plugin.getDatabaseManager().getConnection();
+	public TableAnalyzer(Connection connection) {
+		this.connection = connection;
 	}
 
 	public void analyze(String table, String sql) {
