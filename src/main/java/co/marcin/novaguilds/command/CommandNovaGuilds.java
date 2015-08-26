@@ -58,28 +58,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			return true;
 		}
 
-		if(args[0].equalsIgnoreCase("book")) {
-			if(!sender.hasPermission("novaguilds.test.book")) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return true;
-			}
-
-			if(!plugin.getConfigManager().isDebugEnabled()) {
-				return false;
-			}
-
-			ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-			BookMeta bm = (BookMeta)book.getItemMeta();
-			bm.setPages(Arrays.asList(new String[] {
-				""
-			}));
-			bm.setAuthor("CTRL");
-			bm.setTitle("Guilds Bank");
-			book.setItemMeta(bm);
-			Player player = (Player) sender;
-			player.getInventory().addItem(book);
-		}
-		else if(args[0].equalsIgnoreCase("tool")) { //TOOL
+		if(args[0].equalsIgnoreCase("tool")) { //TOOL
 			plugin.getCommandManager().getExecutor(Commands.TOOL_GET).execute(sender, args);
 		}
 		else if(args[0].equalsIgnoreCase("bank")) { //bank
