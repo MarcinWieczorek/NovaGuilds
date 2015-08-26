@@ -4,6 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.util.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,7 +36,7 @@ public class LoginListener implements Listener {
 		nPlayer.setPlayer(player);
 		plugin.getPlayerManager().updateUUID(nPlayer);
 
-		if(plugin.updateAvailable && player.hasPermission("novaguilds.admin.updateavailable")) {
+		if(VersionUtils.updateAvailable && player.hasPermission("novaguilds.admin.updateavailable")) {
 			Message.CHAT_UPDATE.send(player);
 		}
 

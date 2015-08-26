@@ -69,7 +69,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private static final String logPrefix = "[NovaGuilds]";
 
 	public TagUtils tagUtils;
-	public boolean updateAvailable = false;
 
 	//TODO: test scheduler
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
@@ -124,7 +123,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				});
         
 		//Version check
-        checkVersion();
+        VersionUtils.checkVersion();
 
 		int attempts = 0;
 		// && (flatDataManager!=null && !flatDataManager.isConnected())
@@ -203,7 +202,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		setupMetrics();
 
 		//Notify admins if there's an update (only for reload)
-		if(updateAvailable) {
+		if(VersionUtils.updateAvailable) {
 			Message.CHAT_UPDATE.broadcast("novaguilds.admin.updateavailable");
 		}
 
@@ -417,48 +416,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				BarAPI.removeBar(player);
 			}
 		}
-	}
-
-	private void checkVersion() {
-		Thread thread = new Thread() {
-			@Override
-			public void run() {
-				String latest = StringUtils.getContent("http://novaguilds.pl/latest.info");
-				LoggerUtils.info("You're using build: #" + getBuild());
-				LoggerUtils.info("Latest stable build of the plugin is: #" + latest);
-
-				int latestint = 0;
-				if(NumberUtils.isNumeric(latest)) {
-					latestint = Integer.parseInt(latest);
-				}
-
-				if(getBuild() == latestint) {
-					LoggerUtils.info("Your plugin build is the latest stable one");
-				}
-				else if(getBuild() > latestint) {
-					String dev = StringUtils.getContent("http://novaguilds.pl/dev.info");
-					int devVersion = 0;
-					if(NumberUtils.isNumeric(dev)) {
-						devVersion = Integer.parseInt(dev);
-					}
-
-					if(getBuild() > devVersion) {
-						LoggerUtils.info("You are using unreleased build #" + getBuild());
-					}
-					else if(getBuild() == devVersion) {
-						LoggerUtils.info("You're using latest development build");
-					}
-					else {
-						LoggerUtils.info("Why the hell are you using outdated dev build?");
-					}
-				}
-				else {
-					LoggerUtils.info("You should update your plugin to #" + latest + "!");
-					updateAvailable = true;
-				}
-			}
-		};
-		thread.start();
 	}
 
 	private boolean checkDependencies() {
