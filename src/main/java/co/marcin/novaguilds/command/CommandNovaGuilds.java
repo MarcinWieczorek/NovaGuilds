@@ -225,18 +225,6 @@ public class CommandNovaGuilds implements CommandExecutor {
 		else if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { // command /g
 				new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 		}
-		else if(args[0].equalsIgnoreCase("entity")) {
-			if(!(sender instanceof Player)) {
-				return true;
-			}
-			Player player = (Player)sender;
-			sender.sendMessage("Nearby entites");
-			for(Entity entity : player.getNearbyEntities(10,10,10)) {
-				sender.sendMessage(entity.getType().name());
-				sender.sendMessage(entity.toString());
-				sender.sendMessage("-");
-			}
-		}
 		else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { //help
 			ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 			BookMeta bm = (BookMeta)book.getItemMeta();
