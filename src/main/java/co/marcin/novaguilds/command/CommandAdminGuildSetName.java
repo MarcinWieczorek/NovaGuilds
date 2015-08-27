@@ -53,12 +53,9 @@ public class CommandAdminGuildSetName implements CommandExecutor {
 
 		//all passed
 		if(guild.hasRegion()) {
-			NovaRegion region = plugin.getRegionManager().getRegion(guild);
-			region.setGuildName(newName);
-			plugin.getRegionManager().saveRegion(region);
+			guild.getRegion().setGuildName(newName);
 		}
-		
-		guild.setName(newName);
+
 		plugin.getGuildManager().changeName(guild, newName);
 		plugin.getHologramManager().refreshTopHolograms();
 
