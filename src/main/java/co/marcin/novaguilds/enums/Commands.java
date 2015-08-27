@@ -22,6 +22,12 @@ public enum Commands {
 	ADMIN_GUILD_SET_SLOTS("novaguilds.admin.guild.set.slots", true),
 	ADMIN_GUILD_TELEPORT("novaguilds.admin.guild.teleport", true),
 
+	ADMIN_HOLOGRAM_ACCESS("novaguilds.admin.hologram.access", true),
+	ADMIN_HOLOGRAM_LIST("novaguilds.admin.hologram.list", true),
+	ADMIN_HOLOGRAM_TELEPORT("novaguilds.admin.hologram.tp", false),
+	ADMIN_HOLOGRAM_DELETE("novaguilds.admin.hologram.delete", true),
+	ADMIN_HOLOGRAM_ADD("novaguilds.admin.hologram.add", false),
+
 	GUILD_ACCESS("novaguilds.guild.access",false),
 	GUILD_ABANDON("novaguilds.guild.abandon", false),
 	GUILD_ALLY("novaguilds.guild.ally", false),
