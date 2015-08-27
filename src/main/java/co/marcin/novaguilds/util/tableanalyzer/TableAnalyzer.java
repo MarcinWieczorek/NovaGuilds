@@ -1,6 +1,5 @@
 package co.marcin.novaguilds.util.tableanalyzer;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
 

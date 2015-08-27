@@ -3,7 +3,6 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -68,7 +67,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		}
 
 		HashMap<String,String> vars = new HashMap<>();
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("GUILDNAME", guild.getName());
 
 		Location location = guild.getRegion().getCorner(0).clone();
 		location.setY(location.getWorld().getHighestBlockYAt(location));

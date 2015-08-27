@@ -1,6 +1,5 @@
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.ChatColor;

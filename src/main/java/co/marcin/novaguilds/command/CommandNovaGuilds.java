@@ -2,7 +2,6 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
-import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
@@ -10,9 +9,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.VersionUtils;
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -105,7 +101,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 		else if(args[0].equalsIgnoreCase("hdd")) { //HolographicDisplays
 			if(args.length > 1) {
 				if(args[1].equalsIgnoreCase("top")) {
-					plugin.getHologramManager().addTopHologram(((Player)sender).getLocation());
+					plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());
 				}
 			}
 		}
