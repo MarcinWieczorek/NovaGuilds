@@ -211,6 +211,9 @@ public class CommandGuildCreate implements CommandExecutor {
 					//update tag and tabs
 					plugin.tagUtils.updatePrefix((Player)sender);
 
+					//Update holograms
+					plugin.getHologramManager().refreshTopHolograms();
+
 					//autoregion
 					if(region != null) {
 						region.setGuild(nPlayer.getGuild());

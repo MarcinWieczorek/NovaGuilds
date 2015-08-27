@@ -54,6 +54,7 @@ public class CommandGuildAbandon implements CommandExecutor {
 		//if event is not cancelled
 		if(!guildAbandonEvent.isCancelled()) {
 			guild.getLeader().cancelToolProgress();
+			plugin.getHologramManager().refreshTopHolograms();
 
 			plugin.getGuildManager().deleteGuild(guild);
 

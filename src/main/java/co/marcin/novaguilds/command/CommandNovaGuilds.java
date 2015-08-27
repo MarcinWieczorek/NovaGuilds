@@ -102,6 +102,13 @@ public class CommandNovaGuilds implements CommandExecutor {
 			sender.sendMessage("regionCreateMoney = "+ group.getRegionCreateMoney());
 			sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
 		}
+		else if(args[0].equalsIgnoreCase("hdd")) { //HolographicDisplays
+			if(args.length > 1) {
+				if(args[1].equalsIgnoreCase("top")) {
+					plugin.getHologramManager().addTopHologram(((Player)sender).getLocation());
+				}
+			}
+		}
 		else if(args[0].equalsIgnoreCase("hd")) { //HolographicDisplays
 			if(!sender.hasPermission("novaguilds.test.hd")) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
