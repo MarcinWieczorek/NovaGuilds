@@ -3,6 +3,8 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.command.admin.CommandAdmin;
+import co.marcin.novaguilds.command.guild.CommandGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;

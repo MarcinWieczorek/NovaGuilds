@@ -2,6 +2,10 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.command.*;
+import co.marcin.novaguilds.command.admin.CommandAdmin;
+import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildList;
+import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologram;
+import co.marcin.novaguilds.command.guild.*;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
