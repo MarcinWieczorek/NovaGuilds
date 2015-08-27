@@ -160,9 +160,9 @@ chat:
     - "&5* &7/g &cally &6<gildia> &2- &3Zapros do sojuszu"
     - "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
     - "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuc gracza"
+    - "&5* &7/g &cpvp &2- &3Wlacz/Wylacz pvp"
     - "&5* &7/rozwiaz &2- &3Porzuc gildie"
     - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
-    - "&5* &7/gg &2- &3Menu gildii"
 
  pvp:
   team: "Nie mozesz bic swoich kolegow z gildii"
