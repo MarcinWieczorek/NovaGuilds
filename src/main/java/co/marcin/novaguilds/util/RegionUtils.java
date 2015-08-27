@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -419,5 +420,20 @@ public final class RegionUtils {
 		int dif_z = Math.abs(z1 - z2) +1;
 
 		return dif_x * dif_z;
+	}
+
+	public static Location sectionToLocation(ConfigurationSection section) {
+		World world = Bukkit.getWorld(section.getString("world"));
+		double x = section.getDouble("x");
+		double y = section.getDouble("y");
+		double z = section.getDouble("z");
+		float yaw = (float) section.getDouble("yaw");
+		float pitch = (float) section.getDouble("pitch");
+
+		if(world == null) {
+			return null;
+		}
+
+		return new Location(world, x, y, z, yaw, pitch);
 	}
 }
