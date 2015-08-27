@@ -62,8 +62,6 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 			return true;
 		}
 
-		NovaRegion region = plugin.getRegionManager().getRegion(guild);
-
 		if(!(sender instanceof Player) && nPlayerOther == null) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;
@@ -72,7 +70,7 @@ public class CommandAdminRegionTeleport implements CommandExecutor {
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("GUILDNAME",guild.getName());
 
-		Location location = region.getCorner(0).clone();
+		Location location = guild.getRegion().getCorner(0).clone();
 		location.setY(location.getWorld().getHighestBlockYAt(location));
 
 		Player player;

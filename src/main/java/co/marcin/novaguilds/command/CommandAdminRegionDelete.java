@@ -44,7 +44,7 @@ public class CommandAdminRegionDelete implements CommandExecutor {
 			return true;
 		}
 
-		NovaRegion region = plugin.getRegionManager().getRegion(guild);
+		NovaRegion region = guild.getRegion();
 
 		plugin.getRegionManager().removeRegion(region);
 		guild.setRegion(null);
