@@ -745,4 +745,23 @@ public class GuildManager {
 			message.send(player);
 		}
 	}
+
+	public List<String> getTopGuilds() {
+		int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
+		int i=1;
+
+		List<String> list = new ArrayList<>();
+		HashMap<String, String> vars = new HashMap<>();
+
+		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
+			vars.clear();
+			vars.put("GUILDNAME", guild.getName());
+			vars.put("N", String.valueOf(i));
+			vars.put("POINTS", String.valueOf(guild.getPoints()));
+			list.add(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).get());
+			i++;
+		}
+
+		return list;
+	}
 }
