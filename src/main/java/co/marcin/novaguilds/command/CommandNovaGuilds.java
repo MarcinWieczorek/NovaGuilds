@@ -100,13 +100,6 @@ public class CommandNovaGuilds implements CommandExecutor {
 			sender.sendMessage("regionCreateMoney = "+ group.getRegionCreateMoney());
 			sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
 		}
-		else if(args[0].equalsIgnoreCase("hdd")) { //HolographicDisplays
-			if(args.length > 1) {
-				if(args[1].equalsIgnoreCase("top")) {
-					plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());
-				}
-			}
-		}
 		else if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { // command /g
 				new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
 		}
