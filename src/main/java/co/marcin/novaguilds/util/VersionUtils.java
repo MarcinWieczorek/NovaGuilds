@@ -42,6 +42,7 @@ public class VersionUtils {
 			}
 			else {
 				LoggerUtils.info("Why the hell are you using outdated dev build?");
+				updateAvailable = true;
 			}
 		}
 		else {
