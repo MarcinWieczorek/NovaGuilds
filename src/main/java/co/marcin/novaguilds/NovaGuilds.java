@@ -33,6 +33,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.kitteh.vanish.VanishPlugin;
 import org.mcstats.Metrics;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +79,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
 	private ProtocolManager protocolManager;
+	private HologramManager hologramManager;
 
 	public void onEnable() {
 		inst = this;
@@ -168,6 +170,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		getGuildManager().postCheckGuilds();
 		getRegionManager().postCheckRegions();
 
+		//HologramManager
+		hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
+		hologramManager.load();
+
 		//Listeners
 		new LoginListener(this);
 		new ToolListener(this);
@@ -214,6 +220,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		getRegionManager().saveAll();
 		getPlayerManager().saveAll();
 		LoggerUtils.info("Saved all data");
+
+		//Save Holograms
+		getHologramManager().save();
 
 		//Stop schedulers
 		worker.shutdown();
@@ -278,6 +287,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public MessageManager getMessageManager() {
 		return messageManager;
+	}
+
+	public HologramManager getHologramManager() {
+		return hologramManager;
 	}
 
 	public ConfigManager getConfigManager() {

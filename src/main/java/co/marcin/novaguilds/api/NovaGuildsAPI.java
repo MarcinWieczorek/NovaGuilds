@@ -19,5 +19,7 @@ public interface NovaGuildsAPI {
 
 	FlatDataManager getFlatDataManager();
 
+	HologramManager getHologramManager();
+
 	int getBuild();
 }
