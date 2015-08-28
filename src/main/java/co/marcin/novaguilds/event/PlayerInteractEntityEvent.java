@@ -1,6 +1,5 @@
 package co.marcin.novaguilds.event;
 
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -18,16 +17,6 @@ public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellabl
 		INTERACT;
 	}
 
-	public static EntityUseAction actionFromProtocolLib(EnumWrappers.EntityUseAction action) {
-		return EntityUseAction.valueOf(action.name());
-	}
-
-	public PlayerInteractEntityEvent(final Player who, final Entity clickedEntity, EnumWrappers.EntityUseAction action) {
-		super(who);
-		this.clickedEntity = clickedEntity;
-		this.action = actionFromProtocolLib(action);
-	}
-
 	public PlayerInteractEntityEvent(final Player who, final Entity clickedEntity, EntityUseAction action) {
 		super(who);
 		this.clickedEntity = clickedEntity;
@@ -43,9 +32,9 @@ public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellabl
 	}
 
 	/**
-	 * Gets the entity that was rightclicked by the player.
+	 * Gets the entity that was clicked by the player.
 	 *
-	 * @return entity right clicked by player
+	 * @return entity clicked by player
 	 */
 	public Entity getEntity() {
 		return this.clickedEntity;
