@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command.admin.hologram;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminHologram implements Executor {
@@ -25,6 +26,32 @@ public class CommandAdminHologram implements Executor {
 			return;
 		}
 
+		if(args.length == 0) {
+			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER.send(sender);
+			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS.send(sender);
+		}
+		else {
+			String[] args1 = StringUtils.parseArgs(args, 1);
 
+			switch(args[0].toLowerCase()) {
+				case "list":
+					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_LIST).execute(sender, args1);
+					break;
+				case "tp":
+				case "teleport":
+					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_TELEPORT).execute(sender, args1);
+					break;
+				case "add":
+					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_ADD).execute(sender, args1);
+					break;
+				case "addtop":
+					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_ADD).execute(sender, args1);
+					break;
+				case "del":
+				case "delete":
+					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_DELETE).execute(sender, args1);
+					break;
+			}
+		}
 	}
 }

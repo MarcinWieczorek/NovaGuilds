@@ -27,6 +27,7 @@ public enum Commands {
 	ADMIN_HOLOGRAM_TELEPORT("novaguilds.admin.hologram.tp", false),
 	ADMIN_HOLOGRAM_DELETE("novaguilds.admin.hologram.delete", true),
 	ADMIN_HOLOGRAM_ADD("novaguilds.admin.hologram.add", false),
+	ADMIN_HOLOGRAM_ADDTOP("novaguilds.admin.hologram.addtop", false),
 
 	GUILD_ACCESS("novaguilds.guild.access",false),
 	GUILD_ABANDON("novaguilds.guild.abandon", false),
