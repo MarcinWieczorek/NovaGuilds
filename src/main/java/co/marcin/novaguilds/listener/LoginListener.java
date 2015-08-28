@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.VersionUtils;
+import co.marcin.novaguilds.util.reflect.PacketExtension;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -56,6 +57,9 @@ public class LoginListener implements Listener {
 
 		//TabAPI
 		plugin.tagUtils.updatePrefix(player);
+
+		//PacketExtension
+		PacketExtension.registerPlayer(player);
 	}
 	
 	@EventHandler

@@ -12,10 +12,12 @@ import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.util.*;
+import co.marcin.novaguilds.util.reflect.PacketExtension;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -183,6 +185,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			Message.CHAT_UPDATE.broadcast("novaguilds.admin.updateavailable");
 		}
 
+		//Register players (for reload)
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			PacketExtension.registerPlayer(p);
+		}
+
 		LoggerUtils.info("#" + getBuild() + " Enabled");
 	}
 	
@@ -194,6 +201,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//Save Holograms
 		getHologramManager().save();
+
+		PacketExtension.unregisterNovaGuildsChannel();
 
 		//Stop schedulers
 		worker.shutdown();
