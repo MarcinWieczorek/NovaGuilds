@@ -132,6 +132,13 @@ chat:
      - "&5* &7/nga &cg &6promote &c<player> &2- &3Promote player to leader rank"
      - "&5* &7/nga &cg &6list &2- &3List all guilds"
      - "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
+   hologram:
+    header: "Hologram commands:"
+    items:
+     - "&5* &7/nga &chd &6list &2- &3List all holograms"
+     - "&5* &7/nga &chd &6addtop &2- &3Add TOP hologram"
+     - "&5* &7/nga &chd &6del &c<name> &2- &3Delete a hologram"
+     - "&5* &7/nga &chd &6tp &c<name> &2- &3Teleport to a hologram"
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"

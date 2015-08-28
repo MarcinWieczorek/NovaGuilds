@@ -132,6 +132,13 @@ chat:
      - "&5* &7/nga &cg &6promote &c<gracz> &2- &3Zmien lidera gildii"
      - "&5* &7/nga &cg &6list &2- &3Lista gildii"
      - "&5* &7/nga &cg &6purge &2- &3Usun wszystkie gildie"
+   hologram:
+    header: "Komendy hologramow:"
+    items:
+     - "&5* &7/nga &chd &6list &2- &3Lista hologramow"
+     - "&5* &7/nga &chd &6addtop &2- &3Dodaj hologram TOPki"
+     - "&5* &7/nga &chd &6del &c<nazwa> &2- &3Usun hologram"
+     - "&5* &7/nga &chd &6tp &c<nazwa> &2- &3Teleportuj do hologramu"
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<ilosc> &2- &3Wplac pieniadze do banku"
