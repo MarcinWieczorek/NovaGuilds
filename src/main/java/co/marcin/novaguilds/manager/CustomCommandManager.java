@@ -4,7 +4,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.command.*;
 import co.marcin.novaguilds.command.admin.CommandAdmin;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildList;
-import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologram;
+import co.marcin.novaguilds.command.admin.hologram.*;
 import co.marcin.novaguilds.command.guild.*;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
@@ -84,11 +84,15 @@ public class CustomCommandManager {
 		new CommandGuildPvpToggle(Commands.GUILD_PVPTOGGLE);
 		new CommandGuildTop(Commands.GUILD_TOP);
 		new CommandGuildRequiredItems(Commands.GUILD_REQUIREDITEMS);
-//		new CommandGuildWar(Commands.GUILD_WAR);
+		new CommandGuildWar(Commands.GUILD_WAR);
 		new CommandAdminGuildList(Commands.ADMIN_GUILD_LIST);
 
 		//AdminHologram
 		new CommandAdminHologram(Commands.ADMIN_HOLOGRAM_ACCESS);
+		new CommandAdminHologramList(Commands.ADMIN_HOLOGRAM_LIST);
+		new CommandAdminHologramAddTop(Commands.ADMIN_HOLOGRAM_ADDTOP);
+		new CommandAdminHologramDelete(Commands.ADMIN_HOLOGRAM_DELETE);
+		new CommandAdminHologramTeleport(Commands.ADMIN_HOLOGRAM_TELEPORT);
 	}
 
 	public String getGuiCommand(ItemStack itemStack) {
