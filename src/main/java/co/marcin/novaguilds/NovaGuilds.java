@@ -7,25 +7,16 @@ import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.listener.*;
 import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.util.*;
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -78,7 +69,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	//Database
 	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
-	private ProtocolManager protocolManager;
 	private HologramManager hologramManager;
 
 	public void onEnable() {
@@ -104,25 +94,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-
-		//PlayerInteractEntityEvent
-		protocolManager.addPacketListener(
-				new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY) {
-					@Override
-					public void onPacketReceiving(PacketEvent event) {
-						if (event.getPacketType() == PacketType.Play.Client.USE_ENTITY) {
-							EnumWrappers.EntityUseAction action = event.getPacket().getEntityUseActions().read(0);
-							Player player = event.getPlayer();
-							Entity entity = event.getPacket().getEntityModifier(event).getValues().get(0);
-
-							if (entity != null) {
-								PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(player, entity, action);
-								plugin.getServer().getPluginManager().callEvent(clickEvent);
-								event.setCancelled(clickEvent.isCancelled());
-							}
-						}
-					}
-				});
         
 		//Version check
         VersionUtils.checkVersion();
@@ -474,12 +445,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		else {
 			LoggerUtils.info("VanishNoPacket not found, support disabled");
 			getConfigManager().disableVanishNoPacket();
-		}
-
-		//ProtocolLib
-		if(getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
-			protocolManager = ProtocolLibrary.getProtocolManager();
-			LoggerUtils.info("ProtocolLib hooked");
 		}
 
 		return true;

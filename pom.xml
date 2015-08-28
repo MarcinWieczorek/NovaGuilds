@@ -31,10 +31,6 @@
             <url>http://ci.frostcast.net/plugin/repository/everything</url>
         </repository>
         <repository>
-            <id>dmulloy2-repo</id>
-            <url>http://repo.dmulloy2.net/content/groups/public/</url>
-        </repository>
-        <repository>
             <id>novaguilds-repo</id>
             <url>http://novaguilds.pl/repo/</url>
         </repository>
@@ -65,11 +61,6 @@
             <groupId>me.confuser</groupId>
             <artifactId>BarAPI</artifactId>
             <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>3.6.4</version>
         </dependency>
         <dependency>
             <groupId>com.gmail.filoghost</groupId>
