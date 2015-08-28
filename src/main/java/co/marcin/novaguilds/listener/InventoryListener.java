@@ -27,7 +27,7 @@ public class InventoryListener implements Listener {
 
 		Inventory clickedInventory = InventoryUtils.getClickedInventory(event);
 
-		if(clickedInventory != null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
+		if(clickedInventory != null && clickedInventory.getTitle()!=null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
 			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
 				if(clickedInventory.equals(event.getView().getTopInventory()) || event.isShiftClick()) {
 					//gui

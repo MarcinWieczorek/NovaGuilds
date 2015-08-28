@@ -73,7 +73,7 @@ public class VaultListener implements Listener {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
 			String nameBank = plugin.getConfigManager().getGuildBankItem().getItemMeta().getDisplayName();
 
-			if(event.getInventory().getTitle().equals(nameBank)) {
+			if(event.getInventory().getTitle()!=null && event.getInventory().getTitle().equals(nameBank)) {
 				if(event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
 					if(nPlayer.hasGuild()) {
 						if(!nPlayer.isLeader() && Config.BANK_ONLYLEADERTAKE.getBoolean()) {
