@@ -171,8 +171,12 @@ public class VaultListener implements Listener {
 			else {
 				List<Material> blockedMaterials = Config.BANK_DENYRELATIVE.getMaterialList();
 				if(blockedMaterials.contains(itemType)) {
-					Message.CHAT_GUILD_VAULT_DENYRELATIVE.send(player);
-					event.setCancelled(true);
+					for(BlockFace face : BlockFace.values()) {
+						if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {
+							Message.CHAT_GUILD_VAULT_DENYRELATIVE.send(player);
+							event.setCancelled(true);
+						}
+					}
 				}
 			}
 		}
