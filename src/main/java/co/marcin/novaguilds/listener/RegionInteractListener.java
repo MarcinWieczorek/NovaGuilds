@@ -139,16 +139,6 @@ public class RegionInteractListener implements Listener {
 	}
 
 	@EventHandler
-	public void onHangingBreakByEntityEvent(HangingBreakByEntityEvent event) {
-		if(event.getRemover() instanceof Player) {
-			if(!plugin.getRegionManager().canBuild((Player) event.getRemover(), event.getEntity().getLocation())) {
-				event.setCancelled(true);
-				Message.CHAT_REGION_DENY_INTERACT.send((Player) event.getRemover());
-			}
-		}
-	}
-
-	@EventHandler
 	public void onPlayerClickEntityEvent(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		Entity mob = event.getEntity();
