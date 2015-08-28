@@ -14,6 +14,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -150,31 +151,26 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onPlayerClickEntityEvent(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
+		Entity mob = event.getEntity();
 
-		if(!plugin.getRegionManager().canBuild(player, event.getEntity().getLocation())) {
-			event.setCancelled(true);
-			Message.CHAT_REGION_DENY_INTERACT.send(player);
-		}
-	}
-	
-	@EventHandler
-	public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {
-		List<String> denyriding = Config.REGION_DENYRIDING.getStringList();
-		Entity mob = event.getRightClicked();
-		NovaRegion rgatploc = plugin.getRegionManager().getRegion(mob.getLocation());
-		
-		if(rgatploc != null) {
-			Player player = event.getPlayer();
-			NovaPlayer nPlayer = NovaPlayer.get(player);
-			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
-				if(!nPlayer.getBypass()) {
-					//TODO: fix messages and names for sheep and all
-					boolean sheep = mob.getType() == EntityType.SHEEP && event.getPlayer().getItemInHand().getType() == Material.SHEARS;
+		if(!plugin.getRegionManager().canBuild(player, mob.getLocation())) {
+			List<String> denyDamage = Config.REGION_DENYMOBDAMAGE.getStringList();
+			List<String> denyRiding = Config.REGION_DENYRIDING.getStringList();
 
-					if(denyriding.contains(mob.getType().name()) || sheep) {
+			if(event.getAction() == PlayerInteractEntityEvent.EntityUseAction.ATTACK) {
+				if(denyDamage.contains(mob.getType().name())) {
+					if(!(mob instanceof LivingEntity)) {
 						event.setCancelled(true);
-						Message.CHAT_REGION_DENY_RIDEMOB.send(player);
+						Message.CHAT_REGION_DENY_ATTACKMOB.send(player);
 					}
+				}
+			}
+			else {
+				boolean sheep = mob.getType() == EntityType.SHEEP && player.getItemInHand().getType() == Material.SHEARS;
+
+				if(denyRiding.contains(mob.getType().name()) || sheep) {
+					event.setCancelled(true);
+					Message.CHAT_REGION_DENY_RIDEMOB.send(player);
 				}
 			}
 		}
