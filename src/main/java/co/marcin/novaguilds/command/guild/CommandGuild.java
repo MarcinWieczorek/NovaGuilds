@@ -72,7 +72,7 @@ public class CommandGuild implements CommandExecutor {
 					new CommandGuildCreate(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				case "war":
-					new CommandGuildWar(plugin).onCommand(sender, cmd, label, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_WAR).execute(sender, newargs);
 					break;
 				case "compass":
 					plugin.getCommandManager().getExecutor(Commands.GUILD_COMPASS).execute(sender, newargs);
