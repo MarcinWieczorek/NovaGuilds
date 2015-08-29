@@ -56,7 +56,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private final RegionManager regionManager = new RegionManager(this);
 	private final PlayerManager playerManager = new PlayerManager(this);
 	private final MessageManager messageManager = new MessageManager(this);
-	private CustomCommandManager commandManager;
+	private CommandManager commandManager;
 	private ConfigManager configManager;
 	private GroupManager groupManager;
 	private FlatDataManager flatDataManager;
@@ -86,7 +86,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		LoggerUtils.info("Messages loaded");
 
-		commandManager = new CustomCommandManager(this);
+		commandManager = new CommandManager(this);
 		groupManager = new GroupManager(this);
 
 		tagUtils = new TagUtils(this);
@@ -262,7 +262,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		return playerManager;
 	}
 
-	public CustomCommandManager getCommandManager() {
+	public CommandManager getCommandManager() {
 		return commandManager;
 	}
 
@@ -472,7 +472,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		this.configManager = configManager;
 	}
 
-	public void setCommandManager(CustomCommandManager commandManager) {
+	public void setCommandManager(CommandManager commandManager) {
 		this.commandManager = commandManager;
 	}
 

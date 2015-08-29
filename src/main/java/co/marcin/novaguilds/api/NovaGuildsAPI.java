@@ -11,7 +11,7 @@ public interface NovaGuildsAPI {
 
 	MessageManager getMessageManager();
 
-	CustomCommandManager getCommandManager();
+	CommandManager getCommandManager();
 
 	ConfigManager getConfigManager();
 

@@ -19,14 +19,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.HashMap;
 import java.util.Set;
 
-public class CustomCommandManager {
+public class CommandManager {
 	private final NovaGuilds plugin;
 	private final HashMap<String,String> aliases = new HashMap<>();
 	private final HashMap<ItemStack,String> guiCommands = new HashMap<>();
 	private ItemStack topItem;
 	private final HashMap<Commands, Executor> executors = new HashMap<>();
 
-	public CustomCommandManager(NovaGuilds plugin) {
+	public CommandManager(NovaGuilds plugin) {
 		this.plugin = plugin;
 		plugin.setCommandManager(this);
 		registerCommands();
