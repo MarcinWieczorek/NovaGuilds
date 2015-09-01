@@ -25,7 +25,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
@@ -77,7 +76,7 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) { //BREAKING
 		Player player = event.getPlayer();
-		if(!plugin.getRegionManager().canBuild(player ,event.getBlock().getLocation())) {
+		if(!plugin.getRegionManager().canInteract(player, event.getBlock().getLocation())) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
@@ -86,7 +85,7 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) { //PLACING
 		Player player = event.getPlayer();
-		if(!plugin.getRegionManager().canBuild(player ,event.getBlock().getLocation())) {
+		if(!plugin.getRegionManager().canInteract(player, event.getBlock().getLocation())) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
@@ -144,7 +143,7 @@ public class RegionInteractListener implements Listener {
 		Player player = event.getPlayer();
 		Entity mob = event.getEntity();
 
-		if(!plugin.getRegionManager().canBuild(player, mob.getLocation())) {
+		if(!plugin.getRegionManager().canInteract(player, mob.getLocation())) {
 			List<String> denyDamage = Config.REGION_DENYMOBDAMAGE.getStringList();
 			List<String> denyRiding = Config.REGION_DENYRIDING.getStringList();
 
@@ -212,7 +211,7 @@ public class RegionInteractListener implements Listener {
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
 		Block block = event.getBlockClicked().getRelative(event.getBlockFace());
 
-		if(!plugin.getRegionManager().canBuild(event.getPlayer(), block.getLocation())) {
+		if(!plugin.getRegionManager().canInteract(event.getPlayer(), block.getLocation())) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(event.getPlayer());
 		}

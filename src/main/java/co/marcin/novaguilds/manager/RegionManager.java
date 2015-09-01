@@ -15,6 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
@@ -335,7 +336,7 @@ public class RegionManager {
 		return list;
 	}
 
-	public boolean canBuild(Player player, Location location) {
+	public boolean canInteract(Player player, Location location) {
 		NovaRegion region = getRegion(location);
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 		return region == null || nPlayer.getBypass() || (nPlayer.hasGuild() && region.getGuild().isMember(nPlayer));
