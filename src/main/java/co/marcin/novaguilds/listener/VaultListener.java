@@ -76,7 +76,7 @@ public class VaultListener implements Listener {
 			if(event.getInventory().getTitle()!=null && event.getInventory().getTitle().equals(nameBank)) {
 				if(event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
 					if(nPlayer.hasGuild()) {
-						if(!nPlayer.isLeader() && Config.BANK_ONLYLEADERTAKE.getBoolean()) {
+						if(!nPlayer.isLeader() && Config.VAULT_ONLYLEADERTAKE.getBoolean()) {
 							if(dissalowedActions.contains(event.getAction())) {
 								event.setCancelled(true);
 							}
@@ -130,7 +130,7 @@ public class VaultListener implements Listener {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 			Material itemType = player.getItemInHand().getType();
 
-			if(itemType == Config.BANK_ITEM.getItemStack().getType()) {
+			if(itemType == Config.VAULT_ITEM.getItemStack().getType()) {
 				for(BlockFace face : doubleChestFaces) {
 					if(event.getBlock().getRelative(face) != null) {
 						if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {
@@ -169,7 +169,7 @@ public class VaultListener implements Listener {
 				}
 			}
 			else {
-				List<Material> blockedMaterials = Config.BANK_DENYRELATIVE.getMaterialList();
+				List<Material> blockedMaterials = Config.VAULT_DENYRELATIVE.getMaterialList();
 				if(blockedMaterials.contains(itemType)) {
 					for(BlockFace face : BlockFace.values()) {
 						if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {

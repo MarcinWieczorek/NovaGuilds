@@ -230,8 +230,8 @@ public class CommandGuildCreate implements CommandExecutor {
 					GuildManager.createHomeFloor(newGuild);
 
 					//vault item
-					if(Config.BANK_ENABLED.getBoolean()) {
-						nPlayer.getPlayer().getInventory().addItem(Config.BANK_ITEM.getItemStack());
+					if(Config.VAULT_ENABLED.getBoolean()) {
+						nPlayer.getPlayer().getInventory().addItem(Config.VAULT_ITEM.getItemStack());
 					}
 
 					//messages

@@ -208,7 +208,7 @@ groups:
    #price per block
    ppb: 1
 
-bank:
+vault:
  enabled: true
  onlyleadertake: true
  item: CHEST 1 name:&6Guild's_Vault
