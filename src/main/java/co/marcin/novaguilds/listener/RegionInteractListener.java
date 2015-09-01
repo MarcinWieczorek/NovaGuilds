@@ -94,44 +94,34 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
 		List<String> denymobdamage = Config.REGION_DENYMOBDAMAGE.getStringList();
-		NovaRegion rgatploc = plugin.getRegionManager().getRegion(event.getEntity().getLocation());
-		
-		if(rgatploc != null) {
-			if(denymobdamage.contains(event.getEntity().getType().name())) {
-				DamageCause cause = event.getCause();
-				boolean playercaused = false;
-				Player player = null;
-				Arrow arrow = null;
 
-				if(cause == DamageCause.PROJECTILE && event.getDamager() instanceof Arrow) {
-					arrow = (Arrow) event.getDamager();
+		if(denymobdamage.contains(event.getEntityType().name())) {
+			boolean playerCaused = false;
+			Player player = null;
+			Arrow arrow = null;
 
-					if(arrow.getShooter() instanceof Player) {
-						playercaused = true;
-						player = (Player) arrow.getShooter();
-					}
+			if(event.getCause() == DamageCause.PROJECTILE && event.getDamager() instanceof Arrow) {
+				arrow = (Arrow) event.getDamager();
+
+				if(arrow.getShooter() instanceof Player) {
+					playerCaused = true;
+					player = (Player)arrow.getShooter();
 				}
+			}
 
-				if(event.getDamager() instanceof Player) {
-					playercaused = true;
-					player = (Player) event.getDamager();
-				}
+			if(event.getDamager() instanceof Player) {
+				playerCaused = true;
+				player = (Player)event.getDamager();
+			}
 
-				if(playercaused) {
-					NovaPlayer nPlayer = NovaPlayer.get(player);
+			if(playerCaused && !plugin.getRegionManager().canInteract(player, event.getEntity())) {
+				if(!(event.getEntity().getPassenger() instanceof Player)) {
+					event.setCancelled(true);
+					Message.CHAT_REGION_DENY_ATTACKMOB.send(player);
 
-					if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
-						if(!nPlayer.getBypass()) {
-							if(!(event.getEntity().getPassenger() instanceof Player)) {
-								event.setCancelled(true);
-								Message.CHAT_REGION_DENY_ATTACKMOB.send(player);
-
-								//remove the arrow so it wont bug
-								if(arrow != null) {
-									arrow.remove();
-								}
-							}
-						}
+					//remove the arrow so it wont bug
+					if(arrow != null) {
+						arrow.remove();
 					}
 				}
 			}
