@@ -187,22 +187,13 @@ public class RegionInteractListener implements Listener {
 	}
 
 	@EventHandler
-	public void onUnleash(PlayerUnleashEntityEvent event) {
+	public void onPlayerUnleashEntity(PlayerUnleashEntityEvent event) {
 		List<String> denyriding = Config.REGION_DENYRIDING.getStringList();
-		Entity mob = event.getEntity();
-		NovaRegion rgatploc = plugin.getRegionManager().getRegion(mob.getLocation());
 
-		Player player = event.getPlayer();
-		if(rgatploc != null) {
-			NovaPlayer nPlayer = NovaPlayer.get(player);
-
-			if(!nPlayer.hasGuild() || (nPlayer.hasGuild() && !nPlayer.getGuild().getName().equalsIgnoreCase(rgatploc.getGuildName()))) {
-				if(!nPlayer.getBypass()) {
-					if(denyriding.contains(mob.getType().name())) {
-						event.setCancelled(true);
-						Message.CHAT_REGION_DENY_UNLEASH.send(player);
-					}
-				}
+		if(denyriding.contains(event.getEntityType().name())) {
+			if(!plugin.getRegionManager().canInteract(event.getPlayer(), event.getEntity())) {
+				event.setCancelled(true);
+				Message.CHAT_REGION_DENY_UNLEASH.send(event.getPlayer());
 			}
 		}
 	}
