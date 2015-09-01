@@ -23,10 +23,8 @@ public class VanishListener implements Listener {
 				plugin.getRegionManager().playerExitedRegion(event.getPlayer());
 			}
 		}
-		else {
-			if(plugin.getRegionManager().getRegion(event.getPlayer().getLocation()) != null) {
-				plugin.getRegionManager().playerEnteredRegion(event.getPlayer(), event.getPlayer().getLocation());
-			}
+		else if(plugin.getRegionManager().getRegion(event.getPlayer().getLocation()) != null) {
+			plugin.getRegionManager().playerEnteredRegion(event.getPlayer(), event.getPlayer().getLocation());
 		}
 	}
 }
