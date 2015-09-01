@@ -126,7 +126,7 @@ public class VaultListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent event) { //PLACING
 		Player player = event.getPlayer();
 
-		if(plugin.getRegionManager().canInteract(player, event.getBlock().getLocation())) {
+		if(plugin.getRegionManager().canInteract(player, event.getBlock())) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 			Material itemType = player.getItemInHand().getType();
 

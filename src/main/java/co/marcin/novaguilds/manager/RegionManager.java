@@ -342,6 +342,14 @@ public class RegionManager {
 		return region == null || nPlayer.getBypass() || (nPlayer.hasGuild() && region.getGuild().isMember(nPlayer));
 	}
 
+	public boolean canInteract(Player player, Block block) {
+		return canInteract(player, block.getLocation());
+	}
+
+	public boolean canInteract(Player player, Entity entity) {
+		return canInteract(player, entity.getLocation());
+	}
+
 	private boolean isFarEnough(Location l1, Location l2) {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;
