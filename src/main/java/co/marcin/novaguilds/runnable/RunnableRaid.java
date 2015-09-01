@@ -77,7 +77,7 @@ public class RunnableRaid implements Runnable {
 						Message.BROADCAST_GUILD_DESTROYED.vars(vars).broadcast();
 
 						NovaGuild guildDefender = raid.getGuildDefender();
-						plugin.getGuildManager().deleteGuild(guildDefender);
+						plugin.getGuildManager().delete(guildDefender);
 					}
 				}
 			}

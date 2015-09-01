@@ -23,17 +23,17 @@ public class CommandAdminSave implements CommandExecutor {
 		if(args.length == 1) {
 			switch(args[0].toLowerCase()) {
 				case "players":
-					plugin.getPlayerManager().saveAll();
+					plugin.getPlayerManager().save();
 					Message.CHAT_ADMIN_SAVE_PLAYERS.send(sender);
 					LoggerUtils.info("Saved players");
 					break;
 				case "guilds":
-					plugin.getGuildManager().saveAll();
+					plugin.getGuildManager().save();
 					Message.CHAT_ADMIN_SAVE_GUILDS.send(sender);
 					LoggerUtils.info("Saved guilds");
 					break;
 				case "regions":
-					plugin.getRegionManager().saveAll();
+					plugin.getRegionManager().save();
 					Message.CHAT_ADMIN_SAVE_REGIONS.send(sender);
 					LoggerUtils.info("Saved regions");
 					break;
@@ -43,9 +43,9 @@ public class CommandAdminSave implements CommandExecutor {
 			}
 		}
 		else { //save all
-			plugin.getRegionManager().saveAll();
-			plugin.getGuildManager().saveAll();
-			plugin.getPlayerManager().saveAll();
+			plugin.getRegionManager().save();
+			plugin.getGuildManager().save();
+			plugin.getPlayerManager().save();
 			Message.CHAT_ADMIN_SAVE_ALL.send(sender);
 			LoggerUtils.info("Saved all data");
 		}

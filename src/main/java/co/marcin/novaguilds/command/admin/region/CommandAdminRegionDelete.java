@@ -46,7 +46,7 @@ public class CommandAdminRegionDelete implements CommandExecutor {
 
 		NovaRegion region = guild.getRegion();
 
-		plugin.getRegionManager().removeRegion(region);
+		plugin.getRegionManager().remove(region);
 		guild.setRegion(null);
 		Message.CHAT_ADMIN_REGION_DELETE_SUCCESS.send(sender);
 		return true;

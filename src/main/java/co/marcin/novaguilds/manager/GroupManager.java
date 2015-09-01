@@ -16,11 +16,11 @@ public class GroupManager {
 	public GroupManager(NovaGuilds novaguilds) {
 		plugin = novaguilds;
 
-		loadGroups();
+		load();
 		LoggerUtils.info("Enabled");
 	}
 
-	public void loadGroups() {
+	public void load() {
 		groups.clear();
 		Set<String> groupsNames = plugin.getConfig().getConfigurationSection("groups").getKeys(false);
 		groupsNames.add("admin");

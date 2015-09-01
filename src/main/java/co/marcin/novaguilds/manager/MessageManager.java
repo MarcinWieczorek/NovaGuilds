@@ -31,7 +31,7 @@ public class MessageManager {
 		instance = this;
 	}
 
-	public boolean loadMessages() {
+	public boolean load() {
 		setupDirectories();
 		String lang = Config.LANG.getString();
 		File messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");

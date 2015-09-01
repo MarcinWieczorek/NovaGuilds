@@ -197,7 +197,7 @@ public class CommandGuildCreate implements CommandExecutor {
 
 				if(!guildCreateEvent.isCancelled()) {
 					//Add the guild
-					plugin.getGuildManager().addGuild(newGuild);
+					plugin.getGuildManager().add(newGuild);
 
 					//nPlayer
 					nPlayer.setGuild(newGuild);
@@ -217,7 +217,7 @@ public class CommandGuildCreate implements CommandExecutor {
 					//autoregion
 					if(region != null) {
 						region.setGuild(nPlayer.getGuild());
-						plugin.getRegionManager().addRegion(region, nPlayer.getGuild());
+						plugin.getRegionManager().add(region, nPlayer.getGuild());
 
 						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
 							if(region.equals(plugin.getRegionManager().getRegion(playerCheck.getLocation()))) {

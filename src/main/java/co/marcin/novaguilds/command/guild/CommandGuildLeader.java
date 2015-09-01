@@ -68,7 +68,7 @@ public class CommandGuildLeader implements Executor {
 
 		//set guild leader
 		guild.setLeader(newLeader);
-		plugin.getGuildManager().saveGuild(guild);
+		plugin.getGuildManager().save(guild);
 
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",newLeader.getName());

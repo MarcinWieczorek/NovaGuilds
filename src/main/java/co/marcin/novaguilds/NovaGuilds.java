@@ -79,7 +79,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//managers
 		configManager = new ConfigManager(this);
 
-		if(!getMessageManager().loadMessages()) {
+		if(!getMessageManager().load()) {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -132,16 +132,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//Data loading
-		getRegionManager().loadRegions();
+		getRegionManager().load();
 		LoggerUtils.info("Regions data loaded");
-		getGuildManager().loadGuilds();
+		getGuildManager().load();
 		LoggerUtils.info("Guilds data loaded");
-		getPlayerManager().loadPlayers();
+		getPlayerManager().load();
 		LoggerUtils.info("Players data loaded");
 
 		LoggerUtils.info("Post checks running");
-		getGuildManager().postCheckGuilds();
-		getRegionManager().postCheckRegions();
+		getGuildManager().postCheck();
+		getRegionManager().postCheck();
 
 		//HologramManager
 		hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
@@ -195,9 +195,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 	
 	public void onDisable() {
-		getGuildManager().saveAll();
-		getRegionManager().saveAll();
-		getPlayerManager().saveAll();
+		getGuildManager().save();
+		getRegionManager().save();
+		getPlayerManager().save();
 		LoggerUtils.info("Saved all data");
 
 		//Save Holograms

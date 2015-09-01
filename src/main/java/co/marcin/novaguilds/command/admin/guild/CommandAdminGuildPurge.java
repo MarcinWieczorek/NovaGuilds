@@ -45,7 +45,7 @@ public class CommandAdminGuildPurge implements CommandExecutor {
 				plugin.getHologramManager().refreshTopHolograms();
 
 				//delete guild
-				plugin.getGuildManager().deleteGuild(guild);
+				plugin.getGuildManager().delete(guild);
 
 				HashMap<String, String> vars = new HashMap<>();
 				vars.put("PLAYERNAME", sender.getName());

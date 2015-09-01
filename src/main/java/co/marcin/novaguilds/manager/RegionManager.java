@@ -60,7 +60,7 @@ public class RegionManager {
 		return regions.values();
 	}
 	
-	public void loadRegions() {
+	public void load() {
 		regions.clear();
 
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
@@ -126,9 +126,9 @@ public class RegionManager {
 		LoggerUtils.info("Loaded "+regions.size()+" regions.");
 	}
 	
-	public void addRegion(NovaRegion region, NovaGuild guild) {
+	public void add(NovaRegion region, NovaGuild guild) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
-			plugin.getFlatDataManager().addRegion(region);
+			plugin.getFlatDataManager().add(region);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
@@ -169,11 +169,11 @@ public class RegionManager {
 		}
 	}
 	
-	public void saveRegion(NovaRegion region) {
+	public void save(NovaRegion region) {
 		if(region != null) {
 			if(region.isChanged()) {
 				if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
-					plugin.getFlatDataManager().saveRegion(region);
+					plugin.getFlatDataManager().save(region);
 				}
 				else {
 					if(!plugin.getDatabaseManager().isConnected()) {
@@ -208,16 +208,16 @@ public class RegionManager {
 		}
 	}
 	
-	public void saveAll() {
+	public void save() {
 		for(NovaRegion r : getRegions()) {
-			saveRegion(r);
+			save(r);
 		}
 	}
 	
 	//delete region
-	public void removeRegion(NovaRegion region) {
+	public void remove(NovaRegion region) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
-			plugin.getFlatDataManager().deleteRegion(region);
+			plugin.getFlatDataManager().delete(region);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
@@ -241,7 +241,7 @@ public class RegionManager {
 		}
 	}
 
-	public void postCheckRegions() {
+	public void postCheck() {
 		Iterator<NovaRegion> iterator = getRegions().iterator();
 		int i = 0;
 

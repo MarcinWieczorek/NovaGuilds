@@ -58,10 +58,10 @@ public class PlayerManager {
 		return players.values();
 	}
 	
-	private void savePlayer(NovaPlayer nPlayer) {
+	private void save(NovaPlayer nPlayer) {
 		if(nPlayer.isChanged()) { //only if there were changes
 			if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-				plugin.getFlatDataManager().savePlayer(nPlayer);
+				plugin.getFlatDataManager().save(nPlayer);
 			}
 			else {
 				if(!plugin.getDatabaseManager().isConnected()) {
@@ -93,14 +93,14 @@ public class PlayerManager {
 		}
 	}
 	
-	public void saveAll() {
+	public void save() {
 		for(NovaPlayer nPlayer : getPlayers()) {
-			savePlayer(nPlayer);
+			save(nPlayer);
 		}
 	}
 	
 	//load
-	public void loadPlayers() {
+	public void load() {
 		players.clear();
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			for(String playerName : plugin.getFlatDataManager().getPlayerList()) {
@@ -149,11 +149,11 @@ public class PlayerManager {
     }
 	
 	//add a player
-	private void addPlayer(Player player) {
+	private void add(Player player) {
 		NovaPlayer nPlayer = NovaPlayer.fromPlayer(player);
 
 		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-			plugin.getFlatDataManager().addPlayer(nPlayer);
+			plugin.getFlatDataManager().add(nPlayer);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
@@ -195,7 +195,7 @@ public class PlayerManager {
 	public void addIfNotExists(Player player) {
 		if(player != null) {
 			if(!players.containsKey(player.getName().toLowerCase())) {
-				addPlayer(player);
+				add(player);
 			}
 		}
 	}

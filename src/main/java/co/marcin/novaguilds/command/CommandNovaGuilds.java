@@ -106,7 +106,6 @@ public class CommandNovaGuilds implements CommandExecutor {
 		else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { //help
 			ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 			BookMeta bm = (BookMeta)book.getItemMeta();
-			//plugin.getMessageManager().loadMessages();
 			List<String> pages = plugin.getMessageManager().getMessages().getStringList("book.help.pages");
 			List<String> pagesColor = new ArrayList<>();
 			for(String page : pages) {

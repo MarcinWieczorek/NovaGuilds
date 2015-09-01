@@ -98,7 +98,7 @@ public class GuildManager {
 		return invitedToList;
 	}
 
-	public void loadGuilds() {
+	public void load() {
 		guilds.clear();
 
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
@@ -241,9 +241,9 @@ public class GuildManager {
 		LoggerUtils.info("Generated bank holograms.");
 	}
 	
-	public void addGuild(NovaGuild guild) {
+	public void add(NovaGuild guild) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
-			plugin.getFlatDataManager().addGuild(guild);
+			plugin.getFlatDataManager().add(guild);
 			guilds.put(guild.getName().toLowerCase(), guild);
 		}
 		else {
@@ -295,10 +295,10 @@ public class GuildManager {
 		}
 	}
 	
-	public void saveGuild(NovaGuild guild) {
+	public void save(NovaGuild guild) {
 		if(guild.isChanged()) {
 			if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
-				plugin.getFlatDataManager().saveGuild(guild);
+				plugin.getFlatDataManager().save(guild);
 			}
 			else {
 				if(!plugin.getDatabaseManager().isConnected()) {
@@ -399,15 +399,15 @@ public class GuildManager {
 		}
 	}
 	
-	public void saveAll() {
+	public void save() {
 		for(Entry<String, NovaGuild> g : guilds.entrySet()) {
-			saveGuild(g.getValue());
+			save(g.getValue());
 		}
 	}
 
-	public void deleteGuild(NovaGuild guild) {
+	public void delete(NovaGuild guild) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
-			plugin.getFlatDataManager().deleteGuild(guild);
+			plugin.getFlatDataManager().delete(guild);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
@@ -431,7 +431,7 @@ public class GuildManager {
 
 		//remove region
 		if(guild.hasRegion()) {
-			plugin.getRegionManager().removeRegion(guild.getRegion());
+			plugin.getRegionManager().remove(guild.getRegion());
 		}
 
 		guilds.remove(guild.getName().toLowerCase());
@@ -442,7 +442,7 @@ public class GuildManager {
 		guilds.remove(guild.getName());
 		guilds.put(newname, guild);
 		guild.setName(newname);
-		saveGuild(guild);
+		save(guild);
 	}
 
 	public List<NovaRaid> getRaidsTakingPart(NovaGuild guild) {
@@ -456,7 +456,7 @@ public class GuildManager {
 		return list;
 	}
 
-	public void postCheckGuilds() {
+	public void postCheck() {
 		Iterator<NovaGuild> it = getGuilds().iterator();
 		int i=0;
 		while(it.hasNext()) {

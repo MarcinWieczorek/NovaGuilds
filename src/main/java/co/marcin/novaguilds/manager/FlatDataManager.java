@@ -75,7 +75,7 @@ public class FlatDataManager {
 	}
 
 	//save
-	public void savePlayer(NovaPlayer nPlayer) {
+	public void save(NovaPlayer nPlayer) {
 		FileConfiguration playerData = getPlayerData(nPlayer.getName());
 
 		if(playerData != null) {
@@ -102,7 +102,7 @@ public class FlatDataManager {
 	}
 
 	//save
-	public void saveRegion(NovaRegion region) {
+	public void save(NovaRegion region) {
 		FileConfiguration regionData = getRegionData(region);
 
 		if(regionData != null) {
@@ -130,7 +130,7 @@ public class FlatDataManager {
 		}
 	}
 
-	public void saveGuild(NovaGuild guild) {
+	public void save(NovaGuild guild) {
 		FileConfiguration guildData = getGuildData(guild);
 
 		if(guildData != null) {
@@ -197,7 +197,7 @@ public class FlatDataManager {
 	}
 
 	//delete
-	public void deleteGuild(NovaGuild guild) {
+	public void delete(NovaGuild guild) {
 		boolean deleted = getGuildFile(guild.getName()).delete();
 
 		if(deleted) {
@@ -208,7 +208,7 @@ public class FlatDataManager {
 		}
 	}
 
-	public void deleteRegion(NovaRegion region) {
+	public void delete(NovaRegion region) {
 		boolean deleted = getRegionFile(region.getGuild().getName()).delete();
 
 		if(deleted) {
@@ -220,19 +220,19 @@ public class FlatDataManager {
 	}
 
 	//add
-	public void addPlayer(NovaPlayer nPlayer) {
+	public void add(NovaPlayer nPlayer) {
 		savePlayerTemplate(nPlayer.getName());
-		savePlayer(nPlayer);
+		save(nPlayer);
 	}
 
-	public void addGuild(NovaGuild guild) {
+	public void add(NovaGuild guild) {
 		saveGuildTemplate(guild.getName());
-		saveGuild(guild);
+		save(guild);
 	}
 
-	public void addRegion(NovaRegion region) {
+	public void add(NovaRegion region) {
 		saveRegionTemplate(region.getGuild().getName());
-		saveRegion(region);
+		save(region);
 	}
 
 	private void savePlayerTemplate(String name) {

@@ -40,28 +40,28 @@ public class CommandAdminReload implements CommandExecutor {
 		Message.CHAT_RELOAD_MYSQL.send(sender);
 
 		//messages
-		plugin.getMessageManager().loadMessages();
+		plugin.getMessageManager().load();
 		Message.CHAT_RELOAD_MESSAGES.send(sender);
 
 		//regions
-		plugin.getRegionManager().loadRegions();
+		plugin.getRegionManager().load();
 		Message.CHAT_RELOAD_REGIONS.send(sender);
 
 		//guilds
-		plugin.getGuildManager().loadGuilds();
+		plugin.getGuildManager().load();
 		Message.CHAT_RELOAD_GUILDS.send(sender);
 
 		//players
-		plugin.getPlayerManager().loadPlayers();
+		plugin.getPlayerManager().load();
 		Message.CHAT_RELOAD_PLAYERS.send(sender);
 
 		//groups
-		plugin.getGroupManager().loadGroups();
+		plugin.getGroupManager().load();
 		Message.CHAT_RELOAD_GROUPS.send(sender);
 
 		LoggerUtils.info("Post checks running");
-		plugin.getGuildManager().postCheckGuilds();
-		plugin.getRegionManager().postCheckRegions();
+		plugin.getGuildManager().postCheck();
+		plugin.getRegionManager().postCheck();
 
 		//all done
 		Message.CHAT_RELOAD_RELOADED.send(sender);
