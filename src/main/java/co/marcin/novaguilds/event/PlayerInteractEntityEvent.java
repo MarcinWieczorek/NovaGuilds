@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.event;
 
+import co.marcin.novaguilds.enums.EntityUseAction;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -11,11 +12,6 @@ public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellabl
 	protected Entity clickedEntity;
 	private EntityUseAction action;
 	private boolean cancelled = false;
-
-	public enum EntityUseAction {
-		ATTACK,
-		INTERACT;
-	}
 
 	public PlayerInteractEntityEvent(final Player who, final Entity clickedEntity, EntityUseAction action) {
 		super(who);

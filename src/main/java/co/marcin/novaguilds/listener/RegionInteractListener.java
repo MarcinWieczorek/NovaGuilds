@@ -5,6 +5,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import org.bukkit.Location;
@@ -147,7 +148,7 @@ public class RegionInteractListener implements Listener {
 			List<String> denyDamage = Config.REGION_DENYMOBDAMAGE.getStringList();
 			List<String> denyRiding = Config.REGION_DENYRIDING.getStringList();
 
-			if(event.getAction() == PlayerInteractEntityEvent.EntityUseAction.ATTACK) {
+			if(event.getAction() == EntityUseAction.ATTACK) {
 				if(denyDamage.contains(mob.getType().name())) {
 					if(!(mob instanceof LivingEntity)) {
 						event.setCancelled(true);

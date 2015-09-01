@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -22,7 +23,7 @@ public class PacketListener implements Listener {
 	public void onPacketReceive(PacketReceiveEvent event) {
 		if(event.getPacketName().equals("PacketPlayInUseEntity")) {
 			PacketPlayInUseEntity packetPlayInUseEntity = (PacketPlayInUseEntity) event.getPacket();
-			PlayerInteractEntityEvent.EntityUseAction action = PlayerInteractEntityEvent.EntityUseAction.valueOf(packetPlayInUseEntity.c().name());
+			EntityUseAction action = EntityUseAction.valueOf(packetPlayInUseEntity.c().name());
 			Class<?> useEntityClass = Reflections.getCraftClass("PacketPlayInUseEntity");
 			Reflections.FieldAccessor<Integer> useEntityA = Reflections.getField(useEntityClass, int.class, 0);
 			int id = useEntityA.get(packetPlayInUseEntity);
