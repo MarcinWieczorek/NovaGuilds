@@ -34,61 +34,61 @@ public class DatabaseManager {
 			preparedStatementMap.clear();
 
 			//Guilds insert (id, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, created, bankloc, slots)
-			String guildsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,?,'',?);";
+			String guildsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "guilds` VALUES(0,?,?,?,?,'','','','',?,?,?,0,0,0,?,'',?);";
 			PreparedStatement guildsInsert = getConnection().prepareStatement(guildsInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.GUILDS_INSERT, guildsInsert);
 
 			//Guilds select
-			String guildsSelectSQL = "SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`";
+			String guildsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "guilds`";
 			PreparedStatement guildsSelect = getConnection().prepareStatement(guildsSelectSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_SELECT, guildsSelect);
 
 			//Guilds delete
-			String guildsDeleteSQL = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` WHERE `id`=?";
+			String guildsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "guilds` WHERE `id`=?";
 			PreparedStatement guildsDelete = getConnection().prepareStatement(guildsDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_DELETE, guildsDelete);
 
 			//Guilds update
-			String guildsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=? WHERE `id`=?";
+			String guildsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=? WHERE `id`=?";
 			PreparedStatement guildsUpdate = getConnection().prepareStatement(guildsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
 
 			//Players insert (id, uuid, name, guild, invitedto, points, kills, deaths)
-			String playersInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "players` VALUES(0,?,?,'','',?,0,0)";
+			String playersInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "players` VALUES(0,?,?,'','',?,0,0)";
 			PreparedStatement playersInsert = getConnection().prepareStatement(playersInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_INSERT, playersInsert);
 
 			//Players select
-			String playerSelectSQL = "SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "players`";
+			String playerSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "players`";
 			PreparedStatement playersSelect = getConnection().prepareStatement(playerSelectSQL);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_SELECT, playersSelect);
 
 			//Players update
 			// TODO UUID is changeable, the username is not!
 			// TODO Dunno how drunk I was, but it's the opposite, right?
-			String playersUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "players` SET `invitedto`=?, `guild`=?, `points`=?, `kills`=?, `deaths`=? WHERE `uuid`=?";
+			String playersUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "players` SET `invitedto`=?, `guild`=?, `points`=?, `kills`=?, `deaths`=? WHERE `uuid`=?";
 			PreparedStatement playersUpdate = getConnection().prepareStatement(playersUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
 
 
 			//Regions insert (id, loc_1, loc_2, guild, world)
-			String regionsInsertSQL = "INSERT INTO `" + plugin.getConfigManager().getDatabasePrefix() + "regions` VALUES(0,?,?,?,?);";
+			String regionsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "regions` VALUES(0,?,?,?,?);";
 			PreparedStatement regionsInsert = getConnection().prepareStatement(regionsInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.REGIONS_INSERT, regionsInsert);
 
 			//Regions select
-			String regionsSelectSQL = "SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions`";
+			String regionsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "regions`";
 			PreparedStatement regionsSelect = getConnection().prepareStatement(regionsSelectSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_SELECT, regionsSelect);
 
 			//Regions delete
-			String regionsDeleteSQL = "DELETE FROM `" + plugin.getConfigManager().getDatabasePrefix() + "regions` WHERE `guild`=?";
+			String regionsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "regions` WHERE `guild`=?";
 			PreparedStatement regionsDelete = getConnection().prepareStatement(regionsDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_DELETE, regionsDelete);
 
 			//Regions update
-			String regionsUpdateSQL = "UPDATE `" + plugin.getConfigManager().getDatabasePrefix() + "regions` SET `loc_1`=?, `loc_2`=?, `guild`=?, `world`=? WHERE `id`=?";
+			String regionsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "regions` SET `loc_1`=?, `loc_2`=?, `guild`=?, `world`=? WHERE `id`=?";
 			PreparedStatement regionsUpdate = getConnection().prepareStatement(regionsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
@@ -211,7 +211,7 @@ public class DatabaseManager {
 	private boolean checkTables() {
 		try {
 			DatabaseMetaData md = getConnection().getMetaData();
-			ResultSet rs = md.getTables(null, null, plugin.getConfigManager().getDatabasePrefix() + "%", null);
+			ResultSet rs = md.getTables(null, null, Config.MYSQL_PREFIX.getString() + "%", null);
 			return rs.next();
 		}
 		catch(SQLException e) {
@@ -283,7 +283,7 @@ public class DatabaseManager {
 		}
 
 		mysqlReload();
-		sqlString = StringUtils.replace(sqlString, "{SQLPREFIX}", plugin.getConfigManager().getDatabasePrefix());
+		sqlString = StringUtils.replace(sqlString, "{SQLPREFIX}", Config.MYSQL_PREFIX.getString());
 		return sqlString.split("--");
 	}
 }

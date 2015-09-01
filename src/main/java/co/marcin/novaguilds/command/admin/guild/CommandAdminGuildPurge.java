@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command.admin.guild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import org.bukkit.command.Command;
@@ -24,7 +25,7 @@ public class CommandAdminGuildPurge implements CommandExecutor {
 			return true;
 		}
 
-		if(!plugin.getConfigManager().isDebugEnabled()) {
+		if(!Config.DEBUG.getBoolean()) {
 			sender.sendMessage("This command is not available.");
 			return true;
 		}

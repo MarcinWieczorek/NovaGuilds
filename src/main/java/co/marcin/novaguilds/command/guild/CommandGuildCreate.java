@@ -111,8 +111,8 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 
 		//distance from spawn
-		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < plugin.getConfigManager().getGuildDistanceFromSpawn()) {
-			vars.put("DISTANCE", String.valueOf(plugin.getConfigManager().getGuildDistanceFromSpawn()));
+		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < Config.GUILD_FROMSPAWN.getInt()) {
+			vars.put("DISTANCE", String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
 			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.vars(vars).send(sender);
 			return true;
 		}

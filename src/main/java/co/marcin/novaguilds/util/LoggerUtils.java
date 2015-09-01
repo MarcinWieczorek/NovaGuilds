@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.Bukkit;
 
@@ -19,7 +20,7 @@ public final class LoggerUtils {
 
 	public static void debug(String msg) {
 		if(NovaGuilds.getInstance()!=null && NovaGuilds.getInstance().getConfigManager() != null) {
-			if(NovaGuilds.getInstance().getConfigManager().isDebugEnabled()) {
+			if(Config.DEBUG.getBoolean()) {
 				info("[DEBUG] " + classPrefix() + msg);
 			}
 		}

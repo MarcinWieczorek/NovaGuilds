@@ -2,6 +2,7 @@ package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 
@@ -17,7 +18,7 @@ public class RunnableLiveRegeneration implements Runnable {
 			long lostLiveTime = guild.getLostLiveTime();
 
 			if(lostLiveTime > 0) {
-				if(NumberUtils.systemSeconds() - lostLiveTime > plugin.getConfigManager().getGuildLiveRegenerationTime()) {
+				if(NumberUtils.systemSeconds() - lostLiveTime > Config.LIVEREGENERATION_REGENTIME.getSeconds()) {
 					guild.addLive();
 					guild.resetLostLiveTime();
 					LoggerUtils.debug("live regenerated for guild: " + guild.getName());

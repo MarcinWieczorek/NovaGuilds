@@ -663,12 +663,12 @@ public class GuildManager {
 	}
 
 	public boolean isVaultItemStack(ItemStack itemStack) {
-		return itemStack.equals(plugin.getConfigManager().getGuildVaultItem());
+		return itemStack.equals(Config.VAULT_ITEM.getItemStack());
 	}
 
 	public void appendVaultHologram(NovaGuild guild) {
 		if(plugin.getConfigManager().useHolographicDisplays()) {
-			if(plugin.getConfigManager().isGuildVaultHologramEnabled()) {
+			if(Config.VAULT_HOLOGRAM_ENABLED.getBoolean()) {
 				checkVaultDestroyed(guild);
 				if(guild.getVaultLocation() != null) {
 					if(guild.getVaultHologram() == null) {
@@ -676,7 +676,7 @@ public class GuildManager {
 						hologramLocation.add(0.5, 2, 0.5);
 						Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 						hologram.getVisibilityManager().setVisibleByDefault(false);
-						for(String hologramLine : plugin.getConfigManager().getGuildVaultHologramLines()) {
+						for(String hologramLine : Config.VAULT_HOLOGRAM_LINES.getStringList()) {
 							if(hologramLine.startsWith("[ITEM]")) {
 								hologramLine = hologramLine.substring(6);
 								ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
@@ -701,7 +701,7 @@ public class GuildManager {
 	}
 
 	public boolean isVaultBlock(Block block) {
-		if(block.getType()== plugin.getConfigManager().getGuildVaultItem().getType()) {
+		if(block.getType() == Config.VAULT_ITEM.getItemStack().getType()) {
 			for(NovaGuild guild : getGuilds()) {
 				checkVaultDestroyed(guild);
 				if(guild.getVaultLocation() != null) {

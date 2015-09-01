@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -33,7 +34,7 @@ public class CommandAdminGuildSetLiveRegenerationTime implements CommandExecutor
 		int iseconds = StringUtils.StringToSeconds(timeString);
 		long seconds = Long.parseLong(iseconds+"");
 
-		long newregentime = NumberUtils.systemSeconds() + (seconds - plugin.getConfigManager().getGuildLiveRegenerationTime());
+		long newregentime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());
 		LoggerUtils.debug("newregentime: " + newregentime);
 
 		guild.setLostLiveTime(newregentime);

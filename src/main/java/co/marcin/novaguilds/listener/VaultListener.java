@@ -71,7 +71,7 @@ public class VaultListener implements Listener {
 	public void onInventoryClick(InventoryClickEvent event) {
 		if(event.getInventory() != null) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
-			String nameVault = plugin.getConfigManager().getGuildVaultItem().getItemMeta().getDisplayName();
+			String nameVault = Config.VAULT_ITEM.getItemStack().getItemMeta().getDisplayName();
 
 			if(event.getInventory().getTitle()!=null && event.getInventory().getTitle().equals(nameVault)) {
 				if(event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
@@ -104,7 +104,7 @@ public class VaultListener implements Listener {
 					if(player.getGameMode() != GameMode.CREATIVE) {
 						event.setCancelled(true);
 						event.getBlock().setType(Material.AIR);
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), plugin.getConfigManager().getGuildVaultItem());
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), Config.VAULT_ITEM.getItemStack());
 					}
 
 					nPlayer.getGuild().setVaultLocation(null);

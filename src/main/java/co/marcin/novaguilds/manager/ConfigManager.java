@@ -20,8 +20,6 @@ public class ConfigManager {
 	private final NovaGuilds plugin;
 	private FileConfiguration config;
 
-	private boolean debug;
-
 	private DataStorageType primaryDataStorageType;
 	private DataStorageType secondaryDataStorageType;
 	private DataStorageType dataStorageType;
@@ -31,24 +29,8 @@ public class ConfigManager {
 	private boolean useTitles;
 	private boolean useVanishNoPacket = true;
 
-	private String databasePrefix;
+//	private List<String> guildVaultHologramLines; //supports items, [ITEM]
 
-	private long cleanupInactiveTime;
-
-	private long raidTimeRest;
-	private long raidTimeInactive;
-
-	private long guildLiveRegenerationTime;
-	private long guildDistanceFromSpawn;
-
-	private boolean chatDisplayNameTags;
-
-	private ItemStack guildVaultItem;
-	private boolean guildVaultEnabled;
-	private boolean guildVaultHologramEnabled;
-	private List<String> guildVaultHologramLines; //supports items, [ITEM]
-
-	private int guildEffectDuration;
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 	private ItemStack toolItem;
 
@@ -72,20 +54,7 @@ public class ConfigManager {
 		plugin.reloadConfig();
 		config = plugin.getConfig();
 
-		debug = Config.DEBUG.getBoolean();
-
-		raidTimeRest = StringUtils.StringToSeconds(config.getString("raid.timerest"));
-		raidTimeInactive = StringUtils.StringToSeconds(config.getString("raid.timeinactive"));
-
-		guildDistanceFromSpawn = config.getLong("guild.fromspawn");
-		guildLiveRegenerationTime = StringUtils.StringToSeconds(config.getString("liveregeneration.regentime"));
 		long guildLiveRegenerationTaskInterval = StringUtils.StringToSeconds(config.getString("liveregeneration.taskinterval"));
-
-		//bank
-		guildVaultEnabled = config.getBoolean("bank.enabled");
-		guildVaultHologramEnabled = config.getBoolean("bank.hologram.enabled");
-		guildVaultHologramLines = config.getStringList("bank.hologram.lines");
-		guildVaultItem = getItemStack("bank.item");
 
 		useHolographicDisplays = config.getBoolean("holographicdisplays.enabled");
 		useBarAPI = config.getBoolean("barapi.enabled");
@@ -98,12 +67,7 @@ public class ConfigManager {
 			}
 		}
 
-		cleanupInactiveTime = StringUtils.StringToSeconds(config.getString("cleanup.inactivetime"));
 		long cleanupInterval = StringUtils.StringToSeconds(config.getString("cleanup.interval"));
-
-		databasePrefix = config.getString("mysql.prefix");
-
-		chatDisplayNameTags = config.getBoolean("chat.displaynametags");
 
 		String primaryDataStorageTypeString = config.getString("datastorage.primary").toUpperCase();
 		String secondaryDataStorageTypeString = config.getString("datastorage.secondary").toUpperCase();
@@ -140,7 +104,6 @@ public class ConfigManager {
 		setToPrimaryDataStorageType();
 		LoggerUtils.info("Data storage: Primary: "+primaryDataStorageType.name()+", Secondary: "+secondaryDataStorageType.name());
 
-		guildEffectDuration = config.getInt("guild.effect.duration");
 		List<String> guildEffectsString = config.getStringList("guild.effect.list");
 		for(String effect : guildEffectsString) {
 			PotionEffectType effectType = PotionEffectType.getByName(effect);
@@ -170,57 +133,12 @@ public class ConfigManager {
 	}
 
 	//getters
-
-	public String getDatabasePrefix() {
-		return databasePrefix;
-	}
-
 	public DataStorageType getDataStorageType() {
 		return dataStorageType;
 	}
 
-	public long getCleanupInactiveTime() {
-		return cleanupInactiveTime;
-	}
-
-	public long getGuildLiveRegenerationTime() {
-		return guildLiveRegenerationTime;
-	}
-
-	public long getGuildDistanceFromSpawn() {
-		return guildDistanceFromSpawn;
-	}
-
-	public long getRaidTimeRest() {
-		return raidTimeRest;
-	}
-
-	public long getRaidTimeInactive() {
-		return raidTimeInactive;
-	}
-
-	public int getGuildEffectDuration() {
-		return guildEffectDuration;
-	}
-
 	public List<PotionEffectType> getGuildEffects() {
 		return guildEffects;
-	}
-
-	public boolean isGuildVaultEnabled() {
-		return guildVaultEnabled;
-	}
-
-	public ItemStack getGuildVaultItem() {
-		return guildVaultItem;
-	}
-
-	public List<String> getGuildVaultHologramLines() {
-		return guildVaultHologramLines;
-	}
-
-	public boolean isGuildVaultHologramEnabled() {
-		return guildVaultHologramEnabled;
 	}
 
 	//checkers
@@ -236,16 +154,8 @@ public class ConfigManager {
 		return useTitles;
 	}
 
-	public boolean isDebugEnabled() {
-		return debug;
-	}
-
 	public boolean useVanishNoPacket() {
 		return useVanishNoPacket;
-	}
-
-	public boolean useChatDisplayNameTags() {
-		return chatDisplayNameTags;
 	}
 
 	//setters

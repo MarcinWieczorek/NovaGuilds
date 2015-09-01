@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -32,7 +33,7 @@ public class CommandAdminGuildSetTimerest implements CommandExecutor {
 		int iseconds = StringUtils.StringToSeconds(timeString);
 		long seconds = Long.parseLong(iseconds+"");
 
-		long newtimerest = NumberUtils.systemSeconds() - (plugin.getConfigManager().getRaidTimeRest() - seconds);
+		long newtimerest = NumberUtils.systemSeconds() - (Config.RAID_TIMEREST.getSeconds() - seconds);
 		LoggerUtils.debug("new timerest = " + newtimerest);
 		LoggerUtils.debug("add seconds = "+seconds);
 

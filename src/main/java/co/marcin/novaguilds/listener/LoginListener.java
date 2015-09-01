@@ -3,6 +3,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.VersionUtils;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
@@ -42,7 +43,7 @@ public class LoginListener implements Listener {
 		}
 
 		//TODO not working
-		if(plugin.getConfigManager().useChatDisplayNameTags()) {
+		if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
 			player.setDisplayName(plugin.tagUtils.getTag(player)+player.getDisplayName());
 		}
 

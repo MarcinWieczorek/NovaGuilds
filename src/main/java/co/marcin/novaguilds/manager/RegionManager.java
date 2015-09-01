@@ -422,7 +422,7 @@ public class RegionManager {
 					//raid
 					if(nPlayer.getGuild().isWarWith(guildDefender)) {
 						if(!guildDefender.isRaid()) {
-							if(NumberUtils.systemSeconds() - plugin.getConfigManager().getRaidTimeRest() > guildDefender.getTimeRest()) {
+							if(NumberUtils.systemSeconds() - Config.RAID_TIMEREST.getSeconds() > guildDefender.getTimeRest()) {
 								if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size()==guildDefender.getPlayers().size()) {
 									if(NumberUtils.systemSeconds()-guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
 										guildDefender.createRaid(nPlayer.getGuild());
@@ -434,7 +434,7 @@ public class RegionManager {
 								}
 							}
 							else {
-								long timeWait = plugin.getConfigManager().getRaidTimeRest() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
+								long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 								vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
 
 								Message.CHAT_RAID_RESTING.vars(vars).send(player);

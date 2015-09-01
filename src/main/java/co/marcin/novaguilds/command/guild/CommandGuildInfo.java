@@ -137,12 +137,12 @@ public class CommandGuildInfo implements CommandExecutor {
 		vars.put("LIVES", guild.getLives() + "");
 
 		//live regeneration time
-		long liveRegenerationTime = plugin.getConfigManager().getGuildLiveRegenerationTime() - (NumberUtils.systemSeconds() - guild.getLostLiveTime());
+		long liveRegenerationTime = Config.LIVEREGENERATION_REGENTIME.getSeconds() - (NumberUtils.systemSeconds() - guild.getLostLiveTime());
 		String liveRegenerationString = StringUtils.secondsToString(liveRegenerationTime);
 
-		long timeWait = (guild.getTimeRest() + plugin.getConfigManager().getRaidTimeRest()) - NumberUtils.systemSeconds();
+		long timeWait = (guild.getTimeRest() + Config.RAID_TIMEREST.getSeconds()) - NumberUtils.systemSeconds();
 		LoggerUtils.debug("timewait="+timeWait);
-		LoggerUtils.debug(guild.getTimeRest() +"+"+ plugin.getConfigManager().getRaidTimeRest() +"-"+ NumberUtils.systemSeconds());
+		LoggerUtils.debug(guild.getTimeRest() +"+"+ Config.RAID_TIMEREST.getSeconds() +"-"+ NumberUtils.systemSeconds());
 
 		vars.put("LIVEREGENERATIONTIME", liveRegenerationString);
 		vars.put("TIMEREST",StringUtils.secondsToString(timeWait));

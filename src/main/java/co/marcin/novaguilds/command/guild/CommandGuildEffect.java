@@ -2,6 +2,7 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -52,7 +53,7 @@ public class CommandGuildEffect implements Executor {
 		}
 
 		//TODO: configurable duration
-		int duration = plugin.getConfigManager().getGuildEffectDuration();
+		int duration = Config.GUILD_EFFECT_DURATION.getInt();
 
 		List<PotionEffectType> potionEffects = plugin.getConfigManager().getGuildEffects();
 
