@@ -146,18 +146,18 @@ public class GuildManager {
 						}
 					}
 
-					String bankLocationString = res.getString("bankloc");
-					Location bankLocation = null;
-					if(!bankLocationString.isEmpty()) {
-						String[] bankLocationSplit = bankLocationString.split(";");
-						if(bankLocationSplit.length == 5) { //LENGTH
-							String worldname = bankLocationSplit[0];
+					String vaultLocationString = res.getString("bankloc");
+					Location vaultLocation = null;
+					if(!vaultLocationString.isEmpty()) {
+						String[] vaultLocationSplit = vaultLocationString.split(";");
+						if(vaultLocationSplit.length == 5) { //LENGTH
+							String worldname = vaultLocationSplit[0];
 
 							if(plugin.getServer().getWorld(worldname) != null) {
-								int x = Integer.parseInt(bankLocationSplit[1]);
-								int y = Integer.parseInt(bankLocationSplit[2]);
-								int z = Integer.parseInt(bankLocationSplit[3]);
-								bankLocation = new Location(plugin.getServer().getWorld(worldname), x, y, z);
+								int x = Integer.parseInt(vaultLocationSplit[1]);
+								int y = Integer.parseInt(vaultLocationSplit[2]);
+								int z = Integer.parseInt(vaultLocationSplit[3]);
+								vaultLocation = new Location(plugin.getServer().getWorld(worldname), x, y, z);
 							}
 						}
 					}
@@ -198,7 +198,7 @@ public class GuildManager {
 						novaGuild.setLostLiveTime(res.getLong("lostlive"));
 						novaGuild.setSpawnPoint(spawnpoint);
 						novaGuild.setRegion(plugin.getRegionManager().getRegion(novaGuild));
-						novaGuild.setBankLocation(bankLocation);
+						novaGuild.setVaultLocation(vaultLocation);
 						novaGuild.setSlots(res.getInt("slots"));
 
 						novaGuild.setAlliesNames(allies);
@@ -237,7 +237,7 @@ public class GuildManager {
 
 		LoggerUtils.info("Loaded "+guilds.size()+" guilds.");
 
-		loadBankHolograms();
+		loadVaultHolograms();
 		LoggerUtils.info("Generated bank holograms.");
 	}
 	
@@ -364,9 +364,9 @@ public class GuildManager {
 						}
 					}
 
-					String bankLocationString = "";
-					if(guild.getBankLocation() != null) {
-						bankLocationString = StringUtils.parseDBLocation(guild.getBankLocation());
+					String vaultLocationString = "";
+					if(guild.getVaultLocation() != null) {
+						vaultLocationString = StringUtils.parseDBLocation(guild.getVaultLocation());
 					}
 
 					preparedStatement.setString(1, guild.getTag());
@@ -383,7 +383,7 @@ public class GuildManager {
 					preparedStatement.setLong(12, guild.getTimeRest());
 					preparedStatement.setLong(13, guild.getLostLiveTime());
 					preparedStatement.setLong(14, guild.getInactiveTime());
-					preparedStatement.setString(15, bankLocationString);
+					preparedStatement.setString(15, vaultLocationString);
 					preparedStatement.setInt(16, guild.getSlots());
 
 					preparedStatement.setInt(17, guild.getId());
@@ -634,13 +634,13 @@ public class GuildManager {
 			}
 
 			//bankloc
-			World bankWorld = plugin.getServer().getWorld(guildData.getString("bankloc.world"));
-			if(bankWorld != null) {
+			World vaultWorld = plugin.getServer().getWorld(guildData.getString("bankloc.world"));
+			if(vaultWorld != null) {
 				int x = guildData.getInt("bankloc.x");
 				int y = guildData.getInt("bankloc.y");
 				int z = guildData.getInt("bankloc.z");
-				Location bankloc = new Location(bankWorld, x, y, z);
-				guild.setBankLocation(bankloc);
+				Location vaultLocation = new Location(vaultWorld, x, y, z);
+				guild.setVaultLocation(vaultLocation);
 			}
 
 			guild.setUnchanged();
@@ -654,29 +654,29 @@ public class GuildManager {
 		return guild;
 	}
 
-	private void loadBankHolograms() {
+	private void loadVaultHolograms() {
 		for(NovaGuild guild : getGuilds()) {
-			if(guild.getBankLocation() != null) {
+			if(guild.getVaultLocation() != null) {
 				appendVaultHologram(guild);
 			}
 		}
 	}
 
-	public boolean isBankItemStack(ItemStack itemStack) {
-		return itemStack.equals(plugin.getConfigManager().getGuildBankItem());
+	public boolean isVaultItemStack(ItemStack itemStack) {
+		return itemStack.equals(plugin.getConfigManager().getGuildVaultItem());
 	}
 
 	public void appendVaultHologram(NovaGuild guild) {
 		if(plugin.getConfigManager().useHolographicDisplays()) {
-			if(plugin.getConfigManager().isGuildBankHologramEnabled()) {
+			if(plugin.getConfigManager().isGuildVaultHologramEnabled()) {
 				checkVaultDestroyed(guild);
-				if(guild.getBankLocation() != null) {
-					if(guild.getBankHologram() == null) {
-						Location hologramLocation = guild.getBankLocation().clone();
+				if(guild.getVaultLocation() != null) {
+					if(guild.getVaultHologram() == null) {
+						Location hologramLocation = guild.getVaultLocation().clone();
 						hologramLocation.add(0.5, 2, 0.5);
 						Hologram hologram = HologramsAPI.createHologram(plugin, hologramLocation);
 						hologram.getVisibilityManager().setVisibleByDefault(false);
-						for(String hologramLine : plugin.getConfigManager().getGuildBankHologramLines()) {
+						for(String hologramLine : plugin.getConfigManager().getGuildVaultHologramLines()) {
 							if(hologramLine.startsWith("[ITEM]")) {
 								hologramLine = hologramLine.substring(6);
 								ItemStack itemStack = ItemStackUtils.stringToItemStack(hologramLine);
@@ -689,10 +689,10 @@ public class GuildManager {
 							}
 						}
 
-						guild.setBankHologram(hologram);
+						guild.setVaultHologram(hologram);
 
 						for(Player player : guild.getOnlinePlayers()) {
-							guild.showBankHologram(player);
+							guild.showVaultHologram(player);
 						}
 					}
 				}
@@ -700,12 +700,12 @@ public class GuildManager {
 		}
 	}
 
-	public boolean isBankBlock(Block block) {
-		if(block.getType()== plugin.getConfigManager().getGuildBankItem().getType()) {
+	public boolean isVaultBlock(Block block) {
+		if(block.getType()== plugin.getConfigManager().getGuildVaultItem().getType()) {
 			for(NovaGuild guild : getGuilds()) {
 				checkVaultDestroyed(guild);
-				if(guild.getBankLocation() != null) {
-					if(guild.getBankLocation().distance(block.getLocation()) < 1) {
+				if(guild.getVaultLocation() != null) {
+					if(guild.getVaultLocation().distance(block.getLocation()) < 1) {
 						return true;
 					}
 				}
@@ -715,15 +715,15 @@ public class GuildManager {
 	}
 
 	public static void checkVaultDestroyed(NovaGuild guild) {
-		if(guild.getBankLocation() != null) {
-			if(guild.getBankLocation().getBlock().getType() != Material.CHEST) {
-				guild.setBankLocation(null);
-				Hologram hologram = guild.getBankHologram();
+		if(guild.getVaultLocation() != null) {
+			if(guild.getVaultLocation().getBlock().getType() != Material.CHEST) {
+				guild.setVaultLocation(null);
+				Hologram hologram = guild.getVaultHologram();
 
 				if(hologram != null) {
 					hologram.delete();
 				}
-				guild.setBankHologram(null);
+				guild.setVaultHologram(null);
 			}
 		}
 	}

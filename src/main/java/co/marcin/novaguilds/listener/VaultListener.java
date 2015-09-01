@@ -61,7 +61,7 @@ public class VaultListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		if(plugin.getGuildManager().isBankItemStack(event.getItemDrop().getItemStack())) {
+		if(plugin.getGuildManager().isVaultItemStack(event.getItemDrop().getItemStack())) {
 			event.setCancelled(true);
 			Message.CHAT_GUILD_VAULT_DROP.send(event.getPlayer());
 		}
@@ -71,9 +71,9 @@ public class VaultListener implements Listener {
 	public void onInventoryClick(InventoryClickEvent event) {
 		if(event.getInventory() != null) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
-			String nameBank = plugin.getConfigManager().getGuildBankItem().getItemMeta().getDisplayName();
+			String nameVault = plugin.getConfigManager().getGuildVaultItem().getItemMeta().getDisplayName();
 
-			if(event.getInventory().getTitle()!=null && event.getInventory().getTitle().equals(nameBank)) {
+			if(event.getInventory().getTitle()!=null && event.getInventory().getTitle().equals(nameVault)) {
 				if(event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
 					if(nPlayer.hasGuild()) {
 						if(!nPlayer.isLeader() && Config.VAULT_ONLYLEADERTAKE.getBoolean()) {
@@ -92,22 +92,22 @@ public class VaultListener implements Listener {
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
-		if(plugin.getGuildManager().isBankBlock(event.getBlock())) {
+		if(plugin.getGuildManager().isVaultBlock(event.getBlock())) {
 			Chest chest = (Chest) event.getBlock().getState();
 			if(InventoryUtils.isEmpty(chest.getInventory())) {
 				if(nPlayer.isLeader()) {
-					if(nPlayer.getGuild().getBankHologram() != null) {
-						nPlayer.getGuild().getBankHologram().delete();
-						nPlayer.getGuild().setBankHologram(null);
+					if(nPlayer.getGuild().getVaultHologram() != null) {
+						nPlayer.getGuild().getVaultHologram().delete();
+						nPlayer.getGuild().setVaultHologram(null);
 					}
 
 					if(player.getGameMode() != GameMode.CREATIVE) {
 						event.setCancelled(true);
 						event.getBlock().setType(Material.AIR);
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), plugin.getConfigManager().getGuildBankItem());
+						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), plugin.getConfigManager().getGuildVaultItem());
 					}
 
-					nPlayer.getGuild().setBankLocation(null);
+					nPlayer.getGuild().setVaultLocation(null);
 					Message.CHAT_GUILD_VAULT_BREAK_SUCCESS.send(player);
 				}
 				else {
@@ -133,7 +133,7 @@ public class VaultListener implements Listener {
 			if(itemType == Config.VAULT_ITEM.getItemStack().getType()) {
 				for(BlockFace face : doubleChestFaces) {
 					if(event.getBlock().getRelative(face) != null) {
-						if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {
+						if(plugin.getGuildManager().isVaultBlock(event.getBlock().getRelative(face))) {
 							event.setCancelled(true);
 							Message.CHAT_GUILD_VAULT_PLACE_DOUBLECHEST.send(player);
 							return;
@@ -141,13 +141,13 @@ public class VaultListener implements Listener {
 					}
 				}
 
-				if(plugin.getGuildManager().isBankItemStack(event.getItemInHand())) {
+				if(plugin.getGuildManager().isVaultItemStack(event.getItemInHand())) {
 					if(nPlayer.hasGuild()) {
 						if(nPlayer.isLeader()) {
-							if(nPlayer.getGuild().getBankLocation() == null) {
+							if(nPlayer.getGuild().getVaultLocation() == null) {
 								NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
 								if(region != null && region.getGuild().isMember(nPlayer)) {
-									nPlayer.getGuild().setBankLocation(event.getBlockPlaced().getLocation());
+									nPlayer.getGuild().setVaultLocation(event.getBlockPlaced().getLocation());
 									plugin.getGuildManager().appendVaultHologram(nPlayer.getGuild());
 									Message.CHAT_GUILD_VAULT_PLACE_SUCCESS.send(player);
 								}
@@ -172,7 +172,7 @@ public class VaultListener implements Listener {
 				List<Material> blockedMaterials = Config.VAULT_DENYRELATIVE.getMaterialList();
 				if(blockedMaterials.contains(itemType)) {
 					for(BlockFace face : BlockFace.values()) {
-						if(plugin.getGuildManager().isBankBlock(event.getBlock().getRelative(face))) {
+						if(plugin.getGuildManager().isVaultBlock(event.getBlock().getRelative(face))) {
 							Message.CHAT_GUILD_VAULT_DENYRELATIVE.send(player);
 							event.setCancelled(true);
 						}

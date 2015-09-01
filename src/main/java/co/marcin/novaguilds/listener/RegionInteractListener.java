@@ -175,7 +175,7 @@ public class RegionInteractListener implements Listener {
 			Iterator<Block> iterator = event.blockList().iterator();
 			while(iterator.hasNext()) {
 				Block block = iterator.next();
-				if(plugin.getGuildManager().isBankBlock(block)) {
+				if(plugin.getGuildManager().isVaultBlock(block)) {
 					if(!rgatloc.getGuild().isRaid()) {
 						iterator.remove();
 					}

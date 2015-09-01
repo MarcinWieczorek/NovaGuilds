@@ -173,7 +173,7 @@ public class FlatDataManager {
 				guildData.set("home.yaw",home.getYaw());
 
 				//bankloc
-				Location bankloc = guild.getBankLocation();
+				Location bankloc = guild.getVaultLocation();
 				if(bankloc != null) {
 					guildData.set("bankloc.world", bankloc.getWorld().getName());
 					guildData.set("bankloc.x", bankloc.getBlockX());

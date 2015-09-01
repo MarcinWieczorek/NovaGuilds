@@ -32,8 +32,8 @@ public class NovaGuild {
 	private int slots;
 	private boolean changed = false;
 	private boolean friendlyPvp = false;
-	private Location bankLocation;
-	private Hologram bankHologram;
+	private Location vaultLocation;
+	private Hologram vaultHologram;
 
 	private final List<NovaPlayer> players = new ArrayList<>();
 
@@ -90,8 +90,8 @@ public class NovaGuild {
 		return region;
 	}
 
-	public Hologram getBankHologram() {
-		return bankHologram;
+	public Hologram getVaultHologram() {
+		return vaultHologram;
 	}
 
 	public List<NovaPlayer> getPlayers() {
@@ -120,8 +120,8 @@ public class NovaGuild {
 		return list;
 	}
 
-	public Location getBankLocation() {
-		return bankLocation;
+	public Location getVaultLocation() {
+		return vaultLocation;
 	}
 
 	public NovaPlayer getLeader() {
@@ -181,8 +181,8 @@ public class NovaGuild {
 	}
 
 	//setters
-	public void setBankHologram(Hologram hologram) {
-		bankHologram = hologram;
+	public void setVaultHologram(Hologram hologram) {
+		vaultHologram = hologram;
 	}
 
 	public void setUnchanged() {
@@ -216,8 +216,8 @@ public class NovaGuild {
 		leaderName = name;
 	}
 
-	public void setBankLocation(Location location) {
-		bankLocation = location;
+	public void setVaultLocation(Location location) {
+		vaultLocation = location;
 		changed();
 	}
 
@@ -552,27 +552,27 @@ public class NovaGuild {
 		//TODO
 
 		//bank and hologram
-		if(this.getBankHologram() != null) {
-			this.getBankHologram().delete();
+		if(this.getVaultHologram() != null) {
+			this.getVaultHologram().delete();
 		}
 
 
 		GuildManager.checkVaultDestroyed(this);
-		if(getBankLocation() != null) {
-			getBankLocation().getBlock().breakNaturally();
-			getBankLocation().getWorld().playEffect(getBankLocation(), Effect.SMOKE,1000);
+		if(getVaultLocation() != null) {
+			getVaultLocation().getBlock().breakNaturally();
+			getVaultLocation().getWorld().playEffect(getVaultLocation(), Effect.SMOKE,1000);
 		}
 	}
 
-	public void showBankHologram(Player player) {
-		if(bankHologram != null) {
-			bankHologram.getVisibilityManager().showTo(player);
+	public void showVaultHologram(Player player) {
+		if(vaultHologram != null) {
+			vaultHologram.getVisibilityManager().showTo(player);
 		}
 	}
 
-	public void hideBankHologram(Player player) {
-		if(bankHologram != null) {
-			bankHologram.getVisibilityManager().hideTo(player);
+	public void hideVaultHologram(Player player) {
+		if(vaultHologram != null) {
+			vaultHologram.getVisibilityManager().hideTo(player);
 		}
 	}
 }

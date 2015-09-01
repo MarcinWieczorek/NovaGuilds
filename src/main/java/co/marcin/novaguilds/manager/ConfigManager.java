@@ -43,10 +43,10 @@ public class ConfigManager {
 
 	private boolean chatDisplayNameTags;
 
-	private ItemStack guildBankItem;
-	private boolean guildBankEnabled;
-	private boolean guildBankHologramEnabled;
-	private List<String> guildBankHologramLines; //supports items, [ITEM]
+	private ItemStack guildVaultItem;
+	private boolean guildVaultEnabled;
+	private boolean guildVaultHologramEnabled;
+	private List<String> guildVaultHologramLines; //supports items, [ITEM]
 
 	private int guildEffectDuration;
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
@@ -82,10 +82,10 @@ public class ConfigManager {
 		long guildLiveRegenerationTaskInterval = StringUtils.StringToSeconds(config.getString("liveregeneration.taskinterval"));
 
 		//bank
-		guildBankEnabled = config.getBoolean("bank.enabled");
-		guildBankHologramEnabled = config.getBoolean("bank.hologram.enabled");
-		guildBankHologramLines = config.getStringList("bank.hologram.lines");
-		guildBankItem = getItemStack("bank.item");
+		guildVaultEnabled = config.getBoolean("bank.enabled");
+		guildVaultHologramEnabled = config.getBoolean("bank.hologram.enabled");
+		guildVaultHologramLines = config.getStringList("bank.hologram.lines");
+		guildVaultItem = getItemStack("bank.item");
 
 		useHolographicDisplays = config.getBoolean("holographicdisplays.enabled");
 		useBarAPI = config.getBoolean("barapi.enabled");
@@ -207,20 +207,20 @@ public class ConfigManager {
 		return guildEffects;
 	}
 
-	public boolean isGuildBankEnabled() {
-		return guildBankEnabled;
+	public boolean isGuildVaultEnabled() {
+		return guildVaultEnabled;
 	}
 
-	public ItemStack getGuildBankItem() {
-		return guildBankItem;
+	public ItemStack getGuildVaultItem() {
+		return guildVaultItem;
 	}
 
-	public List<String> getGuildBankHologramLines() {
-		return guildBankHologramLines;
+	public List<String> getGuildVaultHologramLines() {
+		return guildVaultHologramLines;
 	}
 
-	public boolean isGuildBankHologramEnabled() {
-		return guildBankHologramEnabled;
+	public boolean isGuildVaultHologramEnabled() {
+		return guildVaultHologramEnabled;
 	}
 
 	//checkers

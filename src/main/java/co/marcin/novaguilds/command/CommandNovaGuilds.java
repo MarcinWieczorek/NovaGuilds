@@ -71,7 +71,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			if(sender instanceof Player) {
 				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 				if(nPlayer.hasGuild()) {
-					((Player) sender).getInventory().addItem(plugin.getConfigManager().getGuildBankItem());
+					((Player) sender).getInventory().addItem(plugin.getConfigManager().getGuildVaultItem());
 				}
 			}
 		}

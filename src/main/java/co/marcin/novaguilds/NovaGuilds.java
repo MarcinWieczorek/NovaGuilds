@@ -159,7 +159,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		new PlayerInfoListener(this);
 		new PacketListener(this);
 
-		if(getConfigManager().isGuildBankEnabled()) {
+		if(getConfigManager().isGuildVaultEnabled()) {
 			new VaultListener(this);
 		}
 

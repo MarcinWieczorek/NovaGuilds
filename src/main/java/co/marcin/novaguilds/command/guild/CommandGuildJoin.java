@@ -155,7 +155,7 @@ public class CommandGuildJoin implements CommandExecutor {
 		nPlayer.deleteInvitation(guild);
 		plugin.tagUtils.refreshAll();
 		Message.CHAT_GUILD_JOINED.send(sender);
-		guild.showBankHologram(nPlayer.getPlayer());
+		guild.showVaultHologram(nPlayer.getPlayer());
 
 		vars.clear();
 		vars.put("PLAYER",sender.getName());

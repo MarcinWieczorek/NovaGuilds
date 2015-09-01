@@ -48,7 +48,7 @@ public class CommandGuildLeave implements CommandExecutor {
 		guild.removePlayer(nPlayer);
 
 		if(nPlayer.isOnline()) {
-			guild.hideBankHologram(nPlayer.getPlayer());
+			guild.hideVaultHologram(nPlayer.getPlayer());
 		}
 
 		Message.CHAT_GUILD_LEAVE_LEFT.send(sender);

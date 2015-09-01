@@ -48,7 +48,7 @@ public class LoginListener implements Listener {
 
 		//Show bank hologram
 		if(nPlayer.hasGuild()) {
-			nPlayer.getGuild().showBankHologram(player);
+			nPlayer.getGuild().showVaultHologram(player);
 		}
 
 		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
