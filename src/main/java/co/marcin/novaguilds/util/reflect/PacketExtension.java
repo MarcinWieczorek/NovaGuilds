@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.util.reflect;
 
 import co.marcin.novaguilds.event.PacketReceiveEvent;
+import co.marcin.novaguilds.event.PacketSendEvent;
 import net.minecraft.util.io.netty.channel.Channel;
 import net.minecraft.util.io.netty.channel.ChannelPipeline;
 import net.minecraft.util.io.netty.channel.ChannelPromise;
@@ -46,16 +47,17 @@ public class PacketExtension {
 	public static void registerPlayer(final Player p) {
 		Channel c = getChannel(p);
 		ChannelHandler handler = new ChannelDuplexHandler() {
-//			@Override
-//			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception{
-//				PacketSendEvent event = new PacketSendEvent(msg, p);
-//				Bukkit.getPluginManager().callEvent(event);
-//				if(event.isCancelled() || event.getPacket() == null) {
-//					return;
-//				}
-//
-//				super.write(ctx, event.getPacket(), promise);
-//			}
+			@Override
+			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+				PacketSendEvent event = new PacketSendEvent(msg, p);
+				Bukkit.getPluginManager().callEvent(event);
+
+				if(event.isCancelled() || event.getPacket() == null) {
+					return;
+				}
+
+				super.write(ctx, event.getPacket(), promise);
+			}
 
 			@Override
 			public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
