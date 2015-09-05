@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.Tablist;
 import co.marcin.novaguilds.command.admin.CommandAdmin;
 import co.marcin.novaguilds.command.guild.CommandGuild;
 import co.marcin.novaguilds.enums.Commands;
@@ -11,6 +12,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.VersionUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -101,7 +103,14 @@ public class CommandNovaGuilds implements CommandExecutor {
 			sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
 		}
 		else if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { // command /g
-				new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
+			new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
+		}
+		else if(args[0].equalsIgnoreCase("tr")) { // tab refresh
+			Tablist.patch();
+
+			for(Player player : plugin.getServer().getOnlinePlayers()) {
+				NovaPlayer.get(player).getTablist().send();
+			}
 		}
 		else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { //help
 			ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
