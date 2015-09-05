@@ -34,6 +34,11 @@ public class NovaPlayer {
 	private int resizingCorner = 0;
 	private boolean compassPointingGuild = false;
 	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
+	private final Tablist tablist;
+
+	public NovaPlayer() {
+		tablist = new Tablist(this);
+	}
 
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
@@ -314,5 +319,9 @@ public class NovaPlayer {
 		setSelectedRegion(null);
 		setSelectedLocation(0, null);
 		setSelectedLocation(1, null);
+	}
+
+	public Tablist getTablist() {
+		return tablist;
 	}
 }
