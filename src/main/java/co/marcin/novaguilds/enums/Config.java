@@ -123,7 +123,10 @@ public enum Config {
 	KILLING_RANKPERCENT,
 	KILLING_COOLDOWN,
 	KILLING_MONEYFORKILL,
-	KILLING_MONEYFORREVENGE;
+	KILLING_MONEYFORREVENGE,
+
+	TABLIST_ENABLED,
+	TABLIST_SCHEME;
 
 	private static final ConfigManager cM = NovaGuilds.getInstance()==null ? null : NovaGuilds.getInstance().getConfigManager();
 	private final String path;
