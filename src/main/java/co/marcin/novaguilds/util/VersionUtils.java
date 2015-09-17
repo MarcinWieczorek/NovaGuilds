@@ -2,6 +2,7 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.NovaGuildsAPI;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -48,6 +49,11 @@ public class VersionUtils {
 		else {
 			LoggerUtils.info("You should update your plugin to #" + buildLatest + "!");
 			updateAvailable = true;
+		}
+
+		//Notify admins if there's an update (only for reload)
+		if(updateAvailable) {
+			Message.CHAT_UPDATE.broadcast("novaguilds.admin.updateavailable");
 		}
 	}
 }

@@ -181,11 +181,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//metrics
 		setupMetrics();
 
-		//Notify admins if there's an update (only for reload)
-		if(VersionUtils.updateAvailable) {
-			Message.CHAT_UPDATE.broadcast("novaguilds.admin.updateavailable");
-		}
-
 		//Register players (for reload)
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			PacketExtension.registerPlayer(p);
