@@ -191,7 +191,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			PacketExtension.registerPlayer(p);
 		}
 
-		LoggerUtils.info("#" + getBuild() + " Enabled");
+		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Enabled");
 	}
 	
 	public void onDisable() {
@@ -242,7 +242,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//getConfigManager().disable();
-		LoggerUtils.info("#" + getBuild() + " Disabled");
+		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Disabled");
 	}
 
 	public static NovaGuilds getInstance() {
