@@ -206,4 +206,8 @@ public enum Config {
 	public static ConfigManager getManager() {
 		return cM;
 	}
+
+	public void set(Object obj) {
+		cM.set(path, obj);
+	}
 }
