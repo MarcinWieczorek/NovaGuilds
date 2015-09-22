@@ -183,6 +183,8 @@ public class ConfigManager {
 		return toolItem;
 	}
 
+
+	//Cache
 	public Object getEnumConfig(Config c) {
 		return cache.get(c);
 	}
@@ -194,6 +196,12 @@ public class ConfigManager {
 	public void putInCache(Config c, Object o) {
 		if(!cache.containsKey(c)) {
 			cache.put(c, o);
+		}
+	}
+
+	public void removeFromCache(Config c) {
+		if(cache.containsKey(c)) {
+			cache.remove(c);
 		}
 	}
 
@@ -266,5 +274,6 @@ public class ConfigManager {
 
 	public void set(String path, Object obj) {
 		config.set(path, obj);
+		removeFromCache(Config.fromPath(path));
 	}
 }
