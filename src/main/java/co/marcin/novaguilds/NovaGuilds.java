@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.listener.*;
 import co.marcin.novaguilds.manager.*;
@@ -20,6 +21,9 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -157,7 +161,28 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		new DeathListener(this);
 		new InventoryListener(this);
 		new PlayerInfoListener(this);
-		new PacketListener(this);
+
+		if(Config.PACKETS_ENABLED.getBoolean()) {
+			new PacketListener(this);
+
+			//Register players (for reload)
+			for(Player p : Bukkit.getOnlinePlayers()) {
+				PacketExtension.registerPlayer(p);
+			}
+		}
+		else {
+			if(Config.TABLIST_ENABLED.getBoolean()) {
+				Config.TABLIST_ENABLED.set(false);
+			}
+
+			getServer().getPluginManager().registerEvents(new Listener() {
+				@EventHandler
+				public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+					co.marcin.novaguilds.event.PlayerInteractEntityEvent clickEvent = new co.marcin.novaguilds.event.PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
+					getServer().getPluginManager().callEvent(clickEvent);
+				}
+			}, this);
+		}
 
 		if(Config.VAULT_ENABLED.getBoolean()) {
 			new VaultListener(this);
@@ -180,11 +205,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//metrics
 		setupMetrics();
-
-		//Register players (for reload)
-		for(Player p : Bukkit.getOnlinePlayers()) {
-			PacketExtension.registerPlayer(p);
-		}
 
 		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Enabled");
 	}
