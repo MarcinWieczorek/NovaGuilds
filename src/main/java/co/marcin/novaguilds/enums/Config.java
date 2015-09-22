@@ -210,4 +210,13 @@ public enum Config {
 	public void set(Object obj) {
 		cM.set(path, obj);
 	}
+
+	public static Config fromPath(String path) {
+		try {
+			return Config.valueOf(StringUtils.replace(path, ".", "_").toUpperCase());
+		}
+		catch(Exception e) {
+			return null;
+		}
+	}
 }
