@@ -64,6 +64,9 @@ tagapi:
 holographicdisplays:
  enabled: true
 
+packets:
+ enabled: false
+
 #Save interval
 saveinterval: 30m
 
