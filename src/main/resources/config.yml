@@ -224,6 +224,14 @@ vault:
    - "&6Guild's Vault"
 
 region:
+ materials:
+  check:
+   highlight: DIAMOND_BLOCK
+  selection:
+   corner: EMERALD_BLOCK
+   rectangle: WOOL
+  resize:
+   corner: GOLD_BLOCK
  autoregion: true
  minsize: 10
  maxsize: 100
