@@ -217,7 +217,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//Save Holograms
 		getHologramManager().save();
 
-		PacketExtension.unregisterNovaGuildsChannel();
+		if(Config.PACKETS_ENABLED.getBoolean()) {
+			PacketExtension.unregisterNovaGuildsChannel();
+		}
 
 		//Stop schedulers
 		worker.shutdown();
