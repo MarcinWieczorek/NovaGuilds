@@ -62,24 +62,28 @@ public class HologramManager {
 	}
 
 	public void save() {
-		for(NovaHologram hologram : holograms) {
-			if(!hologram.isTop()) {
-				configuration.set(hologram.getName() + ".lines", hologram.getLines());
+		if(configuration != null) {
+			for (NovaHologram hologram : holograms) {
+				if (!hologram.isTop()) {
+					configuration.set(hologram.getName() + ".lines", hologram.getLines());
+				}
+
+				configuration.set(hologram.getName() + ".top", hologram.isTop());
+				configuration.set(hologram.getName() + ".location.world", hologram.getLocation().getWorld().getName());
+				configuration.set(hologram.getName() + ".location.x", hologram.getLocation().getX());
+				configuration.set(hologram.getName() + ".location.y", hologram.getLocation().getY());
+				configuration.set(hologram.getName() + ".location.z", hologram.getLocation().getZ());
+				LoggerUtils.info("Saved hologram " + hologram.getName());
 			}
 
-			configuration.set(hologram.getName()+".top", hologram.isTop());
-			configuration.set(hologram.getName()+".location.world", hologram.getLocation().getWorld().getName());
-			configuration.set(hologram.getName()+".location.x", hologram.getLocation().getX());
-			configuration.set(hologram.getName()+".location.y", hologram.getLocation().getY());
-			configuration.set(hologram.getName()+".location.z", hologram.getLocation().getZ());
-			LoggerUtils.info("Saved hologram "+hologram.getName());
+			try {
+				configuration.save(file);
+			} catch (IOException e) {
+				LoggerUtils.exception(e);
+			}
 		}
-
-		try {
-			configuration.save(file);
-		}
-		catch(IOException e) {
-			LoggerUtils.exception(e);
+		else {
+			LoggerUtils.error("Holograms weren't even loaded!");
 		}
 	}
 

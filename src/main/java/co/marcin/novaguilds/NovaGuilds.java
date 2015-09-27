@@ -75,7 +75,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	//Database
 	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
-	private HologramManager hologramManager;
+	private HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
 
 	public void onEnable() {
 		inst = this;
@@ -148,7 +148,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		getRegionManager().postCheck();
 
 		//HologramManager
-		hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
 		hologramManager.load();
 
 		//Listeners
