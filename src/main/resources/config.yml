@@ -72,7 +72,7 @@ saveinterval: 30m
 
 #after the raid is over and this time the guild will get +1 live
 liveregeneration:
- regentime: 24h
+ regentime: 48h
  taskinterval: 30m
 
 cleanup:
