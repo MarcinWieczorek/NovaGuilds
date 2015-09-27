@@ -27,6 +27,6 @@ public class CommandToolGet implements Executor {
 			return;
 		}
 
-		((Player) sender).getInventory().addItem(Config.getManager().getToolItem());
+		((Player) sender).getInventory().addItem(Config.REGION_TOOL.getItemStack());
 	}
 }

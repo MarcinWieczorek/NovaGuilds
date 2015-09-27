@@ -29,7 +29,6 @@ public class ConfigManager {
 //	private List<String> guildVaultHologramLines; //supports items, [ITEM]
 
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
-	private ItemStack toolItem;
 
 	private final HashMap<Config, Object> cache = new HashMap<>();
 
@@ -105,9 +104,6 @@ public class ConfigManager {
 			}
 		}
 
-		//tool
-		toolItem = Config.REGION_TOOL.getItemStack();
-
 		//Check time values
 		if(guildLiveRegenerationTaskInterval < 60) {
 			LoggerUtils.error("Live regeneration task interval can't be shorter than 60 seconds.");
@@ -151,11 +147,6 @@ public class ConfigManager {
 		dataStorageType = primaryDataStorageType;
 	}
 
-	public ItemStack getToolItem() {
-		return toolItem;
-	}
-
-
 	//Cache
 	public Object getEnumConfig(Config c) {
 		return cache.get(c);
@@ -178,7 +169,6 @@ public class ConfigManager {
 	}
 
 	//methods from enum
-
 	public String getString(String path) {
 		return config.getString(path) == null ? "" : config.getString(path);
 	}
