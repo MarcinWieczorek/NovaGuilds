@@ -225,14 +225,14 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		worker.shutdown();
 
 		//reset barapi
-		if(getConfigManager().useBarAPI()) {
+		if(Config.BARAPI_ENABLED.getBoolean()) {
 			for(Player player : getServer().getOnlinePlayers()) {
 				BarAPI.removeBar(player);
 			}
 		}
 
 		//removing holograms
-		if(getConfigManager().useHolographicDisplays()) {
+		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
 			for(Hologram h : HologramsAPI.getHolograms(this)) {
 				h.delete();
 			}
@@ -406,7 +406,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 
 	public void resetWarBar(NovaGuild guild) {
-		if(getConfigManager().useBarAPI()) {
+		if(Config.BARAPI_ENABLED.getBoolean()) {
 			for(Player player : guild.getOnlinePlayers()) {
 				BarAPI.removeBar(player);
 			}
@@ -432,10 +432,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		LoggerUtils.info("Vault's Economy hooked");
 
 		//HolographicDisplays
-		if(getConfigManager().useHolographicDisplays()) {
+		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
 			if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
 				LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
-				getConfigManager().disableHolographicDisplays();
+				Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
 			}
 			else {
 				LoggerUtils.info("HolographicDisplays hooked");
@@ -443,10 +443,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//BarAPI
-		if(getConfigManager().useBarAPI()) {
+		if(Config.BARAPI_ENABLED.getBoolean()) {
 			if(getServer().getPluginManager().getPlugin("BarAPI") == null) {
 				LoggerUtils.error("Couldn't find BarAPI plugin, disabling this feature.");
-				getConfigManager().disableBarAPI();
+				Config.BARAPI_ENABLED.set(false);
 			}
 			else {
 				LoggerUtils.info("BarAPI hooked");

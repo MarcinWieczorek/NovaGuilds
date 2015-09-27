@@ -667,7 +667,7 @@ public class GuildManager {
 	}
 
 	public void appendVaultHologram(NovaGuild guild) {
-		if(plugin.getConfigManager().useHolographicDisplays()) {
+		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
 			if(Config.VAULT_HOLOGRAM_ENABLED.getBoolean()) {
 				checkVaultDestroyed(guild);
 				if(guild.getVaultLocation() != null) {

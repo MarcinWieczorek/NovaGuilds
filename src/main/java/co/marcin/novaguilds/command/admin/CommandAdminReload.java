@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.command.admin;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -25,7 +26,7 @@ public class CommandAdminReload implements CommandExecutor {
 		Message.CHAT_RELOAD_RELOADING.send(sender);
 
 		//Remove holograms
-		if(plugin.getConfigManager().useHolographicDisplays()) {
+		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
 			for(Hologram h : HologramsAPI.getHolograms(plugin)) {
 				h.delete();
 			}

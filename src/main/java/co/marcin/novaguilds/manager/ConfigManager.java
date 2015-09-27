@@ -142,14 +142,6 @@ public class ConfigManager {
 	}
 
 	//checkers
-	public boolean useBarAPI() {
-		return useBarAPI;
-	}
-
-	public boolean useHolographicDisplays() {
-		return useHolographicDisplays;
-	}
-
 	public boolean useTitles() {
 		return useTitles;
 	}
@@ -159,14 +151,6 @@ public class ConfigManager {
 	}
 
 	//setters
-	public void disableHolographicDisplays() {
-		useHolographicDisplays = false;
-	}
-
-	public void disableBarAPI() {
-		useBarAPI = false;
-	}
-
 	public void disableVanishNoPacket() {
 		useVanishNoPacket = false;
 	}
