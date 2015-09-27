@@ -83,7 +83,7 @@ public class HologramManager {
 			}
 		}
 		else {
-			LoggerUtils.error("Holograms weren't even loaded!");
+			LoggerUtils.error("Failed saving holograms, they weren't even loaded!");
 		}
 	}
 
