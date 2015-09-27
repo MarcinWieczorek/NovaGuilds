@@ -24,9 +24,6 @@ public class ConfigManager {
 	private DataStorageType secondaryDataStorageType;
 	private DataStorageType dataStorageType;
 
-	private boolean useBarAPI;
-	private boolean useHolographicDisplays;
-	private boolean useTitles;
 	private boolean useVanishNoPacket = true;
 
 //	private List<String> guildVaultHologramLines; //supports items, [ITEM]
@@ -56,13 +53,9 @@ public class ConfigManager {
 
 		long guildLiveRegenerationTaskInterval = StringUtils.StringToSeconds(config.getString("liveregeneration.taskinterval"));
 
-		useHolographicDisplays = config.getBoolean("holographicdisplays.enabled");
-		useBarAPI = config.getBoolean("barapi.enabled");
-		useTitles = config.getBoolean("usetitles");
-
-		if(useTitles) {
+		if(Config.USETITLES.getBoolean()) {
 			if(!plugin.getServer().getBukkitVersion().startsWith("1.8")) {
-				useTitles = false;
+				Config.USETITLES.set(false);
 				LoggerUtils.error("You can't use Titles with Bukkit older than 1.8");
 			}
 		}
@@ -139,11 +132,6 @@ public class ConfigManager {
 
 	public List<PotionEffectType> getGuildEffects() {
 		return guildEffects;
-	}
-
-	//checkers
-	public boolean useTitles() {
-		return useTitles;
 	}
 
 	public boolean useVanishNoPacket() {

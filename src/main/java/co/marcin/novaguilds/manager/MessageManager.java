@@ -136,7 +136,7 @@ public class MessageManager {
 
 	public static void sendMessagesMsg(CommandSender sender, String path, boolean title) {
 		String msg = getMessagesString(path);
-		if(NovaGuilds.getInstance().getConfigManager().useTitles() && title && sender instanceof Player) {
+		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
 			sendTitle((Player) sender, msg);
 		}
 		else {
@@ -148,7 +148,7 @@ public class MessageManager {
 		String msg = getMessagesString(path);
 		msg = StringUtils.replaceMap(msg, vars);
 		//sendPrefixMessage(sender,msg);
-		if(NovaGuilds.getInstance().getConfigManager().useTitles() && title && sender instanceof Player) {
+		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
 			sendTitle((Player) sender, msg);
 		}
 		else {
