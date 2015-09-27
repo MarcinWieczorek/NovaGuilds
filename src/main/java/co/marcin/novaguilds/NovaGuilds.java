@@ -318,16 +318,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
         return econ != null;
     }
 
-	//Vault
-	private boolean checkVault() {
-		return getServer().getPluginManager().getPlugin("Vault") != null;
-	}
-
-	//BarAPI
-	private boolean checkBarAPI() {
-		return getServer().getPluginManager().getPlugin("BarAPI") != null;
-	}
-
 	//VanishNoPacket
 	private boolean checkVanishNoPacket() {
 		Plugin p = getServer().getPluginManager().getPlugin("VanishNoPacket");
@@ -337,11 +327,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		return vanishNoPacket != null;
-	}
-
-	//HolographicDisplays
-	private boolean checkHolographicDisplays() {
-		return getServer().getPluginManager().getPlugin("HolographicDisplays") != null;
 	}
 	
 	private void runSaveScheduler() {
@@ -429,9 +414,26 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 
 	private boolean checkDependencies() {
+		//Vault Economy
+		if(getServer().getPluginManager().getPlugin("Vault") == null) {
+			LoggerUtils.error("Disabled due to no Vault dependency found!");
+			Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
+			Config.BARAPI_ENABLED.set(false);
+			return false;
+		}
+		LoggerUtils.info("Vault hooked");
+
+		if(!setupEconomy()) {
+			LoggerUtils.error("Could not setup Vault's economy, disabling");
+			Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
+			Config.BARAPI_ENABLED.set(false);
+			return false;
+		}
+		LoggerUtils.info("Vault's Economy hooked");
+
 		//HolographicDisplays
 		if(getConfigManager().useHolographicDisplays()) {
-			if(!checkHolographicDisplays()) {
+			if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
 				LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
 				getConfigManager().disableHolographicDisplays();
 			}
@@ -440,22 +442,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 		}
 
-		//Vault Economy
-		if(!checkVault()) {
-			LoggerUtils.error("Disabled due to no Vault dependency found!");
-			return false;
-		}
-		LoggerUtils.info("Vault hooked");
-
-		if(!setupEconomy()) {
-			LoggerUtils.error("Could not setup Vault's economy, disabling");
-			return false;
-		}
-		LoggerUtils.info("Vault's Economy hooked");
-
 		//BarAPI
 		if(getConfigManager().useBarAPI()) {
-			if(!checkBarAPI()) {
+			if(getServer().getPluginManager().getPlugin("BarAPI") == null) {
 				LoggerUtils.error("Couldn't find BarAPI plugin, disabling this feature.");
 				getConfigManager().disableBarAPI();
 			}
