@@ -50,8 +50,6 @@ public class ConfigManager {
 		plugin.reloadConfig();
 		config = plugin.getConfig();
 
-		long guildLiveRegenerationTaskInterval = StringUtils.StringToSeconds(config.getString("liveregeneration.taskinterval"));
-
 		if(Config.USETITLES.getBoolean()) {
 			if(!plugin.getServer().getBukkitVersion().startsWith("1.8")) {
 				Config.USETITLES.set(false);
@@ -105,19 +103,19 @@ public class ConfigManager {
 		}
 
 		//Check time values
-		if(guildLiveRegenerationTaskInterval < 60) {
+		if(Config.LIVEREGENERATION_TASKINTERVAL.getSeconds() < 60) {
 			LoggerUtils.error("Live regeneration task interval can't be shorter than 60 seconds.");
-			config.set("liveregeneration.taskinterval", 60);
+			Config.LIVEREGENERATION_TASKINTERVAL.set("60s");
 		}
 
 		if(cleanupInterval < 60) {
 			LoggerUtils.error("Cleanup interval can't be shorter than 60 seconds.");
-			config.set("cleanup.interval", 60);
+			Config.CLEANUP_INTERVAL.set("60s");
 		}
 
 		if(Config.SAVEINTERVAL.getSeconds() < 60) {
 			LoggerUtils.error("Save interval can't be shorter than 60 seconds.");
-			config.set("saveinterval",60);
+			Config.SAVEINTERVAL.set("60s");
 		}
 	}
 
