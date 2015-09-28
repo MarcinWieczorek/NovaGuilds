@@ -6,8 +6,6 @@ import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.basic.Tablist;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.runnable.RunnableAutoSave;
-import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
 import org.bukkit.Bukkit;
@@ -16,8 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.util.concurrent.TimeUnit;
 
 public class LoginListener implements Listener {
 	private final NovaGuilds plugin;
