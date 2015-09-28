@@ -28,11 +28,6 @@ public class FlatDataManager {
 		connected = setupDirectories();
 	}
 
-	public FlatDataManager(File dataDirectory) {
-		this.dataDirectory = dataDirectory;
-		connected = setupDirectories();
-	}
-
 	private boolean setupDirectories() {
 		File dataDir = new File(dataDirectory, "data/");
 		playersDir = new File(dataDirectory,"data/players/");
@@ -215,7 +210,7 @@ public class FlatDataManager {
 			LoggerUtils.info("Deleted guild "+region.getGuild().getName()+" region's file.");
 		}
 		else {
-			LoggerUtils.info("Failed to delete guild " + region.getGuild().getName() + " region's file.");
+			LoggerUtils.error("Failed to delete guild " + region.getGuild().getName() + " region's file.");
 		}
 	}
 
