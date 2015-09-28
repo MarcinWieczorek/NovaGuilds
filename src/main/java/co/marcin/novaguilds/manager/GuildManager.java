@@ -645,6 +645,9 @@ public class GuildManager {
 				}
 			}
 
+			//region
+			guild.setRegion(plugin.getRegionManager().getRegion(guild));
+
 			guild.setUnchanged();
 
 			//Fix slots amount
