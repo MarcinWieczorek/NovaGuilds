@@ -128,7 +128,6 @@ public class PlayerManager {
 			plugin.getDatabaseManager().mysqlReload();
 
 			try {
-				players.clear();
 				ResultSet res = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_SELECT).executeQuery();
 				while(res.next()) {
 					NovaPlayer nPlayer = playerFromResult(res);
