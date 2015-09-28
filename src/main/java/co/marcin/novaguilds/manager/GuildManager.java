@@ -634,13 +634,15 @@ public class GuildManager {
 			}
 
 			//bankloc
-			World vaultWorld = plugin.getServer().getWorld(guildData.getString("bankloc.world"));
-			if(vaultWorld != null) {
-				int x = guildData.getInt("bankloc.x");
-				int y = guildData.getInt("bankloc.y");
-				int z = guildData.getInt("bankloc.z");
-				Location vaultLocation = new Location(vaultWorld, x, y, z);
-				guild.setVaultLocation(vaultLocation);
+			if(guildData.isConfigurationSection("bankloc")) {
+				World vaultWorld = plugin.getServer().getWorld(guildData.getString("bankloc.world"));
+				if(vaultWorld != null) {
+					int x = guildData.getInt("bankloc.x");
+					int y = guildData.getInt("bankloc.y");
+					int z = guildData.getInt("bankloc.z");
+					Location vaultLocation = new Location(vaultWorld, x, y, z);
+					guild.setVaultLocation(vaultLocation);
+				}
 			}
 
 			guild.setUnchanged();
