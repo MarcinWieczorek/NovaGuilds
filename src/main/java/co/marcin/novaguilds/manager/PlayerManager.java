@@ -154,6 +154,7 @@ public class PlayerManager {
 
 		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			plugin.getFlatDataManager().add(nPlayer);
+			players.put(player.getName().toLowerCase(), nPlayer);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {

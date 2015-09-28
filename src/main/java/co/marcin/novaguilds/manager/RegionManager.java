@@ -129,6 +129,7 @@ public class RegionManager {
 	public void add(NovaRegion region, NovaGuild guild) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			plugin.getFlatDataManager().add(region);
+			regions.put(guild.getName().toLowerCase(), region);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
