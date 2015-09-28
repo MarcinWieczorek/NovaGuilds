@@ -129,7 +129,6 @@ public class RegionManager {
 	public void add(NovaRegion region, NovaGuild guild) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			plugin.getFlatDataManager().add(region);
-			regions.put(guild.getName().toLowerCase(), region);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
@@ -158,16 +157,16 @@ public class RegionManager {
 				preparedStatement.setString(3, guild.getName());
 				preparedStatement.setString(4, region.getWorld().getName());
 				preparedStatement.executeUpdate();
-
-				guild.setRegion(region);
-				region.setGuildName(guild.getName());
-				region.setUnChanged();
-				regions.put(guild.getName().toLowerCase(), region);
 			}
 			catch(SQLException e) {
 				LoggerUtils.exception(e);
 			}
 		}
+
+		guild.setRegion(region);
+		region.setGuildName(guild.getName());
+		region.setUnChanged();
+		regions.put(guild.getName().toLowerCase(), region);
 	}
 	
 	public void save(NovaRegion region) {
