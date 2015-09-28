@@ -25,8 +25,6 @@ public class CommandGuildBankPay implements Executor {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return;
 		}
-
-		Player player = (Player)sender;
 		
 		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
