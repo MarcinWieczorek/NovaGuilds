@@ -6,6 +6,9 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CommandAdminHologramDelete implements Executor {
 	private final Commands command;
 
@@ -38,7 +41,11 @@ public class CommandAdminHologramDelete implements Executor {
 			return;
 		}
 
+		hologram.delete();
 
+		Map<String, String> vars = new HashMap<>();
+		vars.put("NAME", hologram.getName());
+		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.vars(vars).send(sender);
 	}
 }
 

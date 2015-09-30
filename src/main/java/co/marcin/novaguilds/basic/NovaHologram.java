@@ -5,6 +5,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +18,7 @@ public class NovaHologram {
 	private List<String> lines = new ArrayList<>();
 	private Hologram hologram;
 	private boolean isTop = false;
+	private boolean deleted = false;
 
 	//getters
 	public String getName() {
@@ -81,9 +83,19 @@ public class NovaHologram {
 		refresh();
 	}
 
+	public void delete() {
+		hologram.delete();
+		location.getWorld().playEffect(location, Effect.POTION_SWIRL, 1000);
+		deleted = true;
+	}
+
 	//check
 	public boolean isTop() {
 		return isTop;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
 	}
 
 	public void setTop(boolean top) {
