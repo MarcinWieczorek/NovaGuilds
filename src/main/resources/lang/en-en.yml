@@ -115,6 +115,7 @@ chat:
     items:
      - "&5* &7/nga &crg &2- &3Region commands"
      - "&5* &7/nga &cg &2- &3Guild commands"
+     - "&5* &7/nga &ch &2- &3Hologram commands"
      - "&5* &7/nga &creload &2- &3Reload &6[&5NovaGuilds&6]"
      - "&5* &7/nga &csave &6[players/guilds/regions] &2- &3Save data"
    region:
