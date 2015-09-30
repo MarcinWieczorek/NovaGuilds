@@ -70,6 +70,16 @@ chat:
    regions: "Regions saved."
    all: "All data saved. (Players, Regions, Guilds)"
    autosave: "AutoSave completed."
+  hologram:
+   add:
+    success: "Successfuly added a hologram: &a{NAME}"
+   delete:
+    success: "Successfuly deleted a hologram: &a{NAME}"
+    entername: "Please enter hologram's name"
+    invalidname: "Could not find a hologram with this name."
+   list:
+    header: "List of all holograms:"
+    item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
 
  reload:
   reloading: "Reloading NovaGuilds..."
