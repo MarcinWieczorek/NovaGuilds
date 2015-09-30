@@ -3,7 +3,7 @@ main: co.marcin.novaguilds.NovaGuilds
 author: Marcin Wieczorek
 description: The best polish guilds plugin!
 website: http://novaguilds.pl/
-version: 25
+version: 26
 commands:
    novaguilds:
       description: Main NovaGuilds command
