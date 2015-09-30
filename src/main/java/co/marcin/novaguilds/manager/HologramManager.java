@@ -107,4 +107,18 @@ public class HologramManager {
 			}
 		}
 	}
+
+	public List<NovaHologram> getHolograms() {
+		return holograms;
+	}
+
+	public NovaHologram getHologram(String name) {
+		for(NovaHologram hologram : holograms) {
+			if(hologram.getName().equalsIgnoreCase(name)) {
+				return hologram;
+			}
+		}
+
+		return null;
+	}
 }
