@@ -145,10 +145,10 @@ chat:
    hologram:
     header: "Hologram commands:"
     items:
-     - "&5* &7/nga &chd &6list &2- &3List all holograms"
-     - "&5* &7/nga &chd &6addtop &2- &3Add TOP hologram"
-     - "&5* &7/nga &chd &6del &c<name> &2- &3Delete a hologram"
-     - "&5* &7/nga &chd &6tp &c<name> &2- &3Teleport to a hologram"
+     - "&5* &7/nga &ch &6list &2- &3List all holograms"
+     - "&5* &7/nga &ch &6addtop &2- &3Add TOP hologram"
+     - "&5* &7/nga &ch &6del &c<name> &2- &3Delete a hologram"
+     - "&5* &7/nga &ch &6tp &c<name> &2- &3Teleport to a hologram"
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
