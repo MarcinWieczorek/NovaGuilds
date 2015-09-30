@@ -3,6 +3,7 @@ package co.marcin.novaguilds.command.admin;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuild;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegion;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -39,6 +40,10 @@ public class CommandAdmin implements CommandExecutor {
 					break;
 				case "save":
 					new CommandAdminSave(plugin).onCommand(sender, cmd, label, newArgs);
+					break;
+				case "h":
+				case "hologram":
+					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_ACCESS).execute(sender, newArgs);
 					break;
 				default:
 					Message.CHAT_UNKNOWNCMD.send(sender);
