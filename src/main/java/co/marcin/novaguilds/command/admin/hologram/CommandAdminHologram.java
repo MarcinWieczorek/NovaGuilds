@@ -45,7 +45,7 @@ public class CommandAdminHologram implements Executor {
 					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_ADD).execute(sender, args1);
 					break;
 				case "addtop":
-					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_ADD).execute(sender, args1);
+					plugin.getCommandManager().getExecutor(Commands.ADMIN_HOLOGRAM_ADDTOP).execute(sender, args1);
 					break;
 				case "del":
 				case "delete":
