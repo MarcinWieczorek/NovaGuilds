@@ -168,7 +168,7 @@ public final class StringUtils {
 		return joined;
 	}
 
-	public static String replaceMap(String msg, HashMap<String,String> vars) {
+	public static String replaceMap(String msg, Map<String, String> vars) {
 		if(vars != null) {
 			for(Map.Entry<String, String> entry : vars.entrySet()) {
 				msg = replace(msg, "{" + entry.getKey() + "}", entry.getValue());

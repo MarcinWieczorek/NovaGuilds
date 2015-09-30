@@ -16,8 +16,8 @@ import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MessageManager {
 	private final NovaGuilds plugin;
@@ -107,7 +107,7 @@ public class MessageManager {
 		}
 	}
 
-	public static void sendMessagesList(CommandSender sender, String path, HashMap<String,String> vars, boolean prefix) {
+	public static void sendMessagesList(CommandSender sender, String path, Map<String,String> vars, boolean prefix) {
 		List<String> list = instance.messages.getStringList(path);
 
 		if(list != null) {
@@ -130,7 +130,7 @@ public class MessageManager {
 		sendMessagesMsg(sender, path, false);
 	}
 
-	public static void sendMessagesMsg(CommandSender sender, Message message, HashMap<String,String> vars) {
+	public static void sendMessagesMsg(CommandSender sender, Message message, Map<String,String> vars) {
 		sendMessagesMsg(sender, message.getPath(), vars, message.getTitle());
 	}
 
@@ -144,7 +144,7 @@ public class MessageManager {
 		}
 	}
 
-	public static void sendMessagesMsg(CommandSender sender, String path, HashMap<String, String> vars, boolean title) {
+	public static void sendMessagesMsg(CommandSender sender, String path, Map<String, String> vars, boolean title) {
 		String msg = getMessagesString(path);
 		msg = StringUtils.replaceMap(msg, vars);
 		//sendPrefixMessage(sender,msg);
@@ -179,11 +179,11 @@ public class MessageManager {
 		}
 	}
 
-	public static void broadcastMessage(Message message, HashMap<String,String> vars) {
+	public static void broadcastMessage(Message message, Map<String,String> vars) {
 		broadcastMessage(message.getPath(), vars);
 	}
 
-	public static void broadcastMessage(String path, HashMap<String, String> vars) {
+	public static void broadcastMessage(String path, Map<String, String> vars) {
 		String msg = getMessagesString(path);
 		msg = StringUtils.replaceMap(msg, vars);
 
@@ -192,7 +192,7 @@ public class MessageManager {
 		}
 	}
 
-	public static void broadcastGuild(NovaGuild guild, Message message, HashMap<String,String> vars, boolean prefix) {
+	public static void broadcastGuild(NovaGuild guild, Message message, Map<String,String> vars, boolean prefix) {
 		String msg = getMessagesString(message.getPath());
 		msg = StringUtils.replaceMap(msg, vars);
 

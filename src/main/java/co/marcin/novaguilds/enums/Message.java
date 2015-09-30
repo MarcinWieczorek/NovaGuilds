@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public enum Message {
 	CHAT_PREFIX,
@@ -322,7 +323,7 @@ public enum Message {
 	private static final MessageManager messageManager = NovaGuilds.getInstance()==null ? null : NovaGuilds.getInstance().getMessageManager();
 	private boolean title = false;
 	private String path = null;
-	private HashMap<String,String> vars = new HashMap<>();
+	private Map<String, String> vars = new HashMap<>();
 	private boolean prefix = true;
 	private boolean list = false;
 
@@ -364,7 +365,7 @@ public enum Message {
 		}
 	}
 
-	public Message vars(HashMap<String,String> vars) {
+	public Message vars(Map<String, String> vars) {
 		this.vars = vars;
 		return this;
 	}

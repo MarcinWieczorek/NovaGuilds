@@ -1,10 +1,12 @@
 package co.marcin.novaguilds.util;
 
+import co.marcin.novaguilds.manager.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.Potion;
@@ -249,6 +251,21 @@ public final class ItemStackUtils {
 				skullMeta.setOwner(player);
 				itemStack.setItemMeta(skullMeta);
 			}
+
+			if(material == Material.WRITTEN_BOOK) {
+				BookMeta bm = (BookMeta)itemStack.getItemMeta();
+				List<String> pages = new ArrayList<>();
+				List<String> pagesColor = new ArrayList<>();
+				for(String page : pages) {
+					pagesColor.add(StringUtils.fixColors(page));
+				}
+
+				bm.setPages(pagesColor);
+				bm.setAuthor(bookAuthor);
+				bm.setTitle(bookBook);
+				itemStack.setItemMeta(bm);
+			}
+
 			return itemStack;
 		}
 		return null;
