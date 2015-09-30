@@ -223,6 +223,15 @@ vault:
    - "[ITEM]GOLD_INGOT 1"
    - "&6Guild's Vault"
 
+tablist:
+ enabled: false
+ scheme:
+  - "{PLAYER}"
+  - "{GUILD}"
+  - "{TAG}"
+  - "{ONLINE}/{MAX}"
+  - "{BALANCE}$"
+
 region:
  materials:
   check:
@@ -248,15 +257,6 @@ region:
   - sethome
   - home
   - back
-
-tablist:
- enabled: false
- scheme:
-  - "{PLAYER}"
-  - "{GUILD}"
-  - "{TAG}"
-  - "{ONLINE}/{MAX}"
-  - "{BALANCE}$"
 
  denyinteract:
   - WOODEN_DOOR
