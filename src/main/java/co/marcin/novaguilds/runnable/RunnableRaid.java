@@ -25,6 +25,7 @@ public class RunnableRaid implements Runnable {
 		for(NovaGuild guild : plugin.guildRaids) {
 			NovaRaid raid = guild.getRaid();
 			plugin.showRaidBar(raid);
+			NovaGuild guildDefender = raid.getGuildDefender();
 
 			NovaPlayer nPlayer = raid.getPlayersOccupying().get(0);
 			LoggerUtils.debug(guild.getName() + " scheduler working " + plugin.guildRaids.size());
@@ -37,7 +38,7 @@ public class RunnableRaid implements Runnable {
 			//vars hashmap
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("ATTACKER",raid.getGuildAttacker().getName());
-			vars.put("DEFENDER", raid.getGuildDefender().getName());
+			vars.put("DEFENDER", guildDefender.getName());
 
 			//players raiding, update inactive time
 			if(raid.getPlayersOccupyingCount() > 0) {
@@ -67,6 +68,12 @@ public class RunnableRaid implements Runnable {
 				guild.isNotRaid();
 				plugin.guildRaids.remove(guild);
 
+				int pointsTake = Config.RAID_POINTSTAKE.getInt();
+				if(pointsTake > 0) {
+					guild.takePoints(pointsTake);
+					guildDefender.addPoints(pointsTake);
+				}
+
 				if(guild.getLives() == 0) {
 					//fire event
 					GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.RAID);
@@ -74,10 +81,8 @@ public class RunnableRaid implements Runnable {
 
 					//if event is not cancelled
 					if(!guildAbandonEvent.isCancelled()) {
-						vars.put("GUILDNAME", raid.getGuildDefender().getName());
+						vars.put("GUILDNAME", guildDefender.getName());
 						Message.BROADCAST_GUILD_DESTROYED.vars(vars).broadcast();
-
-						NovaGuild guildDefender = raid.getGuildDefender();
 						plugin.getGuildManager().delete(guildDefender);
 					}
 				}
