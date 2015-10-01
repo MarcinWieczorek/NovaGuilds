@@ -26,8 +26,6 @@ public class ConfigManager {
 
 	private boolean useVanishNoPacket = true;
 
-//	private List<String> guildVaultHologramLines; //supports items, [ITEM]
-
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 
 	private final HashMap<Config, Object> cache = new HashMap<>();
@@ -57,10 +55,8 @@ public class ConfigManager {
 			}
 		}
 
-		long cleanupInterval = StringUtils.StringToSeconds(config.getString("cleanup.interval"));
-
-		String primaryDataStorageTypeString = config.getString("datastorage.primary").toUpperCase();
-		String secondaryDataStorageTypeString = config.getString("datastorage.secondary").toUpperCase();
+		String primaryDataStorageTypeString = Config.DATASTORAGE_PRIMARY.getString().toUpperCase();
+		String secondaryDataStorageTypeString = Config.DATASTORAGE_SECONDARY.getString().toUpperCase();
 
 		boolean primaryValid = false;
 		boolean secondaryValid = false;
@@ -99,7 +95,8 @@ public class ConfigManager {
 		setToPrimaryDataStorageType();
 		LoggerUtils.info("Data storage: Primary: "+primaryDataStorageType.name()+", Secondary: "+secondaryDataStorageType.name());
 
-		List<String> guildEffectsString = config.getStringList("guild.effect.list");
+		//Effects
+		List<String> guildEffectsString = Config.GUILD_EFFECT_LIST.getStringList();
 		for(String effect : guildEffectsString) {
 			PotionEffectType effectType = PotionEffectType.getByName(effect);
 			if(effectType != null) {
@@ -113,7 +110,7 @@ public class ConfigManager {
 			Config.LIVEREGENERATION_TASKINTERVAL.set("60s");
 		}
 
-		if(cleanupInterval < 60) {
+		if(Config.CLEANUP_INTERVAL.getSeconds() < 60) {
 			LoggerUtils.error("Cleanup interval can't be shorter than 60 seconds.");
 			Config.CLEANUP_INTERVAL.set("60s");
 		}
