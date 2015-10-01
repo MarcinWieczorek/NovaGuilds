@@ -89,6 +89,11 @@ public class ConfigManager {
 			secondaryDataStorageTypeString = DataStorageType.FLAT.name();
 		}
 
+		if(primaryDataStorageTypeString.equalsIgnoreCase("sqlite") && !Config.DEBUG.getBoolean()) {
+			primaryDataStorageTypeString = DataStorageType.MYSQL.name();
+			LoggerUtils.error("Please enable debug mode to use SQLite storage.");
+		}
+
 		primaryDataStorageType = DataStorageType.valueOf(primaryDataStorageTypeString);
 		secondaryDataStorageType = DataStorageType.valueOf(secondaryDataStorageTypeString);
 		setToPrimaryDataStorageType();
