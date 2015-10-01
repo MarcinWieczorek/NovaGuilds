@@ -47,11 +47,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	* i nie wodz nas na wycieki pamieci, ale daj nam Bugi.
 	* Escape. ~Bukkit.PL
 	* */
+
 	private static NovaGuilds inst;
 	private final int build = Integer.parseInt(getDescription().getVersion());
-
-	//TODO kickowanie z admina dubluje userow gildii
-	//TODO @up nie wiem czy aktualne
 
 	//Vault
 	public Economy econ = null;
@@ -68,7 +66,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public TagUtils tagUtils;
 
-	//TODO: test scheduler
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	public final List<NovaGuild> guildRaids = new ArrayList<>();
 
@@ -105,7 +102,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
         VersionUtils.checkVersion();
 
 		int attempts = 0;
-		// && (flatDataManager!=null && !flatDataManager.isConnected())
 		while(!databaseManager.isConnected()) {
 			if(attempts == 2) {
 				LoggerUtils.error("Tried to connect twice but failed.");
