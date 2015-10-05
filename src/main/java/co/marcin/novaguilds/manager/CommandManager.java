@@ -5,6 +5,7 @@ import co.marcin.novaguilds.command.*;
 import co.marcin.novaguilds.command.admin.CommandAdmin;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildList;
 import co.marcin.novaguilds.command.admin.hologram.*;
+import co.marcin.novaguilds.command.admin.region.CommandAdminRegionBypass;
 import co.marcin.novaguilds.command.guild.*;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
@@ -93,6 +94,8 @@ public class CommandManager {
 		new CommandAdminHologramAddTop(Commands.ADMIN_HOLOGRAM_ADDTOP);
 		new CommandAdminHologramDelete(Commands.ADMIN_HOLOGRAM_DELETE);
 		new CommandAdminHologramTeleport(Commands.ADMIN_HOLOGRAM_TELEPORT);
+
+		new CommandAdminRegionBypass(Commands.ADMIN_REGION_BYPASS);
 	}
 
 	public String getGuiCommand(ItemStack itemStack) {

@@ -1,6 +1,7 @@
 package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -30,7 +31,7 @@ public class CommandAdminRegion implements CommandExecutor {
 
 		switch(args[0].toLowerCase()) {
 			case "bypass":
-				new CommandAdminRegionBypass(plugin).onCommand(sender, cmd, label, newargs);
+				plugin.getCommandManager().getExecutor(Commands.ADMIN_REGION_BYPASS).execute(sender, newargs);
 				break;
 			case "delete":
 			case "del":
