@@ -55,10 +55,18 @@ public enum Commands {
 	TOOL_GET("novaguilds.tool.get",false);
 
 	private boolean allowConsole = true;
-	private String permission = "";
+	private String permissionPath = "";
+	private Permission permission;
 
 	Commands(String permission, boolean allowConsole) {
+		this.permissionPath = permission;
+		this.permission = Permission.fromPath(permissionPath);
+		this.allowConsole = allowConsole;
+	}
+
+	Commands(Permission permission, boolean allowConsole) {
 		this.permission = permission;
+		this.permissionPath = permission.getPath();
 		this.allowConsole = allowConsole;
 	}
 
@@ -67,11 +75,11 @@ public enum Commands {
 	}
 
 	public String getPermission() {
-		return permission;
+		return permissionPath;
 	}
 
 	public boolean hasPermission(CommandSender sender) {
-		return sender.hasPermission(permission) || sender.isOp();
+		return permission.has(sender) || sender.isOp();
 	}
 
 	public boolean allowedSender(CommandSender sender) {
