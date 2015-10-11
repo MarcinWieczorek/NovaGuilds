@@ -67,6 +67,10 @@ holographicdisplays:
 packets:
  enabled: false
 
+www:
+ enabled: false
+ port: 80
+
 #Save interval
 saveinterval: 30m
 

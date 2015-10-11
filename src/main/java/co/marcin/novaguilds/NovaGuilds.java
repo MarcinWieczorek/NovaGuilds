@@ -1,5 +1,6 @@
 package co.marcin.novaguilds;
 
+import co.marcin.mchttp.McHTTP;
 import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
@@ -73,6 +74,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
 	private HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
+	private McHTTP mcHTTP;
 
 	public void onEnable() {
 		inst = this;
@@ -97,9 +99,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-        
+
 		//Version check
-        VersionUtils.checkVersion();
+		VersionUtils.checkVersion();
 
 		int attempts = 0;
 		while(!databaseManager.isConnected()) {
@@ -108,7 +110,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				break;
 			}
 
-			LoggerUtils.info("Connecting to "+ getConfigManager().getDataStorageType().name() +" storage");
+			LoggerUtils.info("Connecting to " + getConfigManager().getDataStorageType().name() + " storage");
 			attempts++;
 
 			if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
@@ -200,6 +202,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//metrics
 		setupMetrics();
+
+		//HTTP Server
+		if(Config.WWW_ENABLED.getBoolean()) {
+			mcHTTP = new McHTTP();
+			mcHTTP.setPort(Config.WWW_PORT.getInt());
+			mcHTTP.prepareFiles();
+			mcHTTP.start();
+			LoggerUtils.info("HTTP Server started.");
+		}
 
 		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Enabled");
 	}
