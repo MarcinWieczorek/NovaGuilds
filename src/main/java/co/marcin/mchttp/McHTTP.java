@@ -12,8 +12,51 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.ResourceExtractor;
+import org.apache.commons.lang3.StringUtils;
 
 public class McHTTP {
+	enum ContentType {
+		PNG("image/png"),
+		HTML("text/html"),
+		PHP("text/html"),
+		JPG("image/jpeg"),
+		JPEG("image/jpeg"),
+		GIF("image/gif"),
+		BMP("image/bmp"),
+		PDF("application/pdf"),
+		YML("text/yaml"),
+		ICO("image/x-icon"),
+		ZIP("application/zip"),
+		RAR("application/x-rar-compressed"),
+		MP3(""),
+		AVI("video/x-msvideo"),
+		MP4("video/mp4"),
+		WAV("audio/x-wav"),
+		SWF("application/x-shockwave-flash"),
+		TXT("text/plain"),
+		TTF("application/x-font-ttf");
+
+		private final String header;
+
+		ContentType(String header) {
+			this.header = header;
+		}
+
+		public String getHeader() {
+			return header;
+		}
+
+		public static ContentType get(String str) {
+			for(ContentType cT : values()) {
+				if(cT.name().equalsIgnoreCase(str)) {
+					return cT;
+				}
+			}
+
+			return null;
+		}
+	}
+
 	public static final String protocolVersion = "HTTP/1.1";
 	public static final String HEADER_FIRST_OK = protocolVersion+" 200 OK";
 	public static final String HEADER_FIRST_404 = protocolVersion+" 404 Not Found";
@@ -62,37 +105,26 @@ public class McHTTP {
 						BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 						dateString = date.format(new Date());
 
-						String path;
-//						if(DEBUG) System.out.println();
-//						if(DEBUG) System.out.println("Input: ");
-
 						char[] chars = new char[1024];
 						in.read(chars);
 						String inputString = new String(chars);
-//			            if(DEBUG) System.out.println(inputString);
-						path = inputString.split(" ").length > 1 ? inputString.split(" ")[1] : "/";
+						String path = inputString.split(" ").length > 1 ? inputString.split(" ")[1] : "/";
 						File targetFile;
 
 						if(path.equals("/")) {
-							targetFile = getHTMLFile("index.html");
-						}
-						else {
-							targetFile = getHTMLFile(path);
+							path = "index.html";
 						}
 
-						String contentType = "text/html";
-
-						if(path.toLowerCase().endsWith(".ico")) {
-							contentType = "image/x-icon";
-						}
-						else if(path.toLowerCase().endsWith(".png")) {
-							contentType = "image/png";
-						}
+						targetFile = getHTMLFile(path);
+						String[] split = StringUtils.split(path, ".");
+						String ext = split[split.length-1];
+						ContentType contentTypeEnum = ContentType.get(ext);
+						String contentType = contentTypeEnum==null ? ContentType.TXT.getHeader() : contentTypeEnum.getHeader();
 
 						String headerFirst = HEADER_FIRST_OK;
 						if(!targetFile.exists()) {
 							headerFirst = HEADER_FIRST_404;
-							contentType = "text/html";
+							contentType = ContentType.TXT.getHeader();
 						}
 
 
