@@ -65,6 +65,7 @@ public enum Commands {
 	private String permissionPath = "";
 	private Permission permission;
 
+	@Deprecated
 	Commands(String permission, boolean allowConsole) {
 		this.permissionPath = permission;
 		this.permission = Permission.fromPath(permissionPath);
