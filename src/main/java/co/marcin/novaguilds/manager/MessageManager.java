@@ -33,7 +33,7 @@ public class MessageManager {
 
 	public boolean load() {
 		setupDirectories();
-		String lang = Config.LANG.getString();
+		String lang = Config.LANG_NAME.getString();
 		File messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
 		if(!messagesFile.exists()) {
 			if(plugin.getResource("lang/" + lang + ".yml") != null) {
