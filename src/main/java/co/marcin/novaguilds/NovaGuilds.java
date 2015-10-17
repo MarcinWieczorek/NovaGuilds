@@ -146,7 +146,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		getRegionManager().postCheck();
 
 		//HologramManager
-		hologramManager.load();
+		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
+			hologramManager.load();
+		}
 
 		//Listeners
 		new LoginListener(this);
