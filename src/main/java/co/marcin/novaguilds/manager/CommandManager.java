@@ -94,6 +94,7 @@ public class CommandManager {
 		new CommandAdminHologramAddTop(Commands.ADMIN_HOLOGRAM_ADDTOP);
 		new CommandAdminHologramDelete(Commands.ADMIN_HOLOGRAM_DELETE);
 		new CommandAdminHologramTeleport(Commands.ADMIN_HOLOGRAM_TELEPORT);
+		new CommandAdminHologramTeleportHere(Commands.ADMIN_HOLOGRAM_TELEPORT_HERE);
 
 		new CommandAdminRegionBypass(Commands.ADMIN_REGION_BYPASS);
 	}

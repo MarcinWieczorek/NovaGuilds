@@ -6,15 +6,13 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.interfaces.ExecutorReversedAdminHologram;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class CommandAdminHologramDelete implements Executor, ExecutorReversedAdminHologram {
+public class CommandAdminHologramTeleportHere implements Executor, ExecutorReversedAdminHologram {
 	private final Commands command;
 	private NovaHologram hologram;
 
-	public CommandAdminHologramDelete(Commands command) {
+	public CommandAdminHologramTeleportHere(Commands command) {
 		this.command = command;
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
@@ -31,16 +29,10 @@ public class CommandAdminHologramDelete implements Executor, ExecutorReversedAdm
 			return;
 		}
 
-		hologram.delete();
-
-		Map<String, String> vars = new HashMap<>();
-		vars.put("NAME", hologram.getName());
-		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.vars(vars).send(sender);
+		hologram.teleport(((Player)sender).getLocation());
 	}
 
-	@Override
 	public void hologram(NovaHologram hologram) {
 		this.hologram = hologram;
 	}
 }
-
