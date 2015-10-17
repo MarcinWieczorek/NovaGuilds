@@ -72,10 +72,16 @@ public class NovaHologram {
 				if(is != null) {
 					hologram.appendItemLine(is);
 				}
-			} else {
+			}
+			else {
 				hologram.appendTextLine(line);
 			}
 		}
+	}
+
+	public void teleport(Location location) {
+		hologram.teleport(location);
+		setLocation(location);
 	}
 
 	public void create() {
