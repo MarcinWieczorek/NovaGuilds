@@ -145,7 +145,7 @@ public class McHTTP {
 								"Content-Type: " + contentType
 						};
 
-						LoggerUtils.info("Client: " + clientSocket.getRemoteSocketAddress() + " requested file " + path);
+						if(Config.WWW_VERBOSE.getBoolean()) LoggerUtils.info("Client: " + clientSocket.getRemoteSocketAddress() + " requested file " + path);
 
 //						System.out.println();
 //						System.out.println("Output: ");

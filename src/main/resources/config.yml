@@ -69,6 +69,7 @@ packets:
 
 www:
  enabled: false
+ verbose: true
  port: 80
 
 #Save interval
