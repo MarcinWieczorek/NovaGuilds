@@ -71,12 +71,15 @@ chat:
    all: "Zapisano wszystkie dane. (Gracze, gildie, regiony)"
    autosave: "Zakonczono automatyczny zapis."
   hologram:
+   notfound: "Nie udalo sie znalezc hologramu o takiej nazwie."
+   teleport:
+    self: "Teleportowano Cie do &a{NAME}"
+    other: "Teleportowano gracza &c{PLAYERNAME} &3do &a{NAME}"
    add:
     success: "Dodano hologram: &a{NAME}"
    delete:
     success: "Pomyslnie usunieto hologram: &a{NAME}"
     entername: "Prosze wprowadz nazwe hologramu"
-    invalidname: "Nie udalo sie znalezc hologramu o takiej nazwie."
    list:
     header: "List of all holograms:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"

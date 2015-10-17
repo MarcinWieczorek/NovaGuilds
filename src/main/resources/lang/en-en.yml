@@ -71,12 +71,15 @@ chat:
    all: "All data saved. (Players, Regions, Guilds)"
    autosave: "AutoSave completed."
   hologram:
+   notfound: "Could not find a hologram with this name."
+   teleport:
+    self: "Teleported you to &a{NAME}"
+    other: "Teleported player &c{PLAYERNAME} &3to &a{NAME}"
    add:
     success: "Successfuly added a hologram: &a{NAME}"
    delete:
     success: "Successfuly deleted a hologram: &a{NAME}"
     entername: "Please enter hologram's name"
-    invalidname: "Could not find a hologram with this name."
    list:
     header: "List of all holograms:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
