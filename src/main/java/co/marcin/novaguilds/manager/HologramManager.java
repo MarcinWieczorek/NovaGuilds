@@ -30,6 +30,7 @@ public class HologramManager {
 			}
 
 			configuration = YamlConfiguration.loadConfiguration(file);
+			int count = 0;
 
 			for(String name : configuration.getKeys(false)) {
 				NovaHologram nHologram = new NovaHologram();
@@ -54,7 +55,10 @@ public class HologramManager {
 
 				holograms.add(nHologram);
 				LoggerUtils.info("Loaded hologram " + nHologram.getName());
+				count++;
 			}
+
+			LoggerUtils.info("Finished loading holograms. ("+count+" loaded)");
 		}
 		catch(IOException e) {
 			LoggerUtils.exception(e);
@@ -63,7 +67,7 @@ public class HologramManager {
 
 	public void save() {
 		if(configuration != null) {
-			for (NovaHologram hologram : holograms) {
+			for(NovaHologram hologram : holograms) {
 				if(hologram.isDeleted()) {
 					configuration.set(hologram.getName(), null);
 					LoggerUtils.info("Deleted hologram " + hologram.getName());
@@ -84,13 +88,16 @@ public class HologramManager {
 
 			try {
 				configuration.save(file);
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				LoggerUtils.exception(e);
 			}
 		}
 		else {
 			LoggerUtils.error("Failed saving holograms, they weren't even loaded!");
 		}
+
+		LoggerUtils.info("Finished saving holograms.");
 	}
 
 	public NovaHologram addTopHologram(Location location) {
