@@ -30,6 +30,12 @@ public class ConfigManager {
 
 	private final HashMap<Config, Object> cache = new HashMap<>();
 
+	public static final HashMap<String, String> essentialsLocale = new HashMap<String, String>(){{
+		put("en","en-en");
+		put("pl","pl-pl");
+		put("de","de-de");
+	}};
+
 	public ConfigManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
 		NovaGuilds.getInstance().setConfigManager(this);

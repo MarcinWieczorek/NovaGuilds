@@ -15,6 +15,7 @@ import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.util.*;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
+import com.earth2me.essentials.Essentials;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
@@ -201,6 +202,23 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//live regeneration task
 		runLiveRegenerationTask();
 		LoggerUtils.info("Live regeneration task is running");
+
+		//Essentials
+		Essentials essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
+
+		if(essentials != null && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
+			String locale = essentials.getSettings().getLocale();
+			if(locale.isEmpty()) {
+				locale = "en";
+			}
+
+			if(ConfigManager.essentialsLocale.containsKey(locale)) {
+				Config.LANG_NAME.set(ConfigManager.essentialsLocale.get(locale));
+				messageManager.load();
+			}
+
+			LoggerUtils.info("Changed lang to Essentials' locale: "+Config.LANG_NAME.getString());
+		}
 
 		//metrics
 		setupMetrics();

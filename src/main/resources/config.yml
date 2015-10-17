@@ -37,7 +37,11 @@ debug: false
 # pl-pl # Polish  #
 # de-de # German  #
 # =-=-= # =-=-=-= #
-lang: en-en
+lang:
+ name: en-en
+ #Use Essentials' locale by default
+ overrideessentials: false
+
 usetitles: false
 
 barapi:
