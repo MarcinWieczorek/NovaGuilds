@@ -1,6 +1,5 @@
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.manager.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
