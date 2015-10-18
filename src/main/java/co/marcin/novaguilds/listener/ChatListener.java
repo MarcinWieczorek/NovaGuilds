@@ -6,6 +6,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,7 @@ public class ChatListener implements Listener {
 	
 	public ChatListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this,plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
 	@EventHandler
@@ -27,19 +28,20 @@ public class ChatListener implements Listener {
 		
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-		
+
+		String format = event.getFormat();
 		String tag = "";
-		String rank = "";
 
 		if(nPlayer.hasGuild()) {
 			tag = Config.GUILD_TAG.getString();
 			NovaGuild guild = nPlayer.getGuild();
-			
-			if(guild.getLeader().getName().equalsIgnoreCase(player.getName())) {
+
+			String rank = "";
+			if(Config.CHAT_ALLY_LEADERPREFIX.getBoolean() && guild.getLeader().getName().equalsIgnoreCase(player.getName())) {
 				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 			}
-			
-			tag = StringUtils.fixColors(StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag()));
+
+			tag = StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
 
 			tag = StringUtils.replace(tag, "{RANK}", rank);
 
@@ -52,23 +54,22 @@ public class ChatListener implements Listener {
 						tag = StringUtils.removeColors(tag);
 					}
 
-					if(Config.CHAT_ALLY_LEADERPREFIX.getBoolean()) {
-						tag = StringUtils.replace(tag, "{RANK}", rank);
-					}
-					else {
-						tag = StringUtils.replace(tag, "{RANK}", "");
+					if(!Config.CHAT_ALLY_LEADERPREFIX.getBoolean()) {
+						rank = "";
 					}
 
-					String format = Config.CHAT_ALLY_FORMAT.getString();
-					format = StringUtils.replace(format, "{TAG}", tag);
-					format = StringUtils.replace(format, "{PLAYERNAME}", nPlayer.getName());
-					format = StringUtils.fixColors(format);
+					tag = StringUtils.replace(tag, "{RANK}", rank);
 
-					msg = msg.substring(prefixChatAlly.length(),msg.length());
+					String cFormat = Config.CHAT_ALLY_FORMAT.getString();
+					cFormat = StringUtils.replace(cFormat, "{TAG}", tag);
+					cFormat = StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
+					cFormat = StringUtils.fixColors(cFormat);
+
+					msg = msg.substring(prefixChatAlly.length(), msg.length());
 
 					for(NovaPlayer nP : guild.getPlayers()) {
 						if(nP.isOnline()) {
-							nP.getPlayer().sendMessage(format+msg);
+							nP.getPlayer().sendMessage(cFormat+msg);
 						}
 					}
 
@@ -77,42 +78,48 @@ public class ChatListener implements Listener {
 						for(NovaGuild allyGuild : guild.getAllies()) {
 							for(NovaPlayer nP : allyGuild.getPlayers()) {
 								if(nP.isOnline()) {
-									nP.getPlayer().sendMessage(format + msg);
+									nP.getPlayer().sendMessage(cFormat + msg);
 								}
 							}
 						}
 					}
 
 					event.setCancelled(true);
-					plugin.getServer().getConsoleSender().sendMessage(format+msg);
+					plugin.getServer().getConsoleSender().sendMessage(cFormat+msg);
+					return;
 				}
 			}
 			else if(msg.startsWith(prefixChatGuild)) { //guild chat
 				if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
-					String format = Config.CHAT_GUILD_FORMAT.getString();
-					format = StringUtils.replace(format, "{PLAYERNAME}", nPlayer.getName());
-					format = StringUtils.fixColors(format);
+					String cFormat = Config.CHAT_GUILD_FORMAT.getString();
+					cFormat = StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
+					cFormat = StringUtils.fixColors(cFormat);
 
-					msg = msg.substring(prefixChatGuild.length(),msg.length());
+					msg = msg.substring(prefixChatGuild.length(), msg.length());
 
 					for(NovaPlayer nP : guild.getPlayers()) {
 						if(nP.isOnline()) {
-							nP.getPlayer().sendMessage(format+msg);
+							nP.getPlayer().sendMessage(cFormat+msg);
 						}
 					}
 
 					event.setCancelled(true);
-					plugin.getServer().getConsoleSender().sendMessage(format+msg);
+					plugin.getServer().getConsoleSender().sendMessage(cFormat+msg);
+					return;
 				}
 			}
-			else if(player.hasPermission("novaguilds.chat.notag")) {
-				tag = "";
+			else {
+				if(Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
+					tag = "";
+				}
+				else if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
+					format = plugin.tagUtils.getTag(player) + format;
+				}
 			}
 		}
 
-		String format = event.getFormat();
 		format = StringUtils.replace(format, "{TAG}", tag);
-		event.setFormat(format);
+		event.setFormat(StringUtils.fixColors(format));
 	}
 
 	@EventHandler
@@ -120,7 +127,7 @@ public class ChatListener implements Listener {
 		String cmd = event.getMessage().substring(1, event.getMessage().length());
 
 		if(cmd.contains(" ")) {
-			String[] split = cmd.split(" ");
+			String[] split = org.apache.commons.lang3.StringUtils.split(cmd, ' ');
 			cmd = split[0];
 		}
 
