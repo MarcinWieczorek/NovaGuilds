@@ -39,13 +39,9 @@ public class LoginListener implements Listener {
 		nPlayer.setPlayer(player);
 		plugin.getPlayerManager().updateUUID(nPlayer);
 
+		//Send version message if there's an update
 		if(VersionUtils.updateAvailable && player.hasPermission("novaguilds.admin.updateavailable")) {
 			Message.CHAT_UPDATE.send(player);
-		}
-
-		//TODO not working
-		if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
-			player.setDisplayName(plugin.tagUtils.getTag(player)+player.getDisplayName());
 		}
 
 		//Show bank hologram
