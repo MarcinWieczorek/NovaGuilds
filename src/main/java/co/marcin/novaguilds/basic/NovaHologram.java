@@ -3,6 +3,7 @@ package co.marcin.novaguilds.basic;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.LoggerUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Effect;
@@ -56,6 +57,12 @@ public class NovaHologram {
 	}
 
 	public void refresh() {
+		if(isDeleted()) {
+			//TODO: check if this occurs
+			LoggerUtils.error("Trying to refresh deleted hologram: "+getName());
+			return;
+		}
+
 		hologram.clearLines();
 
 		if(isTop()) {
