@@ -59,6 +59,8 @@ public enum Commands {
 	GUILD_TOP("novaguilds.guild.top", true),
 	GUILD_WAR("novaguilds.guild.war", false),
 	GUILD_BOSS("novaguilds.guild.boss", false),
+	GUILD_OPENINVITATION(Permission.NOVAGUILDS_GUILD_OPENINVITATION, false),
+
 	TOOL_GET("novaguilds.tool.get",false);
 
 	private boolean allowConsole = true;

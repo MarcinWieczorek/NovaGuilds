@@ -183,6 +183,7 @@ chat:
     - "&5* &7/g &cwar &6[guildname] &2- &3War!"
     - "&5* &7/g &ckick &6<playername> &2- &3Kick a player from the guild"
     - "&5* &7/g &cpvp &2- &3Toggle PVP"
+    - "&5* &7/g &copeninv &2- &3Toggle open invitation status"
     - "&5* &7/abandon &2- &3abandon your guild"
     - "&5* &7/invite &6<playername> &2- &3invite player to your guild"
 
@@ -215,6 +216,7 @@ chat:
    'on': "The compass is now pointing your guild's home."
    'off': "The compass is now pointing the spawn."
   noguilds: "No guilds found."
+  openinvitation: "Toggled open invitations, currently: &c{STATUS}"
   fpvptoggled: "Toggled friendly PVP for your guild. Currently: &c{FPVP}"
   effect:
    success: "You bought &a{EFFECTTYPE} &3effect for all your teammates!"
@@ -390,6 +392,7 @@ chat:
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Leader: &6{LEADER}"
    - " &c* &2Created: &6{CREATEDAGO}&2ago"
+   - " &c* &2Open invitation: &6{OPENINV}"
    - " &c* &2Protection: &6{PROTLEFT}&2left"
    - " &c* &2Lives: &6{LIVES}"
    - " &c* &2Live Regeneration in: &6{LIVEREGENERATIONTIME}"
@@ -406,6 +409,7 @@ chat:
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Leader: &6{LEADER}"
    - " &c* &2Created: &6{CREATEDAGO}&2ago"
+   - " &c* &2Open invitation: &6{OPENINV}"
    - " &c* &2Protection: &6{PROTLEFT}&2left"
    - " &c* &2Lives: &6{LIVES}"
    - " &c* &2Resting time: &6{TIMEREST}"

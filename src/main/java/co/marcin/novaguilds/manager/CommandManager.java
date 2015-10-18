@@ -87,6 +87,7 @@ public class CommandManager {
 		new CommandGuildRequiredItems(Commands.GUILD_REQUIREDITEMS);
 		new CommandGuildWar(Commands.GUILD_WAR);
 		new CommandAdminGuildList(Commands.ADMIN_GUILD_LIST);
+		new CommandGuildOpenInvitation(Commands.GUILD_OPENINVITATION);
 
 		//AdminHologram
 		new CommandAdminHologram(Commands.ADMIN_HOLOGRAM_ACCESS);

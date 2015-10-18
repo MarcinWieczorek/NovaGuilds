@@ -208,6 +208,7 @@ public class GuildManager {
 						novaGuild.setNoWarInvitations(nowarinv);
 						novaGuild.setInactiveTime(res.getLong("activity"));
 						novaGuild.setTimeCreated(res.getLong("created"));
+						novaGuild.setOpenInvitation(res.getBoolean("openinv"));
 
 						//set unchanged
 						novaGuild.setUnchanged();
@@ -385,8 +386,9 @@ public class GuildManager {
 					preparedStatement.setLong(14, guild.getInactiveTime());
 					preparedStatement.setString(15, vaultLocationString);
 					preparedStatement.setInt(16, guild.getSlots());
+					preparedStatement.setBoolean(17, guild.isOpenInvitation());
 
-					preparedStatement.setInt(17, guild.getId());
+					preparedStatement.setInt(18, guild.getId());
 
 					preparedStatement.executeUpdate();
 					guild.setUnchanged();
@@ -620,6 +622,7 @@ public class GuildManager {
 			guild.setLostLiveTime(guildData.getLong("lostlive"));
 			guild.setInactiveTime(guildData.getLong("activity"));
 			guild.setTimeCreated(guildData.getLong("created"));
+			guild.setOpenInvitation(guildData.getBoolean("openinv"));
 
 			//home
 			World homeWorld = plugin.getServer().getWorld(guildData.getString("home.world"));

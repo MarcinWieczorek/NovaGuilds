@@ -41,7 +41,7 @@ public class CommandGuildJoin implements CommandExecutor {
 			return true;
 		}
 
-		if(invitedTo.isEmpty()) {
+		if(invitedTo.isEmpty() && args.length != 1) {
 			Message.CHAT_PLAYER_INVITE_LIST_NOTHING.send(sender);
 			return true;
 		}
@@ -91,7 +91,7 @@ public class CommandGuildJoin implements CommandExecutor {
 			return true;
 		}
 
-		if(!nPlayer.isInvitedTo(guild)) {
+		if(!nPlayer.isInvitedTo(guild) && !guild.isOpenInvitation()) {
 			Message.CHAT_PLAYER_INVITE_NOTINVITED.send(sender);
 			return true;
 		}

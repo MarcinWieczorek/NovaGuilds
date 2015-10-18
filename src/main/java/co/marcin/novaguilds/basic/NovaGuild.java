@@ -30,6 +30,7 @@ public class NovaGuild {
 	private long timeCreated;
 	private int lives;
 	private int slots;
+	private boolean openInvitation = false;
 	private boolean changed = false;
 	private boolean friendlyPvp = false;
 	private Location vaultLocation;
@@ -286,6 +287,11 @@ public class NovaGuild {
 		changed();
 	}
 
+	public void setOpenInvitation(boolean openInvitation) {
+		this.openInvitation = openInvitation;
+		changed();
+	}
+
 	public void updateTimeRest() {
 		timeRest = NumberUtils.systemSeconds();
 		changed();
@@ -381,6 +387,10 @@ public class NovaGuild {
 
 	public boolean isFull() {
 		return getPlayers().size() >= slots;
+	}
+
+	public boolean isOpenInvitation() {
+		return openInvitation;
 	}
 
 	public boolean hasMoney(double money) {

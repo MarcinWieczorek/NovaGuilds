@@ -95,6 +95,9 @@ public class CommandGuild implements CommandExecutor {
 				case "buyslot":
 					plugin.getCommandManager().getExecutor(Commands.GUILD_BUYSLOT).execute(sender, newargs);
 					break;
+				case "openinv":
+					plugin.getCommandManager().getExecutor(Commands.GUILD_OPENINVITATION).execute(sender, newargs);
+					break;
 				default:
 					Message.CHAT_UNKNOWNCMD.send(sender);
 					break;

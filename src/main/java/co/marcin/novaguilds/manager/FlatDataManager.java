@@ -158,6 +158,7 @@ public class FlatDataManager {
 				guildData.set("lostlive",guild.getLostLiveTime());
 				guildData.set("activity",guild.getInactiveTime());
 				guildData.set("created",guild.getTimeCreated());
+				guildData.set("openinv", guild.isOpenInvitation());
 
 				//spawnpoint
 				Location home = guild.getSpawnPoint();

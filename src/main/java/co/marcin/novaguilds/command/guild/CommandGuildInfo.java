@@ -135,6 +135,7 @@ public class CommandGuildInfo implements CommandExecutor {
 		vars.put("SLOTS", String.valueOf(guild.getSlots()));
 		vars.put("POINTS", guild.getPoints() + "");
 		vars.put("LIVES", guild.getLives() + "");
+		vars.put("OPENINV", Message.getOnOff(guild.isOpenInvitation()));
 
 		//live regeneration time
 		long liveRegenerationTime = Config.LIVEREGENERATION_REGENTIME.getSeconds() - (NumberUtils.systemSeconds() - guild.getLostLiveTime());

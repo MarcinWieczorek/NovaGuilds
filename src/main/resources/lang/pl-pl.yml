@@ -183,6 +183,7 @@ chat:
     - "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
     - "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuc gracza"
     - "&5* &7/g &cpvp &2- &3Wlacz/Wylacz pvp"
+    - "&5* &7/g &copeninv &2- &3Przelacz status otwartych zaproszen"
     - "&5* &7/rozwiaz &2- &3Porzuc gildie"
     - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
 
@@ -215,6 +216,7 @@ chat:
    'on': "Kompas wskazuje teraz dom Twojej gildii."
    'off': "Kompas wskazuje teraz spawn."
   noguilds: "Brak gildii"
+  openinvitation: "Przelaczono otwarte zaproszenia. Obecnie: &c{STATUS}"
   fpvptoggled: "Przelaczono sojusznicze pvp. Obecnie: &c{FPVP}"
   effect:
    success: "Kupiles efekt &a{EFFECTTYPE} &3dla swoich wojownikow!"
@@ -390,6 +392,7 @@ chat:
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Lider: &6{LEADER}"
    - " &c* &2Stworzona: &6{CREATEDAGO}&2temu"
+   - " &c* &2Otwarte zaproszenie: &6{OPENINV}"
    - " &c* &2Ochrona: &6{PROTLEFT}"
    - " &c* &2Zycia: &6{LIVES}"
    - " &c* &2Regenaracja zycia: &6{LIVEREGENERATIONTIME}"
@@ -406,6 +409,7 @@ chat:
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Lider: &6{LEADER}"
    - " &c* &2Stworzona: &6{CREATEDAGO}&2temu"
+   - " &c* &2Otwarte zaproszenie: &6{OPENINV}"
    - " &c* &2Ochrona: &6{PROTLEFT}"
    - " &c* &2Zycia: &6{LIVES}"
    - " &c* &2Czas odpoczynku: &6{TIMEREST}"
