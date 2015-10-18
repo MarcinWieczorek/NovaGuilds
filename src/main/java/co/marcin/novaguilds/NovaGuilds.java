@@ -83,6 +83,22 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//managers
 		configManager = new ConfigManager(this);
 
+		//Essentials locale detection
+		Essentials essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
+
+		if(essentials != null && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
+			String locale = essentials.getSettings().getLocale();
+			if(locale.isEmpty()) {
+				locale = "en";
+			}
+
+			if(ConfigManager.essentialsLocale.containsKey(locale)) {
+				Config.LANG_NAME.set(ConfigManager.essentialsLocale.get(locale));
+			}
+
+			LoggerUtils.info("Changed lang to Essentials' locale: "+Config.LANG_NAME.getString());
+		}
+
 		if(!getMessageManager().load()) {
 			getServer().getPluginManager().disablePlugin(this);
 			return;
@@ -202,23 +218,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//live regeneration task
 		runLiveRegenerationTask();
 		LoggerUtils.info("Live regeneration task is running");
-
-		//Essentials
-		Essentials essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
-
-		if(essentials != null && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
-			String locale = essentials.getSettings().getLocale();
-			if(locale.isEmpty()) {
-				locale = "en";
-			}
-
-			if(ConfigManager.essentialsLocale.containsKey(locale)) {
-				Config.LANG_NAME.set(ConfigManager.essentialsLocale.get(locale));
-				messageManager.load();
-			}
-
-			LoggerUtils.info("Changed lang to Essentials' locale: "+Config.LANG_NAME.getString());
-		}
 
 		//metrics
 		setupMetrics();
