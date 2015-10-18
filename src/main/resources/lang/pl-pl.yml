@@ -151,8 +151,9 @@ chat:
     items:
      - "&5* &7/nga &ch &6list &2- &3Lista hologramow"
      - "&5* &7/nga &ch &6addtop &2- &3Dodaj hologram TOPki"
-     - "&5* &7/nga &ch &6del &c<nazwa> &2- &3Usun hologram"
-     - "&5* &7/nga &ch &6tp &c<nazwa> &2- &3Teleportuj do hologramu"
+     - "&5* &7/nga &ch &c<nazwa> &6del &2- &3Usun hologram"
+     - "&5* &7/nga &ch &c<nazwa> &6tp &2- &3Teleportuj do hologramu"
+     - "&5* &7/nga &ch &c<nazwa> &6tphere &2- &3Teleportuj hologram"
   guild:
    hasguild:
     - "&5* &7/g &cpay &6<ilosc> &2- &3Wplac pieniadze do banku"
