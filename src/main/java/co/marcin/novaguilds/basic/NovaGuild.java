@@ -197,6 +197,11 @@ public class NovaGuild {
 	public void setName(String n) {
 		name = n;
 		changed();
+
+		//Force changed()
+		for(NovaPlayer nPlayer : getPlayers()) {
+			nPlayer.setGuild(this);
+		}
 	}
 
 	public void setTag(String t) {
