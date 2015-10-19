@@ -1,130 +1,108 @@
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.interfaces.ExecutorReversedAdminGuild;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class CommandAdminGuild implements CommandExecutor {
-	private final NovaGuilds plugin;
-	
-	public CommandAdminGuild(NovaGuilds pl) {
-		plugin = pl;
+public class CommandAdminGuild implements Executor {
+	private final Commands command;
+
+	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
+		put("tp", Commands.ADMIN_GUILD_TELEPORT);
+		put("teleport", Commands.ADMIN_GUILD_TELEPORT);
+		put("abandon", Commands.ADMIN_GUILD_ABANDON);
+
+		put("setname", Commands.ADMIN_GUILD_SET_NAME);
+		put("name", Commands.ADMIN_GUILD_SET_NAME);
+
+		put("settag", Commands.ADMIN_GUILD_SET_TAG);
+		put("tag", Commands.ADMIN_GUILD_SET_TAG);
+
+		put("setpoints", Commands.ADMIN_GUILD_SET_POINTS);
+		put("points", Commands.ADMIN_GUILD_SET_POINTS);
+
+		put("setslots", Commands.ADMIN_GUILD_SET_SLOTS);
+		put("slots", Commands.ADMIN_GUILD_SET_SLOTS);
+
+		put("promote", Commands.ADMIN_GUILD_SET_LEADER);
+		put("leader", Commands.ADMIN_GUILD_SET_LEADER);
+		put("setleader", Commands.ADMIN_GUILD_SET_LEADER);
+
+		put("invite", Commands.ADMIN_GUILD_INVITE);
+		put("pay", Commands.ADMIN_GUILD_BANK_PAY);
+		put("withdraw", Commands.ADMIN_GUILD_BANK_WITHDRAW);
+		put("timerest", Commands.ADMIN_GUILD_SET_TIMEREST);
+		put("liveregentime", Commands.ADMIN_GUILD_SET_LIVEREGENERATIONTIME);
+		put("lives", Commands.ADMIN_GUILD_SET_LIVES);
+		put("purge", Commands.ADMIN_GUILD_PURGE);
+		put("list", Commands.ADMIN_GUILD_LIST);
+		put("inactive", Commands.ADMIN_GUILD_INACTIVE);
+		put("kick", Commands.ADMIN_GUILD_KICK);
+	}};
+
+	private static final List<Commands> noGuildCommands = new ArrayList<Commands>() {{
+		add(Commands.ADMIN_GUILD_LIST);
+		add(Commands.ADMIN_GUILD_KICK);
+		add(Commands.ADMIN_GUILD_SET_LEADER);
+		add(Commands.ADMIN_GUILD_PURGE);
+		add(Commands.ADMIN_GUILD_INACTIVE);
+	}};
+
+	public CommandAdminGuild(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		String[] newArgs = StringUtils.parseArgs(args, 1); //nga g <guild> [command args]
-		String[] newArgs2 = StringUtils.parseArgs(args, 2); //nga g <guild> command [args]
 
-		List<String> noguildcmds = new ArrayList<>();
-		noguildcmds.add("list");
-		noguildcmds.add("kick");
-		noguildcmds.add("promote");
-		noguildcmds.add("purge");
-		noguildcmds.add("inactive");
-
-		if(sender.hasPermission("novaguilds.admin.guild.access")) {
-			//command list
-			if(args.length == 0) {
-				Message.CHAT_COMMANDS_ADMIN_GUILD_HEADER.send(sender);
-
-				for(String cItem : Message.CHAT_COMMANDS_ADMIN_GUILD_ITEMS.getList()) {
-					sender.sendMessage(StringUtils.fixColors(cItem));
-				}
-
-				return true;
-			}
-
-			String subCmd = args[0];
-			NovaGuild guild = null;
-			if(!noguildcmds.contains(subCmd)) {
-				guild = plugin.getGuildManager().getGuildFind(args[0]);
-
-				if(guild == null) {
-					Message.CHAT_GUILD_COULDNOTFIND.send(sender);
-					return true;
-				}
-
-				if(args.length > 1) {
-					subCmd = args[1];
-				}
-			}
-
-			if(guild != null || noguildcmds.contains(subCmd)) {
-				switch(subCmd.toLowerCase()) {
-					case "tp":
-					case "teleport":
-						new CommandAdminGuildTeleport(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "abandon":
-						new CommandAdminGuildAbandon(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "setname":
-					case "name":
-						new CommandAdminGuildSetName(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "settag":
-					case "tag":
-						new CommandAdminGuildSetTag(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "setpoints":
-					case "points":
-						new CommandAdminGuildSetPoints(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "invite":
-						new CommandAdminGuildInvite(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "pay":
-						new CommandAdminGuildBankPay(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "withdraw":
-						new CommandAdminGuildBankWithdraw(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "timerest":
-						new CommandAdminGuildSetTimerest(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "liveregentime":
-						new CommandAdminGuildSetLiveRegenerationTime(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "lives":
-						new CommandAdminGuildSetLives(plugin,guild).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "purge":
-						new CommandAdminGuildPurge(plugin).onCommand(sender, cmd, label, newArgs2);
-						break;
-					case "list":
-						plugin.getCommandManager().getExecutor(Commands.ADMIN_GUILD_LIST).execute(sender, newArgs);
-						break;
-					case "inactive":
-						new CommandAdminGuildInactive(plugin).onCommand(sender, cmd, label, newArgs);
-						break;
-					case "kick":
-						new CommandAdminGuildKick(plugin).onCommand(sender, cmd, label, newArgs);
-						break;
-					case "promote":
-					case "leader":
-						new CommandAdminGuildSetLeader(plugin).onCommand(sender, cmd, label, newArgs);
-						break;
-					default:
-						Message.CHAT_UNKNOWNCMD.send(sender);
-						break;
-				}
-			}
-			else {
-				Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
-			}
-		}
-		else {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
 		}
 
-		return true;
+		//command list
+		if(args.length == 0) {
+			Message.CHAT_COMMANDS_ADMIN_GUILD_HEADER.send(sender);
+			Message.CHAT_COMMANDS_ADMIN_GUILD_ITEMS.send(sender);
+			return;
+		}
+
+		NovaGuild guild = null;
+		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0: 1];
+		Commands subCommand = commandsMap.get(subCmd.toLowerCase());
+
+		if(!noGuildCommands.contains(subCommand) && (args.length > 1 || !noGuildCommands.contains(subCommand))) {
+			guild = plugin.getGuildManager().getGuildFind(args[0]);
+
+			if(guild == null) {
+				Message.CHAT_GUILD_COULDNOTFIND.send(sender);
+				return;
+			}
+		}
+
+		Executor executor = plugin.getCommandManager().getExecutor(subCommand);
+
+		if(executor == null) {
+			Message.CHAT_UNKNOWNCMD.send(sender);
+			return;
+		}
+
+		int subArgsCut = 1;
+
+		if(executor instanceof ExecutorReversedAdminGuild) {
+			((ExecutorReversedAdminGuild) executor).guild(guild);
+			subArgsCut = 2;
+		}
+
+		executor.execute(sender, StringUtils.parseArgs(args, subArgsCut));
 	}
 }

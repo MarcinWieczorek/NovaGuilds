@@ -1,27 +1,41 @@
 package co.marcin.novaguilds.command.admin.region;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.interfaces.ExecutorReversedAdminRegion;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminRegionList implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandAdminRegionList implements Executor, ExecutorReversedAdminRegion {
+	private final Commands command;
+	private NovaRegion region;
 
-	public CommandAdminRegionList(NovaGuilds pl) {
-		plugin = pl;
+	public CommandAdminRegionList(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.region.list")) {
+	@Override
+	public void region(NovaRegion region) {
+		this.region = region;
+	}
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
 		Message.CHAT_REGION_LIST_HEADER.send(sender);
@@ -90,6 +104,5 @@ public class CommandAdminRegionList implements CommandExecutor {
 
 			i++;
 		}
-		return true;
 	}
 }

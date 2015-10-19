@@ -1,32 +1,38 @@
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildSetLeader implements CommandExecutor {
-    private final NovaGuilds plugin;
+public class CommandAdminGuildSetLeader implements Executor {
+    private final Commands command;
 
-    public CommandAdminGuildSetLeader(NovaGuilds pl) {
-        plugin = pl;
+    public CommandAdminGuildSetLeader(Commands command) {
+        this.command = command;
+        plugin.getCommandManager().registerExecutor(command, this);
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(!sender.hasPermission("novaguilds.admin.guild.leader")) {
+    @Override
+    public void execute(CommandSender sender, String[] args) {
+        if(!command.hasPermission(sender)) {
             Message.CHAT_NOPERMISSIONS.send(sender);
-            return true;
+            return;
+        }
+
+        if(!command.allowedSender(sender)) {
+            Message.CHAT_CMDFROMCONSOLE.send(sender);
+            return;
         }
 
         if(args.length == 0) { //no leader
             Message.CHAT_PLAYER_ENTERNAME.send(sender);
-            return true;
+            return;
         }
 
         String playername = args[0];
@@ -35,7 +41,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
         if(nPlayer == null) { //invalid player
             Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-            return true;
+            return;
         }
 
         HashMap<String,String> vars = new HashMap<>();
@@ -43,7 +49,7 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
         if(!nPlayer.hasGuild()) { //has no guild
             Message.CHAT_PLAYER_HASNOGUILD.send(sender);
-            return true;
+            return;
         }
 
         NovaGuild guild = nPlayer.getGuild();
@@ -51,12 +57,12 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
         if(!guild.isMember(nPlayer)) { //is not member
             Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.vars(vars).send(sender);
-            return true;
+            return;
         }
 
         if(guild.getLeader().getName().equalsIgnoreCase(nPlayer.getName())) { //already leader
             Message.CHAT_ADMIN_GUILD_SET_LEADER_ALREADYLEADER.vars(vars).send(sender);
-            return true;
+            return;
         }
 
         Player oldleader = plugin.getServer().getPlayer(guild.getLeader().getName());
@@ -75,7 +81,5 @@ public class CommandAdminGuildSetLeader implements CommandExecutor {
 
         Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.vars(vars).send(sender);
         Message.BROADCAST_GUILD_NEWLEADER.vars(vars).broadcast();
-
-        return true;
     }
 }

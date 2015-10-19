@@ -45,12 +45,13 @@ chat:
     tag: "Tag changed to &a{TAG}"
     points: "Points set."
     lives: "Lives set."
+    slots: "Slots set."
     name:
      enternewname: "Enter new name"
      success: "Guild's name changed."
     leader:
      notinguild: "This player is not in guild &a{GUILDNAME}"
-     alreadyleader: "Player &c{PLAYERNAME} is already the leader!"
+     alreadyleader: "Player &c{PLAYERNAME} &3already is the leader!"
      success: "New leader set!"
   region:
    bypass:
@@ -99,9 +100,11 @@ chat:
  usage:
   nga:
    guild:
-    setpoints: "&5* &7/nga &cg &6<guild> &cpoints &6<points> &2- &3set points"
+    set:
+     slots: "&5* &7/nga &cg &6<guild> &cslots &6<amount> &2- &3set slots"
+     points: "&5* &7/nga &cg &6<guild> &cpoints &6<points> &2- &3set points"
+     lives:     "&5* &7/nga &cg &6<guild> &clives &6<lives> &2- &3set lives"
     abandon:   "&5* &7/nga &cg &6<guild> &cabandon &2- &3abandon the guild"
-    lives:     "&5* &7/nga &cg &6<guild> &clives &6<lives> &2- &3set lives"
     bank:
      pay:      "&5* &7/nga &cg &6<guild> &cpay &6<amount> &2- &3Pay money to guild's bank"
      withdraw: "&5* &7/nga &cg &6<guild> &cwithdraw &6<amount> &2- &3Take money from the bank"
@@ -125,8 +128,8 @@ chat:
     header: "Admin region commands:"
     items:
      - "&5* &7/nga &crg &6list &2- &3Region list"
-     - "&5* &7/nga &crg &6del &c<guildname> &2- &3Delete region"
-     - "&5* &7/nga &crg &6tp &c<guildname> &2- &3Teleport to region"
+     - "&5* &7/nga &crg &6<guild> &cdel &2- &3Delete region"
+     - "&5* &7/nga &crg &6<guild> &ctp &2- &3Teleport to region"
      - "&5* &7/nga &crg &6bypass &c[player] &2- &3Change bypass mode"
    guild:
     header: "Guild commands for admins"

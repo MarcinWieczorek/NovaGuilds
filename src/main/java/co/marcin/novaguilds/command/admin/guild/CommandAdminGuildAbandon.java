@@ -1,29 +1,40 @@
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.interfaces.ExecutorReversedAdminGuild;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildAbandon implements CommandExecutor {
-	private static NovaGuilds plugin;
-	private final NovaGuild guild;
-	
-	public CommandAdminGuildAbandon(NovaGuilds novaGuilds, NovaGuild guild) {
-		plugin = novaGuilds;
+public class CommandAdminGuildAbandon implements Executor, ExecutorReversedAdminGuild {
+	private NovaGuild guild;
+	private final Commands command;
+
+	public CommandAdminGuildAbandon(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
+	}
+
+	@Override
+	public void guild(NovaGuild guild) {
 		this.guild = guild;
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.guild.abandon")) {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
 		//fire event
@@ -45,7 +56,6 @@ public class CommandAdminGuildAbandon implements CommandExecutor {
 		}
 
 		plugin.tagUtils.refreshGuild(guild);
-		return true;
 	}
 	
 }

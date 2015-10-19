@@ -1,40 +1,37 @@
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-public class CommandAdminGuildInactive implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandAdminGuildInactive implements Executor {
+	private final Commands command;
 
-	public CommandAdminGuildInactive(NovaGuilds pl) {
-		plugin = pl;
+	public CommandAdminGuildInactive(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(plugin.getGuildManager().getGuilds().isEmpty()) {
-			Message.CHAT_GUILD_NOGUILDS.send(sender);
-			return true;
-		}
-
+	@Override
+	public void execute(CommandSender sender, String[] args) {
 		int page = 1;
 		if(args.length == 1) {
 			if(NumberUtils.isNumeric(args[0])) {
 				page = Integer.parseInt(args[0]);
 			}
 			else if(args[0].equalsIgnoreCase("update")) {
-				if(!sender.hasPermission("novaguilds.admin.guild.inactive.update")) {
+				if(!Permission.NOVAGUILDS_ADMIN_GUILD_INACTIVE_UPDATE.has(sender)) {
 					Message.CHAT_NOPERMISSIONS.send(sender);
-					return true;
+					return;
 				}
 
 				int count = 0;
@@ -45,22 +42,23 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 				HashMap<String,String> vars = new HashMap<>();
 				vars.put("COUNT",count+"");
 				Message.CHAT_ADMIN_GUILD_INACTIVE_UPDATED.vars(vars).send(sender);
-				return true;
+				return;
 			}
 			else if(args[0].equalsIgnoreCase("clean")) {
-				if(!sender.hasPermission("novaguilds.admin.guild.inactive.clean")) {
+				if(!Permission.NOVAGUILDS_ADMIN_GUILD_INACTIVE_CLEAN.has(sender)) {
 					Message.CHAT_NOPERMISSIONS.send(sender);
-					return true;
+					return;
 				}
 
-				return true;
+				//TODO cleaning guilds
+				return;
 			}
 		}
 
 		//list
-		if(!sender.hasPermission("novaguilds.admin.guild.inactive.list")) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
 		if(page < 1) {
@@ -116,8 +114,6 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 					agonow = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_NOW.get();
 				}
 
-				LoggerUtils.debug("leadernull="+(guild.getLeader()==null));
-
 				HashMap<String, String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
 				vars.put("PLAYERNAME", guild.getLeader().getName());
@@ -137,7 +133,5 @@ public class CommandAdminGuildInactive implements CommandExecutor {
 
 			i++;
 		}
-
-		return true;
 	}
 }

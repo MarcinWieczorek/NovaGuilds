@@ -1,39 +1,50 @@
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.interfaces.ExecutorReversedAdminGuild;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildSetTag implements CommandExecutor {
-	private final NovaGuilds plugin;
-	private final NovaGuild guild;
+public class CommandAdminGuildSetTag implements Executor, ExecutorReversedAdminGuild {
+	private NovaGuild guild;
+	private final Commands command;
 
-	public CommandAdminGuildSetTag(NovaGuilds plugin, NovaGuild guild) {
-		this.plugin = plugin;
+	public CommandAdminGuildSetTag(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
+	}
+
+	@Override
+	public void guild(NovaGuild guild) {
 		this.guild = guild;
 	}
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.guild.settag")) {
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
 		if(args.length==0) {
 			Message.CHAT_GUILD_ENTERTAG.send(sender);
-			return true;
+			return;
 		}
 
-		String newtag = args[0];
+		final String newtag = args[0];
 
 		if(plugin.getGuildManager().getGuildFind(newtag) != null) {
 			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
-			return true;
+			return;
 		}
 
 		//all passed
@@ -41,9 +52,6 @@ public class CommandAdminGuildSetTag implements CommandExecutor {
 
 		plugin.tagUtils.refreshAll();
 
-		HashMap<String,String> vars = new HashMap<>();
-		vars.put("TAG",newtag);
-		Message.CHAT_ADMIN_GUILD_SET_TAG.vars(vars).send(sender);
-		return true;
+		Message.CHAT_ADMIN_GUILD_SET_TAG.vars(new HashMap<String, String>(){{put("TAG", newtag);}}).send(sender);
 	}
 }

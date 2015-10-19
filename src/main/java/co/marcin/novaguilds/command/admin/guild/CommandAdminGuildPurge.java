@@ -1,38 +1,44 @@
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildPurge implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandAdminGuildPurge implements Executor {
+	private final Commands command;
 
-	public CommandAdminGuildPurge(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
+	public CommandAdminGuildPurge(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.guild.abandon")) {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
 		if(!Config.DEBUG.getBoolean()) {
 			sender.sendMessage("This command is not available.");
-			return true;
+			return;
 		}
 
 		if(plugin.getGuildManager().getGuilds().isEmpty()) {
 			Message.CHAT_GUILD_NOGUILDS.send(sender);
-			return true;
+			return;
 		}
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
@@ -54,7 +60,6 @@ public class CommandAdminGuildPurge implements CommandExecutor {
 				Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast();
 			}
 		}
-		return true;
 	}
 
 }

@@ -45,12 +45,13 @@ chat:
     tag: "Tag zmieniony na &a{TAG}"
     points: "Punkty zmienione."
     lives: "Ilosc zyc zmieniona."
+    slots: "Ilosc slotow zmieniona."
     name:
      enternewname: "Wprowadz nowa nazwe"
      success: "Nazwa gildii zmieniona."
     leader:
      notinguild: "Ten gracz nie jest w gildii &a{GUILDNAME}"
-     alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
+     alreadyleader: "Gracz &c{PLAYERNAME} &3jest juz liderem!"
      success: "Nowy lider ustalony!"
   region:
    bypass:
@@ -99,9 +100,11 @@ chat:
  usage:
   nga:
    guild:
-    setpoints: "&5* &7/nga &cg &6<gildia> &cpoints &6<punkty> &2- &3Zmien punkty"
+    set:
+     slots: "&5* &7/nga &cg &6<guild> &cslots &6<ilosc> &2- &3Zmien ilosc slotow"
+     points: "&5* &7/nga &cg &6<gildia> &cpoints &6<punkty> &2- &3Zmien punkty"
+     lives: "&5* &7/nga &cg &6lives &c<ilosc> &2- &3ustaw zycia"
     abandon: "&5* &7/nga &cg &6abandon &c<gildia> &2- &3porzuc gildie"
-    lives: "&5* &7/nga &cg &6lives &c<ilosc> &2- &3ustaw zycia"
     bank:
      pay: "&7/nga &cg &6pay &c<gildia> &6<ilosc>"
      withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
@@ -125,8 +128,8 @@ chat:
     header: "Komendy Admina, regiony:"
     items:
      - "&5* &7/nga &crg &6list &2- &3Lista regionow"
-     - "&5* &7/nga &crg &6del &c<gildia> &2- &3Usun region"
-     - "&5* &7/nga &crg &6tp &c<gildia> &2- &3Teleport do regionu"
+     - "&5* &7/nga &crg &6<gildia> &cdel &2- &3Usun region"
+     - "&5* &7/nga &crg &6<gildia> &ctp &2- &3Teleport do regionu"
      - "&5* &7/nga &crg &6bypass &c[gracz] &2- &3Zmiana trybu ignorowania regionow"
    guild:
     header: "Komendy Admina, gildie:"
@@ -135,7 +138,7 @@ chat:
      - "&5* &7/nga &cg &6<gildia> &cabandon &2- &3Rozwiaz gildie"
      - "&5* &7/nga &cg &6<gildia> &csetname &6<nazwa> &2- &3Zmien nazwe"
      - "&5* &7/nga &cg &6<gildia> &csettag &6<tag> &2- &3Zmien tag"
-     - "&5* &7/nga &cg &6<gildia> &csetpoints &6<punkty> &2- &3Zmien punkty"
+     - "&5* &7/nga /n&cg &6<gildia> &csetpoints &6<punkty> &2- &3Zmien punkty"
      - "&5* &7/nga &cg &6<gildia> &cinvite &6<gracz> &2- &3Zapros gracza do gildii"
      - "&5* &7/nga &cg &6<gildia> &cpay &6<ilosc> &2- &3Wplac pieniadze do banku gildii"
      - "&5* &7/nga &cg &6<gildia> &cwithdraw &6<ilosc> &2- &3Zabierz pieniadze z banku gildii"

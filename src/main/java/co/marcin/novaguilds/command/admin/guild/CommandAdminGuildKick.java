@@ -1,50 +1,56 @@
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildKick  implements CommandExecutor {
-	private final NovaGuilds plugin;
-	
-	public CommandAdminGuildKick(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
+public class CommandAdminGuildKick implements Executor {
+	private final Commands command;
+
+	public CommandAdminGuildKick(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
-	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.guild.kick")) {
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 		
 		if(args.length == 0) { //no playername
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
-			return true;
+			return;
 		}
 		
 		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayer(args[0]);
 		
 		if(nPlayerKick == null) { //no player
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-			return true;
+			return;
 		}
 
 		if(!nPlayerKick.hasGuild()) {
 			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		NovaGuild guild = nPlayerKick.getGuild();
 
 		if(nPlayerKick.isLeader()) {
 			Message.CHAT_ADMIN_GUILD_KICK_LEADER.send(sender);
-			return true;
+			return;
 		}
 		
 		//all passed
@@ -57,7 +63,5 @@ public class CommandAdminGuildKick  implements CommandExecutor {
 		
 		//tab/tag
 		plugin.tagUtils.refreshAll();
-		
-		return true;
 	}
 }

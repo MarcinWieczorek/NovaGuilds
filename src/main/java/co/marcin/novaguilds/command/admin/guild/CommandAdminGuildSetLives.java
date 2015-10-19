@@ -1,47 +1,57 @@
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.interfaces.ExecutorReversedAdminGuild;
 import co.marcin.novaguilds.util.NumberUtils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminGuildSetLives implements CommandExecutor {
-	private final NovaGuilds plugin;
-	private final NovaGuild guild;
+public class CommandAdminGuildSetLives implements Executor, ExecutorReversedAdminGuild {
+	private NovaGuild guild;
+	private final Commands command;
 
-	public CommandAdminGuildSetLives(NovaGuilds pl, NovaGuild guild) {
-		plugin = pl;
+	public CommandAdminGuildSetLives(Commands command) {
+		this.command = command;
+		plugin.getCommandManager().registerExecutor(command, this);
+	}
+
+	@Override
+	public void guild(NovaGuild guild) {
 		this.guild = guild;
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.admin.guild.lives")) {
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
 		if(args.length == 0) {
-			Message.CHAT_USAGE_NGA_GUILD_LIVES.send(sender);
-			return true;
+			Message.CHAT_USAGE_NGA_GUILD_SET_LIVES.send(sender);
+			return;
 		}
 
 		if(!NumberUtils.isNumeric(args[0])) {
 			Message.CHAT_ENTERINTEGER.send(sender);
-			return true;
+			return;
 		}
 
 		int lives = Integer.parseInt(args[0]);
 
 		if(lives < 0) {
 			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
-			return true;
+			return;
 		}
 
 		guild.setLives(lives);
 		Message.CHAT_ADMIN_GUILD_SET_LIVES.send(sender);
-		return true;
 	}
 }

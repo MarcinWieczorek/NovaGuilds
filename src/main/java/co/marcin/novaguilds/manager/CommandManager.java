@@ -3,9 +3,11 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.command.*;
 import co.marcin.novaguilds.command.admin.CommandAdmin;
-import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildList;
+import co.marcin.novaguilds.command.admin.CommandAdminReload;
+import co.marcin.novaguilds.command.admin.CommandAdminSave;
+import co.marcin.novaguilds.command.admin.guild.*;
 import co.marcin.novaguilds.command.admin.hologram.*;
-import co.marcin.novaguilds.command.admin.region.CommandAdminRegionBypass;
+import co.marcin.novaguilds.command.admin.region.*;
 import co.marcin.novaguilds.command.guild.*;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
@@ -13,11 +15,16 @@ import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class CommandManager {
@@ -74,7 +81,6 @@ public class CommandManager {
 		new CommandGuildBuyLife(Commands.GUILD_BUYLIFE);
 		new CommandGuildBuySlot(Commands.GUILD_BUYSLOT);
 		new CommandGuildCompass(Commands.GUILD_COMPASS);
-		new CommandToolGet(Commands.TOOL_GET);
 		new CommandGuildAlly(Commands.GUILD_ALLY);
 		new CommandGuildBankPay(Commands.GUILD_BANK_PAY);
 		new CommandGuildBankWithdraw(Commands.GUILD_BANK_WITHDRAW);
@@ -89,6 +95,37 @@ public class CommandManager {
 		new CommandAdminGuildList(Commands.ADMIN_GUILD_LIST);
 		new CommandGuildOpenInvitation(Commands.GUILD_OPENINVITATION);
 
+		new CommandToolGet(Commands.TOOL_GET);
+
+		//Admin
+		new CommandAdminReload(Commands.ADMIN_RELOAD);
+		new CommandAdminSave(Commands.ADMIN_SAVE);
+
+		//AdminRegion
+		new CommandAdminRegion(Commands.ADMIN_REGION_ACCESS);
+		new CommandAdminRegionDelete(Commands.ADMIN_REGION_DELETE);
+		new CommandAdminRegionList(Commands.ADMIN_REGION_LIST);
+		new CommandAdminRegionTeleport(Commands.ADMIN_REGION_TELEPORT);
+
+		//AdminGuilds
+		new CommandAdminGuild(Commands.ADMIN_GUILD_ACCESS);
+		new CommandAdminGuildAbandon(Commands.ADMIN_GUILD_ABANDON);
+		new CommandAdminGuildBankPay(Commands.ADMIN_GUILD_BANK_PAY);
+		new CommandAdminGuildBankWithdraw(Commands.ADMIN_GUILD_BANK_WITHDRAW);
+		new CommandAdminGuildInactive(Commands.ADMIN_GUILD_INACTIVE);
+		new CommandAdminGuildInvite(Commands.ADMIN_GUILD_INVITE);
+		new CommandAdminGuildKick(Commands.ADMIN_GUILD_KICK);
+		new CommandAdminGuildPurge(Commands.ADMIN_GUILD_PURGE);
+		new CommandAdminGuildSetLeader(Commands.ADMIN_GUILD_SET_LEADER);
+		new CommandAdminGuildSetLiveRegenerationTime(Commands.ADMIN_GUILD_SET_LIVEREGENERATIONTIME);
+		new CommandAdminGuildSetLives(Commands.ADMIN_GUILD_SET_LIVES);
+		new CommandAdminGuildSetName(Commands.ADMIN_GUILD_SET_NAME);
+		new CommandAdminGuildSetPoints(Commands.ADMIN_GUILD_SET_POINTS);
+		new CommandAdminGuildSetSlots(Commands.ADMIN_GUILD_SET_SLOTS);
+		new CommandAdminGuildSetTag(Commands.ADMIN_GUILD_SET_TAG);
+		new CommandAdminGuildSetTimerest(Commands.ADMIN_GUILD_SET_TIMEREST);
+		new CommandAdminGuildTeleport(Commands.ADMIN_GUILD_TELEPORT);
+
 		//AdminHologram
 		new CommandAdminHologram(Commands.ADMIN_HOLOGRAM_ACCESS);
 		new CommandAdminHologramList(Commands.ADMIN_HOLOGRAM_LIST);
@@ -97,7 +134,48 @@ public class CommandManager {
 		new CommandAdminHologramTeleport(Commands.ADMIN_HOLOGRAM_TELEPORT);
 		new CommandAdminHologramTeleportHere(Commands.ADMIN_HOLOGRAM_TELEPORT_HERE);
 
+		//AdminRegion
 		new CommandAdminRegionBypass(Commands.ADMIN_REGION_BYPASS);
+
+		plugin.getCommand("nga").setTabCompleter(new TabCompleter() {
+			@Override
+			public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+				List<String> list = new ArrayList<>();
+				Set<String> keys = null;
+
+				if(args.length > 1) {
+					switch(args[0].toLowerCase()) {
+						case "g":
+						case "guild":
+							keys = CommandAdminGuild.commandsMap.keySet();
+							break;
+
+						case "rg":
+						case "region":
+							keys = CommandAdminRegion.commandsMap.keySet();
+							break;
+
+						case "h":
+						case "hologram":
+							keys = CommandAdminHologram.commandsMap.keySet();
+							break;
+					}
+				}
+				else {
+					keys = CommandAdmin.commandsMap.keySet();
+				}
+
+				if(keys != null) {
+					for(String key : keys) {
+						if(key.startsWith(args[args.length - 1])) {
+							list.add(key);
+						}
+					}
+				}
+
+				return list;
+			}
+		});
 	}
 
 	public String getGuiCommand(ItemStack itemStack) {
