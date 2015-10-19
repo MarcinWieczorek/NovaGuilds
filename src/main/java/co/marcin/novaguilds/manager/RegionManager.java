@@ -239,6 +239,8 @@ public class RegionManager {
 				LoggerUtils.exception(e);
 			}
 		}
+
+		region.getGuild().setRegion(null);
 	}
 
 	public void postCheck() {
