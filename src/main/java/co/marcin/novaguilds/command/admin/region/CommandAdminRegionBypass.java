@@ -26,7 +26,7 @@ public class CommandAdminRegionBypass implements Executor {
 	public void execute(CommandSender sender, String[] args) {
 		HashMap<String,String> vars = new HashMap<>();
 
-		if(args.length==0) {
+		if(args.length==0 || args[0].equalsIgnoreCase(sender.getName())) {
 			if(!command.hasPermission(sender)) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
 				return;
