@@ -148,67 +148,67 @@ public enum Config {
 	}
 
 	public String getString() {
-		String r = cM.isInCache(this) ? (String) cM.getEnumConfig(this) : cM.getString(path);
+		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public List<String> getStringList() {
-		List<String> r = cM.isInCache(this) ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path);
+		List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public List<ItemStack> getItemStackList() {
-		List<ItemStack> r = cM.isInCache(this) ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path);
+		List<ItemStack> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public List<Material> getMaterialList() {
-		List<Material> r = cM.isInCache(this) ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path);
+		List<Material> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public long getLong() {
-		long r = cM.isInCache(this) ? (long) cM.getEnumConfig(this) : cM.getLong(path);
+		long r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Long ? (long) cM.getEnumConfig(this) : cM.getLong(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public double getDouble() {
-		double r = cM.isInCache(this) ? (double) cM.getEnumConfig(this) : cM.getDouble(path);
+		double r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Double ? (double) cM.getEnumConfig(this) : cM.getDouble(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public int getInt() {
-		int r = cM.isInCache(this) ? (int) cM.getEnumConfig(this) : cM.getInt(path);
+		int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getInt(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public boolean getBoolean() {
-		boolean r = cM.isInCache(this) ? (boolean) cM.getEnumConfig(this) : cM.getBoolean(path);
+		boolean r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Boolean ? (boolean) cM.getEnumConfig(this) : cM.getBoolean(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public int getSeconds() {
-		int r = cM.isInCache(this) ? (int) cM.getEnumConfig(this) : cM.getSeconds(path);
+		int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getSeconds(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public ItemStack getItemStack() {
-		ItemStack r = cM.isInCache(this) ? (ItemStack) cM.getEnumConfig(this) : cM.getItemStack(path);
+		ItemStack r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof ItemStack ? (ItemStack) cM.getEnumConfig(this) : cM.getItemStack(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
 	public Material getMaterial() {
-		Material r = cM.isInCache(this) ? (Material) cM.getEnumConfig(this) : cM.getMaterial(path);
+		Material r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Material ? (Material) cM.getEnumConfig(this) : cM.getMaterial(path);
 		cM.putInCache(this, r);
 		return r;
 	}
