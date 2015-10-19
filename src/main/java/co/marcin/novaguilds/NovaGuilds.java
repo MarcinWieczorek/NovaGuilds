@@ -247,6 +247,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			PacketExtension.unregisterNovaGuildsChannel();
 		}
 
+		//Disable McHTTP
+		if(Config.WWW_ENABLED.getBoolean()) {
+			mcHTTP.stop();
+		}
+
 		//Stop schedulers
 		worker.shutdown();
 
