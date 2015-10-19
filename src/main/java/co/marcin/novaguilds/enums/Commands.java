@@ -68,6 +68,7 @@ public enum Commands {
 
 	TOOL_GET("novaguilds.tool.get",false);
 
+	private Message usageMessage;
 	private boolean allowConsole = true;
 	private String permissionPath = "";
 	private Permission permission;
@@ -85,6 +86,13 @@ public enum Commands {
 		this.allowConsole = allowConsole;
 	}
 
+	Commands(Permission permission, boolean allowConsole, Message usageMessage) {
+		this.permission = permission;
+		this.permissionPath = permission.getPath();
+		this.allowConsole = allowConsole;
+		this.usageMessage = usageMessage;
+	}
+
 	public boolean allowConsole() {
 		return allowConsole;
 	}
@@ -99,5 +107,9 @@ public enum Commands {
 
 	public boolean allowedSender(CommandSender sender) {
 		return sender instanceof Player || allowConsole;
+	}
+
+	public Message getUsageMessage() {
+		return usageMessage;
 	}
 }
