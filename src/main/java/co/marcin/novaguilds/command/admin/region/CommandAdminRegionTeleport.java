@@ -62,7 +62,7 @@ public class CommandAdminRegionTeleport implements Executor, ExecutorReversedAdm
 		HashMap<String,String> vars = new HashMap<>();
 		vars.put("GUILDNAME", region.getGuild().getName());
 
-		Location location = region.getCorner(0).clone();
+		Location location = region.getCenter().clone();
 		location.setY(location.getWorld().getHighestBlockYAt(location));
 
 		if(!player.equals(sender)) {
