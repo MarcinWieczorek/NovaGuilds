@@ -21,7 +21,7 @@ public class CommandAdminHologram implements Executor {
 		add("addtop");
 	}};
 
-	private static final HashMap<String, Commands> commandsMap = new HashMap<String, Commands>(){{
+	public static final HashMap<String, Commands> commandsMap = new HashMap<String, Commands>(){{
 		put("list", Commands.ADMIN_HOLOGRAM_LIST);
 		put("ls", Commands.ADMIN_HOLOGRAM_LIST);
 
