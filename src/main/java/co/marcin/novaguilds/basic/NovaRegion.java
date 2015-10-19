@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.basic;
 
+import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -66,6 +67,10 @@ public class NovaRegion {
 
 	public int getSurface() {
 		return getHeight() * getWidth();
+	}
+
+	public Location getCenter() {
+		return RegionUtils.getCenterLocation(getCorner(0), getCorner(1));
 	}
 	
 	//setters
