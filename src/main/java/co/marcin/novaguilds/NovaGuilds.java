@@ -13,6 +13,7 @@ import co.marcin.novaguilds.listener.*;
 import co.marcin.novaguilds.manager.*;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
+import co.marcin.novaguilds.runnable.RunnableRefreshHolograms;
 import co.marcin.novaguilds.util.*;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
 import com.earth2me.essentials.Essentials;
@@ -219,6 +220,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		runLiveRegenerationTask();
 		LoggerUtils.info("Live regeneration task is running");
 
+		//Hologram refersh task
+		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
+			runLiveHologramRefreshTask();
+		}
+
 		//metrics
 		setupMetrics();
 
@@ -367,6 +373,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private void runLiveRegenerationTask() {
 		Runnable task = new RunnableLiveRegeneration(this);
 		worker.scheduleAtFixedRate(task, Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), TimeUnit.SECONDS);
+	}
+
+	private void runLiveHologramRefreshTask() {
+		Runnable task = new RunnableRefreshHolograms(this);
+		worker.scheduleAtFixedRate(task, Config.HOLOGRAPHICDISPLAYS_REFRESH.getSeconds(), Config.HOLOGRAPHICDISPLAYS_REFRESH.getSeconds(), TimeUnit.SECONDS);
 	}
 
 	private void setupMetrics() {

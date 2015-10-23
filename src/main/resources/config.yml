@@ -67,6 +67,7 @@ tagapi:
 
 holographicdisplays:
  enabled: true
+ refresh: 15m
 
 packets:
  enabled: false
