@@ -62,6 +62,8 @@ public class McHTTP {
 	public static final String HEADER_FIRST_404 = protocolVersion+" 404 Not Found";
 
 	private int port = 80;
+	private boolean running = false;
+	private Thread thread;
 	private ServerSocket serverSocket;
 	private File htmlDirectory = new File(NovaGuilds.getInstance().getDataFolder(), "/www");
 
@@ -87,7 +89,7 @@ public class McHTTP {
 	}
 
 	public void start() {
-		Thread thread = new Thread() {
+		thread = new Thread() {
 			@Override
 			public void run() {
 				try {
@@ -98,7 +100,11 @@ public class McHTTP {
 					String dateString = date.format(new Date());
 					System.out.println(dateString);
 
-					while(Config.WWW_ENABLED.getBoolean()) {
+					if(!running) {
+						this.stop();
+					}
+
+					while(Config.WWW_ENABLED.getBoolean() && running) {
 						Socket clientSocket = serverSocket.accept();
 
 						PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -182,6 +188,18 @@ public class McHTTP {
 		};
 
 		thread.start();
+		running = true;
+	}
+
+	public void stop() {
+		try {
+			running = false;
+			serverSocket.close();
+		}
+		catch(IOException e) {
+			running = false;
+			LoggerUtils.exception(e);
+		}
 	}
 
 	private File getHTMLFile(String path) {
