@@ -108,7 +108,7 @@ public class NovaHologram {
 	}
 
 	public boolean isDeleted() {
-		return deleted;
+		return deleted || hologram.isDeleted();
 	}
 
 	public void setTop(boolean top) {
