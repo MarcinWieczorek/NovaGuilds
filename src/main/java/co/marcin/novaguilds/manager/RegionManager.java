@@ -249,8 +249,6 @@ public class RegionManager {
 				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_DELETE);
 				preparedStatement.setString(1,region.getGuild().getName());
 				preparedStatement.executeUpdate();
-
-				regions.remove(region.getGuildName().toLowerCase());
 			}
 			catch(SQLException e) {
 				LoggerUtils.info("An error occured while deleting a guild's region ("+region.getGuild().getName()+")");
@@ -258,6 +256,7 @@ public class RegionManager {
 			}
 		}
 
+		regions.remove(region.getGuildName().toLowerCase());
 		region.getGuild().setRegion(null);
 	}
 
