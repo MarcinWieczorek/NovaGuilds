@@ -3,7 +3,7 @@ main: co.marcin.novaguilds.NovaGuilds
 author: Marcin Wieczorek
 description: The best polish guilds plugin!
 website: http://novaguilds.pl/
-version: 26
+version: 27
 softdepend: [HolographicDisplays, BarAPI, Vault]
 commands:
    novaguilds:
