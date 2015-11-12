@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.Title;
@@ -189,10 +190,10 @@ public class MessageManager {
 	}
 
 	//broadcast message from file to all players with permission
-	public static void broadcastMessageForPermitted(String path, String permission) {
+	public static void broadcastMessageForPermitted(String path, Permission permission) {
 		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-			if(p.hasPermission(permission)) {
-				sendMessagesMsg(p,path);
+			if(permission.has(p)) {
+				sendMessagesMsg(p, path);
 			}
 		}
 	}

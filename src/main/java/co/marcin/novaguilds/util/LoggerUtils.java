@@ -21,6 +21,7 @@ package co.marcin.novaguilds.util;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.Bukkit;
 
 import java.util.logging.Logger;
@@ -96,6 +97,6 @@ public final class LoggerUtils {
 		error("");
 
 		//notify all permitted players
-		Message.CHAT_ERROROCCURED.broadcast("novaguilds.error");
+		Message.CHAT_ERROROCCURED.broadcast(Permission.NOVAGUILDS_ERROR);
 	}
 }

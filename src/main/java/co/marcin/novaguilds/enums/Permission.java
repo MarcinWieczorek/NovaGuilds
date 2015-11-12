@@ -97,7 +97,8 @@ public enum Permission {
 	NOVAGUILDS_CHAT_NOTAG,
 	NOVAGUILDS_PLAYERINFO,
 	NOVAGUILDS_TOOL_CHECK,
-	NOVAGUILDS_TOOL_GET;
+	NOVAGUILDS_TOOL_GET,
+	NOVAGUILDS_ERROR;
 
 	public boolean has(CommandSender sender) {
 		return sender.hasPermission(getPath());

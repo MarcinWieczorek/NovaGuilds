@@ -21,6 +21,7 @@ package co.marcin.novaguilds.util;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -71,7 +72,7 @@ public class VersionUtils {
 
 		//Notify admins if there's an update (only for reload)
 		if(updateAvailable) {
-			Message.CHAT_UPDATE.broadcast("novaguilds.admin.updateavailable");
+			Message.CHAT_UPDATE.broadcast(Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE);
 		}
 	}
 }
