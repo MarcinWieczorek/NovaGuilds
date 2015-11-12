@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class TagUtils {
 		String rank = "";
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(namedplayer);
 
-		if(namedplayer.hasPermission("novaguilds.chat.notag") || !nPlayer.hasGuild()) {
+		if(Permission.NOVAGUILDS_CHAT_NOTAG.has(namedplayer) || !nPlayer.hasGuild()) {
 			return "";
 		}
 

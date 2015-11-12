@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -46,7 +47,7 @@ public class CommandGuildJoin implements CommandExecutor {
 			return true;
 		}
 
-		if(!sender.hasPermission("novaguilds.guild.join")) {
+		if(!Permission.NOVAGUILDS_GUILD_JOIN.has(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}

@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +34,7 @@ public class CommandPlayerInfo implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.playerinfo")) {
+		if(!Permission.NOVAGUILDS_PLAYERINFO.has(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}

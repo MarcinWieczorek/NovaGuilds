@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
@@ -41,7 +42,7 @@ public class CommandRegionBuy implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!sender.hasPermission("novaguilds.region.create")) {
+		if(!Permission.NOVAGUILDS_REGION_CREATE.has(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}

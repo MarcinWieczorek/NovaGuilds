@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
@@ -62,7 +63,7 @@ public class ToolListener implements Listener {
 
 		//Change RegionMode
 		if((action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) && player.isSneaking()) {
-			if(!player.hasPermission("novaguilds.tool.check") || !player.hasPermission("novaguilds.region.create")) {
+			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player) || !Permission.NOVAGUILDS_REGION_CREATE.has(player)) {
 				return;
 			}
 
@@ -93,7 +94,7 @@ public class ToolListener implements Listener {
 		NovaRegion region = plugin.getRegionManager().getRegion(pointedLocation);
 
 		if(!nPlayer.getRegionMode() && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
-			if(!player.hasPermission("novaguilds.tool.check")) { //permissions check
+			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player)) { //permissions check
 				return;
 			}
 
@@ -115,7 +116,7 @@ public class ToolListener implements Listener {
 		}
 		else if(event.getAction() != Action.PHYSICAL) { //CREATE MODE
 			if(region != null && !nPlayer.isResizing()) { //resizing
-				if(!player.hasPermission("novaguilds.region.resize")) {
+				if(!Permission.NOVAGUILDS_REGION_RESIZE.has(player)) {
 					return;
 				}
 
@@ -141,7 +142,7 @@ public class ToolListener implements Listener {
 				}
 			}
 			else {
-				if(!player.hasPermission("novaguilds.region.create")) {
+				if(!Permission.NOVAGUILDS_REGION_CREATE.has(player)) {
 					return;
 				}
 

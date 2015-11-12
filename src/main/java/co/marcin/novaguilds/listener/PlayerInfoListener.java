@@ -20,6 +20,7 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,7 +39,7 @@ public class PlayerInfoListener implements Listener {
 	public void onPlayerClickPlayer(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		if(event.getRightClicked() instanceof Player) {
-			if(event.getPlayer().hasPermission("novaguilds.playerinfo")) { //TODO better permission node
+			if(Permission.NOVAGUILDS_PLAYERINFO.has(player)) {
 				NovaPlayer nCPlayer = plugin.getPlayerManager().getPlayer((Player) event.getRightClicked());
 				plugin.getPlayerManager().sendPlayerInfo(player, nCPlayer);
 			}

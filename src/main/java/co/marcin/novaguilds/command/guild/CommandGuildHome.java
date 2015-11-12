@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -62,7 +63,7 @@ public class CommandGuildHome implements Executor {
 		Player player = (Player)sender;
 
 		if(args.length>0 && args[0].equalsIgnoreCase("set")) {
-			if(!sender.hasPermission("novaguilds.guild.home.set")) {
+			if(!Permission.NOVAGUILDS_GUILD_HOME_SET.has(sender)) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
 				return;
 			}

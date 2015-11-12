@@ -24,6 +24,7 @@ import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.basic.Tablist;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.VersionUtils;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
 import org.bukkit.Bukkit;
@@ -58,7 +59,7 @@ public class LoginListener implements Listener {
 		plugin.getPlayerManager().updateUUID(nPlayer);
 
 		//Send version message if there's an update
-		if(VersionUtils.updateAvailable && player.hasPermission("novaguilds.admin.updateavailable")) {
+		if(VersionUtils.updateAvailable && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
 			Message.CHAT_UPDATE.send(player);
 		}
 

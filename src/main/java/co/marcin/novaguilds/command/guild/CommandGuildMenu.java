@@ -20,6 +20,7 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -41,7 +42,7 @@ public class CommandGuildMenu implements CommandExecutor {
 			return true;
 		}
 
-		if(!sender.hasPermission("novaguilds.guild.gui")) {
+		if(Permission.NOVAGUILDS_GUILD_GUI.has(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}

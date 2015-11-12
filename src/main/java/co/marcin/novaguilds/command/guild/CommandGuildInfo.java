@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -79,7 +80,7 @@ public class CommandGuildInfo implements CommandExecutor {
 		List<String> guildInfoMessages;
 		String separator = Message.CHAT_GUILDINFO_PLAYERSEPARATOR.get();
 
-		if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || sender.hasPermission("novaguilds.admin.guild.fullinfo")) {
+		if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || Permission.NOVAGUILDS_ADMIN_FULLINFO.has(sender)) {
 			guildInfoMessages = Message.CHAT_GUILDINFO_FULLINFO.getList();
 		}
 		else {
