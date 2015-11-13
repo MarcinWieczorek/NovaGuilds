@@ -423,7 +423,7 @@ public enum Message {
 	}
 
 	public void broadcast(Permission permission) {
-		MessageManager.broadcastMessageForPermitted(getPath(), permission);
+		MessageManager.broadcastMessageForPermitted(this, permission);
 	}
 
 	public String get() {

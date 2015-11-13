@@ -84,6 +84,7 @@ public class MessageManager {
 
 	private void setupDirectories() {
 		File langsDir = new File(plugin.getDataFolder(),"lang/");
+
 		if(!langsDir.exists()) {
 			if(langsDir.mkdir()) {
 				LoggerUtils.info("Language dir created");
@@ -95,23 +96,12 @@ public class MessageManager {
 	public static String getMessagesString(String path) {
 		String msg = StringUtils.fixColors(instance.getMessages().getString(path));
 
-		if(msg == null) {
-			return path;
-		}
-
-		return msg;
+		return msg==null ? path : msg;
 	}
 
 	//get messages
 	public FileConfiguration getMessages() {
 		return messages;
-	}
-
-	//send string with prefix to a player
-	public static void sendPrefixMessage(Player p, String msg) {
-		if(!msg.equals("none")) {
-			p.sendMessage(StringUtils.fixColors(instance.prefix + msg));
-		}
 	}
 
 	public static void sendPrefixMessage(CommandSender sender, String msg) {
@@ -155,6 +145,7 @@ public class MessageManager {
 
 	public static void sendMessagesMsg(CommandSender sender, String path, boolean title) {
 		String msg = getMessagesString(path);
+
 		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
 			sendTitle((Player) sender, msg);
 		}
@@ -166,7 +157,7 @@ public class MessageManager {
 	public static void sendMessagesMsg(CommandSender sender, String path, Map<String, String> vars, boolean title) {
 		String msg = getMessagesString(path);
 		msg = StringUtils.replaceMap(msg, vars);
-		//sendPrefixMessage(sender,msg);
+
 		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
 			sendTitle((Player) sender, msg);
 		}
@@ -182,28 +173,17 @@ public class MessageManager {
 		title.send(player);
 	}
 
-	//broadcast string to all players
-	public static void broadcast(String msg) {
-		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-			sendPrefixMessage(p, msg);
-		}
-	}
-
 	//broadcast message from file to all players with permission
-	public static void broadcastMessageForPermitted(String path, Permission permission) {
+	public static void broadcastMessageForPermitted(Message message, Permission permission) {
 		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 			if(permission.has(p)) {
-				sendMessagesMsg(p, path);
+				sendMessagesMsg(p, message.getPath());
 			}
 		}
 	}
 
 	public static void broadcastMessage(Message message, Map<String,String> vars) {
-		broadcastMessage(message.getPath(), vars);
-	}
-
-	public static void broadcastMessage(String path, Map<String, String> vars) {
-		String msg = getMessagesString(path);
+		String msg = getMessagesString(message.getPath());
 		msg = StringUtils.replaceMap(msg, vars);
 
 		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
