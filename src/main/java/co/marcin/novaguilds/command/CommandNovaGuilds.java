@@ -27,7 +27,6 @@ import co.marcin.novaguilds.command.guild.CommandGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.VersionUtils;
