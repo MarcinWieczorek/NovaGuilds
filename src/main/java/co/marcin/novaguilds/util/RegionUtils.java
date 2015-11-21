@@ -167,14 +167,12 @@ public final class RegionUtils {
 		}
 	}
 
-	//TODO fix
 	public static Location getCenterLocation(Location l1, Location l2) {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX());
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ());
 
-		//int newx = l1.getBlockX()<0 ? l1.getBlockX()+width/2 : l1.getBlockX()-width/2;
-		int newx = l1.getBlockX()+width/2;
-		int newz = l1.getBlockZ()>0 ? l1.getBlockZ()+height/2 : l1.getBlockZ()-height/2;
+		int newx = l1.getBlockX() + (l1.getBlockX() < l2.getBlockX() ? width : -width)/2;
+		int newz = l1.getBlockZ() + (l1.getBlockZ() < l2.getBlockZ() ? height : -height)/2;
 
 		return new Location(l1.getWorld(),newx,l1.getBlockY(),newz);
 	}
