@@ -18,9 +18,12 @@
 
 package co.marcin.novaguilds.api;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.manager.*;
 
 public interface NovaGuildsAPI {
+	NovaGuilds getInstance();
+
 	RegionManager getRegionManager();
 
 	GuildManager getGuildManager();
