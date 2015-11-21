@@ -331,6 +331,7 @@ public class NovaPlayer {
 		RegionUtils.sendSquare(getPlayer(), getSelectedLocation(0), getSelectedLocation(1), null, (byte)0);
 		RegionUtils.setCorner(getPlayer(), getSelectedLocation(0), null, (byte)0);
 		RegionUtils.setCorner(getPlayer(), getSelectedLocation(1), null, (byte)0);
+		RegionUtils.highlightRegion(getPlayer(), getSelectedRegion(), null);
 
 		setResizingCorner(0);
 		setResizing(false);
