@@ -168,17 +168,17 @@ public class Reflections {
 	}
 
 	public interface ConstructorInvoker {
-		public Object invoke(Object... arguments);
+		Object invoke(Object... arguments);
 	}
 
 	public interface MethodInvoker {
-		public Object invoke(Object target, Object... arguments);
+		Object invoke(Object target, Object... arguments);
 	}
 
 	public interface FieldAccessor<T> {
-		public T get(Object target);
-		public void set(Object target, Object value);
-		public boolean hasField(Object target);
+		T get(Object target);
+		void set(Object target, Object value);
+		boolean hasField(Object target);
 	}
 
 }
