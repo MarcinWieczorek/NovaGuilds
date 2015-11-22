@@ -51,6 +51,10 @@ public final class RegionUtils {
 
 	@SuppressWarnings("deprecation")
 	public static void highlightRegion(Player player, NovaRegion region, Material material) {
+		if(player == null || region == null) {
+			return;
+		}
+
 		Location loc1 = region.getCorner(0).clone();
 		Location loc2 = region.getCorner(1).clone();
 
