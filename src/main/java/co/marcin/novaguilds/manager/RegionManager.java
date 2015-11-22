@@ -370,6 +370,12 @@ public class RegionManager {
 	}
 
 	private boolean isFarEnough(Location l1, Location l2) {
+		return getGuildsTooClose(l1, l2).isEmpty();
+	}
+
+	public List<NovaGuild> getGuildsTooClose(Location l1, Location l2) {
+		List<NovaGuild> list = new ArrayList<>();
+
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;
 		int radius1 = Math.round((int)Math.sqrt((int)(Math.pow(width,2) + Math.pow(height,2))) /2);
@@ -396,11 +402,12 @@ public class RegionManager {
 				LoggerUtils.debug("distance=" + distance);
 				if(distance < min + radius2) {
 					LoggerUtils.debug("too close " + guildLoop.getName());
-					return false;
+					list.add(guildLoop);
 				}
 			}
 		}
-		return true;
+
+		return list;
 	}
 
 	public void playerEnteredRegion(Player player, Location toLocation) {

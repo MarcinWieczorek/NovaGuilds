@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
@@ -218,6 +219,14 @@ public class ToolListener implements Listener {
 					if(nPlayer.isResizing() && validSelect == RegionValidity.OVERLAPS) {
 						List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0,sl1);
 						if(regionsOverlaped.size()==1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
+							validSelect = RegionValidity.VALID;
+						}
+					}
+
+					if(validSelect == RegionValidity.TOOCLOSE) {
+						List<NovaGuild> guildsTooClose = plugin.getRegionManager().getGuildsTooClose(sl0, sl1);
+
+						if(guildsTooClose.size() == 1 && guildsTooClose.get(0).equals(nPlayer.getGuild())) {
 							validSelect = RegionValidity.VALID;
 						}
 					}

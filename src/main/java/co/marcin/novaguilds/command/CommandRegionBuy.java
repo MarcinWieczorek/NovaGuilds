@@ -88,6 +88,14 @@ public class CommandRegionBuy implements CommandExecutor {
 			}
 		}
 
+		if(selectionValidity == RegionValidity.TOOCLOSE) {
+			List<NovaGuild> guildsTooClose = plugin.getRegionManager().getGuildsTooClose(sl0, sl1);
+
+			if(guildsTooClose.size() == 1 && guildsTooClose.get(0).equals(nPlayer.getGuild())) {
+				selectionValidity = RegionValidity.VALID;
+			}
+		}
+
 		if(selectionValidity != RegionValidity.VALID) {
 			Message.CHAT_REGION_VALIDATION_NOTVALID.send(sender);
 			return true;
