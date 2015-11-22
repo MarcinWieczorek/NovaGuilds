@@ -145,7 +145,7 @@ public class ChatListener implements Listener {
 		String cmd = event.getMessage().substring(1, event.getMessage().length());
 
 		if(cmd.contains(" ")) {
-			String[] split = org.apache.commons.lang3.StringUtils.split(cmd, ' ');
+			String[] split = org.apache.commons.lang.StringUtils.split(cmd, ' ');
 			cmd = split[0];
 		}
 

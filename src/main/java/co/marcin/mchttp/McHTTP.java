@@ -30,7 +30,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.ResourceExtractor;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 public class McHTTP {
 	enum ContentType {
