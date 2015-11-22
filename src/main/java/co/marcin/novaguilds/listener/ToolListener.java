@@ -114,7 +114,7 @@ public class ToolListener implements Listener {
 				Message.CHAT_REGION_NOREGIONHERE.send(player);
 			}
 		}
-		else if(event.getAction() != Action.PHYSICAL) { //CREATE MODE
+		else if(event.getAction() != Action.PHYSICAL && nPlayer.getRegionMode()) { //CREATE MODE
 			if(region != null && !nPlayer.isResizing()) { //resizing
 				if(!Permission.NOVAGUILDS_REGION_RESIZE.has(player)) {
 					return;
@@ -148,11 +148,14 @@ public class ToolListener implements Listener {
 
 				Location sl0 = nPlayer.getSelectedLocation(0);
 				Location sl1 = nPlayer.getSelectedLocation(1);
-				event.setCancelled(true);
 
-				//Corner 1
+				//Corner 0
 				if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
 					if(!nPlayer.isResizing()) {
+						if(sl1 != null && !pointedLocation.getWorld().equals(sl1.getWorld())) {
+							return;
+						}
+
 						if(sl0 != null) {
 							RegionUtils.setCorner(player, sl0, null);
 
@@ -167,7 +170,7 @@ public class ToolListener implements Listener {
 					}
 				}
 
-				//Corner 2
+				//Corner 1
 				if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
 					if(nPlayer.isResizing()) {
 						if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()) != null) {
@@ -188,10 +191,14 @@ public class ToolListener implements Listener {
 						nPlayer.setSelectedLocation(nPlayer.getResizingCorner(), pointedLocation);
 					}
 					else {
-						if(nPlayer.getSelectedLocation(1) != null) {
+						if(sl0 != null && !pointedLocation.getWorld().equals(sl0.getWorld())) {
+							return;
+						}
+
+						if(sl1 != null) {
 							RegionUtils.setCorner(player, nPlayer.getSelectedLocation(1), null);
 
-							if(nPlayer.getSelectedLocation(0) != null) {
+							if(sl0 != null) {
 								RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
 							}
 						}
@@ -272,6 +279,7 @@ public class ToolListener implements Listener {
 					RegionUtils.sendSquare(player, sl0, sl1, Config.REGION_MATERIALS_SELECTION_RECTANGLE.getMaterial(), data);
 					RegionUtils.setCorner(player, sl0, Config.REGION_MATERIALS_SELECTION_CORNER.getMaterial());
 					RegionUtils.setCorner(player, sl1, Config.REGION_MATERIALS_SELECTION_CORNER.getMaterial());
+					event.setCancelled(true);
 				}
 			}
 		}
