@@ -294,22 +294,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 		
 		for(Player p : getServer().getOnlinePlayers()) {
-			NovaPlayer nPlayer = getPlayerManager().getPlayer(p);
-
-			if(nPlayer != null) {
-				Location l1 = nPlayer.getSelectedLocation(0);
-				Location l2 = nPlayer.getSelectedLocation(1);
-
-				if(l1 != null && l2 != null) {
-					RegionUtils.sendSquare(p, l1, l2, null, (byte) -1);
-					RegionUtils.setCorner(p, l1, null);
-					RegionUtils.setCorner(p, l2, null);
-
-					if(nPlayer.getSelectedRegion() != null) {
-						RegionUtils.highlightRegion(p, nPlayer.getSelectedRegion(), null);
-					}
-				}
-			}
+			getPlayerManager().getPlayer(p).cancelToolProgress();
 		}
 
 		//getConfigManager().disable();
