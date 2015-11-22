@@ -70,7 +70,7 @@ public class ToolListener implements Listener {
 
 			//remove region highlight
 			if(nPlayer.getSelectedRegion() != null) {
-				RegionUtils.highlightRegion(event.getPlayer(), nPlayer.getSelectedRegion(), null);
+				RegionUtils.highlightRegion(player, nPlayer.getSelectedRegion(), null);
 			}
 
 			event.setCancelled(true);
@@ -101,7 +101,7 @@ public class ToolListener implements Listener {
 
 			//Reset region highlighted already
 			if(nPlayer.getSelectedRegion() != null) {
-				RegionUtils.highlightRegion(event.getPlayer(), nPlayer.getSelectedRegion(), null);
+				RegionUtils.highlightRegion(player, nPlayer.getSelectedRegion(), null);
 				nPlayer.setSelectedRegion(null);
 			}
 
