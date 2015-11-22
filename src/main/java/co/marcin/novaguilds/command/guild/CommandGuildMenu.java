@@ -42,7 +42,7 @@ public class CommandGuildMenu implements CommandExecutor {
 			return true;
 		}
 
-		if(Permission.NOVAGUILDS_GUILD_GUI.has(sender)) {
+		if(!Permission.NOVAGUILDS_GUILD_GUI.has(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return true;
 		}
