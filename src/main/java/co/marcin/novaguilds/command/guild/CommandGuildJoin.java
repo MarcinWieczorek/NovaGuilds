@@ -117,27 +117,15 @@ public class CommandGuildJoin implements CommandExecutor {
 
 		//items
 		List<ItemStack> joinItems = plugin.getGroupManager().getGroup(sender).getGuildJoinItems();
+
 		if(!joinItems.isEmpty()) {
 			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), joinItems);
+
 			if(!missingItems.isEmpty()) {
 				//TODO: list missing items and test messages/make other msgs
-				String itemlist = "";
-				int i = 0;
-				for(ItemStack missingItemStack : missingItems) {
-					String itemrow = Message.CHAT_CREATEGUILD_ITEMLIST.get();
-					itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
-					itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
-
-					itemlist += itemrow;
-
-					if(i<missingItems.size()-1) {
-						itemlist += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
-					}
-					i++;
-				}
-
 				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-				sender.sendMessage(StringUtils.fixColors(itemlist));
+				sender.sendMessage(StringUtils.getItemList(missingItems));
+
 				return true;
 			}
 		}

@@ -91,27 +91,15 @@ public class CommandGuildHome implements Executor {
 		else {
 			//items
 			List<ItemStack> homeItems = plugin.getGroupManager().getGroup(sender).getGuildHomeItems();
+
 			if(!homeItems.isEmpty()) {
 				List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
+
 				if(!missingItems.isEmpty()) {
 					//TODO: list missing items and test messages/make other msgs
-					String itemlist = "";
-					int i = 0;
-					for(ItemStack missingItemStack : missingItems) {
-						String itemrow = Message.CHAT_CREATEGUILD_ITEMLIST.get();
-						itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
-						itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
-
-						itemlist += itemrow;
-
-						if(i<missingItems.size()-1) {
-							itemlist += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
-						}
-						i++;
-					}
-
 					Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-					sender.sendMessage(StringUtils.fixColors(itemlist));
+					sender.sendMessage(StringUtils.getItemList(missingItems));
+
 					return;
 				}
 			}

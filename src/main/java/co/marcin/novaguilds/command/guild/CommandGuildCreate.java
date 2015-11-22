@@ -154,23 +154,9 @@ public class CommandGuildCreate implements CommandExecutor {
 		}
 
 		if(!InventoryUtils.containsItems(player.getInventory(), items)) {
-			String itemlist = "";
-			int i = 0;
-			for(ItemStack missingItemStack : InventoryUtils.getMissingItems(player.getInventory(), items)) {
-				String itemrow = Message.CHAT_CREATEGUILD_ITEMLIST.get();
-				itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
-				itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
-
-				itemlist += itemrow;
-
-				if(i<items.size()-1) {
-					itemlist += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
-				}
-				i++;
-			}
-
 			Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-			sender.sendMessage(StringUtils.fixColors(itemlist));
+			sender.sendMessage(StringUtils.getItemList(items));
+
 			return true;
 		}
 
