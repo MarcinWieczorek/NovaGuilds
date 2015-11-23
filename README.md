@@ -14,6 +14,9 @@ Please leave feedback!<br/><br/>
 <a href="http://novaguilds.pl">http://novaguilds.pl/</a>
 <br/><br/><br/>
 
+<img src="http://novaguilds.marcin.co/img/ss/ngss1.jpg" alt="ss" />
+<br/><br/><br/>
+
 <h2><b>Setup</b></h2>
 <ul>
     <li>Download latest version</li>
