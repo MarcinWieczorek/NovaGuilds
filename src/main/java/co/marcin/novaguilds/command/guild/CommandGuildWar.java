@@ -78,6 +78,8 @@ public class CommandGuildWar implements Executor {
 
 				MessageManager.sendPrefixMessage(sender, nowarinvs);
 			}
+
+			return;
 		}
 
 		//adding wars and no war invs
