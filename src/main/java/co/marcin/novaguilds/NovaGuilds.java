@@ -21,7 +21,6 @@ package co.marcin.novaguilds;
 import co.marcin.mchttp.McHTTP;
 import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
@@ -40,7 +39,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -89,6 +87,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	public final List<NovaGuild> guildRaids = new ArrayList<>();
+	private static boolean raidRunnableRunning = false;
 
 	//Database
 	private DatabaseManager databaseManager;
@@ -532,5 +531,13 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public VanishPlugin getVanishNoPacket() {
 		return vanishNoPacket;
+	}
+
+	public static boolean isRaidRunnableRunning() {
+		return raidRunnableRunning;
+	}
+
+	public static void setRaidRunnableRunning(boolean raidRunnableRunning) {
+		NovaGuilds.raidRunnableRunning = raidRunnableRunning;
 	}
 }
