@@ -20,7 +20,6 @@ package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
@@ -40,12 +39,13 @@ public class RunnableRaid implements Runnable {
 	}
 
 	public void run() {
+		NovaGuilds.setRaidRunnableRunning(false);
+
 		for(NovaGuild guild : plugin.guildRaids) {
 			NovaRaid raid = guild.getRaid();
 			plugin.showRaidBar(raid);
 			NovaGuild guildDefender = raid.getGuildDefender();
 
-			NovaPlayer nPlayer = raid.getPlayersOccupying().get(0);
 			LoggerUtils.debug(guild.getName() + " scheduler working " + plugin.guildRaids.size());
 
 			//stepping progress
@@ -63,12 +63,12 @@ public class RunnableRaid implements Runnable {
 				raid.updateInactiveTime();
 			}
 
-			//TODO: can be done better
-			//TODO: not working at all
 			if(NumberUtils.systemSeconds() - raid.getInactiveTime() > Config.RAID_TIMEINACTIVE.getSeconds()) {
-				raid.finish();
-				LoggerUtils.debug("inactive for 10 seconds, removing.");
 				Message.BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON.vars(vars).broadcast();
+				plugin.resetWarBar(guild);
+				plugin.resetWarBar(raid.getGuildAttacker());
+				plugin.guildRaids.remove(guild);
+				return;
 			}
 
 			if(raid.isProgressFinished()) {
@@ -79,7 +79,7 @@ public class RunnableRaid implements Runnable {
 			if(raid.getFinished()) {
 				Message.BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON.vars(vars).broadcast();
 				plugin.resetWarBar(guild);
-				plugin.resetWarBar(nPlayer.getGuild());
+				plugin.resetWarBar(raid.getGuildAttacker());
 				guild.takeLive();
 				guild.updateTimeRest();
 				guild.updateLostLive();
@@ -107,8 +107,9 @@ public class RunnableRaid implements Runnable {
 			}
 		}
 
-		if(!plugin.guildRaids.isEmpty() && plugin.isEnabled()) {
+		if(!plugin.guildRaids.isEmpty() && plugin.isEnabled() && !NovaGuilds.isRaidRunnableRunning()) {
 			plugin.worker.schedule(this, 1, TimeUnit.SECONDS);
+			NovaGuilds.setRaidRunnableRunning(true);
 		}
 		else {
 			LoggerUtils.debug("size: " + plugin.guildRaids.size());

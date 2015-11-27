@@ -401,7 +401,7 @@ public class NovaGuild {
 	}
 
 	public boolean isRaid() {
-		return !(raid == null);
+		return !(raid == null) && NovaGuilds.getInstance().guildRaids.contains(this);
 	}
 
 	public boolean isChanged() {
