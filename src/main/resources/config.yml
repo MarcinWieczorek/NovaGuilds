@@ -129,6 +129,8 @@ raid:
  enabled: true
  minonline: 1
  pointstake: 100
+ #progress of raid every second (1.00 = 100s to take life)
+ multipler: 1.00
 
  #time guild has to rest in seconds (24h)
  timerest: 24h

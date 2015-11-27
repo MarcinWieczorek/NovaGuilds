@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.basic;
 
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.NumberUtils;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class NovaRaid {
 	private long inactiveTime = NumberUtils.systemSeconds();
 	private int killsAttacker;
 	private int killsDefender;
-	private int progress;
+	private float progress;
 	private boolean finished;
 	private final List<NovaPlayer> playersOccupying = new ArrayList<>();
 
@@ -59,7 +60,7 @@ public class NovaRaid {
 		return killsDefender;
 	}
 
-	public int getProgress() {
+	public float getProgress() {
 		return progress;
 	}
 
@@ -101,14 +102,12 @@ public class NovaRaid {
 	}
 
 	public boolean isProgressFinished() {
-		return progress == 100;
+		return progress >= 100;
 	}
 
 	public void stepProgress() {
 		if(progress < 100) {
-			//TODO: tests
-			//progress += 10;
-			progress++;
+			progress += Config.RAID_MULTIPLER.getDouble();
 		}
 	}
 
