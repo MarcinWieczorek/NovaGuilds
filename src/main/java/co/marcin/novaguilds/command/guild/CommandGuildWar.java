@@ -141,6 +141,7 @@ public class CommandGuildWar implements Executor {
 			vars.put("GUILD2", cmdGuild.getName());
 			Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
 			plugin.tagUtils.refreshAll();
+			plugin.getRegionManager().checkRaidInit(nPlayer.getPlayer());
 		}
 	}
 }

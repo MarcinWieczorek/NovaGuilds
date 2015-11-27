@@ -438,45 +438,8 @@ public class RegionManager {
 		//Player is at region
 		nPlayer.setAtRegion(region);
 
-		//TODO add config
 		if(!region.getGuild().isMember(nPlayer)) {
-			if(nPlayer.hasGuild()) {
-				NovaGuild guildDefender = region.getGuild();
-
-				//RAIDS
-				if(Config.RAID_ENABLED.getBoolean()) {
-					//raid
-					if(nPlayer.getGuild().isWarWith(guildDefender)) {
-						if(!guildDefender.isRaid()) {
-							if(NumberUtils.systemSeconds() - Config.RAID_TIMEREST.getSeconds() > guildDefender.getTimeRest()) {
-								if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size()==guildDefender.getPlayers().size()) {
-									if(NumberUtils.systemSeconds()-guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
-										guildDefender.createRaid(nPlayer.getGuild());
-										plugin.guildRaids.add(guildDefender);
-									}
-									else {
-										Message.CHAT_RAID_PROTECTION.send(player);
-									}
-								}
-							}
-							else {
-								long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
-								vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
-
-								Message.CHAT_RAID_RESTING.vars(vars).send(player);
-							}
-						}
-
-						if(guildDefender.isRaid()) {
-							nPlayer.setPartRaid(guildDefender.getRaid());
-							guildDefender.getRaid().addPlayerOccupying(nPlayer);
-							Runnable task = new RunnableRaid(plugin);
-							plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
-						}
-					}
-				}
-
-			}
+			checkRaidInit(player);
 
 			Message.CHAT_REGION_NOTIFYGUILD_ENTERED.vars(vars).broadcast(region.getGuild());
 		}
@@ -535,5 +498,45 @@ public class RegionManager {
 		}
 
 		return region;
+	}
+
+	public void checkRaidInit(Player player) {
+		NovaPlayer nPlayer = NovaPlayer.fromPlayer(player);
+
+		if(nPlayer.hasGuild()) {
+			NovaGuild guildDefender = nPlayer.getAtRegion().getGuild();
+
+			if(Config.RAID_ENABLED.getBoolean() && nPlayer.getGuild().isWarWith(guildDefender)) {
+				if(!guildDefender.isRaid()) {
+					if(NumberUtils.systemSeconds() - Config.RAID_TIMEREST.getSeconds() > guildDefender.getTimeRest()) {
+						if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size()==guildDefender.getPlayers().size()) {
+							if(NumberUtils.systemSeconds()-guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
+								guildDefender.createRaid(nPlayer.getGuild());
+								plugin.guildRaids.add(guildDefender);
+							}
+							else {
+								Message.CHAT_RAID_PROTECTION.send(player);
+							}
+						}
+					}
+					else {
+						final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
+
+						Message.CHAT_RAID_RESTING.vars(new HashMap<String, String>(){{put("TIMEREST", StringUtils.secondsToString(timeWait));}}).send(player);
+					}
+				}
+				else {
+					Runnable task = new RunnableRaid(plugin);
+
+					if(!NovaGuilds.isRaidRunnableRunning()) {
+						plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+						NovaGuilds.setRaidRunnableRunning(true);
+					}
+				}
+
+				nPlayer.setPartRaid(guildDefender.getRaid());
+				guildDefender.getRaid().addPlayerOccupying(nPlayer);
+			}
+		}
 	}
 }
