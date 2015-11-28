@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.yaml;
 
+import co.marcin.novaguilds.enums.Lang;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
@@ -47,7 +48,7 @@ public class YamlIncompleteTranslationTest {
 			if(list != null) {
 				for(File langFile : list) {
 					if(!langFile.getName().equals("en-en.yml")) {
-						configurationMap.put(langFile.getName().replace(".yml", ""), YamlConfiguration.loadConfiguration(langFile));
+						configurationMap.put(langFile.getName().replace(".yml", ""), Lang.loadConfiguration(langFile));
 					}
 				}
 			}

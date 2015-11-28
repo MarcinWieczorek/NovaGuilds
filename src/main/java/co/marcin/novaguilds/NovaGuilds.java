@@ -122,7 +122,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			return;
 		}
 
-		LoggerUtils.info("Messages loaded");
+		LoggerUtils.info("Messages loaded: "+Config.LANG_NAME.getString());
 
 		commandManager = new CommandManager(this);
 		groupManager = new GroupManager(this);

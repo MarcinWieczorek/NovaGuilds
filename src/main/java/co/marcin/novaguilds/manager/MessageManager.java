@@ -21,6 +21,7 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -30,11 +31,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -66,9 +67,9 @@ public class MessageManager {
 		}
 
 		try {
-			messages = YamlConfiguration.loadConfiguration(messagesFile);
+			messages = Lang.loadConfiguration(messagesFile);
 		}
-		catch(ScannerException e) {
+		catch(ScannerException | IOException e) {
 			LoggerUtils.exception(e);
 		}
 

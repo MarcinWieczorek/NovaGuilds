@@ -18,12 +18,14 @@
 
 package co.marcin.novaguilds.yaml;
 
+import co.marcin.novaguilds.enums.Lang;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class YamlParseTest {
 	public static final File resourcesDirectory = new File("./src/main/resources/");
@@ -45,7 +47,7 @@ public class YamlParseTest {
 	}
 
 	@Test
-	public void testLangs() throws NullPointerException, InvalidConfigurationException, FileNotFoundException {
+	public void testLangs() throws NullPointerException, InvalidConfigurationException, IOException {
 		File langsDir = new File(resourcesDirectory, "/lang");
 
 		if(langsDir.isDirectory()) {
@@ -54,7 +56,7 @@ public class YamlParseTest {
 			if(list != null) {
 				for(File lang : list) {
 					try {
-						YamlConfiguration.loadConfiguration(lang);
+						Lang.loadConfiguration(lang);
 					}
 					catch(NullPointerException e) {
 						throw new InvalidConfigurationException("Invalid YAML file ("+lang.getPath()+")");

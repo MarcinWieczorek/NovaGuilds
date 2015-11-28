@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.yaml;
 
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -86,7 +87,7 @@ public class YamlEnumTest {
         System.out.println();
         System.out.println("Testing message enums...");
         File motherFile = new File(YamlParseTest.resourcesDirectory, "lang/en-en.yml");
-        YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherFile);
+        YamlConfiguration motherConfiguration = Lang.loadConfiguration(motherFile);
         List<String> messageEnumNames = new ArrayList<>();
         for(Message v : Message.values()) {
             messageEnumNames.add(v.name());
