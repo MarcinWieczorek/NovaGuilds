@@ -74,8 +74,9 @@ public class DeathListener implements Listener {
 		vars.put("TAG2", tag2);
 		Message.BROADCAST_PVP_KILLED.vars(vars).broadcast();
 
-		//guildpoints
+		//guildpoints and money
 		if(nPlayerAttacker.canGetKillPoints(victim)) {
+			//Guild points
 			if(nPlayer.hasGuild()) {
 				NovaGuild guildVictim = nPlayer.getGuild();
 				guildVictim.takePoints(Config.GUILD_DEATHPOINTS.getInt());
@@ -90,8 +91,27 @@ public class DeathListener implements Listener {
 			int points = (int) Math.round(nPlayer.getPoints() * (Config.KILLING_RANKPERCENT.getDouble() / 100));
 			nPlayer.takePoints(points);
 			nPlayerAttacker.addPoints(points);
-
 			nPlayerAttacker.addKillHistory(victim);
+
+			//money
+			vars.clear();
+			vars.put("PLAYERNAME", victim.getName());
+			double money;
+			if(nPlayer.canGetKillPoints(attacker)) {
+				money = (Config.KILLING_MONEYFORKILL.getDouble() / 100) * nPlayer.getMoney();
+				vars.put("MONEY", String.valueOf(money));
+				Message.CHAT_PLAYER_PVPMONEY_KILL.vars(vars).send(attacker);
+			}
+			else {
+				money = (Config.KILLING_MONEYFORREVENGE.getDouble() / 100) * nPlayer.getMoney();
+				vars.put("MONEY", String.valueOf(money));
+				Message.CHAT_PLAYER_PVPMONEY_REVENGE.vars(vars).send(attacker);
+			}
+
+			if(money > 0) {
+				nPlayer.takeMoney(money);
+				nPlayerAttacker.addMoney(money);
+			}
 		}
 
 		//disable death message

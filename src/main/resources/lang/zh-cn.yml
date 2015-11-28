@@ -298,6 +298,9 @@ chat:
   hasnoguild: "该玩家尚未加入公会."
   alreadyinvited: "该玩家已接收到入会邀请."
   notinyourguild: "该玩家不在您的公会内！"
+  pvpmoney:
+   kill: "You earned &a{MONEY}$ &3for killing &c{PLAYERNAME}"
+   revenge: "You earned &a{MONEY}$ &3for taking revenge on &c{PLAYERNAME}"
   invite:
    invited: "已向该玩家发出入会邀请."
    list:
