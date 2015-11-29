@@ -22,7 +22,6 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminRegion;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -30,18 +29,12 @@ import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminRegionList implements Executor, ExecutorReversedAdminRegion {
+public class CommandAdminRegionList implements Executor {
 	private final Commands command;
-	private NovaRegion region;
 
 	public CommandAdminRegionList(Commands command) {
 		this.command = command;
 		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void region(NovaRegion region) {
-		this.region = region;
 	}
 
 	@Override
