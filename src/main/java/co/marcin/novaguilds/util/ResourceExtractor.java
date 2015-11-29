@@ -1,21 +1,3 @@
-/*
- *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>
- */
-
 /**
  *
  * This software is part of the TheEnderBox
@@ -32,9 +14,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with TheEnderBox. If not, see <http://www.gnu.org/licenses/>.
- *
  */
+
 package co.marcin.novaguilds.util;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,10 +29,6 @@ import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import org.apache.commons.lang.Validate;
-
-import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ResourceExtractor {
 	protected final JavaPlugin plugin;
@@ -109,14 +90,15 @@ public final class ResourceExtractor {
 			method.setAccessible(true);
 
 			jarfile = (File) method.invoke(this.plugin);
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			throw new IOException(e);
 		}
 
 		/**
 		 * Make the folders if missing.
 		 */
-		if (!this.extractfolder.exists()) {
+		if(!this.extractfolder.exists()) {
 			this.extractfolder.mkdirs();
 		}
 
@@ -126,34 +108,36 @@ public final class ResourceExtractor {
 		 * Loop through all the entries.
 		 */
 		Enumeration<JarEntry> entries = jar.entries();
-		while (entries.hasMoreElements()) {
+		while(entries.hasMoreElements()) {
 			JarEntry entry = entries.nextElement();
 			String path = entry.getName();
 
 			/**
 			 * Not in the folder.
 			 */
-			if (!path.startsWith(this.folderpath)) {
+			if(!path.startsWith(this.folderpath)) {
 				continue;
 			}
 
-			if (entry.isDirectory()) {
-				if (subpaths) {
+			if(entry.isDirectory()) {
+				if(subpaths) {
 					File file = new File(this.extractfolder, entry.getName().replaceFirst(this.folderpath, ""));
 
-					if (!file.exists()) {
+					if(!file.exists()) {
 						file.mkdirs();
 					}
 				}
-			} else {
+			}
+			else {
 				File file;
 
 				/**
 				 * Use the right path.
 				 */
-				if (subpaths) {
+				if(subpaths) {
 					file = new File(this.extractfolder, path.replaceFirst(this.folderpath, ""));
-				} else {
+				}
+				else {
 					file = new File(this.extractfolder, path.substring(path.indexOf(File.separatorChar), path.length()));
 				}
 
@@ -162,19 +146,19 @@ public final class ResourceExtractor {
 				/**
 				 * Be sure that the file is valid.
 				 */
-				if (this.regex == null || name.matches(this.regex)) {
-					if (file.exists() && override) {
+				if(this.regex == null || name.matches(this.regex)) {
+					if(file.exists() && override) {
 						file.delete();
 					}
 
-					if (!file.exists()) {
+					if(!file.exists()) {
 						/**
 						 * Copy the file to the path.
 						 */
 						InputStream is = jar.getInputStream(entry);
 						FileOutputStream fos = new FileOutputStream(file);
 
-						while (is.available() > 0) {
+						while(is.available() > 0) {
 							fos.write(is.read());
 						}
 
