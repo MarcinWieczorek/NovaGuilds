@@ -501,7 +501,7 @@ public class RegionManager {
 	}
 
 	public void checkRaidInit(Player player) {
-		NovaPlayer nPlayer = NovaPlayer.fromPlayer(player);
+		NovaPlayer nPlayer = NovaPlayer.get(player);
 
 		if(nPlayer.hasGuild()) {
 			NovaGuild guildDefender = nPlayer.getAtRegion().getGuild();
@@ -513,6 +513,12 @@ public class RegionManager {
 							if(NumberUtils.systemSeconds()-guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
 								guildDefender.createRaid(nPlayer.getGuild());
 								plugin.guildRaids.add(guildDefender);
+
+								if(!NovaGuilds.isRaidRunnableRunning()) {
+									Runnable task = new RunnableRaid(plugin);
+									plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+									NovaGuilds.setRaidRunnableRunning(true);
+								}
 							}
 							else {
 								Message.CHAT_RAID_PROTECTION.send(player);
@@ -523,14 +529,6 @@ public class RegionManager {
 						final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 
 						Message.CHAT_RAID_RESTING.vars(new HashMap<String, String>(){{put("TIMEREST", StringUtils.secondsToString(timeWait));}}).send(player);
-					}
-				}
-				else {
-					Runnable task = new RunnableRaid(plugin);
-
-					if(!NovaGuilds.isRaidRunnableRunning()) {
-						plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
-						NovaGuilds.setRaidRunnableRunning(true);
 					}
 				}
 
