@@ -52,6 +52,7 @@ public class ConfigManager {
 		put("en","en-en");
 		put("pl","pl-pl");
 		put("de","de-de");
+		put("zh","zh-cn");
 	}};
 
 	public ConfigManager(NovaGuilds novaGuilds) {
