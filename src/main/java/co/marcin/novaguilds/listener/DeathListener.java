@@ -99,13 +99,19 @@ public class DeathListener implements Listener {
 			double money;
 			if(nPlayer.canGetKillPoints(attacker)) {
 				money = (Config.KILLING_MONEYFORKILL.getDouble() / 100) * nPlayer.getMoney();
-				vars.put("MONEY", String.valueOf(money));
-				Message.CHAT_PLAYER_PVPMONEY_KILL.vars(vars).send(attacker);
+
+				if(money > 0) {
+					vars.put("MONEY", String.valueOf(money));
+					Message.CHAT_PLAYER_PVPMONEY_KILL.vars(vars).send(attacker);
+				}
 			}
 			else {
 				money = (Config.KILLING_MONEYFORREVENGE.getDouble() / 100) * nPlayer.getMoney();
-				vars.put("MONEY", String.valueOf(money));
-				Message.CHAT_PLAYER_PVPMONEY_REVENGE.vars(vars).send(attacker);
+
+				if(money > 0) {
+					vars.put("MONEY", String.valueOf(money));
+					Message.CHAT_PLAYER_PVPMONEY_REVENGE.vars(vars).send(attacker);
+				}
 			}
 
 			if(money > 0) {
