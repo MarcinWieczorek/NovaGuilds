@@ -128,8 +128,11 @@ public final class RegionUtils {
 
 		for(t = 0; t < dif_x; t++) {
 			x = xs + t;
-			int highest1 = world.getHighestBlockYAt(x, z1) - 1;
-			int highest2 = world.getHighestBlockYAt(x, z2) - 1;
+
+			Block highestBlock1 = world.getHighestBlockAt(x, z1);
+			Block highestBlock2 = world.getHighestBlockAt(x, z2);
+			int highest1 = highestBlock1.getY() - (highestBlock1.getType()==Material.SNOW ? 0 : 1);
+			int highest2 = highestBlock2.getY() - (highestBlock2.getType()==Material.SNOW ? 0 : 1);
 
 			blocks.add(world.getBlockAt(x, highest1, z1));
 			blocks.add(world.getBlockAt(x, highest2, z2));
@@ -138,8 +141,11 @@ public final class RegionUtils {
 
 		for(t = 0; t < dif_z; t++) {
 			z = zs + t;
-			int highest1 = world.getHighestBlockYAt(x1, z) - 1;
-			int highest2 = world.getHighestBlockYAt(x2, z) - 1;
+
+			Block highestBlock1 = world.getHighestBlockAt(x1, z);
+			Block highestBlock2 = world.getHighestBlockAt(x2, z);
+			int highest1 = highestBlock1.getY() - (highestBlock1.getType()==Material.SNOW ? 0 : 1);
+			int highest2 = highestBlock2.getY() - (highestBlock2.getType()==Material.SNOW ? 0 : 1);
 
 			blocks.add(world.getBlockAt(x1, highest1, z));
 			blocks.add(world.getBlockAt(x2, highest2, z));
