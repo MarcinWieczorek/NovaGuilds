@@ -21,6 +21,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
@@ -53,6 +54,17 @@ public class DeathListener implements Listener {
 
 		nPlayerAttacker.addKill();
 		nPlayer.addDeath();
+
+		if(nPlayer.isPartRaid() && nPlayerAttacker.isPartRaid() && nPlayer.getPartRaid().equals(nPlayerAttacker.getPartRaid()) && !nPlayer.getGuild().isMember(nPlayerAttacker)) {
+			NovaRaid raid = nPlayer.getPartRaid();
+
+			if(raid.getPlayersOccupying().contains(nPlayerAttacker)) {
+				raid.addKillAttacker();
+			}
+			else {
+				raid.addKillDefender();
+			}
+		}
 
 		String tag1 = "";
 		String tag2 = "";
