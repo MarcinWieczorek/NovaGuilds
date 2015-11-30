@@ -37,12 +37,13 @@ public class PacketSender {
 			Class<?> packetClass = Class.forName("net.minecraft.server." + version + ".Packet");
 			Class<?> craftPlayer = Class.forName("org.bukkit.craftbukkit." + version + ".entity.CraftPlayer");
 
-			for(Player p : players){
+			for(Player p : players) {
 				Object cp = craftPlayer.cast(p);
 				Object handle = craftPlayer.getMethod("getHandle").invoke(cp);
 				Object con = handle.getClass().getField("playerConnection").get(handle);
 				Method method = con.getClass().getMethod("sendPacket", packetClass);
-				for(Object o : os){
+
+				for(Object o : os) {
 					if(o == null) continue;
 					method.invoke(con, o);
 				}

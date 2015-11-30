@@ -19,6 +19,8 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import co.marcin.novaguilds.util.reflect.packet.PacketPlayOutPlayerInfo;
@@ -54,7 +56,6 @@ public class Tablist {
 	private void update() {
 		lines.clear();
 
-//		lines.addAll(Config.TABLIST_SCHEME.getStringList());
 		Player[] op = Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]);
 
 		HashMap<String, String> vars = new HashMap<>();
@@ -64,13 +65,41 @@ public class Tablist {
 		vars.put("GUILD", nPlayer.hasGuild() ? nPlayer.getGuild().getName() : "");
 		vars.put("TAG", nPlayer.hasGuild() ? nPlayer.getGuild().getTag() : "");
 		vars.put("PLAYER", nPlayer.getName());
-//		vars.put("",);
 
-		for(String line : Config.TABLIST_SCHEME.getStringList()) {
-			line = StringUtils.replaceMap(line, vars);
+		char[] colors = new char[]{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'f' };
 
-			if(line.length() <= 16) {
-				lines.add(line);
+		List<String> scheme = Config.TABLIST_SCHEME.getStringList();
+		int i=0;
+		int t = 0;
+		for(String line : scheme) {
+			i++;
+
+			if(i == 15) {
+				i=0;
+				t++;
+			}
+
+			line = "&"+colors[i]+StringUtils.replaceMap(line, vars);
+
+			if(t >= 0) {
+				line = "&"+colors[t] + line;
+			}
+
+			while(lines.contains(StringUtils.fixColors(line))) {
+				line = "&"+(NumberUtils.randInt(0, 9)) + line;
+
+				if(line.length() >= 16) {
+					break;
+				}
+			}
+
+			if(line.length() > 16) {
+				line = line.substring(0, 16);
+			}
+
+			if(!lines.contains(line)) {
+				lines.add(StringUtils.fixColors(line));
+				LoggerUtils.debug("added line: " + line);
 			}
 		}
 	}
