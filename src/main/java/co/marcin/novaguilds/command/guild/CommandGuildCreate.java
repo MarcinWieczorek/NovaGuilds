@@ -50,7 +50,6 @@ public class CommandGuildCreate implements CommandExecutor {
 		plugin = pl;
 	}
 
-	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!Permission.NOVAGUILDS_GUILD_CREATE.has(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
@@ -147,7 +146,7 @@ public class CommandGuildCreate implements CommandExecutor {
 		List<ItemStack> items = group.getGuildCreateItems();
 		double requiredmoney = group.getGuildCreateMoney();
 
-		if(requiredmoney>0 && plugin.econ.getBalance(player.getName()) < requiredmoney) {
+		if(requiredmoney>0 && !nPlayer.hasMoney(requiredmoney)) {
 			vars.put("REQUIREDMONEY", String.valueOf(requiredmoney));
 			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 			return true;
@@ -208,7 +207,7 @@ public class CommandGuildCreate implements CommandExecutor {
 					nPlayer.setGuild(newGuild);
 
 					//taking money away
-					plugin.econ.withdrawPlayer(sender.getName(), requiredmoney);
+					nPlayer.takeMoney(requiredmoney);
 
 					//taking items away
 					InventoryUtils.removeItems(player, items);
