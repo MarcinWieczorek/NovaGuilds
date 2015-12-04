@@ -78,75 +78,79 @@ public class CommandNovaGuilds implements CommandExecutor {
 			return true;
 		}
 
-		if(args[0].equalsIgnoreCase("tool")) { //TOOL
-			plugin.getCommandManager().getExecutor(Commands.TOOL_GET).execute(sender, args);
-		}
-		else if(args[0].equalsIgnoreCase("bank")) { //bank
-			if(!sender.hasPermission("novaguilds.test.bank")) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return true;
-			}
-
-			if(sender instanceof Player) {
-				NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-				if(nPlayer.hasGuild()) {
-					((Player) sender).getInventory().addItem(Config.VAULT_ITEM.getItemStack());
-				}
-			}
-		}
-		else if(args[0].equalsIgnoreCase("admin")) { //Admin commands
-			new CommandAdmin(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
-		}
-		else if(args[0].equalsIgnoreCase("group")) { //Admin commands
-			NovaGroup group = plugin.getGroupManager().getGroup(sender);
-
-			if(args.length > 1) {
-				group = plugin.getGroupManager().getGroup(args[1]);
-				if(group == null) {
-					sender.sendMessage("Invalid group");
+		switch(args[0].toLowerCase()) {
+			case "tool":
+				plugin.getCommandManager().getExecutor(Commands.TOOL_GET).execute(sender, args);
+				break;
+			case "bank":
+				if(!sender.hasPermission("novaguilds.test.bank")) {
+					Message.CHAT_NOPERMISSIONS.send(sender);
 					return true;
 				}
-			}
 
-			sender.sendMessage("name = "+group.getName());
-			sender.sendMessage("guildCreateMoney = "+group.getGuildCreateMoney());
-			sender.sendMessage("guildHomeMoney = "+group.getGuildHomeMoney());
-			sender.sendMessage("guildJoinMoney = "+group.getGuildJoinMoney());
-			sender.sendMessage("guildCreateItems = " + group.getGuildCreateItems().toString());
-			sender.sendMessage("guildHomeItems = " + group.getGuildHomeItems().toString());
-			sender.sendMessage("guildJoinItems = " + group.getGuildJoinItems().toString());
-			sender.sendMessage("guildTeleportDelay = "+ group.getGuildTeleportDelay()+"s");
-			sender.sendMessage("regionCreateMoney = "+ group.getRegionCreateMoney());
-			sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
-		}
-		else if(args[0].equalsIgnoreCase("guild") || args[0].equalsIgnoreCase("g")) { // command /g
-			new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
-		}
-		else if(args[0].equalsIgnoreCase("tr")) { // tab refresh
-			Tablist.patch();
+				if(sender instanceof Player) {
+					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+					if(nPlayer.hasGuild()) {
+						((Player) sender).getInventory().addItem(Config.VAULT_ITEM.getItemStack());
+					}
+				}
+				break;
+			case "admin":
+				new CommandAdmin(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
+				break;
+			case "group":
+				NovaGroup group = plugin.getGroupManager().getGroup(sender);
 
-			for(Player player : plugin.getServer().getOnlinePlayers()) {
-				NovaPlayer.get(player).getTablist().send();
-			}
-		}
-		else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { //help
-			ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-			BookMeta bm = (BookMeta)book.getItemMeta();
-			List<String> pages = plugin.getMessageManager().getMessages().getStringList("book.help.pages");
-			List<String> pagesColor = new ArrayList<>();
-			for(String page : pages) {
-				pagesColor.add(StringUtils.fixColors(page));
-			}
+				if(args.length > 1) {
+					group = plugin.getGroupManager().getGroup(args[1]);
+					if(group == null) {
+						sender.sendMessage("Invalid group");
+						return true;
+					}
+				}
 
-			bm.setPages(pagesColor);
-			bm.setAuthor("CTRL");
-			bm.setTitle(StringUtils.fixColors(MessageManager.getMessagesString("book.help.title")));
-			book.setItemMeta(bm);
-			Player player = (Player) sender;
-			player.getInventory().addItem(book);
-		}
-		else {
-			Message.CHAT_UNKNOWNCMD.send(sender);
+				sender.sendMessage("name = "+group.getName());
+				sender.sendMessage("guildCreateMoney = "+group.getGuildCreateMoney());
+				sender.sendMessage("guildHomeMoney = "+group.getGuildHomeMoney());
+				sender.sendMessage("guildJoinMoney = "+group.getGuildJoinMoney());
+				sender.sendMessage("guildCreateItems = " + group.getGuildCreateItems().toString());
+				sender.sendMessage("guildHomeItems = " + group.getGuildHomeItems().toString());
+				sender.sendMessage("guildJoinItems = " + group.getGuildJoinItems().toString());
+				sender.sendMessage("guildTeleportDelay = "+ group.getGuildTeleportDelay()+"s");
+				sender.sendMessage("regionCreateMoney = "+ group.getRegionCreateMoney());
+				sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
+				break;
+			case "g":
+			case "guild":
+				new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
+				break;
+			case "tr":
+				Tablist.patch();
+
+				for(Player player : plugin.getServer().getOnlinePlayers()) {
+					NovaPlayer.get(player).getTablist().send();
+				}
+				break;
+			case "?":
+			case "help":
+				ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+				BookMeta bm = (BookMeta)book.getItemMeta();
+				List<String> pages = plugin.getMessageManager().getMessages().getStringList("book.help.pages");
+				List<String> pagesColor = new ArrayList<>();
+				for(String page : pages) {
+					pagesColor.add(StringUtils.fixColors(page));
+				}
+
+				bm.setPages(pagesColor);
+				bm.setAuthor("CTRL");
+				bm.setTitle(StringUtils.fixColors(MessageManager.getMessagesString("book.help.title")));
+				book.setItemMeta(bm);
+				Player player = (Player) sender;
+				player.getInventory().addItem(book);
+				break;
+			default:
+				Message.CHAT_UNKNOWNCMD.send(sender);
+				break;
 		}
 		
 		return true;
