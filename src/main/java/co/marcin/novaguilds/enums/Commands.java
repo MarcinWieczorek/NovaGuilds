@@ -84,7 +84,8 @@ public enum Commands {
 	GUILD_BOSS(Permission.NOVAGUILDS_GUILD_BOSS, false),
 	GUILD_OPENINVITATION(Permission.NOVAGUILDS_GUILD_OPENINVITATION, false),
 
-	TOOL_GET(Permission.NOVAGUILDS_TOOL_GET, false);
+	TOOL_GET(Permission.NOVAGUILDS_TOOL_GET, false),
+	CONFIRM(Permission.NOVAGUILDS_CONFIRM, false);
 
 	private Message usageMessage;
 	private boolean allowConsole = true;

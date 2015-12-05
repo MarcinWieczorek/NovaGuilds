@@ -19,7 +19,10 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
@@ -53,6 +56,7 @@ public class NovaPlayer {
 	private boolean compassPointingGuild = false;
 	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
 	private final Tablist tablist;
+	private CommandExecutorHandler commandExecutorHandler;
 
 	public NovaPlayer() {
 		tablist = new Tablist(this);
@@ -342,5 +346,18 @@ public class NovaPlayer {
 
 	public Tablist getTablist() {
 		return tablist;
+	}
+
+	public CommandExecutorHandler getCommandExecutorHandler() {
+		return commandExecutorHandler;
+	}
+
+	public void newCommandExecutorHandler(Commands command, String[] args) {
+		commandExecutorHandler = new CommandExecutorHandler(command, getPlayer(), args);
+		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
+	}
+
+	public void removeCommandExecutorHandler() {
+		commandExecutorHandler = null;
 	}
 }

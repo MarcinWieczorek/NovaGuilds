@@ -13,6 +13,10 @@ chat:
   negativenumber: "Eingeben die Zahl größer als oder glech Zero!"
   'on': "ON"
   'off': "OFF"
+ confirm:
+  nullhandler: "There's no pending command to confirm"
+  needconfirm: "You'll need to confirm that action. &c/confirm"
+  timeout: "Your confirmation request has timed out."
 
  admin:
   guild:

@@ -13,6 +13,10 @@ chat:
   negativenumber: "请输入数字(不得小于0)"
   'on': "开"
   'off': "关"
+ confirm:
+  nullhandler: "There's no pending command to confirm"
+  needconfirm: "You'll need to confirm that action. &c/confirm"
+  timeout: "Your confirmation request has timed out."
 
  admin:
   guild:

@@ -47,6 +47,9 @@ commands:
       description: Show player's info
       usage: /pi [player]
       aliases: [pi]
+   confirm:
+      description: Confirm action
+      usage: /confirm
 
 permissions:
     novaguilds.region.create:

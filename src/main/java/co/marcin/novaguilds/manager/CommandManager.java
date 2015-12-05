@@ -94,6 +94,7 @@ public class CommandManager {
 		plugin.getCommand("guildmenu").setExecutor(new CommandGuildMenu(plugin));
 
 		plugin.getCommand("playerinfo").setExecutor(new CommandPlayerInfo(plugin));
+		plugin.getCommand("confirm").setExecutor(new CommandConfirm());
 
 		//register custom executors
 		new CommandGuildBuyLife(Commands.GUILD_BUYLIFE);

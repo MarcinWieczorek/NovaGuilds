@@ -112,6 +112,7 @@ gguicmd:
 
 chat:
  displaynametags: false
+ confirmtimeout: 20s
  ally:
   prefix: "!!"
   enabled: true
