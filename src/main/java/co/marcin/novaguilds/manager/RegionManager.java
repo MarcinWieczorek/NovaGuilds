@@ -35,6 +35,7 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -442,6 +443,12 @@ public class RegionManager {
 			checkRaidInit(player);
 
 			Message.CHAT_REGION_NOTIFYGUILD_ENTERED.vars(vars).broadcast(region.getGuild());
+		}
+
+		//Vehicle protection system
+		Entity vehicle = player.getVehicle();
+		if(vehicle != null && vehicle instanceof Vehicle) {
+			nPlayer.addVehicle((Vehicle) vehicle);
 		}
 	}
 

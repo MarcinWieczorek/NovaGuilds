@@ -34,6 +34,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -46,6 +47,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 import java.util.Iterator;
 import java.util.List;
@@ -153,7 +155,6 @@ public class RegionInteractListener implements Listener {
 
 		if(!plugin.getRegionManager().canInteract(player, mob)) {
 			List<String> denyDamage = Config.REGION_DENYMOBDAMAGE.getStringList();
-			List<String> denyRiding = Config.REGION_DENYRIDING.getStringList();
 
 			if(event.getAction() == EntityUseAction.ATTACK) {
 				if(denyDamage.contains(mob.getType().name())) {
@@ -164,9 +165,7 @@ public class RegionInteractListener implements Listener {
 				}
 			}
 			else {
-				boolean sheep = mob.getType() == EntityType.SHEEP && player.getItemInHand().getType() == Material.SHEARS;
-
-				if(denyRiding.contains(mob.getType().name()) || sheep) {
+				if(mob.getType() == EntityType.SHEEP && player.getItemInHand().getType() == Material.SHEARS) {
 					event.setCancelled(true);
 					Message.CHAT_REGION_DENY_RIDEMOB.send(player);
 				}
@@ -200,8 +199,10 @@ public class RegionInteractListener implements Listener {
 
 		if(denyriding.contains(event.getEntityType().name())) {
 			if(!plugin.getRegionManager().canInteract(event.getPlayer(), event.getEntity())) {
-				event.setCancelled(true);
-				Message.CHAT_REGION_DENY_UNLEASH.send(event.getPlayer());
+				if(!(event.getEntity() instanceof Vehicle) || !NovaPlayer.get(event.getPlayer()).isVehicleListed((Vehicle) event.getEntity())) {
+					event.setCancelled(true);
+					Message.CHAT_REGION_DENY_UNLEASH.send(event.getPlayer());
+				}
 			}
 		}
 	}
@@ -225,6 +226,23 @@ public class RegionInteractListener implements Listener {
 					if(plugin.getRegionManager().getRegion(event.getToBlock().getLocation()) != null) {
 						event.setCancelled(true);
 					}
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onVehicleEnter(VehicleEnterEvent event) {
+		Vehicle vehicle = event.getVehicle();
+		Player player = (Player) event.getEntered();
+
+		List<String> denyRiding = Config.REGION_DENYRIDING.getStringList();
+
+		if(denyRiding.contains(vehicle.getType().name())) {
+			if(!plugin.getRegionManager().canInteract(player, vehicle)) {
+				if(!NovaPlayer.get(event.getEntered()).isVehicleListed(vehicle)) {
+					event.setCancelled(true);
+					Message.CHAT_REGION_DENY_RIDEMOB.send(event.getEntered());
 				}
 			}
 		}

@@ -28,6 +28,7 @@ import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class NovaPlayer {
 	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
 	private final Tablist tablist;
 	private CommandExecutorHandler commandExecutorHandler;
+	private final List<Vehicle> vehicles = new ArrayList<>();
 
 	public NovaPlayer() {
 		tablist = new Tablist(this);
@@ -359,5 +361,13 @@ public class NovaPlayer {
 
 	public void removeCommandExecutorHandler() {
 		commandExecutorHandler = null;
+	}
+
+	public void addVehicle(Vehicle vehicle) {
+		vehicles.add(vehicle);
+	}
+
+	public boolean isVehicleListed(Vehicle vehicle) {
+		return vehicles.contains(vehicle);
 	}
 }
