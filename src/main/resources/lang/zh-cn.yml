@@ -335,6 +335,7 @@ chat:
    ridemob: "该动物受公会保护,您无法骑乘！"
    attackmob: "您无法攻击该怪物."
    unleash: "你无法释放该动物"
+   leash: "You cannot leash this mob"
   noregionhere: "该区域内尚未被任何公会使用."
   regionhere: "其他公会已占据该区域！"
   validation:

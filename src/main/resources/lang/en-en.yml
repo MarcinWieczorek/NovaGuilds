@@ -335,6 +335,7 @@ chat:
    ridemob: "You cannot ride this mob, its protected!"
    attackmob: "You cannot attack this mob"
    unleash: "You cannot unleash this mob"
+   leash: "You cannot leash this mob"
   noregionhere: "There's not guild here."
   regionhere: "There's other guild's region!"
   validation:

@@ -335,6 +335,7 @@ chat:
    ridemob: "Nie mozesz jezdzic na tym zwierzeciu."
    attackmob: "Nie mozesz atakowac tego zwierzecia."
    unleash: "Nie mozesz zdjac smyczy tego zwierzecia."
+   leash: "Nie mozesz zalozyc smyczy na to zwierze."
   noregionhere: "Nie ma tutaj zadnej gildii"
   regionhere: "Tutaj jest teren innej gildii!"
   validation:

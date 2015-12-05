@@ -44,6 +44,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
@@ -202,6 +203,20 @@ public class RegionInteractListener implements Listener {
 				if(!(event.getEntity() instanceof Vehicle) || !NovaPlayer.get(event.getPlayer()).isVehicleListed((Vehicle) event.getEntity())) {
 					event.setCancelled(true);
 					Message.CHAT_REGION_DENY_UNLEASH.send(event.getPlayer());
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onPlayerLeashEntity(PlayerLeashEntityEvent event) {
+		List<String> denyriding = Config.REGION_DENYRIDING.getStringList();
+
+		if(denyriding.contains(event.getEntity().getType().name())) {
+			if(!plugin.getRegionManager().canInteract(event.getPlayer(), event.getEntity())) {
+				if(!(event.getEntity() instanceof Vehicle) || !NovaPlayer.get(event.getPlayer()).isVehicleListed((Vehicle) event.getEntity())) {
+					event.setCancelled(true);
+					Message.CHAT_REGION_DENY_LEASH.send(event.getPlayer());
 				}
 			}
 		}
