@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CommandAdminHologram implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_HOLOGRAM_ACCESS;
 
 	private static final List<String> noHologramCommands = new ArrayList<String>() {{
 		add("list");
@@ -57,8 +57,7 @@ public class CommandAdminHologram implements Executor {
 		put("movehere", Commands.ADMIN_HOLOGRAM_TELEPORT_HERE);
 	}};
 
-	public CommandAdminHologram(Commands command) {
-		this.command = command;
+	public CommandAdminHologram() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

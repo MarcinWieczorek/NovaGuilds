@@ -25,10 +25,9 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminSave implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_SAVE;
 
-	public CommandAdminSave(Commands command) {
-		this.command = command;
+	public CommandAdminSave() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

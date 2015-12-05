@@ -26,11 +26,10 @@ import co.marcin.novaguilds.interfaces.ExecutorReversedAdminRegion;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminRegionDelete implements Executor, ExecutorReversedAdminRegion {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_REGION_DELETE;
 	private NovaRegion region;
 
-	public CommandAdminRegionDelete(Commands command) {
-		this.command = command;
+	public CommandAdminRegionDelete() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

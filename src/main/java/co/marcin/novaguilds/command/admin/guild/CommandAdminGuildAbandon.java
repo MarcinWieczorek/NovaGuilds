@@ -31,10 +31,9 @@ import java.util.HashMap;
 
 public class CommandAdminGuildAbandon implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_ABANDON;
 
-	public CommandAdminGuildAbandon(Commands command) {
-		this.command = command;
+	public CommandAdminGuildAbandon() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

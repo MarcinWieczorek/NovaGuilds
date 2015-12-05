@@ -28,10 +28,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandAdminRegionBypass implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_REGION_BYPASS;
 
-	public CommandAdminRegionBypass(Commands command) {
-		this.command = command;
+	public CommandAdminRegionBypass() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

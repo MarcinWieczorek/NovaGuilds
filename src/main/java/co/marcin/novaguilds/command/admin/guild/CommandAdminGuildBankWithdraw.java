@@ -30,10 +30,9 @@ import java.util.HashMap;
 
 public class CommandAdminGuildBankWithdraw implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_BANK_WITHDRAW;
 
-	public CommandAdminGuildBankWithdraw(Commands command) {
-		this.command = command;
+	public CommandAdminGuildBankWithdraw() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

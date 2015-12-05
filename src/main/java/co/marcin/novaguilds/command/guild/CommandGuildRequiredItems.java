@@ -29,10 +29,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildRequiredItems implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_REQUIREDITEMS;
 
-	public CommandGuildRequiredItems(Commands command) {
-		this.command = command;
+	public CommandGuildRequiredItems() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

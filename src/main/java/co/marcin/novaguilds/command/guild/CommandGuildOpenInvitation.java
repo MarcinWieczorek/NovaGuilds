@@ -27,10 +27,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandGuildOpenInvitation implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_OPENINVITATION;
 
-	public CommandGuildOpenInvitation(Commands command) {
-		this.command = command;
+	public CommandGuildOpenInvitation() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

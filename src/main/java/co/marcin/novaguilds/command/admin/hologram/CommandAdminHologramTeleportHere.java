@@ -27,11 +27,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandAdminHologramTeleportHere implements Executor, ExecutorReversedAdminHologram {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_HOLOGRAM_TELEPORT_HERE;
 	private NovaHologram hologram;
 
-	public CommandAdminHologramTeleportHere(Commands command) {
-		this.command = command;
+	public CommandAdminHologramTeleportHere() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

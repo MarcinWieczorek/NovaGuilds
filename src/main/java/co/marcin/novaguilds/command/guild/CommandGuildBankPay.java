@@ -29,10 +29,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandGuildBankPay implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_BANK_PAY;
 
-	public CommandGuildBankPay(Commands command) {
-		this.command = command;
+	public CommandGuildBankPay() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

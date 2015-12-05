@@ -28,10 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminHologramList implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_HOLOGRAM_LIST;
 
-	public CommandAdminHologramList(Commands command) {
-		this.command = command;
+	public CommandAdminHologramList() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

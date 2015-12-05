@@ -30,10 +30,9 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CommandGuildBankWithdraw implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_BANK_WITHDRAW;
 
-	public CommandGuildBankWithdraw(Commands command) {
-		this.command = command;
+	public CommandGuildBankWithdraw() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

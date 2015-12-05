@@ -28,10 +28,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandGuildAlly implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_ALLY;
 
-	public CommandGuildAlly(Commands command) {
-		this.command = command;
+	public CommandGuildAlly() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

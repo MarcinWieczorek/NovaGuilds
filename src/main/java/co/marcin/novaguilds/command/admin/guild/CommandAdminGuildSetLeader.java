@@ -29,10 +29,9 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CommandAdminGuildSetLeader implements Executor {
-    private final Commands command;
+    private final Commands command = Commands.ADMIN_GUILD_SET_LEADER;
 
-    public CommandAdminGuildSetLeader(Commands command) {
-        this.command = command;
+    public CommandAdminGuildSetLeader() {
         plugin.getCommandManager().registerExecutor(command, this);
     }
 

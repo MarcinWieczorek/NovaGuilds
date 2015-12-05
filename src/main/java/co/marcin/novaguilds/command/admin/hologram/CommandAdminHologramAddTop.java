@@ -29,10 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminHologramAddTop implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_HOLOGRAM_ADDTOP;
 
-	public CommandAdminHologramAddTop(Commands command) {
-		this.command = command;
+	public CommandAdminHologramAddTop() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

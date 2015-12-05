@@ -29,10 +29,9 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminReload implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_RELOAD;
 
-	public CommandAdminReload(Commands command) {
-		this.command = command;
+	public CommandAdminReload() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

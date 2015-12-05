@@ -33,10 +33,9 @@ import java.util.HashMap;
 
 public class CommandAdminGuildTeleport implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_TELEPORT;
 
-	public CommandAdminGuildTeleport(Commands command) {
-		this.command = command;
+	public CommandAdminGuildTeleport() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

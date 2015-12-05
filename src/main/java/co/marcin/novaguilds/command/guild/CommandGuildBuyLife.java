@@ -30,10 +30,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildBuyLife implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_BUYLIFE;
 
-	public CommandGuildBuyLife(Commands command) {
-		this.command = command;
+	public CommandGuildBuyLife() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

@@ -28,10 +28,9 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class CommandGuildTop implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_TOP;
 
-	public CommandGuildTop(Commands command) {
-		this.command = command;
+	public CommandGuildTop() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

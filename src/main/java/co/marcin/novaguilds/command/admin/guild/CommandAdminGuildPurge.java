@@ -30,10 +30,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandAdminGuildPurge implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_PURGE;
 
-	public CommandAdminGuildPurge(Commands command) {
-		this.command = command;
+	public CommandAdminGuildPurge() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

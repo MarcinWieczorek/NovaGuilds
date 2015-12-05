@@ -30,10 +30,9 @@ import java.util.HashMap;
 
 public class CommandAdminGuildInvite implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_INVITE;
 
-	public CommandAdminGuildInvite(Commands command) {
-		this.command = command;
+	public CommandAdminGuildInvite() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

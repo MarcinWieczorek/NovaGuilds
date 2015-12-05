@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandAdminGuild implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_ACCESS;
 
 	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
 		put("tp", Commands.ADMIN_GUILD_TELEPORT);
@@ -75,8 +75,7 @@ public class CommandAdminGuild implements Executor {
 		add(Commands.ADMIN_GUILD_INACTIVE);
 	}};
 
-	public CommandAdminGuild(Commands command) {
-		this.command = command;
+	public CommandAdminGuild() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

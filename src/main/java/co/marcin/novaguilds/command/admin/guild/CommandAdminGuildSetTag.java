@@ -29,10 +29,9 @@ import java.util.HashMap;
 
 public class CommandAdminGuildSetTag implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_SET_TAG;
 
-	public CommandAdminGuildSetTag(Commands command) {
-		this.command = command;
+	public CommandAdminGuildSetTag() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

@@ -27,10 +27,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandGuildPvpToggle implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_PVPTOGGLE;
 
-	public CommandGuildPvpToggle(Commands command) {
-		this.command = command;
+	public CommandGuildPvpToggle() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

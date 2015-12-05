@@ -28,10 +28,9 @@ import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetSlots implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_SET_SLOTS;
 
-	public CommandAdminGuildSetSlots(Commands command) {
-		this.command = command;
+	public CommandAdminGuildSetSlots() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

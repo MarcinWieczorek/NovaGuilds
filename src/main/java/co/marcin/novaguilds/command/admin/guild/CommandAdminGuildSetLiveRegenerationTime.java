@@ -30,10 +30,9 @@ import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetLiveRegenerationTime implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_SET_LIVEREGENERATIONTIME;
 
-	public CommandAdminGuildSetLiveRegenerationTime(Commands command) {
-		this.command = command;
+	public CommandAdminGuildSetLiveRegenerationTime() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

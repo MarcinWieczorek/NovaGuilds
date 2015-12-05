@@ -26,10 +26,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandGuildCompass implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_COMPASS;
 
-	public CommandGuildCompass(Commands command) {
-		this.command = command;
+	public CommandGuildCompass() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

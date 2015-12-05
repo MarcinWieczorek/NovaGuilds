@@ -30,10 +30,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandAdminRegionList implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_REGION_LIST;
 
-	public CommandAdminRegionList(Commands command) {
-		this.command = command;
+	public CommandAdminRegionList() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

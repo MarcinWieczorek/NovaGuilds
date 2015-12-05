@@ -26,10 +26,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandToolGet implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.TOOL_GET;
 
-	public CommandToolGet(Commands command) {
-		this.command = command;
+	public CommandToolGet() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

@@ -32,10 +32,9 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class CommandAdminGuildInactive implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_INACTIVE;
 
-	public CommandAdminGuildInactive(Commands command) {
-		this.command = command;
+	public CommandAdminGuildInactive() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

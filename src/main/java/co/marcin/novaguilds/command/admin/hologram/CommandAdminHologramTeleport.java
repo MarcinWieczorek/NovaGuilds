@@ -30,11 +30,10 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CommandAdminHologramTeleport implements Executor, ExecutorReversedAdminHologram {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_HOLOGRAM_TELEPORT;
 	private NovaHologram hologram;
 
-	public CommandAdminHologramTeleport(Commands command) {
-		this.command = command;
+	public CommandAdminHologramTeleport() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

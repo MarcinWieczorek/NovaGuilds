@@ -31,10 +31,9 @@ import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetTimerest implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_SET_TIMEREST;
 
-	public CommandAdminGuildSetTimerest(Commands command) {
-		this.command = command;
+	public CommandAdminGuildSetTimerest() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

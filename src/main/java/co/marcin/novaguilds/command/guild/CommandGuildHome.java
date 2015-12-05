@@ -34,10 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CommandGuildHome implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_HOME;
 
-	public CommandGuildHome(Commands command) {
-		this.command = command;
+	public CommandGuildHome() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

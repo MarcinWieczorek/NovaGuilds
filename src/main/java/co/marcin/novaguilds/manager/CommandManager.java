@@ -97,64 +97,62 @@ public class CommandManager {
 		plugin.getCommand("confirm").setExecutor(new CommandConfirm());
 
 		//register custom executors
-		new CommandGuildBuyLife(Commands.GUILD_BUYLIFE);
-		new CommandGuildBuySlot(Commands.GUILD_BUYSLOT);
-		new CommandGuildCompass(Commands.GUILD_COMPASS);
-		new CommandGuildAlly(Commands.GUILD_ALLY);
-		new CommandGuildBankPay(Commands.GUILD_BANK_PAY);
-		new CommandGuildBankWithdraw(Commands.GUILD_BANK_WITHDRAW);
-		new CommandGuildEffect(Commands.GUILD_EFFECT);
-		new CommandGuildHome(Commands.GUILD_HOME);
-		new CommandGuildKick(Commands.GUILD_KICK);
-		new CommandGuildLeader(Commands.GUILD_LEADER);
-		new CommandGuildPvpToggle(Commands.GUILD_PVPTOGGLE);
-		new CommandGuildTop(Commands.GUILD_TOP);
-		new CommandGuildRequiredItems(Commands.GUILD_REQUIREDITEMS);
-		new CommandGuildWar(Commands.GUILD_WAR);
-		new CommandAdminGuildList(Commands.ADMIN_GUILD_LIST);
-		new CommandGuildOpenInvitation(Commands.GUILD_OPENINVITATION);
+		new CommandGuildBuyLife();
+		new CommandGuildBuySlot();
+		new CommandGuildCompass();
+		new CommandGuildAlly();
+		new CommandGuildBankPay();
+		new CommandGuildBankWithdraw();
+		new CommandGuildEffect();
+		new CommandGuildHome();
+		new CommandGuildKick();
+		new CommandGuildLeader();
+		new CommandGuildPvpToggle();
+		new CommandGuildTop();
+		new CommandGuildRequiredItems();
+		new CommandGuildWar();
+		new CommandGuildOpenInvitation();
 
-		new CommandToolGet(Commands.TOOL_GET);
+		new CommandToolGet();
 
 		//Admin
-		new CommandAdminReload(Commands.ADMIN_RELOAD);
-		new CommandAdminSave(Commands.ADMIN_SAVE);
+		new CommandAdminReload();
+		new CommandAdminSave();
 
 		//AdminRegion
-		new CommandAdminRegion(Commands.ADMIN_REGION_ACCESS);
-		new CommandAdminRegionDelete(Commands.ADMIN_REGION_DELETE);
-		new CommandAdminRegionList(Commands.ADMIN_REGION_LIST);
-		new CommandAdminRegionTeleport(Commands.ADMIN_REGION_TELEPORT);
+		new CommandAdminRegion();
+		new CommandAdminRegionDelete();
+		new CommandAdminRegionList();
+		new CommandAdminRegionTeleport();
+		new CommandAdminRegionBypass();
 
 		//AdminGuilds
-		new CommandAdminGuild(Commands.ADMIN_GUILD_ACCESS);
-		new CommandAdminGuildAbandon(Commands.ADMIN_GUILD_ABANDON);
-		new CommandAdminGuildBankPay(Commands.ADMIN_GUILD_BANK_PAY);
-		new CommandAdminGuildBankWithdraw(Commands.ADMIN_GUILD_BANK_WITHDRAW);
-		new CommandAdminGuildInactive(Commands.ADMIN_GUILD_INACTIVE);
-		new CommandAdminGuildInvite(Commands.ADMIN_GUILD_INVITE);
-		new CommandAdminGuildKick(Commands.ADMIN_GUILD_KICK);
-		new CommandAdminGuildPurge(Commands.ADMIN_GUILD_PURGE);
-		new CommandAdminGuildSetLeader(Commands.ADMIN_GUILD_SET_LEADER);
-		new CommandAdminGuildSetLiveRegenerationTime(Commands.ADMIN_GUILD_SET_LIVEREGENERATIONTIME);
-		new CommandAdminGuildSetLives(Commands.ADMIN_GUILD_SET_LIVES);
-		new CommandAdminGuildSetName(Commands.ADMIN_GUILD_SET_NAME);
-		new CommandAdminGuildSetPoints(Commands.ADMIN_GUILD_SET_POINTS);
-		new CommandAdminGuildSetSlots(Commands.ADMIN_GUILD_SET_SLOTS);
-		new CommandAdminGuildSetTag(Commands.ADMIN_GUILD_SET_TAG);
-		new CommandAdminGuildSetTimerest(Commands.ADMIN_GUILD_SET_TIMEREST);
-		new CommandAdminGuildTeleport(Commands.ADMIN_GUILD_TELEPORT);
+		new CommandAdminGuild();
+		new CommandAdminGuildList();
+		new CommandAdminGuildAbandon();
+		new CommandAdminGuildBankPay();
+		new CommandAdminGuildBankWithdraw();
+		new CommandAdminGuildInactive();
+		new CommandAdminGuildInvite();
+		new CommandAdminGuildKick();
+		new CommandAdminGuildPurge();
+		new CommandAdminGuildSetLeader();
+		new CommandAdminGuildSetLiveRegenerationTime();
+		new CommandAdminGuildSetLives();
+		new CommandAdminGuildSetName();
+		new CommandAdminGuildSetPoints();
+		new CommandAdminGuildSetSlots();
+		new CommandAdminGuildSetTag();
+		new CommandAdminGuildSetTimerest();
+		new CommandAdminGuildTeleport();
 
 		//AdminHologram
-		new CommandAdminHologram(Commands.ADMIN_HOLOGRAM_ACCESS);
-		new CommandAdminHologramList(Commands.ADMIN_HOLOGRAM_LIST);
-		new CommandAdminHologramAddTop(Commands.ADMIN_HOLOGRAM_ADDTOP);
-		new CommandAdminHologramDelete(Commands.ADMIN_HOLOGRAM_DELETE);
-		new CommandAdminHologramTeleport(Commands.ADMIN_HOLOGRAM_TELEPORT);
-		new CommandAdminHologramTeleportHere(Commands.ADMIN_HOLOGRAM_TELEPORT_HERE);
-
-		//AdminRegion
-		new CommandAdminRegionBypass(Commands.ADMIN_REGION_BYPASS);
+		new CommandAdminHologram();
+		new CommandAdminHologramList();
+		new CommandAdminHologramAddTop();
+		new CommandAdminHologramDelete();
+		new CommandAdminHologramTeleport();
+		new CommandAdminHologramTeleportHere();
 
 		plugin.getCommand("nga").setTabCompleter(new TabCompleter() {
 			@Override

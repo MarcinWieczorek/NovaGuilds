@@ -31,11 +31,10 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class CommandAdminRegionTeleport implements Executor, ExecutorReversedAdminRegion {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_REGION_TELEPORT;
 	private NovaRegion region;
 
-	public CommandAdminRegionTeleport(Commands command) {
-		this.command = command;
+	public CommandAdminRegionTeleport() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

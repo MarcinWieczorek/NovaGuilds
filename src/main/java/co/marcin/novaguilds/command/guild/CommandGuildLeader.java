@@ -28,10 +28,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandGuildLeader implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_LEADER;
 
-	public CommandGuildLeader(Commands command) {
-		this.command = command;
+	public CommandGuildLeader() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

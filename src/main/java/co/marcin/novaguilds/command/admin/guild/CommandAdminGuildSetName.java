@@ -28,10 +28,9 @@ import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetName implements Executor, ExecutorReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_SET_NAME;
 
-	public CommandAdminGuildSetName(Commands command) {
-		this.command = command;
+	public CommandAdminGuildSetName() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

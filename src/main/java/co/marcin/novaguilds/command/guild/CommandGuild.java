@@ -99,7 +99,7 @@ public class CommandGuild implements CommandExecutor {
 					plugin.getCommandManager().getExecutor(Commands.GUILD_EFFECT).execute(sender, newargs);
 					break;
 				case "top":
-					new CommandGuildTop(Commands.GUILD_TOP).execute(sender, newargs);
+					plugin.getCommandManager().getExecutor(Commands.GUILD_TOP).execute(sender, newargs);
 					break;
 				case "items":
 					plugin.getCommandManager().getExecutor(Commands.GUILD_REQUIREDITEMS).execute(sender, newargs);

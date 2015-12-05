@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CommandAdminRegion implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_REGION_ACCESS;
 
 	public static final HashMap<String, Commands> commandsMap = new HashMap<String, Commands>(){{
 		put("bypass", Commands.ADMIN_REGION_BYPASS);
@@ -52,8 +52,7 @@ public class CommandAdminRegion implements Executor {
 		add(Commands.ADMIN_REGION_LIST);
 	}};
 
-	public CommandAdminRegion(Commands command) {
-		this.command = command;
+	public CommandAdminRegion() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

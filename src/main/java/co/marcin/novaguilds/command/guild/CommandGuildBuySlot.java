@@ -31,10 +31,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildBuySlot implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_BUYSLOT;
 
-	public CommandGuildBuySlot(Commands command) {
-		this.command = command;
+	public CommandGuildBuySlot() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

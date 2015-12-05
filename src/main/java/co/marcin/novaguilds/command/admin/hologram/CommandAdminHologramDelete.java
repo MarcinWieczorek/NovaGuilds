@@ -29,11 +29,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminHologramDelete implements Executor, ExecutorReversedAdminHologram {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_HOLOGRAM_DELETE;
 	private NovaHologram hologram;
 
-	public CommandAdminHologramDelete(Commands command) {
-		this.command = command;
+	public CommandAdminHologramDelete() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

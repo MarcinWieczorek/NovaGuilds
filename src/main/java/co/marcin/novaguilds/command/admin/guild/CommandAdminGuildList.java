@@ -30,10 +30,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandAdminGuildList implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.ADMIN_GUILD_LIST;
 
-	public CommandAdminGuildList(Commands command) {
-		this.command = command;
+	public CommandAdminGuildList() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

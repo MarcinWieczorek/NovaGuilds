@@ -33,10 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CommandGuildEffect implements Executor {
-	private final Commands command;
+	private final Commands command = Commands.GUILD_EFFECT;
 
-	public CommandGuildEffect(Commands command) {
-		this.command = command;
+	public CommandGuildEffect() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
