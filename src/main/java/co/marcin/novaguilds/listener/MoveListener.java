@@ -38,27 +38,15 @@ public class MoveListener implements Listener {
 
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
-		Player player = event.getPlayer();
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-		Location from = event.getFrom();
-		Location to = event.getTo();
-		
-		NovaRegion fromRegion = plugin.getRegionManager().getRegion(from);
-		NovaRegion toRegion = plugin.getRegionManager().getRegion(to);
-
-		//entering
-		if(fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) {
-			plugin.getRegionManager().playerEnteredRegion(player,event.getTo());
-		}
-		
-		//exiting
-		if(fromRegion != null && toRegion == null && nPlayer.getAtRegion() != null) {
-			plugin.getRegionManager().playerExitedRegion(player);
-		}
+		execute(event);
 	}
 
 	@EventHandler
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
+		execute(event);
+	}
+
+	private void execute(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 		Location from = event.getFrom();
