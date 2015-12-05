@@ -25,18 +25,20 @@ import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandGuildAbandon implements CommandExecutor {
+public class CommandGuildAbandon implements CommandExecutor, Executor {
 	private static NovaGuilds plugin;
 	private static Commands command = Commands.GUILD_ABANDON;
 	
 	public CommandGuildAbandon(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -57,12 +59,40 @@ public class CommandGuildAbandon implements CommandExecutor {
 			return true;
 		}
 
-		NovaGuild guild = nPlayer.getGuild();
-			
 		if(!nPlayer.isLeader()) {
 			Message.CHAT_GUILD_NOTLEADER.send(sender);
 			return true;
 		}
+
+		nPlayer.newCommandExecutorHandler(command, args);
+		return true;
+	}
+	
+	public void execute(CommandSender sender, String args[]) {
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
+		}
+
+		if(!command.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
+		}
+
+		NovaPlayer nPlayer = NovaPlayer.get(sender);
+
+		if(!nPlayer.hasGuild()) {
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
+			return;
+		}
+
+		if(!nPlayer.isLeader()) {
+
+			Message.CHAT_GUILD_NOTLEADER.send(sender);
+			return;
+		}
+
+		NovaGuild guild = nPlayer.getGuild();
 
 		//fire event
 		GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.PLAYER);
@@ -83,8 +113,5 @@ public class CommandGuildAbandon implements CommandExecutor {
 			Message.BROADCAST_GUILD_ABANDONED.vars(vars).broadcast();
 			plugin.tagUtils.refreshAll();
 		}
-
-		return true;
 	}
-	
 }
