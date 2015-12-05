@@ -18,6 +18,8 @@
 
 package co.marcin.novaguilds.enums;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -123,5 +125,9 @@ public enum Commands {
 
 	public Message getUsageMessage() {
 		return usageMessage;
+	}
+
+	public Executor getExecutor() {
+		return NovaGuilds.getInstance().getCommandManager().getExecutor(this);
 	}
 }
