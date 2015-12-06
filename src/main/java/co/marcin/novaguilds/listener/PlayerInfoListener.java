@@ -38,7 +38,7 @@ public class PlayerInfoListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerClickPlayer(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
-		if(event.getRightClicked() instanceof Player) {
+		if((event.getRightClicked() instanceof Player) && player.isSneaking()) {
 			if(Permission.NOVAGUILDS_PLAYERINFO.has(player)) {
 				NovaPlayer nCPlayer = plugin.getPlayerManager().getPlayer((Player) event.getRightClicked());
 				plugin.getPlayerManager().sendPlayerInfo(player, nCPlayer);
