@@ -21,8 +21,9 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
@@ -34,22 +35,29 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 
-public class CommandGuildJoin implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandGuildJoin implements CommandExecutor, Executor {
+	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Commands command = Commands.GUILD_JOIN;
 	
-	public CommandGuildJoin(NovaGuilds pl) {
-		plugin = pl;
+	public CommandGuildJoin() {
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!(sender instanceof Player)) {
+		execute(sender, args);
+		return true;
+	}
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.allowedSender(sender)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
+			return;
 		}
 
-		if(!Permission.NOVAGUILDS_GUILD_JOIN.has(sender)) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
@@ -57,12 +65,12 @@ public class CommandGuildJoin implements CommandExecutor {
 		
 		if(nPlayer.hasGuild()) {
 			Message.CHAT_PLAYER_HASGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		if(invitedTo.isEmpty() && args.length != 1) {
 			Message.CHAT_PLAYER_INVITE_LIST_NOTHING.send(sender);
-			return true;
+			return;
 		}
 
 		String guildname;
@@ -96,7 +104,7 @@ public class CommandGuildJoin implements CommandExecutor {
 				}
 
 				sender.sendMessage(StringUtils.fixColors(invitedlist));
-				return true;
+				return;
 			}
 			else {
 				guildname = args[0];
@@ -107,12 +115,12 @@ public class CommandGuildJoin implements CommandExecutor {
 
 		if(guild == null) {
 			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
-			return true;
+			return;
 		}
 
 		if(!nPlayer.isInvitedTo(guild) && !guild.isOpenInvitation()) {
 			Message.CHAT_PLAYER_INVITE_NOTINVITED.send(sender);
-			return true;
+			return;
 		}
 
 		//items
@@ -126,7 +134,7 @@ public class CommandGuildJoin implements CommandExecutor {
 				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 				sender.sendMessage(StringUtils.getItemList(missingItems));
 
-				return true;
+				return;
 			}
 		}
 
@@ -140,7 +148,7 @@ public class CommandGuildJoin implements CommandExecutor {
 				//TODO not enought money msg
 				vars.put("{REQUIREDMONEY}", joinMoney + "");
 				Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
-				return true;
+				return;
 			}
 		}
 
@@ -154,7 +162,7 @@ public class CommandGuildJoin implements CommandExecutor {
 
 		if(guild.isFull()) {
 			Message.CHAT_GUILD_ISFULL.send(sender);
-			return true;
+			return;
 		}
 
 		guild.addPlayer(nPlayer);
@@ -168,6 +176,5 @@ public class CommandGuildJoin implements CommandExecutor {
 		vars.put("PLAYER",sender.getName());
 		vars.put("GUILDNAME",guild.getName());
 		Message.BROADCAST_GUILD_JOINED.vars(vars).broadcast();
-		return true;
 	}
 }

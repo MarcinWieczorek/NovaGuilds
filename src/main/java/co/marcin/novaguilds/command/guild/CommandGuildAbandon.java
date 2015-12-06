@@ -33,11 +33,10 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandGuildAbandon implements CommandExecutor, Executor {
-	private static NovaGuilds plugin;
+	private static NovaGuilds plugin = NovaGuilds.getInstance();
 	private static Commands command = Commands.GUILD_ABANDON;
 	
 	public CommandGuildAbandon(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

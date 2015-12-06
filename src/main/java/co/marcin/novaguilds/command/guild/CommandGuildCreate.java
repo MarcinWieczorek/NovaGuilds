@@ -23,11 +23,12 @@ import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.event.GuildCreateEvent;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -43,27 +44,35 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 
-public class CommandGuildCreate implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandGuildCreate implements CommandExecutor, Executor {
+	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Commands command = Commands.GUILD_CREATE;
 	
-	public CommandGuildCreate(NovaGuilds pl) {
-		plugin = pl;
+	public CommandGuildCreate() {
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!Permission.NOVAGUILDS_GUILD_CREATE.has(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+		execute(sender, args);
+		return true;
+	}
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
-		if(!(sender instanceof Player)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
+		if(!command.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
 		}
 
 		if(args.length != 2) {
 			Message.CHAT_USAGE_GUILD_CREATE.send(sender);
-			return true;
+			return;
 		}
 
 		Player player = (Player)sender;
@@ -82,63 +91,63 @@ public class CommandGuildCreate implements CommandExecutor {
 		
 		if(nPlayer.hasGuild()) { //has guild already
 			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		if(plugin.getGuildManager().getGuildByName(guildname) != null) {
 			Message.CHAT_CREATEGUILD_NAMEEXISTS.send(sender);
-			return true;
+			return;
 		}
 
 		if(plugin.getGuildManager().getGuildByTag(tag) != null) {
 			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
-			return true;
+			return;
 		}
 
 		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
 			Message.CHAT_CREATEGUILD_REGIONHERE.send(sender);
-			return true;
+			return;
 		}
 
 		//tag length
 		if(tag.length() > Config.GUILD_SETTINGS_TAG_MAX.getInt()) { //too long
 			Message.CHAT_CREATEGUILD_TAG_TOOLONG.send(sender);
-			return true;
+			return;
 		}
 
 		if(StringUtils.removeColors(tag).length() < Config.GUILD_SETTINGS_TAG_MIN.getInt()) { //too short
 			Message.CHAT_CREATEGUILD_TAG_TOOSHORT.send(sender);
-			return true;
+			return;
 		}
 
 		//name length
 		if(guildname.length() > Config.GUILD_SETTINGS_NAME_MAX.getInt()) { //too long
 			Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
-			return true;
+			return;
 		}
 
 		if(guildname.length() < Config.GUILD_SETTINGS_NAME_MIN.getInt()) { //too short
 			Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
-			return true;
+			return;
 		}
 
 		//allowed strings (tag, name)
 		if(!StringUtils.isStringAllowed(tag) || !StringUtils.isStringAllowed(guildname)) {
 			Message.CHAT_CREATEGUILD_NOTALLOWEDSTRING.send(sender);
-			return true;
+			return;
 		}
 
 		//distance from spawn
 		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < Config.GUILD_FROMSPAWN.getInt()) {
 			vars.put("DISTANCE", String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
 			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.vars(vars).send(sender);
-			return true;
+			return;
 		}
 
 		//Disabled worlds
 		if(Config.GUILD_DISABLEDWORLDS.getStringList().contains(player.getWorld().getName())) {
 			Message.CHAT_CREATEGUILD_DISABLEDWORLD.send(sender);
-			return true;
+			return;
 		}
 
 		//items required
@@ -149,14 +158,14 @@ public class CommandGuildCreate implements CommandExecutor {
 		if(requiredmoney>0 && !nPlayer.hasMoney(requiredmoney)) {
 			vars.put("REQUIREDMONEY", String.valueOf(requiredmoney));
 			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.vars(vars).send(sender);
-			return true;
+			return;
 		}
 
 		if(!InventoryUtils.containsItems(player.getInventory(), items)) {
 			Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 			sender.sendMessage(StringUtils.getItemList(items));
 
-			return true;
+			return;
 		}
 
 		RegionValidity regionValid = RegionValidity.VALID;
@@ -253,6 +262,5 @@ public class CommandGuildCreate implements CommandExecutor {
 				Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(sender);
 				break;
 		}
-		return true;
 	}
 }

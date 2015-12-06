@@ -60,10 +60,10 @@ public class CommandGuild implements CommandExecutor {
 					plugin.getCommandManager().getExecutor(Commands.GUILD_LEADER).execute(sender, newargs);
 					break;
 				case "info":
-					new CommandGuildInfo(plugin).onCommand(sender, cmd, label, newargs);
+					Commands.GUILD_INFO.getExecutor().execute(sender, newargs);
 					break;
 				case "leave":
-					new CommandGuildLeave(plugin).onCommand(sender, cmd, label, newargs);
+					Commands.GUILD_LEAVE.getExecutor().execute(sender, newargs);
 					break;
 				case "home":
 					plugin.getCommandManager().getExecutor(Commands.GUILD_HOME).execute(sender, newargs);
@@ -84,10 +84,10 @@ public class CommandGuild implements CommandExecutor {
 					new CommandGuildInvite(plugin).onCommand(sender, cmd, label, newargs);
 					break;
 				case "join":
-					new CommandGuildJoin(plugin).onCommand(sender, cmd, label, newargs);
+					Commands.GUILD_JOIN.getExecutor().execute(sender, newargs);
 					break;
 				case "create":
-					new CommandGuildCreate(plugin).onCommand(sender, cmd, label, newargs);
+					Commands.GUILD_CREATE.getExecutor().execute(sender, newargs);
 					break;
 				case "war":
 					plugin.getCommandManager().getExecutor(Commands.GUILD_WAR).execute(sender, newargs);

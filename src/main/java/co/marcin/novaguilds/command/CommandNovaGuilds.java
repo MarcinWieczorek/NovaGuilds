@@ -22,7 +22,6 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.Tablist;
-import co.marcin.novaguilds.command.admin.CommandAdmin;
 import co.marcin.novaguilds.command.guild.CommandGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
@@ -96,7 +95,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				}
 				break;
 			case "admin":
-				new CommandAdmin(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
+				Commands.ADMIN_ACCESS.getExecutor().execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "group":
 				NovaGroup group = plugin.getGroupManager().getGroup(sender);

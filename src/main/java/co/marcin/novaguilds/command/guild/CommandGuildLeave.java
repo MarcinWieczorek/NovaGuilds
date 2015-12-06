@@ -23,43 +23,50 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class CommandGuildLeave implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandGuildLeave implements CommandExecutor, Executor {
+	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Commands command = Commands.GUILD_LEAVE;
 	
-	public CommandGuildLeave(NovaGuilds pl) {
-		plugin = pl;
+	public CommandGuildLeave() {
+		plugin.getCommandManager().registerExecutor(command, this);
+	}
+
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		execute(sender, args);
+		return true;
 	}
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!Commands.GUILD_LEAVE.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
-		if(!(sender instanceof Player)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
+		if(!command.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
 		}
 		
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
 
 		if(nPlayer.isLeader()) {
 			Message.CHAT_GUILD_LEAVE_ISLEADER.send(sender);
-			return true;
+			return;
 		}
 
 		nPlayer.setGuild(null);
@@ -77,7 +84,5 @@ public class CommandGuildLeave implements CommandExecutor {
 		Message.BROADCAST_GUILD_LEFT.vars(vars).broadcast();
 
 		plugin.tagUtils.refreshAll();
-		
-		return true;
 	}
 }

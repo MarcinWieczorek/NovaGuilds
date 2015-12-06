@@ -21,9 +21,11 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -38,14 +40,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class CommandGuildInfo implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandGuildInfo implements CommandExecutor, Executor {
+	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Commands command = Commands.GUILD_INFO;
 	 
-	public CommandGuildInfo(NovaGuilds plugin) {
-		this.plugin = plugin;
+	public CommandGuildInfo() {
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 	
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		execute(sender, args);
+		return true;
+	}
+	
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
+		}
+
+		if(!command.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
+		}
+
 		String guildname;
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
@@ -55,7 +75,7 @@ public class CommandGuildInfo implements CommandExecutor {
 		else {
 			if(!(sender instanceof Player)) {
 				Message.CHAT_CMDFROMCONSOLE.send(sender);
-				return true;
+				return;
 			}
 			
 			if(nPlayer.hasGuild()) {
@@ -63,7 +83,7 @@ public class CommandGuildInfo implements CommandExecutor {
 			}
 			else {
 				Message.CHAT_GUILD_NOTINGUILD.send(sender);
-				return true;
+				return;
 			}
 		}
 
@@ -72,7 +92,7 @@ public class CommandGuildInfo implements CommandExecutor {
 		
 		if(guild == null) {
 			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
-			return true;
+			return;
 		}
 
 		HashMap<String,String> vars = new HashMap<>();
@@ -228,6 +248,5 @@ public class CommandGuildInfo implements CommandExecutor {
 				sender.sendMessage(StringUtils.fixColors(gmsg));
 			}
 		}
-		return true;
 	}
 }

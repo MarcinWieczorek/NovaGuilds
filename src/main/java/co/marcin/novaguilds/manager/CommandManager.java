@@ -81,14 +81,14 @@ public class CommandManager {
 	private void registerCommands() {
 		plugin.getCommand("novaguilds").setExecutor(new CommandNovaGuilds(plugin));
 		plugin.getCommand("ng").setExecutor(new CommandNovaGuilds(plugin));
-		plugin.getCommand("nga").setExecutor(new CommandAdmin(plugin));
+		plugin.getCommand("nga").setExecutor(new CommandAdmin());
 
 		plugin.getCommand("abandon").setExecutor(new CommandGuildAbandon(plugin));
 		plugin.getCommand("guild").setExecutor(new CommandGuild(plugin));
-		plugin.getCommand("gi").setExecutor(new CommandGuildInfo(plugin));
-		plugin.getCommand("create").setExecutor(new CommandGuildCreate(plugin));
-		plugin.getCommand("join").setExecutor(new CommandGuildJoin(plugin));
-		plugin.getCommand("leave").setExecutor(new CommandGuildLeave(plugin));
+		plugin.getCommand("gi").setExecutor(new CommandGuildInfo());
+		plugin.getCommand("create").setExecutor(new CommandGuildCreate());
+		plugin.getCommand("join").setExecutor(new CommandGuildJoin());
+		plugin.getCommand("leave").setExecutor(new CommandGuildLeave());
 
 		plugin.getCommand("invite").setExecutor(new CommandGuildInvite(plugin));
 		plugin.getCommand("guildmenu").setExecutor(new CommandGuildMenu(plugin));
@@ -116,6 +116,7 @@ public class CommandManager {
 		new CommandToolGet();
 
 		//Admin
+		new CommandAdmin();
 		new CommandAdminReload();
 		new CommandAdminSave();
 
@@ -236,7 +237,9 @@ public class CommandManager {
 	}
 
 	public void registerExecutor(Commands command, Executor executor) {
-		executors.put(command, executor);
+		if(!executors.containsKey(command)) {
+			executors.put(command, executor);
+		}
 	}
 
 	public Executor getExecutor(Commands command) {

@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,8 +30,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdmin implements CommandExecutor {
-	private final NovaGuilds plugin;
+public class CommandAdmin implements CommandExecutor, Executor {
+	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Commands command = Commands.ADMIN_ACCESS;
 
 	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
 		put("guild", Commands.ADMIN_GUILD_ACCESS);
@@ -45,32 +47,37 @@ public class CommandAdmin implements CommandExecutor {
 		put("reload", Commands.ADMIN_RELOAD);
 		put("save", Commands.ADMIN_SAVE);
 	}};
-	
-	public CommandAdmin(NovaGuilds pl) {
-		plugin = pl;
+
+	public CommandAdmin() {
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!Commands.GUILD_ACCESS.hasPermission(sender)) {
+		execute(sender, args);
+		return true;
+	}
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
 		}
 
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_MAIN_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_MAIN_ITEMS.send(sender);
-			return true;
+			return;
 		}
 
 		Commands subCommand = commandsMap.get(args[0]);
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);
-			return true;
+			return;
 		}
 
 		plugin.getCommandManager().getExecutor(subCommand).execute(sender, StringUtils.parseArgs(args, 1));
-		return true;
 	}
-
 }
