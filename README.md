@@ -11,6 +11,7 @@ Please leave feedback!<br/><br/>
 <br/>
 
 <h2><b>Downloads</b></h2>
+The plugin works on all <b>1.7</b> and <b>1.8</b> versions!<br/>
 <a href="http://novaguilds.pl">http://novaguilds.pl/</a>
 <br/><br/><br/>
 
