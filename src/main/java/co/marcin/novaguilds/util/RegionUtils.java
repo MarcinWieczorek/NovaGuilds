@@ -155,7 +155,7 @@ public final class RegionUtils {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void sendSquare(Player player, Location l1, Location l2, Material material, byte data) {
+	public static void sendRectangle(Player player, Location l1, Location l2, Material material, byte data) {
 		if(player == null || l1 == null || l2 == null) {
 			return;
 		}
@@ -175,6 +175,10 @@ public final class RegionUtils {
 
 			player.sendBlockChange(block.getLocation(), useMaterial, useData);
 		}
+	}
+
+	public static void sendRectangle(Player player, Location l1, Location l2, Material material) {
+		sendRectangle(player, l1, l2, material, (byte)0);
 	}
 
 	public static Location getCenterLocation(Location l1, Location l2) {

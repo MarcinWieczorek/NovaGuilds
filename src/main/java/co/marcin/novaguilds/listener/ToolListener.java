@@ -26,8 +26,10 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,6 +63,7 @@ public class ToolListener implements Listener {
 		Action action = event.getAction();
 
 		pointedLocation.setWorld(player.getWorld());
+		NovaRegion region = plugin.getRegionManager().getRegion(pointedLocation);
 
 		//Change RegionMode
 		if((action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) && player.isSneaking()) {
@@ -68,31 +71,23 @@ public class ToolListener implements Listener {
 				return;
 			}
 
-			//remove region highlight
-			if(nPlayer.getSelectedRegion() != null) {
-				RegionUtils.highlightRegion(player, nPlayer.getSelectedRegion(), null);
-			}
-
 			event.setCancelled(true);
 			nPlayer.setRegionMode(!nPlayer.getRegionMode());
+			nPlayer.cancelToolProgress();
 
 			//highlight corners for resizing
 			if(nPlayer.getRegionMode() && nPlayer.isLeader() && nPlayer.getGuild().hasRegion()) {
-				RegionUtils.highlightRegion(player, nPlayer.getGuild().getRegion(), Config.REGION_MATERIALS_RESIZE_CORNER.getMaterial());
+				RegionUtils.highlightRegion(player, region, Config.REGION_MATERIALS_RESIZE_CORNER.getMaterial());
 				nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
+				LoggerUtils.debug("sent golden highlight"+Config.REGION_MATERIALS_RESIZE_CORNER.getMaterial().name());
 			}
 
 			Message mode = nPlayer.getRegionMode() ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
 
 			vars.put("MODE", mode.get());
 			Message.CHAT_REGION_TOOL_TOGGLEDMODE.vars(vars).send(player);
-
-			nPlayer.cancelToolProgress();
 			return;
 		}
-
-
-		NovaRegion region = plugin.getRegionManager().getRegion(pointedLocation);
 
 		if(!nPlayer.getRegionMode() && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
 			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player)) { //permissions check
@@ -116,30 +111,30 @@ public class ToolListener implements Listener {
 			}
 		}
 		else if(event.getAction() != Action.PHYSICAL && nPlayer.getRegionMode()) { //CREATE MODE
-			if(region != null && !nPlayer.isResizing()) { //resizing
+			Location pointedCornerLocation = pointedLocation.clone();
+			pointedCornerLocation.setY(0);
+			double[] cornerDistance = new double[]{ region==null?1:pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()), region==null?1:pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()) };
+
+			if(region != null && !nPlayer.isResizing() && (cornerDistance[0] < 1 || cornerDistance[1] < 1)) { //resizing
 				if(!Permission.NOVAGUILDS_REGION_RESIZE.has(player)) {
 					return;
 				}
 
 				if(region.getGuild().isMember(nPlayer) && nPlayer.isLeader()) {
-					Location pointedCornerLocation = pointedLocation.clone();
-					pointedCornerLocation.setY(0);
+					int corner = 1;
 
-					if(pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()) < 1 || pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()) < 1) { //clicked a corner
-						int corner = 1;
-
-						if(pointedCornerLocation.distance(region.getCorner(0)) < 1) {
-							corner = 0;
-						}
-
-						nPlayer.setResizing(true);
-						nPlayer.setResizingCorner(corner);
-						Message.CHAT_REGION_RESIZE_START.send(player);
-						RegionUtils.sendSquare(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null, (byte) 0);
-						nPlayer.setSelectedLocation(0, null);
-						nPlayer.setSelectedLocation(1, null);
-						nPlayer.setSelectedLocation(corner == 1 ? 0 : 1, region.getCorner(corner == 1 ? 0 : 1));
+					if(cornerDistance[0] < 1) {
+						corner = 0;
 					}
+
+					nPlayer.setResizing(true);
+					nPlayer.setResizingCorner(corner);
+					Message.CHAT_REGION_RESIZE_START.send(player);
+					RegionUtils.sendRectangle(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null);
+					RegionUtils.sendRectangle(player, region.getCorner(0), region.getCorner(1), Config.REGION_MATERIALS_RESIZE_RECTANGLE.getMaterial(), Config.REGION_MATERIALS_RESIZE_RECTANGLE.getMaterialData());
+					nPlayer.setSelectedLocation(0, region.getCorner(0));
+					nPlayer.setSelectedLocation(1, region.getCorner(1));
+					nPlayer.setSelectedLocation(corner == 1 ? 0 : 1, region.getCorner(corner == 1 ? 0 : 1));
 				}
 			}
 			else {
@@ -161,7 +156,7 @@ public class ToolListener implements Listener {
 							RegionUtils.setCorner(player, sl0, null);
 
 							if(sl1 != null) {
-								RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
+								RegionUtils.sendRectangle(player, sl0, sl1, null);
 							}
 						}
 
@@ -178,7 +173,7 @@ public class ToolListener implements Listener {
 							RegionUtils.setCorner(player, nPlayer.getSelectedLocation(nPlayer.getResizingCorner()), null);
 
 							if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()==0 ? 1 : 0) != null) {
-								RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
+								RegionUtils.sendRectangle(player, sl0, sl1, null);
 							}
 						}
 
@@ -200,7 +195,7 @@ public class ToolListener implements Listener {
 							RegionUtils.setCorner(player, nPlayer.getSelectedLocation(1), null);
 
 							if(sl0 != null) {
-								RegionUtils.sendSquare(player, sl0, sl1, null, (byte) 0);
+								RegionUtils.sendRectangle(player, sl0, sl1, null);
 							}
 						}
 
@@ -213,7 +208,8 @@ public class ToolListener implements Listener {
 
 				if(sl0 != null && sl1 != null) {
 					RegionValidity validSelect = plugin.getRegionManager().checkRegionSelect(sl0, sl1);
-					byte data = (byte)15;
+					byte rectangleData = Config.REGION_MATERIALS_SELECTION_INVALID.getMaterialData();
+					Material rectangleMaterial = Config.REGION_MATERIALS_SELECTION_INVALID.getMaterial();
 
 					//When resizing if overlaps player's region
 					if(nPlayer.isResizing() && validSelect == RegionValidity.OVERLAPS) {
@@ -226,7 +222,7 @@ public class ToolListener implements Listener {
 					if(validSelect == RegionValidity.TOOCLOSE) {
 						List<NovaGuild> guildsTooClose = plugin.getRegionManager().getGuildsTooClose(sl0, sl1);
 
-						if(guildsTooClose.size() == 1 && guildsTooClose.get(0).equals(nPlayer.getGuild())) {
+						if(guildsTooClose.size() == 1 && guildsTooClose.get(0).equals(nPlayer.getGuild()) && nPlayer.isResizing()) {
 							validSelect = RegionValidity.VALID;
 						}
 					}
@@ -239,11 +235,13 @@ public class ToolListener implements Listener {
 								double ppb = plugin.getGroupManager().getGroup(player).getRegionPricePerBlock();
 
 								if(nPlayer.isResizing()) {
-									data = (byte) 6;
+									rectangleData = Config.REGION_MATERIALS_RESIZE_RECTANGLE.getMaterialData();
+									rectangleMaterial = Config.REGION_MATERIALS_RESIZE_RECTANGLE.getMaterial();
 									price = ppb * (regionsize - nPlayer.getGuild().getRegion().getSurface());
 								}
 								else {
-									data = (byte) 14;
+									rectangleData = Config.REGION_MATERIALS_SELECTION_RECTANGLE.getMaterialData();
+									rectangleMaterial = Config.REGION_MATERIALS_SELECTION_RECTANGLE.getMaterial();
 									price = ppb * regionsize + plugin.getGroupManager().getGroup(player).getRegionCreateMoney();
 								}
 
@@ -285,7 +283,7 @@ public class ToolListener implements Listener {
 					}
 
 					//corners and rectangles
-					RegionUtils.sendSquare(player, sl0, sl1, Config.REGION_MATERIALS_SELECTION_RECTANGLE.getMaterial(), data);
+					RegionUtils.sendRectangle(player, sl0, sl1, rectangleMaterial, rectangleData);
 					RegionUtils.setCorner(player, sl0, Config.REGION_MATERIALS_SELECTION_CORNER.getMaterial());
 					RegionUtils.setCorner(player, sl1, Config.REGION_MATERIALS_SELECTION_CORNER.getMaterial());
 					event.setCancelled(true);

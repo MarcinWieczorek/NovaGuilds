@@ -227,7 +227,12 @@ public class ConfigManager {
 	}
 
 	public Material getMaterial(String path) {
-		return Material.getMaterial(getString(path).toUpperCase());
+		return Material.getMaterial((getString(path).contains(":")?org.apache.commons.lang.StringUtils.split(getString(path), ':')[0]:getString(path)).toUpperCase());
+	}
+
+	//STONE:1
+	public byte getMaterialData(String path) {
+		return Byte.valueOf(getString(path).contains(":")?org.apache.commons.lang.StringUtils.split(getString(path), ':')[1]:"0");
 	}
 
 	public List<ItemStack> getItemStackList(String path) {

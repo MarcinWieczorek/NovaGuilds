@@ -252,9 +252,11 @@ region:
    highlight: DIAMOND_BLOCK
   selection:
    corner: EMERALD_BLOCK
-   rectangle: WOOL
+   rectangle: WOOL:14
+   invalid: WOOL:15
   resize:
    corner: GOLD_BLOCK
+   rectangle: WOOL:6
  autoregion: true
  minsize: 10
  maxsize: 100

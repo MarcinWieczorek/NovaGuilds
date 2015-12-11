@@ -334,7 +334,7 @@ public class NovaPlayer {
 	}
 
 	public void cancelToolProgress() {
-		RegionUtils.sendSquare(getPlayer(), getSelectedLocation(0), getSelectedLocation(1), null, (byte)0);
+		RegionUtils.sendRectangle(getPlayer(), getSelectedLocation(0), getSelectedLocation(1), null, (byte)0);
 		RegionUtils.setCorner(getPlayer(), getSelectedLocation(0), null, (byte)0);
 		RegionUtils.setCorner(getPlayer(), getSelectedLocation(1), null, (byte)0);
 		RegionUtils.highlightRegion(getPlayer(), getSelectedRegion(), null);

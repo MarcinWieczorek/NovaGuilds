@@ -138,7 +138,9 @@ public enum Config {
 	REGION_MATERIALS_CHECK_HIGHLIGHT,
 	REGION_MATERIALS_SELECTION_CORNER,
 	REGION_MATERIALS_SELECTION_RECTANGLE,
+	REGION_MATERIALS_SELECTION_INVALID,
 	REGION_MATERIALS_RESIZE_CORNER,
+    REGION_MATERIALS_RESIZE_RECTANGLE,
 
 	GUILD_CREATEPROTECTION,
 	GUILD_MAXPLAYERS,
@@ -231,6 +233,12 @@ public enum Config {
 
 	public Material getMaterial() {
 		Material r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Material ? (Material) cM.getEnumConfig(this) : cM.getMaterial(path);
+		cM.putInCache(this, r);
+		return r;
+	}
+
+	public byte getMaterialData() {
+		byte r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Byte ? (byte) cM.getEnumConfig(this) : cM.getMaterialData(path);
 		cM.putInCache(this, r);
 		return r;
 	}
