@@ -133,8 +133,6 @@ public class NovaPlayer {
 		return resizingCorner;
 	}
 
-	}
-
 	public int getPoints() {
 		return points;
 	}
