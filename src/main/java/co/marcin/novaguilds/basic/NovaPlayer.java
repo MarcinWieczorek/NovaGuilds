@@ -295,10 +295,6 @@ public class NovaPlayer {
 		return getMoney() >= money;
 	}
 
-	public boolean hasPermission(GuildPermission permission) {
-		return guildRank.hasPermission(permission);
-	}
-
 	public boolean canGetKillPoints(Player player) {
 		return !killingHistory.containsKey(player.getUniqueId()) || NumberUtils.systemSeconds() - killingHistory.get(player.getUniqueId()) > Config.KILLING_COOLDOWN.getSeconds();
 	}
