@@ -133,10 +133,6 @@ public class NovaPlayer {
 		return resizingCorner;
 	}
 
-	public void setScoreBoard(Scoreboard sb) {
-		if(isOnline()) {
-			player.setScoreboard(sb);
-		}
 	}
 
 	public int getPoints() {
@@ -161,6 +157,14 @@ public class NovaPlayer {
 
 	public Scoreboard getScoreBoard() {
 		return player.isOnline() ? player.getScoreboard() : null;
+	}
+
+	public Tablist getTablist() {
+		return tablist;
+	}
+
+	public CommandExecutorHandler getCommandExecutorHandler() {
+		return commandExecutorHandler;
 	}
 
 	public NovaRaid getPartRaid() {
@@ -236,6 +240,12 @@ public class NovaPlayer {
 		this.kills = kills;
 	}
 
+	public void setScoreBoard(Scoreboard sb) {
+		if(isOnline()) {
+			player.setScoreboard(sb);
+		}
+	}
+
 	public void toggleBypass() {
 		bypass = !bypass;
 	}
@@ -273,12 +283,20 @@ public class NovaPlayer {
 		return !(partRaid == null);
 	}
 
+	public boolean isVehicleListed(Vehicle vehicle) {
+		return vehicles.contains(vehicle);
+	}
+
 	public boolean isLeader() {
 		return hasGuild() && getGuild().isLeader(this);
 	}
 
 	public boolean hasMoney(double money) {
 		return getMoney() >= money;
+	}
+
+	public boolean hasPermission(GuildPermission permission) {
+		return guildRank.hasPermission(permission);
 	}
 
 	public boolean canGetKillPoints(Player player) {
@@ -317,6 +335,15 @@ public class NovaPlayer {
 
 		killingHistory.put(player.getUniqueId(), NumberUtils.systemSeconds());
 	}
+
+	public void addVehicle(Vehicle vehicle) {
+		vehicles.add(vehicle);
+	}
+
+	public void newCommandExecutorHandler(Commands command, String[] args) {
+		commandExecutorHandler = new CommandExecutorHandler(command, getPlayer(), args);
+		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
+	}
 	
 	//delete stuff
 	public void deleteInvitation(NovaGuild guild) {
@@ -346,28 +373,7 @@ public class NovaPlayer {
 		setSelectedLocation(1, null);
 	}
 
-	public Tablist getTablist() {
-		return tablist;
-	}
-
-	public CommandExecutorHandler getCommandExecutorHandler() {
-		return commandExecutorHandler;
-	}
-
-	public void newCommandExecutorHandler(Commands command, String[] args) {
-		commandExecutorHandler = new CommandExecutorHandler(command, getPlayer(), args);
-		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
-	}
-
 	public void removeCommandExecutorHandler() {
 		commandExecutorHandler = null;
-	}
-
-	public void addVehicle(Vehicle vehicle) {
-		vehicles.add(vehicle);
-	}
-
-	public boolean isVehicleListed(Vehicle vehicle) {
-		return vehicles.contains(vehicle);
 	}
 }
