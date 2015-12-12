@@ -68,7 +68,7 @@ public class YamlEnumTest {
                         System.out.println("Missing keys:");
                     }
 
-                    System.out.println(" - "+name);
+                    System.out.println(name+",");
                     missingCount++;
                 }
             }
@@ -95,22 +95,14 @@ public class YamlEnumTest {
 
         int missingCount = 0;
         for(String key : motherConfiguration.getKeys(true)) {
-            boolean ig = motherConfiguration.isConfigurationSection(key);
-            for(String ignore : ignoreConfig) {
-                if(key.startsWith(ignore)) {
-                    ig = true;
-                    break;
-                }
-            }
-
-            if(!ig) {
+            if(!motherConfiguration.isConfigurationSection(key)) {
                 String name = StringUtils.replace(key, ".", "_").toUpperCase();
                 if(!messageEnumNames.contains(name)) {
                     if(missingCount == 0) {
                         System.out.println("Missing keys:");
                     }
 
-                    System.out.println(" - "+name);
+                    System.out.println(name+",");
                     missingCount++;
                 }
             }
