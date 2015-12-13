@@ -354,17 +354,5 @@ The plugin works on all <b>1.7</b> and <b>1.8</b> versions!<br/>
             <td>novaguilds.tool.get</td>
             <td>/ng tool</td>
         </tr>
-        <tr>
-            <td>novaguilds.guild.test.book</td>
-            <td>Test permission</td>
-        </tr>
-        <tr>
-            <td>novaguilds.guild.test.bank</td>
-            <td>Test permission</td>
-        </tr>
-        <tr>
-            <td>novaguilds.guild.test.hd</td>
-            <td>Test permission</td>
-        </tr>
     </tbody>
 </table>
