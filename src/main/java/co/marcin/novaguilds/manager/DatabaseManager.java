@@ -30,7 +30,12 @@ import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
 
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 
 public class DatabaseManager {
