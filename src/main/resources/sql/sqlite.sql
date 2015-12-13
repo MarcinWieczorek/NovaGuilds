@@ -1,4 +1,4 @@
-PRAGMA encoding = "UTF-8";
+PRAGMA encoding = 'UTF-8';
 --
 CREATE TABLE `{SQLPREFIX}guilds` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,7 +19,7 @@ CREATE TABLE `{SQLPREFIX}guilds` (
   `created` int(11) NOT NULL,
   `bankloc` tinytext NOT NULL,
   `slots` tinytext NOT NULL,
-  `openinv` int(1) NOT NULL,
+  `openinv` int(1) NOT NULL
 );
 --
 CREATE TABLE `{SQLPREFIX}players` (
