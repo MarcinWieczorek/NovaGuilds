@@ -24,10 +24,10 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
 import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -277,7 +277,7 @@ public class DatabaseManager {
 
 			for(String action : getSqlActions()) {
 				if(action.contains("CREATE TABLE")) {
-					String table = org.apache.commons.lang.StringUtils.split(action, '`')[1];
+					String table = StringUtils.split(action, '`')[1];
 					analyzer.analyze(table, action);
 					analyzer.update();
 				}

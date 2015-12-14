@@ -74,7 +74,7 @@ public class MessageManager {
 		}
 
 		prefix = Message.CHAT_PREFIX.get();
-		String prefixwospace = StringUtils.replace(prefix," ","");
+		String prefixwospace = org.apache.commons.lang.StringUtils.replace(prefix," ","");
 		prefixwospace = prefixwospace.substring(prefixwospace.length() - 2);
 		if(prefixwospace.startsWith("&")) {
 			prefixColor = ChatColor.getByChar(prefixwospace.charAt(1));

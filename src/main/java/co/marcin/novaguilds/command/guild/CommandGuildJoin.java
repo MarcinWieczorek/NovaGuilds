@@ -92,8 +92,8 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 				int i = 0;
 				for(NovaGuild invitedGuild : invitedTo) {
 					String itemrow = Message.CHAT_PLAYER_INVITE_LIST_ITEM.get();
-					itemrow = StringUtils.replace(itemrow, "{GUILDNAME}", invitedGuild.getName());
-					itemrow = StringUtils.replace(itemrow, "{TAG}", invitedGuild.getTag());
+					itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{GUILDNAME}", invitedGuild.getName());
+					itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{TAG}", invitedGuild.getTag());
 
 					invitedlist += itemrow;
 

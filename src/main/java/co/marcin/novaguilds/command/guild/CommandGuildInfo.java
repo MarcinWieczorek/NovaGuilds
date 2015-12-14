@@ -145,7 +145,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		if(!guild.getAllies().isEmpty()) {
 			String allyformat = Message.CHAT_GUILDINFO_ALLY.get();
 			for(NovaGuild allyGuild : guild.getAllies()) {
-				String guildName = StringUtils.replace(allyformat, "{GUILDNAME}", allyGuild.getName());
+				String guildName = org.apache.commons.lang.StringUtils.replace(allyformat, "{GUILDNAME}", allyGuild.getName());
 				allies = allies + guildName + separator;
 			}
 
@@ -157,7 +157,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		if(!guild.getWars().isEmpty()) {
 			String warformat = Message.CHAT_GUILDINFO_WAR.get();
 			for(NovaGuild war : guild.getWars()) {
-				String warName = StringUtils.replace(warformat, "{GUILDNAME}", war.getName());
+				String warName = org.apache.commons.lang.StringUtils.replace(warformat, "{GUILDNAME}", war.getName());
 				wars = wars + warName + separator;
 			}
 

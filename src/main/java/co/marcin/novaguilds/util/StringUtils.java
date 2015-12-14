@@ -34,39 +34,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public final class StringUtils {
-	public static String replace(String text, String searchString, String replacement) {
-		if((text == null) || (text.isEmpty()) || (searchString.isEmpty()) || (replacement == null)) {
-			return text;
-		}
-		
-		int start = 0;
-		int max = -1;
-		int end = text.indexOf(searchString, start);
-		
-		if(end == -1) {
-			return text;
-		}
-		
-		int replLength = searchString.length();
-		int increase = replacement.length() - replLength;
-		increase = increase < 0 ? 0 : increase;
-		increase *= (max > 64 ? 64 : max < 0 ? 16 : max);
-		StringBuilder sb = new StringBuilder(text.length() + increase);
-		
-		while(end != -1) {
-			sb.append(text.substring(start, end)).append(replacement);
-			start = end + replLength;
-			max--;
-			
-			if(max == 0) {
-				break;
-			}
-			end = text.indexOf(searchString, start);
-		}
-		sb.append(text.substring(start));
-		return sb.toString();
-	}
-	
 	public static String fixColors(String msg) {
 		if(msg == null) {
 			return null;
@@ -156,7 +123,7 @@ public final class StringUtils {
 
 		if(!items.isEmpty()) {
 			for(String row : items) {
-				row = replace(pattern,"{GUILDNAME}",row);
+				row = org.apache.commons.lang.StringUtils.replace(pattern,"{GUILDNAME}",row);
 				joined = joined + row + separator;
 			}
 
@@ -192,7 +159,7 @@ public final class StringUtils {
 	public static String replaceMap(String msg, Map<String, String> vars) {
 		if(vars != null) {
 			for(Map.Entry<String, String> entry : vars.entrySet()) {
-				msg = replace(msg, "{" + entry.getKey() + "}", entry.getValue());
+				msg = org.apache.commons.lang.StringUtils.replace(msg, "{" + entry.getKey() + "}", entry.getValue());
 			}
 		}
 
@@ -331,8 +298,8 @@ public final class StringUtils {
 		int i = 0;
 		for(ItemStack missingItemStack : items) {
 			String itemrow = Message.CHAT_CREATEGUILD_ITEMLIST.get();
-			itemrow = StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
-			itemrow = StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
+			itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
+			itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
 
 			itemlist += itemrow;
 

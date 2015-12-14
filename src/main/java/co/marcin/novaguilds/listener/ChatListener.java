@@ -59,9 +59,9 @@ public class ChatListener implements Listener {
 				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 			}
 
-			tag = StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
+			tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
 
-			tag = StringUtils.replace(tag, "{RANK}", rank);
+			tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
 
 			String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
 			String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
@@ -76,11 +76,11 @@ public class ChatListener implements Listener {
 						rank = "";
 					}
 
-					tag = StringUtils.replace(tag, "{RANK}", rank);
+					tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
 
 					String cFormat = Config.CHAT_ALLY_FORMAT.getString();
-					cFormat = StringUtils.replace(cFormat, "{TAG}", tag);
-					cFormat = StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
+					cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", tag);
+					cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
 					cFormat = StringUtils.fixColors(cFormat);
 
 					msg = msg.substring(prefixChatAlly.length(), msg.length());
@@ -110,7 +110,7 @@ public class ChatListener implements Listener {
 			else if(msg.startsWith(prefixChatGuild)) { //guild chat
 				if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
 					String cFormat = Config.CHAT_GUILD_FORMAT.getString();
-					cFormat = StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
+					cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
 					cFormat = StringUtils.fixColors(cFormat);
 
 					msg = msg.substring(prefixChatGuild.length(), msg.length());
@@ -136,7 +136,7 @@ public class ChatListener implements Listener {
 			}
 		}
 
-		format = StringUtils.replace(format, "{TAG}", tag);
+		format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", tag);
 		event.setFormat(StringUtils.fixColors(format));
 	}
 

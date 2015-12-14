@@ -53,7 +53,7 @@ public class TagUtils {
 			guildTag = StringUtils.removeColors(guildTag);
 		}
 
-		tag = StringUtils.replace(tag, "{TAG}", guildTag);
+		tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", guildTag);
 
 		if(Config.TABAPI_RANKPREFIX.getBoolean()) {
 			if(nPlayer.getGuild().getLeader().getName().equalsIgnoreCase(namedplayer.getName())) {
@@ -61,7 +61,7 @@ public class TagUtils {
 			}
 		}
 
-		tag = StringUtils.replace(tag, "{RANK}", rank);
+		tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
 
 		return StringUtils.fixColors(tag);
 	}

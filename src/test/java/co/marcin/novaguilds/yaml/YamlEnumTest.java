@@ -21,7 +21,7 @@ package co.marcin.novaguilds.yaml;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 

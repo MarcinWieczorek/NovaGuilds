@@ -20,7 +20,7 @@ package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 public class PermissionEnumTest {
