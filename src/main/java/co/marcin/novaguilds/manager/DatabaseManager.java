@@ -37,6 +37,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class DatabaseManager {
 	private final NovaGuilds plugin;
@@ -51,7 +52,7 @@ public class DatabaseManager {
 
 	private void prepareStatements() {
 		try {
-			long nanoTimeStart = System.nanoTime();
+			long nanoTime = System.nanoTime();
 			LoggerUtils.info("Preparing statements...");
 			mysqlReload();
 			preparedStatementMap.clear();
@@ -116,7 +117,7 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
 			//Log
-			LoggerUtils.info("Statements prepared in "+(System.nanoTime()-nanoTimeStart)+"ns");
+			LoggerUtils.info("Statements prepared in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS)/1000.0 + "s");
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
@@ -143,7 +144,7 @@ public class DatabaseManager {
 			return;
 		}
 
-		long millisTime = System.currentTimeMillis();
+		long nanoTime = System.nanoTime();
 
 		boolean reconnect;
 		try {
@@ -162,7 +163,7 @@ public class DatabaseManager {
 				connection = mySQL.openConnection();
 				connected = true;
 				prepareStatements();
-				LoggerUtils.info("MySQL reconnected in " + (System.currentTimeMillis() - millisTime) + "ms");
+				LoggerUtils.info("MySQL reconnected in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS)/1000.0 + "s");
 			}
 		}
 		catch (SQLException|ClassNotFoundException e1) {
@@ -190,7 +191,7 @@ public class DatabaseManager {
 
 				connection = mySQL.openConnection();
 				connected = true;
-				LoggerUtils.info("Connected to MySQL database in " + (System.nanoTime() - nanoTime) + "ns");
+				LoggerUtils.info("Connected to MySQL database in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS)/1000.0 + "s");
 
 				if(!checkTables()) {
 					setupTables();
