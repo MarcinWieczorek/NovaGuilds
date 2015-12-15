@@ -116,6 +116,27 @@ public class DatabaseManager {
 			PreparedStatement regionsUpdate = getConnection().prepareStatement(regionsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
+
+			//Ranks insert (id, name, guild, permissions, players)
+			String ranksInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "ranks` VALUES(0,?,?,?,?);";
+			PreparedStatement ranksInsert = getConnection().prepareStatement(ranksInsertSQL, Statement.RETURN_GENERATED_KEYS);
+			preparedStatementMap.put(PreparedStatements.RANKS_INSERT, ranksInsert);
+
+			//Ranks select
+			String ranksSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "ranks`";
+			PreparedStatement ranksSelect = getConnection().prepareStatement(ranksSelectSQL);
+			preparedStatementMap.put(PreparedStatements.RANKS_SELECT, ranksSelect);
+
+			//Ranks delete
+			String ranksDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "ranks` WHERE `id`=?";
+			PreparedStatement ranksDelete = getConnection().prepareStatement(ranksDeleteSQL);
+			preparedStatementMap.put(PreparedStatements.RANKS_DELETE, ranksDelete);
+
+			//Ranks update
+			String ranksUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "ranks` SET `name`=?, `guild`=?, `permissions`=?, `members`=? WHERE `id`=?";
+			PreparedStatement ranksUpdate = getConnection().prepareStatement(ranksUpdateSQL);
+			preparedStatementMap.put(PreparedStatements.RANKS_UPDATE, ranksUpdate);
+
 			//Log
 			LoggerUtils.info("Statements prepared in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS)/1000.0 + "s");
 		}

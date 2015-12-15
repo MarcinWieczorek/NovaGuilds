@@ -41,3 +41,12 @@ CREATE TABLE `{SQLPREFIX}regions` (
   `world` tinytext CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+--
+CREATE TABLE `{SQLPREFIX}ranks` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` tinytext CHARACTER SET utf8 NOT NULL,
+  `guild` tinytext CHARACTER SET utf8 NOT NULL,
+  `permissions` tinytext CHARACTER SET utf8 NOT NULL,
+  `members` tinytext CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
