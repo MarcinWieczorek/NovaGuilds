@@ -21,8 +21,17 @@ package co.marcin.novaguilds.util.tableanalyzer;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TableAnalyzer {
 	private final Connection connection;
@@ -37,6 +46,10 @@ public class TableAnalyzer {
 	}
 
 	public void analyze(String table, String sql) {
+		if(!existsTable(table)) {
+			addTable(sql);
+		}
+
 		missmatches.clear();
 		getSqlStructure(sql);
 		getTableStructure(table);
@@ -90,6 +103,17 @@ public class TableAnalyzer {
 			Statement statement = connection.createStatement();
 			statement.execute(sql);
 			LoggerUtils.info("Added new column "+missmatch.getColumnName()+" to table "+missmatch.getTable());
+		}
+		catch(SQLException e) {
+			LoggerUtils.exception(e);
+		}
+	}
+
+	private void addTable(String sql) {
+		try {
+			Statement statement = connection.createStatement();
+			statement.execute(sql);
+			LoggerUtils.info("Added new table");
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
@@ -151,5 +175,23 @@ public class TableAnalyzer {
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
 		}
+	}
+
+	private boolean existsTable(String table) {
+		try {
+			DatabaseMetaData md = connection.getMetaData();
+			ResultSet rs = md.getTables(null, null, "%", null);
+			while(rs.next()) {
+				if(rs.getString(3).equalsIgnoreCase(table)) {
+					return true;
+				}
+			}
+		}
+		catch(SQLException e) {
+			LoggerUtils.exception(e);
+			return false;
+		}
+
+		return false;
 	}
 }
