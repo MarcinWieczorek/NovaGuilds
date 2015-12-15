@@ -29,7 +29,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class ItemStackUtils {
 	@SuppressWarnings("deprecation")
@@ -62,28 +66,16 @@ public final class ItemStackUtils {
 				String dataString = dataSplit[1];
 
 				if(NumberUtils.isNumeric(dataString)) {
-					String mName = materialString.toUpperCase();
-					if(mName.contains("_CHESTPLATE") ||
-							mName.contains("_HELMET") ||
-							mName.contains("_LEGGINS") ||
-							mName.contains("_BOOTS") ||
-							mName.contains("_AXE") ||
-							mName.contains("_HOE") ||
-							mName.contains("_SWORD") ||
-							mName.contains("_SPADE") ||
-							mName.contains("_PICKAXE")) {
-
-						durability = Short.parseShort(dataString);
-					}
-					else {
-						data = Byte.parseByte(dataSplit[1]);
-					}
+					durability = Short.parseShort(dataString);
+					data = Byte.parseByte(dataString);
 				}
 				else {
 					color = DyeColor.valueOf(dataString.toUpperCase());
 					if(color != null) {
 						data = color.getData();
 					}
+
+					durability = data;
 				}
 			}
 
@@ -163,9 +155,11 @@ public final class ItemStackUtils {
 							case "shape":
 								break;
 
+							case "sharpness":
 							case "alldamage":
 								enchantments.put(Enchantment.DAMAGE_ALL, Integer.valueOf(value));
 								break;
+							case "arrowdamage":
 							case "ardmg":
 								enchantments.put(Enchantment.ARROW_DAMAGE,Integer.valueOf(value));
 								break;
@@ -173,11 +167,10 @@ public final class ItemStackUtils {
 								enchantments.put(Enchantment.DAMAGE_ARTHROPODS,Integer.valueOf(value));
 								break;
 							case "durability":
+							case "unbreaking":
 								enchantments.put(Enchantment.DURABILITY,Integer.valueOf(value));
 								break;
 							case "fire":
-								enchantments.put(Enchantment.FIRE_ASPECT,Integer.valueOf(value));
-								break;
 							case "fireaspect":
 								enchantments.put(Enchantment.FIRE_ASPECT,Integer.valueOf(value));
 								break;
@@ -185,44 +178,70 @@ public final class ItemStackUtils {
 								enchantments.put(Enchantment.KNOCKBACK,Integer.valueOf(value));
 								break;
 							case "looting":
+							case "fortune":
 								enchantments.put(Enchantment.LOOT_BONUS_BLOCKS,Integer.valueOf(value));
 								break;
 							case "mobloot":
 								enchantments.put(Enchantment.LOOT_BONUS_MOBS,Integer.valueOf(value));
 								break;
-							case "sharpness":
-								enchantments.put(Enchantment.DAMAGE_ALL,Integer.valueOf(value));
-								break;
 							case "smite":
-								enchantments.put(Enchantment.DAMAGE_UNDEAD,Integer.valueOf(value));
-								break;
-							case "unbreaking":
-								enchantments.put(Enchantment.DURABILITY,Integer.valueOf(value));
-								break;
 							case "undeaddamage":
 								enchantments.put(Enchantment.DAMAGE_UNDEAD,Integer.valueOf(value));
 								break;
-
-							case "arrowdamage":
-								enchantments.put(Enchantment.ARROW_DAMAGE,Integer.valueOf(value));
-								break;
 							case "arrowknockback":
+							case "punch":
 								enchantments.put(Enchantment.ARROW_KNOCKBACK,Integer.valueOf(value));
 								break;
 							case "flame":
-								enchantments.put(Enchantment.ARROW_FIRE,Integer.valueOf(value));
-								break;
 							case "flamearrow":
 								enchantments.put(Enchantment.ARROW_FIRE,Integer.valueOf(value));
 								break;
 							case "infarrows":
-								enchantments.put(Enchantment.ARROW_INFINITE,Integer.valueOf(value));
-								break;
 							case "infinity":
 								enchantments.put(Enchantment.ARROW_INFINITE,Integer.valueOf(value));
 								break;
-							case "punch":
-								enchantments.put(Enchantment.ARROW_KNOCKBACK,Integer.valueOf(value));
+							case "digspeed":
+							case "efficiency":
+								enchantments.put(Enchantment.DIG_SPEED,Integer.valueOf(value));
+							case "silktouch":
+								enchantments.put(Enchantment.SILK_TOUCH,Integer.valueOf(value));
+								break;
+							case "highcrit":
+							case "thorns":
+								enchantments.put(Enchantment.THORNS,Integer.valueOf(value));
+								break;
+							case "blastprotect":
+								enchantments.put(Enchantment.PROTECTION_EXPLOSIONS,Integer.valueOf(value));
+								break;
+							case "fallprot":
+							case "featherfall":
+								enchantments.put(Enchantment.PROTECTION_FALL,Integer.valueOf(value));
+								break;
+							case "fireprot":
+							case "fireprotect":
+								enchantments.put(Enchantment.PROTECTION_FIRE,Integer.valueOf(value));
+								break;
+							case "projectileprotection":
+							case "projprot":
+								enchantments.put(Enchantment.PROTECTION_PROJECTILE,Integer.valueOf(value));
+								break;
+							case "protect":
+							case "protection":
+								enchantments.put(Enchantment.PROTECTION_ENVIRONMENTAL,Integer.valueOf(value));
+								break;
+							case "waterworker":
+								enchantments.put(Enchantment.WATER_WORKER,Integer.valueOf(value));
+								break;
+							case "respiration":
+							case "breath":
+							case "aquainfinity":
+								enchantments.put(Enchantment.OXYGEN,Integer.valueOf(value));
+								break;
+							case "luck":
+								enchantments.put(Enchantment.LUCK,Integer.valueOf(value));
+								break;
+							case "lure":
+								enchantments.put(Enchantment.LURE,Integer.valueOf(value));
 								break;
 						}
 					}
@@ -263,7 +282,7 @@ public final class ItemStackUtils {
 			itemStack.setDurability(durability);
 			itemStack.setItemMeta(itemMeta);
 
-			if(player != null) {
+			if(player != null && itemStack.getType() == Material.SKULL_ITEM) {
 				SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
 				skullMeta.setOwner(player);
 				itemStack.setItemMeta(skullMeta);
