@@ -20,6 +20,7 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import com.google.gson.Gson;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
@@ -310,5 +311,9 @@ public final class StringUtils {
 		}
 
 		return fixColors(itemlist);
+	}
+
+	public static List<String> jsonToList(String json) {
+		return new Gson().fromJson(json, List.class);
 	}
 }
