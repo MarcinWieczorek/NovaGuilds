@@ -49,7 +49,9 @@ chat:
     tag: "Tag zmieniony na &a{TAG}"
     points: "Punkty zmienione."
     lives: "Ilosc zyc zmieniona."
-    slots: "Ilosc slotow zmieniona."
+    slots:
+     smallerthanplayers: "Ilosc slotow nie moze byc mniejsza niz liczba graczy"
+     success: "Ilosc slotow zmieniona."
     name:
      enternewname: "Wprowadz nowa nazwe"
      success: "Nazwa gildii zmieniona."

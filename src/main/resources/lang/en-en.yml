@@ -49,7 +49,9 @@ chat:
     tag: "Tag changed to &a{TAG}"
     points: "Points set."
     lives: "Lives set."
-    slots: "Slots set."
+    slots:
+     smallerthanplayers: "Slot amount cannot be smaller than number of players."
+     success: "Slots set."
     name:
      enternewname: "Enter new name"
      success: "Guild's name changed."

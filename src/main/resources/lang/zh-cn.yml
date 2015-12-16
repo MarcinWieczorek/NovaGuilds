@@ -49,7 +49,9 @@ chat:
     tag: "前缀已更改为&a{TAG}"
     points: "点设置."
     lives: "生活设置."
-    slots: "Slots set."
+    slots:
+     smallerthanplayers: "Slot amount cannot be smaller than number of players."
+     success: "Slots set."
     name:
      enternewname: "进入新游戏"
      success: "公会名称已修改."

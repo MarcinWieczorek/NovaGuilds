@@ -63,12 +63,17 @@ public class CommandAdminGuildSetSlots implements Executor, ExecutorReversedAdmi
 
 		int slots = Integer.parseInt(args[0]);
 
-		if(slots <= 0 || slots < guild.getPlayers().size()) { //TODO: smaller than number of players!!! (msg)
+		if(slots <= 0) {
 			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
 			return;
 		}
 
+		if(slots < guild.getPlayers().size()) {
+			Message.CHAT_ADMIN_GUILD_SET_SLOTS_SMALLERTHANPLAYERS.send(sender);
+			return;
+		}
+
 		guild.setSlots(slots);
-		Message.CHAT_ADMIN_GUILD_SET_SLOTS.send(sender);
+		Message.CHAT_ADMIN_GUILD_SET_SLOTS_SUCCESS.send(sender);
 	}
 }
