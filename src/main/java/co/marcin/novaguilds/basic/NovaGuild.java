@@ -69,6 +69,10 @@ public class NovaGuild {
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
 	private final List<NovaRank> ranks = new ArrayList<>();
 
+	public static NovaGuild get(String mixedString) {
+		return NovaGuilds.getInstance().getGuildManager().getGuildFind(mixedString);
+	}
+
 	//getters
 	public String getName() {
 		return name;
