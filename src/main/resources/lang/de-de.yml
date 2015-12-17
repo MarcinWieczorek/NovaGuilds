@@ -332,6 +332,7 @@ chat:
 
  region:
   blockedcmd: "This command is blocked at regions."
+  deleted: "Region deleted successfuly"
   deny:
    interact: "You cannot interact here"
    ridemob: "You cannot ride this mob, its protected!"

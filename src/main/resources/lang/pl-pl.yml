@@ -332,6 +332,7 @@ chat:
 
  region:
   blockedcmd: "Ta komenda jest zablokowana na regionach."
+  deleted: "Region zostal usuniety."
   deny:
    interact: "Nie mozesz tutaj ingerowac."
    ridemob: "Nie mozesz jezdzic na tym zwierzeciu."

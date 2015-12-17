@@ -79,6 +79,7 @@ import co.marcin.novaguilds.command.guild.CommandGuildRequiredItems;
 import co.marcin.novaguilds.command.guild.CommandGuildTop;
 import co.marcin.novaguilds.command.guild.CommandGuildWar;
 import co.marcin.novaguilds.command.region.CommandRegionBuy;
+import co.marcin.novaguilds.command.region.CommandRegionDelete;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -165,7 +166,9 @@ public class CommandManager {
 		new CommandGuildWar();
 		new CommandGuildOpenInvitation();
 
+		new CommandRegionDelete();
 		new CommandRegionBuy();
+
 		new CommandToolGet();
 
 		//Admin
