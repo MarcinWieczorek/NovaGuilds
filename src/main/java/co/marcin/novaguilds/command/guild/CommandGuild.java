@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.command.CommandRegionBuy;
+import co.marcin.novaguilds.command.region.CommandRegionBuy;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;

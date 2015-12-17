@@ -142,7 +142,7 @@ public class CommandManager {
 		plugin.getCommand("leave").setExecutor(new CommandGuildLeave());
 
 		plugin.getCommand("invite").setExecutor(new CommandGuildInvite(plugin));
-		plugin.getCommand("guildmenu").setExecutor(new CommandGuildMenu(plugin));
+		plugin.getCommand("guildmenu").setExecutor(new CommandGuildMenu());
 
 		plugin.getCommand("playerinfo").setExecutor(new CommandPlayerInfo(plugin));
 		plugin.getCommand("confirm").setExecutor(new CommandConfirm());
