@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.enums.GuildPermission;
-import com.sun.xml.internal.ws.addressing.model.ActionNotSupportedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class NovaRank {
 	//getters
 	public int getId() {
 		if(id <= 0) {
-			throw new ActionNotSupportedException("This rank might have been loaded from FLAT and has 0 (or negative) ID");
+			throw new UnsupportedOperationException("This rank might have been loaded from FLAT and has 0 (or negative) ID");
 		}
 
 		return id;
