@@ -67,6 +67,7 @@ public class NovaGuild {
 
 	private final List<String> invitedPlayersNames = new ArrayList<>();
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
+	private final List<NovaRank> ranks = new ArrayList<>();
 
 	//getters
 	public String getName() {
@@ -197,6 +198,10 @@ public class NovaGuild {
 
 	public int getSlots() {
 		return slots;
+	}
+
+	public List<NovaRank> getRanks() {
+		return ranks;
 	}
 
 	//setters
@@ -371,6 +376,11 @@ public class NovaGuild {
 		this.slots = slots;
 	}
 
+	public void setRanks(List<NovaRank> ranks) {
+		this.ranks.clear();
+		this.ranks.addAll(ranks);
+	}
+
 	//check
 	public boolean isInvitedToAlly(NovaGuild guild) {
 		return alliesInvited.contains(guild.getName().toLowerCase());
@@ -475,6 +485,15 @@ public class NovaGuild {
 		slots++;
 	}
 
+	public void addRank(NovaRank rank) {
+		if(!ranks.contains(rank)) {
+			ranks.add(rank);
+			if(!rank.getGuild().equals(this)) {
+				rank.setGuild(this);
+			}
+		}
+	}
+
 	public void removePlayer(NovaPlayer nPlayer) {
 		if(players.contains(nPlayer)) {
 			players.remove(nPlayer);
@@ -503,6 +522,11 @@ public class NovaGuild {
 			nowarInvited.remove(guild.getName().toLowerCase());
 			changed();
 		}
+	}
+
+	public void removeRank(NovaRank rank) {
+		ranks.remove(rank);
+		rank.setGuild(null);
 	}
 	
 	public void takeMoney(double m) {

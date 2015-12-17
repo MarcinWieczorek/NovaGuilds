@@ -59,6 +59,7 @@ public class NovaPlayer {
 	private final Tablist tablist;
 	private CommandExecutorHandler commandExecutorHandler;
 	private final List<Vehicle> vehicles = new ArrayList<>();
+	private NovaRank guildRank;
 
 	public NovaPlayer() {
 		tablist = new Tablist(this);
@@ -169,6 +170,10 @@ public class NovaPlayer {
 		return partRaid;
 	}
 
+	public NovaRank getGuildRank() {
+		return guildRank;
+	}
+
 	//setters
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
@@ -250,6 +255,10 @@ public class NovaPlayer {
 
 	public void setPartRaid(NovaRaid partRaid) {
 		this.partRaid = partRaid;
+	}
+
+	public void setGuildRank(NovaRank guildRank) {
+		this.guildRank = guildRank;
 	}
 	
 	//check stuff
