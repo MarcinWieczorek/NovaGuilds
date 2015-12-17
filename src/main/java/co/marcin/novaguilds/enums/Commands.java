@@ -86,6 +86,8 @@ public enum Commands {
 	GUILD_BOSS(Permission.NOVAGUILDS_GUILD_BOSS, false),
 	GUILD_OPENINVITATION(Permission.NOVAGUILDS_GUILD_OPENINVITATION, false),
 
+	REGION_BUY(Permission.NOVAGUILDS_REGION_CREATE, false),
+
 	TOOL_GET(Permission.NOVAGUILDS_TOOL_GET, false),
 	CONFIRM(Permission.NOVAGUILDS_CONFIRM, false);
 
