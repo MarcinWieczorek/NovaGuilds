@@ -21,8 +21,10 @@ package co.marcin.novaguilds.enums;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.manager.MessageManager;
+import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
@@ -439,6 +441,10 @@ public enum Message {
 
 	public String get() {
 		return StringUtils.replaceMap(MessageManager.getMessagesString(getPath()), vars); //TODO replace with Message
+	}
+
+	public ItemStack getItemStack() {
+		return ItemStackUtils.stringToItemStack(get());
 	}
 
 	public List<String> getList() {
