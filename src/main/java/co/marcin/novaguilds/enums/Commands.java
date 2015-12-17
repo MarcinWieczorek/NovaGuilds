@@ -97,11 +97,19 @@ public enum Commands {
 	private boolean allowConsole = true;
 	private String permissionPath = "";
 	private Permission permission;
+	private String genericCommand;
 
 	Commands(Permission permission, boolean allowConsole) {
 		this.permission = permission;
 		this.permissionPath = permission.getPath();
 		this.allowConsole = allowConsole;
+	}
+
+	Commands(Permission permission, boolean allowConsole, String genericCommand) {
+		this.permission = permission;
+		this.permissionPath = permission.getPath();
+		this.allowConsole = allowConsole;
+		this.genericCommand = genericCommand;
 	}
 
 	Commands(Permission permission, boolean allowConsole, Message usageMessage) {
@@ -133,5 +141,13 @@ public enum Commands {
 
 	public Executor getExecutor() {
 		return NovaGuilds.getInstance().getCommandManager().getExecutor(this);
+	}
+
+	public boolean hasGenericCommand() {
+		return genericCommand != null;
+	}
+
+	public String getGenericCommand() {
+		return genericCommand;
 	}
 }
