@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.command.region.CommandRegionBuy;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
@@ -69,7 +68,11 @@ public class CommandGuild implements CommandExecutor {
 					plugin.getCommandManager().getExecutor(Commands.GUILD_HOME).execute(sender, newargs);
 					break;
 				case "buyregion":
-					new CommandRegionBuy(plugin).onCommand(sender, cmd, label, newargs);
+					Commands.REGION_BUY.getExecutor().execute(sender, args);
+					break;
+				case "region":
+				case "rg":
+					Commands.REGION_ACCESS.getExecutor().execute(sender, newargs);
 					break;
 				case "ally":
 					plugin.getCommandManager().getExecutor(Commands.GUILD_ALLY).execute(sender, newargs);

@@ -193,8 +193,14 @@ chat:
     - "&5* &7/g &ckick &6<playername> &2- &3Kick a player from the guild"
     - "&5* &7/g &cpvp &2- &3Toggle PVP"
     - "&5* &7/g &copeninv &2- &3Toggle open invitation status"
+    - "&5* &7/g &crg &2- &3Region commands"
     - "&5* &7/abandon &2- &3abandon your guild"
     - "&5* &7/invite &6<playername> &2- &3invite player to your guild"
+  region:
+   header: "Region commands:"
+   items:
+    - "&5* &7/g &cbuy &2- &3Create a region"
+    - "&5* &7/g &cdelete &2- &3Delete the region"
 
  pvp:
   team: "You cannot hurt your teammates"

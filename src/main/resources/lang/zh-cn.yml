@@ -193,8 +193,14 @@ chat:
     - "&5* &7/g &ckick &6<������> &2- &3�������߳�����."
     - "&5* &7/g &cpvp &2- &3�л�PVP"
     - "&5* &7/g &copeninv &2- &3�л����ṫ������״̬"
+    - "&5* &7/g &crg &2- &3Region commands"
     - "&5* &7/abandon &2- &3ɾ�����Ĺ���."
     - "&5* &7/invite &6<������> &2- &3�������Ҽ������Ĺ���."
+  region:
+   header: "Region commands:"
+   items:
+    - "&5* &7/g &cbuy &2- &3Create a region"
+    - "&5* &7/g &cdelete &2- &3Delete the region"
 
  pvp:
   team: "���޷���������."

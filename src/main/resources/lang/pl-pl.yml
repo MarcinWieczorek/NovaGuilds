@@ -193,8 +193,14 @@ chat:
     - "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuc gracza"
     - "&5* &7/g &cpvp &2- &3Wlacz/Wylacz pvp"
     - "&5* &7/g &copeninv &2- &3Przelacz status otwartych zaproszen"
+    - "&5* &7/g &crg &2- &3Komendy regionow"
     - "&5* &7/rozwiaz &2- &3Porzuc gildie"
     - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
+  region:
+   header: "Komendy regionow:"
+   items:
+    - "&5* &7/g &cbuy &2- &3Stworz region"
+    - "&5* &7/g &cdelete &2- &3Usun region"
 
  pvp:
   team: "Nie mozesz bic swoich kolegow z gildii"

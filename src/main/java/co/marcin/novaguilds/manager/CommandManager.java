@@ -78,6 +78,7 @@ import co.marcin.novaguilds.command.guild.CommandGuildPvpToggle;
 import co.marcin.novaguilds.command.guild.CommandGuildRequiredItems;
 import co.marcin.novaguilds.command.guild.CommandGuildTop;
 import co.marcin.novaguilds.command.guild.CommandGuildWar;
+import co.marcin.novaguilds.command.region.CommandRegion;
 import co.marcin.novaguilds.command.region.CommandRegionBuy;
 import co.marcin.novaguilds.command.region.CommandRegionDelete;
 import co.marcin.novaguilds.enums.Commands;
@@ -166,6 +167,7 @@ public class CommandManager {
 		new CommandGuildWar();
 		new CommandGuildOpenInvitation();
 
+		new CommandRegion();
 		new CommandRegionDelete();
 		new CommandRegionBuy();
 
