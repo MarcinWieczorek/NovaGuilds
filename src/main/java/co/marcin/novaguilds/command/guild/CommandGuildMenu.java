@@ -18,24 +18,14 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class CommandGuildMenu implements CommandExecutor {
-	private final NovaGuilds plugin;
-
-	public CommandGuildMenu(NovaGuilds pl) {
-		plugin = pl;
-	}
-
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(!(sender instanceof Player)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
