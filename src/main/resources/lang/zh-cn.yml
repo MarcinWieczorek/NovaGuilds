@@ -1,4 +1,3 @@
-#GBK
 chat:
  prefix: "&6[&5公会&6] &3"
  nopermissions: "&c您无权执行该指令."
@@ -15,9 +14,9 @@ chat:
   'on': "开"
   'off': "关"
  confirm:
-  nullhandler: "There's no pending command to confirm"
-  needconfirm: "You'll need to confirm that action. &c/confirm"
-  timeout: "Your confirmation request has timed out."
+  nullhandler: "没有等待确认的命令"
+  needconfirm: "你需要使用 &c/confirm 确认执行指令"
+  timeout: "确认请求超时"
 
  admin:
   guild:
@@ -51,7 +50,7 @@ chat:
     points: "点设置."
     lives: "生活设置."
     slots:
-     smallerthanplayers: "Slot amount cannot be smaller than number of players."
+     smallerthanplayers: "上限不能小于当前公会玩家的数量"
      success: "Slots set."
     name:
      enternewname: "输入新的名字"
@@ -160,7 +159,7 @@ chat:
     header: "全息图指令:"
     items:
      - "&5* &7/nga &ch &6list &2- &3全息图列表"
-     - "&5* &7/nga &ch &6addtop &2- &3Add TOP hologram"
+     - "&5* &7/nga &ch &6addtop &2- &3添加top全息图"
      - "&5* &7/nga &ch &c<name> &6del &2- &3删除全息图"
      - "&5* &7/nga &ch &c<name> &6tp &c[player] &2- &3传送到全息图"
      - "&5* &7/nga &ch &c<name> &6tphere &2- &3把全息图传送到身边"
@@ -198,10 +197,10 @@ chat:
     - "&5* &7/abandon &2- &3删除你的公会."
     - "&5* &7/invite &6<玩家名> &2- &3邀请玩家加入你的公会."
   region:
-   header: "Region commands:"
+   header: "领地命令:"
    items:
-    - "&5* &7/g &cbuy &2- &3Create a region"
-    - "&5* &7/g &cdelete &2- &3Delete the region"
+    - "&5* &7/g &cbuy &2- &3创建领地"
+    - "&5* &7/g &cdelete &2- &3删除领地"
 
  pvp:
   team: "你无法攻击队友."
@@ -312,8 +311,8 @@ chat:
   alreadyinvited: "该玩家已接收到入会邀请."
   notinyourguild: "该玩家不在您的公会内！"
   pvpmoney:
-   kill: "You earned &a{MONEY}$ &3for killing &c{PLAYERNAME}"
-   revenge: "You earned &a{MONEY}$ &3for taking revenge on &c{PLAYERNAME}"
+   kill: "你击杀了 {PLAYERNAME} &3了获得了 &a{MONEY} &3金币"
+   revenge: "&3你报复了 &c{PLAYERNAME} &3获得 &a{MONEY}$ 金币"
   invite:
    invited: "已向该玩家发出入会邀请."
    list:
@@ -339,13 +338,13 @@ chat:
 
  region:
   blockedcmd: "该地区禁止使用这个指令."
-  deleted: "Region deleted successfuly"
+  deleted: "领地删除成功"
   deny:
    interact: "你无法与该物品交互."
    ridemob: "该动物受公会保护,您无法骑乘！"
    attackmob: "您无法攻击该怪物."
    unleash: "你无法释放该动物"
-   leash: "You cannot leash this mob"
+   leash: "不能拴住这个怪物"
   noregionhere: "该区域内尚未被任何公会使用."
   regionhere: "其他公会已占据该区域！"
   validation:
