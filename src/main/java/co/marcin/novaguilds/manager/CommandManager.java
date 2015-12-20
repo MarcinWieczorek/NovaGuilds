@@ -87,16 +87,13 @@ import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 public class CommandManager {
@@ -212,46 +209,6 @@ public class CommandManager {
 		new CommandAdminHologramDelete();
 		new CommandAdminHologramTeleport();
 		new CommandAdminHologramTeleportHere();
-
-		plugin.getCommand("nga").setTabCompleter(new TabCompleter() {
-			@Override
-			public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-				List<String> list = new ArrayList<>();
-				Set<String> keys = null;
-
-				if(args.length > 1) {
-					switch(args[0].toLowerCase()) {
-						case "g":
-						case "guild":
-							keys = CommandAdminGuild.commandsMap.keySet();
-							break;
-
-						case "rg":
-						case "region":
-							keys = CommandAdminRegion.commandsMap.keySet();
-							break;
-
-						case "h":
-						case "hologram":
-							keys = CommandAdminHologram.commandsMap.keySet();
-							break;
-					}
-				}
-				else {
-					keys = CommandAdmin.commandsMap.keySet();
-				}
-
-				if(keys != null) {
-					for(String key : keys) {
-						if(key.startsWith(args[args.length - 1])) {
-							list.add(key);
-						}
-					}
-				}
-
-				return list;
-			}
-		});
 	}
 
 	public String getGuiCommand(ItemStack itemStack) {
@@ -297,6 +254,19 @@ public class CommandManager {
 	public void registerExecutor(Commands command, Executor executor) {
 		if(!executors.containsKey(command)) {
 			executors.put(command, executor);
+
+			if(command.hasGenericCommand()) {
+				if(!(executor instanceof CommandExecutor)) {
+					throw new IllegalArgumentException("An executor has to implement CommandExecutor to allow having generic command.");
+				}
+
+				PluginCommand genericCommand = plugin.getCommand(command.getGenericCommand());
+				genericCommand.setExecutor((CommandExecutor) executor);
+
+				if(command.hasTabCompleter()) {
+					genericCommand.setTabCompleter(command.getTabCompleter());
+				}
+			}
 		}
 	}
 

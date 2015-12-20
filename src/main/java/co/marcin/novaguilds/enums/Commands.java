@@ -21,6 +21,7 @@ package co.marcin.novaguilds.enums;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 public enum Commands {
@@ -98,6 +99,7 @@ public enum Commands {
 	private String permissionPath = "";
 	private Permission permission;
 	private String genericCommand;
+	private TabCompleter tabCompleter;
 
 	Commands(Permission permission, boolean allowConsole) {
 		this.permission = permission;
@@ -110,6 +112,14 @@ public enum Commands {
 		this.permissionPath = permission.getPath();
 		this.allowConsole = allowConsole;
 		this.genericCommand = genericCommand;
+	}
+
+	Commands(Permission permission, boolean allowConsole, String genericCommand, TabCompleter tabCompleter) {
+		this.permission = permission;
+		this.permissionPath = permission.getPath();
+		this.allowConsole = allowConsole;
+		this.genericCommand = genericCommand;
+		this.tabCompleter = tabCompleter;
 	}
 
 	Commands(Permission permission, boolean allowConsole, Message usageMessage) {
@@ -147,7 +157,15 @@ public enum Commands {
 		return genericCommand != null;
 	}
 
+	public boolean hasTabCompleter() {
+		return tabCompleter != null;
+	}
+
 	public String getGenericCommand() {
 		return genericCommand;
+	}
+
+	public TabCompleter getTabCompleter() {
+		return tabCompleter;
 	}
 }
