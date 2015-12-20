@@ -19,13 +19,14 @@
 package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.command.tabcompleter.TabCompleterAdmin;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 public enum Commands {
-	ADMIN_ACCESS(Permission.NOVAGUILDS_ADMIN_ACCESS, true),
+	ADMIN_ACCESS(Permission.NOVAGUILDS_ADMIN_ACCESS, true, "nga", new TabCompleterAdmin()),
 	ADMIN_RELOAD(Permission.NOVAGUILDS_ADMIN_RELOAD, true),
 	ADMIN_SAVE(Permission.NOVAGUILDS_ADMIN_SAVE, true),
 

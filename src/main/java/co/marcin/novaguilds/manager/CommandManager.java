@@ -132,7 +132,6 @@ public class CommandManager {
 	private void registerCommands() {
 		plugin.getCommand("novaguilds").setExecutor(new CommandNovaGuilds(plugin));
 		plugin.getCommand("ng").setExecutor(new CommandNovaGuilds(plugin));
-		plugin.getCommand("nga").setExecutor(new CommandAdmin());
 
 		plugin.getCommand("abandon").setExecutor(new CommandGuildAbandon(plugin));
 		plugin.getCommand("guild").setExecutor(new CommandGuild(plugin));
