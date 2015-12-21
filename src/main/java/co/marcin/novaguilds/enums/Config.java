@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.manager.ConfigManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -241,6 +242,10 @@ public enum Config {
 		byte r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Byte ? (byte) cM.getEnumConfig(this) : cM.getMaterialData(path);
 		cM.putInCache(this, r);
 		return r;
+	}
+
+	public ConfigurationSection getConfigurationSection() {
+		return cM.getConfig().getConfigurationSection(path);
 	}
 
 	public static ConfigManager getManager() {

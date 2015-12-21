@@ -159,6 +159,10 @@ public class ConfigManager {
 		return useVanishNoPacket;
 	}
 
+	public FileConfiguration getConfig() {
+		return config;
+	}
+
 	//setters
 	public void disableVanishNoPacket() {
 		useVanishNoPacket = false;
