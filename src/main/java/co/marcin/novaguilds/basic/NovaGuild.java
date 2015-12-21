@@ -492,7 +492,7 @@ public class NovaGuild {
 	public void addRank(NovaRank rank) {
 		if(!ranks.contains(rank)) {
 			ranks.add(rank);
-			if(!rank.getGuild().equals(this)) {
+			if(rank.getGuild()==null || !rank.getGuild().equals(this)) {
 				rank.setGuild(this);
 			}
 		}
