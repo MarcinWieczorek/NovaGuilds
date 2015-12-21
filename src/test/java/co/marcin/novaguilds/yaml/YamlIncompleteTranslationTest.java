@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.yaml;
 
 import co.marcin.novaguilds.enums.Lang;
+import co.marcin.novaguilds.enums.Message;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
@@ -26,10 +27,31 @@ import java.io.File;
 import java.util.*;
 
 public class YamlIncompleteTranslationTest {
+	private static final File langsDir = new File(YamlParseTest.resourcesDirectory, "/lang");
+
+	@Test
+	public void testMessageEnum() throws Exception {
+		File motherLangFile = new File(langsDir, "en-en.yml");
+		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
+		int missingCount = 0;
+
+		for(Message message : Message.values()) {
+			if(!motherConfiguration.contains(message.getPath())) {
+				System.out.println(" - " + message.getPath());
+				missingCount++;
+			}
+		}
+
+		if(missingCount == 0) {
+			System.out.println("Result: No missing keys");
+		}
+		else {
+			throw new Exception("Found "+missingCount+" missing keys in en-en file that are present in Message enum");
+		}
+	}
+
 	@Test
 	public void testTranslations() throws Exception {
-		File langsDir = new File(YamlParseTest.resourcesDirectory, "/lang");
-
 		//Mother lang setup
 		File motherLangFile = new File(langsDir, "en-en.yml");
 		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
