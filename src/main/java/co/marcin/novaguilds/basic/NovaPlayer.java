@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -60,6 +61,7 @@ public class NovaPlayer {
 	private final Tablist tablist;
 	private CommandExecutorHandler commandExecutorHandler;
 	private final List<Vehicle> vehicles = new ArrayList<>();
+	private GUIInventory guiInventory;
 	private NovaRank guildRank;
 
 	public NovaPlayer() {
@@ -171,6 +173,10 @@ public class NovaPlayer {
 		return partRaid;
 	}
 
+	public GUIInventory getGuiInventory() {
+		return guiInventory;
+	}
+
 	public NovaRank getGuildRank() {
 		return guildRank;
 	}
@@ -256,6 +262,10 @@ public class NovaPlayer {
 
 	public void setPartRaid(NovaRaid partRaid) {
 		this.partRaid = partRaid;
+	}
+
+	public void setGuiInventory(GUIInventory guiInventory) {
+		this.guiInventory = guiInventory;
 	}
 
 	public void setGuildRank(NovaRank guildRank) {
