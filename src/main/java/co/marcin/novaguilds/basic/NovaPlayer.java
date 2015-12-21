@@ -21,6 +21,7 @@ package co.marcin.novaguilds.basic;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -300,6 +301,10 @@ public class NovaPlayer {
 
 	public boolean hasMoney(double money) {
 		return getMoney() >= money;
+	}
+
+	public boolean hasPermission(GuildPermission permission) {
+		return guildRank.hasPermission(permission);
 	}
 
 	public boolean canGetKillPoints(Player player) {
