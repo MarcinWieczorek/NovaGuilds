@@ -14,7 +14,7 @@ chat:
   'on': "AN"
   'off': "AUS"
  confirm:
-  nullhandler: "Da ist kein Befehl zum bestätigen."
+  nullhandler: "Das ist kein Befehl zum bestätigen."
   needconfirm: "Du must diese Aktion bestätigen. &c/confirm"
   timeout: "Deine bestätigung ist nicht angekommen. (Timed Out)"
 
