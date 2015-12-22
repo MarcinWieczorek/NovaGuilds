@@ -190,6 +190,29 @@ guild:
    - JUMP
    - INCREASE_DAMAGE
    - HEAL
+ defaultranks:
+  member:
+   - BLOCK_BREAK
+   - BLOCK_PLACE
+   - MOB_ATTACK
+   - MOB_RIDE
+   - VAULT_ACCESS
+   - VAULT_PUT
+   - COMMAND_BANK_PAY
+  mayor:
+   - BLOCK_BREAK
+   - BLOCK_PLACE
+   - MOB_ATTACK
+   - MOB_RIDE
+   - VAULT_ACCESS
+   - VAULT_PUT
+   - VAULT_TAKE
+   - COMMAND_BANK_PAY
+   - COMMAND_KICK
+   - COMMAND_EFFECT
+   - COMMAND_INVITE
+   - COMMAND_BANK_WITHDRAW
+   - COMMAND_PVPTOGGLE
 
 #permissions: novaguilds.group.GROUP
 #there's no need for admin group. novaguilds.group.admin for all stuff free
