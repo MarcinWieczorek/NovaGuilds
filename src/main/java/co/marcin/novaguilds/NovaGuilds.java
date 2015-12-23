@@ -47,6 +47,7 @@ import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
@@ -116,6 +117,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private VanishPlugin vanishNoPacket;
 	private HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
 	private McHTTP mcHTTP;
+	private RankManager rankManager;
 
 	public void onEnable() {
 		inst = this;
@@ -148,6 +150,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		commandManager = new CommandManager(this);
 		groupManager = new GroupManager(this);
+		rankManager = new RankManager();
 
 		tagUtils = new TagUtils(this);
 		databaseManager = new DatabaseManager(this);
@@ -197,6 +200,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		LoggerUtils.info("Guilds data loaded");
 		getPlayerManager().load();
 		LoggerUtils.info("Players data loaded");
+		getRankManager().load();
+		LoggerUtils.info("Ranks data loaded");
 
 		LoggerUtils.info("Post checks running");
 		getGuildManager().postCheck();
@@ -283,6 +288,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		getGuildManager().save();
 		getRegionManager().save();
 		getPlayerManager().save();
+		getRankManager().save();
 		LoggerUtils.info("Saved all data");
 
 		//Save Holograms
@@ -561,5 +567,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public static void setRaidRunnableRunning(boolean raidRunnableRunning) {
 		NovaGuilds.raidRunnableRunning = raidRunnableRunning;
+	}
+
+	public RankManager getRankManager() {
+		return rankManager;
 	}
 }

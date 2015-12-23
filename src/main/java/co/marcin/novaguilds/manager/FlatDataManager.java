@@ -281,7 +281,7 @@ public class FlatDataManager {
 		return new File(playersDir +"/"+ name + ".yml");
 	}
 
-	private File getGuildFile(String name) {
+	public File getGuildFile(String name) {
 		return new File(guildsDir +"/"+ name + ".yml");
 	}
 
