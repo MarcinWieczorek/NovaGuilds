@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.listener.ChatListener;
+import co.marcin.novaguilds.listener.ChestGUIListener;
 import co.marcin.novaguilds.listener.DeathListener;
 import co.marcin.novaguilds.listener.InventoryListener;
 import co.marcin.novaguilds.listener.LoginListener;
@@ -222,6 +223,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		new DeathListener(this);
 		new InventoryListener(this);
 		new PlayerInfoListener(this);
+		new ChestGUIListener();
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
 			new PacketListener(this);
