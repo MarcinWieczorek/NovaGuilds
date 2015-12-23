@@ -1,5 +1,5 @@
 chat:
- prefix: "&6[&5公会&6] &3"
+ prefix: "&6[&5NovaGuilds&6] &3"
  nopermissions: "&c您无权执行该指令."
  unknowncmd: "&c未知命令."
  invalidparam: "&c参数错误"
