@@ -487,6 +487,55 @@ inventory:
   name: Required Items
  ggui:
   name: Guild's Menu
+ gui:
+  playerslist:
+   title: "Spieker Liste"
+   iconitem: "SKULL_ITEM:3 1 name:Spieler_Liste"
+   rowitem: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+  playersettings:
+   title: "{PLAYERNAME} Einstellungen"
+   item:
+    rank: "BOOK_AND_QUILL 1 name:Setze_Rang lore:{RANKNAME}"
+    kick: "FERMENTED_SPIDER_EYE 1 name:Entfernen"
+  ranks:
+   title: "Ränge"
+   iconitem: "EMPTY_MAP 1 name:Ränge"
+   rowitem: "BOOK 1 name:{RANKNAME}"
+   additem: "BOOK_AND_QUILL 1 name:Rang_hinzufügen"
+  permissions:
+   title: "Rang Bearbeiten: &l{RANKNAME}"
+   item:
+    enabled: "STAINED_GLASS_PANE:5 1 name:{PERMNAME}"
+    disabled: "STAINED_GLASS_PANE:14 1 name:{PERMNAME}"
+   names:
+    block:
+     break: "Blöcke_zerstören"
+     place: "Blöcke_platzieren"
+    mob:
+     attack: "Mobs_angreifen"
+     ride: "Mobs_reiten"
+    command:
+     abandon: "verlassen_befehl"
+     kick: "entfernen_befehl"
+     effect: "effekt_befehl"
+     invite: "einladen_befehl"
+     pvptoggle: "pvp_wechseln"
+     bank:
+      pay: "geld_zur_Bank_zahlen"
+      withdraw: "geld_abheben_von_der_Bank"
+    vault:
+     access: "zugriff_zum_Tresor"
+     put: "Tresor_setzen"
+     take: "nehmen_vom_Tresor"
+     place: "Tresor_platzieren"
+     break: "Tresor_zerstören"
+    region:
+     create: "Gebiet_erstellen"
+     remove: "Gebiet_entfernen"
+     resize: "Gebiet_größe_ändern"
+    rank:
+     set: "Rang_vergeben"
+     edit: "Rang_bearbeiten"
 
 timeunit:
  second:

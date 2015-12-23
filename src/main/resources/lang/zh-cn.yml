@@ -487,6 +487,55 @@ inventory:
   name: "需要的物品"
  ggui:
   name: "公会菜单"
+ gui:
+  playerslist:
+   title: "Players list"
+   iconitem: "SKULL_ITEM:3 1 name:Players_list"
+   rowitem: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+  playersettings:
+   title: "{PLAYERNAME} settings"
+   item:
+    rank: "BOOK_AND_QUILL 1 name:Set_rank lore:{RANKNAME}"
+    kick: "FERMENTED_SPIDER_EYE 1 name:Kick"
+  ranks:
+   title: "Ranks"
+   iconitem: "EMPTY_MAP 1 name:Ranks"
+   rowitem: "BOOK 1 name:{RANKNAME}"
+   additem: "BOOK_AND_QUILL 1 name:Add_rank"
+  permissions:
+   title: "Editing rank: &l{RANKNAME}"
+   item:
+    enabled: "STAINED_GLASS_PANE:5 1 name:{PERMNAME}"
+    disabled: "STAINED_GLASS_PANE:14 1 name:{PERMNAME}"
+   names:
+    block:
+     break: "Breaking_blocks"
+     place: "Placing_blocks"
+    mob:
+     attack: "Attacking_mobs"
+     ride: "Riding_mobs"
+    command:
+     abandon: "Abandon_command"
+     kick: "Kick_command"
+     effect: "Effect_command"
+     invite: "Invite_command"
+     pvptoggle: "Toggle_PVP"
+     bank:
+      pay: "Paying_to_bank"
+      withdraw: "Withdrawing_from_the_bank"
+    vault:
+     access: "Access_to_the_vault"
+     put: "Putting_to_the_vault"
+     take: "Taking_from_the_vault"
+     place: "Placing_the_vault"
+     break: "Breaking_the_vault"
+    region:
+     create: "Creating_regions"
+     remove: "Removing_regions"
+     resize: "Resizing_regions"
+    rank:
+     set: "Setting_ranks"
+     edit: "Editing_ranks"
 
 timeunit:
  second:

@@ -487,6 +487,55 @@ inventory:
   name: Wymagane przedmioty
  ggui:
   name: Menu Gildii
+ gui:
+  playerslist:
+   title: "Lista członków"
+   iconitem: "SKULL_ITEM:3 1 name:Lista_członków"
+   rowitem: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+  playersettings:
+   title: "{PLAYERNAME} ustawienia"
+   item:
+    rank: "BOOK_AND_QUILL 1 name:Ustaw_rangę lore:{RANKNAME}"
+    kick: "FERMENTED_SPIDER_EYE 1 name:Wyrzuć"
+  ranks:
+   title: "Rangi"
+   iconitem: "EMPTY_MAP 1 name:Rangi"
+   rowitem: "BOOK 1 name:{RANKNAME}"
+   additem: "BOOK_AND_QUILL 1 name:Dodaj_rangę"
+  permissions:
+   title: "Edycja rangi: &l{RANKNAME}"
+   item:
+    enabled: "STAINED_GLASS_PANE:5 1 name:{PERMNAME}"
+    disabled: "STAINED_GLASS_PANE:14 1 name:{PERMNAME}"
+   names:
+    block:
+     break: "Niszczenie_bloków"
+     place: "Stawianie_bloków"
+    mob:
+     attack: "Atakowanie_potworów"
+     ride: "Jeżdzenie_na_zwierzętach"
+    command:
+     abandon: "Rozwiązanie_gildii"
+     kick: "Wyrzucanie_graczy"
+     effect: "Kupowanie_efektów"
+     invite: "Zapraszanie_graczy"
+     pvptoggle: "Włączanie_PVP"
+     bank:
+      pay: "Wpłacanie_do_banku"
+      withdraw: "Wypłacanie_z_banku"
+    vault:
+     access: "Dostęp_do_skarbca"
+     put: "Wkładanie_do_skarbca"
+     take: "Zabieranie_ze_skarbca"
+     place: "Stawianie_skarbca"
+     break: "Niszczenie_skarbca"
+    region:
+     create: "Tworzenie_regionów"
+     remove: "Usuwanie_regionów"
+     resize: "Zmiana_rozmiaru_regionów"
+    rank:
+     set: "Ustawianie_rang_graczom"
+     edit: "Edycja_rang"
 
 timeunit:
  second:
