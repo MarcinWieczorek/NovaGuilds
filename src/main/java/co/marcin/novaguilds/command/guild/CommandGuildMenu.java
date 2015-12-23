@@ -18,15 +18,14 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class CommandGuildMenu implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -40,15 +39,8 @@ public class CommandGuildMenu implements CommandExecutor {
 			return true;
 		}
 
-		Player player = (Player)sender;
-		Inventory inv = NovaGuilds.getInstance().getServer().createInventory(null, 9, Message.INVENTORY_GGUI_NAME.get());
-		NovaGuilds.getInstance().getCommandManager().updateGuiTop();
-
-		for(ItemStack item : NovaGuilds.getInstance().getCommandManager().getGuiItems()) {
-			inv.addItem(item);
-		}
-
-		player.openInventory(inv);
+		NovaPlayer nPlayer = NovaPlayer.get(sender);
+		new GUIInventoryGuildMenu(nPlayer).open(nPlayer);
 		return true;
 	}
 }
