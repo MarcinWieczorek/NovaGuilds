@@ -36,7 +36,8 @@ public class YamlEnumTest {
         ignoreConfig = new String[]{
             "aliases.",
             "gguicmd",
-            "groups"
+            "groups",
+            "guild.defaultranks",
         };
     }
 
