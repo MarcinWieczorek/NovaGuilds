@@ -19,11 +19,12 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.enums.GuildPermission;
+import co.marcin.novaguilds.util.LoggerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NovaRank {
+public class NovaRank implements Cloneable {
 	private int id;
 	private String name;
 	private NovaGuild guild;
@@ -130,5 +131,14 @@ public class NovaRank {
 
 	public boolean isNew() {
 		return id == -1;
+	}
+
+	@Override
+	public NovaRank clone() {
+		NovaRank rank = new NovaRank(getId());
+		rank.setName(getName());
+		rank.setPermissions(getPermissions());
+		rank.getMembers().addAll(getMembers());
+		return rank;
 	}
 }
