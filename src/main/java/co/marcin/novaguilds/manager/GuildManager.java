@@ -762,19 +762,16 @@ public class GuildManager {
 
 	public void delayedTeleport(Player player, Location location, Message message) {
 		Runnable task = new RunnableTeleportRequest(player,location, message);
-
 		int delay = NovaGroup.get(player)==null ? 0 : NovaGroup.get(player).getGuildTeleportDelay();
-
-		plugin.getWorker().schedule(task, delay, TimeUnit.SECONDS);
 
 		if(delay > 0) {
 			HashMap<String,String> vars = new HashMap<>();
 			vars.put("DELAY", plugin.getGroupManager().getGroup(player).getGuildTeleportDelay()+"");
+			plugin.getWorker().schedule(task, delay, TimeUnit.SECONDS);
 			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
 		}
 		else {
-			player.teleport(location);
-			message.send(player);
+			task.run();
 		}
 	}
 
