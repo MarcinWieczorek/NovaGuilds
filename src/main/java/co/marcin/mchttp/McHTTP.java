@@ -18,19 +18,24 @@
 
 package co.marcin.mchttp;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.ResourceExtractor;
 import org.apache.commons.lang.StringUtils;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class McHTTP {
 	enum ContentType {

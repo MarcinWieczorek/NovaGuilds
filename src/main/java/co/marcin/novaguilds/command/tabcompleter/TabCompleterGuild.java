@@ -18,17 +18,16 @@
 
 package co.marcin.novaguilds.command.tabcompleter;
 
-import co.marcin.novaguilds.command.admin.CommandAdmin;
-import co.marcin.novaguilds.command.admin.guild.CommandAdminGuild;
-import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologram;
-import co.marcin.novaguilds.command.admin.region.CommandAdminRegion;
 import co.marcin.novaguilds.command.guild.CommandGuild;
 import co.marcin.novaguilds.command.region.CommandRegion;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TabCompleterGuild implements TabCompleter {
 	@Override

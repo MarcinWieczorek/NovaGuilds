@@ -18,7 +18,15 @@
 
 package co.marcin.novaguilds.api;
 
-import co.marcin.novaguilds.manager.*;
+import co.marcin.novaguilds.manager.CommandManager;
+import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.manager.FlatDataManager;
+import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.HologramManager;
+import co.marcin.novaguilds.manager.MessageManager;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 
 public interface NovaGuildsAPI {
 	RegionManager getRegionManager();

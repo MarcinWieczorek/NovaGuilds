@@ -18,11 +18,11 @@
 
 package co.marcin.novaguilds.util.reflect;
 
-import java.lang.reflect.Method;
-
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.lang.reflect.Method;
 
 public class PacketSender {
 	private static final String packageName = Bukkit.getServer().getClass().getPackage().getName();

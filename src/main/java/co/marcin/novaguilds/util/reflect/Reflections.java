@@ -18,13 +18,13 @@
 
 package co.marcin.novaguilds.util.reflect;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class Reflections {
 	public static Class<?> getCraftClass(String name) {

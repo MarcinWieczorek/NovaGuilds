@@ -21,12 +21,11 @@ package co.marcin.novaguilds.util.reflect;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.event.PacketSendEvent;
 import net.minecraft.util.io.netty.channel.Channel;
-import net.minecraft.util.io.netty.channel.ChannelPipeline;
-import net.minecraft.util.io.netty.channel.ChannelPromise;
 import net.minecraft.util.io.netty.channel.ChannelDuplexHandler;
 import net.minecraft.util.io.netty.channel.ChannelHandler;
 import net.minecraft.util.io.netty.channel.ChannelHandlerContext;
-
+import net.minecraft.util.io.netty.channel.ChannelPipeline;
+import net.minecraft.util.io.netty.channel.ChannelPromise;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

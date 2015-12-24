@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.enums.GuildPermission;
-import co.marcin.novaguilds.util.LoggerUtils;
 
 import java.util.ArrayList;
 import java.util.List;
