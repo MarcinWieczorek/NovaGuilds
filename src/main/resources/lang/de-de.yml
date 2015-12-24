@@ -199,8 +199,8 @@ chat:
   region:
    header: "Gebiet Befehle:"
    items:
-    - "&5* &7/g &cbuy &2- &3Erstellt ein Gebiet"
-    - "&5* &7/g &cdelete &2- &3Löscht ein Gebiet"
+    - "&5* &7/g &crg &6buy &2- &3Erstellt ein Gebiet"
+    - "&5* &7/g &crg &6delete &2- &3Löscht ein Gebiet"
 
  pvp:
   team: "Du kannst dein Team nicht verletzen"

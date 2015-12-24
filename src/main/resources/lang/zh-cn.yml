@@ -199,8 +199,8 @@ chat:
   region:
    header: "领地命令:"
    items:
-    - "&5* &7/g &cbuy &2- &3创建领地"
-    - "&5* &7/g &cdelete &2- &3删除领地"
+    - "&5* &7/g &crg &6buy &2- &3创建领地"
+    - "&5* &7/g &crg &6delete &2- &3删除领地"
 
  pvp:
   team: "你无法攻击队友."

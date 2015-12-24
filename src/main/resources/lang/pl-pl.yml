@@ -199,8 +199,8 @@ chat:
   region:
    header: "Komendy regionow:"
    items:
-    - "&5* &7/g &cbuy &2- &3Stworz region"
-    - "&5* &7/g &cdelete &2- &3Usun region"
+    - "&5* &7/g &crg &6buy &2- &3Stworz region"
+    - "&5* &7/g &crg &6delete &2- &3Usun region"
 
  pvp:
   team: "Nie mozesz bic swoich kolegow z gildii"
