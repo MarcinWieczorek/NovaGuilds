@@ -55,6 +55,11 @@ public class CommandRegionDelete implements Executor {
 			return;
 		}
 
+		if(!nPlayer.getGuild().hasRegion()) {
+			Message.CHAT_GUILD_HASNOREGION.send(sender);
+			return;
+		}
+
 		Message.CHAT_REGION_DELETED.send(sender);
 		plugin.getRegionManager().remove(nPlayer.getGuild().getRegion());
 	}
