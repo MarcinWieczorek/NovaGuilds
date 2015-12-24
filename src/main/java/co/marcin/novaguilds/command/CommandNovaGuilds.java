@@ -121,7 +121,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				break;
 			case "g":
 			case "guild":
-				new CommandGuild(plugin).onCommand(sender, cmd, label, StringUtils.parseArgs(args, 1));
+				Commands.GUILD_ACCESS.getExecutor().execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "tr":
 				Tablist.patch();

@@ -23,8 +23,18 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
+import java.util.HashMap;
+
 public class CommandRegion implements Executor {
 	private static final Commands command = Commands.REGION_ACCESS;
+
+	public static final HashMap<String, Commands> commandsMap = new HashMap<String, Commands>(){{
+		put("buy", Commands.REGION_BUY);
+		put("create", Commands.REGION_BUY);
+
+		put("delete", Commands.REGION_DELETE);
+		put("del", Commands.REGION_DELETE);
+	}};
 
 	public CommandRegion() {
 		plugin.getCommandManager().registerExecutor(command, this);
@@ -43,21 +53,14 @@ public class CommandRegion implements Executor {
 		}
 
 		if(args.length>0) {
-			String subCommand = args[0];
+			Commands subCommand = commandsMap.get(args[0].toLowerCase());
 
-			switch(subCommand) {
-				case "buy":
-				case "create":
-					Commands.REGION_BUY.getExecutor().execute(sender, null);
-					break;
-				case "delete":
-				case "del":
-					Commands.REGION_DELETE.getExecutor().execute(sender, null);
-					break;
-				default:
-					Message.CHAT_UNKNOWNCMD.send(sender);
-					break;
+			if(subCommand == null) {
+				Message.CHAT_UNKNOWNCMD.send(sender);
+				return;
 			}
+
+			subCommand.getExecutor().execute(sender, null);
 		}
 		else {
 			if(plugin.getPlayerManager().getPlayer(sender).isLeader()) {

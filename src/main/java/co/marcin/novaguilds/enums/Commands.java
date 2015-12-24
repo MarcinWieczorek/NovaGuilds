@@ -20,6 +20,7 @@ package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterAdmin;
+import co.marcin.novaguilds.command.tabcompleter.TabCompleterGuild;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -63,7 +64,7 @@ public enum Commands {
 	ADMIN_HOLOGRAM_ADDTOP(Permission.NOVAGUILDS_ADMIN_HOLOGRAM_ADDTOP, false),
 	ADMIN_HOLOGRAM_TELEPORT_HERE(Permission.NOVAGUILDS_ADMIN_HOLOGRAM_TELEPORT_HERE, false),
 
-	GUILD_ACCESS(Permission.NOVAGUILDS_GUILD_ACCESS,false),
+	GUILD_ACCESS(Permission.NOVAGUILDS_GUILD_ACCESS, false, "guild" , new TabCompleterGuild()),
 	GUILD_ABANDON(Permission.NOVAGUILDS_GUILD_ABANDON, false),
 	GUILD_ALLY(Permission.NOVAGUILDS_GUILD_ALLY, false),
 	GUILD_BANK_PAY(Permission.NOVAGUILDS_GUILD_BANK_PAY, false),
