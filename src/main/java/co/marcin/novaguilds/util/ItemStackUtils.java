@@ -318,4 +318,28 @@ public final class ItemStackUtils {
 
 		return itemList;
 	}
+
+	public static boolean isSimilar(ItemStack itemStack1, ItemStack itemStack2) {
+		if(itemStack1.getType() != itemStack2.getType()) {
+			return false;
+		}
+
+		if((itemStack1.hasItemMeta() || itemStack2.hasItemMeta()) && !itemStack1.getItemMeta().equals(itemStack2.getItemMeta())) {
+			return false;
+		}
+
+		if(itemStack1.getDurability() != itemStack2.getDurability()) {
+			return false;
+		}
+
+		if(!itemStack1.getEnchantments().equals(itemStack2.getEnchantments())) {
+			return false;
+		}
+
+		if(itemStack1.getMaxStackSize() != itemStack2.getMaxStackSize()) {
+			return false;
+		}
+
+		return true;
+	}
 }

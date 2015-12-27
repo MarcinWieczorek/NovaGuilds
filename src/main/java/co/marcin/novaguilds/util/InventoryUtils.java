@@ -48,7 +48,7 @@ public final class InventoryUtils {
 
 		if(items != null && inventory.getType() != InventoryType.CREATIVE) {
 			for(ItemStack item : items) {
-				if(!inventory.containsAtLeast(item, item.getAmount())) {
+				if(!containsAtLeast(inventory, item, item.getAmount())) {
 					ItemStack missingItemStack = item.clone();
 					missingItemStack.setAmount(item.getAmount() - getTotalAmountOfItemStackInInventory(inventory, item));
 					missing.add(missingItemStack);
@@ -64,7 +64,7 @@ public final class InventoryUtils {
 
 		for(ItemStack item : inventory.getContents()) {
 			if(item != null && item.getType() != Material.AIR) {
-				if(item.isSimilar(itemStack)) {
+				if(ItemStackUtils.isSimilar(itemStack, item)) {
 					amount += item.getAmount();
 				}
 			}
@@ -95,5 +95,9 @@ public final class InventoryUtils {
 		else {
 			return view.getBottomInventory();
 		}
+	}
+
+	public static boolean containsAtLeast(Inventory inventory, ItemStack itemStack, int amount) {
+		return getTotalAmountOfItemStackInInventory(inventory, itemStack) >= amount;
 	}
 }
