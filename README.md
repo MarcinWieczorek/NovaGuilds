@@ -15,6 +15,10 @@ The plugin works on all <b>1.7</b> and <b>1.8</b> versions!<br/>
 <a href="http://novaguilds.pl">http://novaguilds.pl/</a>
 <br/><br/><br/>
 
+<h2>Special thanks:</h2>
+<a href="https://www.spigotmc.org/members/x_2088.65434/">@x_2088</a> for Chinese translation<br/>
+<a href="https://github.com/Mondanzo">@Mondanzo</a> for German translation
+
 <img src="http://novaguilds.marcin.co/img/ss/ngss1.jpg" alt="ss" />
 <br/><br/><br/>
 
