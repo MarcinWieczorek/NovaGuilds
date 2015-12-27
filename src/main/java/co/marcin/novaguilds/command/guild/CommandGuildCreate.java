@@ -161,9 +161,10 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 			return;
 		}
 
-		if(!InventoryUtils.containsItems(player.getInventory(), items)) {
+		List<ItemStack> missingItemsList = InventoryUtils.getMissingItems(player.getInventory(), items);
+		if(!missingItemsList.isEmpty()) {
 			Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-			sender.sendMessage(StringUtils.getItemList(items));
+			sender.sendMessage(StringUtils.getItemList(missingItemsList));
 
 			return;
 		}
