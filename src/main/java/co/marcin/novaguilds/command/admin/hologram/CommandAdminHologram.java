@@ -22,7 +22,6 @@ import co.marcin.novaguilds.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminHologram;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -88,7 +87,7 @@ public class CommandAdminHologram implements Executor {
 
 		Executor executor = plugin.getCommandManager().getExecutor(commands);
 
-		if(executor instanceof ExecutorReversedAdminHologram) {
+		if(executor instanceof Executor.ReversedAdminHologram) {
 			NovaHologram hologram = plugin.getHologramManager().getHologram(args[0]);
 
 			if(hologram == null || hologram.isDeleted()) {
@@ -96,7 +95,7 @@ public class CommandAdminHologram implements Executor {
 				return;
 			}
 
-			((ExecutorReversedAdminHologram) executor).hologram(hologram);
+			((Executor.ReversedAdminHologram) executor).hologram(hologram);
 		}
 
 		executor.execute(sender, StringUtils.parseArgs(args, 2));

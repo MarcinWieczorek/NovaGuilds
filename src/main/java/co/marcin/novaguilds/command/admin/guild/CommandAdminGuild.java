@@ -22,7 +22,6 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminGuild;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -115,8 +114,8 @@ public class CommandAdminGuild implements Executor {
 
 		int subArgsCut = 1;
 
-		if(executor instanceof ExecutorReversedAdminGuild) {
-			((ExecutorReversedAdminGuild) executor).guild(guild);
+		if(executor instanceof Executor.ReversedAdminGuild) {
+			((Executor.ReversedAdminGuild) executor).guild(guild);
 			subArgsCut = 2;
 		}
 

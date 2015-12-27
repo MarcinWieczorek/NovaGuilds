@@ -23,14 +23,13 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminRegion;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class CommandAdminRegionTeleport implements Executor, ExecutorReversedAdminRegion {
+public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion {
 	private final Commands command = Commands.ADMIN_REGION_TELEPORT;
 	private NovaRegion region;
 

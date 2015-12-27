@@ -22,12 +22,11 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminGuild;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildSetTag implements Executor, ExecutorReversedAdminGuild {
+public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
 	private final Commands command = Commands.ADMIN_GUILD_SET_TAG;
 

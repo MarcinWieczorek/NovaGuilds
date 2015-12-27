@@ -22,13 +22,12 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminGuild;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildBankPay implements Executor, ExecutorReversedAdminGuild {
+public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
 	private final Commands command = Commands.ADMIN_GUILD_BANK_PAY;
 

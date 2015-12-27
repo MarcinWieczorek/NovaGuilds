@@ -24,14 +24,13 @@ import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminGuild;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class CommandAdminGuildTeleport implements Executor, ExecutorReversedAdminGuild {
+public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
 	private final Commands command = Commands.ADMIN_GUILD_TELEPORT;
 

@@ -23,7 +23,6 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminRegion;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -103,8 +102,8 @@ public class CommandAdminRegion implements Executor {
 
 		int subArgsCut = 1;
 
-		if(executor instanceof ExecutorReversedAdminRegion) {
-			((ExecutorReversedAdminRegion) executor).region(region);
+		if(executor instanceof Executor.ReversedAdminRegion) {
+			((Executor.ReversedAdminRegion) executor).region(region);
 			subArgsCut = 2;
 		}
 

@@ -22,14 +22,13 @@ import co.marcin.novaguilds.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminHologram;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class CommandAdminHologramTeleport implements Executor, ExecutorReversedAdminHologram {
+public class CommandAdminHologramTeleport implements Executor.ReversedAdminHologram {
 	private final Commands command = Commands.ADMIN_HOLOGRAM_TELEPORT;
 	private NovaHologram hologram;
 

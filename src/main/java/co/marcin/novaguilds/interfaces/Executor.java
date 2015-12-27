@@ -19,10 +19,25 @@
 package co.marcin.novaguilds.interfaces;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.basic.NovaRegion;
 import org.bukkit.command.CommandSender;
 
 public interface Executor {
 	NovaGuilds plugin = NovaGuilds.getInstance();
 
 	void execute(CommandSender sender, String[] args);
+
+	interface ReversedAdminGuild extends Executor {
+		void guild(NovaGuild guild);
+	}
+
+	interface ReversedAdminRegion extends Executor {
+		void region(NovaRegion guild);
+	}
+
+	interface ReversedAdminHologram extends Executor {
+		void hologram(NovaHologram guild);
+	}
 }

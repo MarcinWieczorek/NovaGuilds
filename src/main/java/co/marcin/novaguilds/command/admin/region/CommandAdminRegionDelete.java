@@ -22,10 +22,9 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.interfaces.ExecutorReversedAdminRegion;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminRegionDelete implements Executor, ExecutorReversedAdminRegion {
+public class CommandAdminRegionDelete implements Executor.ReversedAdminRegion {
 	private final Commands command = Commands.ADMIN_REGION_DELETE;
 	private NovaRegion region;
 
