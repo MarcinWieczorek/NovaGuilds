@@ -18,13 +18,13 @@
 
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.Tablist;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -41,14 +41,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandNovaGuilds implements CommandExecutor {
-	private final NovaGuilds plugin;
-	
-	public CommandNovaGuilds(NovaGuilds pl) {
-		plugin = pl;
+public class CommandNovaGuilds implements CommandExecutor, Executor {
+	public CommandNovaGuilds() {
+		plugin.getCommandManager().registerExecutor(Commands.NOVAGUILDS, this);
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		execute(sender, args);
+		return true;
+	}
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
 		if(args.length == 0) {
 			Map<String, String[]> langInfo = new HashMap<>();
 
@@ -76,7 +80,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 				sender.sendMessage(StringUtils.fixColors(i));
 			}
 
-			return true;
+			return;
 		}
 
 		switch(args[0].toLowerCase()) {
@@ -86,7 +90,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 			case "bank":
 				if(!sender.hasPermission("novaguilds.test.bank")) {
 					Message.CHAT_NOPERMISSIONS.send(sender);
-					return true;
+					return;
 				}
 
 				if(sender instanceof Player) {
@@ -106,7 +110,7 @@ public class CommandNovaGuilds implements CommandExecutor {
 					group = plugin.getGroupManager().getGroup(args[1]);
 					if(group == null) {
 						sender.sendMessage("Invalid group");
-						return true;
+						return;
 					}
 				}
 
@@ -153,7 +157,5 @@ public class CommandNovaGuilds implements CommandExecutor {
 				Message.CHAT_UNKNOWNCMD.send(sender);
 				break;
 		}
-		
-		return true;
 	}
 }

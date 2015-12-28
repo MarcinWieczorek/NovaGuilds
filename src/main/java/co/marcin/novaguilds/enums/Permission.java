@@ -102,6 +102,7 @@ public enum Permission {
 	NOVAGUILDS_TOOL_CHECK,
 	NOVAGUILDS_TOOL_GET,
 	NOVAGUILDS_ERROR,
+	NOVAGUILDS_NOVAGUILDS,
 	NOVAGUILDS_CONFIRM;
 
 	public boolean has(CommandSender sender) {

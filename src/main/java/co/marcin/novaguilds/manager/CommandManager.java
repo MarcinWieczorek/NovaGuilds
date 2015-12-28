@@ -130,8 +130,6 @@ public class CommandManager {
 	}
 
 	private void registerCommands() {
-		plugin.getCommand("novaguilds").setExecutor(new CommandNovaGuilds(plugin));
-		plugin.getCommand("ng").setExecutor(new CommandNovaGuilds(plugin));
 
 		plugin.getCommand("gi").setExecutor(new CommandGuildInfo());
 		plugin.getCommand("create").setExecutor(new CommandGuildCreate());
@@ -167,6 +165,7 @@ public class CommandManager {
 		new CommandRegionDelete();
 		new CommandRegionBuy();
 
+		new CommandNovaGuilds();
 		new CommandToolGet();
 
 		//Admin
