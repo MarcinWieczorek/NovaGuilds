@@ -64,7 +64,7 @@ public enum Commands {
 	ADMIN_HOLOGRAM_ADDTOP(Permission.NOVAGUILDS_ADMIN_HOLOGRAM_ADDTOP, false),
 	ADMIN_HOLOGRAM_TELEPORT_HERE(Permission.NOVAGUILDS_ADMIN_HOLOGRAM_TELEPORT_HERE, false),
 
-	GUILD_ACCESS(Permission.NOVAGUILDS_GUILD_ACCESS, false, "guild" , new TabCompleterGuild()),
+	GUILD_ACCESS(Permission.NOVAGUILDS_GUILD_ACCESS, false, "guild", new TabCompleterGuild()),
 	GUILD_ABANDON(Permission.NOVAGUILDS_GUILD_ABANDON, false, "abandon"),
 	GUILD_ALLY(Permission.NOVAGUILDS_GUILD_ALLY, false),
 	GUILD_BANK_PAY(Permission.NOVAGUILDS_GUILD_BANK_PAY, false),
@@ -96,7 +96,7 @@ public enum Commands {
 	TOOL_GET(Permission.NOVAGUILDS_TOOL_GET, false),
 	PLAYERINFO(Permission.NOVAGUILDS_PLAYERINFO, true, "playerinfo"),
 	NOVAGUILDS(Permission.NOVAGUILDS_NOVAGUILDS, true, "novaguilds"),
-	CONFIRM(Permission.NOVAGUILDS_CONFIRM, false);
+	CONFIRM(Permission.NOVAGUILDS_CONFIRM, false, "confirm");
 
 	private Message usageMessage;
 	private boolean allowConsole = true;
