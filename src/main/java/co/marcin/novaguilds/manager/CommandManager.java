@@ -139,7 +139,6 @@ public class CommandManager {
 		plugin.getCommand("invite").setExecutor(new CommandGuildInvite(plugin));
 		new CommandGuildMenu();
 
-		plugin.getCommand("playerinfo").setExecutor(new CommandPlayerInfo(plugin));
 		plugin.getCommand("confirm").setExecutor(new CommandConfirm());
 
 		//register custom executors
@@ -166,6 +165,7 @@ public class CommandManager {
 		new CommandRegionBuy();
 
 		new CommandNovaGuilds();
+		new CommandPlayerInfo();
 		new CommandToolGet();
 
 		//Admin

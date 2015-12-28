@@ -94,6 +94,7 @@ public enum Commands {
 	REGION_DELETE(Permission.NOVAGUILDS_REGION_DELETE, false),
 
 	TOOL_GET(Permission.NOVAGUILDS_TOOL_GET, false),
+	PLAYERINFO(Permission.NOVAGUILDS_PLAYERINFO, true, "playerinfo"),
 	NOVAGUILDS(Permission.NOVAGUILDS_NOVAGUILDS, true, "novaguilds"),
 	CONFIRM(Permission.NOVAGUILDS_CONFIRM, false);
 
