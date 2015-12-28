@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.AbandonCause;
@@ -33,10 +32,9 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandGuildAbandon implements CommandExecutor, Executor {
-	private static NovaGuilds plugin = NovaGuilds.getInstance();
 	private static Commands command = Commands.GUILD_ABANDON;
 	
-	public CommandGuildAbandon(NovaGuilds novaGuilds) {
+	public CommandGuildAbandon() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 

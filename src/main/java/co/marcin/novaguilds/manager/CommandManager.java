@@ -133,7 +133,6 @@ public class CommandManager {
 		plugin.getCommand("novaguilds").setExecutor(new CommandNovaGuilds(plugin));
 		plugin.getCommand("ng").setExecutor(new CommandNovaGuilds(plugin));
 
-		plugin.getCommand("abandon").setExecutor(new CommandGuildAbandon(plugin));
 		plugin.getCommand("gi").setExecutor(new CommandGuildInfo());
 		plugin.getCommand("create").setExecutor(new CommandGuildCreate());
 		plugin.getCommand("join").setExecutor(new CommandGuildJoin());
@@ -147,6 +146,7 @@ public class CommandManager {
 
 		//register custom executors
 		new CommandGuild();
+		new CommandGuildAbandon();
 		new CommandGuildBuyLife();
 		new CommandGuildBuySlot();
 		new CommandGuildCompass();
