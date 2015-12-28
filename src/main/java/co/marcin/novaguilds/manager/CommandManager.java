@@ -136,7 +136,6 @@ public class CommandManager {
 		plugin.getCommand("join").setExecutor(new CommandGuildJoin());
 		plugin.getCommand("leave").setExecutor(new CommandGuildLeave());
 
-		plugin.getCommand("invite").setExecutor(new CommandGuildInvite(plugin));
 		new CommandGuildMenu();
 
 		plugin.getCommand("confirm").setExecutor(new CommandConfirm());
@@ -152,6 +151,7 @@ public class CommandManager {
 		new CommandGuildBankWithdraw();
 		new CommandGuildEffect();
 		new CommandGuildHome();
+		new CommandGuildInvite();
 		new CommandGuildKick();
 		new CommandGuildLeader();
 		new CommandGuildPvpToggle();

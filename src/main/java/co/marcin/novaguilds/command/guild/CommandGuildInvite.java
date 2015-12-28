@@ -18,33 +18,44 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 
-public class CommandGuildInvite implements CommandExecutor {
-	private final NovaGuilds plugin;
-	
-	public CommandGuildInvite(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
+public class CommandGuildInvite implements CommandExecutor, Executor {
+	private final Commands command = Commands.GUILD_INVITE;
+
+	public CommandGuildInvite() {
+		plugin.getCommandManager().registerExecutor(command, this);
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!Permission.NOVAGUILDS_GUILD_INVITE.has(sender)) {
+		execute(sender, args);
+		return true;
+	}
+
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
 		}
 
 		if(args.length != 1) {
 			Message.CHAT_USAGE_GUILD_INVITE.send(sender);
-			return true;
+			return;
 		}
 
 		String playername = args[0];
@@ -52,24 +63,24 @@ public class CommandGuildInvite implements CommandExecutor {
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		if(!nPlayer.isLeader()) { //only leaders can invite
 			Message.CHAT_GUILD_NOTLEADER.send(sender);
-			return true;
+			return;
 		}
 
 		NovaPlayer invitePlayer = plugin.getPlayerManager().getPlayer(playername);
 
 		if(invitePlayer == null) { //player exists
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-			return true;
+			return;
 		}
 
 		if(invitePlayer.hasGuild()) { //if player being invited has no guild
 			Message.CHAT_PLAYER_HASGUILD.send(sender);
-			return true;
+			return;
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
@@ -93,6 +104,5 @@ public class CommandGuildInvite implements CommandExecutor {
 				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.vars(vars).send(invitePlayer.getPlayer());
 			}
 		}
-		return true;
 	}
 }
