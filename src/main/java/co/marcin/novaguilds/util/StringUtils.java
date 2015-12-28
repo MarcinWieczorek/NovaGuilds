@@ -25,6 +25,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -61,19 +62,14 @@ public final class StringUtils {
 		return ChatColor.stripColor(fixColors(msg));
 	}
 	
-	public static String getContent(String s) {
+	public static String getContent(String s) throws IOException {
 		String body = null;
-		try {
-			URL url = new URL(s);
-			URLConnection con = url.openConnection();
-			InputStream in = con.getInputStream();
-			String encoding = con.getContentEncoding();
-			encoding = encoding == null ? "UTF-8" : encoding;
-			body = IOUtils.toString(in, encoding);
-		}
-		catch (Exception e) {
-			LoggerUtils.exception(e);
-		}
+		URL url = new URL(s);
+		URLConnection con = url.openConnection();
+		InputStream in = con.getInputStream();
+		String encoding = con.getContentEncoding();
+		encoding = encoding == null ? "UTF-8" : encoding;
+		body = IOUtils.toString(in, encoding);
 			    
 		return body;
 	}

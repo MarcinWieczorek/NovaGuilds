@@ -25,11 +25,12 @@ import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 
 public class VersionUtils {
 	public static int buildCurrent;
-	public static int buildLatest;
-	public static int buildDev;
+	public static int buildLatest = 0;
+	public static int buildDev = 0;
 	public static boolean updateAvailable = false;
 	public static boolean init = false;
 
@@ -42,8 +43,17 @@ public class VersionUtils {
 		NovaGuildsAPI ng = NovaGuilds.getInstance();
 
 		buildCurrent = ng == null ? YamlConfiguration.loadConfiguration(new File("./src/main/resources/plugin.yml")).getInt("version") : ng.getBuild();
-		buildLatest = Integer.parseInt(StringUtils.getContent("http://novaguilds.pl/latest.info"));
-		buildDev = Integer.parseInt(StringUtils.getContent("http://novaguilds.pl/dev.info"));
+
+		try {
+			String latestString = StringUtils.getContent("http://novaguilds.pl/latest.info");
+			String devString = StringUtils.getContent("http://novaguilds.pl/dev.info");
+
+			buildLatest = Integer.parseInt(latestString);
+			buildDev = Integer.parseInt(devString);
+		}
+		catch(IOException e) {
+			LoggerUtils.error("Failed to fetch versions");
+		}
 	}
 
 	public static void checkVersion() {

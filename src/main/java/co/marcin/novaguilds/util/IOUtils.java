@@ -99,7 +99,7 @@ public final class IOUtils {
 		return list;
 	}
 
-	public static String toString(InputStream in, String encoding) throws Exception {
+	public static String toString(InputStream in, String encoding) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buf = new byte[8192];
 		int len;
