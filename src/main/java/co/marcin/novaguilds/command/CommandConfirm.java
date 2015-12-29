@@ -30,6 +30,10 @@ import org.bukkit.command.CommandSender;
 public class CommandConfirm implements Executor, CommandExecutor {
 	private static final Commands command = Commands.CONFIRM;
 
+	public CommandConfirm() {
+		plugin.getCommandManager().registerExecutor(command, this);
+	}
+
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		if(!command.hasPermission(sender)) {
