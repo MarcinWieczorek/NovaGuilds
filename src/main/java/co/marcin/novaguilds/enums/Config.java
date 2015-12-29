@@ -265,4 +265,8 @@ public enum Config {
 			return null;
 		}
 	}
+
+	public double getPercent() {
+		return getDouble() / 100;
+	}
 }
