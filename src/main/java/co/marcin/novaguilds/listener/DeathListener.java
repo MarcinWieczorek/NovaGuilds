@@ -99,8 +99,16 @@ public class DeathListener implements Listener {
 				guildAttacker.addPoints(Config.GUILD_KILLPOINTS.getInt());
 			}
 
+			//Raid bonus percent
+			double bonusPercentMoney = 0;
+			double bonusPercentPoints = 0;
+			if(nPlayer.isPartRaid()) {
+				bonusPercentMoney = Config.RAID_PVP_BONUSPERCENT_MONEY.getPercent();
+				bonusPercentPoints = Config.RAID_PVP_BONUSPERCENT_POINTS.getPercent();
+			}
+
 			//player points
-			int points = (int) Math.round(nPlayer.getPoints() * (Config.KILLING_RANKPERCENT.getDouble() / 100));
+			int points = (int) Math.round(nPlayer.getPoints() * (Config.KILLING_RANKPERCENT.getPercent() + bonusPercentPoints));
 			nPlayer.takePoints(points);
 			nPlayerAttacker.addPoints(points);
 			nPlayerAttacker.addKillHistory(victim);
@@ -110,7 +118,7 @@ public class DeathListener implements Listener {
 			vars.put("PLAYERNAME", victim.getName());
 			double money;
 			if(nPlayer.canGetKillPoints(attacker)) {
-				money = (Config.KILLING_MONEYFORKILL.getDouble() / 100) * nPlayer.getMoney();
+				money = (Config.KILLING_MONEYFORKILL.getPercent() + bonusPercentMoney) * nPlayer.getMoney();
 
 				if(money > 0) {
 					vars.put("MONEY", String.valueOf(money));
@@ -118,7 +126,7 @@ public class DeathListener implements Listener {
 				}
 			}
 			else {
-				money = (Config.KILLING_MONEYFORREVENGE.getDouble() / 100) * nPlayer.getMoney();
+				money = (Config.KILLING_MONEYFORREVENGE.getPercent() + bonusPercentMoney) * nPlayer.getMoney();
 
 				if(money > 0) {
 					vars.put("MONEY", String.valueOf(money));

@@ -140,6 +140,12 @@ raid:
  #Inactive time after which the raid is over. seconds.
  timeinactive: 30s
 
+ #+5% points/money for pvp kill during raid
+ pvp:
+  bonuspercent:
+   money: 5
+   points: 5
+
 killing:
  moneyforkill: 5
  moneyforrevenge: 10
