@@ -441,8 +441,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public void showRaidBar(NovaRaid raid) {
 		if(raid.getFinished()) {
-			resetWarBar(raid.getGuildAttacker());
-			resetWarBar(raid.getGuildDefender());
+			raid.getGuildAttacker().removeRaidBar();
+			raid.getGuildDefender().removeRaidBar();
 		}
 		else {
 			HashMap<String,String> vars = new HashMap<>();
@@ -475,14 +475,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 						MessageManager.sendPrefixMessage(player, lines);
 					}
 				}
-			}
-		}
-	}
-
-	public void resetWarBar(NovaGuild guild) {
-		if(Config.BARAPI_ENABLED.getBoolean()) {
-			for(Player player : guild.getOnlinePlayers()) {
-				BarAPI.removeBar(player);
 			}
 		}
 	}

@@ -19,10 +19,12 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import me.confuser.barapi.BarAPI;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -634,6 +636,14 @@ public class NovaGuild {
 	public void hideVaultHologram(Player player) {
 		if(vaultHologram != null) {
 			vaultHologram.getVisibilityManager().hideTo(player);
+		}
+	}
+
+	public void removeRaidBar() {
+		if(Config.BARAPI_ENABLED.getBoolean()) {
+			for(Player player : getOnlinePlayers()) {
+				BarAPI.removeBar(player);
+			}
 		}
 	}
 }

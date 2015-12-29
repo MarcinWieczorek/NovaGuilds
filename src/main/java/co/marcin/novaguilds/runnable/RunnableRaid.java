@@ -65,8 +65,8 @@ public class RunnableRaid implements Runnable {
 
 			if(NumberUtils.systemSeconds() - raid.getInactiveTime() > Config.RAID_TIMEINACTIVE.getSeconds()) {
 				Message.BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON.vars(vars).broadcast();
-				plugin.resetWarBar(guild);
-				plugin.resetWarBar(raid.getGuildAttacker());
+				guild.removeRaidBar();
+				raid.getGuildAttacker().removeRaidBar();
 				plugin.guildRaids.remove(guild);
 				return;
 			}
@@ -78,8 +78,8 @@ public class RunnableRaid implements Runnable {
 			//finishing raid
 			if(raid.getFinished()) {
 				Message.BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON.vars(vars).broadcast();
-				plugin.resetWarBar(guild);
-				plugin.resetWarBar(raid.getGuildAttacker());
+				guild.removeRaidBar();
+				raid.getGuildAttacker().removeRaidBar();
 				guild.takeLive();
 				guild.updateTimeRest();
 				guild.updateLostLive();

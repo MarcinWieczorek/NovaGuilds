@@ -482,8 +482,8 @@ public class RegionManager {
 
 					if(guild.getRaid().getPlayersOccupyingCount() == 0) {
 						guild.getRaid().resetProgress();
-						plugin.resetWarBar(guild);
-						plugin.resetWarBar(nPlayer.getGuild());
+						guild.removeRaidBar();
+						nPlayer.getGuild().removeRaidBar();
 						LoggerUtils.debug("progress: " + guild.getRaid().getProgress());
 						guild.getRaid().updateInactiveTime();
 					}
