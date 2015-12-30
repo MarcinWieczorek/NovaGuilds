@@ -415,16 +415,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private void setupMetrics() {
 		try {
 			Metrics metrics = new Metrics(this);
-			Metrics.Graph weaponsUsedGraph = metrics.createGraph("Guilds and users");
+			Metrics.Graph guildsAndUsersGraph = metrics.createGraph("Guilds and users");
 
-			weaponsUsedGraph.addPlotter(new Metrics.Plotter("Guilds") {
+			guildsAndUsersGraph.addPlotter(new Metrics.Plotter("Guilds") {
 				@Override
 				public int getValue() {
 					return getGuildManager().getGuilds().size();
 				}
 			});
 
-			weaponsUsedGraph.addPlotter(new Metrics.Plotter("Users") {
+			guildsAndUsersGraph.addPlotter(new Metrics.Plotter("Users") {
 				@Override
 				public int getValue() {
 					return getPlayerManager().getPlayers().size();
