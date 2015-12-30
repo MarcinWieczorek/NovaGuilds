@@ -222,7 +222,7 @@ public class ToolListener implements Listener {
 					if(validSelect == RegionValidity.TOOCLOSE) {
 						List<NovaGuild> guildsTooClose = plugin.getRegionManager().getGuildsTooClose(sl0, sl1);
 
-						if(guildsTooClose.size() == 1 && guildsTooClose.get(0).equals(nPlayer.getGuild()) && nPlayer.isResizing()) {
+						if(guildsTooClose.size() == 1 && guildsTooClose.get(0).equals(nPlayer.getGuild())) {
 							validSelect = RegionValidity.VALID;
 						}
 					}
