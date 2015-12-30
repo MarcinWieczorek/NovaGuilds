@@ -15,6 +15,20 @@ The plugin works on all <b>1.7</b> and <b>1.8</b> versions!<br/>
 <a href="http://novaguilds.pl">http://novaguilds.pl/</a>
 <br/><br/><br/>
 
+<h2><b>How to compile NovaGuilds on your own?</b></h2>
+First of all, you'll need to download the source. Download the zip from github and unpack, or (and this is a better idea)
+```bash
+git clone https://github.com/MarcinWieczorek/NovaGuilds.git
+```
+
+You need Maven to build the project. Download it from public repositories (your machine probably runs Linux).
+'cd' into plugin's directory and build it.
+```bash
+cd NovaGuilds/
+mvn clean install
+```
+<br/><br/><br/>
+
 <h2>Special thanks:</h2>
 <a href="https://www.spigotmc.org/members/x_2088.65434/">@x_2088</a> for Chinese translation<br/>
 <a href="https://github.com/Mondanzo">@Mondanzo</a> for German translation
