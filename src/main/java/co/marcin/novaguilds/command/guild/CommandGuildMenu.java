@@ -28,7 +28,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildMenu implements CommandExecutor, Executor {
-	private final Commands command = Commands.REGION_BUY;
+	private final Commands command = Commands.GUILD_MENU;
 
 	public CommandGuildMenu() {
 		plugin.getCommandManager().registerExecutor(command, this);
