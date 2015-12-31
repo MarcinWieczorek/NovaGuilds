@@ -768,7 +768,7 @@ public class GuildManager {
 		if(delay > 0) {
 			Map<String, String> vars = new HashMap<>();
 			vars.put("DELAY", plugin.getGroupManager().getGroup(player).getGuildTeleportDelay()+"");
-			plugin.getWorker().schedule(task, delay, TimeUnit.SECONDS);
+			NovaGuilds.runTaskLater(task, delay, TimeUnit.SECONDS);
 			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
 		}
 		else {

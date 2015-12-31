@@ -567,4 +567,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	public RankManager getRankManager() {
 		return rankManager;
 	}
+
+	public static void runTaskLater(Runnable runnable, long delay, TimeUnit timeUnit) {
+		Bukkit.getScheduler().runTaskLater(inst, runnable, timeUnit.toSeconds(delay) * 20);
+	}
 }
