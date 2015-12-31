@@ -323,8 +323,10 @@ public class NovaPlayer {
 	
 	//add stuff
 	public void addInvitation(NovaGuild guild) {
-		invitedTo.add(guild);
-		changed = true;
+		if(!isInvitedTo(guild)) {
+			invitedTo.add(guild);
+			changed = true;
+		}
 	}
 
 	public void addPoints(int points) {
@@ -355,7 +357,9 @@ public class NovaPlayer {
 	}
 
 	public void addVehicle(Vehicle vehicle) {
-		vehicles.add(vehicle);
+		if(!isVehicleListed(vehicle)) {
+			vehicles.add(vehicle);
+		}
 	}
 
 	public void newCommandExecutorHandler(Commands command, String[] args) {

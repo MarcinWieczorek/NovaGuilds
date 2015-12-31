@@ -438,25 +438,33 @@ public class NovaGuild {
 
 	//add/remove
 	public void addAlly(NovaGuild guild) {
-		alliesNames.add(guild.getName().toLowerCase());
-		allies.add(guild);
-		changed();
+		if(!isAlly(guild)) {
+			alliesNames.add(guild.getName().toLowerCase());
+			allies.add(guild);
+			changed();
+		}
 	}
 
 	public void addAllyInvitation(NovaGuild guild) {
-		alliesInvited.add(guild.getName().toLowerCase());
-		changed();
+		if(!isInvitedToAlly(guild)) {
+			alliesInvited.add(guild.getName().toLowerCase());
+			changed();
+		}
 	}
 
 	public void addWar(NovaGuild guild) {
-		warNames.add(guild.getName().toLowerCase());
-		war.add(guild);
-		changed();
+		if(!isWarWith(guild)) {
+			warNames.add(guild.getName().toLowerCase());
+			war.add(guild);
+			changed();
+		}
 	}
 
 	public void addNoWarInvitation(NovaGuild guild) {
-		nowarInvited.add(guild.getName().toLowerCase());
-		changed();
+		if(!isNoWarInvited(guild)) {
+			nowarInvited.add(guild.getName().toLowerCase());
+			changed();
+		}
 	}
 
 	public void addPlayer(NovaPlayer nPlayer) {
