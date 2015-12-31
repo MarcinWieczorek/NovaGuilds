@@ -245,7 +245,9 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 
 					//vault item
 					if(Config.VAULT_ENABLED.getBoolean()) {
-						nPlayer.getPlayer().getInventory().addItem(Config.VAULT_ITEM.getItemStack());
+						if(!InventoryUtils.containsAtLeast(nPlayer.getPlayer().getInventory(), Config.VAULT_ITEM.getItemStack(), 1)) {
+							nPlayer.getPlayer().getInventory().addItem(Config.VAULT_ITEM.getItemStack());
+						}
 					}
 
 					//messages

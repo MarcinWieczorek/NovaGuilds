@@ -119,11 +119,9 @@ public class VaultListener implements Listener {
 						nPlayer.getGuild().setVaultHologram(null);
 					}
 
-					if(player.getGameMode() != GameMode.CREATIVE) {
-						event.setCancelled(true);
-						event.getBlock().setType(Material.AIR);
-						event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), Config.VAULT_ITEM.getItemStack());
-					}
+					event.setCancelled(true);
+					event.getBlock().setType(Material.AIR);
+					event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), Config.VAULT_ITEM.getItemStack());
 
 					nPlayer.getGuild().setVaultLocation(null);
 					Message.CHAT_GUILD_VAULT_BREAK_SUCCESS.send(player);
@@ -165,6 +163,10 @@ public class VaultListener implements Listener {
 							if(nPlayer.getGuild().getVaultLocation() == null) {
 								NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
 								if(region != null && region.getGuild().isMember(nPlayer)) {
+									if(player.getGameMode() == GameMode.CREATIVE) {
+										player.getInventory().remove(event.getItemInHand());
+									}
+
 									nPlayer.getGuild().setVaultLocation(event.getBlockPlaced().getLocation());
 									plugin.getGuildManager().appendVaultHologram(nPlayer.getGuild());
 									Message.CHAT_GUILD_VAULT_PLACE_SUCCESS.send(player);
