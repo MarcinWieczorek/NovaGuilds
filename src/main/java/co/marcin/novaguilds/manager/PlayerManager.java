@@ -38,12 +38,13 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class PlayerManager {
 	private final NovaGuilds plugin;
-	private final HashMap<String,NovaPlayer> players = new HashMap<>();
+	private final Map<String,NovaPlayer> players = new HashMap<>();
 	
 	public PlayerManager(NovaGuilds pl) {
 		plugin = pl;
@@ -327,7 +328,7 @@ public class PlayerManager {
 	}
 
 	public void sendPlayerInfo(CommandSender sender, NovaPlayer nCPlayer) {
-		HashMap<String, String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYERNAME", nCPlayer.getName());
 		vars.put("POINTS", String.valueOf(nCPlayer.getPoints()));
 		vars.put("KILLS", String.valueOf(nCPlayer.getKills()));

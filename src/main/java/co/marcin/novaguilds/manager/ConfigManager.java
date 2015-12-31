@@ -33,6 +33,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConfigManager {
 	private final NovaGuilds plugin;
@@ -46,9 +47,9 @@ public class ConfigManager {
 
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 
-	private final HashMap<Config, Object> cache = new HashMap<>();
+	private final Map<Config, Object> cache = new HashMap<>();
 
-	public static final HashMap<String, String> essentialsLocale = new HashMap<String, String>(){{
+	public static final Map<String, String> essentialsLocale = new HashMap<String, String>(){{
 		put("en","en-en");
 		put("pl","pl-pl");
 		put("de","de-de");

@@ -26,6 +26,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildKick implements Executor {
 	private final Commands command = Commands.GUILD_KICK;
@@ -96,7 +97,7 @@ public class CommandGuildKick implements Executor {
 			guild.hideVaultHologram(nPlayerKick.getPlayer());
 		}
 		
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
 		vars.put("GUILDNAME",guild.getName());
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();

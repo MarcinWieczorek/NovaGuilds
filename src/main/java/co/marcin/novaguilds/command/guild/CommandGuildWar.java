@@ -28,6 +28,7 @@ import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildWar implements Executor {
 	private final Commands command = Commands.GUILD_WAR;
@@ -97,7 +98,7 @@ public class CommandGuildWar implements Executor {
 		}
 
 		if(guild.isWarWith(cmdGuild)) { //no war inv
-			HashMap<String,String> vars = new HashMap<>();
+			Map<String, String> vars = new HashMap<>();
 
 			if(guild.isNoWarInvited(cmdGuild)) { //accepting no-war
 				guild.removeNoWarInvitation(cmdGuild);
@@ -135,7 +136,7 @@ public class CommandGuildWar implements Executor {
 			cmdGuild.addWar(guild);
 
 			//broadcasts
-			HashMap<String,String> vars = new HashMap<>();
+			Map<String, String> vars = new HashMap<>();
 			vars.put("GUILD1",guild.getName());
 			vars.put("GUILD2", cmdGuild.getName());
 			Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();

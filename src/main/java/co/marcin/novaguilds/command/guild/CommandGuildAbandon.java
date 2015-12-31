@@ -30,6 +30,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildAbandon implements CommandExecutor, Executor {
 	private static Commands command = Commands.GUILD_ABANDON;
@@ -104,7 +105,7 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 
 			Message.CHAT_GUILD_ABANDONED.send(sender);
 
-			HashMap<String, String> vars = new HashMap<>();
+			Map<String, String> vars = new HashMap<>();
 			vars.put("PLAYER", sender.getName());
 			vars.put("GUILDNAME", guild.getName());
 			Message.BROADCAST_GUILD_ABANDONED.vars(vars).broadcast();

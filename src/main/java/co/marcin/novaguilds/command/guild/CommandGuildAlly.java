@@ -26,6 +26,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildAlly implements Executor {
 	private final Commands command = Commands.GUILD_ALLY;
@@ -77,7 +78,7 @@ public class CommandGuildAlly implements Executor {
 			return;
 		}
 
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("GUILDNAME",guild.getName());
 		vars.put("ALLYNAME", allyGuild.getName());
 

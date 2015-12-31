@@ -29,6 +29,7 @@ import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class CommandAdminGuildInactive implements Executor {
@@ -56,7 +57,7 @@ public class CommandAdminGuildInactive implements Executor {
 					guild.updateInactiveTime();
 					count++;
 				}
-				HashMap<String,String> vars = new HashMap<>();
+				Map<String, String> vars = new HashMap<>();
 				vars.put("COUNT",count+"");
 				Message.CHAT_ADMIN_GUILD_INACTIVE_UPDATED.vars(vars).send(sender);
 				return;
@@ -96,7 +97,7 @@ public class CommandAdminGuildInactive implements Executor {
 		boolean display = false;
 
 		if(size > perpage) {
-			HashMap<String, String> vars = new HashMap<>();
+			Map<String, String> vars = new HashMap<>();
 			vars.put("PAGE", String.valueOf(page));
 			vars.put("NEXT", String.valueOf(page+1));
 			vars.put("PAGES", String.valueOf(pages_number));
@@ -131,7 +132,7 @@ public class CommandAdminGuildInactive implements Executor {
 					agonow = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_NOW.get();
 				}
 
-				HashMap<String, String> vars = new HashMap<>();
+				Map<String, String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
 				vars.put("PLAYERNAME", guild.getLeader().getName());
 				vars.put("TAG", guild.getTag());

@@ -27,6 +27,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminGuildSetLeader implements Executor {
     private final Commands command = Commands.ADMIN_GUILD_SET_LEADER;
@@ -61,7 +62,7 @@ public class CommandAdminGuildSetLeader implements Executor {
             return;
         }
 
-        HashMap<String,String> vars = new HashMap<>();
+        Map<String, String> vars = new HashMap<>();
         vars.put("PLAYERNAME",nPlayer.getName());
 
         if(!nPlayer.hasGuild()) { //has no guild

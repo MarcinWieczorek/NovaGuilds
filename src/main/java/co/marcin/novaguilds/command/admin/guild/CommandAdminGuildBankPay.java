@@ -26,6 +26,7 @@ import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
@@ -75,7 +76,7 @@ public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
 
 		guild.addMoney(money);
 
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("MONEY",money_str);
 		vars.put("GUILDNAME",guild.getName());
 		Message.CHAT_ADMIN_GUILD_BANK_PAID.vars(vars).send(sender);

@@ -78,6 +78,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -445,7 +446,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			raid.getGuildDefender().removeRaidBar();
 		}
 		else {
-			HashMap<String,String> vars = new HashMap<>();
+			Map<String,String> vars = new HashMap<>();
 			vars.put("DEFENDER", raid.getGuildDefender().getName());
 			List<Player> players = raid.getGuildAttacker().getOnlinePlayers();
 			players.addAll(raid.getGuildDefender().getOnlinePlayers());

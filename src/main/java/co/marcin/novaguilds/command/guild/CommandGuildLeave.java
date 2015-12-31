@@ -29,6 +29,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildLeave implements CommandExecutor, Executor {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
@@ -78,7 +79,7 @@ public class CommandGuildLeave implements CommandExecutor, Executor {
 
 		Message.CHAT_GUILD_LEAVE_LEFT.send(sender);
 
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYER",sender.getName());
 		vars.put("GUILDNAME",guild.getName());
 		Message.BROADCAST_GUILD_LEFT.vars(vars).broadcast();

@@ -39,6 +39,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class ToolListener implements Listener {
 	private final NovaGuilds plugin;
@@ -52,7 +53,7 @@ public class ToolListener implements Listener {
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		HashMap<String, String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 
 		if(!player.getItemInHand().equals(Config.REGION_TOOL.getItemStack())) {
 			return;

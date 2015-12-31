@@ -26,6 +26,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminRegionBypass implements Executor {
 	private final Commands command = Commands.ADMIN_REGION_BYPASS;
@@ -41,7 +42,7 @@ public class CommandAdminRegionBypass implements Executor {
 	* */
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 
 		if(args.length==0 || args[0].equalsIgnoreCase(sender.getName())) {
 			if(!command.hasPermission(sender)) {

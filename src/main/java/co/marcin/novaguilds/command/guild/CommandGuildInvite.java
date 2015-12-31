@@ -28,6 +28,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildInvite implements CommandExecutor, Executor {
 	private final Commands command = Commands.GUILD_INVITE;
@@ -84,7 +85,7 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
-		HashMap<String, String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("GUILDNAME", guild.getName());
 		vars.put("PLAYERNAME", invitePlayer.getName());
 

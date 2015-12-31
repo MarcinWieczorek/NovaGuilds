@@ -31,6 +31,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandGuildEffect implements Executor {
 	private final Commands command = Commands.GUILD_EFFECT;
@@ -93,7 +94,7 @@ public class CommandGuildEffect implements Executor {
 		nPlayer.getGuild().takeMoney(price);
 
 		//message
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("EFFECTTYPE",effectType.getName());
 
 		Message.CHAT_GUILD_EFFECT_SUCCESS.vars(vars).send(sender);

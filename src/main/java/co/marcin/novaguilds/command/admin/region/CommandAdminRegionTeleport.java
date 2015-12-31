@@ -28,6 +28,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion {
 	private final Commands command = Commands.ADMIN_REGION_TELEPORT;
@@ -75,7 +76,7 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 			player = (Player) sender;
 		}
 
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("GUILDNAME", region.getGuild().getName());
 
 		Location location = region.getCenter().clone();

@@ -43,6 +43,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandGuildCreate implements CommandExecutor, Executor {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
@@ -87,7 +88,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 			
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		
 		if(nPlayer.hasGuild()) { //has guild already
 			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);

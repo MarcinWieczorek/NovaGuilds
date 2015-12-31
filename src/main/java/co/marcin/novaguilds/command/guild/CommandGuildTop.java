@@ -26,6 +26,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildTop implements Executor {
 	private final Commands command = Commands.GUILD_TOP;
@@ -58,7 +59,7 @@ public class CommandGuildTop implements Executor {
 
 		Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.send(sender);
 
-		HashMap<String, String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
 			vars.clear();
 			vars.put("GUILDNAME", guild.getName());

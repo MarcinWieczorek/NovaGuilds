@@ -31,6 +31,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DeathListener implements Listener {
 	private final NovaGuilds plugin;
@@ -79,7 +80,7 @@ public class DeathListener implements Listener {
 			tag2 = StringUtils.replace(tagscheme, "{TAG}", nPlayerAttacker.getGuild().getTag());
 		}
 
-		HashMap<String, String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYER1", victim.getName());
 		vars.put("PLAYER2", attacker.getName());
 		vars.put("TAG1", tag1);

@@ -26,6 +26,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildLeader implements Executor {
 	private final Commands command = Commands.GUILD_LEADER;
@@ -87,7 +88,7 @@ public class CommandGuildLeader implements Executor {
 		guild.setLeader(newLeader);
 		plugin.getGuildManager().save(guild);
 
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",newLeader.getName());
 		vars.put("GUILDNAME",guild.getName());
 		Message.CHAT_GUILD_LEADER_SUCCESS.vars(vars).send(sender);

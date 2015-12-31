@@ -52,12 +52,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
 	private final NovaGuilds plugin;
-	private final HashMap<String,NovaGuild> guilds = new HashMap<>();
+	private final Map<String,NovaGuild> guilds = new HashMap<>();
 	
 	public GuildManager(NovaGuilds pl) {
 		plugin = pl;
@@ -765,7 +766,7 @@ public class GuildManager {
 		int delay = NovaGroup.get(player)==null ? 0 : NovaGroup.get(player).getGuildTeleportDelay();
 
 		if(delay > 0) {
-			HashMap<String,String> vars = new HashMap<>();
+			Map<String, String> vars = new HashMap<>();
 			vars.put("DELAY", plugin.getGroupManager().getGroup(player).getGuildTeleportDelay()+"");
 			plugin.getWorker().schedule(task, delay, TimeUnit.SECONDS);
 			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
@@ -780,7 +781,7 @@ public class GuildManager {
 		int i=1;
 
 		List<String> list = new ArrayList<>();
-		HashMap<String, String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
 			vars.clear();

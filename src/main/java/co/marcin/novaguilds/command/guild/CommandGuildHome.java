@@ -32,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandGuildHome implements Executor {
 	private final Commands command = Commands.GUILD_HOME;
@@ -109,7 +110,7 @@ public class CommandGuildHome implements Executor {
 //				if(plugin.econ.getBalance((Player)sender) < homeMoney) { //1.8
 				if(!nPlayer.hasMoney(homeMoney)) { //1.7
 					//TODO not enought money
-					HashMap<String, String> vars = new HashMap<>();
+					Map<String, String> vars = new HashMap<>();
 					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
 					Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 					return;

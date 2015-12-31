@@ -29,11 +29,12 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandAdminRegion implements Executor {
 	private final Commands command = Commands.ADMIN_REGION_ACCESS;
 
-	public static final HashMap<String, Commands> commandsMap = new HashMap<String, Commands>(){{
+	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
 		put("bypass", Commands.ADMIN_REGION_BYPASS);
 		put("bp", Commands.ADMIN_REGION_BYPASS);
 

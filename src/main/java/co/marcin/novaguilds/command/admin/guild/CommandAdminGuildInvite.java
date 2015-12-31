@@ -26,6 +26,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
@@ -80,7 +81,7 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 		Message.CHAT_PLAYER_INVITE_INVITED.send(sender);
 		
 		if(nPlayer.getPlayer() != null) {
-			HashMap<String,String> vars = new HashMap<>();
+			Map<String, String> vars = new HashMap<>();
 			vars.put("GUILDNAME",guild.getName());
 			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(sender);
 		}

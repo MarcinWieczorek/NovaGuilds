@@ -29,6 +29,7 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RunnableRaid implements Runnable {
@@ -54,7 +55,7 @@ public class RunnableRaid implements Runnable {
 			}
 
 			//vars hashmap
-			HashMap<String,String> vars = new HashMap<>();
+			Map<String, String> vars = new HashMap<>();
 			vars.put("ATTACKER",raid.getGuildAttacker().getName());
 			vars.put("DEFENDER", guildDefender.getName());
 

@@ -28,6 +28,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandAdminHologram implements Executor {
 	private final Commands command = Commands.ADMIN_HOLOGRAM_ACCESS;
@@ -38,7 +39,7 @@ public class CommandAdminHologram implements Executor {
 		add("addtop");
 	}};
 
-	public static final HashMap<String, Commands> commandsMap = new HashMap<String, Commands>(){{
+	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
 		put("list", Commands.ADMIN_HOLOGRAM_LIST);
 		put("ls", Commands.ADMIN_HOLOGRAM_LIST);
 

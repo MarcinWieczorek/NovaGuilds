@@ -24,11 +24,12 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandRegion implements Executor {
 	private static final Commands command = Commands.REGION_ACCESS;
 
-	public static final HashMap<String, Commands> commandsMap = new HashMap<String, Commands>(){{
+	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
 		put("buy", Commands.REGION_BUY);
 		put("create", Commands.REGION_BUY);
 

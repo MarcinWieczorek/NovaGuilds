@@ -28,11 +28,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuild implements CommandExecutor, Executor {
 	private final Commands command = Commands.GUILD_ACCESS;
 
-	public static final HashMap<String, Commands> commandsMap = new HashMap<String, Commands>(){{
+	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
 		put("pay", Commands.GUILD_BANK_PAY);
 		put("withdraw", Commands.GUILD_BANK_WITHDRAW);
 		put("leader", Commands.GUILD_LEADER);

@@ -25,6 +25,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildPvpToggle implements Executor {
 	private final Commands command = Commands.GUILD_PVPTOGGLE;
@@ -57,7 +58,7 @@ public class CommandGuildPvpToggle implements Executor {
 			return;
 		}
 
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
 		vars.put("FPVP", Message.getOnOff(nPlayer.getGuild().getFriendlyPvp()));
 		Message.CHAT_GUILD_FPVPTOGGLED.vars(vars).send(sender);

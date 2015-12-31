@@ -94,14 +94,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class CommandManager {
 	private final NovaGuilds plugin;
-	private final HashMap<String,String> aliases = new HashMap<>();
-	private final HashMap<ItemStack,String> guiCommands = new HashMap<>();
+	private final Map<String,String> aliases = new HashMap<>();
+	private final Map<ItemStack,String> guiCommands = new HashMap<>();
+	private final Map<Commands, Executor> executors = new HashMap<>();
 	private ItemStack topItem;
-	private final HashMap<Commands, Executor> executors = new HashMap<>();
 
 	public CommandManager(NovaGuilds plugin) {
 		this.plugin = plugin;

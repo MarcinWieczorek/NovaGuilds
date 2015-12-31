@@ -30,6 +30,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Tablist {
 	private final List<String> lines = new ArrayList<>();
@@ -58,7 +59,7 @@ public class Tablist {
 
 		Player[] op = Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]);
 
-		HashMap<String, String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("ONLINE", String.valueOf(op.length));
 		vars.put("MAX", String.valueOf(Bukkit.getMaxPlayers()));
 		vars.put("BALANCE", String.valueOf(nPlayer.getMoney()));

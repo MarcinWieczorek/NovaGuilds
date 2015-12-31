@@ -27,6 +27,7 @@ import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildBankPay implements Executor {
 	private final Commands command = Commands.GUILD_BANK_PAY;
@@ -77,7 +78,7 @@ public class CommandGuildBankPay implements Executor {
 
 		nPlayer.takeMoney(money);
 		guild.addMoney(money);
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
 		Message.CHAT_GUILD_BANK_PAY_PAID.vars(vars).send(sender);
 	}

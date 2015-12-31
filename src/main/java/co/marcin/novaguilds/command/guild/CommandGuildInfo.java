@@ -38,6 +38,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class CommandGuildInfo implements CommandExecutor, Executor {
@@ -95,7 +96,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 			return;
 		}
 
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 
 		List<String> guildInfoMessages;
 		String separator = Message.CHAT_GUILDINFO_PLAYERSEPARATOR.get();

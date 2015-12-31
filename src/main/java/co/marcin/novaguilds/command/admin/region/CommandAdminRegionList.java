@@ -28,6 +28,7 @@ import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminRegionList implements Executor {
 	private final Commands command = Commands.ADMIN_REGION_LIST;
@@ -72,7 +73,7 @@ public class CommandAdminRegionList implements Executor {
 		String rowformat = Message.CHAT_REGION_LIST_ITEM.get();
 		int i=0;
 		boolean display = false;
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 
 		if(size>perpage) {
 			vars.put("PAGE", String.valueOf(page));

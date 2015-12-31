@@ -27,6 +27,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminHologramTeleport implements Executor.ReversedAdminHologram {
 	private final Commands command = Commands.ADMIN_HOLOGRAM_TELEPORT;
@@ -57,7 +58,7 @@ public class CommandAdminHologramTeleport implements Executor.ReversedAdminHolog
 
 		player.teleport(hologram.getLocation());
 
-		HashMap<String, String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYERNAME", player.getName());
 		vars.put("NAME", hologram.getName());
 

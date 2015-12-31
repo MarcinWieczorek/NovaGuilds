@@ -49,11 +49,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
 	private final NovaGuilds plugin;
-	private final HashMap<String,NovaRegion> regions = new HashMap<>();
+	private final Map<String,NovaRegion> regions = new HashMap<>();
 	
 	public RegionManager(NovaGuilds pl) {
 		plugin = pl;
@@ -439,7 +440,7 @@ public class RegionManager {
 		}
 
 		//Chat message
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("GUILDNAME",region.getGuildName());
 		vars.put("PLAYERNAME", player.getName());
 		Message.CHAT_REGION_ENTERED.vars(vars).send(player);
@@ -471,7 +472,7 @@ public class RegionManager {
 		NovaGuild guild = region.getGuild();
 
 		nPlayer.setAtRegion(null);
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("GUILDNAME", region.getGuildName());
 		Message.CHAT_REGION_EXITED.vars(vars).send(player);
 

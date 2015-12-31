@@ -26,6 +26,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminGuildKick implements Executor {
 	private final Commands command = Commands.ADMIN_GUILD_KICK;
@@ -73,7 +74,7 @@ public class CommandAdminGuildKick implements Executor {
 		//all passed
 		nPlayerKick.setGuild(null);
 		
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYERNAME",nPlayerKick.getName());
 		vars.put("GUILDNAME",guild.getName());
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();

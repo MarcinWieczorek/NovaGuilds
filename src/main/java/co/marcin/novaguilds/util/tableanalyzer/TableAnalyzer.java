@@ -35,10 +35,10 @@ import java.util.Map;
 
 public class TableAnalyzer {
 	private final Connection connection;
-	private final HashMap<String, String> sqlStructure = new HashMap<>();
-	private final HashMap<Integer, String> sqlNames = new HashMap<>();
-	private final HashMap<Integer, String> tableNames = new HashMap<>();
-	private final HashMap<String, String> tableStructure = new HashMap<>();
+	private final Map<String, String> sqlStructure = new HashMap<>();
+	private final Map<Integer, String> sqlNames = new HashMap<>();
+	private final Map<Integer, String> tableNames = new HashMap<>();
+	private final Map<String, String> tableStructure = new HashMap<>();
 	private final List<Missmatch> missmatches = new ArrayList<>();
 
 	public TableAnalyzer(Connection connection) {

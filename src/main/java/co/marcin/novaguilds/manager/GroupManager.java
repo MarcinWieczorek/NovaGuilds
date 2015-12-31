@@ -25,11 +25,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class GroupManager {
 	private final NovaGuilds plugin;
-	private final HashMap<String,NovaGroup> groups = new HashMap<>();
+	private final Map<String,NovaGroup> groups = new HashMap<>();
 
 	public GroupManager(NovaGuilds novaguilds) {
 		plugin = novaguilds;

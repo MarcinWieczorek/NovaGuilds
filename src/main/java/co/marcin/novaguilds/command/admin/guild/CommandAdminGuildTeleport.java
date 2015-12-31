@@ -29,6 +29,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
@@ -60,7 +61,7 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 		Player player = (Player)sender;
 		boolean other = false;
 
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("GUILDNAME",guild.getName());
 
 		if(args.length == 1) {

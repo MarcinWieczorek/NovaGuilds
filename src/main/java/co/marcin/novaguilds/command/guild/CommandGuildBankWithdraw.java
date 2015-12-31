@@ -28,6 +28,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandGuildBankWithdraw implements Executor {
 	private final Commands command = Commands.GUILD_BANK_WITHDRAW;
@@ -88,7 +89,7 @@ public class CommandGuildBankWithdraw implements Executor {
 
 		guild.takeMoney(money);
 		nPlayer.addMoney(money);
-		HashMap<String,String> vars = new HashMap<>();
+		Map<String, String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
 		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.vars(vars).send(sender);
 	}

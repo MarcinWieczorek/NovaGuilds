@@ -37,6 +37,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class DatabaseManager {
@@ -44,7 +45,7 @@ public class DatabaseManager {
 	private MySQL mySQL;
 	private Connection connection = null;
 	private boolean connected = false;
-	private final HashMap<PreparedStatements,PreparedStatement> preparedStatementMap = new HashMap<>();
+	private final Map<PreparedStatements,PreparedStatement> preparedStatementMap = new HashMap<>();
 
 	public DatabaseManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;

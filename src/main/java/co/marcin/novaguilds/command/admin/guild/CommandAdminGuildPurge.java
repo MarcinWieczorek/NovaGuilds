@@ -28,6 +28,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminGuildPurge implements Executor {
 	private final Commands command = Commands.ADMIN_GUILD_PURGE;
@@ -71,7 +72,7 @@ public class CommandAdminGuildPurge implements Executor {
 				//delete guild
 				plugin.getGuildManager().delete(guild);
 
-				HashMap<String, String> vars = new HashMap<>();
+				Map<String, String> vars = new HashMap<>();
 				vars.put("PLAYERNAME", sender.getName());
 				vars.put("GUILDNAME", guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast();
