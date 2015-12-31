@@ -25,6 +25,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -44,6 +45,11 @@ public class MoveListener implements Listener {
 	@EventHandler
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		execute(event);
+	}
+
+	@EventHandler
+	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
+		NovaPlayer.get(event.getPlayer()).cancelToolProgress();
 	}
 
 	private void execute(PlayerMoveEvent event) {
