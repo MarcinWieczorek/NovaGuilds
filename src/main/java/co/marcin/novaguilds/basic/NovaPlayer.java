@@ -236,6 +236,7 @@ public class NovaPlayer {
 
 	public void setPoints(int points) {
 		this.points = points;
+		changed = true;
 	}
 
 	public void setCompassPointingGuild(boolean compassPointingGuild) {
@@ -244,10 +245,12 @@ public class NovaPlayer {
 
 	public void setDeaths(int deaths) {
 		this.deaths = deaths;
+		changed = true;
 	}
 
 	public void setKills(int kills) {
 		this.kills = kills;
+		changed = true;
 	}
 
 	public void setScoreBoard(Scoreboard sb) {
