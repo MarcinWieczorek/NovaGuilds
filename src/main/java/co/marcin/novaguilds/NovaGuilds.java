@@ -202,12 +202,13 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		LoggerUtils.info("Guilds data loaded");
 		getPlayerManager().load();
 		LoggerUtils.info("Players data loaded");
-		getRankManager().load();
-		LoggerUtils.info("Ranks data loaded");
 
 		LoggerUtils.info("Post checks running");
 		getGuildManager().postCheck();
 		getRegionManager().postCheck();
+
+		getRankManager().load();
+		LoggerUtils.info("Ranks data loaded");
 
 		//HologramManager
 		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
