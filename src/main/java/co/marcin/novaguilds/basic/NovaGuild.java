@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import me.confuser.barapi.BarAPI;
 import org.bukkit.Effect;
@@ -585,7 +586,7 @@ public class NovaGuild {
 
 			//update tags
 			if(nP.isOnline()) {
-				NovaGuilds.getInstance().tagUtils.updatePrefix(nP.getPlayer());
+				TagUtils.updatePrefix(nP.getPlayer());
 			}
 		}
 

@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -140,7 +141,7 @@ public class CommandGuildWar implements Executor {
 			vars.put("GUILD1",guild.getName());
 			vars.put("GUILD2", cmdGuild.getName());
 			Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
-			plugin.tagUtils.refreshAll();
+			TagUtils.refreshAll();
 			plugin.getRegionManager().checkRaidInit(nPlayer.getPlayer());
 		}
 	}

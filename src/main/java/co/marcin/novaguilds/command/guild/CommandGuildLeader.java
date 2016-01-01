@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -95,6 +96,6 @@ public class CommandGuildLeader implements Executor {
 		Message.BROADCAST_GUILD_SETLEADER.vars(vars).broadcast();
 
 		//Tab and tags
-		plugin.tagUtils.refreshAll();
+		TagUtils.refreshAll();
 	}
 }

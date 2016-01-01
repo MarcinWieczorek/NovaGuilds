@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -169,7 +170,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		guild.addPlayer(nPlayer);
 		nPlayer.setGuild(guild);
 		nPlayer.deleteInvitation(guild);
-		plugin.tagUtils.refreshAll();
+		TagUtils.refreshAll();
 		Message.CHAT_GUILD_JOINED.send(sender);
 		guild.showVaultHologram(nPlayer.getPlayer());
 

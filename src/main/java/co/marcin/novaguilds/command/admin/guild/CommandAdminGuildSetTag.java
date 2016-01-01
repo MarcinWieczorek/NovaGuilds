@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -66,7 +67,7 @@ public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 		//all passed
 		guild.setTag(newtag);
 
-		plugin.tagUtils.refreshAll();
+		TagUtils.refreshAll();
 
 		Message.CHAT_ADMIN_GUILD_SET_TAG.vars(new HashMap<String, String>(){{put("TAG", newtag);}}).send(sender);
 	}

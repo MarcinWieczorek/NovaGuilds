@@ -34,6 +34,7 @@ import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -224,7 +225,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					InventoryUtils.removeItems(player, items);
 
 					//update tag and tabs
-					plugin.tagUtils.updatePrefix((Player)sender);
+					TagUtils.updatePrefix((Player)sender);
 
 					//Update holograms
 					plugin.getHologramManager().refreshTopHolograms();

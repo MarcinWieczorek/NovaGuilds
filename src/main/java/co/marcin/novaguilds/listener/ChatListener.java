@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -131,7 +132,7 @@ public class ChatListener implements Listener {
 					tag = "";
 				}
 				else if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
-					format = plugin.tagUtils.getTag(player) + format;
+					format = TagUtils.getTag(player) + format;
 				}
 			}
 		}

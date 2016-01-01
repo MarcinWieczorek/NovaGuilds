@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -97,7 +98,7 @@ public class CommandGuildAlly implements Executor {
 				Message.CHAT_GUILD_ALLY_ACCEPTED.vars(vars).send(sender);
 
 				//tags
-				plugin.tagUtils.refreshAll();
+				TagUtils.refreshAll();
 			}
 			else { //Inviting
 				if(!allyGuild.isInvitedToAlly(guild)) {
@@ -119,7 +120,7 @@ public class CommandGuildAlly implements Executor {
 
 			Message.BROADCAST_GUILD_ENDALLY.vars(vars).broadcast();
 
-			plugin.tagUtils.refreshAll();
+			TagUtils.refreshAll();
 		}
 	}
 }

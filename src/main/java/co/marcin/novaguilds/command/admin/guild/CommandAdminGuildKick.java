@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -80,6 +81,6 @@ public class CommandAdminGuildKick implements Executor {
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
 		
 		//tab/tag
-		plugin.tagUtils.refreshAll();
+		TagUtils.refreshAll();
 	}
 }

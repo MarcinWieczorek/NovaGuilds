@@ -25,6 +25,7 @@ import co.marcin.novaguilds.basic.Tablist;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
 import org.bukkit.Bukkit;
@@ -73,7 +74,7 @@ public class LoginListener implements Listener {
 		}
 
 		//TabAPI
-		plugin.tagUtils.updatePrefix(player);
+		TagUtils.updatePrefix(player);
 
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {

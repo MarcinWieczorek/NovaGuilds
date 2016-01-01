@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -90,11 +91,11 @@ public class CommandAdminGuildSetLeader implements Executor {
         guild.setLeader(nPlayer);
 
         if(oldleader != null) {
-            plugin.tagUtils.updatePrefix(oldleader);
+            TagUtils.updatePrefix(oldleader);
         }
 
         if(nPlayer.isOnline()) {
-            plugin.tagUtils.updatePrefix(nPlayer.getPlayer());
+            TagUtils.updatePrefix(nPlayer.getPlayer());
         }
 
         Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.vars(vars).send(sender);

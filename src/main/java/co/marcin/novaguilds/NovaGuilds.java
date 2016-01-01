@@ -108,8 +108,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private FlatDataManager flatDataManager;
 	private static final String logPrefix = "[NovaGuilds]";
 
-	public TagUtils tagUtils;
-
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	public final List<NovaGuild> guildRaids = new ArrayList<>();
 	private static boolean raidRunnableRunning = false;
@@ -153,8 +151,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		commandManager = new CommandManager(this);
 		groupManager = new GroupManager(this);
 		rankManager = new RankManager();
-
-		tagUtils = new TagUtils(this);
 		databaseManager = new DatabaseManager(this);
 
 		if(!checkDependencies()) {
@@ -258,7 +254,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//Tablist/tag update
-		tagUtils.refreshAll();
+		TagUtils.refreshAll();
 
 		//save scheduler
 		runSaveScheduler();

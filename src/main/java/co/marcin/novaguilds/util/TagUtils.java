@@ -30,14 +30,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-public class TagUtils {
-	private final NovaGuilds plugin;
+public final class TagUtils {
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
-	public TagUtils(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-	}
-
-	public String getTag(Player namedplayer) { //TODO deleted second arg Player player
+	public static String getTag(Player namedplayer) { //TODO deleted second arg Player player
 		String tag = Config.GUILD_TAG.getString();
 		String guildTag;
 		String rank = "";
@@ -83,19 +79,19 @@ public class TagUtils {
 		team.setPrefix(StringUtils.fixColors(tag));
 	}
 
-	public void updatePrefix(Player p) {
+	public static void updatePrefix(Player p) {
 		for(Player of : Bukkit.getOnlinePlayers()) {
 			setPrefix(of, getTag(of), p);
 		}
 	}
 
-	public void refreshAll() {
+	public static void refreshAll() {
 		for(Player player : Bukkit.getOnlinePlayers()) {
 			updatePrefix(player);
 		}
 	}
 
-	public void refreshGuild(NovaGuild guild) {
+	public static void refreshGuild(NovaGuild guild) {
 		if(guild != null) {
 			for(Player player : guild.getOnlinePlayers()) {
 				updatePrefix(player);
