@@ -281,13 +281,10 @@ public final class StringUtils {
 
 	public static boolean isStringAllowed(String string) {
 		String allowed = Config.GUILD_ALLOWEDCHARS.getString();
-		for(int i=0;i<string.length();i++) {
-			if(allowed.indexOf(string.charAt(i)) == -1) {
-				return false;
-			}
+		if(string.matches(allowed)){
+			return true;
 		}
-
-		return true;
+		return false;
 	}
 
 	public static String getItemList(List<ItemStack> items) {
