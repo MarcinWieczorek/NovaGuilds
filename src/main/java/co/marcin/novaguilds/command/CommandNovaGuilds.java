@@ -55,7 +55,16 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 	public void execute(CommandSender sender, String[] args) {
 		if(args.length == 0) {
 			Map<String, String[]> langInfo = new HashMap<>();
-
+			
+			langInfo.put("zh-cn", new String[]{
+					Message.CHAT_PREFIX.get()+"NovaGuilds 公会插件信息",
+					"&2NovaGuilds &6#&c"+ VersionUtils.buildCurrent,
+					"&2作者: &6Marcin (CTRL) Wieczorek",
+					"&22015 &4波&f兰",
+					"&6网址: &bhttp://novaguilds.pl/",
+					"&2最新插件构建: &6#&c" + VersionUtils.buildLatest
+			});
+			
 			langInfo.put("en-en", new String[]{
 					Message.CHAT_PREFIX.get()+"NovaGuilds Information",
 					"&2NovaGuilds &6#&c"+ VersionUtils.buildCurrent,
