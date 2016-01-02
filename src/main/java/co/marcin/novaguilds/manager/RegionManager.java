@@ -139,6 +139,15 @@ public class RegionManager {
 						novaRegion.setGuildName(res.getString("guild"));
 						novaRegion.setUnChanged();
 
+						if(regions.containsKey(res.getString("guild").toLowerCase())) {
+							if(Config.DELETEINVALID.getBoolean()) {
+								remove(novaRegion, false);
+							}
+
+							LoggerUtils.error("Removed region with doubled name ("+res.getString("guild")+")");
+							continue;
+						}
+
 						regions.put(res.getString("guild").toLowerCase(), novaRegion);
 					}
 					else {
@@ -244,6 +253,10 @@ public class RegionManager {
 	
 	//delete region
 	public void remove(NovaRegion region) {
+		remove(region, true);
+	}
+
+	public void remove(NovaRegion region, boolean removeFromMap) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			plugin.getFlatDataManager().delete(region);
 		}
@@ -257,7 +270,7 @@ public class RegionManager {
 
 			try {
 				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_DELETE);
-				preparedStatement.setString(1,region.getGuild().getName());
+				preparedStatement.setString(1, region.getGuildName());
 				preparedStatement.executeUpdate();
 			}
 			catch(SQLException e) {
@@ -266,8 +279,13 @@ public class RegionManager {
 			}
 		}
 
-		regions.remove(region.getGuildName().toLowerCase());
-		region.getGuild().setRegion(null);
+		if(removeFromMap) {
+			regions.remove(region.getGuildName().toLowerCase());
+		}
+
+		if(region.getGuild() != null) {
+			region.getGuild().setRegion(null);
+		}
 	}
 
 	public void postCheck() {
@@ -284,6 +302,11 @@ public class RegionManager {
 			}
 
 			if(remove) {
+				if(Config.DELETEINVALID.getBoolean()) {
+					remove(region, false);
+					LoggerUtils.info("DELETED region " + region.getGuildName());
+				}
+
 				iterator.remove();
 				i++;
 			}

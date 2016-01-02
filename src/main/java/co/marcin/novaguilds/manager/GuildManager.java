@@ -244,6 +244,15 @@ public class GuildManager {
 						}
 
 						if(novaGuild.getId() > 0) {
+							if(guilds.containsKey(res.getString("name").toLowerCase())) {
+								if(Config.DELETEINVALID.getBoolean()) {
+									delete(novaGuild, false);
+								}
+
+								LoggerUtils.error("Removed guild with doubled name ("+res.getString("name")+")");
+								continue;
+							}
+
 							guilds.put(res.getString("name").toLowerCase(), novaGuild);
 						}
 						else {
@@ -433,6 +442,10 @@ public class GuildManager {
 	}
 
 	public void delete(NovaGuild guild) {
+		delete(guild, true);
+	}
+
+	public void delete(NovaGuild guild, boolean removeFromMap) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			plugin.getFlatDataManager().delete(guild);
 		}
@@ -461,7 +474,10 @@ public class GuildManager {
 			plugin.getRegionManager().remove(guild.getRegion());
 		}
 
-		guilds.remove(guild.getName().toLowerCase());
+		if(removeFromMap) {
+			guilds.remove(guild.getName().toLowerCase());
+		}
+
 		guild.destroy();
 	}
 	
@@ -520,7 +536,12 @@ public class GuildManager {
 			}
 
 			if(remove) {
-				LoggerUtils.info("Unloaded guild "+(guild==null ? "null" : guild.getName()));
+				LoggerUtils.info("Unloaded guild " + (guild == null ? "null" : guild.getName()));
+				if(Config.DELETEINVALID.getBoolean()) {
+					delete(guild, false);
+					LoggerUtils.info("DELETED guild " + (guild == null ? "null" : guild.getName()));
+				}
+
 				if(guild != null) {
 					if(guild.hasRegion()) {
 						guild.getRegion().setGuild(null);

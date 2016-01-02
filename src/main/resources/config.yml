@@ -29,6 +29,7 @@ mysql:
  prefix: novaguilds_
 
 debug: false
+deleteinvalid: false
 
 # =-=-= # =-=-=-= #
 # Available langs #
