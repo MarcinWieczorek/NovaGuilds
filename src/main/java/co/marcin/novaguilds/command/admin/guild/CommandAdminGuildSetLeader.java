@@ -79,19 +79,19 @@ public class CommandAdminGuildSetLeader implements Executor {
             return;
         }
 
-        if(guild.getLeader().getName().equalsIgnoreCase(nPlayer.getName())) { //already leader
+        if(nPlayer.isLeader()) { //already leader
             Message.CHAT_ADMIN_GUILD_SET_LEADER_ALREADYLEADER.vars(vars).send(sender);
             return;
         }
 
-        Player oldleader = plugin.getServer().getPlayer(guild.getLeader().getName());
+        Player oldLeader = guild.getLeader().getPlayer();
 
         guild.getLeader().cancelToolProgress();
 
         guild.setLeader(nPlayer);
 
-        if(oldleader != null) {
-            TagUtils.updatePrefix(oldleader);
+        if(oldLeader != null) {
+            TagUtils.updatePrefix(oldLeader);
         }
 
         if(nPlayer.isOnline()) {

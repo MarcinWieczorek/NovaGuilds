@@ -52,7 +52,7 @@ public final class TagUtils {
 		tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", guildTag);
 
 		if(Config.TABAPI_RANKPREFIX.getBoolean()) {
-			if(nPlayer.getGuild().getLeader().getName().equalsIgnoreCase(namedplayer.getName())) {
+			if(nPlayer.isLeader()) {
 				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 			}
 		}

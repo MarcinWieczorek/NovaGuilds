@@ -56,7 +56,7 @@ public class ChatListener implements Listener {
 			NovaGuild guild = nPlayer.getGuild();
 
 			String rank = "";
-			if(Config.CHAT_ALLY_LEADERPREFIX.getBoolean() && guild.getLeader().getName().equalsIgnoreCase(player.getName())) {
+			if(Config.CHAT_ALLY_LEADERPREFIX.getBoolean() && nPlayer.isLeader()) {
 				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 			}
 
