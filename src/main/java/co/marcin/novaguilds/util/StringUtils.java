@@ -280,20 +280,23 @@ public final class StringUtils {
 	}
 
 	public static boolean isStringAllowed(String string) {
-		if(Config.GUILD_STRINGCHECK_ENABLED.getBoolean() == true){
-			if(Config.GUILD_STRINGCHECK_REGEX.getBoolean() == false){
+		if(Config.GUILD_STRINGCHECK_ENABLED.getBoolean()){
+			if(!Config.GUILD_STRINGCHECK_REGEX.getBoolean()){
 				String allowed = Config.GUILD_STRINGCHECK_PATTERN.getString();
 				for(int i=0;i<string.length();i++) {
 					if(allowed.indexOf(string.charAt(i)) == -1) {
 						return false;
-					} else {
+					}
+					else {
 						return true;
 					}
 				}
-			} else {
+			} 
+			else {
 				if(!string.matches(Config.GUILD_STRINGCHECK_REGEXPATTERN.getString())){
 					return false;
-				} else {
+				}
+				else {
 					return true;
 				}
 			}
