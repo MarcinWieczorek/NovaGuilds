@@ -514,15 +514,14 @@ inventory:
     mob:
      attack: "Atakowanie_potworów"
      ride: "Jeżdzenie_na_zwierzętach"
-    command:
-     abandon: "Rozwiązanie_gildii"
-     kick: "Wyrzucanie_graczy"
-     effect: "Kupowanie_efektów"
-     invite: "Zapraszanie_graczy"
-     pvptoggle: "Włączanie_PVP"
-     bank:
-      pay: "Wpłacanie_do_banku"
-      withdraw: "Wypłacanie_z_banku"
+    abandon: "Rozwiązanie_gildii" 
+    kick: "Wyrzucanie_graczy"
+    effect: "Kupowanie_efektów" 
+    invite: "Zapraszanie_graczy"
+    pvptoggle: "Włączanie_PVP"  
+    bank:
+     pay: "Wpłacanie_do_banku" 
+     withdraw: "Wypłacanie_z_banku" 
     vault:
      access: "Dostęp_do_skarbca"
      put: "Wkładanie_do_skarbca"

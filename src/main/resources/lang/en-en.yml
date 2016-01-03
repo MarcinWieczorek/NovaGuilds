@@ -514,15 +514,14 @@ inventory:
     mob:
      attack: "Attacking_mobs"
      ride: "Riding_mobs"
-    command:
-     abandon: "Abandon_command"
-     kick: "Kick_command"
-     effect: "Effect_command"
-     invite: "Invite_command"
-     pvptoggle: "Toggle_PVP"
-     bank:
-      pay: "Paying_to_bank"
-      withdraw: "Withdrawing_from_the_bank"
+    abandon: "Abandon_command"
+    kick: "Kick_command"
+    effect: "Effect_command"
+    invite: "Invite_command"
+    pvptoggle: "Toggle_PVP"
+    bank:
+     pay: "Paying_to_bank"
+     withdraw: "Withdrawing_from_the_bank"
     vault:
      access: "Access_to_the_vault"
      put: "Putting_to_the_vault"

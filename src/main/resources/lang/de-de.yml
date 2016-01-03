@@ -514,15 +514,14 @@ inventory:
     mob:
      attack: "Mobs_angreifen"
      ride: "Mobs_reiten"
-    command:
-     abandon: "verlassen_befehl"
-     kick: "entfernen_befehl"
-     effect: "effekt_befehl"
-     invite: "einladen_befehl"
-     pvptoggle: "pvp_wechseln"
-     bank:
-      pay: "geld_zur_Bank_zahlen"
-      withdraw: "geld_abheben_von_der_Bank"
+    abandon: "verlassen_befehl"
+    kick: "entfernen_befehl"
+    effect: "effekt_befehl"
+    invite: "einladen_befehl"
+    pvptoggle: "pvp_wechseln"
+    bank:
+     pay: "geld_zur_Bank_zahlen"
+     withdraw: "geld_abheben_von_der_Bank"
     vault:
      access: "zugriff_zum_Tresor"
      put: "Tresor_setzen"
