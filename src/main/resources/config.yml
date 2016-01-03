@@ -175,7 +175,11 @@ guild:
  startslots: 10
  #distance from spawn
  fromspawn: 100
- allowedchars: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+ stringcheck:
+  enabled: true
+  regex: false
+  pattern: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  regexpattern: "[A-Za-z0-9]*"
  settings:
   tag:
    #colored tags

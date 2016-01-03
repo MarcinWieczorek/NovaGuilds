@@ -280,10 +280,17 @@ public final class StringUtils {
 	}
 
 	public static boolean isStringAllowed(String string) {
-		String allowed = Config.GUILD_ALLOWEDCHARS.getString();
-		for(int i=0;i<string.length();i++) {
-			if(allowed.indexOf(string.charAt(i)) == -1) {
-				return false;
+		if(Config.GUILD_STRINGCHECK_ENABLED.getBoolean()) {
+			if(Config.GUILD_STRINGCHECK_REGEX.getBoolean()) {
+				return string.matches(Config.GUILD_STRINGCHECK_REGEXPATTERN.getString());
+			}
+			else {
+				String allowed = Config.GUILD_STRINGCHECK_PATTERN.getString();
+				for(int i=0;i<string.length();i++) {
+					if(allowed.indexOf(string.charAt(i)) == -1) {
+						return false;
+					}
+				}
 			}
 		}
 
