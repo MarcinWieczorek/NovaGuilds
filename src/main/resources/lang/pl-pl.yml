@@ -256,6 +256,7 @@ chat:
   notinguild: "Nie masz gildii!"
   abandoned: "Porzuciles swoja gildie"
   notleader: "Nie jestes liderem"
+  noguildperm: "Nie masz uprawnien!"
   notenoughmoney: "W banku gildii nie ma wystarczajacej ilosci pieniedzy"
   sethome:
    success: "Ustawiono dom gildii!"

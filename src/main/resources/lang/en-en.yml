@@ -256,6 +256,7 @@ chat:
   notinguild: "You don't have a guild"
   abandoned: "Guild abandoned successfully"
   notleader: "You are not the leader"
+  noguildperm: "You don't have enough permissions"
   notenoughmoney: "There is not enough money in guild's bank."
   sethome:
    success: "Guild's home set!"

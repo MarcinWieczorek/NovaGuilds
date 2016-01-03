@@ -256,6 +256,7 @@ chat:
   notinguild: "你尚未拥有一个公会."
   abandoned: "公会成功删除."
   notleader: "您不是公会会长"
+  noguildperm: "You don't have enough permissions"
   notenoughmoney: "公会银行内的存款余额不足."
   sethome:
    success: "公会出生点已设置！"

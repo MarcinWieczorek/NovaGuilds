@@ -256,6 +256,7 @@ chat:
   notinguild: "Du hast keine Gilde"
   abandoned: "Gilde erfolgreich verlassen"
   notleader: "Du bist nicht der Anführer."
+  noguildperm: "You don't have enough permissions"
   notenoughmoney: "Es ist nicht genug Geld auf der Gilden Bank."
   sethome:
    success: "Gilden Haus erfolgreich gesetzt!"
