@@ -520,6 +520,23 @@ inventory:
     effect: "effekt_befehl"
     invite: "einladen_befehl"
     pvptoggle: "pvp_wechseln"
+    ally:
+     cancel: "Cancel_ally"
+     invite:
+      send: "Send_ally_invitation"
+      cancel: "Cancel_ally_invitation"
+     accept: "Accept_ally_invitation"
+    buylife: "Buy_life"
+    buyslot: "Buy_slot"
+    home:
+     set: "Set_home"
+     teleport: "Teleport_home"
+    openinvitation: "Toggle_open_invitation"
+    war:
+     invite:
+      send: "Invite_to_stop_war"
+      accept: "Accept_no-war_invitation"
+     start: "Start_a_war"
     bank:
      pay: "geld_zur_Bank_zahlen"
      withdraw: "geld_abheben_von_der_Bank"

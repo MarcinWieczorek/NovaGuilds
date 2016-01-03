@@ -520,6 +520,23 @@ inventory:
     effect: "Kupowanie_efektów" 
     invite: "Zapraszanie_graczy"
     pvptoggle: "Włączanie_PVP"  
+    ally:
+     cancel: "Zakończenie_sojuszu"
+     invite:
+      send: "Wysłanie_zaproszenia_do_sojuszu"
+      cancel: "Anulowanie_zaproszenia_do_sojuszu"
+     accept: "Akceptacja_zaproszenia_do_sojuszu"
+    buylife: "Kupowanie_żyć"
+    buyslot: "Kupowanie_slotów"
+    home:
+     set: "Ustawianie_domu"
+     teleport: "Teleportacja_do_domu"
+    openinvitation: "Zmiana_statusu_otwartego_zaproszenia"
+    war:
+     invite:
+      send: "Prośba_o_zakończenie_wojny"
+      accept: "Zakończenie_wojny"
+     start: "Rozpoczęcie_wojny"
     bank:
      pay: "Wpłacanie_do_banku" 
      withdraw: "Wypłacanie_z_banku" 
