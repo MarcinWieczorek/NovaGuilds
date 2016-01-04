@@ -318,8 +318,6 @@ public class GuildManager {
 				if(id > 0) {
 					guild.setId(id);
 					guilds.put(guild.getName().toLowerCase(), guild);
-					NovaPlayer leader = guild.getLeader();
-					leader.setGuild(guild);
 					guild.setUnchanged();
 				}
 			}
