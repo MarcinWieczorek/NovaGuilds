@@ -515,6 +515,7 @@ inventory:
     mob:
      attack: "Atakowanie_potworów"
      ride: "Jeżdzenie_na_zwierzętach"
+    interact: "Interakcja_w_regionach"
     abandon: "Rozwiązanie_gildii" 
     kick: "Wyrzucanie_graczy"
     effect: "Kupowanie_efektów" 

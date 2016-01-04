@@ -25,6 +25,8 @@ public enum GuildPermission {
 	MOB_ATTACK,
 	MOB_RIDE,
 
+	INTERACT,
+
 	ABANDON,
 	KICK,
 	EFFECT,
