@@ -74,7 +74,9 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 
 	@Override
 	public void onClick(InventoryClickEvent event) {
-		event.setCancelled(true);
+		if(slotPlayersMap.get(event.getRawSlot()) == null) {
+			return;
+		}
 
 		new GUIInventoryGuildPlayerSettings(slotPlayersMap.get(event.getRawSlot())).open(NovaPlayer.get(event.getWhoClicked()));
 	}
