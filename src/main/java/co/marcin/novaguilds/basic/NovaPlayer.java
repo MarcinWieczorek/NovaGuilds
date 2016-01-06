@@ -273,6 +273,9 @@ public class NovaPlayer {
 
 	public void setGuildRank(NovaRank guildRank) {
 		this.guildRank = guildRank;
+		if(!guildRank.getMembers().contains(this)) {
+			guildRank.addMember(this);
+		}
 	}
 	
 	//check stuff

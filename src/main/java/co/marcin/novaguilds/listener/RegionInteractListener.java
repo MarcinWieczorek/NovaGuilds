@@ -93,23 +93,13 @@ public class RegionInteractListener implements Listener {
 		}
 
 		if(!denyInteract.contains(clickedBlockName) && !denyUse.contains(usedItemName)) {
-			LoggerUtils.debug("6");
 			return;
 		}
 
-		LoggerUtils.debug("1");
-
 		if(nPlayer.hasGuild()) {
-			LoggerUtils.debug("2");
 			if(guild.isMember(nPlayer)) {
-				LoggerUtils.debug("3");
 				if(nPlayer.hasPermission(GuildPermission.INTERACT)) {
-					LoggerUtils.debug("4");
 					if(event.getAction() != Action.RIGHT_CLICK_BLOCK || (!plugin.getGuildManager().isVaultBlock(event.getClickedBlock()) || nPlayer.hasPermission(GuildPermission.VAULT_ACCESS))) {
-						LoggerUtils.debug("5");
-						LoggerUtils.debug(clickedBlockName);
-						for(String s : denyInteract) { System.out.print(s+";"); }
-						for(String s : denyUse) { System.out.print(s+";"); }
 						return;
 					}
 				}
@@ -118,7 +108,6 @@ public class RegionInteractListener implements Listener {
 				return;
 			}
 		}
-		LoggerUtils.debug("7");
 
 
 		event.setCancelled(true);

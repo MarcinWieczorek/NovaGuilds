@@ -53,7 +53,6 @@ public class GroupManager {
 		String groupName = "default";
 
 		if(player == null) {
-			LoggerUtils.debug("Player is null, return is default group");
 			return getGroup(groupName);
 		}
 

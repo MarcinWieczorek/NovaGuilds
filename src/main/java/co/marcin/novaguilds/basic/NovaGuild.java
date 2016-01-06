@@ -481,7 +481,6 @@ public class NovaGuild {
 			if(getLeaderName()!=null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
 				setLeader(nPlayer);
 				leaderName = null;
-				LoggerUtils.debug("Changed leader " + name + "=" + nPlayer.getName());
 			}
 		}
 	}

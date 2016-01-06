@@ -25,7 +25,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -54,7 +53,6 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 		event.setCancelled(true);
 		int slot = event.getRawSlot();
 
-		LoggerUtils.debug(String.valueOf("slot: "+slot));
 		if(event.getInventory() == null || !slotPermissionsMap.containsKey(slot)) {
 			return;
 		}

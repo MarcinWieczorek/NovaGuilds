@@ -87,7 +87,6 @@ public final class IOUtils {
 			for(File file : filesList) {
 				if(file.isFile()) {
 					String name = file.getName();
-					LoggerUtils.debug(name);
 					if(org.apache.commons.lang.StringUtils.contains(name, '.')) {
 						name = org.apache.commons.lang.StringUtils.split(name, '.')[0];
 						list.add(name);

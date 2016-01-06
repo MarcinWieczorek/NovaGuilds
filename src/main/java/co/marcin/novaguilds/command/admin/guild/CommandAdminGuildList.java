@@ -22,7 +22,6 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -93,10 +92,6 @@ public class CommandAdminGuildList implements Executor {
 		}
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			LoggerUtils.debug(i+"");
-			LoggerUtils.debug(display+"");
-			LoggerUtils.debug(i + 1 + ">" + (page - 1) * perpage);
-
 			if((i+1>(page-1)*perpage || page==1) && !display) {
 				display = true;
 				i=0;
@@ -116,7 +111,6 @@ public class CommandAdminGuildList implements Executor {
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
 				if(i+1 >= perpage) {
-					LoggerUtils.debug("break");
 					break;
 				}
 			}

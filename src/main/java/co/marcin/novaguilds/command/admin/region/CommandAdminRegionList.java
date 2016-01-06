@@ -22,7 +22,6 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -90,9 +89,6 @@ public class CommandAdminRegionList implements Executor {
 
 		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
 			vars.clear();
-			LoggerUtils.debug(i + "");
-			LoggerUtils.debug(display+"");
-			LoggerUtils.debug(i+1+">"+(page-1)*perpage);
 
 			if((i+1>(page-1)*perpage || page==1) && !display) {
 				display = true;
@@ -108,7 +104,6 @@ public class CommandAdminRegionList implements Executor {
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
 				if(i+1 >= perpage) {
-					LoggerUtils.debug("break");
 					break;
 				}
 			}

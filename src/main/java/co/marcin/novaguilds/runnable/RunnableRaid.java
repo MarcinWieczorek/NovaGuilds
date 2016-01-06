@@ -112,9 +112,5 @@ public class RunnableRaid implements Runnable {
 			plugin.worker.schedule(this, 1, TimeUnit.SECONDS);
 			NovaGuilds.setRaidRunnableRunning(true);
 		}
-		else {
-			LoggerUtils.debug("size: " + plugin.guildRaids.size());
-			LoggerUtils.debug("enabled: " + plugin.isEnabled());
-		}
 	}
 }

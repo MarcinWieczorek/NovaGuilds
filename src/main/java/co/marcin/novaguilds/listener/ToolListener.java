@@ -27,7 +27,6 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -81,7 +80,6 @@ public class ToolListener implements Listener {
 			if(nPlayer.getRegionMode() && nPlayer.hasPermission(GuildPermission.REGION_RESIZE) && nPlayer.getGuild().hasRegion()) {
 				RegionUtils.highlightRegion(player, region, Config.REGION_MATERIALS_RESIZE_CORNER.getMaterial());
 				nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
-				LoggerUtils.debug("sent golden highlight"+Config.REGION_MATERIALS_RESIZE_CORNER.getMaterial().name());
 			}
 
 			Message mode = nPlayer.getRegionMode() ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;

@@ -323,12 +323,9 @@ public class RegionManager {
 		
 		int dif_x = Math.abs(x1 - x2) +1;
 		int dif_z = Math.abs(z1 - z2) +1;
-		LoggerUtils.debug(dif_x+","+dif_z);
 		
 		int minsize = Config.REGION_MINSIZE.getInt();
 		int maxsize = Config.REGION_MAXSIZE.getInt();
-
-		LoggerUtils.debug(minsize + "," + maxsize);
 
 		if(dif_x < minsize || dif_z < minsize) {
 			return RegionValidity.TOOSMALL;
@@ -412,29 +409,22 @@ public class RegionManager {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;
 		int radius1 = Math.round((int)Math.sqrt((int)(Math.pow(width,2) + Math.pow(height,2))) /2);
-		LoggerUtils.debug(String.valueOf(width + " " + height + " " + radius1));
 
 		int min = radius1 + Config.REGION_MINDISTANCE.getInt();
-		LoggerUtils.debug("min="+min);
 		Location centerLocation = RegionUtils.getCenterLocation(l1, l2);
-		LoggerUtils.debug("center="+centerLocation.toString());
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
 			if(guildLoop.getSpawnPoint().getWorld().equals(l1.getWorld())) {
 				int radius2 = 0;
-				LoggerUtils.debug("checking guild " + guildLoop.getName());
 
 				if(guildLoop.hasRegion()) {
 					radius2 = guildLoop.getRegion().getDiagonal() / 2;
-					LoggerUtils.debug(String.valueOf(guildLoop.getRegion().getWidth() + " " + guildLoop.getRegion().getHeight() + " " + radius2));
 				}
 
 				centerLocation.setY(guildLoop.getSpawnPoint().getY());
 
 				double distance = centerLocation.distance(guildLoop.getSpawnPoint());
-				LoggerUtils.debug("distance=" + distance);
 				if(distance < min + radius2) {
-					LoggerUtils.debug("too close " + guildLoop.getName());
 					list.add(guildLoop);
 				}
 			}
@@ -508,7 +498,6 @@ public class RegionManager {
 						guild.getRaid().resetProgress();
 						guild.removeRaidBar();
 						nPlayer.getGuild().removeRaidBar();
-						LoggerUtils.debug("progress: " + guild.getRaid().getProgress());
 						guild.getRaid().updateInactiveTime();
 					}
 				}

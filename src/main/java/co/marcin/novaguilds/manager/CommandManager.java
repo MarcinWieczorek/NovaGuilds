@@ -233,11 +233,8 @@ public class CommandManager {
 		ConfigurationSection sectionGUI = plugin.getConfig().getConfigurationSection("gguicmd");
 
 		for(String key : sectionGUI.getKeys(false)) {
-			LoggerUtils.debug(key);
 			String gcmd = key.replaceAll("_", " ");
-			LoggerUtils.debug(gcmd);
 			ItemStack is = ItemStackUtils.stringToItemStack(sectionGUI.getString(key));
-			if(is != null) LoggerUtils.debug(is.toString());
 
 			if(is != null) {
 				if(key.equalsIgnoreCase("top")) {

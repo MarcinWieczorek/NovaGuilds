@@ -22,7 +22,6 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import net.minecraft.server.v1_7_R4.PacketPlayInUseEntity;
 import org.bukkit.entity.Entity;
@@ -54,7 +53,6 @@ public class PacketListener implements Listener {
 			}
 
 			if(entity == null) {
-				LoggerUtils.debug("PacketPlayInUseEntity - Entity is null. ID=" + id);
 				return;
 			}
 

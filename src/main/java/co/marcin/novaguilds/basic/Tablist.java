@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
@@ -100,7 +99,6 @@ public class Tablist {
 
 			if(!lines.contains(line)) {
 				lines.add(StringUtils.fixColors(line));
-				LoggerUtils.debug("added line: " + line);
 			}
 		}
 	}

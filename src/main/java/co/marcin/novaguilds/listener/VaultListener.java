@@ -121,15 +121,12 @@ public class VaultListener implements Listener {
 		NovaPlayer nPlayer = NovaPlayer.get(player);
 
 		if(plugin.getGuildManager().isVaultBlock(event.getBlock())) {
-			LoggerUtils.debug("0");
 			Chest chest = (Chest) event.getBlock().getState();
 
 			if(InventoryUtils.isEmpty(chest.getInventory())) {
-				LoggerUtils.debug("1");
 				event.setCancelled(true);
 
 				if(!nPlayer.hasPermission(GuildPermission.VAULT_BREAK)) {
-					LoggerUtils.debug("2");
 					Message.CHAT_GUILD_VAULT_BREAK_NOTLEADER.send(player);
 					return;
 				}
@@ -138,7 +135,6 @@ public class VaultListener implements Listener {
 					nPlayer.getGuild().getVaultHologram().delete();
 					nPlayer.getGuild().setVaultHologram(null);
 				}
-				LoggerUtils.debug("3");
 
 				event.getBlock().setType(Material.AIR);
 				event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), Config.VAULT_ITEM.getItemStack());
@@ -147,7 +143,6 @@ public class VaultListener implements Listener {
 				Message.CHAT_GUILD_VAULT_BREAK_SUCCESS.send(player);
 			}
 			else {
-				LoggerUtils.debug("4");
 				event.setCancelled(true);
 				Message.CHAT_GUILD_VAULT_BREAK_NOTEMPTY.send(player);
 			}

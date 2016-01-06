@@ -31,7 +31,6 @@ import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.InventoryUtils;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -188,7 +187,6 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 			region.setWorld(playerLocation.getWorld());
 
 			regionValid = plugin.getRegionManager().checkRegionSelect(c1, c2);
-			LoggerUtils.debug(regionValid.name());
 		}
 
 		switch(regionValid) {
