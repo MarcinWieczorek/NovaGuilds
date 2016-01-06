@@ -45,6 +45,6 @@ CREATE TABLE `{SQLPREFIX}ranks` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `name` tinytext NOT NULL,
   `guild` tinytext NOT NULL,
-  `permissions` tinytext NOT NULL,
-  `members` tinytext NOT NULL
+  `permissions` text NOT NULL,
+  `members` text NOT NULL
 );
