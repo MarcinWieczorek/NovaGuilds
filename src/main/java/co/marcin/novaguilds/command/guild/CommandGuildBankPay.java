@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -56,6 +57,11 @@ public class CommandGuildBankPay implements Executor {
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
+
+		if(!nPlayer.hasPermission(GuildPermission.BANK_PAY)) {
+			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+			return;
+		}
 
 		if(args.length==0 || !NumberUtils.isNumeric(args[0])) {
 			Message.CHAT_GUILD_BANK_ENTERAMOUNT.send(sender);

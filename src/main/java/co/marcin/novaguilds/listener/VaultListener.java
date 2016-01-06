@@ -22,8 +22,10 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.InventoryUtils;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -87,51 +89,65 @@ public class VaultListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onInventoryClick(InventoryClickEvent event) {
-		if(event.getInventory() != null) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
-			String nameVault = Config.VAULT_ITEM.getItemStack().getItemMeta().getDisplayName();
-
-			if(event.getInventory().getTitle()!=null && event.getInventory().getTitle().equals(nameVault)) {
-				if(event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
-					if(nPlayer.hasGuild()) {
-						if(!nPlayer.isLeader() && Config.VAULT_ONLYLEADERTAKE.getBoolean()) {
-							if(dissalowedActions.contains(event.getAction())) {
-								event.setCancelled(true);
-							}
-						}
-					}
-				}
-			}
+		if(event.getInventory() == null) {
+			return;
 		}
+
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
+		String nameVault = Config.VAULT_ITEM.getItemStack().getItemMeta().getDisplayName();
+
+		if(event.getInventory().getTitle()==null || !event.getInventory().getTitle().equals(nameVault)) {
+			return;
+		}
+
+		if(!event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
+			return;
+		}
+
+		if(!dissalowedActions.contains(event.getAction()) && nPlayer.hasPermission(GuildPermission.VAULT_PUT)) {
+			return;
+		}
+
+		if(nPlayer.hasPermission(GuildPermission.VAULT_TAKE)) {
+			return;
+		}
+
+		event.setCancelled(true);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = NovaPlayer.get(player);
 
 		if(plugin.getGuildManager().isVaultBlock(event.getBlock())) {
+			LoggerUtils.debug("0");
 			Chest chest = (Chest) event.getBlock().getState();
+
 			if(InventoryUtils.isEmpty(chest.getInventory())) {
-				if(nPlayer.isLeader()) {
-					if(nPlayer.getGuild().getVaultHologram() != null) {
-						nPlayer.getGuild().getVaultHologram().delete();
-						nPlayer.getGuild().setVaultHologram(null);
-					}
+				LoggerUtils.debug("1");
+				event.setCancelled(true);
 
-					event.setCancelled(true);
-					event.getBlock().setType(Material.AIR);
-					event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), Config.VAULT_ITEM.getItemStack());
-
-					nPlayer.getGuild().setVaultLocation(null);
-					Message.CHAT_GUILD_VAULT_BREAK_SUCCESS.send(player);
-				}
-				else {
-					event.setCancelled(true);
+				if(!nPlayer.hasPermission(GuildPermission.VAULT_BREAK)) {
+					LoggerUtils.debug("2");
 					Message.CHAT_GUILD_VAULT_BREAK_NOTLEADER.send(player);
+					return;
 				}
+
+				if(nPlayer.getGuild().getVaultHologram() != null) {
+					nPlayer.getGuild().getVaultHologram().delete();
+					nPlayer.getGuild().setVaultHologram(null);
+				}
+				LoggerUtils.debug("3");
+
+				event.getBlock().setType(Material.AIR);
+				event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), Config.VAULT_ITEM.getItemStack());
+
+				nPlayer.getGuild().setVaultLocation(null);
+				Message.CHAT_GUILD_VAULT_BREAK_SUCCESS.send(player);
 			}
 			else {
+				LoggerUtils.debug("4");
 				event.setCancelled(true);
 				Message.CHAT_GUILD_VAULT_BREAK_NOTEMPTY.send(player);
 			}
@@ -159,30 +175,30 @@ public class VaultListener implements Listener {
 
 				if(plugin.getGuildManager().isVaultItemStack(event.getItemInHand())) {
 					if(nPlayer.hasGuild()) {
-						if(nPlayer.isLeader()) {
-							if(nPlayer.getGuild().getVaultLocation() == null) {
-								NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
-								if(region != null && region.getGuild().isMember(nPlayer)) {
-									if(player.getGameMode() == GameMode.CREATIVE) {
-										player.getInventory().remove(event.getItemInHand());
-									}
+						if(!nPlayer.hasPermission(GuildPermission.VAULT_PLACE)) {
+							event.setCancelled(true);
+							Message.CHAT_GUILD_VAULT_PLACE_NOTLEADER.send(player);
+							return;
+						}
 
-									nPlayer.getGuild().setVaultLocation(event.getBlockPlaced().getLocation());
-									plugin.getGuildManager().appendVaultHologram(nPlayer.getGuild());
-									Message.CHAT_GUILD_VAULT_PLACE_SUCCESS.send(player);
+						if(nPlayer.getGuild().getVaultLocation() == null) {
+							NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
+							if(region != null && region.getGuild().isMember(nPlayer)) {
+								if(player.getGameMode() == GameMode.CREATIVE) {
+									player.getInventory().remove(event.getItemInHand());
 								}
-								else {
-									Message.CHAT_GUILD_VAULT_OUTSIDEREGION.send(player);
-									event.setCancelled(true);
-								}
+
+								nPlayer.getGuild().setVaultLocation(event.getBlockPlaced().getLocation());
+								plugin.getGuildManager().appendVaultHologram(nPlayer.getGuild());
+								Message.CHAT_GUILD_VAULT_PLACE_SUCCESS.send(player);
 							}
 							else {
-								Message.CHAT_GUILD_VAULT_PLACE_EXISTS.send(player);
+								Message.CHAT_GUILD_VAULT_OUTSIDEREGION.send(player);
 								event.setCancelled(true);
 							}
 						}
 						else {
-							Message.CHAT_GUILD_VAULT_PLACE_NOTLEADER.send(player);
+							Message.CHAT_GUILD_VAULT_PLACE_EXISTS.send(player);
 							event.setCancelled(true);
 						}
 					}

@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
@@ -77,7 +78,7 @@ public class ToolListener implements Listener {
 			nPlayer.cancelToolProgress();
 
 			//highlight corners for resizing
-			if(nPlayer.getRegionMode() && nPlayer.isLeader() && nPlayer.getGuild().hasRegion()) {
+			if(nPlayer.getRegionMode() && nPlayer.hasPermission(GuildPermission.REGION_RESIZE) && nPlayer.getGuild().hasRegion()) {
 				RegionUtils.highlightRegion(player, region, Config.REGION_MATERIALS_RESIZE_CORNER.getMaterial());
 				nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
 				LoggerUtils.debug("sent golden highlight"+Config.REGION_MATERIALS_RESIZE_CORNER.getMaterial().name());
@@ -121,7 +122,7 @@ public class ToolListener implements Listener {
 					return;
 				}
 
-				if(region.getGuild().isMember(nPlayer) && nPlayer.isLeader()) {
+				if(region.getGuild().isMember(nPlayer) && nPlayer.hasPermission(GuildPermission.REGION_RESIZE)) {
 					int corner = 1;
 
 					if(cornerDistance[0] < 1) {

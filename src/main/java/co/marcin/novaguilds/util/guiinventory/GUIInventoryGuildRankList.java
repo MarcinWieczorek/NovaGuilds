@@ -77,6 +77,12 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 
 	@Override
 	public void onClick(InventoryClickEvent event) {
+		NovaPlayer nPlayer = NovaPlayer.get(event.getWhoClicked());
+
+		if(!nPlayer.hasPermission(GuildPermission.RANK_EDIT)) {
+			return;
+		}
+
 		ItemStack clickedItemStack = event.getCurrentItem();
 
 		if(clickedItemStack.equals(addRankItem)) {
@@ -95,7 +101,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 			NovaRank rank = slotRanksMap.get(event.getRawSlot());
 
 			if(rank != null) {
-				new GUIInventoryGuildPermissionSelect(rank).open(NovaPlayer.get(event.getWhoClicked()));
+				new GUIInventoryGuildPermissionSelect(rank).open(nPlayer);
 			}
 		}
 	}

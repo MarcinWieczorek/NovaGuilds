@@ -20,6 +20,7 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
@@ -53,8 +54,8 @@ public class CommandGuildPvpToggle implements Executor {
 			return;
 		}
 
-		if(!nPlayer.isLeader()) {
-			Message.CHAT_GUILD_NOTLEADER.send(sender);
+		if(!nPlayer.hasPermission(GuildPermission.PVPTOGGLE)) {
+			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
 

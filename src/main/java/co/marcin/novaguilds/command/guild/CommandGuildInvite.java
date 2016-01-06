@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.Command;
@@ -67,8 +68,8 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 			return;
 		}
 
-		if(!nPlayer.isLeader()) { //only leaders can invite
-			Message.CHAT_GUILD_NOTLEADER.send(sender);
+		if(!nPlayer.hasPermission(GuildPermission.INVITE)) {
+			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
 

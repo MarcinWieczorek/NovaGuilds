@@ -20,6 +20,7 @@ package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
@@ -76,7 +77,13 @@ public class GUIInventoryGuildMenu implements GUIInventory {
 		playersItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PLAYERSLIST_ICONITEM.get());
 
 		if(nPlayer.hasGuild()) {
-			inventory.addItem(ranksItem, playersItem);
+			if(playersItem != null) {
+				inventory.addItem(playersItem);
+			}
+
+			if(ranksItem != null && nPlayer.hasPermission(GuildPermission.RANK_EDIT)) {
+				inventory.addItem(ranksItem);
+			}
 		}
 	}
 }

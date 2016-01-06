@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
@@ -83,12 +84,6 @@ public class CommandGuildWar implements Executor {
 			return;
 		}
 
-		//adding wars and no war invs
-		if(!nPlayer.isLeader()) {
-			Message.CHAT_GUILD_NOTLEADER.send(sender);
-			return;
-		}
-
 		String guildname = args[0];
 
 		NovaGuild cmdGuild = plugin.getGuildManager().getGuildFind(guildname);
@@ -102,6 +97,11 @@ public class CommandGuildWar implements Executor {
 			Map<String, String> vars = new HashMap<>();
 
 			if(guild.isNoWarInvited(cmdGuild)) { //accepting no-war
+				if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_ACCEPT)) {
+					Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+					return;
+				}
+
 				guild.removeNoWarInvitation(cmdGuild);
 				guild.removeWar(cmdGuild);
 				cmdGuild.removeWar(guild);
@@ -112,6 +112,11 @@ public class CommandGuildWar implements Executor {
 				Message.BROADCAST_GUILD_NOWAR.vars(vars).broadcast();
 			}
 			else { //inviting to no-war
+				if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_SEND)) {
+					Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+					return;
+				}
+
 				cmdGuild.addNoWarInvitation(guild);
 				vars.put("GUILDNAME", cmdGuild.getName());
 				Message.CHAT_GUILD_WAR_NOWARINV_SUCCESS.vars(vars).send(sender);
@@ -123,6 +128,11 @@ public class CommandGuildWar implements Executor {
 			}
 		}
 		else { //new war
+			if(!nPlayer.hasPermission(GuildPermission.WAR_START)) {
+				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+				return;
+			}
+
 			if(guild.getName().equalsIgnoreCase(cmdGuild.getName())) {
 				Message.CHAT_GUILD_WAR_YOURGUILDWAR.send(sender);
 				return;

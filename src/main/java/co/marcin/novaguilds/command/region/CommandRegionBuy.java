@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -68,8 +69,8 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 
 		NovaGuild guild = nPlayer.getGuild();
 
-		if(!nPlayer.isLeader()) {
-			Message.CHAT_GUILD_NOTLEADER.send(sender);
+		if(!nPlayer.hasPermission(nPlayer.isResizing() ? GuildPermission.REGION_RESIZE : GuildPermission.REGION_CREATE)) {
+			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
 

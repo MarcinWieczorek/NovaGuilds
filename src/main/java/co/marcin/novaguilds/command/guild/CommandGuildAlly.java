@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TagUtils;
@@ -74,11 +75,6 @@ public class CommandGuildAlly implements Executor {
 			return;
 		}
 
-		if(!guild.isLeader(sender)) {
-			Message.CHAT_GUILD_NOTLEADER.send(sender);
-			return;
-		}
-
 		Map<String, String> vars = new HashMap<>();
 		vars.put("GUILDNAME",guild.getName());
 		vars.put("ALLYNAME", allyGuild.getName());
@@ -90,6 +86,11 @@ public class CommandGuildAlly implements Executor {
 			}
 
 			if(guild.isInvitedToAlly(allyGuild)) { //Accepting
+				if(!nPlayer.hasPermission(GuildPermission.ALLY_ACCEPT)) {
+					Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+					return;
+				}
+
 				allyGuild.addAlly(guild);
 				guild.addAlly(allyGuild);
 				guild.removeAllyInvitation(allyGuild);
@@ -102,11 +103,21 @@ public class CommandGuildAlly implements Executor {
 			}
 			else { //Inviting
 				if(!allyGuild.isInvitedToAlly(guild)) {
+					if(!nPlayer.hasPermission(GuildPermission.ALLY_INVITE_SEND)) {
+						Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+						return;
+					}
+
 					allyGuild.addAllyInvitation(guild);
 					Message.CHAT_GUILD_ALLY_INVITED.vars(vars).send(sender);
 					Message.CHAT_GUILD_ALLY_NOTIFYGUILD.vars(vars).broadcast(allyGuild);
 				}
 				else { //cancel inv
+					if(!nPlayer.hasPermission(GuildPermission.ALLY_INVITE_CANCEL)) {
+						Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+						return;
+					}
+
 					allyGuild.removeAllyInvitation(guild);
 
 					Message.CHAT_GUILD_ALLY_CANCELED.vars(vars).send(sender);
@@ -115,6 +126,11 @@ public class CommandGuildAlly implements Executor {
 			}
 		}
 		else { //UN-ALLY
+			if(!nPlayer.hasPermission(GuildPermission.ALLY_CANCEL)) {
+				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+				return;
+			}
+
 			guild.removeAlly(allyGuild);
 			allyGuild.removeAlly(guild);
 

@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -64,7 +65,7 @@ public class CommandGuildBankWithdraw implements Executor {
 
 		NovaGuild guild = nPlayer.getGuild();
 
-		if(!nPlayer.isLeader()) {
+		if(!nPlayer.hasPermission(GuildPermission.BANK_WITHDRAW)) {
 			Message.CHAT_GUILD_BANK_WITHDRAW_NOTLEADER.send(sender);
 			return;
 		}

@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -68,8 +69,8 @@ public class CommandGuildHome implements Executor {
 				return;
 			}
 
-			if(!nPlayer.isLeader()) {
-				Message.CHAT_GUILD_NOTLEADER.send(sender);
+			if(!nPlayer.hasPermission(GuildPermission.HOME_SET)) {
+				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 				return;
 			}
 
@@ -89,6 +90,11 @@ public class CommandGuildHome implements Executor {
 			Message.CHAT_GUILD_SETHOME_SUCCESS.send(sender);
 		}
 		else {
+			if(!nPlayer.hasPermission(GuildPermission.HOME_TELEPORT)) {
+				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+				return;
+			}
+
 			//items
 			List<ItemStack> homeItems = plugin.getGroupManager().getGroup(sender).getGuildHomeItems();
 

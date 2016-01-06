@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -58,8 +59,8 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 			return true;
 		}
 
-		if(!nPlayer.isLeader()) {
-			Message.CHAT_GUILD_NOTLEADER.send(sender);
+		if(!nPlayer.hasPermission(GuildPermission.ABANDON)) {
+			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return true;
 		}
 
@@ -85,9 +86,8 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 			return;
 		}
 
-		if(!nPlayer.isLeader()) {
-
-			Message.CHAT_GUILD_NOTLEADER.send(sender);
+		if(!nPlayer.hasPermission(GuildPermission.ABANDON)) {
+			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
 
