@@ -145,5 +145,7 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 		if(price > 0) {
 			guild.takeMoney(price);
 		}
+
+		nPlayer.cancelToolProgress();
 	}
 }
