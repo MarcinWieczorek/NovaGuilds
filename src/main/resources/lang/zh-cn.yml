@@ -256,7 +256,7 @@ chat:
   notinguild: "你尚未拥有一个公会."
   abandoned: "公会成功删除."
   notleader: "您不是公会会长"
-  noguildperm: "You don't have enough permissions"
+  noguildperm: "你没有足够的权限"
   notenoughmoney: "公会银行内的存款余额不足."
   sethome:
    success: "公会出生点已设置！"
@@ -490,71 +490,71 @@ inventory:
   name: "公会菜单"
  gui:
   playerslist:
-   title: "Players list"
-   iconitem: "SKULL_ITEM:3 1 name:Players_list"
+   title: "队员列表"
+   iconitem: "SKULL_ITEM:3 1 name:队员列表"
    rowitem: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
   playersettings:
-   title: "{PLAYERNAME} settings"
+   title: "{PLAYERNAME} 个人设置"
    item:
-    rank: "BOOK_AND_QUILL 1 name:Set_rank lore:{RANKNAME}"
-    kick: "FERMENTED_SPIDER_EYE 1 name:Kick"
+    rank: "BOOK_AND_QUILL 1 name:设置头衔 lore:{RANKNAME}"
+    kick: "FERMENTED_SPIDER_EYE 1 name:移除"
   ranks:
-   title: "Ranks"
-   iconitem: "EMPTY_MAP 1 name:Ranks"
+   title: "头衔"
+   iconitem: "EMPTY_MAP 1 name:头衔"
    rowitem: "BOOK 1 name:{RANKNAME}"
-   additem: "BOOK_AND_QUILL 1 name:Add_rank"
+   additem: "BOOK_AND_QUILL 1 name:提拔"
   permissions:
-   title: "Editing rank: &l{RANKNAME}"
+   title: "编辑头衔: &l{RANKNAME}"
    item:
     enabled: "STAINED_GLASS_PANE:5 1 name:{PERMNAME}"
     disabled: "STAINED_GLASS_PANE:14 1 name:{PERMNAME}"
    names:
     block:
-     break: "Breaking_blocks"
-     place: "Placing_blocks"
+     break: "破坏方块"
+     place: "放置方块"
     mob:
-     attack: "Attacking_mobs"
-     ride: "Riding_mobs"
-     leash: "Leashing horses"
-    interact: "Interacting_at_region"
-    abandon: "Abandon_command"
-    kick: "Kick_command"
-    effect: "Effect_command"
-    invite: "Invite_command"
-    pvptoggle: "Toggle_PVP"
+     attack: "攻击怪物"
+     ride: "骑乘怪物"
+     leash: "拴生物"
+    interact: "互交"
+    abandon: "废除"
+    kick: "移除会员"
+    effect: "效果"
+    invite: "邀请"
+    pvptoggle: "开启/关闭PVP"
     ally:
-     cancel: "Cancel_ally"
+     cancel: "取消联盟"
      invite:
-      send: "Send_ally_invitation"
-      cancel: "Cancel_ally_invitation"
-     accept: "Accept_ally_invitation"
-    buylife: "Buy_life"
-    buyslot: "Buy_slot"
+      send: "发送联盟邀请"
+      cancel: "取消所有已发送的联盟邀请"
+     accept: "接受联盟邀请"
+    buylife: "购买基地血量"
+    buyslot: "增加最大限制"
     home:
-     set: "Set_home"
-     teleport: "Teleport_home"
-    openinvitation: "Toggle_open_invitation"
+     set: "设置基地"
+     teleport: "传送至基地"
+    openinvitation: "开启/关闭邀请界面"
     war:
      invite:
-      send: "Invite_to_stop_war"
-      accept: "Accept_no-war_invitation"
-     start: "Start_a_war"
+      send: "发送和平协议"
+      accept: "接受对方的和平协议"
+     start: "宣战"
     bank:
-     pay: "Paying_to_bank"
-     withdraw: "Withdrawing_from_the_bank"
+     pay: "存款"
+     withdraw: "取款"
     vault:
-     access: "Access_to_the_vault"
-     put: "Putting_to_the_vault"
-     take: "Taking_from_the_vault"
-     place: "Placing_the_vault"
-     break: "Breaking_the_vault"
+     access: "打开金库"
+     put: "向金库存钱"
+     take: "从金库取钱"
+     place: "放置金库"
+     break: "破坏金库"
     region:
-     create: "Creating_regions"
-     remove: "Removing_regions"
-     resize: "Resizing_regions"
+     create: "创建区域"
+     remove: "移除区域"
+     resize: "重设区域大小"
     rank:
-     set: "Setting_ranks"
-     edit: "Editing_ranks"
+     set: "设置头衔"
+     edit: "编辑头衔"
 
 timeunit:
  second:
