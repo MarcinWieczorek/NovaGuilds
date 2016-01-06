@@ -18,9 +18,12 @@
 
 package co.marcin.novaguilds.basic;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 
 public class NovaRegion {
 	private final Location[] corners = new Location[2];
@@ -34,6 +37,18 @@ public class NovaRegion {
 	private int width = 0;
 	private int height = 0;
 	private int size = 0;
+
+	public static NovaRegion get(Location location) {
+		return NovaGuilds.getInstance().getRegionManager().getRegion(location);
+	}
+
+	public static NovaRegion get(Block block) {
+		return get(block.getLocation());
+	}
+
+	public static NovaRegion get(Entity entity) {
+		return get(entity.getLocation());
+	}
 	
 	public World getWorld() {
 		return world;
