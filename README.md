@@ -282,6 +282,10 @@ mvn clean install
             <td>/g</td>
         </tr>
         <tr>
+            <td>novaguilds.guild.abandon</td>
+            <td>/abandon</td>
+        </tr>
+        <tr>
             <td>novaguilds.guild.leave</td>
             <td>/leave</td>
         </tr>
