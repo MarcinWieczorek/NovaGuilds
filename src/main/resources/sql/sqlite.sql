@@ -46,5 +46,7 @@ CREATE TABLE `{SQLPREFIX}ranks` (
   `name` tinytext NOT NULL,
   `guild` tinytext NOT NULL,
   `permissions` text NOT NULL,
-  `members` text NOT NULL
+  `members` text NOT NULL,
+  `def` int(1) NOT NULL,
+  `clone` int(1) NOT NULL
 );

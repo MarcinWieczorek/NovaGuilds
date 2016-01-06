@@ -28,6 +28,8 @@ public class NovaRank implements Cloneable {
 	private String name;
 	private NovaGuild guild;
 	private boolean changed;
+	private boolean def;
+	private boolean clone;
 	private final List<GuildPermission> permissions = new ArrayList<>();
 	private final List<NovaPlayer> members = new ArrayList<>();
 
@@ -66,6 +68,14 @@ public class NovaRank implements Cloneable {
 		return guild;
 	}
 
+	public boolean isClone() {
+		return clone;
+	}
+
+	public boolean isDef() {
+		return def;
+	}
+
 	//setters
 	public void setId(int id) {
 		this.id = id;
@@ -81,9 +91,20 @@ public class NovaRank implements Cloneable {
 		this.permissions.addAll(permissions);
 		changed();
 	}
+
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
 		guild.addRank(this);
+		changed();
+	}
+
+	public void setClone(boolean clone) {
+		this.clone = clone;
+		changed();
+	}
+
+	public void setDef(boolean def) {
+		this.def = def;
 		changed();
 	}
 

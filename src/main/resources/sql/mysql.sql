@@ -48,5 +48,7 @@ CREATE TABLE `{SQLPREFIX}ranks` (
   `guild` tinytext CHARACTER SET utf8 NOT NULL,
   `permissions` text CHARACTER SET utf8 NOT NULL,
   `members` text CHARACTER SET utf8 NOT NULL,
+  `def` int(1) unsigned NOT NULL,
+  `clone` int(1) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;

@@ -83,6 +83,9 @@ public class RankManager {
 						rank.addMember(nPlayer);
 					}
 
+					rank.setDef(rankConfiguration.getBoolean("def"));
+					rank.setClone(rankConfiguration.getBoolean("clone"));
+
 					rank.setUnchanged();
 					count++;
 				}
@@ -121,6 +124,8 @@ public class RankManager {
 						rank.addMember(plugin.getPlayerManager().getPlayer(playerName));
 					}
 
+					rank.setDef(res.getBoolean("def"));
+					rank.setClone(res.getBoolean("clone"));
 
 					rank.setUnchanged();
 					count++;
@@ -178,6 +183,10 @@ public class RankManager {
 					}
 
 					ranksConfigurationSection.set(rank.getName()+".permissions", permissionNamesList);
+
+					ranksConfigurationSection.set(rank.getName()+".def", rank.isDef());
+					ranksConfigurationSection.set(rank.getName()+".clone", rank.isClone());
+
 					rank.setUnchanged();
 				}
 
@@ -224,7 +233,10 @@ public class RankManager {
 						preparedStatement.setString(2, guild.getName());
 						preparedStatement.setString(3, JSONArray.toJSONString(permissionNamesList));
 						preparedStatement.setString(4, JSONArray.toJSONString(memberNamesList));
-						preparedStatement.setInt(5, rank.getId());
+						preparedStatement.setBoolean(5, rank.isDef());
+						preparedStatement.setBoolean(6, rank.isClone());
+
+						preparedStatement.setInt(7, rank.getId());
 						preparedStatement.execute();
 
 						rank.setUnchanged();
@@ -255,6 +267,8 @@ public class RankManager {
 				preparedStatement.setString(2, rank.getGuild().getName());
 				preparedStatement.setString(3, JSONArray.toJSONString(permissionNamesList));
 				preparedStatement.setString(4, JSONArray.toJSONString(memberNamesList));
+				preparedStatement.setBoolean(5, rank.isDef());
+				preparedStatement.setBoolean(6, rank.isClone());
 				preparedStatement.execute();
 
 				ResultSet keys = preparedStatement.getGeneratedKeys();

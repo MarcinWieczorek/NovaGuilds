@@ -118,8 +118,8 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
 
-			//Ranks insert (id, name, guild, permissions, players)
-			String ranksInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "ranks` VALUES(0,?,?,?,?);";
+			//Ranks insert (id, name, guild, permissions, players, default, clone)
+			String ranksInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "ranks` VALUES(0,?,?,?,?,?,?);";
 			PreparedStatement ranksInsert = getConnection().prepareStatement(ranksInsertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatementMap.put(PreparedStatements.RANKS_INSERT, ranksInsert);
 
@@ -134,7 +134,7 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.RANKS_DELETE, ranksDelete);
 
 			//Ranks update
-			String ranksUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "ranks` SET `name`=?, `guild`=?, `permissions`=?, `members`=? WHERE `id`=?";
+			String ranksUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "ranks` SET `name`=?, `guild`=?, `permissions`=?, `members`=?, `def`=?, `clone`=? WHERE `id`=?";
 			PreparedStatement ranksUpdate = getConnection().prepareStatement(ranksUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.RANKS_UPDATE, ranksUpdate);
 

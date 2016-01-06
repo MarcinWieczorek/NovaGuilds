@@ -211,6 +211,16 @@ public class NovaGuild {
 		return ranks;
 	}
 
+	public NovaRank getDefaultRank() {
+		for(NovaRank rank : getRanks()) {
+			if(rank.isDef()) {
+				return rank;
+			}
+		}
+
+		return null;
+	}
+
 	//setters
 	public void setVaultHologram(Hologram hologram) {
 		vaultHologram = hologram;
