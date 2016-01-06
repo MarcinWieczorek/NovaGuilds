@@ -57,7 +57,6 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
-import com.earth2me.essentials.Essentials;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
@@ -124,22 +123,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//managers
 		configManager = new ConfigManager(this);
-
-		//Essentials locale detection
-		Essentials essentials = (Essentials) getServer().getPluginManager().getPlugin("Essentials");
-
-		if(essentials != null && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
-			String locale = essentials.getSettings().getLocale();
-			if(locale.isEmpty()) {
-				locale = "en";
-			}
-
-			if(ConfigManager.essentialsLocale.containsKey(locale)) {
-				Config.LANG_NAME.set(ConfigManager.essentialsLocale.get(locale));
-			}
-
-			LoggerUtils.info("Changed lang to Essentials' locale: "+Config.LANG_NAME.getString());
-		}
 
 		if(!getMessageManager().load()) {
 			getServer().getPluginManager().disablePlugin(this);

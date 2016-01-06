@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.Title;
+import com.earth2me.essentials.Essentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -53,6 +54,7 @@ public class MessageManager {
 
 	public boolean load() {
 		setupDirectories();
+		detectEssentialsLocale();
 		String lang = Config.LANG_NAME.getString();
 		File messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
 		if(!messagesFile.exists()) {
@@ -90,6 +92,23 @@ public class MessageManager {
 			if(langsDir.mkdir()) {
 				LoggerUtils.info("Language dir created");
 			}
+		}
+	}
+
+	public static void detectEssentialsLocale() {
+		Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+
+		if(essentials != null && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
+			String locale = essentials.getSettings().getLocale();
+			if(locale.isEmpty()) {
+				locale = "en";
+			}
+
+			if(ConfigManager.essentialsLocale.containsKey(locale)) {
+				Config.LANG_NAME.set(ConfigManager.essentialsLocale.get(locale));
+			}
+
+			LoggerUtils.info("Changed lang to Essentials' locale: "+Config.LANG_NAME.getString());
 		}
 	}
 
