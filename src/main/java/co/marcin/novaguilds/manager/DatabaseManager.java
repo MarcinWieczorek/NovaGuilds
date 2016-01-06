@@ -296,6 +296,7 @@ public class DatabaseManager {
 
 	private void analyze() {
 		try {
+			LoggerUtils.info("Analyzing the database...");
 			TableAnalyzer analyzer = new TableAnalyzer(plugin.getDatabaseManager().getConnection());
 
 			for(String action : getSqlActions()) {

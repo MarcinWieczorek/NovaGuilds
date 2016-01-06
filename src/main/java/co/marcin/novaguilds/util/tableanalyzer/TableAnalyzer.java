@@ -37,7 +37,6 @@ public class TableAnalyzer {
 	private final Connection connection;
 	private final Map<String, String> sqlStructure = new HashMap<>();
 	private final Map<Integer, String> sqlNames = new HashMap<>();
-	private final Map<Integer, String> tableNames = new HashMap<>();
 	private final Map<String, String> tableStructure = new HashMap<>();
 	private final List<Missmatch> missmatches = new ArrayList<>();
 
@@ -55,15 +54,7 @@ public class TableAnalyzer {
 		getTableStructure(table);
 
 		List<String> sqlKeys = new ArrayList<>();
-		List<String> tableKeys = new ArrayList<>();
-
-		for(Map.Entry<Integer, String> sqlEntry : sqlNames.entrySet()) {
-			sqlKeys.add(sqlEntry.getValue());
-		}
-
-		for(Map.Entry<Integer, String> tableEntry : tableNames.entrySet()) {
-			tableKeys.add(tableEntry.getValue());
-		}
+		sqlKeys.addAll(sqlNames.values());
 
 		//search for ADD
 		if(tableStructure.size() < sqlKeys.size()) {
@@ -129,13 +120,10 @@ public class TableAnalyzer {
 
 	}
 
-	public List<Missmatch> getMissmatches() {
-		return missmatches;
-	}
-
 	private void getSqlStructure(String sql) {
 		String[] cols = org.apache.commons.lang.StringUtils.split(sql, ",\r\n");
 		HashMap<String, String> map = new HashMap<>();
+		sqlNames.clear();
 
 		int i=0;
 		for(String c : cols) {
@@ -149,6 +137,7 @@ public class TableAnalyzer {
 			}
 		}
 
+		sqlStructure.clear();
 		sqlStructure.putAll(map);
 	}
 
@@ -158,18 +147,15 @@ public class TableAnalyzer {
 			ResultSet columns = databaseMetaData.getColumns(null, null, table, null);
 			HashMap<String, String> map = new HashMap<>();
 
-			int i = 0;
 			while (columns.next()) {
 				String columnName = columns.getString("COLUMN_NAME");
 				String columnType = columns.getString("TYPE_NAME");
 
 				map.put(columnName, columnType);
-
-				tableNames.put(i, columnName);
-				i++;
 			}
 			columns.close();
 
+			tableStructure.clear();
 			tableStructure.putAll(map);
 		}
 		catch(SQLException e) {
