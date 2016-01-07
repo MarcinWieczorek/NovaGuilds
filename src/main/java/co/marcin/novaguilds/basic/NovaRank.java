@@ -119,26 +119,34 @@ public class NovaRank implements Cloneable {
 
 	//adders
 	public void addPermission(GuildPermission permission) {
-		permissions.add(permission);
-		changed();
+		if(!permissions.contains(permission)) {
+			permissions.add(permission);
+			changed();
+		}
 	}
 
 	public void addMember(NovaPlayer nPlayer) {
-		members.add(nPlayer);
-		nPlayer.setGuildRank(this);
-		changed();
+		if(!members.contains(nPlayer)) {
+			members.add(nPlayer);
+			nPlayer.setGuildRank(this);
+			changed();
+		}
 	}
 
 	//removers
 	public void removePermission(GuildPermission permission) {
-		permissions.remove(permission);
-		changed();
+		if(!permissions.contains(permission)) {
+			permissions.remove(permission);
+			changed();
+		}
 	}
 
 	public void removeMember(NovaPlayer nPlayer) {
-		members.remove(nPlayer);
-		nPlayer.setGuildRank(null);
-		changed();
+		if(members.contains(nPlayer)) {
+			members.remove(nPlayer);
+			nPlayer.setGuildRank(null);
+			changed();
+		}
 	}
 
 	//checkers
