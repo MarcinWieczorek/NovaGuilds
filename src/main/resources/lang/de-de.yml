@@ -5,7 +5,7 @@ chat:
  invalidparam: "&cUnbekanntes Argument."
  cmdfromconsole: "Dieser Befehl kann nicht von der Konsole aus ausgefürt werden."
  enterinteger: "Bitte gebe eine Zahl ein!"
- delayedteleport: "Du wirst in &c{DELAY} &3 Sekunden teleportiert."
+ delayedteleport: "Du wirst in &c{DELAY}  Sekunden teleportiert."
  delayedtpmoved: "Du hast dich bewegt. Teleportation wurde gestoppt."
  erroroccured: "Ein Fehler ist aufgetreten. Kontaktieren Sie Ihren Administrator!"
  update: "&cEs gibt ein Update! &6http://www.novaguilds.pl/"
@@ -27,24 +27,24 @@ chat:
     page:
      hasnext: "&7-- &cSeite &7{PAGE} &von &7{PAGES} -- &c/nga g Liste {NEXT} &7--"
      nonext: "&7-- &cSeite &7{PAGE} &von &7{PAGES} --"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Leiter: &c{PLAYERNAME} &3({PLAYERSCOUNT} Spielern)"
+    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Leiter: &c{PLAYERNAME} ({PLAYERSCOUNT} Spielern)"
    inactive:
-    updated: "Die Inaktivitätszeit aller Gilden wurde aktualisiert. (&c{COUNT} &3Gilden)"
+    updated: "Die Inaktivitätszeit aller Gilden wurde aktualisiert. (&c{COUNT} Gilden)"
     list:
      header: "Meist inaktive Gilden."
-     item: " &2- &a{GUILDNAME} &3aktiv {AGONOW}."
-     ago: "&c{INACTIVE}&3 vor."
+     item: " &2- &a{GUILDNAME} aktiv {AGONOW}."
+     ago: "&c{INACTIVE} vor."
      now: "&cjetzt."
    bank:
-    paid: "Du hast &c${MONEY} &3in &a{GUILDNAME}&3s Bank gezahlt."
-    withdrew: "Du hast &c${MONEY} &3von &a{GUILDNAME}&3s Bank abgehoben."
-   abandon: "&3Du hast &a{GUILDNAME} &3aufgelöst."
+    paid: "Du hast &c${MONEY} in &a{GUILDNAME}s Bank gezahlt."
+    withdrew: "Du hast &c${MONEY} von &a{GUILDNAME}s Bank abgehoben."
+   abandon: "Du hast &a{GUILDNAME} aufgelöst."
    kick:
     leader: "Du kannst den Anführer nicht entfernen, du must die Gilde verlassen."
-   invited: "Spieler &c{PLAYERNAME} &3eingeladen zu &a{GUILDNAME}"
+   invited: "Spieler &c{PLAYERNAME} eingeladen zu &a{GUILDNAME}"
    teleported:
     self: "Du wurdest zum Home von &a{GUILDNAME} teleportiert."
-    other: "&c{PLAYERNAME} &3wurde zum Home von &a{GUILDNAME} teleportiert."
+    other: "&c{PLAYERNAME} wurde zum Home von &a{GUILDNAME} teleportiert."
    set:
     tag: "Abkürzung gewechselt zu &a{TAG}"
     points: "Punkte gesetzt."
@@ -57,20 +57,20 @@ chat:
      success: "Gilden Name geändert."
     leader:
      notinguild: "Dieser Spieler ist nicht in der Gilde: &a{GUILDNAME}"
-     alreadyleader: "Spieler &c{PLAYERNAME} &3ist schon der Anführer"
+     alreadyleader: "Spieler &c{PLAYERNAME} ist schon der Anführer"
      success: "Anführer neu gesetzt!"
   region:
    bypass:
     toggled:
      self: "Umgehung des Bereiches gewechselt. Aktuell: &c{BYPASS}"
-     other: "Umgehung des Bereiches gewechselt für den Spieler: &c{PLAYER}&3. Aktuell: &c{BYPASS}"
+     other: "Umgehung des Bereiches gewechselt für den Spieler: &c{PLAYER}. Aktuell: &c{BYPASS}"
     notifyother: "Deine Bereichsumgehung wurde gewechselt. Aktuell: &c{BYPASS}"
    delete:
     success: "Gildenbereich erfolgreich gelöscht."
    teleport:
-    self: "Du wurdest zu &a{GUILDNAME}&3's Bereich teleporiert."
-    other: "Spieler &c{PLAYERNAME} &3wurde zum Bereich von &a{GUILDNAME}&3's teleportiert."
-    notifyother: "Du wurdest zum Bereich von &a{GUILDNAME}&3's teleportiert."
+    self: "Du wurdest zu &a{GUILDNAME}'s Bereich teleporiert."
+    other: "Spieler &c{PLAYERNAME} wurde zum Bereich von &a{GUILDNAME}'s teleportiert."
+    notifyother: "Du wurdest zum Bereich von &a{GUILDNAME}'s teleportiert."
   save:
    players: "Spieler gespeichert."
    guilds: "Gilden gespeichert."
@@ -81,11 +81,11 @@ chat:
    notfound: "Es wurde kein Hologramm mit diesem Namen gefunden."
    teleport:
     self: "Du wurdest zu &a{NAME} teleporiert."
-    other: "Spieler: &c{PLAYERNAME} &3wurde zu &a{NAME} teleportiert."
+    other: "Spieler: &c{PLAYERNAME} wurde zu &a{NAME} teleportiert."
    add:
-    success: "Das Hologramm &a{NAME}&3 wurde hinzugefügt."
+    success: "Das Hologramm &a{NAME} wurde hinzugefügt."
    delete:
-    success: "Das Hologramm &a{NAME}&3 wurde gelöscht."
+    success: "Das Hologramm &a{NAME} wurde gelöscht."
     entername: "Bitte gebe dem Hologramm einen Namen."
    list:
     header: "Liste von allen Hologrammen:"
@@ -209,7 +209,7 @@ chat:
  noguild: "Keine Gilde"
 
  raid:
-  resting: "Du musst noch &c{TIMEREST} &3warten bevor du diese Gilde angreifen kannst."
+  resting: "Du musst noch &c{TIMEREST} warten bevor du diese Gilde angreifen kannst."
   protection: "Diese Gilde ist neu und ist noch Geschützt. Versuche es Morgen nochmal."
 
  guild:
@@ -234,19 +234,19 @@ chat:
   openinvitation: "Offene Einladungen umgeschaltet. Momentan: &c{STATUS}"
   fpvptoggled: "PvP innerhalb der Gilde umgeschaltet. Momentan: &c{FPVP}"
   effect:
-   success: "Du hast den &a{EFFECTTYPE} &3Effekt erfolgreich für alle deine Teamkameraden gekauft!"
+   success: "Du hast den &a{EFFECTTYPE} Effekt erfolgreich für alle deine Teamkameraden gekauft!"
 
   ally:
    war: "Als erstes musst du den Krieg mit dieser Gilde beenden!"
    samename: "Du kannst nicht mit deiner eigenen Gilde verbündet sein!"
    alreadyally: "Du bist schon mit ihnen verbündet!"
    alreadyinvited: "Du hast sie schon als Verbündete eingeladen!"
-   invited: "Du hast &a{ALLYNAME} &3als Verbündete eingalden."
-   accepted: "Du hast die Verbündeteneinladung von &a{ALLYNAME} &3angenommen."
-   newinvite: "Die Gilde &a{GUILDNAME} &3hat dich dazu eingeladen sich zu verbünden."
-   notifyguild: "Die Gilde &a{GUILDNAME} &3hat euch eingeladen Verbündete zu sein."
-   notifyguildcanceled: "Die Gilde &a{GUILDNAME} &3haben ihre Verbündeteneinladung abgebrochen."
-   canceled: "&3Verbündeteneinladung von &a{GUILDNAME} &3abgebrochen "
+   invited: "Du hast &a{ALLYNAME} als Verbündete eingalden."
+   accepted: "Du hast die Verbündeteneinladung von &a{ALLYNAME} angenommen."
+   newinvite: "Die Gilde &a{GUILDNAME} hat dich dazu eingeladen sich zu verbünden."
+   notifyguild: "Die Gilde &a{GUILDNAME} hat euch eingeladen Verbündete zu sein."
+   notifyguildcanceled: "Die Gilde &a{GUILDNAME} haben ihre Verbündeteneinladung abgebrochen."
+   canceled: "Verbündeteneinladung von &a{GUILDNAME} abgebrochen "
 
   couldnotfind: "Diese Gilde wurde nicht gefunden."
   hasnoregion: "Diese Gilde hat kein Gebiet."
@@ -276,8 +276,8 @@ chat:
    ally: "Du musst als erstes die Freundschaft mit dieser Gilde beenden!"
    yourguildwar: "Du kannst kein Krieg mit dir selbst haben!"
    nowarinv:
-    success: "Du hast die Gilde &a{GUILDNAME} &3gefragt den Krieg zu beenden."
-    notify: "&a{GUILDNAME} &3fragte ob ihr den Krieg beendet."
+    success: "Du hast die Gilde &a{GUILDNAME} gefragt den Krieg zu beenden."
+    notify: "&a{GUILDNAME} fragte ob ihr den Krieg beendet."
    list:
     nowars: "Keine Kriege."
     warsheader: "Liste von Kriegen:"
@@ -286,7 +286,7 @@ chat:
     separator: "&f, "
 
   leader:
-   success: "&a{PLAYERNAME} &3ist jetzt der Anführer!"
+   success: "&a{PLAYERNAME} ist jetzt der Anführer!"
    samenick: "Du bist schon der Anführer!"
    notsameguild: "Dieser Spieler ist nicht in deiner Gilde."
    notifynewleader: "Du bist nun der Anführer von &a{GUILDNAME}"
@@ -296,11 +296,11 @@ chat:
   bank:
    enteramount: "Bitte gebe eine Menge an."
    pay:
-    paid: "Du hast &2$&c{AMOUNT} &3zur Gilden Bank gezahlt."
+    paid: "Du hast &2$&c{AMOUNT} zur Gilden Bank gezahlt."
     notenough: "Du hast nicht genügend Geldt."
    withdraw:
     notleader: "Nur Anführer können Geld abheben."
-    success: "Du hast &2$&c{AMOUNT} &3von der Gilden Bank genommen."
+    success: "Du hast &2$&c{AMOUNT} von der Gilden Bank genommen."
     notenough: "Es ist nicht genügend Geld auf der Bank."
 
  player:
@@ -312,8 +312,8 @@ chat:
   alreadyinvited: "Dieser Spieler wurde schon zur Gilde eingeladen."
   notinyourguild: "Dieser Spieler ist nicht in deiner Gilde!"
   pvpmoney:
-   kill: "Du hast &a{MONEY}$ &3fürs Töten von &c{PLAYERNAME} &3erhalten"
-   revenge: "Du hast &a{MONEY}$ &3fürs Rächen an &c{PLAYERNAME} &3erhalten"
+   kill: "Du hast &a{MONEY}$ fürs Töten von &c{PLAYERNAME} erhalten"
+   revenge: "Du hast &a{MONEY}$ fürs Rächen an &c{PLAYERNAME} erhalten"
   invite:
    invited: "Der Spieler wurde zur Gilde eingeladen."
    list:
@@ -322,10 +322,10 @@ chat:
     item: "&c{GUILDNAME}"
     separator: "&f, "
    notinvited: "Du wurdest nicht zu dieser Gilde eingeladen."
-   notify: "Du wurdest zur Gilde &a{GUILDNAME} &3eingeladen."
+   notify: "Du wurdest zur Gilde &a{GUILDNAME} eingeladen."
    cancel:
-    success: "Einladung an den Spieler &c{PLAYERNAME} &3abgebrochen."
-    notify: "Die Einladung von der Gilde &a{GUILDNAME} &3wurde abgebrochen."
+    success: "Einladung an den Spieler &c{PLAYERNAME} abgebrochen."
+    notify: "Die Einladung von der Gilde &a{GUILDNAME} wurde abgebrochen."
   info:
    header: "&4*** &3Spieler Informationen &4***"
    guildrow: " &c* &2Gilde: &7[&a{TAG}&7] &6{GUILDNAME}"
@@ -356,18 +356,18 @@ chat:
    notvalid: "Das ausgewählte Gebiet ist nicht gültigt! Versuch es nochmal."
    valid: "Gebiet ausgewählt &c/g buyregion"
    notselected: "Wähle bitte das Gebiet"
-  size: "Die Größe des ausgewählten Gebietes ist: &c{SIZE} &3Blöcke groß!"
+  size: "Die Größe des ausgewählten Gebietes ist: &c{SIZE} Blöcke groß!"
   price: "Dieses Gebiet zu kaufen kostet: &c${PRICE}"
-  cnotafford: "Du kannst dieses Gebiet nicht kaufen. Du brauchst &c${NEEDMORE} &3mehr um dir das leisten zu können!"
+  cnotafford: "Du kannst dieses Gebiet nicht kaufen. Du brauchst &c${NEEDMORE} mehr um dir das leisten zu können!"
   created: "Gebiet erfolgreich erstellt!"
   mustveguild: "Du brauchst eine Gilde um das Gebiet kaufen zu können. &c/create"
-  entered: "Du hast das Gebiet von der Gilde &a{GUILDNAME} &3betreten"
-  exited: "Du hast das Gebiet von der Gilde &a{GUILDNAME} &3verlassen"
+  entered: "Du hast das Gebiet von der Gilde &a{GUILDNAME} betreten"
+  exited: "Du hast das Gebiet von der Gilde &a{GUILDNAME} verlassen"
   resize:
    start: "Gebietsgröße wird geändert... Setze es mit einem &cRechtsklick."
    success: "Gebietsgröße erfolgreich geändert!"
   notifyguild:
-   entered: "Spieler &c{PLAYERNAME} &3hat dein Gildengebiet betreten!"
+   entered: "Spieler &c{PLAYERNAME} hat dein Gildengebiet betreten!"
   belongsto: "Dieses Gebiet gehört zur Gilde &a{GUILDNAME}"
   list:
    header: "Gebiete Liste:"
@@ -444,26 +444,26 @@ broadcast:
  admin:
   autosave: "Plugindaten gespeichert!"
   guild:
-   abandon: "Admin &c{PLAYERNAME} &3hat die Gilde &a{GUILDNAME} &3aufgelöst!"
+   abandon: "Admin &c{PLAYERNAME} hat die Gilde &a{GUILDNAME} aufgelöst!"
  guild:
-  war: "Gilde &a{GUILD1} &3hat den &cKrieg &3gegen &a{GUILD2} begonnen"
-  nowar: "Gilde &a{GUILD1} &3und &a{GUILD2} &3haben ihren Krieg gestoppt."
-  joined: "Spieler &c{PLAYER} &3tritt &a{GUILDNAME} bei"
-  left: "Spieler &c{PLAYER} &3verliess &a{GUILDNAME}"
-  created: "Spieler &c{PLAYER} &3erstellte die Gilde &a{GUILDNAME}"
-  abandoned: "Spieler &c{PLAYER} &3hat &a{GUILDNAME} &3aufgelöst!"
-  setleader: "Spieler &c{PLAYERNAME} &3ist jetzt der Anführer von &a{GUILDNAME}&3!"
-  allied: "&a{GUILDNAME} &3und &a{ALLYNAME} &3sind nun Verbündet!"
-  endally: "&a{GUILDNAME} &3und &a{ALLYNAME} &3haben ihren Verbund beendet!"
-  kicked: "Spieler &c{PLAYERNAME} &3wurde aus &a{GUILDNAME} &3entfernt!"
-  newleader: "Spieler &c{PLAYERNAME} &3ist nun der Anführer von &a{GUILDNAME}&3!"
-  destroyed: "Die Gilde &a{GUILDNAME} &3wurde zerstört!"
+  war: "Gilde &a{GUILD1} hat den &cKrieg &3gegen &a{GUILD2} begonnen"
+  nowar: "Gilde &a{GUILD1} und &a{GUILD2} haben ihren Krieg gestoppt."
+  joined: "Spieler &c{PLAYER} tritt &a{GUILDNAME} bei"
+  left: "Spieler &c{PLAYER} verliess &a{GUILDNAME}"
+  created: "Spieler &c{PLAYER} erstellte die Gilde &a{GUILDNAME}"
+  abandoned: "Spieler &c{PLAYER} hat &a{GUILDNAME} aufgelöst!"
+  setleader: "Spieler &c{PLAYERNAME} ist jetzt der Anführer von &a{GUILDNAME}!"
+  allied: "&a{GUILDNAME} und &a{ALLYNAME} sind nun Verbündet!"
+  endally: "&a{GUILDNAME} und &a{ALLYNAME} haben ihren Verbund beendet!"
+  kicked: "Spieler &c{PLAYERNAME} wurde aus &a{GUILDNAME} entfernt!"
+  newleader: "Spieler &c{PLAYERNAME} ist nun der Anführer von &a{GUILDNAME}!"
+  destroyed: "Die Gilde &a{GUILDNAME} wurde zerstört!"
   raid:
    finished:
-    attackerwon: "Angriff beendet! &a{ATTACKER} &3vs &a{DEFENDER}&3! Angreifer haben gewonnen."
-    defenderwon: "Angriff beendet! &a{ATTACKER} &3vs &a{DEFENDER}&3! Verteidiger haben gewonnen."
+    attackerwon: "Angriff beendet! &a{ATTACKER} vs &a{DEFENDER}! Angreifer haben gewonnen."
+    defenderwon: "Angriff beendet! &a{ATTACKER} vs &a{DEFENDER}! Verteidiger haben gewonnen."
  pvp:
-  killed: "Spieler {TAG1}&c{PLAYER1} &3wurde von {TAG2}&c{PLAYER2}&3 getötet"
+  killed: "Spieler {TAG1}&c{PLAYER1} wurde von {TAG2}&c{PLAYER2} getötet"
 
 holographicdisplays:
  locations:
@@ -475,7 +475,7 @@ holographicdisplays:
 
 #no prefix, start with color
 barapi:
- warprogress: "&3Gilde &a{DEFENDER} &3wird angegrifen!"
+ warprogress: "&3Gilde &a{DEFENDER} wird angegrifen!"
 
 book:
  help:

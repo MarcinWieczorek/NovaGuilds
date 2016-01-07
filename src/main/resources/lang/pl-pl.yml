@@ -5,7 +5,7 @@ chat:
  invalidparam: "&cNieprawidlowy argument"
  cmdfromconsole: "Nie mozesz wykonac tej komendy z konsoli"
  enterinteger: "Wprowadz liczbe."
- delayedteleport: "Zostaniesz teleportowany w ciagu &c{DELAY} &3sekund"
+ delayedteleport: "Zostaniesz teleportowany w ciagu &c{DELAY} sekund"
  delayedtpmoved: "Ruszyles sie, teleportacja anulowana."
  erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
  update: "&4Dostepna jest aktualizacja! &6http://www.novaguilds.pl/"
@@ -27,24 +27,24 @@ chat:
     page:
      hasnext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} -- &c/nga g list {NEXT} &7--"
      nonext: "&7-- &cStrona &7{PAGE} &cz &7{PAGES} --"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Lider: &c{PLAYERNAME} &3({PLAYERSCOUNT} graczy)"
+    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Lider: &c{PLAYERNAME} ({PLAYERSCOUNT} graczy)"
    inactive:
-    updated: "Wszystkie gildie uaktualnione. (&c{COUNT} &3gildii)"
+    updated: "Wszystkie gildie uaktualnione. (&c{COUNT} gildii)"
     list:
      header: "Najmniej aktywne gildie:"
-     item: " &2- &a{GUILDNAME} &3aktywna {AGONOW}"
-     ago: "&c{INACTIVE}&3 temu"
+     item: " &2- &a{GUILDNAME} aktywna {AGONOW}"
+     ago: "&c{INACTIVE} temu"
      now: "&cteraz"
    bank:
-    paid: "Wplaciles &c${MONEY} &3do banku gildii &a{GUILDNAME}&3"
-    withdrew: "Zabrales &c${MONEY} &3z banku &a{GUILDNAME}"
-   abandon: "Gildia &a{GUILDNAME} &3zostala rozwiazana."
+    paid: "Wplaciles &c${MONEY} do banku gildii &a{GUILDNAME}"
+    withdrew: "Zabrales &c${MONEY} z banku &a{GUILDNAME}"
+   abandon: "Gildia &a{GUILDNAME} zostala rozwiazana."
    kick:
     leader: "Nie mozesz wyrzucic lidera. Musisz rozwiazac gildie."
-   invited: "Zaproszono gracza &c{PLAYERNAME} &3do &a{GUILDNAME}"
+   invited: "Zaproszono gracza &c{PLAYERNAME} do &a{GUILDNAME}"
    teleported:
     self: "Teleportowano do bazy gildii &a{GUILDNAME}"
-    other: "Teleportowano gracza &c{PLAYERNAME} &3do bazy &a{GUILDNAME}"
+    other: "Teleportowano gracza &c{PLAYERNAME} do bazy &a{GUILDNAME}"
    set:
     tag: "Tag zmieniony na &a{TAG}"
     points: "Punkty zmienione."
@@ -57,19 +57,19 @@ chat:
      success: "Nazwa gildii zmieniona."
     leader:
      notinguild: "Ten gracz nie jest w gildii &a{GUILDNAME}"
-     alreadyleader: "Gracz &c{PLAYERNAME} &3jest juz liderem!"
+     alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
      success: "Nowy lider ustalony!"
   region:
    bypass:
     toggled:
      self: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
-     other: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER}&3. Aktualnie: &c{BYPASS}"
+     other: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER}. Aktualnie: &c{BYPASS}"
     notifyother: "Twoj tryb ignorowania regionow zostal zmieniony. Aktualnie: &c{BYPASS}"
    delete:
     success: "Pomyslnie usunieto region"
    teleport:
     self: "Zostales teleportowany na teren gildii &a{GUILDNAME}"
-    other: "Teleportowano gracza &c{PLAYERNAME} &3na teren gildii &a{GUILDNAME}"
+    other: "Teleportowano gracza &c{PLAYERNAME} na teren gildii &a{GUILDNAME}"
     notifyother: "Zostales teleportowany na teren gildii &a{GUILDNAME}"
   save:
    players: "Gracze zapisani."
@@ -81,7 +81,7 @@ chat:
    notfound: "Nie udalo sie znalezc hologramu o takiej nazwie."
    teleport:
     self: "Teleportowano Cie do &a{NAME}"
-    other: "Teleportowano gracza &c{PLAYERNAME} &3do &a{NAME}"
+    other: "Teleportowano gracza &c{PLAYERNAME} do &a{NAME}"
    add:
     success: "Dodano hologram: &a{NAME}"
    delete:
@@ -209,7 +209,7 @@ chat:
  noguild: "Brak gildii"
 
  raid:
-  resting: "Musisz poczekac &c{TIMEREST} &3Przed atakowaniem tej gildii."
+  resting: "Musisz poczekac &c{TIMEREST} Przed atakowaniem tej gildii."
   protection: "Ta gildia jest nowa i obejmuje ja ochrona. Sprobuj jutro."
 
  guild:
@@ -234,19 +234,19 @@ chat:
   openinvitation: "Przelaczono otwarte zaproszenia. Obecnie: &c{STATUS}"
   fpvptoggled: "Przelaczono sojusznicze pvp. Obecnie: &c{FPVP}"
   effect:
-   success: "Kupiles efekt &a{EFFECTTYPE} &3dla swoich wojownikow!"
+   success: "Kupiles efekt &a{EFFECTTYPE} dla swoich wojownikow!"
 
   ally:
    war: "Najpierw musisz zakonczyc wojne z ta gildia"
    samename: "Nie mozesz zaprosic swojej gildii do sojuszu!"
    alreadyally: "Juz jestescie sojusznikami!"
    alreadyinvited: "Juz zaprosiles te gildie do sojuszu"
-   invited: "Zaprosiles &a{ALLYNAME} &3do sojuszu"
+   invited: "Zaprosiles &a{ALLYNAME} do sojuszu"
    accepted: "Zaakceptowales propozycje sojuszu z &a{ALLYNAME}"
-   newinvite: "Gildia &a{GUILDNAME} &3Zaprosila Cie do sojuszu"
-   notifyguild: "Gildia &a{GUILDNAME} &3Zaprosila Cie do sojuszu"
-   notifyguildcanceled: "Gildia &a{GUILDNAME} &3cofnela propozycje sojuszu"
-   canceled: "&3Cofnieto zaproszenie sojuszu z &a{GUILDNAME}"
+   newinvite: "Gildia &a{GUILDNAME} Zaprosila Cie do sojuszu"
+   notifyguild: "Gildia &a{GUILDNAME} Zaprosila Cie do sojuszu"
+   notifyguildcanceled: "Gildia &a{GUILDNAME} cofnela propozycje sojuszu"
+   canceled: "Cofnieto zaproszenie sojuszu z &a{GUILDNAME}"
 
   couldnotfind: "Nie udalo sie znalezc gildii"
   hasnoregion: "Ta gildia nie ma swojego terenu"
@@ -276,8 +276,8 @@ chat:
    ally: "Najpierw zakoncz sojusz z ta gildia"
    yourguildwar: "Nie mozesz wywolac wojny sam ze soba"
    nowarinv:
-    success: "Poprosiles &a{GUILDNAME} &3aby zakonczyc wojne"
-    notify: "&a{GUILDNAME} &3poprosila o zakonczenie wojny"
+    success: "Poprosiles &a{GUILDNAME} aby zakonczyc wojne"
+    notify: "&a{GUILDNAME} poprosila o zakonczenie wojny"
    list:
     nowars: "Brak wojen."
     warsheader: "Lista wojen:"
@@ -286,7 +286,7 @@ chat:
     separator: "&f, "
 
   leader:
-   success: "&a{PLAYERNAME} &3jest teraz liderem!"
+   success: "&a{PLAYERNAME} jest teraz liderem!"
    samenick: "Juz jestes liderem!"
    notsameguild: "Ten gracz nie nalezy do Twojej gildii"
    notifynewleader: "Jestes teraz liderem gildii &a{GUILDNAME}"
@@ -296,11 +296,11 @@ chat:
   bank:
    enteramount: "Wprowadz kwote."
    pay:
-    paid: "Wplaciles &2$&c{AMOUNT} &3do banku gildii."
+    paid: "Wplaciles &2$&c{AMOUNT} do banku gildii."
     notenough: "Nie masz wystarczajacej ilosci pieniedzy"
    withdraw:
     notleader: "Tylko liderzy moga wyplacac pieniadze"
-    success: "Zabrales &2$&c{AMOUNT} &3z banku gildii."
+    success: "Zabrales &2$&c{AMOUNT} z banku gildii."
     notenough: "Nie ma wystarczajacej ilosci pieniedzy w banku gildii."
 
  player:
@@ -312,8 +312,8 @@ chat:
   alreadyinvited: "Ten gracz jest juz zaproszony do tej gildii"
   notinyourguild: "Ten gracz nie nalezy do Twojej gildii"
   pvpmoney:
-   kill: "Dostajesz &a{MONEY}$ &3za zabicie &c{PLAYERNAME}"
-   revenge: "Dostajesz &a{MONEY}$ &3za zemste na &c{PLAYERNAME}"
+   kill: "Dostajesz &a{MONEY}$ za zabicie &c{PLAYERNAME}"
+   revenge: "Dostajesz &a{MONEY}$ za zemste na &c{PLAYERNAME}"
   invite:
    invited: "Gracz zostal zaproszony do gildii"
    list:
@@ -325,7 +325,7 @@ chat:
    notify: "Zostales zaproszony do gildii &a{GUILDNAME}"
    cancel:
     success: "Cofnieto zaproszenie dla gracza &c{PLAYERNAME}"
-    notify: "Twoje zaproszenie do &a{GUILDNAME} &3zostalo anulowane"
+    notify: "Twoje zaproszenie do &a{GUILDNAME} zostalo anulowane"
   info:
    header: "&4*** &3Informacje o graczu &4***"
    guildrow: " &c* &2Gildia: &7[&a{TAG}&7] &6{GUILDNAME}"
@@ -356,7 +356,7 @@ chat:
    notvalid: "Zaznaczony teren jest niepoprawny."
    valid: "Teren zaznaczony. &c/g buyregion"
    notselected: "Prosze zaznaczyc teren"
-  size: "Rozmiar zaznaczonego terenu: &c{SIZE} &3blokow"
+  size: "Rozmiar zaznaczonego terenu: &c{SIZE} blokow"
   price: "Kupienie terenu bedzie Cie kosztowalo: &c${PRICE}"
   cnotafford: "Nie stac Cie na ten teren. Potrzebujesz jeszcze &c${NEEDMORE}"
   created: "Region stworzony pomyslnie."
@@ -367,7 +367,7 @@ chat:
    start: "Zmienianie rozmiaru regionu... Zaznacz rog &cprawym."
    success: "Zmieniono rozmiar regionu."
   notifyguild:
-   entered: "Gracz &c{PLAYERNAME} &3wkroczyl na teren Twojej gildii!"
+   entered: "Gracz &c{PLAYERNAME} wkroczyl na teren Twojej gildii!"
   belongsto: "Ten teren nalezy do &a{GUILDNAME}"
   list:
    header: "Lista regionow:"
@@ -444,26 +444,26 @@ broadcast:
  admin:
   autosave: "Zapisano dane pluginu."
   guild:
-   abandon: "Admin &c{PLAYERNAME} &3rozwiazal gildie &a{GUILDNAME}"
+   abandon: "Admin &c{PLAYERNAME} rozwiazal gildie &a{GUILDNAME}"
  guild:
-  war: "Gildia &a{GUILD1} &3rozpoczela &cwojne &3z &a{GUILD2}"
-  nowar: "Gildie &a{GUILD1} &3i &a{GUILD2} &3zakonczyly wojne"
-  joined: "Gracz &c{PLAYER} &3dolaczyl do &a{GUILDNAME}"
-  left: "Gracz &c{PLAYER} &3opuscil &a{GUILDNAME}"
-  created: "Gracz &c{PLAYER} &3zalozyl gildie &a{GUILDNAME}"
-  abandoned: "Gracz &c{PLAYER} &3porzucil gildie &a{GUILDNAME}"
-  setleader: "Gracz &c{PLAYERNAME} &3jest teraz liderem &a{GUILDNAME}"
-  allied: "&a{GUILDNAME} &3i &a{ALLYNAME} &3sa teraz sojusznikami!"
-  endally: "&a{GUILDNAME} &3i &a{ALLYNAME} &3zakonczyli sojusz!"
-  kicked: "Gracz &c{PLAYERNAME} &3zostal wyrzucony z &a{GUILDNAME}"
-  newleader: "Gracz &c{PLAYERNAME} &3jest teraz liderem &a{GUILDNAME}"
-  destroyed: "Gildia &a{GUILDNAME} &3zostala zniszczona!"
+  war: "Gildia &a{GUILD1} rozpoczela &cwojne &3z &a{GUILD2}"
+  nowar: "Gildie &a{GUILD1} i &a{GUILD2} zakonczyly wojne"
+  joined: "Gracz &c{PLAYER} dolaczyl do &a{GUILDNAME}"
+  left: "Gracz &c{PLAYER} opuscil &a{GUILDNAME}"
+  created: "Gracz &c{PLAYER} zalozyl gildie &a{GUILDNAME}"
+  abandoned: "Gracz &c{PLAYER} porzucil gildie &a{GUILDNAME}"
+  setleader: "Gracz &c{PLAYERNAME} jest teraz liderem &a{GUILDNAME}"
+  allied: "&a{GUILDNAME} i &a{ALLYNAME} sa teraz sojusznikami!"
+  endally: "&a{GUILDNAME} i &a{ALLYNAME} zakonczyli sojusz!"
+  kicked: "Gracz &c{PLAYERNAME} zostal wyrzucony z &a{GUILDNAME}"
+  newleader: "Gracz &c{PLAYERNAME} jest teraz liderem &a{GUILDNAME}"
+  destroyed: "Gildia &a{GUILDNAME} zostala zniszczona!"
   raid:
    finished:
-    attackerwon: "Nalot zakonczony! &a{ATTACKER} &3vs &a{DEFENDER}&3! Atakujacy wygral."
-    defenderwon: "Nalot zakonczony! &a{ATTACKER} &3vs &a{DEFENDER}&3! Obronca wygral."
+    attackerwon: "Nalot zakonczony! &a{ATTACKER} vs &a{DEFENDER}! Atakujacy wygral."
+    defenderwon: "Nalot zakonczony! &a{ATTACKER} vs &a{DEFENDER}! Obronca wygral."
  pvp:
-  killed: "Gracz {TAG1}&c{PLAYER1} &3zostal zabity przez {TAG2}&c{PLAYER2}"
+  killed: "Gracz {TAG1}&c{PLAYER1} zostal zabity przez {TAG2}&c{PLAYER2}"
 
 holographicdisplays:
  locations:
@@ -475,7 +475,7 @@ holographicdisplays:
 
 #no prefix, start with color
 barapi:
- warprogress: "&3Gildia &a{DEFENDER} &3jest atakowana!"
+ warprogress: "&3Gildia &a{DEFENDER} jest atakowana!"
 
 book:
  help:

@@ -138,7 +138,7 @@ public class MessageManager {
 		if(list != null) {
 			for(String msg : list) {
 				if(vars != null) {
-					msg = StringUtils.replaceMap(msg, vars);
+					msg = replaceMap(msg, vars);
 				}
 
 				if(prefix) {
@@ -172,7 +172,7 @@ public class MessageManager {
 
 	public static void sendMessagesMsg(CommandSender sender, String path, Map<String, String> vars, boolean title) {
 		String msg = getMessagesString(path);
-		msg = StringUtils.replaceMap(msg, vars);
+		msg = replaceMap(msg, vars);
 
 		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
 			sendTitle((Player) sender, msg);
@@ -200,7 +200,7 @@ public class MessageManager {
 
 	public static void broadcastMessage(Message message, Map<String,String> vars) {
 		String msg = getMessagesString(message.getPath());
-		msg = StringUtils.replaceMap(msg, vars);
+		msg = replaceMap(msg, vars);
 
 		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 			sendPrefixMessage(p, msg);
@@ -209,7 +209,7 @@ public class MessageManager {
 
 	public static void broadcastGuild(NovaGuild guild, Message message, Map<String,String> vars, boolean prefix) {
 		String msg = getMessagesString(message.getPath());
-		msg = StringUtils.replaceMap(msg, vars);
+		msg = replaceMap(msg, vars);
 
 		for(Player p : guild.getOnlinePlayers()) {
 			if(prefix) {
@@ -219,5 +219,13 @@ public class MessageManager {
 				sendMessage(p, msg);
 			}
 		}
+	}
+
+	public static String replaceMap(String msg, Map<String, String> vars) {
+		for(Map.Entry<String, String> entry : vars.entrySet()) {
+			vars.put(entry.getKey(), entry.getValue() + NovaGuilds.getInstance().getMessageManager().prefixColor);
+		}
+
+		return StringUtils.replaceMap(msg, vars);
 	}
 }

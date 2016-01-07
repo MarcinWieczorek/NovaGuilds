@@ -5,7 +5,7 @@ chat:
  invalidparam: "&cInvalid command param"
  cmdfromconsole: "You cannot perform this command from the Console"
  enterinteger: "Please enter a number."
- delayedteleport: "You will be teleported in &c{DELAY} &3seconds"
+ delayedteleport: "You will be teleported in &c{DELAY} seconds"
  delayedtpmoved: "You moved! Teleportation canceled!"
  erroroccured: "&cAn error occured. Contact server administrator."
  update: "&4There is an update available! &6http://www.novaguilds.pl/"
@@ -27,24 +27,24 @@ chat:
     page: 
      hasnext: "&7-- &cPage &7{PAGE} &cof &7{PAGES} -- &c/nga g list {NEXT} &7--"
      nonext: "&7-- &cPage &7{PAGE} &cof &7{PAGES} --"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Leader: &c{PLAYERNAME} &3({PLAYERSCOUNT} players)"
+    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3Leader: &c{PLAYERNAME} ({PLAYERSCOUNT} players)"
    inactive:
-    updated: "All guild's inactive time updated. (&c{COUNT} &3guilds)"
+    updated: "All guild's inactive time updated. (&c{COUNT} guilds)"
     list:
      header: "Most inactive guilds"
-     item: " &2- &a{GUILDNAME} &3active {AGONOW}"
-     ago: "&c{INACTIVE}&3ago"
+     item: " &2- &a{GUILDNAME} active {AGONOW}"
+     ago: "&c{INACTIVE}ago"
      now: "&cnow"
    bank:
-    paid: "You paid &c${MONEY} &3to &a{GUILDNAME}&3's bank."
-    withdrew: "You took &c${MONEY} &3from &a{GUILDNAME}&3's bank."
-   abandon: "&a{GUILDNAME} &3abandoned."
+    paid: "You paid &c${MONEY} to &a{GUILDNAME}'s bank."
+    withdrew: "You took &c${MONEY} from &a{GUILDNAME}'s bank."
+   abandon: "&a{GUILDNAME} abandoned."
    kick:
     leader: "You can't kick the leader. You have to abandon the guild."
-   invited: "Invited player &c{PLAYERNAME} &3to &a{GUILDNAME}"
+   invited: "Invited player &c{PLAYERNAME} to &a{GUILDNAME}"
    teleported:
     self: "Teleported to home of &a{GUILDNAME}"
-    other: "Teleported &c{PLAYERNAME} &3to home of &a{GUILDNAME}"
+    other: "Teleported &c{PLAYERNAME} to home of &a{GUILDNAME}"
    set:
     tag: "Tag changed to &a{TAG}"
     points: "Points set."
@@ -57,20 +57,20 @@ chat:
      success: "Guild's name changed."
     leader:
      notinguild: "This player is not in guild &a{GUILDNAME}"
-     alreadyleader: "Player &c{PLAYERNAME} &3already is the leader!"
+     alreadyleader: "Player &c{PLAYERNAME} already is the leader!"
      success: "New leader set!"
   region:
    bypass:
     toggled:
      self: "Region bypass toggled. Currently: &c{BYPASS}"
-     other: "Region bypass toggled for player &c{PLAYER}&3. Currently: &c{BYPASS}"
+     other: "Region bypass toggled for player &c{PLAYER}. Currently: &c{BYPASS}"
     notifyother: "Your region bypass has been toggled. Currently: &c{BYPASS}"
    delete:
     success: "Successfully deleted guild's region."
    teleport:
-    self: "Teleported you to &a{GUILDNAME}&3's region."
-    other: "Teleported player &c{PLAYERNAME} &3to &a{GUILDNAME}&3's region"
-    notifyother: "You have been teleported to &a{GUILDNAME}&3's region"
+    self: "Teleported you to &a{GUILDNAME}'s region."
+    other: "Teleported player &c{PLAYERNAME} to &a{GUILDNAME}'s region"
+    notifyother: "You have been teleported to &a{GUILDNAME}'s region"
   save:
    players: "Players saved."
    guilds: "Guilds saved."
@@ -81,7 +81,7 @@ chat:
    notfound: "Could not find a hologram with this name."
    teleport:
     self: "Teleported you to &a{NAME}"
-    other: "Teleported player &c{PLAYERNAME} &3to &a{NAME}"
+    other: "Teleported player &c{PLAYERNAME} to &a{NAME}"
    add:
     success: "Successfuly added a hologram: &a{NAME}"
    delete:
@@ -209,7 +209,7 @@ chat:
  noguild: "No guild"
  
  raid:
-  resting: "You have to wait &c{TIMEREST} &3before attacking this guild."
+  resting: "You have to wait &c{TIMEREST} before attacking this guild."
   protection: "This guild is new and still protected. Try tomorrow."
  
  guild:
@@ -234,19 +234,19 @@ chat:
   openinvitation: "Toggled open invitations, currently: &c{STATUS}"
   fpvptoggled: "Toggled friendly PVP for your guild. Currently: &c{FPVP}"
   effect:
-   success: "You bought &a{EFFECTTYPE} &3effect for all your teammates!"
+   success: "You bought &a{EFFECTTYPE} effect for all your teammates!"
  
   ally:
    war: "First you need to end the war with that guild."
    samename: "You cannot be allies with your own guild!"
    alreadyally: "You already are allies!"
    alreadyinvited: "You already invited that guild to an ally"
-   invited: "You invited &a{ALLYNAME} &3to an ally."
+   invited: "You invited &a{ALLYNAME} to an ally."
    accepted: "You accepted ally invitation with &a{ALLYNAME}"
-   newinvite: "Guild &a{GUILDNAME} &3invited you to an ally."
-   notifyguild: "Guild &a{GUILDNAME} &3invited you to an ally."
-   notifyguildcanceled: "Guild &a{GUILDNAME} &3canceled their ally invitation"
-   canceled: "&3Canceled ally invitation with guild &a{GUILDNAME}"
+   newinvite: "Guild &a{GUILDNAME} invited you to an ally."
+   notifyguild: "Guild &a{GUILDNAME} invited you to an ally."
+   notifyguildcanceled: "Guild &a{GUILDNAME} canceled their ally invitation"
+   canceled: "Canceled ally invitation with guild &a{GUILDNAME}"
    
   couldnotfind: "Couldn't find the guild."
   hasnoregion: "This guild has no region"
@@ -276,8 +276,8 @@ chat:
    ally: "First you need to end your ally with that guild."
    yourguildwar: "You cannot start a war with yourself!"
    nowarinv:
-    success: "You asked guild &a{GUILDNAME} &3to stop the war"
-    notify: "&a{GUILDNAME} &3asked you to stop the war"
+    success: "You asked guild &a{GUILDNAME} to stop the war"
+    notify: "&a{GUILDNAME} asked you to stop the war"
    list:
     nowars: "No wars."
     warsheader: "List of wars:"
@@ -286,7 +286,7 @@ chat:
     separator: "&f, "
   
   leader:
-   success: "&a{PLAYERNAME} &3is now the leader!"
+   success: "&a{PLAYERNAME} is now the leader!"
    samenick: "You already are the leader!"
    notsameguild: "This player is not in your guild."
    notifynewleader: "You are now the leader of &a{GUILDNAME}"
@@ -296,11 +296,11 @@ chat:
   bank:
    enteramount: "Please give the amount."
    pay:
-    paid: "You've paid &2$&c{AMOUNT} &3to guild's bank."
+    paid: "You've paid &2$&c{AMOUNT} to guild's bank."
     notenough: "You don't have enough money."
    withdraw:
     notleader: "Only leaders can withdraw money."
-    success: "You took &2$&c{AMOUNT} &3from guild's bank."
+    success: "You took &2$&c{AMOUNT} from guild's bank."
     notenough: "There is not enough money in the bank."
   
  player:
@@ -312,8 +312,8 @@ chat:
   alreadyinvited: "This player is already invited to that guild."
   notinyourguild: "That player is not in your guild!"
   pvpmoney:
-   kill: "You earned &a{MONEY}$ &3for killing &c{PLAYERNAME}"
-   revenge: "You earned &a{MONEY}$ &3for taking revenge on &c{PLAYERNAME}"
+   kill: "You earned &a{MONEY}$ for killing &c{PLAYERNAME}"
+   revenge: "You earned &a{MONEY}$ for taking revenge on &c{PLAYERNAME}"
   invite:
    invited: "Player has been invited to the guild."
    list:
@@ -325,7 +325,7 @@ chat:
    notify: "You have been invited to guild &a{GUILDNAME}"
    cancel:
     success: "Canceled invitation for player &c{PLAYERNAME}"
-    notify: "Your invitation to guild &a{GUILDNAME} &3has been canceled"
+    notify: "Your invitation to guild &a{GUILDNAME} has been canceled"
   info:
    header: "&4*** &3Player information &4***"
    guildrow: " &c* &2Guild: &7[&a{TAG}&7] &6{GUILDNAME}"
@@ -356,9 +356,9 @@ chat:
    notvalid: "Area you selected is not valid. Try again."
    valid: "Area selected. &c/g buyregion"
    notselected: "Please select the area"
-  size: "Selected area's size: &c{SIZE} &3blocks"
+  size: "Selected area's size: &c{SIZE} blocks"
   price: "Buying this area will cost you: &c${PRICE}"
-  cnotafford: "You can't afford this claim. You need &c${NEEDMORE} &3more"
+  cnotafford: "You can't afford this claim. You need &c${NEEDMORE} more"
   created: "Region created successfully"
   mustveguild: "You need a guild to buy this area. &c/create"
   entered: "You entered the region of guild &a{GUILDNAME}"
@@ -367,7 +367,7 @@ chat:
    start: "Resizing the region... Set with a &cright-click"
    success: "Region resized successfuly"
   notifyguild:
-   entered: "Player &c{PLAYERNAME} &3entered your guild's region!"
+   entered: "Player &c{PLAYERNAME} entered your guild's region!"
   belongsto: "This region belongs to &a{GUILDNAME}"
   list:
    header: "Region list:"
@@ -444,26 +444,26 @@ broadcast:
  admin:
   autosave: "Saved plugin data."
   guild:
-   abandon: "Admin &c{PLAYERNAME} &3abandoned guild &a{GUILDNAME}"
+   abandon: "Admin &c{PLAYERNAME} abandoned guild &a{GUILDNAME}"
  guild:
-  war: "Guild &a{GUILD1} &3has started a &cwar &3with &a{GUILD2}"
-  nowar: "Guild &a{GUILD1} &3and &a{GUILD2} &3have stopped the war"
-  joined: "Player &c{PLAYER} &3joined &a{GUILDNAME}"
-  left: "Player &c{PLAYER} &3left &a{GUILDNAME}"
-  created: "Player &c{PLAYER} &3created guild &a{GUILDNAME}"
-  abandoned: "Player &c{PLAYER} &3abandoned &a{GUILDNAME}"
-  setleader: "Player &c{PLAYERNAME} &3is now the leader of &a{GUILDNAME}"
-  allied: "&a{GUILDNAME} &3and &a{ALLYNAME} &3are allies now!"
-  endally: "&a{GUILDNAME} &3and &a{ALLYNAME} &3ended their ally!"
-  kicked: "Player &c{PLAYERNAME} &3has been kicked from &a{GUILDNAME}"
-  newleader: "Player &c{PLAYERNAME} &3is now the leader of &a{GUILDNAME}"
-  destroyed: "Guild &a{GUILDNAME} &3has been destroyed!"
+  war: "Guild &a{GUILD1} has started a &cwar &3with &a{GUILD2}"
+  nowar: "Guild &a{GUILD1} and &a{GUILD2} have stopped the war"
+  joined: "Player &c{PLAYER} joined &a{GUILDNAME}"
+  left: "Player &c{PLAYER} left &a{GUILDNAME}"
+  created: "Player &c{PLAYER} created guild &a{GUILDNAME}"
+  abandoned: "Player &c{PLAYER} abandoned &a{GUILDNAME}"
+  setleader: "Player &c{PLAYERNAME} is now the leader of &a{GUILDNAME}"
+  allied: "&a{GUILDNAME} and &a{ALLYNAME} are allies now!"
+  endally: "&a{GUILDNAME} and &a{ALLYNAME} ended their ally!"
+  kicked: "Player &c{PLAYERNAME} has been kicked from &a{GUILDNAME}"
+  newleader: "Player &c{PLAYERNAME} is now the leader of &a{GUILDNAME}"
+  destroyed: "Guild &a{GUILDNAME} has been destroyed!"
   raid:
    finished: 
-    attackerwon: "Raid finished! &a{ATTACKER} &3vs &a{DEFENDER}&3! Attacker won."
-    defenderwon: "Raid finished! &a{ATTACKER} &3vs &a{DEFENDER}&3! Defender won."
+    attackerwon: "Raid finished! &a{ATTACKER} vs &a{DEFENDER}! Attacker won."
+    defenderwon: "Raid finished! &a{ATTACKER} vs &a{DEFENDER}! Defender won."
  pvp:
-  killed: "Player {TAG1}&c{PLAYER1} &3was slain by {TAG2}&c{PLAYER2}"
+  killed: "Player {TAG1}&c{PLAYER1} was slain by {TAG2}&c{PLAYER2}"
   
 holographicdisplays:
  locations:

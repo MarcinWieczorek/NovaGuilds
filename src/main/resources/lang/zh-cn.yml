@@ -5,7 +5,7 @@ chat:
  invalidparam: "&c参数错误"
  cmdfromconsole: "您无法从控制台执行该命令"
  enterinteger: "请输入一个数字."
- delayedteleport: "传送将于 &c{DELAY} &3秒后开始，请不要移动位置"
+ delayedteleport: "传送将于 &c{DELAY} 秒后开始，请不要移动位置"
  delayedtpmoved: "您的位置发生了移动,传送已取消.!"
  erroroccured: "&c错误,请联系服务器管理员."
  update: "&4发现版本更新！&a请点击查看：&6http://www.novaguilds.pl/"
@@ -27,24 +27,24 @@ chat:
     page:
      hasnext: "&7-- &c第 &7{PAGE} &c页,共 &7{PAGES} 页-- &c/nga g list {NEXT} &7--"
      nonext: "&7-- &c第 &7{PAGE} &c页,共 &7{PAGES} 页--"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3会长: &c{PLAYERNAME} &3({PLAYERSCOUNT} 个玩家)"
+    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &3会长: &c{PLAYERNAME} ({PLAYERSCOUNT} 个玩家)"
    inactive:
-    updated: "所有的公会活动时间更新. (&c{COUNT} &3个公会)"
+    updated: "所有的公会活动时间更新. (&c{COUNT} 个公会)"
     list:
      header: "大多数不活跃的公会"
-     item: " &2- &a{GUILDNAME} &3活跃的 {AGONOW}"
-     ago: "&c{INACTIVE}&3之前"
+     item: " &2- &a{GUILDNAME} 活跃的 {AGONOW}"
+     ago: "&c{INACTIVE}之前"
      now: "&c现在"
    bank:
-    paid: "你支付了 &c${MONEY} &3给 &a{GUILDNAME}&3公会的银行."
-    withdrew: "你取出了 &c${MONEY} &3从 &a{GUILDNAME}&3公会的银行."
-   abandon: "&a{GUILDNAME} &3抛弃."
+    paid: "你支付了 &c${MONEY} 给 &a{GUILDNAME}公会的银行."
+    withdrew: "你取出了 &c${MONEY} 从 &a{GUILDNAME}公会的银行."
+   abandon: "&a{GUILDNAME} 抛弃."
    kick:
     leader: "你不能踢会长,除非你要删除公会."
-   invited: "邀请了玩家 &c{PLAYERNAME} &3到 &a{GUILDNAME} 公会"
+   invited: "邀请了玩家 &c{PLAYERNAME} 到 &a{GUILDNAME} 公会"
    teleported:
     self: "被传送到 &a{GUILDNAME} 公会的传送点"
-    other: "传送玩家 &c{PLAYERNAME} &3到达 &a{GUILDNAME} 公会的传送点"
+    other: "传送玩家 &c{PLAYERNAME} 到达 &a{GUILDNAME} 公会的传送点"
    set:
     tag: "前缀已更改为&a{TAG}"
     points: "点设置."
@@ -56,7 +56,7 @@ chat:
      enternewname: "输入新的名字"
      success: "公会名称已修改."
     leader:
-     notinguild: "该尚未加入&a{GUILDNAME}&3公会"
+     notinguild: "该尚未加入&a{GUILDNAME}公会"
      alreadyleader: "玩家 &c{PLAYERNAME} 已成为会长！"
      success: "新的会长已设置！"
   region:
@@ -68,9 +68,9 @@ chat:
    delete:
     success: "成功删除公会领地."
    teleport:
-    self: "您已传送至&a{GUILDNAME}&3公会"
-    other: "已将玩家&c{PLAYERNAME}&3传送至&a{GUILDNAME}&3公会"
-    notifyother: "您已被传送至&a{GUILDNAME}&3公会"
+    self: "您已传送至&a{GUILDNAME}公会"
+    other: "已将玩家&c{PLAYERNAME}传送至&a{GUILDNAME}公会"
+    notifyother: "您已被传送至&a{GUILDNAME}公会"
   save:
    players: "玩家数据已保存."
    guilds: "公会数据已保存."
@@ -81,7 +81,7 @@ chat:
    notfound: "找不到该名称的全息图"
    teleport:
     self: "传送到 &a{NAME}"
-    other: "传送玩家 &c{PLAYERNAME} &3到 &a{NAME}"
+    other: "传送玩家 &c{PLAYERNAME} 到 &a{NAME}"
    add:
     success: "添加一个全息图: &a{NAME}"
    delete:
@@ -209,7 +209,7 @@ chat:
  noguild: "未加入公会."
 
  raid:
-  resting: "你还需等待&c{TIMEREST}&3才可以攻击该公会."
+  resting: "你还需等待&c{TIMEREST}才可以攻击该公会."
   protection: "该公会刚刚成立,尚处在保护状态,请明天再试."
 
  guild:
@@ -234,19 +234,19 @@ chat:
   openinvitation: "玩家邀请开放, 现在的状态为: &c{STATUS}"
   fpvptoggled: "已更改会内PVP的开关状态,现在的状态为：&c{FPVP}"
   effect:
-   success: "您已为您的队友够了买了&a{EFFECTTYPE}&3特效！"
+   success: "您已为您的队友够了买了&a{EFFECTTYPE}特效！"
 
   ally:
    war: "您需要先结束与该公会的敌对状态."
    samename: "您无法与自己结盟！"
    alreadyally: "你们已经是盟友了！"
    alreadyinvited: "您已向该公会申请结盟."
-   invited: "您已向&a{ALLYNAME}&3公会发出了结盟申请."
-   accepted: "您已接受&a{ALLYNAME}&3公会的结盟申请."
-   newinvite: "&a{GUILDNAME}&3公会向您发出了结盟申请."
-   notifyguild: "&a{GUILDNAME}&3公会向您发出了结盟申请."
-   notifyguildcanceled: "&a{GUILDNAME}&3取消了他们的结盟申请."
-   canceled: "&3您已取消向&a{GUILDNAME}&3的结盟申请."
+   invited: "您已向&a{ALLYNAME}公会发出了结盟申请."
+   accepted: "您已接受&a{ALLYNAME}公会的结盟申请."
+   newinvite: "&a{GUILDNAME}公会向您发出了结盟申请."
+   notifyguild: "&a{GUILDNAME}公会向您发出了结盟申请."
+   notifyguildcanceled: "&a{GUILDNAME}取消了他们的结盟申请."
+   canceled: "&3您已取消向&a{GUILDNAME}的结盟申请."
 
   couldnotfind: "该公会不存在."
   hasnoregion: "该公会没有领地."
@@ -276,8 +276,8 @@ chat:
    ally: "您需要先解除与该公会的结盟."
    yourguildwar: "您无法与自己宣战！"
    nowarinv:
-    success: "您向&a{GUILDNAME}&3发出了停战请求."
-    notify: "&a{GUILDNAME}&3向您发出了停战请求."
+    success: "您向&a{GUILDNAME}发出了停战请求."
+    notify: "&a{GUILDNAME}向您发出了停战请求."
    list:
     nowars: "无公会战争发生."
     warsheader: "进行中的公会战争:"
@@ -286,21 +286,21 @@ chat:
     separator: "&f, "
 
   leader:
-   success: "&a{PLAYERNAME}&3已成为公会会长！"
+   success: "&a{PLAYERNAME}已成为公会会长！"
    samenick: "您已成为公会会长！"
    notsameguild: "该玩家不在您的公会内"
-   notifynewleader: "您已成为&a{GUILDNAME}&3公会的会长."
+   notifynewleader: "您已成为&a{GUILDNAME}公会的会长."
   leave:
    isleader: "公会会长无法退出公会."
    left: "您已退出公会."
   bank:
    enteramount: "请输入金额."
    pay:
-    paid: "您已向公会银行支付了&2$&c{AMOUNT}&3金币."
+    paid: "您已向公会银行支付了&2$&c{AMOUNT}金币."
     notenough: "您的金币余额不足."
    withdraw:
     notleader: "仅公会会长可从公会银行内支取金币."
-    success: "您已从公会银行内取出&2$&c{AMOUNT}&3金币."
+    success: "您已从公会银行内取出&2$&c{AMOUNT}金币."
     notenough: "公会银行金币不足."
 
  player:
@@ -312,8 +312,8 @@ chat:
   alreadyinvited: "该玩家已接收到入会邀请."
   notinyourguild: "该玩家不在您的公会内！"
   pvpmoney:
-   kill: "你击杀了 {PLAYERNAME} &3了获得了 &a{MONEY} &3金币"
-   revenge: "&3你报复了 &c{PLAYERNAME} &3获得 &a{MONEY}$ 金币"
+   kill: "你击杀了 {PLAYERNAME} 了获得了 &a{MONEY} 金币"
+   revenge: "&3你报复了 &c{PLAYERNAME} 获得 &a{MONEY}$ 金币"
   invite:
    invited: "已向该玩家发出入会邀请."
    list:
@@ -322,10 +322,10 @@ chat:
     item: "&c{GUILDNAME}"
     separator: "&f, "
    notinvited: "该公会未向您发出入会邀请！"
-   notify: "&a{GUILDNAME}&3公会已向您发出入会邀请."
+   notify: "&a{GUILDNAME}公会已向您发出入会邀请."
    cancel:
-    success: "已取消向&c{PLAYERNAME}&3的入会邀请."
-    notify: "您向&a{GUILDNAME}&3公会发出的请求已取消."
+    success: "已取消向&c{PLAYERNAME}的入会邀请."
+    notify: "您向&a{GUILDNAME}公会发出的请求已取消."
   info:
    header: "&4*** &3玩家信息 &4***"
    guildrow: " &c* &2公会: &7[&a{TAG}&7] &6{GUILDNAME}"
@@ -356,19 +356,19 @@ chat:
    notvalid: "选定的区域无效,请重试."
    valid: "区域已选择,请输入&c/g buyregion&3购买领地."
    notselected: "请先选择区域."
-  size: "选择的区域大小: &c{SIZE} &3方格."
+  size: "选择的区域大小: &c{SIZE} 方格."
   price: "购买该区域需支付的费用: &c${PRICE}"
-  cnotafford: "无法购买该区域,你还需要&c${NEEDMORE}&3."
+  cnotafford: "无法购买该区域,你还需要&c${NEEDMORE}."
   created: "领地购买成功."
   mustveguild: "你需要成立公会以购买该区域,请输入&c/create&3以成立公会."
-  entered: "您已进入了 &a{GUILDNAME} &3公会的领地."
-  exited: "您退出了 &a{GUILDNAME} &3公会的领地."
+  entered: "您已进入了 &a{GUILDNAME} 公会的领地."
+  exited: "您退出了 &a{GUILDNAME} 公会的领地."
   resize:
    start: "正在调整领地大小,请使用&c鼠标右键&3进行调整."
    success: "领地大小调整完成."
   notifyguild:
-   entered: "&c{PLAYERNAME}&3已进入您的公会领地！"
-  belongsto: "该领地属于&a{GUILDNAME}&3公会"
+   entered: "&c{PLAYERNAME}已进入您的公会领地！"
+  belongsto: "该领地属于&a{GUILDNAME}公会"
   list:
    header: "领地列表："
    item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
@@ -444,26 +444,26 @@ broadcast:
  admin:
   autosave: "公会信息已保存."
   guild:
-   abandon: "管理员&c{PLAYERNAME}&3废弃了&a{GUILDNAME}&3公会."
+   abandon: "管理员&c{PLAYERNAME}废弃了&a{GUILDNAME}公会."
  guild:
-  war: "&a{GUILD1}&公会向&a{GUILD2}&3公会发起了一场&c战争."
-  nowar: "&a{GUILD1}&3公会已与&a{GUILD2}&3公会停战."
-  joined: "&c{PLAYER}&3加入了&a{GUILDNAME}."
-  left: "&c{PLAYER}&3离开了&a{GUILDNAME}"
-  created: "&c{PLAYER}&3创建了&a{GUILDNAME}&3公会."
-  abandoned: "&c{PLAYER}&3解散了&a{GUILDNAME}&3公会."
-  setleader: "&c{PLAYERNAME}&3已成为&a{GUILDNAME}&3公会的会长."
-  allied: "&a{GUILDNAME}&3公会已与&a{ALLYNAME}&3公会结盟！"
-  endally: "&a{GUILDNAME}&3公会已取消了与&a{ALLYNAME}&3公会的结盟！"
-  kicked: "&c{PLAYERNAME}&3已被&a{GUILDNAME}&3公会踢出."
-  newleader: "&c{PLAYERNAME}&3已成为&a{GUILDNAME}&3公会的会长."
-  destroyed: "&a{GUILDNAME}&3已被摧毁！"
+  war: "&a{GUILD1}&公会向&a{GUILD2}公会发起了一场&c战争."
+  nowar: "&a{GUILD1}公会已与&a{GUILD2}公会停战."
+  joined: "&c{PLAYER}加入了&a{GUILDNAME}."
+  left: "&c{PLAYER}离开了&a{GUILDNAME}"
+  created: "&c{PLAYER}创建了&a{GUILDNAME}公会."
+  abandoned: "&c{PLAYER}解散了&a{GUILDNAME}公会."
+  setleader: "&c{PLAYERNAME}已成为&a{GUILDNAME}公会的会长."
+  allied: "&a{GUILDNAME}公会已与&a{ALLYNAME}公会结盟！"
+  endally: "&a{GUILDNAME}公会已取消了与&a{ALLYNAME}公会的结盟！"
+  kicked: "&c{PLAYERNAME}已被&a{GUILDNAME}公会踢出."
+  newleader: "&c{PLAYERNAME}已成为&a{GUILDNAME}公会的会长."
+  destroyed: "&a{GUILDNAME}已被摧毁！"
   raid:
    finished:
-    attackerwon: "团队战结束！ &a{ATTACKER} &3vs &a{DEFENDER}&3！ 攻击方获胜！"
-    defenderwon: "团队战结束！ &a{ATTACKER} &3vs &a{DEFENDER}&3！ 防守方获胜！"
+    attackerwon: "团队战结束！ &a{ATTACKER} vs &a{DEFENDER}！ 攻击方获胜！"
+    defenderwon: "团队战结束！ &a{ATTACKER} vs &a{DEFENDER}！ 防守方获胜！"
  pvp:
-  killed: "玩家{TAG2}&c{PLAYER2}&3击杀了{TAG1}&c{PLAYER1}."
+  killed: "玩家{TAG2}&c{PLAYER2}击杀了{TAG1}&c{PLAYER1}."
 
 holographicdisplays:
  locations:
@@ -475,7 +475,7 @@ holographicdisplays:
 
 #no prefix, start with color
 barapi:
- warprogress: "&3&a{DEFENDER}&3公会正遭受攻击！"
+ warprogress: "&3&a{DEFENDER}公会正遭受攻击！"
 
 book:
  help:
