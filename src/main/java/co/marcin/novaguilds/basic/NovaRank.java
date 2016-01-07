@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.basic;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.GuildPermission;
 
 import java.util.ArrayList;
@@ -151,6 +152,10 @@ public class NovaRank implements Cloneable {
 
 	public boolean isNew() {
 		return id == -1;
+	}
+
+	public boolean isGeneric() {
+		return NovaGuilds.getInstance().getRankManager().isDefaultRank(this);
 	}
 
 	@Override
