@@ -45,6 +45,8 @@ public class RankManager {
 	private final List<NovaRank> defaultRanks = new ArrayList<>();
 
 	public void load() {
+		defaultRanks.clear();
+
 		//Load default ranks
 		loadDefaultRanks();
 

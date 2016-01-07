@@ -93,6 +93,10 @@ public class CommandAdminReload implements Executor {
 		plugin.getGroupManager().load();
 		Message.CHAT_RELOAD_GROUPS.send(sender);
 
+		//ranks
+		plugin.getRankManager().load();
+		Message.CHAT_RELOAD_RANKS.send(sender);
+
 		LoggerUtils.info("Post checks running");
 		plugin.getGuildManager().postCheck();
 		plugin.getRegionManager().postCheck();

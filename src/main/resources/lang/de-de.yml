@@ -75,7 +75,8 @@ chat:
    players: "Spieler gespeichert."
    guilds: "Gilden gespeichert."
    regions: "Bereiche gespeichert."
-   all: "Alle Daten gespeichert. (Spieler, Bereiche, Gilden)"
+   ranks: "Ranks saved."
+   all: "Alle Daten gespeichert. (Spieler, Bereiche, Gilden, Ranks)"
    autosave: "Automatisches Speichern abgeschlossen."
   hologram:
    notfound: "Es wurde kein Hologramm mit diesem Namen gefunden."
@@ -101,6 +102,7 @@ chat:
   regions: "Bereiche geladen!"
   newmsgfile: "Neue Nachrichten-Datei erstellt!"
   groups: "Gruppen geladen!"
+  ranks: "Ranks loaded!"
   reloaded: "NovaGuilds neu geladen!"
 
  usage:
@@ -129,7 +131,7 @@ chat:
      - "&5* &7/nga &cg &2- &3Gildenbefehle"
      - "&5* &7/nga &ch &2- &3Hologrammbefehle"
      - "&5* &7/nga &creload &2- &6[&5NovaGuilds&6] &3neu laden"
-     - "&5* &7/nga &csave &6[players/guilds/region] &2- &3Daten Speichern"
+     - "&5* &7/nga &csave &6[players/guilds/regions/ranks] &2- &3Daten Speichern"
    region:
     header: "Admin Gebiet Befehle:"
     items:

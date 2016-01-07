@@ -75,7 +75,8 @@ chat:
    players: "Players saved."
    guilds: "Guilds saved."
    regions: "Regions saved."
-   all: "All data saved. (Players, Regions, Guilds)"
+   ranks: "Ranks saved."
+   all: "All data saved. (Players, Regions, Guilds, Ranks)"
    autosave: "AutoSave completed."
   hologram:
    notfound: "Could not find a hologram with this name."
@@ -100,7 +101,8 @@ chat:
   guilds: "Guilds loaded!"
   regions: "Regions loaded!"
   newmsgfile: "New messages file created!"
-  groups: "Groups loaded"
+  groups: "Groups loaded!"
+  ranks: "Ranks loaded!"
   reloaded: "NovaGuilds reloaded!"
   
  usage:
@@ -129,7 +131,7 @@ chat:
      - "&5* &7/nga &cg &2- &3Guild commands"
      - "&5* &7/nga &ch &2- &3Hologram commands"
      - "&5* &7/nga &creload &2- &3Reload &6[&5NovaGuilds&6]"
-     - "&5* &7/nga &csave &6[players/guilds/regions] &2- &3Save data"
+     - "&5* &7/nga &csave &6[players/guilds/regions/ranks] &2- &3Save data"
    region:
     header: "Admin region commands:"
     items:

@@ -35,6 +35,7 @@ public class RunnableAutoSave implements Runnable {
 		plugin.getGuildManager().save();
 		plugin.getRegionManager().save();
 		plugin.getPlayerManager().save();
+		plugin.getRankManager().save();
 		LoggerUtils.info("Saved data.");
 
 		//send message to admins

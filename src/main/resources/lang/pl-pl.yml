@@ -75,7 +75,8 @@ chat:
    players: "Gracze zapisani."
    guilds: "Gildie zapisane."
    regions: "Regiony zapisane."
-   all: "Zapisano wszystkie dane. (Gracze, gildie, regiony)"
+   ranks: "Rangi zapisane."
+   all: "Zapisano wszystkie dane. (Gracze, gildie, regiony, rangi)"
    autosave: "Zakonczono automatyczny zapis."
   hologram:
    notfound: "Nie udalo sie znalezc hologramu o takiej nazwie."
@@ -101,6 +102,7 @@ chat:
   regions: "Regiony zaladowane"
   newmsgfile: "Nowy plik wiadomosci stworzony!"
   groups: "Grupy zaladowane!"
+  ranks: "Rangi załadowane!"
   reloaded: "NovaGuilds przeladowane!"
 
  usage:
@@ -129,7 +131,7 @@ chat:
      - "&5* &7/nga &cg &2- &3Komendy gildii"
      - "&5* &7/nga &ch &2- &3Komendy hologramow"
      - "&5* &7/nga &creload &2- &3Przeladuj &6[&5NovaGuilds&6]"
-     - "&5* &7/nga &csave &6[players/guilds/regions] &2- &3Zapisz dane"
+     - "&5* &7/nga &csave &6[players/guilds/regions/ranks] &2- &3Zapisz dane"
    region:
     header: "Komendy Admina, regiony:"
     items:

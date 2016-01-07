@@ -75,7 +75,8 @@ chat:
    players: "玩家数据已保存."
    guilds: "公会数据已保存."
    regions: "领地数据已保存."
-   all: "配置文件已保存(Players, Regions, Guilds)"
+   ranks: "Ranks saved."
+   all: "配置文件已保存(Players, Regions, Guilds, Ranks)"
    autosave: "自动保存传送."
   hologram:
    notfound: "找不到该名称的全息图"
@@ -100,7 +101,8 @@ chat:
   guilds: "公会数据已重载！"
   regions: "领地数据已重载！"
   newmsgfile: "成功创建新语言文件！"
-  groups: "权限组信息已加载"
+  groups: "权限组信息已加载!"
+  ranks: "Ranks loaded!"
   reloaded: "插件重载完成！"
 
  usage:
@@ -129,7 +131,7 @@ chat:
      - "&5* &7/nga &cg &2- &3公会管理指令"
      - "&5* &7/nga &ch &2- &3全息图指令"
      - "&5* &7/nga &creload &2- &3重载 &6[&5NovaGuilds&6]"
-     - "&5* &7/nga &csave &6[players/guilds/regions] &2- &3保存公会插件数据"
+     - "&5* &7/nga &csave &6[players/guilds/regions/ranks] &2- &3保存公会插件数据"
    region:
     header: "[管理]领地管理指令:"
     items:
