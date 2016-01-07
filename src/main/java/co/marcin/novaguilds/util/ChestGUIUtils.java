@@ -19,7 +19,10 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
 
 public class ChestGUIUtils {
 	public static int getChestSize(int count) {
@@ -31,5 +34,21 @@ public class ChestGUIUtils {
 			nPlayer.getPlayer().openInventory(guiInventory.getInventory());
 			nPlayer.setGuiInventory(guiInventory);
 		}
+	}
+
+	public static Inventory createInventory(int size, String title) {
+		if(title.length() > 32) {
+			title = title.substring(0, 32);
+		}
+
+		return Bukkit.createInventory(null, size, title);
+	}
+
+	public static Inventory createInventory(int size, Message title) {
+		return createInventory(size, title.get());
+	}
+
+	public static Inventory createInventory(int size) {
+		return createInventory(size, "");
 	}
 }

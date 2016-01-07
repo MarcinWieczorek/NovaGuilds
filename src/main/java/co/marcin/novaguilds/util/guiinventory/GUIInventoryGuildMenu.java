@@ -25,7 +25,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +38,7 @@ public class GUIInventoryGuildMenu implements GUIInventory {
 
 	public GUIInventoryGuildMenu(NovaPlayer nPlayer) {
 		this.nPlayer = nPlayer;
-		inventory = Bukkit.createInventory(null, 9, Message.INVENTORY_GGUI_NAME.get());
+		inventory = ChestGUIUtils.createInventory(9, Message.INVENTORY_GGUI_NAME);
 
 		generateContent();
 	}

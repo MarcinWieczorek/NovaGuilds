@@ -25,7 +25,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -43,7 +42,7 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 
 		Map<String, String> vars = new HashMap<>();
 		vars.put("RANKNAME", rank.getName());
-		inventory = Bukkit.createInventory(null, ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.vars(vars).get());
+		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.vars(vars));
 
 		generateContent();
 	}

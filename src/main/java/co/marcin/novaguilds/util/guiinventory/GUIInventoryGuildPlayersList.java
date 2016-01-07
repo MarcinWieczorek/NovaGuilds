@@ -25,7 +25,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +41,7 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 	public GUIInventoryGuildPlayersList(NovaGuild guild) {
 		this.guild = guild;
 
-		inventory = Bukkit.createInventory(null, ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSLIST_TITLE.get());
+		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSLIST_TITLE);
 
 		generateContent();
 	}
