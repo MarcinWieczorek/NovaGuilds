@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -71,7 +72,7 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 		inventory.clear();
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("RANKNAME", nPlayer.getGuildRank()==null?"Invalid rank":nPlayer.getGuildRank().getName());
+		vars.put("RANKNAME", nPlayer.getGuildRank()==null?"Invalid_rank": StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
 
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();
