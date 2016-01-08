@@ -283,10 +283,15 @@ public class NovaPlayer {
 	}
 
 	public void setGuildRank(NovaRank guildRank) {
-		this.guildRank = guildRank;
-		if(!guildRank.getMembers().contains(this)) {
+		if(this.guildRank != null) {
+			this.guildRank.removeMember(this);
+		}
+
+		if(guildRank != null) {
 			guildRank.addMember(this);
 		}
+
+		this.guildRank = guildRank;
 	}
 	
 	//check stuff

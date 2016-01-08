@@ -173,8 +173,10 @@ public class RankManager {
 					}
 
 					List<String> memberNames = new ArrayList<>();
-					for(NovaPlayer nPlayer : rank.getMembers()) {
-						memberNames.add(nPlayer.getName());
+					if(!rank.isDef()) {
+						for(NovaPlayer nPlayer : rank.getMembers()) {
+							memberNames.add(nPlayer.getName());
+						}
 					}
 
 					ranksConfigurationSection.set(rank.getName()+".members", memberNames);
@@ -220,8 +222,10 @@ public class RankManager {
 					}
 
 					List<String> memberNamesList = new ArrayList<>();
-					for(NovaPlayer nPlayer : rank.getMembers()) {
-						memberNamesList.add(nPlayer.getName());
+					if(!rank.isDef()) {
+						for(NovaPlayer nPlayer : rank.getMembers()) {
+							memberNamesList.add(nPlayer.getName());
+						}
 					}
 
 					List<String> permissionNamesList = new ArrayList<>();
@@ -293,9 +297,11 @@ public class RankManager {
 	public void delete(NovaRank rank) {
 		if(Config.getManager().getDataStorageType() != DataStorageType.FLAT) {
 			try {
-				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.RANKS_DELETE);
-				preparedStatement.setInt(1, rank.getId());
-				preparedStatement.execute();
+				if(!rank.isNew()) {
+					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.RANKS_DELETE);
+					preparedStatement.setInt(1, rank.getId());
+					preparedStatement.execute();
+				}
 
 				rank.getGuild().removeRank(rank);
 
@@ -342,12 +348,22 @@ public class RankManager {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			for(NovaPlayer nPlayer : guild.getPlayers()) {
 				if(nPlayer.getGuildRank() == null) {
+					NovaRank defaultRank = guild.getDefaultRank();
+					NovaRank rank;
+
 					if(nPlayer.isLeader()) {
-						nPlayer.setGuildRank(getDefaultRanks().get(0)); //TODO ???
+						rank = getDefaultRanks().get(0);
 					}
 					else {
-						//TODO
+						if(defaultRank == null) {
+							rank = getDefaultRanks().get(1);
+						}
+						else {
+							rank = defaultRank;
+						}
 					}
+
+					nPlayer.setGuildRank(rank);
 				}
 			}
 		}
