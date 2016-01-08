@@ -210,6 +210,11 @@ public class RankManager {
 		else {
 			plugin.getDatabaseManager().mysqlReload();
 
+			if(!plugin.getDatabaseManager().isConnected()) {
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 				for(NovaRank rank : guild.getRanks()) {
 					if(!rank.isChanged()) {
@@ -257,6 +262,13 @@ public class RankManager {
 
 	public void add(NovaRank rank) {
 		if(Config.getManager().getDataStorageType() != DataStorageType.FLAT) {
+			plugin.getDatabaseManager().mysqlReload();
+
+			if(!plugin.getDatabaseManager().isConnected()) {
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			try {
 				List<String> memberNamesList = new ArrayList<>();
 				for(NovaPlayer nPlayer : rank.getMembers()) {
@@ -296,6 +308,13 @@ public class RankManager {
 
 	public void delete(NovaRank rank) {
 		if(Config.getManager().getDataStorageType() != DataStorageType.FLAT) {
+			plugin.getDatabaseManager().mysqlReload();
+
+			if(!plugin.getDatabaseManager().isConnected()) {
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
+				return;
+			}
+
 			try {
 				if(!rank.isNew()) {
 					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.RANKS_DELETE);
