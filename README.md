@@ -210,36 +210,48 @@ mvn clean install
             <td>/nga g list</td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.leader</td>
+            <td>novaguilds.admin.guild.set.leader</td>
             <td>/nga g <guild> leader <player></td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.liveregenerationtime</td>
+            <td>novaguilds.admin.guild.set.liveregenerationtime</td>
             <td>/nga g <guild> liveregentime <timestring></td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.lives</td>
+            <td>novaguilds.admin.guild.set.lives</td>
             <td>/nga g <guild> lives <lives></td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.setname</td>
+            <td>novaguilds.admin.guild.set.name</td>
             <td>/nga g <guild> setname <newname></td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.setpoints</td>
+            <td>novaguilds.admin.guild.set.points</td>
             <td>/nga g <guild> setpoints <points></td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.settag</td>
+            <td>novaguilds.admin.guild.set.tag</td>
             <td>/nga g <guild> setpoints <points></td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.timerest</td>
+            <td>novaguilds.admin.guild.set.timerest</td>
             <td>/nga g <guild> timerest <timestring></td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.tp</td>
+            <td>novaguilds.admin.guild.set.slots</td>
+            <td>/nga g <guild> slots <amount></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.purge</td>
+            <td>/nga g purge/td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.teleport</td>
             <td>/nga g <guild> tp</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.teleport.other</td>
+            <td>/nga g <guild> tp <player></td>
         </tr>
         <tr>
             <td>novaguilds.admin.region.bypass</td>
@@ -258,8 +270,36 @@ mvn clean install
             <td>/nga rg list</td>
         </tr>
         <tr>
-            <td>novaguilds.admin.region.tp</td>
+            <td>novaguilds.admin.region.teleport</td>
             <td>/nga rg tp <guild></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.hologram.access</td>
+            <td>/nga h</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.hologram.list</td>
+            <td>/nga h</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.hologram.teleport</td>
+            <td>/nga h</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.hologram.teleport.here</td>
+            <td>/nga h</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.hologram.delete</td>
+            <td>/nga h</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.hologram.add</td>
+            <td>/nga h</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.hologram.addtop</td>
+            <td>/nga h</td>
         </tr>
         <tr>
             <td>novaguilds.admin.reload</td>
@@ -354,12 +394,44 @@ mvn clean install
             <td>/g war [guild]</td>
         </tr>
         <tr>
+            <td>novaguilds.guild.buylife</td>
+            <td>/g buylife</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.buyslot</td>
+            <td>/g buyslot</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.info</td>
+            <td>/gi [guild]</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.leader</td>
+            <td>/g leader <player></td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.boss</td>
+            <td>Soon.</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.openinvitation</td>
+            <td>/g </td>
+        </tr>
+        <tr>
+            <td>novaguilds.region.access</td>
+            <td>/g rg</td>
+        </tr>
+        <tr>
             <td>novaguilds.region.create</td>
-            <td>/g buyregion</td>
+            <td>/g rg buy</td>
         </tr>
         <tr>
             <td>novaguilds.region.resize</td>
             <td>Resize with the tool</td>
+        </tr>
+        <tr>
+            <td>novaguilds.region.delete</td>
+            <td>/g rg delete</td>
         </tr>
         <tr>
             <td>novaguilds.chat.notag</td>
@@ -376,6 +448,14 @@ mvn clean install
         <tr>
             <td>novaguilds.tool.get</td>
             <td>/ng tool</td>
+        </tr>
+        <tr>
+            <td>novaguilds.error</td>
+            <td>Receive errors (for admins)</td>
+        </tr>
+        <tr>
+            <td>novaguilds.confirm</td>
+            <td>/confirm</td>
         </tr>
     </tbody>
 </table>
