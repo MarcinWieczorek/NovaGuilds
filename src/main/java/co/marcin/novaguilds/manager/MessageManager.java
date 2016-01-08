@@ -95,6 +95,10 @@ public class MessageManager {
 		Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 
 		if(essentials != null && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
+			if(essentials.getSettings() == null) {
+				return;
+			}
+
 			String locale = essentials.getSettings().getLocale();
 			if(locale.isEmpty()) {
 				locale = "en";
