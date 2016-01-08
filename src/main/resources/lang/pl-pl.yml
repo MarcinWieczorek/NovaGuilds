@@ -505,6 +505,14 @@ inventory:
    iconitem: "EMPTY_MAP 1 name:Rangi"
    rowitem: "BOOK 1 name:{RANKNAME}"
    additem: "BOOK_AND_QUILL 1 name:Dodaj_rangę"
+  rank:
+   settings:
+    item:
+     editpermissions: "BOOK_AND_QUILL 1 name:&6Edytuj_uprawnienia"
+     setdefault: "WOOD_DOOR 1 name:&6Ustaw_jako_domyślna"
+     clone: "GOLD_NUGGET 1 name:&6Sklonuj"
+     rename: "NAME_TAG 1 name:&6Zmień_nazwę"
+     delete: "REDSTONE_BLOCK 1 name:&cUsuń"
   permissions:
    title: "Edycja rangi: &l{RANKNAME}"
    item:
