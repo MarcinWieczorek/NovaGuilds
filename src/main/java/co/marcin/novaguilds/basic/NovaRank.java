@@ -22,7 +22,6 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.GuildPermission;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class NovaRank implements Cloneable {
@@ -181,10 +180,7 @@ public class NovaRank implements Cloneable {
 
 	public void delete() {
 		if(!isDef()) {
-			Iterator<NovaPlayer> iterator = getMembers().iterator();
-			NovaPlayer nPlayer;
-			while(iterator.hasNext()) {
-				nPlayer = iterator.next();
+			for(NovaPlayer nPlayer : new ArrayList<>(getMembers())) {
 				nPlayer.setGuildRank(getGuild().getDefaultRank());
 			}
 		}
