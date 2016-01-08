@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -59,7 +60,13 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 		Player player;
 
 		if(args.length > 1) { //other
+			if(!Permission.NOVAGUILDS_ADMIN_REGION_TELEPORT_SELF.has(sender)) {
+				Message.CHAT_NOPERMISSIONS.send(sender);
+				return;
+			}
+
 			 nPlayerOther = plugin.getPlayerManager().getPlayer(args[1]);
+
 			if(nPlayerOther == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 				return;

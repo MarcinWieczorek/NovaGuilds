@@ -100,7 +100,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		List<String> guildInfoMessages;
 		String separator = Message.CHAT_GUILDINFO_PLAYERSEPARATOR.get();
 
-		if((sender instanceof Player && nPlayer.hasGuild() && guild.getName().equalsIgnoreCase(nPlayer.getGuild().getName())) || Permission.NOVAGUILDS_ADMIN_FULLINFO.has(sender)) {
+		if((sender instanceof Player && nPlayer.hasGuild() && guild.isMember(nPlayer)) || Permission.NOVAGUILDS_ADMIN_GUILD_FULLINFO.has(sender)) {
 			guildInfoMessages = Message.CHAT_GUILDINFO_FULLINFO.getList();
 		}
 		else {
