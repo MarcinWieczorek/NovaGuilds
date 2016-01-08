@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.GuildPermission;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class NovaRank implements Cloneable {
@@ -94,8 +95,11 @@ public class NovaRank implements Cloneable {
 	}
 
 	public void setGuild(NovaGuild guild) {
+		if(guild != null) {
+			guild.addRank(this);
+		}
+
 		this.guild = guild;
-		guild.addRank(this);
 		changed();
 	}
 
@@ -173,5 +177,18 @@ public class NovaRank implements Cloneable {
 		rank.setPermissions(getPermissions());
 		rank.getMembers().addAll(getMembers());
 		return rank;
+	}
+
+	public void delete() {
+		if(!isDef()) {
+			Iterator<NovaPlayer> iterator = getMembers().iterator();
+			NovaPlayer nPlayer;
+			while(iterator.hasNext()) {
+				nPlayer = iterator.next();
+				nPlayer.setGuildRank(getGuild().getDefaultRank());
+			}
+		}
+
+		NovaGuilds.getInstance().getRankManager().delete(this);
 	}
 }
