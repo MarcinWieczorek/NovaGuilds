@@ -43,8 +43,6 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("RANKNAME", rank.getName());
 		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.vars(vars));
-
-		generateContent();
 	}
 
 	@Override
@@ -79,7 +77,9 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 		}
 	}
 
-	private void generateContent() {
+	@Override
+	public void generateContent() {
+		inventory.clear();
 		int slot = 0;
 		Map<String, String> vars = new HashMap<>();
 

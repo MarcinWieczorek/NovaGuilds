@@ -42,8 +42,6 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYERNAME", nPlayer.getName());
 		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.vars(vars));
-
-		generateContent();
 	}
 
 	@Override
@@ -68,7 +66,10 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 		ChestGUIUtils.openGUIInventory(nPlayer, this);
 	}
 
-	private void generateContent() {
+	@Override
+	public void generateContent() {
+		inventory.clear();
+
 		Map<String, String> vars = new HashMap<>();
 		vars.put("RANKNAME", nPlayer.getGuildRank()==null?"Invalid rank":nPlayer.getGuildRank().getName());
 

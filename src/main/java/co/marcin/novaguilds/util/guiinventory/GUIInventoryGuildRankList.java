@@ -48,11 +48,10 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 	public GUIInventoryGuildRankList(NovaGuild guild) {
 		this.guild = guild;
 		inventory = Bukkit.createInventory(null, ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE.get());
-
-		generateContent();
 	}
 
-	private void generateContent() {
+	@Override
+	public void generateContent() {
 		inventory.clear();
 		slotRanksMap.clear();
 

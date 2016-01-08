@@ -39,8 +39,6 @@ public class GUIInventoryGuildMenu implements GUIInventory {
 	public GUIInventoryGuildMenu(NovaPlayer nPlayer) {
 		this.nPlayer = nPlayer;
 		inventory = ChestGUIUtils.createInventory(9, Message.INVENTORY_GGUI_NAME);
-
-		generateContent();
 	}
 
 	@Override
@@ -65,7 +63,9 @@ public class GUIInventoryGuildMenu implements GUIInventory {
 		ChestGUIUtils.openGUIInventory(nPlayer, this);
 	}
 
-	private void generateContent() {
+	@Override
+	public void generateContent() {
+		inventory.clear();
 		plugin.getCommandManager().updateGuiTop();
 
 		for(ItemStack item : plugin.getCommandManager().getGuiItems()) {

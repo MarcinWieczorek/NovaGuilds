@@ -28,4 +28,6 @@ public interface GUIInventory {
 	Inventory getInventory();
 
 	void open(NovaPlayer nPlayer);
+
+	void generateContent();
 }
