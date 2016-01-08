@@ -61,7 +61,7 @@ public class NovaPlayer {
 	private final Tablist tablist;
 	private CommandExecutorHandler commandExecutorHandler;
 	private final List<Vehicle> vehicles = new ArrayList<>();
-	private GUIInventory guiInventory;
+	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
 	private NovaRank guildRank;
 
 	public NovaPlayer() {
@@ -174,7 +174,11 @@ public class NovaPlayer {
 	}
 
 	public GUIInventory getGuiInventory() {
-		return guiInventory;
+		return guiInventoryHistory.isEmpty() ? null : guiInventoryHistory.get(guiInventoryHistory.size()-1);
+	}
+
+	public List<GUIInventory> getGuiInventoryHistory() {
+		return guiInventoryHistory;
 	}
 
 	public NovaRank getGuildRank() {
@@ -268,7 +272,14 @@ public class NovaPlayer {
 	}
 
 	public void setGuiInventory(GUIInventory guiInventory) {
-		this.guiInventory = guiInventory;
+		if(guiInventory == null) {
+			removeLastGUIInventoryHistory();
+			return;
+		}
+
+		if(!guiInventory.equals(getGuiInventory())) {
+			guiInventoryHistory.add(guiInventory);
+		}
 	}
 
 	public void setGuildRank(NovaRank guildRank) {
@@ -403,5 +414,9 @@ public class NovaPlayer {
 
 	public void removeCommandExecutorHandler() {
 		commandExecutorHandler = null;
+	}
+
+	public void removeLastGUIInventoryHistory() {
+		getGuiInventoryHistory().remove(getGuiInventoryHistory().size() - 1);
 	}
 }

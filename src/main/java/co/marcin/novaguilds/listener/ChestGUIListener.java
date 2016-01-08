@@ -21,11 +21,14 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.interfaces.GUIInventory;
+import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+
+import java.util.concurrent.TimeUnit;
 
 public class ChestGUIListener implements Listener {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
@@ -52,7 +55,21 @@ public class ChestGUIListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
-		NovaPlayer nPlayer = NovaPlayer.get(event.getPlayer());
-		nPlayer.setGuiInventory(null);
+		final NovaPlayer nPlayer = NovaPlayer.get(event.getPlayer());
+		if(nPlayer.getGuiInventory() != null && !ChestGUIUtils.guiContinueList.contains(nPlayer)) {
+			if(nPlayer.getGuiInventoryHistory().size() == 1) {
+				nPlayer.setGuiInventory(null);
+			}
+			else {
+				nPlayer.removeLastGUIInventoryHistory();
+
+				NovaGuilds.runTaskLater(new Runnable() {
+					@Override
+					public void run() {
+						nPlayer.getGuiInventory().open(nPlayer);
+					}
+				}, 1, TimeUnit.MILLISECONDS);
+			}
+		}
 	}
 }

@@ -24,15 +24,27 @@ import co.marcin.novaguilds.interfaces.GUIInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChestGUIUtils {
+	public static final List<NovaPlayer> guiContinueList = new ArrayList<>();
+
 	public static int getChestSize(int count) {
 		return (count/9)*9 + (count%9==0 ? 0 : 9);
 	}
 
 	public static void openGUIInventory(NovaPlayer nPlayer, GUIInventory guiInventory) {
 		if(nPlayer.isOnline()) {
-			nPlayer.getPlayer().openInventory(guiInventory.getInventory());
 			nPlayer.setGuiInventory(guiInventory);
+
+			if(!guiContinueList.contains(nPlayer)) {
+				guiContinueList.add(nPlayer);
+			}
+
+			nPlayer.getPlayer().openInventory(guiInventory.getInventory());
+
+			guiContinueList.remove(nPlayer);
 		}
 	}
 
