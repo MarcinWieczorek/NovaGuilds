@@ -101,7 +101,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 			NovaRank rank = slotRanksMap.get(event.getRawSlot());
 
 			if(rank != null) {
-				new GUIInventoryGuildPermissionSelect(rank).open(nPlayer);
+				new GUIInventoryGuildRankSettings(rank).open(nPlayer);
 			}
 		}
 	}
