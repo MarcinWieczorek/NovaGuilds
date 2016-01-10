@@ -73,12 +73,18 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 		inventory.clear();
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("RANKNAME", nPlayer.getGuildRank()==null?"Invalid_rank": StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
+		vars.put("RANKNAME", nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
 
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();
 
-		inventory.addItem(kickItem, rankItem);
+		if(kickItem != null && !nPlayer.equals(viewer)) {
+			inventory.addItem(kickItem);
+		}
+
+		if(rankItem != null && !nPlayer.equals(viewer)) {
+			inventory.addItem(rankItem);
+		}
 	}
 
 	@Override
