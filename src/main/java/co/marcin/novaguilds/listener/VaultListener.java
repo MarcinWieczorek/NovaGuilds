@@ -25,7 +25,6 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.InventoryUtils;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -127,7 +126,7 @@ public class VaultListener implements Listener {
 				event.setCancelled(true);
 
 				if(!nPlayer.hasPermission(GuildPermission.VAULT_BREAK)) {
-					Message.CHAT_GUILD_VAULT_BREAK_NOTLEADER.send(player);
+					Message.CHAT_GUILD_NOGUILDPERM.send(player);
 					return;
 				}
 
@@ -172,7 +171,7 @@ public class VaultListener implements Listener {
 					if(nPlayer.hasGuild()) {
 						if(!nPlayer.hasPermission(GuildPermission.VAULT_PLACE)) {
 							event.setCancelled(true);
-							Message.CHAT_GUILD_VAULT_PLACE_NOTLEADER.send(player);
+							Message.CHAT_GUILD_NOGUILDPERM.send(player);
 							return;
 						}
 

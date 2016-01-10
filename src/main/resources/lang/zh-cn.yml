@@ -220,13 +220,11 @@ chat:
    drop: "你无法放弃公会的仓库"
    place:
     success: "公会仓库已设置.."
-    notleader: "仅公会会长可设置公会仓库."
     exists: "公会仓库已存在！"
     doublechest: "公会仓库只能是一个小箱子."
    break:
     notempty: "该公会仓库内尚有物品！"
     success: "公会仓库已移除."
-    notleader: "仅公会会长可破坏公会仓库."
    denyrelative: "不能把公会仓库放在这个地方"
 
   compasstarget:
@@ -301,7 +299,6 @@ chat:
     paid: "您已向公会银行支付了&2$&c{AMOUNT}金币."
     notenough: "您的金币余额不足."
    withdraw:
-    notleader: "仅公会会长可从公会银行内支取金币."
     success: "您已从公会银行内取出&2$&c{AMOUNT}金币."
     notenough: "公会银行金币不足."
 

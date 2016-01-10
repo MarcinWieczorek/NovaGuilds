@@ -66,7 +66,7 @@ public class CommandGuildBankWithdraw implements Executor {
 		NovaGuild guild = nPlayer.getGuild();
 
 		if(!nPlayer.hasPermission(GuildPermission.BANK_WITHDRAW)) {
-			Message.CHAT_GUILD_BANK_WITHDRAW_NOTLEADER.send(sender);
+			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
 

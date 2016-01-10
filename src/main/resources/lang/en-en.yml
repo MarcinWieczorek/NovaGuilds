@@ -220,13 +220,11 @@ chat:
    drop: "You cannot drop guild's vault item"
    place:
     success: "Guild's vault placed."
-    notleader: "Only leader can place the vault."
     exists: "The vault already exists!"
     doublechest: "Vault can be only a single chest"
    break:
     notempty: "The vault is not empty!"
     success: "Vault destroyed."
-    notleader: "Only leader can destroy the vault!"
    denyrelative: "You cannot place this block next to the vault"
 
   compasstarget:
@@ -301,7 +299,6 @@ chat:
     paid: "You've paid &2$&c{AMOUNT} to guild's bank."
     notenough: "You don't have enough money."
    withdraw:
-    notleader: "Only leaders can withdraw money."
     success: "You took &2$&c{AMOUNT} from guild's bank."
     notenough: "There is not enough money in the bank."
   

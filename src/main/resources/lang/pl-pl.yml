@@ -220,13 +220,11 @@ chat:
    drop: "Nie mozesz upuscic przedmiotu skarbca"
    place:
     success: "Utworzono skarbiec."
-    notleader: "Tylko lider moze polozyc skarbiec."
     exists: "Skarbiec juz istenieje!"
     doublechest: "Skarbiec moze byc tylko pojedyncza skrzynka"
    break:
     notempty: "Skarbiec nie jest pusty!"
     success: "Skarbiec zniszczony."
-    notleader: "Tylko lider moze zniszczyc skarbiec!"
    denyrelative: "Nie mozesz postawic tego bloku obok skarbca."
 
   compasstarget:
@@ -301,7 +299,6 @@ chat:
     paid: "Wplaciles &2$&c{AMOUNT} do banku gildii."
     notenough: "Nie masz wystarczajacej ilosci pieniedzy"
    withdraw:
-    notleader: "Tylko liderzy moga wyplacac pieniadze"
     success: "Zabrales &2$&c{AMOUNT} z banku gildii."
     notenough: "Nie ma wystarczajacej ilosci pieniedzy w banku gildii."
 

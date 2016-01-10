@@ -220,13 +220,11 @@ chat:
    drop: "Du kannst das Tresoritem nicht fallen lassen."
    place:
     success: "Gildentresor platziert."
-    notleader: "Nur Anführer können den Tresor platzieren."
     exists: "Der Tresor wurde schon platziert!"
     doublechest: "Der Tresor kann keine Doppelkiste sein."
    break:
     notempty: "Der Tresor ist nicht leer!"
     success: "Tresor zerstört."
-    notleader: "Nur Anführer können den Tresor zerstören"
    denyrelative: "Du kannst diesen Block nicht neben dem Tresor platzieren"
 
   compasstarget:
@@ -301,7 +299,6 @@ chat:
     paid: "Du hast &2$&c{AMOUNT} zur Gilden Bank gezahlt."
     notenough: "Du hast nicht genügend Geldt."
    withdraw:
-    notleader: "Nur Anführer können Geld abheben."
     success: "Du hast &2$&c{AMOUNT} von der Gilden Bank genommen."
     notenough: "Es ist nicht genügend Geld auf der Bank."
 
