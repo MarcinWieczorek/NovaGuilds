@@ -307,6 +307,10 @@ public class RankManager {
 	}
 
 	public void delete(NovaRank rank) {
+		if(rank.isGeneric()) {
+			return;
+		}
+
 		if(Config.getManager().getDataStorageType() != DataStorageType.FLAT) {
 			plugin.getDatabaseManager().mysqlReload();
 
@@ -324,9 +328,31 @@ public class RankManager {
 
 				rank.getGuild().removeRank(rank);
 
-				for(NovaPlayer nPlayer : rank.getMembers()) {
+				for(NovaPlayer nPlayer : new ArrayList<>(rank.getMembers())) {
 					rank.removeMember(nPlayer);
 				}
+			}
+			catch(SQLException e) {
+				LoggerUtils.exception(e);
+			}
+		}
+	}
+
+	public void delete(NovaGuild guild) {
+		if(Config.getManager().getDataStorageType() != DataStorageType.FLAT) {
+			plugin.getDatabaseManager().mysqlReload();
+
+			if(!plugin.getDatabaseManager().isConnected()) {
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
+				return;
+			}
+
+			try {
+				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.RANKS_DELETE_GUILD);
+				preparedStatement.setString(1, guild.getName());
+				preparedStatement.execute();
+
+				guild.setRanks(new ArrayList<NovaRank>());
 			}
 			catch(SQLException e) {
 				LoggerUtils.exception(e);
@@ -365,25 +391,29 @@ public class RankManager {
 
 	private void assignRanks() {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			for(NovaPlayer nPlayer : guild.getPlayers()) {
-				if(nPlayer.getGuildRank() == null) {
-					NovaRank defaultRank = guild.getDefaultRank();
-					NovaRank rank;
+			assignRanks(guild);
+		}
+	}
 
-					if(nPlayer.isLeader()) {
-						rank = getDefaultRanks().get(0);
+	public void assignRanks(NovaGuild guild) {
+		for(NovaPlayer nPlayer : guild.getPlayers()) {
+			if(nPlayer.getGuildRank() == null) {
+				NovaRank defaultRank = guild.getDefaultRank();
+				NovaRank rank;
+
+				if(nPlayer.isLeader()) {
+					rank = getDefaultRanks().get(0);
+				}
+				else {
+					if(defaultRank == null) {
+						rank = getDefaultRanks().get(1);
 					}
 					else {
-						if(defaultRank == null) {
-							rank = getDefaultRanks().get(1);
-						}
-						else {
-							rank = defaultRank;
-						}
+						rank = defaultRank;
 					}
-
-					nPlayer.setGuildRank(rank);
 				}
+
+				nPlayer.setGuildRank(rank);
 			}
 		}
 	}

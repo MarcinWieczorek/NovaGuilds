@@ -36,5 +36,6 @@ public enum PreparedStatements {
 	RANKS_SELECT,
 	RANKS_INSERT,
 	RANKS_DELETE,
+	RANKS_DELETE_GUILD,
 	RANKS_UPDATE
 }

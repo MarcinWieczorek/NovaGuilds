@@ -487,6 +487,7 @@ public class NovaGuild {
 		if(!players.contains(nPlayer)) {
 			players.add(nPlayer);
 			nPlayer.setGuild(this);
+			nPlayer.setGuildRank(getDefaultRank());
 
 			if(getLeaderName()!=null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
 				setLeader(nPlayer);
@@ -522,6 +523,7 @@ public class NovaGuild {
 		if(players.contains(nPlayer)) {
 			players.remove(nPlayer);
 			nPlayer.setGuild(null);
+			nPlayer.setGuildRank(null);
 		}
 	}
 
@@ -589,25 +591,35 @@ public class NovaGuild {
 	}
 
 	public void destroy() {
-		//remove players
-		for(NovaPlayer nP : getPlayers()) {
-			nP.setGuild(null);
+		final NovaGuilds plugin = NovaGuilds.getInstance();
 
-			//update tags
-			if(nP.isOnline()) {
-				TagUtils.updatePrefix(nP.getPlayer());
+		//remove players
+		for(NovaPlayer nPlayer : getPlayers()) {
+			nPlayer.cancelToolProgress();
+			nPlayer.setGuild(null);
+			nPlayer.setGuildRank(null);
+
+			if(nPlayer.isOnline()) {
+				//update tags
+				TagUtils.updatePrefix(nPlayer.getPlayer());
+
+				//Close GUI
+				if(nPlayer.getGuiInventory() != null) {
+					nPlayer.getGuiInventoryHistory().clear();
+					nPlayer.getPlayer().closeInventory();
+				}
 			}
 		}
 
 		//remove guild invitations
-		for(NovaPlayer nPlayer : NovaGuilds.getInstance().getPlayerManager().getPlayers()) {
+		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
 			if(nPlayer.isInvitedTo(this)) {
 				nPlayer.deleteInvitation(this);
 			}
 		}
 
 		//remove allies and wars
-		for(NovaGuild nGuild : NovaGuilds.getInstance().getGuildManager().getGuilds()) {
+		for(NovaGuild nGuild : plugin.getGuildManager().getGuilds()) {
 			//ally
 			if(nGuild.isAlly(this)) {
 				nGuild.removeAlly(this);
@@ -643,6 +655,9 @@ public class NovaGuild {
 			getVaultLocation().getBlock().breakNaturally();
 			getVaultLocation().getWorld().playEffect(getVaultLocation(), Effect.SMOKE,1000);
 		}
+
+		//Delete ranks
+		plugin.getRankManager().delete(this);
 	}
 
 	public void showVaultHologram(Player player) {

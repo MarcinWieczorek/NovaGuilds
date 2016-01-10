@@ -133,6 +133,11 @@ public class DatabaseManager {
 			PreparedStatement ranksDelete = getConnection().prepareStatement(ranksDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.RANKS_DELETE, ranksDelete);
 
+			//Ranks delete (guild)
+			String ranksDeleteGuildSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "ranks` WHERE `guild`=?";
+			PreparedStatement ranksDeleteGuild = getConnection().prepareStatement(ranksDeleteGuildSQL);
+			preparedStatementMap.put(PreparedStatements.RANKS_DELETE_GUILD, ranksDeleteGuild);
+
 			//Ranks update
 			String ranksUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "ranks` SET `name`=?, `guild`=?, `permissions`=?, `members`=?, `def`=?, `clone`=? WHERE `id`=?";
 			PreparedStatement ranksUpdate = getConnection().prepareStatement(ranksUpdateSQL);
