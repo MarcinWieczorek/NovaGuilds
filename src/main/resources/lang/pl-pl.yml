@@ -173,6 +173,7 @@ chat:
     - "&5* &7/opusc &2- &3Opusc gildie"
     - "&5* &7/g &ccompass &2- &3Niech kompas wskazuje dom Twojej gildii!"
     - "&5* &7/g &ctop &2- &3Top 5"
+    - "&5* &7/g &cc &2- &3Zmiana trybu czatu"
     - "&5* &7/ng &ctool &2- &3Sprawdz lub zaznacz teren patykiem!"
     - "&5* &7/gg &2- &3Menu gildii"
    noguild:
@@ -300,6 +301,13 @@ chat:
    withdraw:
     success: "Zabrales &2$&c{AMOUNT} z banku gildii."
     notenough: "Nie ma wystarczajacej ilosci pieniedzy w banku gildii."
+  chatmode:
+   success: "Tryb czatu zmieniony na: &c{MODE}"
+   invalid: "Niepoprawny tryb. Spróbuj &cnormal&3/&cguild&3/&cally"
+   names:
+    normal: "standardowy"
+    guild: "gildyjny"
+    ally: "sojuszniczy"
 
  player:
   entername: "Wprowadz nazwe gracza"

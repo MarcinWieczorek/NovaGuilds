@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Commands;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
@@ -63,6 +64,7 @@ public class NovaPlayer {
 	private final List<Vehicle> vehicles = new ArrayList<>();
 	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
 	private NovaRank guildRank;
+	private ChatMode chatMode = ChatMode.NORMAL;
 
 	public NovaPlayer() {
 		tablist = new Tablist(this);
@@ -185,6 +187,10 @@ public class NovaPlayer {
 		return guildRank;
 	}
 
+	public ChatMode getChatMode() {
+		return chatMode;
+	}
+
 	//setters
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
@@ -292,6 +298,10 @@ public class NovaPlayer {
 		}
 
 		this.guildRank = guildRank;
+	}
+
+	public void setChatMode(ChatMode chatMode) {
+		this.chatMode = chatMode;
 	}
 	
 	//check stuff

@@ -173,6 +173,7 @@ chat:
     - "&5* &7/leave &2- &3Leave the guild"
     - "&5* &7/g &ccompass &2- &3Let the compass point your guild's home!"
     - "&5* &7/g &ctop &2- &3Top 5"
+    - "&5* &7/g &cc &2- &3Change chat mode"
     - "&5* &7/ng &ctool &2- &3Check or select area with the tool!"
     - "&5* &7/gg &2- &3Guild's menu"
    noguild:
@@ -300,6 +301,13 @@ chat:
    withdraw:
     success: "You took &2$&c{AMOUNT} from guild's bank."
     notenough: "There is not enough money in the bank."
+  chatmode:
+   success: "Chat mode set successfuly to &c{MODE}."
+   invalid: "Invalid mode. Try &cnormal&3/&cguild&3/&cally"
+   names:
+    normal: "normal"
+    guild: "guild"
+    ally: "ally"
   
  player:
   entername: "Enter player's name"

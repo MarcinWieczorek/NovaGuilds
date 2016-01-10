@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
@@ -67,7 +68,10 @@ public class ChatListener implements Listener {
 			String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
 			String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
 
-			if(msg.startsWith(prefixChatAlly)) { //ally chat
+			boolean isAllyPrefix = msg.startsWith(prefixChatAlly);
+			boolean isGuildPrefix = msg.startsWith(prefixChatGuild) && !isAllyPrefix;
+
+			if(!isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
 				if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
 					if(!Config.CHAT_ALLY_COLORTAGS.getBoolean()) {
 						tag = StringUtils.removeColors(tag);
@@ -84,7 +88,10 @@ public class ChatListener implements Listener {
 					cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
 					cFormat = StringUtils.fixColors(cFormat);
 
-					msg = msg.substring(prefixChatAlly.length(), msg.length());
+					//Trim prefix
+					if(nPlayer.getChatMode() != ChatMode.ALLY) {
+						msg = msg.substring(prefixChatAlly.length(), msg.length());
+					}
 
 					for(NovaPlayer nP : guild.getPlayers()) {
 						if(nP.isOnline()) {
@@ -108,13 +115,16 @@ public class ChatListener implements Listener {
 					return;
 				}
 			}
-			else if(msg.startsWith(prefixChatGuild)) { //guild chat
+			else if(isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD) { //guild chat
 				if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
 					String cFormat = Config.CHAT_GUILD_FORMAT.getString();
 					cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
 					cFormat = StringUtils.fixColors(cFormat);
 
-					msg = msg.substring(prefixChatGuild.length(), msg.length());
+					//Trim prefix
+					if(nPlayer.getChatMode() != ChatMode.GUILD) {
+						msg = msg.substring(prefixChatGuild.length(), msg.length());
+					}
 
 					for(NovaPlayer nP : guild.getPlayers()) {
 						if(nP.isOnline()) {

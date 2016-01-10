@@ -62,6 +62,7 @@ import co.marcin.novaguilds.command.guild.CommandGuildBankPay;
 import co.marcin.novaguilds.command.guild.CommandGuildBankWithdraw;
 import co.marcin.novaguilds.command.guild.CommandGuildBuyLife;
 import co.marcin.novaguilds.command.guild.CommandGuildBuySlot;
+import co.marcin.novaguilds.command.guild.CommandGuildChatMode;
 import co.marcin.novaguilds.command.guild.CommandGuildCompass;
 import co.marcin.novaguilds.command.guild.CommandGuildCreate;
 import co.marcin.novaguilds.command.guild.CommandGuildEffect;
@@ -145,6 +146,7 @@ public class CommandManager {
 		new CommandGuildAbandon();
 		new CommandGuildBuyLife();
 		new CommandGuildBuySlot();
+		new CommandGuildChatMode();
 		new CommandGuildCompass();
 		new CommandGuildAlly();
 		new CommandGuildBankPay();

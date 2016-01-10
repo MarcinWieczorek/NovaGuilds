@@ -56,6 +56,9 @@ public class CommandGuild implements CommandExecutor, Executor {
 		put("pvp", Commands.GUILD_PVPTOGGLE);
 		put("buylife", Commands.GUILD_BUYLIFE);
 		put("buyslot", Commands.GUILD_BUYSLOT);
+		put("c", Commands.GUILD_CHATMODE);
+		put("chat", Commands.GUILD_CHATMODE);
+		put("chatmode", Commands.GUILD_CHATMODE);
 		put("openinv", Commands.GUILD_OPENINVITATION);
 	}};
 

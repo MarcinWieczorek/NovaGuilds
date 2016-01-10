@@ -20,6 +20,7 @@ package co.marcin.novaguilds.command.tabcompleter;
 
 import co.marcin.novaguilds.command.guild.CommandGuild;
 import co.marcin.novaguilds.command.region.CommandRegion;
+import co.marcin.novaguilds.enums.ChatMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -40,6 +41,13 @@ public class TabCompleterGuild implements TabCompleter {
 				case "rg":
 				case "region":
 					keys.addAll(CommandRegion.commandsMap.keySet());
+					break;
+				case "c":
+				case "chat":
+				case "chatmode":
+					for(ChatMode chatMode : ChatMode.values()) {
+						list.add(chatMode.name().toLowerCase());
+					}
 					break;
 			}
 		}

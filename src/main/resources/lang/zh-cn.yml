@@ -173,6 +173,7 @@ chat:
     - "&5* &7/leave &2- &3退出公会"
     - "&5* &7/g &ccompass &2- &3令指南针上指向公会出生点所在的方向！"
     - "&5* &7/g &ctop &2- &3查看公会排行前5的玩家"
+    - "&5* &7/g &cc &2- &3Change chat mode"
     - "&5* &7/ng &ctool &2- &3用工具检查指定领地"
     - "&5* &7/gg &2- &3公会菜单"
    noguild:
@@ -300,6 +301,13 @@ chat:
    withdraw:
     success: "您已从公会银行内取出&2$&c{AMOUNT}金币."
     notenough: "公会银行金币不足."
+  chatmode:
+   success: "Chat mode set successfuly to &c{MODE}."
+   invalid: "Invalid mode. Try &cnormal&3/&cguild&3/&cally"
+   names:
+    normal: "normal"
+    guild: "guild"
+    ally: "ally"
 
  player:
   entername: "请输入玩家名称."
