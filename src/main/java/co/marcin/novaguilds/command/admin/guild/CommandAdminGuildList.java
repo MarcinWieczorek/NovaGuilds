@@ -38,16 +38,6 @@ public class CommandAdminGuildList implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(plugin.getGuildManager().getGuilds().isEmpty()) {
 			Message.CHAT_GUILD_NOGUILDS.send(sender);
 			return;
@@ -117,5 +107,10 @@ public class CommandAdminGuildList implements Executor {
 
 			i++;
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

@@ -53,17 +53,12 @@ public class CommandAdmin implements CommandExecutor, Executor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		execute(sender, args);
+		command.execute(sender, args);
 		return true;
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_MAIN_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_MAIN_ITEMS.send(sender);
@@ -77,6 +72,11 @@ public class CommandAdmin implements CommandExecutor, Executor {
 			return;
 		}
 
-		plugin.getCommandManager().getExecutor(subCommand).execute(sender, StringUtils.parseArgs(args, 1));
+		subCommand.execute(sender, StringUtils.parseArgs(args, 1));
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

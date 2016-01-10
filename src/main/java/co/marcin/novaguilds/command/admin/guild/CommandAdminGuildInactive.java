@@ -73,11 +73,6 @@ public class CommandAdminGuildInactive implements Executor {
 		}
 
 		//list
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
 		if(page < 1) {
 			page = 1;
 		}
@@ -145,5 +140,10 @@ public class CommandAdminGuildInactive implements Executor {
 
 			i++;
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

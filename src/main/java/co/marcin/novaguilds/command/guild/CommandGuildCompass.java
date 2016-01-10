@@ -34,16 +34,6 @@ public class CommandGuildCompass implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		Player player = (Player)sender;
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
@@ -62,5 +52,10 @@ public class CommandGuildCompass implements Executor {
 			player.setCompassTarget(nPlayer.getGuild().getSpawnPoint());
 			Message.CHAT_GUILD_COMPASSTARGET_ON.send(sender);
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

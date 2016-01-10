@@ -37,16 +37,6 @@ public class CommandAdminHologramDelete implements Executor.ReversedAdminHologra
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		hologram.delete();
 
 		Map<String, String> vars = new HashMap<>();
@@ -57,6 +47,11 @@ public class CommandAdminHologramDelete implements Executor.ReversedAdminHologra
 	@Override
 	public void hologram(NovaHologram hologram) {
 		this.hologram = hologram;
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }
 

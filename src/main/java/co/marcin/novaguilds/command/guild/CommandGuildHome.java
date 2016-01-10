@@ -44,16 +44,6 @@ public class CommandGuildHome implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -127,5 +117,10 @@ public class CommandGuildHome implements Executor {
 			InventoryUtils.removeItems(player, homeItems);
 			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_GUILD_HOME);
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

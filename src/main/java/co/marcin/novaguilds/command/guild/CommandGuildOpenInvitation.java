@@ -36,16 +36,6 @@ public class CommandGuildOpenInvitation implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -62,5 +52,10 @@ public class CommandGuildOpenInvitation implements Executor {
 		nPlayer.getGuild().setOpenInvitation(status);
 
 		Message.CHAT_GUILD_OPENINVITATION.vars(new HashMap<String, String>(){{put("STATUS", Message.getOnOff(status));}}).send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

@@ -63,16 +63,6 @@ public class CommandAdminHologram implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!this.command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!this.command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(args.length==0 || (args.length < 2 && !noHologramCommands.contains(args[0]))) {
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS.send(sender);
@@ -100,5 +90,10 @@ public class CommandAdminHologram implements Executor {
 		}
 
 		executor.execute(sender, StringUtils.parseArgs(args, 2));
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

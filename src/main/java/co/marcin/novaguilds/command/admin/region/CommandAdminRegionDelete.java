@@ -39,17 +39,12 @@ public class CommandAdminRegionDelete implements Executor.ReversedAdminRegion {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		plugin.getRegionManager().remove(region);
 		Message.CHAT_ADMIN_REGION_DELETE_SUCCESS.send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

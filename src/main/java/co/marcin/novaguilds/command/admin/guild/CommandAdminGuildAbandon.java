@@ -45,16 +45,6 @@ public class CommandAdminGuildAbandon implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		//fire event
 		GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.ADMIN);
 		plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
@@ -75,5 +65,9 @@ public class CommandAdminGuildAbandon implements Executor.ReversedAdminGuild {
 
 		TagUtils.refreshGuild(guild);
 	}
-	
+
+	@Override
+	public Command getCommand() {
+		return command;
+	}
 }

@@ -38,22 +38,12 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 	}
 
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		execute(sender, args);
+		command.execute(sender, args);
 		return true;
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(args.length != 1) {
 			Message.CHAT_USAGE_GUILD_INVITE.send(sender);
 			return;
@@ -105,5 +95,10 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.vars(vars).send(invitePlayer.getPlayer());
 			}
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

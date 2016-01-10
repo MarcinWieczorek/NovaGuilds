@@ -40,16 +40,6 @@ public class CommandAdminGuildSetName implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-		
 		if(args.length == 0) { //no new name
 			Message.CHAT_ADMIN_GUILD_SET_NAME_ENTERNEWNAME.send(sender);
 			return;
@@ -81,5 +71,10 @@ public class CommandAdminGuildSetName implements Executor.ReversedAdminGuild {
 		plugin.getHologramManager().refreshTopHolograms();
 
 		Message.CHAT_ADMIN_GUILD_SET_NAME_SUCCESS.send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

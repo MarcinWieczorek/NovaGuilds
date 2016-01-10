@@ -39,16 +39,6 @@ public class CommandGuildBuyLife implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -83,5 +73,10 @@ public class CommandGuildBuyLife implements Executor {
 		nPlayer.getGuild().addLive();
 
 		sender.sendMessage("bought life TODO");
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

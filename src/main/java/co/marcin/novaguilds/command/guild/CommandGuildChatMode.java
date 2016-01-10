@@ -37,16 +37,6 @@ public class CommandGuildChatMode implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		final NovaPlayer nPlayer = NovaPlayer.get(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -72,5 +62,10 @@ public class CommandGuildChatMode implements Executor {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("MODE", Message.valueOf("CHAT_GUILD_CHATMODE_NAMES_"+chatMode.name()).get());
 		Message.CHAT_GUILD_CHATMODE_SUCCESS.vars(vars).send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

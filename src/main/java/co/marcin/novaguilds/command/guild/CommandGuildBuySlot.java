@@ -40,16 +40,6 @@ public class CommandGuildBuySlot implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = NovaPlayer.get(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -83,5 +73,10 @@ public class CommandGuildBuySlot implements Executor {
 
 		nPlayer.getGuild().addSlot();
 		Message.CHAT_GUILD_BUYSLOT.send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

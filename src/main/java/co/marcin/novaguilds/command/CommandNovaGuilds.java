@@ -41,12 +41,14 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandNovaGuilds implements CommandExecutor, Executor {
+	private final Command command = Command.NOVAGUILDS;
+
 	public CommandNovaGuilds() {
 		plugin.getCommandManager().registerExecutor(Command.NOVAGUILDS, this);
 	}
 
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		execute(sender, args);
+		command.execute(sender, args);
 		return true;
 	}
 
@@ -109,7 +111,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				}
 				break;
 			case "admin":
-				Command.ADMIN_ACCESS.getExecutor().execute(sender, StringUtils.parseArgs(args, 1));
+				Command.ADMIN_ACCESS.execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "group":
 				NovaGroup group = plugin.getGroupManager().getGroup(sender);
@@ -135,7 +137,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				break;
 			case "g":
 			case "guild":
-				Command.GUILD_ACCESS.getExecutor().execute(sender, StringUtils.parseArgs(args, 1));
+				Command.GUILD_ACCESS.execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "tr":
 				Tablist.patch();
@@ -165,5 +167,10 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				Message.CHAT_UNKNOWNCMD.send(sender);
 				break;
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

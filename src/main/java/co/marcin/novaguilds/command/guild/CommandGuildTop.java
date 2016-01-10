@@ -37,16 +37,6 @@ public class CommandGuildTop implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
 		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
 
 		if(guilds.isEmpty()) {
@@ -68,5 +58,10 @@ public class CommandGuildTop implements Executor {
 			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.title(false).vars(vars).send(sender);
 			i++;
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

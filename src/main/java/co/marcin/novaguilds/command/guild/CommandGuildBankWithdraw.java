@@ -26,7 +26,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,16 +39,6 @@ public class CommandGuildBankWithdraw implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
-		if(!(sender instanceof Player)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(args.length != 1) {
 			Message.CHAT_GUILD_BANK_ENTERAMOUNT.send(sender);
 			return;
@@ -95,4 +84,8 @@ public class CommandGuildBankWithdraw implements Executor {
 		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.vars(vars).send(sender);
 	}
 
+	@Override
+	public Command getCommand() {
+		return command;
+	}
 }

@@ -37,16 +37,6 @@ public class CommandAdminReload implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-		
 		Message.CHAT_RELOAD_RELOADING.send(sender);
 
 		//Remove holograms
@@ -103,5 +93,10 @@ public class CommandAdminReload implements Executor {
 
 		//all done
 		Message.CHAT_RELOAD_RELOADED.send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

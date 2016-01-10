@@ -37,21 +37,16 @@ public class CommandAdminHologramAddTop implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaHologram hologram = plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());
 
 		Map<String, String> vars = new HashMap<>();
 		vars.put("NAME", hologram.getName());
 
 		Message.CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS.vars(vars).send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

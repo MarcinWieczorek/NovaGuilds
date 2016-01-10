@@ -39,16 +39,6 @@ public class CommandGuildAlly implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
 		if(args.length != 1) {
 			Message.CHAT_GUILD_ENTERNAME.send(sender);
 			return;
@@ -138,5 +128,10 @@ public class CommandGuildAlly implements Executor {
 
 			TagUtils.refreshAll();
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

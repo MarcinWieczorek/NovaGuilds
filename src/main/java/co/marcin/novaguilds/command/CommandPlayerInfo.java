@@ -34,22 +34,12 @@ public class CommandPlayerInfo implements CommandExecutor, Executor {
 	}
 
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		execute(sender, args);
+		command.execute(sender, args);
 		return true;
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nCPlayer;
 		if(args.length == 0) {
 			if(!(sender instanceof Player)) {
@@ -69,5 +59,10 @@ public class CommandPlayerInfo implements CommandExecutor, Executor {
 		}
 
 		plugin.getPlayerManager().sendPlayerInfo(sender, nCPlayer);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

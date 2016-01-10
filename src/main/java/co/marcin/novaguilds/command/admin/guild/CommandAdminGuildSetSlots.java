@@ -40,16 +40,6 @@ public class CommandAdminGuildSetSlots implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(args.length != 1) {
 			Message.CHAT_USAGE_NGA_GUILD_SET_SLOTS.send(sender);
 			return;
@@ -74,5 +64,10 @@ public class CommandAdminGuildSetSlots implements Executor.ReversedAdminGuild {
 
 		guild.setSlots(slots);
 		Message.CHAT_ADMIN_GUILD_SET_SLOTS_SUCCESS.send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

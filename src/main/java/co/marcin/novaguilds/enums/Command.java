@@ -154,8 +154,24 @@ public enum Command {
 		return usageMessage;
 	}
 
-	public Executor getExecutor() {
+	private Executor getExecutor() {
 		return NovaGuilds.getInstance().getCommandManager().getExecutor(this);
+	}
+
+	public void execute(CommandSender sender, String[] args) {
+		Executor executor = getExecutor();
+
+		if(!executor.getCommand().hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
+		}
+
+		if(!executor.getCommand().allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
+		}
+
+		executor.execute(sender, args);
 	}
 
 	public boolean hasGenericCommand() {

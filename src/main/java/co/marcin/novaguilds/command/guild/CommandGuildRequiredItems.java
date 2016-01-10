@@ -37,16 +37,6 @@ public class CommandGuildRequiredItems implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
 		Player player = (Player)sender;
 
 		List<ItemStack> requiredItems = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
@@ -62,5 +52,10 @@ public class CommandGuildRequiredItems implements Executor {
 		}
 
 		player.openInventory(inventory);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

@@ -45,11 +45,6 @@ public class CommandAdminRegionBypass implements Executor {
 		Map<String, String> vars = new HashMap<>();
 
 		if(args.length==0 || args[0].equalsIgnoreCase(sender.getName())) {
-			if(!command.hasPermission(sender)) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return;
-			}
-
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 			nPlayer.toggleBypass();
@@ -79,5 +74,10 @@ public class CommandAdminRegionBypass implements Executor {
 
 			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER.vars(vars).send(sender);
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

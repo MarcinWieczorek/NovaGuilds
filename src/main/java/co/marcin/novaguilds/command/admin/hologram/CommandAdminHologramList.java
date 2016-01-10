@@ -36,16 +36,6 @@ public class CommandAdminHologramList implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		Message.CHAT_ADMIN_HOLOGRAM_LIST_HEADER.send(sender);
 		Map<String, String> vars = new HashMap<>();
 		for(NovaHologram hologram : plugin.getHologramManager().getHolograms()) {
@@ -57,5 +47,10 @@ public class CommandAdminHologramList implements Executor {
 
 			Message.CHAT_ADMIN_HOLOGRAM_LIST_ITEM.vars(vars).prefix(false).send(sender);
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

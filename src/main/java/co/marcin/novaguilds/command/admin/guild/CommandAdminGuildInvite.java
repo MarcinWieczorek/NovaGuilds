@@ -43,16 +43,6 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-		
 		if(args.length == 0) { //no player name
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;
@@ -85,5 +75,10 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 			vars.put("GUILDNAME",guild.getName());
 			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(sender);
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

@@ -39,16 +39,6 @@ public class CommandGuildBankPay implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-		
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -87,5 +77,10 @@ public class CommandGuildBankPay implements Executor {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("AMOUNT",money+"");
 		Message.CHAT_GUILD_BANK_PAY_PAID.vars(vars).send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

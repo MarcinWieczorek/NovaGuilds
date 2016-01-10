@@ -42,16 +42,6 @@ public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(args.length==0) {
 			Message.CHAT_GUILD_ENTERTAG.send(sender);
 			return;
@@ -70,5 +60,10 @@ public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 		TagUtils.refreshAll();
 
 		Message.CHAT_ADMIN_GUILD_SET_TAG.vars(new HashMap<String, String>(){{put("TAG", newtag);}}).send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

@@ -42,16 +42,6 @@ public class CommandAdminGuildSetLiveRegenerationTime implements Executor.Revers
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		String timeString;
 		if(args.length > 1) {
 			timeString = StringUtils.join(args," ");
@@ -67,5 +57,10 @@ public class CommandAdminGuildSetLiveRegenerationTime implements Executor.Revers
 
 		guild.setLostLiveTime(newregentime);
 		Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

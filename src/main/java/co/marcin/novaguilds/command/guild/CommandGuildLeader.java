@@ -38,16 +38,6 @@ public class CommandGuildLeader implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(args.length != 1) {
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;
@@ -97,5 +87,10 @@ public class CommandGuildLeader implements Executor {
 
 		//Tab and tags
 		TagUtils.refreshAll();
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

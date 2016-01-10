@@ -80,11 +80,6 @@ public class CommandAdminGuild implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
 		//command list
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_GUILD_HEADER.send(sender);
@@ -120,5 +115,10 @@ public class CommandAdminGuild implements Executor {
 		}
 
 		executor.execute(sender, StringUtils.parseArgs(args, subArgsCut));
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

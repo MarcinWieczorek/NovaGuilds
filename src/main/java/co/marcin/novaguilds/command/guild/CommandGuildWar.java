@@ -41,16 +41,6 @@ public class CommandGuildWar implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -154,5 +144,10 @@ public class CommandGuildWar implements Executor {
 			TagUtils.refreshAll();
 			plugin.getRegionManager().checkRaidInit(nPlayer.getPlayer());
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

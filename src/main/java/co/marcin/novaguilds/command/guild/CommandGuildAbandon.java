@@ -41,16 +41,6 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 	}
 
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return true;
-		}
-
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return true;
-		}
-
 		NovaPlayer nPlayer = NovaPlayer.get(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -68,16 +58,6 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 	}
 	
 	public void execute(CommandSender sender, String args[]) {
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = NovaPlayer.get(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -111,5 +91,10 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 			Message.BROADCAST_GUILD_ABANDONED.vars(vars).broadcast();
 			TagUtils.refreshAll();
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

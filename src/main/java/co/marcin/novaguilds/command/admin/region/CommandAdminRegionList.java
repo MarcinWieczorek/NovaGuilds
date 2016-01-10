@@ -38,16 +38,6 @@ public class CommandAdminRegionList implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		Message.CHAT_REGION_LIST_HEADER.send(sender);
 
 		int perpage = 10;
@@ -110,5 +100,10 @@ public class CommandAdminRegionList implements Executor {
 
 			i++;
 		}
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

@@ -37,16 +37,6 @@ public class CommandGuildPvpToggle implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -63,5 +53,10 @@ public class CommandGuildPvpToggle implements Executor {
 		nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
 		vars.put("FPVP", Message.getOnOff(nPlayer.getGuild().getFriendlyPvp()));
 		Message.CHAT_GUILD_FPVPTOGGLED.vars(vars).send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

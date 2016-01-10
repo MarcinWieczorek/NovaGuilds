@@ -43,22 +43,12 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 	}
 	
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		execute(sender, args);
+		command.execute(sender, args);
 		return true;
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -147,5 +137,10 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 		}
 
 		nPlayer.cancelToolProgress();
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

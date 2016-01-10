@@ -46,16 +46,6 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		Location home = guild.getSpawnPoint();
 
 		Player player = (Player)sender;
@@ -96,5 +86,10 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 		}
 
 		player.teleport(home);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

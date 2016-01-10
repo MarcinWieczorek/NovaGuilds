@@ -58,16 +58,6 @@ public class CommandAdminRegion implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_REGION_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_REGION_ITEMS.send(sender);
@@ -109,5 +99,10 @@ public class CommandAdminRegion implements Executor {
 		}
 
 		executor.execute(sender, StringUtils.parseArgs(args, subArgsCut));
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

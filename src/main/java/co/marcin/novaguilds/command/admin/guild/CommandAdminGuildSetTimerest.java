@@ -42,16 +42,6 @@ public class CommandAdminGuildSetTimerest implements Executor.ReversedAdminGuild
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		String timeString = "";
 		if(args.length > 0) {
 			timeString = StringUtils.join(args," ");
@@ -64,5 +54,10 @@ public class CommandAdminGuildSetTimerest implements Executor.ReversedAdminGuild
 
 		guild.setTimeRest(newtimerest);
 		Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

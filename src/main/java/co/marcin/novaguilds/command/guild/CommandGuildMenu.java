@@ -20,7 +20,6 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
-import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildMenu;
 import org.bukkit.command.CommandExecutor;
@@ -34,23 +33,18 @@ public class CommandGuildMenu implements CommandExecutor, Executor {
 	}
 
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		execute(sender, args);
+		command.execute(sender, args);
 		return true;
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayer = NovaPlayer.get(sender);
 		new GUIInventoryGuildMenu(nPlayer).open(nPlayer);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

@@ -40,16 +40,6 @@ public class CommandAdminGuildSetLives implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		if(args.length == 0) {
 			Message.CHAT_USAGE_NGA_GUILD_SET_LIVES.send(sender);
 			return;
@@ -69,5 +59,10 @@ public class CommandAdminGuildSetLives implements Executor.ReversedAdminGuild {
 
 		guild.setLives(lives);
 		Message.CHAT_ADMIN_GUILD_SET_LIVES.send(sender);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }

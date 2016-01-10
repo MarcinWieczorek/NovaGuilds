@@ -46,16 +46,6 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!command.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
 		NovaPlayer nPlayerOther;
 		Player player;
 
@@ -98,5 +88,10 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 		}
 
 		player.teleport(location);
+	}
+
+	@Override
+	public Command getCommand() {
+		return command;
 	}
 }
