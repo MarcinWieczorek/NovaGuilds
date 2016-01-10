@@ -71,7 +71,6 @@ public class CommandGuildLeave implements CommandExecutor, Executor {
 			return;
 		}
 
-		nPlayer.setGuild(null);
 		guild.removePlayer(nPlayer);
 
 		if(nPlayer.isOnline()) {

@@ -91,7 +91,7 @@ public class CommandGuildKick implements Executor {
 		}
 		
 		//all passed
-		nPlayerKick.setGuild(null);
+		guild.removePlayer(nPlayerKick);
 
 		nPlayer.getGuild().removePlayer(nPlayerKick);
 

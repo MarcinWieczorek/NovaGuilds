@@ -73,11 +73,11 @@ public class CommandAdminGuildKick implements Executor {
 		}
 		
 		//all passed
-		nPlayerKick.setGuild(null);
+		guild.removePlayer(nPlayerKick);
 		
 		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME",nPlayerKick.getName());
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("PLAYERNAME", nPlayerKick.getName());
+		vars.put("GUILDNAME", guild.getName());
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
 		
 		//tab/tag

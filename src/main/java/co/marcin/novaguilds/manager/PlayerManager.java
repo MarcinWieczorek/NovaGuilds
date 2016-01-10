@@ -275,7 +275,6 @@ public class PlayerManager {
 
 				if(guild != null) {
 					guild.addPlayer(nPlayer);
-					nPlayer.setGuild(guild);
 				}
 			}
 
@@ -318,7 +317,6 @@ public class PlayerManager {
 
 				if(guild != null) {
 					guild.addPlayer(nPlayer);
-					nPlayer.setGuild(guild);
 				}
 			}
 

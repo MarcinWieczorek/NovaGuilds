@@ -213,9 +213,6 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					//Add the guild
 					plugin.getGuildManager().add(newGuild);
 
-					//nPlayer
-					nPlayer.setGuild(newGuild);
-
 					//taking money away
 					nPlayer.takeMoney(requiredmoney);
 

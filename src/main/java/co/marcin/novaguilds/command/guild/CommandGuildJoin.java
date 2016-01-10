@@ -168,7 +168,6 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		}
 
 		guild.addPlayer(nPlayer);
-		nPlayer.setGuild(guild);
 		nPlayer.deleteInvitation(guild);
 		TagUtils.refreshAll();
 		Message.CHAT_GUILD_JOINED.send(sender);
