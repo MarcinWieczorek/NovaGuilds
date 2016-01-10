@@ -183,7 +183,6 @@ chat:
     - "&5* &7/g &citems &2- &3Benötigte Gegenstände"
     - "&5* &7/gg &2- &3Gildenmenü"
    leader:
-    - "&5* &7/g &cbuyregion &2- &3Kaufe das ausgewählte Gebiet"
     - "&5* &7/g &cbuylife &2- &3Kaufe ein Leben"
     - "&5* &7/g &cbuyslot &2- &3Erweiter die maximale Spieleranzahl deiner Gilde!"
     - "&5* &7/g &ceffect &2- &3Effekt für deine Gilde"
@@ -353,7 +352,7 @@ chat:
    tooclose: "Das ausgewählte Gebiet ist zu nah an einem anderen Gebiet!"
    overlaps: "Das ausgewählte Gebiet geht über ein anderes Gebiet!"
    notvalid: "Das ausgewählte Gebiet ist nicht gültigt! Versuch es nochmal."
-   valid: "Gebiet ausgewählt &c/g buyregion"
+   valid: "Gebiet ausgewählt &c/g rg buy"
    notselected: "Wähle bitte das Gebiet"
   size: "Die Größe des ausgewählten Gebietes ist: &c{SIZE} Blöcke groß!"
   price: "Dieses Gebiet zu kaufen kostet: &c${PRICE}"

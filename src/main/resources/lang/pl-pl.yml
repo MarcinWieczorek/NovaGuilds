@@ -183,7 +183,6 @@ chat:
     - "&5* &7/g &citems &2- &3Wymagane przedmioty"
     - "&5* &7/gg &2- &3Menu gildii"
    leader:
-    - "&5* &7/g &cbuyregion &2- &3Kup zaznaczony teren"
     - "&5* &7/g &cbuylife &2- &3Kup zycie"
     - "&5* &7/g &cbuyslot &2- &3Kup dodatkowy slot w gildii."
     - "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
@@ -353,7 +352,7 @@ chat:
    tooclose: "Zaznaczony teren jest zbyt blisko innej gildii."
    overlaps: "Zaznaczony teren nachodzi na region innej gildii"
    notvalid: "Zaznaczony teren jest niepoprawny."
-   valid: "Teren zaznaczony. &c/g buyregion"
+   valid: "Teren zaznaczony. &c/g rg buy"
    notselected: "Prosze zaznaczyc teren"
   size: "Rozmiar zaznaczonego terenu: &c{SIZE} blokow"
   price: "Kupienie terenu bedzie Cie kosztowalo: &c${PRICE}"

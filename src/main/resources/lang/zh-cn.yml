@@ -183,7 +183,6 @@ chat:
     - "&5* &7/g &citems &2- &3需求的物品"
     - "&5* &7/gg &2- &3公会菜单"
    leader:
-    - "&5* &7/g &cbuyregion &2- &3购买选定领地"
     - "&5* &7/g &cbuylife &2- &3购买生活区"
     - "&5* &7/g &cbuyslot &2- &3扩展公会玩家人数限制!"
     - "&5* &7/g &ceffect &2- &3公会特效"
@@ -353,7 +352,7 @@ chat:
    tooclose: "选择的区域与其他公会的领地过近."
    overlaps: "该区域与其他公会的领地重叠."
    notvalid: "选定的区域无效,请重试."
-   valid: "区域已选择,请输入&c/g buyregion&3购买领地."
+   valid: "区域已选择,请输入&c/g rg buy&3购买领地."
    notselected: "请先选择区域."
   size: "选择的区域大小: &c{SIZE} 方格."
   price: "购买该区域需支付的费用: &c${PRICE}"

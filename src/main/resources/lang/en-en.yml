@@ -183,7 +183,6 @@ chat:
     - "&5* &7/g &citems &2- &3Required items"
     - "&5* &7/gg &2- &3Guild's menu"
    leader:
-    - "&5* &7/g &cbuyregion &2- &3Buy selected area"
     - "&5* &7/g &cbuylife &2- &3Buy a life"
     - "&5* &7/g &cbuyslot &2- &3Extend players count limit!"
     - "&5* &7/g &ceffect &2- &3Effect for guild"
@@ -353,7 +352,7 @@ chat:
    tooclose: "Selected area is too close to other region."
    overlaps: "This area overlaps other guild's region"
    notvalid: "Area you selected is not valid. Try again."
-   valid: "Area selected. &c/g buyregion"
+   valid: "Area selected. &c/g rg buy"
    notselected: "Please select the area"
   size: "Selected area's size: &c{SIZE} blocks"
   price: "Buying this area will cost you: &c${PRICE}"

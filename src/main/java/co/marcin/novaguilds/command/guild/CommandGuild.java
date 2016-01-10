@@ -40,7 +40,6 @@ public class CommandGuild implements CommandExecutor, Executor {
 		put("info", Commands.GUILD_INFO);
 		put("leave", Commands.GUILD_LEAVE);
 		put("home", Commands.GUILD_HOME);
-		put("buyregion", Commands.REGION_BUY);
 		put("region", Commands.REGION_ACCESS);
 		put("rg", Commands.REGION_ACCESS);
 		put("ally", Commands.GUILD_ALLY);
