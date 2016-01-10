@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildAlly implements Executor {
-	private final Commands command = Commands.GUILD_ALLY;
+	private final Command command = Command.GUILD_ALLY;
 
 	public CommandGuildAlly() {
 		plugin.getCommandManager().registerExecutor(command, this);

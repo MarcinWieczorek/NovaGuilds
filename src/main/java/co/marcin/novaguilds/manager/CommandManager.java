@@ -82,7 +82,7 @@ import co.marcin.novaguilds.command.guild.CommandGuildWar;
 import co.marcin.novaguilds.command.region.CommandRegion;
 import co.marcin.novaguilds.command.region.CommandRegionBuy;
 import co.marcin.novaguilds.command.region.CommandRegionDelete;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
@@ -102,7 +102,7 @@ public class CommandManager {
 	private final NovaGuilds plugin;
 	private final Map<String,String> aliases = new HashMap<>();
 	private final Map<ItemStack,String> guiCommands = new HashMap<>();
-	private final Map<Commands, Executor> executors = new HashMap<>();
+	private final Map<Command, Executor> executors = new HashMap<>();
 	private ItemStack topItem;
 
 	public CommandManager(NovaGuilds plugin) {
@@ -249,7 +249,7 @@ public class CommandManager {
 		}
 	}
 
-	public void registerExecutor(Commands command, Executor executor) {
+	public void registerExecutor(Command command, Executor executor) {
 		if(!executors.containsKey(command)) {
 			executors.put(command, executor);
 
@@ -268,7 +268,7 @@ public class CommandManager {
 		}
 	}
 
-	public Executor getExecutor(Commands command) {
+	public Executor getExecutor(Command command) {
 		return executors.get(command);
 	}
 }

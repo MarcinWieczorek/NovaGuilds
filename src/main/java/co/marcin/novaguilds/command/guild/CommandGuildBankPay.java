@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildBankPay implements Executor {
-	private final Commands command = Commands.GUILD_BANK_PAY;
+	private final Command command = Command.GUILD_BANK_PAY;
 
 	public CommandGuildBankPay() {
 		plugin.getCommandManager().registerExecutor(command, this);

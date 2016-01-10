@@ -19,14 +19,14 @@
 package co.marcin.novaguilds.command.admin.hologram;
 
 import co.marcin.novaguilds.basic.NovaHologram;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandAdminHologramTeleportHere implements Executor.ReversedAdminHologram {
-	private final Commands command = Commands.ADMIN_HOLOGRAM_TELEPORT_HERE;
+	private final Command command = Command.ADMIN_HOLOGRAM_TELEPORT_HERE;
 	private NovaHologram hologram;
 
 	public CommandAdminHologramTeleportHere() {

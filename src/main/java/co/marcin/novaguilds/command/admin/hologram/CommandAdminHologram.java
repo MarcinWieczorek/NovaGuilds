@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.admin.hologram;
 
 import co.marcin.novaguilds.basic.NovaHologram;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandAdminHologram implements Executor {
-	private final Commands command = Commands.ADMIN_HOLOGRAM_ACCESS;
+	private final Command command = Command.ADMIN_HOLOGRAM_ACCESS;
 
 	private static final List<String> noHologramCommands = new ArrayList<String>() {{
 		add("list");
@@ -39,22 +39,22 @@ public class CommandAdminHologram implements Executor {
 		add("addtop");
 	}};
 
-	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
-		put("list", Commands.ADMIN_HOLOGRAM_LIST);
-		put("ls", Commands.ADMIN_HOLOGRAM_LIST);
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+		put("list", Command.ADMIN_HOLOGRAM_LIST);
+		put("ls", Command.ADMIN_HOLOGRAM_LIST);
 
-		put("tp", Commands.ADMIN_HOLOGRAM_TELEPORT);
-		put("teleport", Commands.ADMIN_HOLOGRAM_TELEPORT);
+		put("tp", Command.ADMIN_HOLOGRAM_TELEPORT);
+		put("teleport", Command.ADMIN_HOLOGRAM_TELEPORT);
 
-		put("add", Commands.ADMIN_HOLOGRAM_ADD);
-		put("addtop", Commands.ADMIN_HOLOGRAM_ADDTOP);
+		put("add", Command.ADMIN_HOLOGRAM_ADD);
+		put("addtop", Command.ADMIN_HOLOGRAM_ADDTOP);
 
-		put("del", Commands.ADMIN_HOLOGRAM_DELETE);
-		put("delete", Commands.ADMIN_HOLOGRAM_DELETE);
+		put("del", Command.ADMIN_HOLOGRAM_DELETE);
+		put("delete", Command.ADMIN_HOLOGRAM_DELETE);
 
-		put("tphere", Commands.ADMIN_HOLOGRAM_TELEPORT_HERE);
-		put("teleporthere", Commands.ADMIN_HOLOGRAM_TELEPORT_HERE);
-		put("movehere", Commands.ADMIN_HOLOGRAM_TELEPORT_HERE);
+		put("tphere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
+		put("teleporthere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
+		put("movehere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
 	}};
 
 	public CommandAdminHologram() {
@@ -63,12 +63,12 @@ public class CommandAdminHologram implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!command.hasPermission(sender)) {
+		if(!this.command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return;
 		}
 
-		if(!command.allowedSender(sender)) {
+		if(!this.command.allowedSender(sender)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return;
 		}
@@ -79,14 +79,14 @@ public class CommandAdminHologram implements Executor {
 			return;
 		}
 
-		Commands commands = commandsMap.get(args[noHologramCommands.contains(args[0]) ? 0 : 1].toLowerCase());
+		Command command = commandsMap.get(args[noHologramCommands.contains(args[0]) ? 0 : 1].toLowerCase());
 
-		if(commands == null) {
+		if(command == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);
 			return;
 		}
 
-		Executor executor = plugin.getCommandManager().getExecutor(commands);
+		Executor executor = plugin.getCommandManager().getExecutor(command);
 
 		if(executor instanceof Executor.ReversedAdminHologram) {
 			NovaHologram hologram = plugin.getHologramManager().getHologram(args[0]);

@@ -19,22 +19,21 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildMenu;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildMenu implements CommandExecutor, Executor {
-	private final Commands command = Commands.GUILD_MENU;
+	private final Command command = Command.GUILD_MENU;
 
 	public CommandGuildMenu() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		execute(sender, args);
 		return true;
 	}

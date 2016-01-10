@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildPurge implements Executor {
-	private final Commands command = Commands.ADMIN_GUILD_PURGE;
+	private final Command command = Command.ADMIN_GUILD_PURGE;
 
 	public CommandAdminGuildPurge() {
 		plugin.getCommandManager().registerExecutor(command, this);

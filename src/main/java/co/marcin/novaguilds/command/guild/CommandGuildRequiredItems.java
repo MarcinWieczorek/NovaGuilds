@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
@@ -29,7 +29,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildRequiredItems implements Executor {
-	private final Commands command = Commands.GUILD_REQUIREDITEMS;
+	private final Command command = Command.GUILD_REQUIREDITEMS;
 
 	public CommandGuildRequiredItems() {
 		plugin.getCommandManager().registerExecutor(command, this);

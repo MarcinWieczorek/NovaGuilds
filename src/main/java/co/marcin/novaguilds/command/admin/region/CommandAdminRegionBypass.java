@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminRegionBypass implements Executor {
-	private final Commands command = Commands.ADMIN_REGION_BYPASS;
+	private final Command command = Command.ADMIN_REGION_BYPASS;
 
 	public CommandAdminRegionBypass() {
 		plugin.getCommandManager().registerExecutor(command, this);

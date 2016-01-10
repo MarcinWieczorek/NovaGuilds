@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TagUtils;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildSetLeader implements Executor {
-    private final Commands command = Commands.ADMIN_GUILD_SET_LEADER;
+    private final Command command = Command.ADMIN_GUILD_SET_LEADER;
 
     public CommandAdminGuildSetLeader() {
         plugin.getCommandManager().registerExecutor(command, this);

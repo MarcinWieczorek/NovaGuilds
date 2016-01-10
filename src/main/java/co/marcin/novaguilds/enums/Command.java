@@ -26,7 +26,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public enum Commands {
+public enum Command {
 	ADMIN_ACCESS(Permission.NOVAGUILDS_ADMIN_ACCESS, true, "nga", new TabCompleterAdmin()),
 	ADMIN_RELOAD(Permission.NOVAGUILDS_ADMIN_RELOAD, true),
 	ADMIN_SAVE(Permission.NOVAGUILDS_ADMIN_SAVE, true),
@@ -106,20 +106,20 @@ public enum Commands {
 	private String genericCommand;
 	private TabCompleter tabCompleter;
 
-	Commands(Permission permission, boolean allowConsole) {
+	Command(Permission permission, boolean allowConsole) {
 		this.permission = permission;
 		this.permissionPath = permission.getPath();
 		this.allowConsole = allowConsole;
 	}
 
-	Commands(Permission permission, boolean allowConsole, String genericCommand) {
+	Command(Permission permission, boolean allowConsole, String genericCommand) {
 		this.permission = permission;
 		this.permissionPath = permission.getPath();
 		this.allowConsole = allowConsole;
 		this.genericCommand = genericCommand;
 	}
 
-	Commands(Permission permission, boolean allowConsole, String genericCommand, TabCompleter tabCompleter) {
+	Command(Permission permission, boolean allowConsole, String genericCommand, TabCompleter tabCompleter) {
 		this.permission = permission;
 		this.permissionPath = permission.getPath();
 		this.allowConsole = allowConsole;
@@ -127,7 +127,7 @@ public enum Commands {
 		this.tabCompleter = tabCompleter;
 	}
 
-	Commands(Permission permission, boolean allowConsole, Message usageMessage) {
+	Command(Permission permission, boolean allowConsole, Message usageMessage) {
 		this.permission = permission;
 		this.permissionPath = permission.getPath();
 		this.allowConsole = allowConsole;

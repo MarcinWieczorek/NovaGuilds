@@ -19,11 +19,10 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -31,35 +30,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuild implements CommandExecutor, Executor {
-	private final Commands command = Commands.GUILD_ACCESS;
+	private final Command command = Command.GUILD_ACCESS;
 
-	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
-		put("pay", Commands.GUILD_BANK_PAY);
-		put("withdraw", Commands.GUILD_BANK_WITHDRAW);
-		put("leader", Commands.GUILD_LEADER);
-		put("info", Commands.GUILD_INFO);
-		put("leave", Commands.GUILD_LEAVE);
-		put("home", Commands.GUILD_HOME);
-		put("region", Commands.REGION_ACCESS);
-		put("rg", Commands.REGION_ACCESS);
-		put("ally", Commands.GUILD_ALLY);
-		put("kick", Commands.GUILD_KICK);
-		put("abandon", Commands.GUILD_ABANDON);
-		put("invite", Commands.GUILD_INVITE);
-		put("join", Commands.GUILD_JOIN);
-		put("create", Commands.GUILD_CREATE);
-		put("war", Commands.GUILD_WAR);
-		put("compass", Commands.GUILD_COMPASS);
-		put("effect", Commands.GUILD_EFFECT);
-		put("top", Commands.GUILD_TOP);
-		put("items", Commands.GUILD_REQUIREDITEMS);
-		put("pvp", Commands.GUILD_PVPTOGGLE);
-		put("buylife", Commands.GUILD_BUYLIFE);
-		put("buyslot", Commands.GUILD_BUYSLOT);
-		put("c", Commands.GUILD_CHATMODE);
-		put("chat", Commands.GUILD_CHATMODE);
-		put("chatmode", Commands.GUILD_CHATMODE);
-		put("openinv", Commands.GUILD_OPENINVITATION);
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+		put("pay", Command.GUILD_BANK_PAY);
+		put("withdraw", Command.GUILD_BANK_WITHDRAW);
+		put("leader", Command.GUILD_LEADER);
+		put("info", Command.GUILD_INFO);
+		put("leave", Command.GUILD_LEAVE);
+		put("home", Command.GUILD_HOME);
+		put("region", Command.REGION_ACCESS);
+		put("rg", Command.REGION_ACCESS);
+		put("ally", Command.GUILD_ALLY);
+		put("kick", Command.GUILD_KICK);
+		put("abandon", Command.GUILD_ABANDON);
+		put("invite", Command.GUILD_INVITE);
+		put("join", Command.GUILD_JOIN);
+		put("create", Command.GUILD_CREATE);
+		put("war", Command.GUILD_WAR);
+		put("compass", Command.GUILD_COMPASS);
+		put("effect", Command.GUILD_EFFECT);
+		put("top", Command.GUILD_TOP);
+		put("items", Command.GUILD_REQUIREDITEMS);
+		put("pvp", Command.GUILD_PVPTOGGLE);
+		put("buylife", Command.GUILD_BUYLIFE);
+		put("buyslot", Command.GUILD_BUYSLOT);
+		put("c", Command.GUILD_CHATMODE);
+		put("chat", Command.GUILD_CHATMODE);
+		put("chatmode", Command.GUILD_CHATMODE);
+		put("openinv", Command.GUILD_OPENINVITATION);
 	}};
 
 	public CommandGuild() {
@@ -79,7 +78,7 @@ public class CommandGuild implements CommandExecutor, Executor {
 		}
 
 		if(args.length>0) {
-			Commands command = commandsMap.get(args[0].toLowerCase());
+			Command command = commandsMap.get(args[0].toLowerCase());
 			String[] newargs = StringUtils.parseArgs(args, 1);
 
 			if(command == null) {
@@ -104,7 +103,7 @@ public class CommandGuild implements CommandExecutor, Executor {
 		}
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		execute(sender, args);
 		return true;
 	}

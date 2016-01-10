@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -29,7 +29,7 @@ import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetTimerest implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command = Commands.ADMIN_GUILD_SET_TIMEREST;
+	private final Command command = Command.ADMIN_GUILD_SET_TIMEREST;
 
 	public CommandAdminGuildSetTimerest() {
 		plugin.getCommandManager().registerExecutor(command, this);

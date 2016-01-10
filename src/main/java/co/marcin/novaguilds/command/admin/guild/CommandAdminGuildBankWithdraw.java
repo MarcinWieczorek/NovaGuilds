@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class CommandAdminGuildBankWithdraw implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
-	private final Commands command = Commands.ADMIN_GUILD_BANK_WITHDRAW;
+	private final Command command = Command.ADMIN_GUILD_BANK_WITHDRAW;
 
 	public CommandAdminGuildBankWithdraw() {
 		plugin.getCommandManager().registerExecutor(command, this);

@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.command.admin;
 
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
@@ -29,7 +29,7 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminReload implements Executor {
-	private final Commands command = Commands.ADMIN_RELOAD;
+	private final Command command = Command.ADMIN_RELOAD;
 
 	public CommandAdminReload() {
 		plugin.getCommandManager().registerExecutor(command, this);

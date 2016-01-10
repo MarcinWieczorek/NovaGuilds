@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.command.region;
 
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
@@ -27,14 +27,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandRegion implements Executor {
-	private static final Commands command = Commands.REGION_ACCESS;
+	private static final Command command = Command.REGION_ACCESS;
 
-	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
-		put("buy", Commands.REGION_BUY);
-		put("create", Commands.REGION_BUY);
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+		put("buy", Command.REGION_BUY);
+		put("create", Command.REGION_BUY);
 
-		put("delete", Commands.REGION_DELETE);
-		put("del", Commands.REGION_DELETE);
+		put("delete", Command.REGION_DELETE);
+		put("del", Command.REGION_DELETE);
 	}};
 
 	public CommandRegion() {
@@ -54,7 +54,7 @@ public class CommandRegion implements Executor {
 		}
 
 		if(args.length>0) {
-			Commands subCommand = commandsMap.get(args[0].toLowerCase());
+			Command subCommand = commandsMap.get(args[0].toLowerCase());
 
 			if(subCommand == null) {
 				Message.CHAT_UNKNOWNCMD.send(sender);

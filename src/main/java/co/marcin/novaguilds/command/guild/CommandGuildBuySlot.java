@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -32,7 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildBuySlot implements Executor {
-	private final Commands command = Commands.GUILD_BUYSLOT;
+	private final Command command = Command.GUILD_BUYSLOT;
 
 	public CommandGuildBuySlot() {
 		plugin.getCommandManager().registerExecutor(command, this);

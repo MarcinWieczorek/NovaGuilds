@@ -21,7 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
@@ -30,7 +30,6 @@ import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -42,14 +41,14 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandGuildInfo implements CommandExecutor, Executor {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Commands command = Commands.GUILD_INFO;
+	private final Command command = Command.GUILD_INFO;
 	 
 	public CommandGuildInfo() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		execute(sender, args);
 		return true;
 	}

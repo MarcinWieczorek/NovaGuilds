@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds;
 
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Permission;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
@@ -27,15 +27,15 @@ public class PermissionEnumTest {
 	@Test
 	public void testPermissionEnum() throws Exception {
 		boolean passed = true;
-		for(Commands commands : Commands.values()) {
-			Permission permission = Permission.fromPath(commands.getPermission());
+		for(Command command : Command.values()) {
+			Permission permission = Permission.fromPath(command.getPermission());
 
 			if(permission == null) {
 				if(passed) {
 					System.out.println("Missing enums:");
 				}
 
-				System.out.println(StringUtils.replace(commands.getPermission().toUpperCase(), ".", "_"));
+				System.out.println(StringUtils.replace(command.getPermission().toUpperCase(), ".", "_"));
 				passed = false;
 			}
 		}

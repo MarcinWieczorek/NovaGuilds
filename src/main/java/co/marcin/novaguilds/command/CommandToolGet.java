@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -26,7 +26,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandToolGet implements Executor {
-	private final Commands command = Commands.TOOL_GET;
+	private final Command command = Command.TOOL_GET;
 
 	public CommandToolGet() {
 		plugin.getCommandManager().registerExecutor(command, this);

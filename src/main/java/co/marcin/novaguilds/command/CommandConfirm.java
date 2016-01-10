@@ -19,16 +19,15 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandConfirm implements Executor, CommandExecutor {
-	private static final Commands command = Commands.CONFIRM;
+	private static final Command command = Command.CONFIRM;
 
 	public CommandConfirm() {
 		plugin.getCommandManager().registerExecutor(command, this);
@@ -58,7 +57,7 @@ public class CommandConfirm implements Executor, CommandExecutor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		execute(sender, args);
 		return true;
 	}

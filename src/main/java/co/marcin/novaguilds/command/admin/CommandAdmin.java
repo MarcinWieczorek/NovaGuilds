@@ -19,11 +19,10 @@
 package co.marcin.novaguilds.command.admin;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -32,20 +31,20 @@ import java.util.Map;
 
 public class CommandAdmin implements CommandExecutor, Executor {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Commands command = Commands.ADMIN_ACCESS;
+	private final Command command = Command.ADMIN_ACCESS;
 
-	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
-		put("guild", Commands.ADMIN_GUILD_ACCESS);
-		put("g", Commands.ADMIN_GUILD_ACCESS);
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+		put("guild", Command.ADMIN_GUILD_ACCESS);
+		put("g", Command.ADMIN_GUILD_ACCESS);
 
-		put("region", Commands.ADMIN_REGION_ACCESS);
-		put("rg", Commands.ADMIN_REGION_ACCESS);
+		put("region", Command.ADMIN_REGION_ACCESS);
+		put("rg", Command.ADMIN_REGION_ACCESS);
 
-		put("hologram", Commands.ADMIN_HOLOGRAM_ACCESS);
-		put("h", Commands.ADMIN_HOLOGRAM_ACCESS);
+		put("hologram", Command.ADMIN_HOLOGRAM_ACCESS);
+		put("h", Command.ADMIN_HOLOGRAM_ACCESS);
 
-		put("reload", Commands.ADMIN_RELOAD);
-		put("save", Commands.ADMIN_SAVE);
+		put("reload", Command.ADMIN_RELOAD);
+		put("save", Command.ADMIN_SAVE);
 	}};
 
 	public CommandAdmin() {
@@ -53,7 +52,7 @@ public class CommandAdmin implements CommandExecutor, Executor {
 	}
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		execute(sender, args);
 		return true;
 	}
@@ -71,7 +70,7 @@ public class CommandAdmin implements CommandExecutor, Executor {
 			return;
 		}
 
-		Commands subCommand = commandsMap.get(args[0]);
+		Command subCommand = commandsMap.get(args[0]);
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);

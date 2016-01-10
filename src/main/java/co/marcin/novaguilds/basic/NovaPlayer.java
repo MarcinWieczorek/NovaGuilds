@@ -20,7 +20,7 @@ package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.ChatMode;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
@@ -394,7 +394,7 @@ public class NovaPlayer {
 		}
 	}
 
-	public void newCommandExecutorHandler(Commands command, String[] args) {
+	public void newCommandExecutorHandler(Command command, String[] args) {
 		commandExecutorHandler = new CommandExecutorHandler(command, getPlayer(), args);
 		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
 	}

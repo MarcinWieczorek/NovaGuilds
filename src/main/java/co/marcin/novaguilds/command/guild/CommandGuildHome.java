@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandGuildHome implements Executor {
-	private final Commands command = Commands.GUILD_HOME;
+	private final Command command = Command.GUILD_HOME;
 
 	public CommandGuildHome() {
 		plugin.getCommandManager().registerExecutor(command, this);

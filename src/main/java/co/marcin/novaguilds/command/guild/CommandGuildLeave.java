@@ -21,11 +21,10 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TagUtils;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -34,13 +33,13 @@ import java.util.Map;
 
 public class CommandGuildLeave implements CommandExecutor, Executor {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Commands command = Commands.GUILD_LEAVE;
+	private final Command command = Command.GUILD_LEAVE;
 	
 	public CommandGuildLeave() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		execute(sender, args);
 		return true;
 	}

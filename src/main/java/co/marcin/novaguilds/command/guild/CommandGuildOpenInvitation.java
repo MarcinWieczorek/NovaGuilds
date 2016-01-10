@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -28,7 +28,7 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 
 public class CommandGuildOpenInvitation implements Executor {
-	private final Commands command = Commands.GUILD_OPENINVITATION;
+	private final Command command = Command.GUILD_OPENINVITATION;
 
 	public CommandGuildOpenInvitation() {
 		plugin.getCommandManager().registerExecutor(command, this);

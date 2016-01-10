@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildTop implements Executor {
-	private final Commands command = Commands.GUILD_TOP;
+	private final Command command = Command.GUILD_TOP;
 
 	public CommandGuildTop() {
 		plugin.getCommandManager().registerExecutor(command, this);

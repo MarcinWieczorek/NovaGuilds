@@ -18,14 +18,14 @@
 
 package co.marcin.novaguilds.command.admin;
 
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminSave implements Executor {
-	private final Commands command = Commands.ADMIN_SAVE;
+	private final Command command = Command.ADMIN_SAVE;
 
 	public CommandAdminSave() {
 		plugin.getCommandManager().registerExecutor(command, this);

@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
@@ -31,47 +31,47 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandAdminGuild implements Executor {
-	private final Commands command = Commands.ADMIN_GUILD_ACCESS;
+	private final Command command = Command.ADMIN_GUILD_ACCESS;
 
-	public static final Map<String, Commands> commandsMap = new HashMap<String, Commands>(){{
-		put("tp", Commands.ADMIN_GUILD_TELEPORT);
-		put("teleport", Commands.ADMIN_GUILD_TELEPORT);
-		put("abandon", Commands.ADMIN_GUILD_ABANDON);
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+		put("tp", Command.ADMIN_GUILD_TELEPORT);
+		put("teleport", Command.ADMIN_GUILD_TELEPORT);
+		put("abandon", Command.ADMIN_GUILD_ABANDON);
 
-		put("setname", Commands.ADMIN_GUILD_SET_NAME);
-		put("name", Commands.ADMIN_GUILD_SET_NAME);
+		put("setname", Command.ADMIN_GUILD_SET_NAME);
+		put("name", Command.ADMIN_GUILD_SET_NAME);
 
-		put("settag", Commands.ADMIN_GUILD_SET_TAG);
-		put("tag", Commands.ADMIN_GUILD_SET_TAG);
+		put("settag", Command.ADMIN_GUILD_SET_TAG);
+		put("tag", Command.ADMIN_GUILD_SET_TAG);
 
-		put("setpoints", Commands.ADMIN_GUILD_SET_POINTS);
-		put("points", Commands.ADMIN_GUILD_SET_POINTS);
+		put("setpoints", Command.ADMIN_GUILD_SET_POINTS);
+		put("points", Command.ADMIN_GUILD_SET_POINTS);
 
-		put("setslots", Commands.ADMIN_GUILD_SET_SLOTS);
-		put("slots", Commands.ADMIN_GUILD_SET_SLOTS);
+		put("setslots", Command.ADMIN_GUILD_SET_SLOTS);
+		put("slots", Command.ADMIN_GUILD_SET_SLOTS);
 
-		put("promote", Commands.ADMIN_GUILD_SET_LEADER);
-		put("leader", Commands.ADMIN_GUILD_SET_LEADER);
-		put("setleader", Commands.ADMIN_GUILD_SET_LEADER);
+		put("promote", Command.ADMIN_GUILD_SET_LEADER);
+		put("leader", Command.ADMIN_GUILD_SET_LEADER);
+		put("setleader", Command.ADMIN_GUILD_SET_LEADER);
 
-		put("invite", Commands.ADMIN_GUILD_INVITE);
-		put("pay", Commands.ADMIN_GUILD_BANK_PAY);
-		put("withdraw", Commands.ADMIN_GUILD_BANK_WITHDRAW);
-		put("timerest", Commands.ADMIN_GUILD_SET_TIMEREST);
-		put("liveregentime", Commands.ADMIN_GUILD_SET_LIVEREGENERATIONTIME);
-		put("lives", Commands.ADMIN_GUILD_SET_LIVES);
-		put("purge", Commands.ADMIN_GUILD_PURGE);
-		put("list", Commands.ADMIN_GUILD_LIST);
-		put("inactive", Commands.ADMIN_GUILD_INACTIVE);
-		put("kick", Commands.ADMIN_GUILD_KICK);
+		put("invite", Command.ADMIN_GUILD_INVITE);
+		put("pay", Command.ADMIN_GUILD_BANK_PAY);
+		put("withdraw", Command.ADMIN_GUILD_BANK_WITHDRAW);
+		put("timerest", Command.ADMIN_GUILD_SET_TIMEREST);
+		put("liveregentime", Command.ADMIN_GUILD_SET_LIVEREGENERATIONTIME);
+		put("lives", Command.ADMIN_GUILD_SET_LIVES);
+		put("purge", Command.ADMIN_GUILD_PURGE);
+		put("list", Command.ADMIN_GUILD_LIST);
+		put("inactive", Command.ADMIN_GUILD_INACTIVE);
+		put("kick", Command.ADMIN_GUILD_KICK);
 	}};
 
-	private static final List<Commands> noGuildCommands = new ArrayList<Commands>() {{
-		add(Commands.ADMIN_GUILD_LIST);
-		add(Commands.ADMIN_GUILD_KICK);
-		add(Commands.ADMIN_GUILD_SET_LEADER);
-		add(Commands.ADMIN_GUILD_PURGE);
-		add(Commands.ADMIN_GUILD_INACTIVE);
+	private static final List<Command> noGuildCommands = new ArrayList<Command>() {{
+		add(Command.ADMIN_GUILD_LIST);
+		add(Command.ADMIN_GUILD_KICK);
+		add(Command.ADMIN_GUILD_SET_LEADER);
+		add(Command.ADMIN_GUILD_PURGE);
+		add(Command.ADMIN_GUILD_INACTIVE);
 	}};
 
 	public CommandAdminGuild() {
@@ -94,7 +94,7 @@ public class CommandAdminGuild implements Executor {
 
 		NovaGuild guild = null;
 		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0: 1];
-		Commands subCommand = commandsMap.get(subCmd.toLowerCase());
+		Command subCommand = commandsMap.get(subCmd.toLowerCase());
 
 		if(!noGuildCommands.contains(subCommand) && (args.length > 1 || !noGuildCommands.contains(subCommand))) {
 			guild = plugin.getGuildManager().getGuildFind(args[0]);

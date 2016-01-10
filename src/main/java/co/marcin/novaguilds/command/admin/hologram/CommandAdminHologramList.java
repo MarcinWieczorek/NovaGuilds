@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.admin.hologram;
 
 import co.marcin.novaguilds.basic.NovaHologram;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminHologramList implements Executor {
-	private final Commands command = Commands.ADMIN_HOLOGRAM_LIST;
+	private final Command command = Command.ADMIN_HOLOGRAM_LIST;
 
 	public CommandAdminHologramList() {
 		plugin.getCommandManager().registerExecutor(command, this);

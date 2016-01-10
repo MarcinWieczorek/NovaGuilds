@@ -21,7 +21,7 @@ package co.marcin.novaguilds.runnable;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -32,13 +32,13 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandExecutorHandler implements Runnable {
 	private final CommandSender sender;
-	private final Commands command;
+	private final Command command;
 	private final String[] args;
 	private CommandExecutorHandlerState state = CommandExecutorHandlerState.WAITING;
 	private final Executor executor;
 	private final ScheduledFuture scheduledFuture;
 
-	public CommandExecutorHandler(Commands command, CommandSender sender, String[] args) {
+	public CommandExecutorHandler(Command command, CommandSender sender, String[] args) {
 		this.command = command;
 		this.sender = sender;
 		this.args = args;
@@ -74,7 +74,7 @@ public class CommandExecutorHandler implements Runnable {
 		}
 	}
 
-	public Commands getCommand() {
+	public Command getCommand() {
 		return command;
 	}
 }

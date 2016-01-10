@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class CommandAdminGuildInactive implements Executor {
-	private final Commands command = Commands.ADMIN_GUILD_INACTIVE;
+	private final Command command = Command.ADMIN_GUILD_INACTIVE;
 
 	public CommandAdminGuildInactive() {
 		plugin.getCommandManager().registerExecutor(command, this);

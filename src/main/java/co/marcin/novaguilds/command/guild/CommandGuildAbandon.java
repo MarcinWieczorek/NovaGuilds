@@ -21,13 +21,12 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.AbandonCause;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TagUtils;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -35,13 +34,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildAbandon implements CommandExecutor, Executor {
-	private static Commands command = Commands.GUILD_ABANDON;
+	private static Command command = Command.GUILD_ABANDON;
 	
 	public CommandGuildAbandon() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		if(!command.allowedSender(sender)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return true;

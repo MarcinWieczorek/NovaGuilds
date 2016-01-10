@@ -21,7 +21,7 @@ package co.marcin.novaguilds.command;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.Tablist;
-import co.marcin.novaguilds.enums.Commands;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -29,7 +29,6 @@ import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,10 +42,10 @@ import java.util.Map;
 
 public class CommandNovaGuilds implements CommandExecutor, Executor {
 	public CommandNovaGuilds() {
-		plugin.getCommandManager().registerExecutor(Commands.NOVAGUILDS, this);
+		plugin.getCommandManager().registerExecutor(Command.NOVAGUILDS, this);
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		execute(sender, args);
 		return true;
 	}
@@ -94,7 +93,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 
 		switch(args[0].toLowerCase()) {
 			case "tool":
-				plugin.getCommandManager().getExecutor(Commands.TOOL_GET).execute(sender, args);
+				plugin.getCommandManager().getExecutor(Command.TOOL_GET).execute(sender, args);
 				break;
 			case "bank":
 				if(!sender.hasPermission("novaguilds.test.bank")) {
@@ -110,7 +109,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				}
 				break;
 			case "admin":
-				Commands.ADMIN_ACCESS.getExecutor().execute(sender, StringUtils.parseArgs(args, 1));
+				Command.ADMIN_ACCESS.getExecutor().execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "group":
 				NovaGroup group = plugin.getGroupManager().getGroup(sender);
@@ -136,7 +135,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				break;
 			case "g":
 			case "guild":
-				Commands.GUILD_ACCESS.getExecutor().execute(sender, StringUtils.parseArgs(args, 1));
+				Command.GUILD_ACCESS.getExecutor().execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "tr":
 				Tablist.patch();
