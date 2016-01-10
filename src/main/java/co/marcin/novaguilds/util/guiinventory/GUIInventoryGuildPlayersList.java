@@ -37,6 +37,7 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 	private final Inventory inventory;
 	private final Map<Integer, NovaPlayer> slotPlayersMap = new HashMap<>();
 	private final NovaGuild guild;
+	private NovaPlayer viewer;
 
 	public GUIInventoryGuildPlayersList(NovaGuild guild) {
 		this.guild = guild;
@@ -88,5 +89,15 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 	@Override
 	public void open(NovaPlayer nPlayer) {
 		ChestGUIUtils.openGUIInventory(nPlayer, this);
+	}
+
+	@Override
+	public NovaPlayer getViewer() {
+		return viewer;
+	}
+
+	@Override
+	public void setViewer(NovaPlayer nPlayer) {
+		this.viewer = nPlayer;
 	}
 }

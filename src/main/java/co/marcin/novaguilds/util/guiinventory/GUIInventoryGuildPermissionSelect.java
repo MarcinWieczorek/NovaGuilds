@@ -36,6 +36,7 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 	private final NovaRank rank;
 	private final Inventory inventory;
 	private final Map<Integer, GuildPermission> slotPermissionsMap = new HashMap<>();
+	private NovaPlayer viewer;
 
 	public GUIInventoryGuildPermissionSelect(NovaRank rank) {
 		this.rank = rank;
@@ -99,6 +100,16 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 			slotPermissionsMap.put(slot, perm);
 			slot++;
 		}
+	}
+
+	@Override
+	public NovaPlayer getViewer() {
+		return viewer;
+	}
+
+	@Override
+	public void setViewer(NovaPlayer nPlayer) {
+		this.viewer = nPlayer;
 	}
 
 	private void refreshSlot(int slot) {

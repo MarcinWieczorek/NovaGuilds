@@ -30,4 +30,8 @@ public interface GUIInventory {
 	void open(NovaPlayer nPlayer);
 
 	void generateContent();
+
+	NovaPlayer getViewer();
+
+	void setViewer(NovaPlayer nPlayer);
 }

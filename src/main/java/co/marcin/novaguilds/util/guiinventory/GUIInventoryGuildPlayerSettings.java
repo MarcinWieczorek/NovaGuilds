@@ -34,6 +34,7 @@ import java.util.Map;
 public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 	private final Inventory inventory;
 	private final NovaPlayer nPlayer;
+	private NovaPlayer viewer;
 	private ItemStack kickItem;
 	private ItemStack rankItem;
 
@@ -78,5 +79,15 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();
 
 		inventory.addItem(kickItem, rankItem);
+	}
+
+	@Override
+	public NovaPlayer getViewer() {
+		return viewer;
+	}
+
+	@Override
+	public void setViewer(NovaPlayer nPlayer) {
+		this.viewer = nPlayer;
 	}
 }

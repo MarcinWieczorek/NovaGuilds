@@ -35,6 +35,7 @@ public class GUIInventoryGuildMenu implements GUIInventory {
 	private final NovaPlayer nPlayer;
 	private ItemStack ranksItem;
 	private ItemStack playersItem;
+	private NovaPlayer viewer;
 
 	public GUIInventoryGuildMenu(NovaPlayer nPlayer) {
 		this.nPlayer = nPlayer;
@@ -84,5 +85,15 @@ public class GUIInventoryGuildMenu implements GUIInventory {
 				inventory.addItem(ranksItem);
 			}
 		}
+	}
+
+	@Override
+	public NovaPlayer getViewer() {
+		return viewer;
+	}
+
+	@Override
+	public void setViewer(NovaPlayer nPlayer) {
+		this.viewer = nPlayer;
 	}
 }

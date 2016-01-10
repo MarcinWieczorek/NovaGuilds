@@ -42,6 +42,7 @@ public class ChestGUIUtils {
 				guiContinueList.add(nPlayer);
 			}
 
+			guiInventory.setViewer(nPlayer);
 			guiInventory.generateContent();
 			nPlayer.getPlayer().openInventory(guiInventory.getInventory());
 

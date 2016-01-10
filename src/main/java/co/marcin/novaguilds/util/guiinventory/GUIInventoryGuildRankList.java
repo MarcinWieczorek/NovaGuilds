@@ -44,6 +44,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 	private final NovaGuild guild;
 	protected Map<Integer, NovaRank> slotRanksMap = new HashMap<>();
 	protected ItemStack addRankItem;
+	private NovaPlayer viewer;
 
 	public GUIInventoryGuildRankList(NovaGuild guild) {
 		this.guild = guild;
@@ -113,5 +114,15 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 	@Override
 	public void open(NovaPlayer nPlayer) {
 		ChestGUIUtils.openGUIInventory(nPlayer, this);
+	}
+
+	@Override
+	public NovaPlayer getViewer() {
+		return viewer;
+	}
+
+	@Override
+	public void setViewer(NovaPlayer nPlayer) {
+		this.viewer = nPlayer;
 	}
 }
