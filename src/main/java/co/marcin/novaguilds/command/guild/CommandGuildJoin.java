@@ -65,7 +65,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		List<NovaGuild> invitedTo = nPlayer.getInvitedTo();
 		
 		if(nPlayer.hasGuild()) {
-			Message.CHAT_PLAYER_HASGUILD.send(sender);
+			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
 			return;
 		}
 
