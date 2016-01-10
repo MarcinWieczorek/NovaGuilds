@@ -487,6 +487,7 @@ inventory:
  ggui:
   name: Menu Gildii
  gui:
+  back: "REDSTONE_TORCH_ON 1 name:&cPowrót"
   playerslist:
    title: "Lista członków"
    iconitem: "SKULL_ITEM:3 1 name:Lista_członków"

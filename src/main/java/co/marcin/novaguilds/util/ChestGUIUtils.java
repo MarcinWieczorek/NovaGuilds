@@ -22,7 +22,9 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,15 @@ public class ChestGUIUtils {
 
 			guiInventory.setViewer(nPlayer);
 			guiInventory.generateContent();
-			nPlayer.getPlayer().openInventory(guiInventory.getInventory());
+
+			Inventory inventory = guiInventory.getInventory();
+
+			ItemStack lastItem = inventory.getItem(inventory.getSize() - 1);
+			if((lastItem == null || lastItem.getType() == Material.AIR) && nPlayer.getGuiInventoryHistory().size()>1) {
+				inventory.setItem(inventory.getSize()-1, Message.INVENTORY_GUI_BACK.getItemStack());
+			}
+
+			nPlayer.getPlayer().openInventory(inventory);
 
 			guiContinueList.remove(nPlayer);
 		}

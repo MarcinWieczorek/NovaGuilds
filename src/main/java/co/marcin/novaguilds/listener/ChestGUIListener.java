@@ -20,13 +20,16 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
+import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +42,8 @@ public class ChestGUIListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		if(event.getClickedInventory() == null || event.getCurrentItem()==null) {
+		Inventory inventory = InventoryUtils.getClickedInventory(event);
+		if(inventory == null || event.getCurrentItem()==null || !inventory.equals(event.getView().getTopInventory())) {
 			return;
 		}
 
@@ -48,8 +52,14 @@ public class ChestGUIListener implements Listener {
 		GUIInventory guiInventory = nPlayer.getGuiInventory();
 
 		if(guiInventory != null) {
-			guiInventory.onClick(event);
 			event.setCancelled(true);
+
+			if(event.getSlot() == inventory.getSize()-1 && event.getCurrentItem().equals(Message.INVENTORY_GUI_BACK.getItemStack())) {
+				player.closeInventory();
+				return;
+			}
+
+			guiInventory.onClick(event);
 		}
 	}
 

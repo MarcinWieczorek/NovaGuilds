@@ -487,6 +487,7 @@ inventory:
  ggui:
   name: Gilden Menü
  gui:
+  back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "Spieker Liste"
    iconitem: "SKULL_ITEM:3 1 name:Spieler_Liste"
