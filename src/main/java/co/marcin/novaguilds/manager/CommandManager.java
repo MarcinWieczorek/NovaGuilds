@@ -132,15 +132,6 @@ public class CommandManager {
 	}
 
 	private void registerCommands() {
-
-		plugin.getCommand("gi").setExecutor(new CommandGuildInfo());
-		plugin.getCommand("create").setExecutor(new CommandGuildCreate());
-		plugin.getCommand("join").setExecutor(new CommandGuildJoin());
-		plugin.getCommand("leave").setExecutor(new CommandGuildLeave());
-
-		new CommandGuildMenu();
-
-
 		//register custom executors
 		new CommandGuild();
 		new CommandGuildAbandon();
@@ -148,14 +139,19 @@ public class CommandManager {
 		new CommandGuildBuySlot();
 		new CommandGuildChatMode();
 		new CommandGuildCompass();
+		new CommandGuildCreate();
 		new CommandGuildAlly();
 		new CommandGuildBankPay();
 		new CommandGuildBankWithdraw();
 		new CommandGuildEffect();
 		new CommandGuildHome();
+		new CommandGuildInfo();
 		new CommandGuildInvite();
+		new CommandGuildJoin();
 		new CommandGuildKick();
 		new CommandGuildLeader();
+		new CommandGuildLeave();
+		new CommandGuildMenu();
 		new CommandGuildPvpToggle();
 		new CommandGuildTop();
 		new CommandGuildRequiredItems();
