@@ -346,7 +346,7 @@ public class NovaPlayer {
 	}
 
 	public boolean hasPermission(GuildPermission permission) {
-		return guildRank.hasPermission(permission);
+		return guildRank != null && guildRank.hasPermission(permission);
 	}
 
 	public boolean canGetKillPoints(Player player) {
