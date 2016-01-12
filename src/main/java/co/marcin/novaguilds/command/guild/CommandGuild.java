@@ -20,8 +20,10 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -85,10 +87,25 @@ public class CommandGuild implements CommandExecutor, Executor {
 		else {
 			NovaPlayer nPlayer = NovaPlayer.get(sender);
 			if(nPlayer.hasGuild()) {
-				Message.CHAT_COMMANDS_GUILD_HASGUILD.prefix(false).send(sender);
+				for(String message : Message.CHAT_COMMANDS_GUILD_HASGUILD.getList()) {
+					GuildPermission guildPermission = null;
+					if(org.apache.commons.lang.StringUtils.startsWith(message, "{") && org.apache.commons.lang.StringUtils.contains(message, "}")) {
+						message = message.substring(1);
+						String[] split = org.apache.commons.lang.StringUtils.split(message, '}');
+						guildPermission = GuildPermission.fromString(split[0]);
 
-				if(nPlayer.isLeader()) {
-					Message.CHAT_COMMANDS_GUILD_LEADER.prefix(false).send(sender);
+						if(split.length == 2) {
+							message = split[1];
+						}
+						else {
+							split[0] = "";
+							message = StringUtils.join(split, "}");
+						}
+					}
+
+					if(guildPermission == null || nPlayer.hasPermission(guildPermission)) {
+						MessageManager.sendMessage(sender, message);
+					}
 				}
 			}
 			else {

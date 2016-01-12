@@ -62,5 +62,14 @@ public enum GuildPermission {
 	REGION_RESIZE,
 
 	RANK_SET,
-	RANK_EDIT
+	RANK_EDIT;
+
+	public static GuildPermission fromString(String name) {
+		try {
+			return valueOf(name.toUpperCase());
+		}
+		catch(IllegalArgumentException e) {
+			return null;
+		}
+	}
 }
