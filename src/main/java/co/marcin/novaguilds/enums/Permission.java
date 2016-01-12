@@ -108,7 +108,7 @@ public enum Permission {
 	NOVAGUILDS_CONFIRM;
 
 	public boolean has(CommandSender sender) {
-		return sender.hasPermission(getPath());
+		return sender.hasPermission(getPath()) || sender.isOp();
 	}
 
 	public String getPath() {

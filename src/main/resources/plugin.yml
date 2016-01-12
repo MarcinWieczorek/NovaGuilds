@@ -52,73 +52,9 @@ commands:
       usage: /confirm
 
 permissions:
-    novaguilds.region.create:
-        default: op
-    novaguilds.region.resize:
-        default: op
-    novaguilds.region.delete:
-        default: op
-    novaguilds.guild.home:
-        default: op
-    novaguilds.guild.create:
-        default: op
-    novaguilds.guild.abandon:
-        default: op
-    novaguilds.guild.info:
-        default: op
-    novaguilds.guild.leave:
-        default: op
-    novaguilds.tool.get:
-        default: op
-    novaguilds.tool.check:
-        default: op
-    novaguilds.admin.access:
-        default: op
-    novaguilds.admin.guild.access:
-        default: op
-    novaguilds.admin.guild.abandon:
-        default: op
-    novaguilds.admin.guild.tp:
-        default: op
-    novaguilds.admin.guild.tp.other:
-        default: op
-    novaguilds.admin.guild.money:
-        default: op
-    novaguilds.admin.guild.fullinfo:
-        default: op
-    novaguilds.admin.guild.setname:
-        default: op
-    novaguilds.admin.guild.settag:
-        default: op
-    novaguilds.admin.guild.kick:
-        default: op
-    novaguilds.admin.guild.list:
-        default: op
-    novaguilds.admin.region.delete:
-        default: op
-    novaguilds.admin.region.resize:
-        default: op
-    novaguilds.admin.region.bypass:
-        default: op
-    novaguilds.admin.region.bypass.other:
-        default: op
-    novaguilds.admin.region.list:
-        default: op
-    novaguilds.admin.region.tp:
-        default: op
-    novaguilds.admin.region.tp.other:
-        default: op
-    novaguilds.admin.reload:
-        default: op
-    novaguilds.admin.save:
-        default: op
-    novaguilds.admin.save.notify:
-        default: op
-    novaguilds.chat.notag:
-        default: false
-    novaguilds.group.admin:
-        default: op
-    novaguilds.group.default:
-        default: true
-    novaguilds.info:
-        default: true
+   novaguilds.group.default:
+      default: true
+   novaguilds.info:
+       default: true
+   novaguilds.novaguilds:
+      default: true
