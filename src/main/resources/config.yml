@@ -178,8 +178,8 @@ guild:
  stringcheck:
   enabled: true
   regex: false
-  pattern: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-  regexpattern: "[A-Za-z0-9]*"
+  pattern: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&"
+  regexpattern: "[A-Za-z0-9&]*"
  settings:
   tag:
    #colored tags
