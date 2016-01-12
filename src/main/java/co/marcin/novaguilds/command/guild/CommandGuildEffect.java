@@ -24,9 +24,12 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -44,6 +47,7 @@ public class CommandGuildEffect implements Executor {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		Player player = (Player) sender;
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -55,39 +59,48 @@ public class CommandGuildEffect implements Executor {
 			return;
 		}
 
-		double price = plugin.getGroupManager().getGroup(sender).getGuildEffectPrice();
-
-		if(nPlayer.getGuild().getMoney() < price) {
+		//Money
+		double money = plugin.getGroupManager().getGroup(sender).getGuildEffectPrice();
+		if(!nPlayer.getGuild().hasMoney(money)) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
 			return;
 		}
 
-		//TODO: configurable duration
-		int duration = Config.GUILD_EFFECT_DURATION.getInt();
+		//items
+		List<ItemStack> guildEffectItems = plugin.getGroupManager().getGroup(sender).getGuildEffectItems();
+		if(!guildEffectItems.isEmpty()) {
+			List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), guildEffectItems);
 
-		List<PotionEffectType> potionEffects = plugin.getConfigManager().getGuildEffects();
-
-		int rand = NumberUtils.randInt(0, potionEffects.size() - 1);
-		PotionEffectType effectType = potionEffects.get(rand);
-
-		PotionEffect effect = effectType.createEffect(duration, 1);
-		Player player = (Player)sender;
-
-		//add effect
-		if(player.hasPotionEffect(effectType)) {
-			player.removePotionEffect(effectType);
+			if(!missingItems.isEmpty()) {
+				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+				sender.sendMessage(StringUtils.getItemList(missingItems));
+				return;
+			}
 		}
 
+		//Generate effect
+		List<PotionEffectType> potionEffects = plugin.getConfigManager().getGuildEffects();
+		int index = NumberUtils.randInt(0, potionEffects.size() - 1);
+		PotionEffectType effectType = potionEffects.get(index);
+		PotionEffect effect = effectType.createEffect(Config.GUILD_EFFECT_DURATION.getInt(), 1);
+
+
+		//add effect
 		for(Player gPlayer : nPlayer.getGuild().getOnlinePlayers()) {
+			if(gPlayer.hasPotionEffect(effectType)) {
+				gPlayer.removePotionEffect(effectType);
+			}
+
 			gPlayer.addPotionEffect(effect);
 		}
 
-		//remove money
-		nPlayer.getGuild().takeMoney(price);
+		//remove money and items
+		nPlayer.getGuild().takeMoney(money);
+		InventoryUtils.removeItems(player, guildEffectItems);
 
 		//message
 		Map<String, String> vars = new HashMap<>();
-		vars.put("EFFECTTYPE",effectType.getName());
+		vars.put("EFFECTTYPE", effectType.getName());
 
 		Message.CHAT_GUILD_EFFECT_SUCCESS.vars(vars).send(sender);
 	}

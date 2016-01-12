@@ -236,7 +236,6 @@ guild:
 #there's no need for admin group. novaguilds.group.admin for all stuff free
 groups:
  default: #this is default
-  effectprice: 100
   guild:
    home:
     tpdelay: 5
@@ -257,6 +256,9 @@ groups:
     money: 10
     items:
      - GOLD_BLOCK 1
+   effect:
+    money: 100
+    items: []
 
   region:
    #size (radius) of auto created region (5 = 10x10)

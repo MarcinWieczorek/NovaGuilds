@@ -41,7 +41,9 @@ public class NovaGroup {
 	private final List<ItemStack> guildJoinItems = new ArrayList<>();
 	private double guildJoinMoney;
 
+	private final List<ItemStack> guildEffectItems = new ArrayList<>();
 	private double guildEffectPrice = 0;
+
 	private int guildTeleportDelay = 0;
 
 	private final List<ItemStack> guildBuylifeItems = new ArrayList<>();
@@ -76,11 +78,13 @@ public class NovaGroup {
 
 		regionPricePerBlock = section.getDouble("region.ppb");
 		regionCreateMoney = section.getDouble("region.createmoney");
-		guildEffectPrice = section.getDouble("effectprice");
 		regionAutoSize = section.getInt("region.autoregionsize");
 
 		guildHomeMoney = section.getDouble("guild.home.money");
 		guildJoinMoney = section.getDouble("guild.join.money");
+
+		guildEffectItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.effect.items")));
+		guildEffectPrice = section.getDouble("guild.effect.money");
 
 		guildBuylifeItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.buylife.items")));
 		guildBuylifeMoney = section.getDouble("guild.buylife.money");
@@ -107,10 +111,6 @@ public class NovaGroup {
 
 	public double getGuildCreateMoney() {
 		return guildCreateMoney;
-	}
-
-	public double getGuildEffectPrice() {
-		return guildEffectPrice;
 	}
 
 	public double getRegionPricePerBlock() {
@@ -159,5 +159,14 @@ public class NovaGroup {
 
 	public double getGuildBuySlotMoney() {
 		return guildBuySlotMoney;
+	}
+
+	//Effect
+	public List<ItemStack> getGuildEffectItems() {
+		return guildEffectItems;
+	}
+
+	public double getGuildEffectPrice() {
+		return guildEffectPrice;
 	}
 }

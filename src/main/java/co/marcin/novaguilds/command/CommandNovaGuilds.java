@@ -131,6 +131,8 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				sender.sendMessage("guildCreateItems = " + group.getGuildCreateItems().toString());
 				sender.sendMessage("guildHomeItems = " + group.getGuildHomeItems().toString());
 				sender.sendMessage("guildJoinItems = " + group.getGuildJoinItems().toString());
+				sender.sendMessage("guildEffectItems = " + group.getGuildEffectItems().toString());
+				sender.sendMessage("guildEffectMoney = " + group.getGuildEffectPrice());
 				sender.sendMessage("guildTeleportDelay = "+ group.getGuildTeleportDelay()+"s");
 				sender.sendMessage("regionCreateMoney = "+ group.getRegionCreateMoney());
 				sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
