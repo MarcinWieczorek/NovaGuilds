@@ -77,6 +77,8 @@ import co.marcin.novaguilds.command.guild.CommandGuildMenu;
 import co.marcin.novaguilds.command.guild.CommandGuildOpenInvitation;
 import co.marcin.novaguilds.command.guild.CommandGuildPvpToggle;
 import co.marcin.novaguilds.command.guild.CommandGuildRequiredItems;
+import co.marcin.novaguilds.command.guild.CommandGuildSetName;
+import co.marcin.novaguilds.command.guild.CommandGuildSetTag;
 import co.marcin.novaguilds.command.guild.CommandGuildTop;
 import co.marcin.novaguilds.command.guild.CommandGuildWar;
 import co.marcin.novaguilds.command.region.CommandRegion;
@@ -153,8 +155,10 @@ public class CommandManager {
 		new CommandGuildLeave();
 		new CommandGuildMenu();
 		new CommandGuildPvpToggle();
-		new CommandGuildTop();
 		new CommandGuildRequiredItems();
+		new CommandGuildSetName();
+		new CommandGuildSetTag();
+		new CommandGuildTop();
 		new CommandGuildWar();
 		new CommandGuildOpenInvitation();
 

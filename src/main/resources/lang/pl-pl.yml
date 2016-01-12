@@ -195,6 +195,8 @@ chat:
     - "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuc gracza"
     - "&5* &7/g &cpvp &2- &3Wlacz/Wylacz pvp"
     - "&5* &7/g &copeninv &2- &3Przelacz status otwartych zaproszen"
+    - "&5* &7/g &csetname &2- &3Zmień nazwę"
+    - "&5* &7/g &csettag &2- &3Zmień tag"
     - "&5* &7/g &crg &2- &3Komendy regionow"
     - "&5* &7/rozwiaz &2- &3Porzuc gildie"
     - "&5* &7/zapros &6<gracz> &2- &3Zapros gracza do gildii"
@@ -262,6 +264,9 @@ chat:
    success: "Ustawiono dom gildii!"
    outsideregion: "Nie mozesz ustawic domu poza regionem gildii"
    overlaps: "Nie mozesz ustawic domu na terenie innej gildii"
+  set:
+   name: "Guild's name has been set."
+   tag: "Guild's tag has been set."
   home: "Teleportowano do domu gildii"
   hasregionalready: "Twoja gildia ma juz region. Usun lub edytuj istniejacy."
   joined: "Dolaczyles do gildii!"
@@ -549,6 +554,9 @@ inventory:
      set: "Ustawianie_domu"
      teleport: "Teleportacja_do_domu"
     openinvitation: "Zmiana_statusu_otwartego_zaproszenia"
+    set:
+     name: "Zmiana_nazwy_gildii"
+     tag: "Zmiana_tagu_gildii"
     war:
      invite:
       send: "Prośba_o_zakończenie_wojny"

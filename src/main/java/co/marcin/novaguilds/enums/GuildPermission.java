@@ -48,6 +48,9 @@ public enum GuildPermission {
 	WAR_INVITE_ACCEPT,
 	WAR_START,
 
+	SET_NAME,
+	SET_TAG,
+
 	VAULT_ACCESS,
 	VAULT_PUT,
 	VAULT_TAKE,

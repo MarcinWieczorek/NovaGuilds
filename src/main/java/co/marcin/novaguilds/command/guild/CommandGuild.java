@@ -59,6 +59,10 @@ public class CommandGuild implements CommandExecutor, Executor {
 		put("chat", Command.GUILD_CHATMODE);
 		put("chatmode", Command.GUILD_CHATMODE);
 		put("openinv", Command.GUILD_OPENINVITATION);
+		put("setname", Command.GUILD_SET_NAME);
+		put("name", Command.GUILD_SET_NAME);
+		put("settag", Command.GUILD_SET_TAG);
+		put("tag", Command.GUILD_SET_TAG);
 	}};
 
 	public CommandGuild() {

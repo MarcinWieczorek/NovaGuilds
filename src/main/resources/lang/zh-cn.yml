@@ -195,6 +195,8 @@ chat:
     - "&5* &7/g &ckick &6<玩家名> &2- &3将玩家踢出公会."
     - "&5* &7/g &cpvp &2- &3切换PVP"
     - "&5* &7/g &copeninv &2- &3切换公会公开邀请状态"
+    - "&5* &7/g &csetname &2- &3Set the name"
+    - "&5* &7/g &csettag &2- &3Set the tag"
     - "&5* &7/g &crg &2- &3领地命令"
     - "&5* &7/abandon &2- &3删除你的公会."
     - "&5* &7/invite &6<玩家名> &2- &3邀请玩家加入你的公会."
@@ -262,6 +264,9 @@ chat:
    success: "公会出生点已设置！"
    outsideregion: "你无法将公会出生点设置在公会领地外！"
    overlaps: "你无法将公会出生点设置在他人的领地内！"
+  set:
+   name: "Guild's name has been set."
+   tag: "Guild's tag has been set."
   home: "已返回公会出生点."
   hasregionalready: "你的公会已拥有领地,您可以扩张他的大小或删除他并重新在新的位置设置领地."
   joined: "您已加入该公会！"
@@ -549,6 +554,9 @@ inventory:
      set: "设置基地"
      teleport: "传送至基地"
     openinvitation: "开启/关闭邀请界面"
+    set:
+     name: "Set_guild's_name"
+     tag: "Set_guild's_tag"
     war:
      invite:
       send: "发送和平协议"

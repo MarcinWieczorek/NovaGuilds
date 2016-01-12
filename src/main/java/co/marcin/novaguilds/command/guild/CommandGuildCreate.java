@@ -84,46 +84,23 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 			return;
 		}
 
-		if(plugin.getGuildManager().getGuildByName(guildname) != null) {
-			Message.CHAT_CREATEGUILD_NAMEEXISTS.send(sender);
+		//Check name and tag validity
+		Message validName = validName(guildname);
+		Message validTag = validTag(tag);
+
+		if(validName != null) {
+			validName.send(sender);
 			return;
 		}
 
-		if(plugin.getGuildManager().getGuildByTag(tag) != null) {
-			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
+		if(validTag != null) {
+			validTag.send(sender);
 			return;
 		}
+
 
 		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
 			Message.CHAT_CREATEGUILD_REGIONHERE.send(sender);
-			return;
-		}
-
-		//tag length
-		if(tag.length() > Config.GUILD_SETTINGS_TAG_MAX.getInt()) { //too long
-			Message.CHAT_CREATEGUILD_TAG_TOOLONG.send(sender);
-			return;
-		}
-
-		if(StringUtils.removeColors(tag).length() < Config.GUILD_SETTINGS_TAG_MIN.getInt()) { //too short
-			Message.CHAT_CREATEGUILD_TAG_TOOSHORT.send(sender);
-			return;
-		}
-
-		//name length
-		if(guildname.length() > Config.GUILD_SETTINGS_NAME_MAX.getInt()) { //too long
-			Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
-			return;
-		}
-
-		if(guildname.length() < Config.GUILD_SETTINGS_NAME_MIN.getInt()) { //too short
-			Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
-			return;
-		}
-
-		//allowed strings (tag, name)
-		if(!StringUtils.isStringAllowed(tag) || !StringUtils.isStringAllowed(guildname)) {
-			Message.CHAT_CREATEGUILD_NOTALLOWEDSTRING.send(sender);
 			return;
 		}
 
@@ -259,5 +236,45 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 	@Override
 	public Command getCommand() {
 		return command;
+	}
+
+	public static Message validTag(String tag) {
+		if(NovaGuilds.getInstance().getGuildManager().getGuildByTag(tag) != null) { //Check for an existing guild
+			return Message.CHAT_CREATEGUILD_TAGEXISTS;
+		}
+
+		if(tag.length() > Config.GUILD_SETTINGS_TAG_MAX.getInt()) { //too long
+			return Message.CHAT_CREATEGUILD_TAG_TOOLONG;
+		}
+
+		if(StringUtils.removeColors(tag).length() < Config.GUILD_SETTINGS_TAG_MIN.getInt()) { //too short
+			return Message.CHAT_CREATEGUILD_TAG_TOOSHORT;
+		}
+
+		if(!StringUtils.isStringAllowed(tag)) { //Allowed characters
+			return Message.CHAT_CREATEGUILD_NOTALLOWEDSTRING;
+		}
+
+		return null;
+	}
+
+	public static Message validName(String name) {
+		if(NovaGuilds.getInstance().getGuildManager().getGuildByName(name) != null) { //Check for an existing guild
+			return Message.CHAT_CREATEGUILD_NAMEEXISTS;
+		}
+
+		if(name.length() > Config.GUILD_SETTINGS_NAME_MAX.getInt()) { //too long
+			return Message.CHAT_CREATEGUILD_NAME_TOOLONG;
+		}
+
+		if(name.length() < Config.GUILD_SETTINGS_NAME_MIN.getInt()) { //too short
+			return Message.CHAT_CREATEGUILD_NAME_TOOSHORT;
+		}
+
+		if(!StringUtils.isStringAllowed(name)) { //Allowed characters
+			return Message.CHAT_CREATEGUILD_NOTALLOWEDSTRING;
+		}
+
+		return null;
 	}
 }
