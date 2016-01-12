@@ -36,6 +36,11 @@ public class CommandGuildSetTag implements Executor {
 	public void execute(CommandSender sender, String[] args) {
 		NovaPlayer nPlayer = NovaPlayer.get(sender);
 
+		if(!nPlayer.hasGuild()) {
+			Message.CHAT_GUILD_NOTINGUILD.send(sender);
+			return;
+		}
+
 		if(!nPlayer.hasPermission(GuildPermission.SET_NAME)) {
 			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
