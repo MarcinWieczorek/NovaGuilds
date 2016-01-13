@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
@@ -78,11 +79,11 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();
 
-		if(kickItem != null && !nPlayer.equals(viewer)) {
+		if(kickItem != null && (!nPlayer.equals(viewer) || Config.DEBUG.getBoolean())) {
 			inventory.addItem(kickItem);
 		}
 
-		if(rankItem != null && !nPlayer.equals(viewer)) {
+		if(rankItem != null && (!nPlayer.equals(viewer) || Config.DEBUG.getBoolean())) {
 			inventory.addItem(rankItem);
 		}
 	}
