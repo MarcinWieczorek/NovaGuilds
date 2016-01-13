@@ -61,6 +61,7 @@ public class CommandGuildLeave implements CommandExecutor, Executor {
 		}
 
 		guild.removePlayer(nPlayer);
+		nPlayer.cancelToolProgress();
 
 		if(nPlayer.isOnline()) {
 			guild.hideVaultHologram(nPlayer.getPlayer());

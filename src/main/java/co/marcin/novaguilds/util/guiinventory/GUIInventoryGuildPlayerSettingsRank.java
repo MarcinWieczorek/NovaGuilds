@@ -20,6 +20,7 @@ package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
+import co.marcin.novaguilds.enums.GuildPermission;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class GUIInventoryGuildPlayerSettingsRank extends GUIInventoryGuildRankList {
@@ -33,7 +34,9 @@ public class GUIInventoryGuildPlayerSettingsRank extends GUIInventoryGuildRankLi
 
 	@Override
 	public void onClick(InventoryClickEvent event) {
-		NovaRank rank = slotRanksMap.get(event.getRawSlot());
-		nPlayer.setGuildRank(rank);
+		if(getViewer().hasPermission(GuildPermission.RANK_SET)) {
+			NovaRank rank = slotRanksMap.get(event.getRawSlot());
+			nPlayer.setGuildRank(rank);
+		}
 	}
 }

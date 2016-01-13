@@ -82,8 +82,7 @@ public class CommandGuildKick implements Executor {
 		
 		//all passed
 		guild.removePlayer(nPlayerKick);
-
-		nPlayer.getGuild().removePlayer(nPlayerKick);
+		nPlayerKick.cancelToolProgress();
 
 		if(nPlayerKick.isOnline()) {
 			guild.hideVaultHologram(nPlayerKick.getPlayer());

@@ -72,6 +72,7 @@ public class CommandAdminGuildKick implements Executor {
 		
 		//tab/tag
 		TagUtils.refreshAll();
+		nPlayerKick.cancelToolProgress();
 	}
 
 	@Override

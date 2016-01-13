@@ -295,6 +295,10 @@ public class NovaPlayer {
 
 		if(guildRank != null) {
 			guildRank.addMember(this);
+
+			if(!hasPermission(GuildPermission.REGION_CREATE) && !hasPermission(GuildPermission.REGION_RESIZE)) {
+				cancelToolProgress();
+			}
 		}
 
 		this.guildRank = guildRank;
@@ -415,16 +419,18 @@ public class NovaPlayer {
 	}
 
 	public void cancelToolProgress() {
-		RegionUtils.sendRectangle(getPlayer(), getSelectedLocation(0), getSelectedLocation(1), null, (byte)0);
-		RegionUtils.setCorner(getPlayer(), getSelectedLocation(0), null, (byte)0);
-		RegionUtils.setCorner(getPlayer(), getSelectedLocation(1), null, (byte)0);
-		RegionUtils.highlightRegion(getPlayer(), getSelectedRegion(), null);
+		if(isOnline()) {
+			RegionUtils.sendRectangle(getPlayer(), getSelectedLocation(0), getSelectedLocation(1), null, (byte) 0);
+			RegionUtils.setCorner(getPlayer(), getSelectedLocation(0), null, (byte) 0);
+			RegionUtils.setCorner(getPlayer(), getSelectedLocation(1), null, (byte) 0);
+			RegionUtils.highlightRegion(getPlayer(), getSelectedRegion(), null);
 
-		setResizingCorner(0);
-		setResizing(false);
-		setSelectedRegion(null);
-		setSelectedLocation(0, null);
-		setSelectedLocation(1, null);
+			setResizingCorner(0);
+			setResizing(false);
+			setSelectedRegion(null);
+			setSelectedLocation(0, null);
+			setSelectedLocation(1, null);
+		}
 	}
 
 	public void removeCommandExecutorHandler() {
