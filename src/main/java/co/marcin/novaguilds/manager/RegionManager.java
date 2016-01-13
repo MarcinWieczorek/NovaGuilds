@@ -560,8 +560,10 @@ public class RegionManager {
 					}
 				}
 
-				nPlayer.setPartRaid(guildDefender.getRaid());
-				guildDefender.getRaid().addPlayerOccupying(nPlayer);
+				if(guildDefender.isRaid()) {
+					nPlayer.setPartRaid(guildDefender.getRaid());
+					guildDefender.getRaid().addPlayerOccupying(nPlayer);
+				}
 			}
 		}
 	}
