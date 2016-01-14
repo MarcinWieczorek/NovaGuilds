@@ -93,25 +93,13 @@ public class ChatListener implements Listener {
 						msg = msg.substring(prefixChatAlly.length(), msg.length());
 					}
 
-					for(NovaPlayer nP : guild.getPlayers()) {
-						if(nP.isOnline()) {
-							nP.getPlayer().sendMessage(cFormat+msg);
-						}
-					}
-
-					//TODO replace with MessageManager.broadcastAllies()
-					if(!guild.getAllies().isEmpty()) {
-						for(NovaGuild allyGuild : guild.getAllies()) {
-							for(NovaPlayer nP : allyGuild.getPlayers()) {
-								if(nP.isOnline()) {
-									nP.getPlayer().sendMessage(cFormat + msg);
-								}
-							}
+					for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
+						if(nPlayerLoop.equals(nPlayer) || nPlayerLoop.getSpyMode() || nPlayerLoop.getGuild().isAlly(guild)) {
+							nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
 						}
 					}
 
 					event.setCancelled(true);
-					plugin.getServer().getConsoleSender().sendMessage(cFormat+msg);
 					return;
 				}
 			}
@@ -126,14 +114,13 @@ public class ChatListener implements Listener {
 						msg = msg.substring(prefixChatGuild.length(), msg.length());
 					}
 
-					for(NovaPlayer nP : guild.getPlayers()) {
-						if(nP.isOnline()) {
-							nP.getPlayer().sendMessage(cFormat+msg);
+					for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
+						if(guild.isMember(nPlayerLoop) || nPlayerLoop.getSpyMode()) {
+							nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
 						}
 					}
 
 					event.setCancelled(true);
-					plugin.getServer().getConsoleSender().sendMessage(cFormat+msg);
 					return;
 				}
 			}

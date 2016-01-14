@@ -91,6 +91,11 @@ chat:
    list:
     header: "全息图列表:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
+  spymode:
+   notify: "Your spy mode has been changed. Currently &c{MODE}"
+   success:
+    self: "Spy mode changed. Currently &c{MODE}"
+    other: "&c{PLAYERNAME}'s spy mode has been changed to &c{MODE}"
 
  reload:
   reloading: "正在重载公会系统..."
@@ -130,6 +135,7 @@ chat:
      - "&5* &7/nga &crg &2- &3领地管理指令"
      - "&5* &7/nga &cg &2- &3公会管理指令"
      - "&5* &7/nga &ch &2- &3全息图指令"
+     - "&5* &7/nga &cspy &2- &3Toggle spy mode"
      - "&5* &7/nga &creload &2- &3重载 &6[&5NovaGuilds&6]"
      - "&5* &7/nga &csave &6[players/guilds/regions/ranks] &2- &3保存公会插件数据"
    region:

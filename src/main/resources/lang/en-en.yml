@@ -91,6 +91,11 @@ chat:
    list:
     header: "List of all holograms:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
+  spymode:
+   notify: "Your spy mode has been changed. Currently &c{MODE}"
+   success:
+    self: "Spy mode changed. Currently &c{MODE}"
+    other: "&c{PLAYERNAME}'s spy mode has been changed to &c{MODE}"
  
  reload:
   reloading: "Reloading NovaGuilds..."
@@ -130,6 +135,7 @@ chat:
      - "&5* &7/nga &crg &2- &3Region commands"
      - "&5* &7/nga &cg &2- &3Guild commands"
      - "&5* &7/nga &ch &2- &3Hologram commands"
+     - "&5* &7/nga &cspy &2- &3Toggle spy mode"
      - "&5* &7/nga &creload &2- &3Reload &6[&5NovaGuilds&6]"
      - "&5* &7/nga &csave &6[players/guilds/regions/ranks] &2- &3Save data"
    region:
