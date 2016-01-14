@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -37,6 +38,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -75,6 +77,16 @@ public class PlayerManager {
 
 	public Collection<NovaPlayer> getPlayers() {
 		return players.values();
+	}
+
+	public Collection<NovaPlayer> getOnlinePlayers() {
+		Collection<NovaPlayer> collection = new HashSet<>();
+
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			collection.add(NovaPlayer.get(player));
+		}
+
+		return collection;
 	}
 	
 	private void save(NovaPlayer nPlayer) {

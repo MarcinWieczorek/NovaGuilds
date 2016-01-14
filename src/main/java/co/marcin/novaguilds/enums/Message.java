@@ -20,6 +20,7 @@ package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -466,6 +467,12 @@ public enum Message {
 		}
 		else {
 			MessageManager.sendMessagesMsg(sender, this, vars);
+		}
+	}
+
+	public void send(NovaPlayer nPlayer) {
+		if(nPlayer.isOnline()) {
+			send(nPlayer.getPlayer());
 		}
 	}
 
