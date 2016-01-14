@@ -29,26 +29,74 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.manager.RegionManager;
 
+/**
+ * NovaGuilds API
+ * @author Marcin Wieczorek
+ */
 public interface NovaGuildsAPI {
+	/**
+	 * Returns the instance of RegionManager
+	 * @return RegionManager
+	 */
 	RegionManager getRegionManager();
 
+	/**
+	 * Returns the instance of GuildManager
+	 * @return GuildManager
+	 */
 	GuildManager getGuildManager();
 
+	/**
+	 * Returns the instance of PlayerManager
+	 * @return PlayerManager
+	 */
 	PlayerManager getPlayerManager();
 
+	/**
+	 * Returns the instance of MessageManager
+	 * @return MessageManager
+	 */
 	MessageManager getMessageManager();
 
+	/**
+	 * Returns the instance of CommandManager
+	 * @return CommandManager
+	 */
 	CommandManager getCommandManager();
 
+	/**
+	 * Returns the instance of ConfigManager
+	 * @return ConfigManager
+	 */
 	ConfigManager getConfigManager();
 
+	/**
+	 * Returns the instance of GroupManager
+	 * @return GroupManager
+	 */
 	GroupManager getGroupManager();
 
+	/**
+	 * Returns the instance of FlatDataManager
+	 * @return FlatDataManager
+	 */
 	FlatDataManager getFlatDataManager();
 
+	/**
+	 * Returns the instance of HologramManager
+	 * @return HologramManager
+	 */
 	HologramManager getHologramManager();
-	
+
+	/**
+	 * Returns the instance of RankManager
+	 * @return RankManager
+	 */
 	RankManager getRankManager();
 
+	/**
+	 * Returns the build of the plugin
+	 * @return current plugin version
+	 */
 	int getBuild();
 }

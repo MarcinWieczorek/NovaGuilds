@@ -37,7 +37,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * McHTTP - NovaGuilds' http server
+ * @author Marcin Wieczorek
+ */
 public class McHTTP {
+	/**
+	 * ContentType - headers for extensions
+	 */
 	enum ContentType {
 		PNG("image/png"),
 		HTML("text/html"),
@@ -61,14 +68,27 @@ public class McHTTP {
 
 		private final String header;
 
+		/**
+		 * Constructor with a header string
+		 * @param header header string
+		 */
 		ContentType(String header) {
 			this.header = header;
 		}
 
+		/**
+		 * Returns the header string
+		 * @return header string
+		 */
 		public String getHeader() {
 			return header;
 		}
 
+		/**
+		 * Get enum by name
+		 * @param str enum name
+		 * @return ContentType enum
+		 */
 		public static ContentType get(String str) {
 			for(ContentType cT : values()) {
 				if(cT.name().equalsIgnoreCase(str)) {
@@ -80,8 +100,13 @@ public class McHTTP {
 		}
 	}
 
+	/** HTTP protocol version */
 	public static final String protocolVersion = "HTTP/1.1";
+
+	/** OK header */
 	public static final String HEADER_FIRST_OK = protocolVersion+" 200 OK";
+
+	/** 404 header */
 	public static final String HEADER_FIRST_404 = protocolVersion+" 404 Not Found";
 
 	private int port = 80;
@@ -90,14 +115,25 @@ public class McHTTP {
 	private ServerSocket serverSocket;
 	private File htmlDirectory = new File(NovaGuilds.getInstance().getDataFolder(), "/www");
 
+	/**
+	 * Set the port
+	 * @param port desired port
+	 */
 	public void setPort(int port) {
 		this.port = port;
 	}
 
+	/**
+	 * Returns the port
+	 * @return port
+	 */
 	public int getPort() {
 		return port;
 	}
 
+	/**
+	 * Extracts default webpage into plugin directory
+	 */
 	public void prepareFiles() {
 		if(!htmlDirectory.exists()) {
 			ResourceExtractor extract = new ResourceExtractor(NovaGuilds.getInstance(), new File(NovaGuilds.getInstance().getDataFolder() + File.separator + "www"), "www", ".+");
@@ -111,6 +147,9 @@ public class McHTTP {
 		}
 	}
 
+	/**
+	 * Starts the server thread
+	 */
 	public void start() {
 		thread = new Thread() {
 			@Override
@@ -214,6 +253,9 @@ public class McHTTP {
 		running = true;
 	}
 
+	/**
+	 * Stops the server
+	 */
 	public void stop() {
 		try {
 			running = false;
@@ -225,6 +267,11 @@ public class McHTTP {
 		}
 	}
 
+	/**
+	 * Returns a File at provided path
+	 * @param path path to the file
+	 * @return File
+	 */
 	private File getHTMLFile(String path) {
 		return new File(htmlDirectory, path);
 	}
