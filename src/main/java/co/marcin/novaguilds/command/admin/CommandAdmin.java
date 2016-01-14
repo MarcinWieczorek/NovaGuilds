@@ -45,6 +45,9 @@ public class CommandAdmin implements CommandExecutor, Executor {
 
 		put("reload", Command.ADMIN_RELOAD);
 		put("save", Command.ADMIN_SAVE);
+
+		put("spy", Command.ADMIN_CHATSPY);
+		put("chatspy", Command.ADMIN_CHATSPY);
 	}};
 
 	public CommandAdmin() {

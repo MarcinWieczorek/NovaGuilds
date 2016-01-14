@@ -24,6 +24,7 @@ import co.marcin.novaguilds.command.CommandNovaGuilds;
 import co.marcin.novaguilds.command.CommandPlayerInfo;
 import co.marcin.novaguilds.command.CommandToolGet;
 import co.marcin.novaguilds.command.admin.CommandAdmin;
+import co.marcin.novaguilds.command.admin.CommandAdminChatSpy;
 import co.marcin.novaguilds.command.admin.CommandAdminReload;
 import co.marcin.novaguilds.command.admin.CommandAdminSave;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuild;
@@ -175,6 +176,7 @@ public class CommandManager {
 		new CommandAdmin();
 		new CommandAdminReload();
 		new CommandAdminSave();
+		new CommandAdminChatSpy();
 
 		//AdminRegion
 		new CommandAdminRegion();

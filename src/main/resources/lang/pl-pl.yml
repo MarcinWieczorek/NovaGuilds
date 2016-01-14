@@ -91,6 +91,11 @@ chat:
    list:
     header: "List of all holograms:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
+  spymode:
+   notify: "Tryb szpiegowania został zmieniony. Obecnie: &c{MODE}"
+   success:
+    self: "Zmieniono tryb szpiegowania. Obecnie &c{MODE}"
+    other: "Zmieniono tryb szpiegowania gracza &c{PLAYERNAME}. Obecnie &c{MODE}"
 
  reload:
   reloading: "Przeladowywanie NovaGuilds..."
@@ -130,6 +135,7 @@ chat:
      - "&5* &7/nga &crg &2- &3Komendy regionow"
      - "&5* &7/nga &cg &2- &3Komendy gildii"
      - "&5* &7/nga &ch &2- &3Komendy hologramow"
+     - "&5* &7/nga &cspy &2- &3Zmień tryb szpiegowania"
      - "&5* &7/nga &creload &2- &3Przeladuj &6[&5NovaGuilds&6]"
      - "&5* &7/nga &csave &6[players/guilds/regions/ranks] &2- &3Zapisz dane"
    region:

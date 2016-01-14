@@ -65,6 +65,7 @@ public class NovaPlayer {
 	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
 	private NovaRank guildRank;
 	private ChatMode chatMode = ChatMode.NORMAL;
+	private boolean spyMode = false;
 
 	public NovaPlayer() {
 		tablist = new Tablist(this);
@@ -191,6 +192,10 @@ public class NovaPlayer {
 		return chatMode;
 	}
 
+	public boolean getSpyMode() {
+		return spyMode;
+	}
+
 	//setters
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
@@ -306,6 +311,10 @@ public class NovaPlayer {
 
 	public void setChatMode(ChatMode chatMode) {
 		this.chatMode = chatMode;
+	}
+
+	public void setSpyMode(boolean spyMode) {
+		this.spyMode = spyMode;
 	}
 	
 	//check stuff
