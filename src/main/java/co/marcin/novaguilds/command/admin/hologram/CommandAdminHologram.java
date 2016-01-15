@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
-import co.marcin.novaguilds.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -76,20 +75,7 @@ public class CommandAdminHologram implements Executor {
 			return;
 		}
 
-		Executor executor = plugin.getCommandManager().getExecutor(command);
-
-		if(executor instanceof Executor.ReversedAdminHologram) {
-			NovaHologram hologram = plugin.getHologramManager().getHologram(args[0]);
-
-			if(hologram == null || hologram.isDeleted()) {
-				Message.CHAT_ADMIN_HOLOGRAM_NOTFOUND.send(sender);
-				return;
-			}
-
-			subCommand.executorVariable(hologram);
-		}
-
-		command.execute(sender, StringUtils.parseArgs(args, noHologramCommands.contains(args[0]) ? 1 : 2));
+		subCommand.execute(sender, StringUtils.parseArgs(args, noHologramCommands.contains(args[0]) ? 1 : 2));
 	}
 
 	@Override

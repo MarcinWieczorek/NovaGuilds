@@ -116,6 +116,7 @@ public class NovaHologram {
 
 	public void delete() {
 		hologram.delete();
+		NovaGuilds.getInstance().getHologramManager().getHolograms().remove(this);
 		location.getWorld().playEffect(location, Effect.POTION_SWIRL, 1000);
 		deleted = true;
 	}

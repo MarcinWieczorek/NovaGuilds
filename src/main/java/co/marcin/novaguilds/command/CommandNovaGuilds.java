@@ -95,7 +95,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 
 		switch(args[0].toLowerCase()) {
 			case "tool":
-				plugin.getCommandManager().getExecutor(Command.TOOL_GET).execute(sender, args);
+				Command.TOOL_GET.execute(sender, args);
 				break;
 			case "bank":
 				if(!sender.hasPermission("novaguilds.test.bank")) {
