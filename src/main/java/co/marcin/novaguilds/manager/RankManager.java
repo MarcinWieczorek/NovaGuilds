@@ -43,6 +43,11 @@ import java.util.List;
 public class RankManager {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final List<NovaRank> defaultRanks = new ArrayList<>();
+	private boolean loaded = false;
+
+	public boolean isLoaded() {
+		return loaded;
+	}
 
 	public void load() {
 		defaultRanks.clear();
@@ -142,6 +147,8 @@ public class RankManager {
 
 		//Assing ranks to players
 		assignRanks();
+
+		loaded = true;
 	}
 
 	public void save() {

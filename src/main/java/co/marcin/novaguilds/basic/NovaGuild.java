@@ -218,7 +218,7 @@ public class NovaGuild {
 			}
 		}
 
-		return null;
+		return NovaGuilds.getInstance().getRankManager().getDefaultRanks().get(1);
 	}
 
 	//setters
@@ -487,7 +487,10 @@ public class NovaGuild {
 		if(!players.contains(nPlayer)) {
 			players.add(nPlayer);
 			nPlayer.setGuild(this);
-			nPlayer.setGuildRank(getDefaultRank());
+
+			if(NovaGuilds.getInstance().getRankManager().isLoaded()) {
+				nPlayer.setGuildRank(getDefaultRank());
+			}
 
 			if(getLeaderName()!=null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
 				setLeader(nPlayer);
