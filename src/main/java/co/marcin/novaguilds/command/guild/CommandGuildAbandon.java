@@ -78,9 +78,6 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 
 		//if event is not cancelled
 		if(!guildAbandonEvent.isCancelled()) {
-			guild.getLeader().cancelToolProgress();
-			plugin.getHologramManager().refreshTopHolograms();
-
 			plugin.getGuildManager().delete(guild);
 
 			Message.CHAT_GUILD_ABANDONED.send(sender);

@@ -51,10 +51,6 @@ public class CommandAdminGuildAbandon implements Executor.ReversedAdminGuild {
 
 		//if event is not cancelled
 		if(!guildAbandonEvent.isCancelled()) {
-			guild.getLeader().cancelToolProgress();
-			plugin.getHologramManager().refreshTopHolograms();
-
-			//delete guild
 			plugin.getGuildManager().delete(guild);
 
 			Map<String, String> vars = new HashMap<>();

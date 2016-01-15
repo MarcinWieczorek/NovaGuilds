@@ -658,6 +658,9 @@ public class NovaGuild {
 
 		//Delete ranks
 		plugin.getRankManager().delete(this);
+
+		//Refresh top holograms
+		plugin.getHologramManager().refreshTopHolograms();
 	}
 
 	public void showVaultHologram(Player player) {
