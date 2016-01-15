@@ -47,7 +47,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -141,7 +140,7 @@ public class RegionManager {
 
 						if(regions.containsKey(res.getString("guild").toLowerCase())) {
 							if(Config.DELETEINVALID.getBoolean()) {
-								remove(novaRegion, false);
+								remove(novaRegion);
 							}
 
 							LoggerUtils.error("Removed region with doubled name ("+res.getString("guild")+")");
@@ -253,10 +252,6 @@ public class RegionManager {
 	
 	//delete region
 	public void remove(NovaRegion region) {
-		remove(region, true);
-	}
-
-	public void remove(NovaRegion region, boolean removeFromMap) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			plugin.getFlatDataManager().delete(region);
 		}
@@ -279,9 +274,7 @@ public class RegionManager {
 			}
 		}
 
-		if(removeFromMap) {
-			regions.remove(region.getGuildName().toLowerCase());
-		}
+		regions.remove(region.getGuildName().toLowerCase());
 
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);
@@ -289,11 +282,9 @@ public class RegionManager {
 	}
 
 	public void postCheck() {
-		Iterator<NovaRegion> iterator = getRegions().iterator();
 		int i = 0;
 
-		while(iterator.hasNext()) {
-			NovaRegion region = iterator.next();
+		for(NovaRegion region : new ArrayList<>(getRegions())) {
 			boolean remove = false;
 
 			if(region.getGuild() == null) {
@@ -303,11 +294,10 @@ public class RegionManager {
 
 			if(remove) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					remove(region, false);
+					remove(region);
 					LoggerUtils.info("DELETED region " + region.getGuildName());
 				}
 
-				iterator.remove();
 				i++;
 			}
 		}

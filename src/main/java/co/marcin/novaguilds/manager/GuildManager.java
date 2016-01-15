@@ -52,7 +52,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -248,7 +247,7 @@ public class GuildManager {
 						if(novaGuild.getId() > 0) {
 							if(guilds.containsKey(res.getString("name").toLowerCase())) {
 								if(Config.DELETEINVALID.getBoolean()) {
-									delete(novaGuild, false);
+									delete(novaGuild);
 								}
 
 								LoggerUtils.error("Removed guild with doubled name ("+res.getString("name")+")");
@@ -442,10 +441,6 @@ public class GuildManager {
 	}
 
 	public void delete(NovaGuild guild) {
-		delete(guild, true);
-	}
-
-	public void delete(NovaGuild guild, boolean removeFromMap) {
 		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
 			plugin.getFlatDataManager().delete(guild);
 		}
@@ -474,10 +469,7 @@ public class GuildManager {
 			plugin.getRegionManager().remove(guild.getRegion());
 		}
 
-		if(removeFromMap) {
-			guilds.remove(guild.getName().toLowerCase());
-		}
-
+		guilds.remove(guild.getName().toLowerCase());
 		guild.destroy();
 	}
 	
@@ -500,10 +492,8 @@ public class GuildManager {
 	}
 
 	public void postCheck() {
-		Iterator<NovaGuild> it = getGuilds().iterator();
 		int i=0;
-		while(it.hasNext()) {
-			NovaGuild guild = it.next();
+		for(NovaGuild guild : new ArrayList<>(getGuilds())) {
 			boolean remove = false;
 			if(guild != null) {
 				if(guild.getLeaderName() != null) {
@@ -538,7 +528,7 @@ public class GuildManager {
 			if(remove) {
 				LoggerUtils.info("Unloaded guild " + (guild == null ? "null" : guild.getName()));
 				if(Config.DELETEINVALID.getBoolean()) {
-					delete(guild, false);
+					delete(guild);
 					LoggerUtils.info("DELETED guild " + (guild == null ? "null" : guild.getName()));
 				}
 
@@ -547,7 +537,6 @@ public class GuildManager {
 						guild.getRegion().setGuild(null);
 					}
 				}
-				it.remove();
 				i++;
 			}
 			else { //Add allies, wars etc

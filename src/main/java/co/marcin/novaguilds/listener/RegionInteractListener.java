@@ -27,7 +27,6 @@ import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -53,7 +52,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -210,12 +209,10 @@ public class RegionInteractListener implements Listener {
 		NovaRegion rgatloc = plugin.getRegionManager().getRegion(loc);
 		
 		if(rgatloc != null) {
-			Iterator<Block> iterator = event.blockList().iterator();
-			while(iterator.hasNext()) {
-				Block block = iterator.next();
+			for(Block block : new ArrayList<>(event.blockList())) {
 				if(plugin.getGuildManager().isVaultBlock(block)) {
 					if(!rgatloc.getGuild().isRaid()) {
-						iterator.remove();
+						event.blockList().remove(block);
 					}
 				}
 			}
