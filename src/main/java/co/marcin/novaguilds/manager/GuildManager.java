@@ -757,8 +757,10 @@ public class GuildManager {
 			for(NovaGuild guild : getGuilds()) {
 				checkVaultDestroyed(guild);
 				if(guild.getVaultLocation() != null) {
-					if(guild.getVaultLocation().distance(block.getLocation()) < 1) {
-						return true;
+					if(guild.getVaultLocation().getWorld().equals(block.getWorld())) {
+						if(guild.getVaultLocation().distance(block.getLocation()) < 1) {
+							return true;
+						}
 					}
 				}
 			}
