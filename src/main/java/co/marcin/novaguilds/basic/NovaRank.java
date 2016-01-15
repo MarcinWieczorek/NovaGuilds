@@ -138,7 +138,7 @@ public class NovaRank implements Cloneable {
 
 	//removers
 	public void removePermission(GuildPermission permission) {
-		if(!permissions.contains(permission)) {
+		if(permissions.contains(permission)) {
 			permissions.remove(permission);
 			changed();
 		}
