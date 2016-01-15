@@ -21,12 +21,12 @@ package co.marcin.novaguilds.command.admin.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Command;
-import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,17 +39,12 @@ public class CommandAdminGuildPurge implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!Config.DEBUG.getBoolean()) {
-			sender.sendMessage("This command is not available.");
-			return;
-		}
-
 		if(plugin.getGuildManager().getGuilds().isEmpty()) {
 			Message.CHAT_GUILD_NOGUILDS.send(sender);
 			return;
 		}
 
-		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+		for(NovaGuild guild : new ArrayList<>(plugin.getGuildManager().getGuilds())) {
 			//fire event
 			GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.ADMIN_ALL);
 			plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);

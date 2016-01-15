@@ -26,7 +26,6 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterAdmin;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterGuild;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
@@ -39,7 +38,7 @@ public enum Command {
 
 	ADMIN_GUILD_ACCESS(Permission.NOVAGUILDS_GUILD_ACCESS, true),
 	ADMIN_GUILD_ABANDON(Permission.NOVAGUILDS_GUILD_ABANDON, true),
-	ADMIN_GUILD_PURGE(Permission.NOVAGUILDS_ADMIN_GUILD_PURGE, true),
+	ADMIN_GUILD_PURGE(Permission.NOVAGUILDS_ADMIN_GUILD_PURGE, true, Message.CHAT_USAGE_NGA_GUILD_PURGE, true),
 	ADMIN_GUILD_BANK_PAY(Permission.NOVAGUILDS_ADMIN_GUILD_BANK_PAY, true),
 	ADMIN_GUILD_BANK_WITHDRAW(Permission.NOVAGUILDS_ADMIN_GUILD_BANK_WITHDRAW, true),
 	ADMIN_GUILD_INACTIVE(Permission.NOVAGUILDS_ADMIN_GUILD_INACTIVE_LIST, true),

@@ -121,6 +121,7 @@ chat:
     bank:
      pay: "&7/nga &cg &6pay &c<gildia> &6<ilosc>"
      withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
+    purge: "&5* &7/nga &cg &6purge &2- &3Usuń wszystkie gildie"
     tp: "&7/nga &cg &6tp &c<gildia> &6[gracz]"
   ng:
    broadcast: "&c/ng bc <wiadomosc>"

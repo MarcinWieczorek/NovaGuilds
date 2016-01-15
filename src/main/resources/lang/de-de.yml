@@ -116,12 +116,13 @@ chat:
     set:
      slots: "&5* &7/nga &cg &6<Gilde> &cslots &6<Menge> &2- &3Setze Plätze"
      points: "&5* &7/nga &cg &6<Gilde> &cpoints &6<Punkte> &2- &3Setze Punkte"
-     lives:     "&5* &7/nga &cg &6<Gilde> &clives &6<Leben> &2- &3Setze Leben"
-    abandon:   "&5* &7/nga &cg &6<Gilde> &cabandon &2- &3Löse die Gilde auf"
+     lives: "&5* &7/nga &cg &6<Gilde> &clives &6<Leben> &2- &3Setze Leben"
+    abandon: "&5* &7/nga &cg &6<Gilde> &cabandon &2- &3Löse die Gilde auf"
     bank:
-     pay:      "&5* &7/nga &cg &6<Gilde> &cpay &6<Menge> &2- &3Zahle Geld in die Gildenbank ein"
+     pay: "&5* &7/nga &cg &6<Gilde> &cpay &6<Menge> &2- &3Zahle Geld in die Gildenbank ein"
      withdraw: "&5* &7/nga &cg &6<Gilde> &cwithdraw &6<Menge> &2- &3Hebe Geld von der Gildenbank ab"
-    tp:        "&5* &7/nga &cg &6<Gilde> &ctp &6[Spieler] &2- &3Teleportiert zu Gilden Haus"
+    purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
+    tp: "&5* &7/nga &cg &6<Gilde> &ctp &6[Spieler] &2- &3Teleportiert zu Gilden Haus"
   ng:
    broadcast: "&c/ng bc <Nachricht>"
   guild:

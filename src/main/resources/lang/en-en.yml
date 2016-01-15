@@ -116,12 +116,13 @@ chat:
     set:
      slots: "&5* &7/nga &cg &6<guild> &cslots &6<amount> &2- &3set slots"
      points: "&5* &7/nga &cg &6<guild> &cpoints &6<points> &2- &3set points"
-     lives:     "&5* &7/nga &cg &6<guild> &clives &6<lives> &2- &3set lives"
-    abandon:   "&5* &7/nga &cg &6<guild> &cabandon &2- &3abandon the guild"
+     lives: "&5* &7/nga &cg &6<guild> &clives &6<lives> &2- &3set lives"
+    abandon: "&5* &7/nga &cg &6<guild> &cabandon &2- &3abandon the guild"
     bank:
-     pay:      "&5* &7/nga &cg &6<guild> &cpay &6<amount> &2- &3Pay money to guild's bank"
+     pay: "&5* &7/nga &cg &6<guild> &cpay &6<amount> &2- &3Pay money to guild's bank"
      withdraw: "&5* &7/nga &cg &6<guild> &cwithdraw &6<amount> &2- &3Take money from the bank"
-    tp:        "&5* &7/nga &cg &6<guild> &ctp &6[player] &2- &3TP to guild's home"
+    purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
+    tp: "&5* &7/nga &cg &6<guild> &ctp &6[player] &2- &3TP to guild's home"
   ng:
    broadcast: "&c/ng bc <message>"
   guild:

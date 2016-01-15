@@ -116,12 +116,13 @@ chat:
     set:
      slots: "&5* &7/nga &cg &6<guild> &cslots &6<数量> &2- &3设置人数"
      points: "&5* &7/nga &cg &6<公会> &cpoints &6<点数> &2- &3设置公会点数"
-     lives:     "&5* &7/nga &cg &6<公会> &clives &6<lives> &2- &3设置生活区"
-    abandon:   "&5* &7/nga &cg &6<guild> &cabandon &2- &3解散公会"
+     lives: "&5* &7/nga &cg &6<公会> &clives &6<lives> &2- &3设置生活区"
+    abandon: "&5* &7/nga &cg &6<guild> &cabandon &2- &3解散公会"
     bank:
-     pay:      "&5* &7/nga &cg &6<公会> &cpay &6<金额> &2- &3向公会银行存款"
+     pay: "&5* &7/nga &cg &6<公会> &cpay &6<金额> &2- &3向公会银行存款"
      withdraw: "&5* &7/nga &cg &6<公会> &cwithdraw &6<金额> &2- &3从公会银行取款"
-    tp:        "&5* &7/nga &cg &6<公会> &ctp &6[玩家] &2- &3将玩家传送至公会出生点"
+    purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
+    tp: "&5* &7/nga &cg &6<公会> &ctp &6[玩家] &2- &3将玩家传送至公会出生点"
   ng:
    broadcast: "&c/ng bc <信息>"
   guild:
