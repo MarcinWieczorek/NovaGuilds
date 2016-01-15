@@ -67,7 +67,12 @@ public class CommandAdminGuildInactive implements Executor {
 					return;
 				}
 
-				//TODO cleaning guilds
+				if(plugin.getGuildManager().getGuilds().isEmpty()) {
+					Message.CHAT_GUILD_NOGUILDS.send(sender);
+					return;
+				}
+
+				plugin.getGuildManager().cleanInactiveGuilds();
 				return;
 			}
 		}

@@ -23,10 +23,12 @@ import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
+import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -814,5 +816,27 @@ public class GuildManager {
 		}
 
 		return list;
+	}
+
+	public void cleanInactiveGuilds() {
+		for(NovaGuild guild : plugin.getGuildManager().getMostInactiveGuilds()) {
+			if(NumberUtils.systemSeconds() - guild.getInactiveTime() < Config.CLEANUP_INACTIVETIME.getSeconds()) {
+				break;
+			}
+
+			//fire event
+			GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.INACTIVE);
+			plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
+
+			//if event is not cancelled
+			if(!guildAbandonEvent.isCancelled()) {
+				//delete guild
+				plugin.getGuildManager().delete(guild);
+
+				Map<String, String> vars = new HashMap<>();
+				vars.put("GUILDNAME", guild.getName());
+				Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast(); //TODO message that its auto clean
+			}
+		}
 	}
 }
