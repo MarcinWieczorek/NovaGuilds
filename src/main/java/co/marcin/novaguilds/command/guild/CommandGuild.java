@@ -34,7 +34,7 @@ import java.util.Map;
 public class CommandGuild implements CommandExecutor, Executor {
 	private final Command command = Command.GUILD_ACCESS;
 
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("pay", Command.GUILD_BANK_PAY);
 		put("withdraw", Command.GUILD_BANK_WITHDRAW);
 		put("leader", Command.GUILD_LEADER);
@@ -73,7 +73,7 @@ public class CommandGuild implements CommandExecutor, Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(args.length>0) {
+		if(args.length > 0) {
 			Command command = commandsMap.get(args[0].toLowerCase());
 			String[] newargs = StringUtils.parseArgs(args, 1);
 

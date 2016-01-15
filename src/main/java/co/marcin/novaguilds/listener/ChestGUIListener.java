@@ -43,7 +43,7 @@ public class ChestGUIListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 		Inventory inventory = InventoryUtils.getClickedInventory(event);
-		if(inventory == null || event.getCurrentItem()==null || !inventory.equals(event.getView().getTopInventory())) {
+		if(inventory == null || event.getCurrentItem() == null || !inventory.equals(event.getView().getTopInventory())) {
 			return;
 		}
 
@@ -54,7 +54,7 @@ public class ChestGUIListener implements Listener {
 		if(guiInventory != null) {
 			event.setCancelled(true);
 
-			if(event.getSlot() == inventory.getSize()-1 && event.getCurrentItem().equals(Message.INVENTORY_GUI_BACK.getItemStack())) {
+			if(event.getSlot() == inventory.getSize() - 1 && event.getCurrentItem().equals(Message.INVENTORY_GUI_BACK.getItemStack())) {
 				player.closeInventory();
 				return;
 			}

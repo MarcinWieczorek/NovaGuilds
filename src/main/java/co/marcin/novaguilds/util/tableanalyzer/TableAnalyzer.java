@@ -60,7 +60,7 @@ public class TableAnalyzer {
 		if(tableStructure.size() < sqlKeys.size()) {
 			int newindex = tableStructure.size();
 
-			for(int i=newindex; i<sqlStructure.size(); i++) {
+			for(int i = newindex; i < sqlStructure.size(); i++) {
 				Missmatch missmatch = new Missmatch(ModificationType.ADD);
 				missmatch.setTable(table);
 				String name = sqlKeys.get(i);
@@ -79,7 +79,7 @@ public class TableAnalyzer {
 	public void update() {
 		sort();
 		for(Missmatch missmatch : missmatches) {
-			LoggerUtils.debug(missmatch.getModificationType().name()+": "+missmatch.getIndex()+" "+missmatch.getColumnName()+" "+missmatch.getColumnType());
+			LoggerUtils.debug(missmatch.getModificationType().name() + ": " + missmatch.getIndex() + " " + missmatch.getColumnName() + " " + missmatch.getColumnType());
 			switch(missmatch.getModificationType()) {
 				case ADD:
 					addColumn(missmatch);
@@ -90,10 +90,10 @@ public class TableAnalyzer {
 
 	private void addColumn(Missmatch missmatch) {
 		try {
-			String sql = "ALTER TABLE `"+missmatch.getTable()+"` ADD COLUMN `"+missmatch.getColumnName()+"` "+missmatch.getColumnType()+" NOT NULL;";
+			String sql = "ALTER TABLE `" + missmatch.getTable() + "` ADD COLUMN `" + missmatch.getColumnName() + "` " + missmatch.getColumnType() + " NOT NULL;";
 			Statement statement = connection.createStatement();
 			statement.execute(sql);
-			LoggerUtils.info("Added new column "+missmatch.getColumnName()+" to table "+missmatch.getTable());
+			LoggerUtils.info("Added new column " + missmatch.getColumnName() + " to table " + missmatch.getTable());
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
@@ -125,7 +125,7 @@ public class TableAnalyzer {
 		HashMap<String, String> map = new HashMap<>();
 		sqlNames.clear();
 
-		int i=0;
+		int i = 0;
 		for(String c : cols) {
 			if(c.startsWith("  `")) {
 				String[] split = StringUtils.split(c, ' ');
@@ -147,7 +147,7 @@ public class TableAnalyzer {
 			ResultSet columns = databaseMetaData.getColumns(null, null, table, null);
 			HashMap<String, String> map = new HashMap<>();
 
-			while (columns.next()) {
+			while(columns.next()) {
 				String columnName = columns.getString("COLUMN_NAME");
 				String columnType = columns.getString("TYPE_NAME");
 

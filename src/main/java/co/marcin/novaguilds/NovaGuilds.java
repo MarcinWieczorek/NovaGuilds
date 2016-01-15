@@ -129,7 +129,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			return;
 		}
 
-		LoggerUtils.info("Messages loaded: "+Config.LANG_NAME.getString());
+		LoggerUtils.info("Messages loaded: " + Config.LANG_NAME.getString());
 
 		commandManager = new CommandManager(this);
 		groupManager = new GroupManager(this);
@@ -358,15 +358,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	//Vault economy
 	private boolean setupEconomy() {
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        
-        if(rsp == null) {
-            return false;
-        }
-        
-        econ = rsp.getProvider();
-        return econ != null;
-    }
+		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+
+		if(rsp == null) {
+			return false;
+		}
+
+		econ = rsp.getProvider();
+		return econ != null;
+	}
 
 	//VanishNoPacket
 	private boolean checkVanishNoPacket() {
@@ -426,7 +426,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			raid.getGuildDefender().removeRaidBar();
 		}
 		else {
-			Map<String,String> vars = new HashMap<>();
+			Map<String, String> vars = new HashMap<>();
 			vars.put("DEFENDER", raid.getGuildDefender().getName());
 			List<Player> players = raid.getGuildAttacker().getOnlinePlayers();
 			players.addAll(raid.getGuildDefender().getOnlinePlayers());
@@ -437,7 +437,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				}
 				else {
 					//TODO
-					if(raid.getProgress() == 0 || raid.getProgress()%10 == 0 || raid.getProgress() >= 90) {
+					if(raid.getProgress() == 0 || raid.getProgress() % 10 == 0 || raid.getProgress() >= 90) {
 						String lines;
 						if(raid.getProgress() == 0) {
 							lines = "&f";
@@ -446,7 +446,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 							lines = "&4";
 						}
 
-						for(int i=1; i<=100; i++) {
+						for(int i = 1; i <= 100; i++) {
 							lines += "|";
 							if(i == raid.getProgress()) {
 								lines += "&f";

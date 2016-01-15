@@ -59,7 +59,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
 	private final NovaGuilds plugin;
-	private final Map<String,NovaGuild> guilds = new HashMap<>();
+	private final Map<String, NovaGuild> guilds = new HashMap<>();
 	
 	public GuildManager(NovaGuilds pl) {
 		plugin = pl;
@@ -127,16 +127,16 @@ public class GuildManager {
 	public void load() {
 		guilds.clear();
 
-		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			for(String guildName : plugin.getFlatDataManager().getGuildList()) {
 				FileConfiguration guildData = plugin.getFlatDataManager().getGuildData(guildName);
 				NovaGuild guild = guildFromFlat(guildData);
 
 				if(guild != null) {
-					guilds.put(guildName.toLowerCase(),guild);
+					guilds.put(guildName.toLowerCase(), guild);
 				}
 				else {
-					LoggerUtils.info("Loaded guild is null. name: "+guildName);
+					LoggerUtils.info("Loaded guild is null. name: " + guildName);
 				}
 			}
 		}
@@ -250,7 +250,7 @@ public class GuildManager {
 									delete(novaGuild);
 								}
 
-								LoggerUtils.error("Removed guild with doubled name ("+res.getString("name")+")");
+								LoggerUtils.error("Removed guild with doubled name (" + res.getString("name") + ")");
 								continue;
 							}
 
@@ -271,14 +271,14 @@ public class GuildManager {
 			}
 		}
 
-		LoggerUtils.info("Loaded "+guilds.size()+" guilds.");
+		LoggerUtils.info("Loaded " + guilds.size() + " guilds.");
 
 		loadVaultHolograms();
 		LoggerUtils.info("Generated bank holograms.");
 	}
 	
 	public void add(NovaGuild guild) {
-		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			plugin.getFlatDataManager().add(guild);
 			guilds.put(guild.getName().toLowerCase(), guild);
 		}
@@ -331,7 +331,7 @@ public class GuildManager {
 	
 	public void save(NovaGuild guild) {
 		if(guild.isChanged()) {
-			if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+			if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 				plugin.getFlatDataManager().save(guild);
 			}
 			else {
@@ -441,7 +441,7 @@ public class GuildManager {
 	}
 
 	public void delete(NovaGuild guild) {
-		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			plugin.getFlatDataManager().delete(guild);
 		}
 		else {
@@ -455,7 +455,7 @@ public class GuildManager {
 			try {
 				//delete from database
 				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_DELETE);
-				preparedStatement.setInt(1,guild.getId());
+				preparedStatement.setInt(1, guild.getId());
 				preparedStatement.executeUpdate();
 			}
 			catch(SQLException e) {
@@ -492,31 +492,31 @@ public class GuildManager {
 	}
 
 	public void postCheck() {
-		int i=0;
+		int i = 0;
 		for(NovaGuild guild : new ArrayList<>(getGuilds())) {
 			boolean remove = false;
 			if(guild != null) {
 				if(guild.getLeaderName() != null) {
-					LoggerUtils.info("("+guild.getName()+") Leader's name is set. Probably leader is null");
+					LoggerUtils.info("(" + guild.getName() + ") Leader's name is set. Probably leader is null");
 				}
 
 				if(guild.getLeader() == null) {
-					LoggerUtils.info("("+guild.getName()+") Leader is null");
+					LoggerUtils.info("(" + guild.getName() + ") Leader is null");
 					remove = true;
 				}
 
 				if(guild.getPlayers().isEmpty()) {
-					LoggerUtils.info("("+guild.getName()+") 0 players");
+					LoggerUtils.info("(" + guild.getName() + ") 0 players");
 					remove = true;
 				}
 
-				if(guild.getSpawnPoint()==null) {
-					LoggerUtils.info("("+guild.getName()+") Spawnpoint is null");
+				if(guild.getSpawnPoint() == null) {
+					LoggerUtils.info("(" + guild.getName() + ") Spawnpoint is null");
 					remove = true;
 				}
 
-				if(guild.getId() <= 0 && plugin.getConfigManager().getDataStorageType()!=DataStorageType.FLAT) {
-					LoggerUtils.info("("+guild.getName()+") ID <= 0 !");
+				if(guild.getId() <= 0 && plugin.getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
+					LoggerUtils.info("(" + guild.getName() + ") ID <= 0 !");
 					remove = true;
 				}
 			}
@@ -602,18 +602,18 @@ public class GuildManager {
 
 		Collections.sort(guildsByPoints, new Comparator<NovaGuild>() {
 			public int compare(NovaGuild o1, NovaGuild o2) {
-				return o2.getPoints()- o1.getPoints();
+				return o2.getPoints() - o1.getPoints();
 			}
 		});
 
 		List<NovaGuild> guildsLimited = new ArrayList<>();
 
-		int i=0;
+		int i = 0;
 		for(NovaGuild guild : guildsByPoints) {
 			guildsLimited.add(guild);
 
 			i++;
-			if(i==count) {
+			if(i == count) {
 				break;
 			}
 		}
@@ -774,12 +774,12 @@ public class GuildManager {
 	}
 
 	public void delayedTeleport(Player player, Location location, Message message) {
-		Runnable task = new RunnableTeleportRequest(player,location, message);
-		int delay = NovaGroup.get(player)==null ? 0 : NovaGroup.get(player).getGuildTeleportDelay();
+		Runnable task = new RunnableTeleportRequest(player, location, message);
+		int delay = NovaGroup.get(player) == null ? 0 : NovaGroup.get(player).getGuildTeleportDelay();
 
 		if(delay > 0) {
 			Map<String, String> vars = new HashMap<>();
-			vars.put("DELAY", plugin.getGroupManager().getGroup(player).getGuildTeleportDelay()+"");
+			vars.put("DELAY", plugin.getGroupManager().getGroup(player).getGuildTeleportDelay() + "");
 			NovaGuilds.runTaskLater(task, delay, TimeUnit.SECONDS);
 			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
 		}
@@ -790,7 +790,7 @@ public class GuildManager {
 
 	public List<String> getTopGuilds() {
 		int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
-		int i=1;
+		int i = 1;
 
 		List<String> list = new ArrayList<>();
 		Map<String, String> vars = new HashMap<>();

@@ -45,7 +45,7 @@ public class CommandGuildTop implements Executor {
 		}
 
 		int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
-		int i=1;
+		int i = 1;
 
 		Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.send(sender);
 

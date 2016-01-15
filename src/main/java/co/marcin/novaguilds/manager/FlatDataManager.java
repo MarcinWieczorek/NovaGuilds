@@ -48,9 +48,9 @@ public class FlatDataManager {
 
 	private boolean setupDirectories() {
 		File dataDir = new File(dataDirectory, "data/");
-		playersDir = new File(dataDirectory,"data/players/");
-		guildsDir = new File(dataDirectory,"data/guilds/");
-		regionsDir = new File(dataDirectory,"data/regions/");
+		playersDir = new File(dataDirectory, "data/players/");
+		guildsDir = new File(dataDirectory, "data/guilds/");
+		regionsDir = new File(dataDirectory, "data/regions/");
 
 		if(!dataDir.exists()) {
 			if(dataDir.mkdir()) {
@@ -97,10 +97,10 @@ public class FlatDataManager {
 				playerData.set("uuid", nPlayer.getUUID().toString());
 				playerData.set("name", nPlayer.getName());
 				playerData.set("guild", nPlayer.hasGuild() ? nPlayer.getGuild().getName() : "");
-				playerData.set("invitedto",nPlayer.getInvitedTo());
-				playerData.set("points",nPlayer.getPoints());
-				playerData.set("kills",nPlayer.getKills());
-				playerData.set("deaths",nPlayer.getDeaths());
+				playerData.set("invitedto", nPlayer.getInvitedTo());
+				playerData.set("points", nPlayer.getPoints());
+				playerData.set("kills", nPlayer.getKills());
+				playerData.set("deaths", nPlayer.getDeaths());
 
 				//save
 				playerData.save(getPlayerFile(nPlayer.getName()));
@@ -110,7 +110,7 @@ public class FlatDataManager {
 			}
 		}
 		else {
-			LoggerUtils.error("Attempting to save non-existing player. "+nPlayer.getName());
+			LoggerUtils.error("Attempting to save non-existing player. " + nPlayer.getName());
 		}
 	}
 
@@ -121,15 +121,15 @@ public class FlatDataManager {
 		if(regionData != null) {
 			try {
 				//set values
-				regionData.set("world",region.getWorld().getName());
-				regionData.set("guild",region.getGuild().getName());
+				regionData.set("world", region.getWorld().getName());
+				regionData.set("guild", region.getGuild().getName());
 
 				//corners
 				regionData.set("corner1.x", region.getCorner(0).getBlockX());
-				regionData.set("corner1.z",region.getCorner(0).getBlockZ());
+				regionData.set("corner1.z", region.getCorner(0).getBlockZ());
 
-				regionData.set("corner2.x",region.getCorner(1).getBlockX());
-				regionData.set("corner2.z",region.getCorner(1).getBlockZ());
+				regionData.set("corner2.x", region.getCorner(1).getBlockX());
+				regionData.set("corner2.z", region.getCorner(1).getBlockZ());
 
 				//save
 				regionData.save(getRegionFile(region.getGuild().getName()));
@@ -159,32 +159,32 @@ public class FlatDataManager {
 				}
 
 				//set values
-				guildData.set("id",guild.getId());
-				guildData.set("name",guild.getName());
-				guildData.set("tag",guild.getTag());
-				guildData.set("leader",guild.getLeader()==null ? "" : guild.getLeader().getName());
+				guildData.set("id", guild.getId());
+				guildData.set("name", guild.getName());
+				guildData.set("tag", guild.getTag());
+				guildData.set("leader", guild.getLeader() == null ? "" : guild.getLeader().getName());
 				guildData.set("allies", alliesNames);
 				guildData.set("alliesinv", guild.getAllyInvitations());
 				guildData.set("wars", warsNames);
 				guildData.set("nowar", guild.getNoWarInvitations());
-				guildData.set("money",guild.getMoney());
-				guildData.set("points",guild.getPoints());
-				guildData.set("lives",guild.getLives());
+				guildData.set("money", guild.getMoney());
+				guildData.set("points", guild.getPoints());
+				guildData.set("lives", guild.getLives());
 				guildData.set("slots", guild.getSlots());
 
-				guildData.set("timerest",guild.getTimeRest());
-				guildData.set("lostlive",guild.getLostLiveTime());
-				guildData.set("activity",guild.getInactiveTime());
-				guildData.set("created",guild.getTimeCreated());
+				guildData.set("timerest", guild.getTimeRest());
+				guildData.set("lostlive", guild.getLostLiveTime());
+				guildData.set("activity", guild.getInactiveTime());
+				guildData.set("created", guild.getTimeCreated());
 				guildData.set("openinv", guild.isOpenInvitation());
 
 				//spawnpoint
 				Location home = guild.getSpawnPoint();
-				guildData.set("home.world",home.getWorld().getName());
-				guildData.set("home.x",home.getBlockX());
-				guildData.set("home.y",home.getBlockY());
-				guildData.set("home.z",home.getBlockZ());
-				guildData.set("home.yaw",home.getYaw());
+				guildData.set("home.world", home.getWorld().getName());
+				guildData.set("home.x", home.getBlockX());
+				guildData.set("home.y", home.getBlockY());
+				guildData.set("home.z", home.getBlockZ());
+				guildData.set("home.yaw", home.getYaw());
 
 				//bankloc
 				Location bankloc = guild.getVaultLocation();
@@ -215,7 +215,7 @@ public class FlatDataManager {
 		boolean deleted = getGuildFile(guild.getName()).delete();
 
 		if(deleted) {
-			LoggerUtils.info("Deleted guild "+guild.getName()+"'s file.");
+			LoggerUtils.info("Deleted guild " + guild.getName() + "'s file.");
 		}
 		else {
 			LoggerUtils.info("Failed to delete guild " + guild.getName() + "'s file.");
@@ -226,7 +226,7 @@ public class FlatDataManager {
 		boolean deleted = getRegionFile(region.getGuild().getName()).delete();
 
 		if(deleted) {
-			LoggerUtils.info("Deleted guild "+region.getGuild().getName()+" region's file.");
+			LoggerUtils.info("Deleted guild " + region.getGuild().getName() + " region's file.");
 		}
 		else {
 			LoggerUtils.error("Failed to delete guild " + region.getGuild().getName() + " region's file.");
@@ -278,15 +278,15 @@ public class FlatDataManager {
 
 	//Get files
 	private File getPlayerFile(String name) {
-		return new File(playersDir +"/"+ name + ".yml");
+		return new File(playersDir + "/" + name + ".yml");
 	}
 
 	public File getGuildFile(String name) {
-		return new File(guildsDir +"/"+ name + ".yml");
+		return new File(guildsDir + "/" + name + ".yml");
 	}
 
 	private File getRegionFile(String name) {
-		return new File(regionsDir +"/"+ name + ".yml");
+		return new File(regionsDir + "/" + name + ".yml");
 	}
 
 	//get data

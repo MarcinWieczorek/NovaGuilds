@@ -56,7 +56,7 @@ public class RunnableRaid implements Runnable {
 
 			//vars hashmap
 			Map<String, String> vars = new HashMap<>();
-			vars.put("ATTACKER",raid.getGuildAttacker().getName());
+			vars.put("ATTACKER", raid.getGuildAttacker().getName());
 			vars.put("DEFENDER", guildDefender.getName());
 
 			//players raiding, update inactive time

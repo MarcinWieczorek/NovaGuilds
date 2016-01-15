@@ -42,7 +42,7 @@ public class YamlParseTest {
 			YamlConfiguration.loadConfiguration(configFile);
 		}
 		catch(NullPointerException e) {
-			throw new InvalidConfigurationException("Invalid YAML file ("+configFile.getPath()+")");
+			throw new InvalidConfigurationException("Invalid YAML file (" + configFile.getPath() + ")");
 		}
 	}
 
@@ -59,7 +59,7 @@ public class YamlParseTest {
 						Lang.loadConfiguration(lang);
 					}
 					catch(NullPointerException e) {
-						throw new InvalidConfigurationException("Invalid YAML file ("+lang.getPath()+")");
+						throw new InvalidConfigurationException("Invalid YAML file (" + lang.getPath() + ")");
 					}
 				}
 			}

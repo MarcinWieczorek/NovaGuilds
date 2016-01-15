@@ -46,7 +46,7 @@ import java.util.UUID;
 @SuppressWarnings("deprecation")
 public class PlayerManager {
 	private final NovaGuilds plugin;
-	private final Map<String,NovaPlayer> players = new HashMap<>();
+	private final Map<String, NovaPlayer> players = new HashMap<>();
 	
 	public PlayerManager(NovaGuilds pl) {
 		plugin = pl;
@@ -133,13 +133,13 @@ public class PlayerManager {
 	//load
 	public void load() {
 		players.clear();
-		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			for(String playerName : plugin.getFlatDataManager().getPlayerList()) {
 				FileConfiguration playerData = plugin.getFlatDataManager().getPlayerData(playerName);
 				NovaPlayer nPlayer = playerFromFlat(playerData);
 
 				if(nPlayer != null) {
-					if(nPlayer.getPoints()==0 && nPlayer.getKills()==0 && nPlayer.getDeaths()==0) {
+					if(nPlayer.getPoints() == 0 && nPlayer.getKills() == 0 && nPlayer.getDeaths() == 0) {
 						nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
 					}
 
@@ -163,7 +163,7 @@ public class PlayerManager {
 				while(res.next()) {
 					NovaPlayer nPlayer = playerFromResult(res);
 
-					if(nPlayer.getPoints()==0 && nPlayer.getKills()==0 && nPlayer.getDeaths()==0) {
+					if(nPlayer.getPoints() == 0 && nPlayer.getKills() == 0 && nPlayer.getDeaths() == 0) {
 						nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
 					}
 
@@ -175,8 +175,8 @@ public class PlayerManager {
 			}
 		}
 
-		LoggerUtils.info("Loaded "+players.size()+" players.");
-    }
+		LoggerUtils.info("Loaded " + players.size() + " players.");
+	}
 	
 	//add a player
 	private void add(Player player) {
@@ -343,7 +343,7 @@ public class PlayerManager {
 		vars.put("POINTS", String.valueOf(nCPlayer.getPoints()));
 		vars.put("KILLS", String.valueOf(nCPlayer.getKills()));
 		vars.put("DEATHS", String.valueOf(nCPlayer.getDeaths()));
-		vars.put("KDR", String.valueOf(NumberUtils.roundOffTo2DecPlaces((double)nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : (double)nCPlayer.getDeaths()))));
+		vars.put("KDR", String.valueOf(NumberUtils.roundOffTo2DecPlaces((double) nCPlayer.getKills() / (nCPlayer.getDeaths() == 0 ? 1 : (double) nCPlayer.getDeaths()))));
 
 		String guildRow = "";
 		if(nCPlayer.hasGuild()) {

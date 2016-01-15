@@ -55,7 +55,7 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return;
 		}
-			
+
 		if(nPlayer.hasGuild()) {
 			Message.CHAT_PLAYER_HASGUILD.send(sender);
 			return;
@@ -72,7 +72,7 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 		
 		if(nPlayer.getPlayer() != null) {
 			Map<String, String> vars = new HashMap<>();
-			vars.put("GUILDNAME",guild.getName());
+			vars.put("GUILDNAME", guild.getName());
 			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(sender);
 		}
 	}

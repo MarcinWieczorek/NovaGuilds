@@ -426,11 +426,9 @@ public enum Message {
 	TIMEUNIT_MONTH_SINGULAR,
 	TIMEUNIT_MONTH_PLURAL,
 	TIMEUNIT_YEAR_SINGULAR,
-	TIMEUNIT_YEAR_PLURAL
+	TIMEUNIT_YEAR_PLURAL;
 
-	;
-
-	private static final MessageManager messageManager = NovaGuilds.getInstance()==null ? null : NovaGuilds.getInstance().getMessageManager();
+	private static final MessageManager messageManager = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getMessageManager();
 	private boolean title = false;
 	private String path = null;
 	private Map<String, String> vars = new HashMap<>();
@@ -460,7 +458,7 @@ public enum Message {
 
 	public String getPath() {
 		if(path == null) {
-			path = name().replace("_",".").toLowerCase();
+			path = name().replace("_", ".").toLowerCase();
 		}
 
 		return path;

@@ -45,7 +45,7 @@ public class DatabaseManager {
 	private MySQL mySQL;
 	private Connection connection = null;
 	private boolean connected = false;
-	private final Map<PreparedStatements,PreparedStatement> preparedStatementMap = new HashMap<>();
+	private final Map<PreparedStatements, PreparedStatement> preparedStatementMap = new HashMap<>();
 
 	public DatabaseManager(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
@@ -144,7 +144,7 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.RANKS_UPDATE, ranksUpdate);
 
 			//Log
-			LoggerUtils.info("Statements prepared in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS)/1000.0 + "s");
+			LoggerUtils.info("Statements prepared in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s");
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
@@ -190,10 +190,10 @@ public class DatabaseManager {
 				connection = mySQL.openConnection();
 				connected = true;
 				prepareStatements();
-				LoggerUtils.info("MySQL reconnected in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS)/1000.0 + "s");
+				LoggerUtils.info("MySQL reconnected in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s");
 			}
 		}
-		catch (SQLException|ClassNotFoundException e1) {
+		catch(SQLException | ClassNotFoundException e1) {
 			connected = false;
 			LoggerUtils.exception(e1);
 		}
@@ -218,7 +218,7 @@ public class DatabaseManager {
 
 				connection = mySQL.openConnection();
 				connected = true;
-				LoggerUtils.info("Connected to MySQL database in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS)/1000.0 + "s");
+				LoggerUtils.info("Connected to MySQL database in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s");
 
 				if(!checkTables()) {
 					setupTables();
@@ -229,7 +229,7 @@ public class DatabaseManager {
 				prepareStatements();
 			}
 		}
-		catch(SQLException|ClassNotFoundException e) {
+		catch(SQLException | ClassNotFoundException e) {
 			connected = false;
 			plugin.getConfigManager().setToSecondaryDataStorageType();
 			LoggerUtils.exception(e);
@@ -252,7 +252,7 @@ public class DatabaseManager {
 
 			LoggerUtils.info("Connected to SQLite database");
 		}
-		catch(SQLException|ClassNotFoundException e) {
+		catch(SQLException | ClassNotFoundException e) {
 			plugin.getConfigManager().setToSecondaryDataStorageType();
 			connected = false;
 			LoggerUtils.exception(e);
@@ -326,10 +326,10 @@ public class DatabaseManager {
 	}
 
 	private String[] getSqlActions() {
-		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType()==DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
+		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType() == DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
 		String sqlString = IOUtils.inputStreamToString(inputStream);
 
-		if(sqlString==null || sqlString.isEmpty() || !sqlString.contains("--")) {
+		if(sqlString == null || sqlString.isEmpty() || !sqlString.contains("--")) {
 			LoggerUtils.error("Invalid SQL");
 			return new String[0];
 		}

@@ -147,7 +147,7 @@ public enum Config {
 	REGION_MATERIALS_SELECTION_RECTANGLE,
 	REGION_MATERIALS_SELECTION_INVALID,
 	REGION_MATERIALS_RESIZE_CORNER,
-    REGION_MATERIALS_RESIZE_RECTANGLE,
+	REGION_MATERIALS_RESIZE_RECTANGLE,
 
 	GUILD_CREATEPROTECTION,
 	GUILD_MAXPLAYERS,
@@ -171,7 +171,7 @@ public enum Config {
 	TABLIST_ENABLED,
 	TABLIST_SCHEME;
 
-	private static final ConfigManager cM = NovaGuilds.getInstance()==null ? null : NovaGuilds.getInstance().getConfigManager();
+	private static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
 	private final String path;
 
 	Config() {

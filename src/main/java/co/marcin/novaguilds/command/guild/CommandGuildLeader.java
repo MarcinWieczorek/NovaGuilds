@@ -80,8 +80,8 @@ public class CommandGuildLeader implements Executor {
 		plugin.getGuildManager().save(guild);
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME",newLeader.getName());
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("PLAYERNAME", newLeader.getName());
+		vars.put("GUILDNAME", guild.getName());
 		Message.CHAT_GUILD_LEADER_SUCCESS.vars(vars).send(sender);
 		Message.BROADCAST_GUILD_SETLEADER.vars(vars).broadcast();
 

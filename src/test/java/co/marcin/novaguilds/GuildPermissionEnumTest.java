@@ -37,7 +37,7 @@ public class GuildPermissionEnumTest {
 					System.out.println("Missing enums:");
 				}
 
-				System.out.println("INVENTORY_GUI_PERMISSIONS_NAMES_"+perm.name()+",");
+				System.out.println("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name() + ",");
 				passed = false;
 			}
 		}

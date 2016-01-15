@@ -33,7 +33,7 @@ public class CommandAdmin implements CommandExecutor, Executor {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Command command = Command.ADMIN_ACCESS;
 
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("guild", Command.ADMIN_GUILD_ACCESS);
 		put("g", Command.ADMIN_GUILD_ACCESS);
 

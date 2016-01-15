@@ -38,7 +38,7 @@ public class CommandAdminHologram implements Executor {
 		add("addtop");
 	}};
 
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("list", Command.ADMIN_HOLOGRAM_LIST);
 		put("ls", Command.ADMIN_HOLOGRAM_LIST);
 
@@ -62,7 +62,7 @@ public class CommandAdminHologram implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(args.length==0 || (args.length < 2 && !noHologramCommands.contains(args[0]))) {
+		if(args.length == 0 || (args.length < 2 && !noHologramCommands.contains(args[0]))) {
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS.send(sender);
 			return;

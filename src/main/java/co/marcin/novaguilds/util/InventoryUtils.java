@@ -75,7 +75,7 @@ public final class InventoryUtils {
 
 	public static boolean isEmpty(Inventory inventory) {
 		for(ItemStack itemStack : inventory.getContents()) {
-			if(itemStack!= null && itemStack.getType() != Material.AIR) {
+			if(itemStack != null && itemStack.getType() != Material.AIR) {
 				return false;
 			}
 		}

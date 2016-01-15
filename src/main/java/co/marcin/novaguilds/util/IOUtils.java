@@ -63,7 +63,7 @@ public final class IOUtils {
 				try {
 					inputStream.close();
 				}
-				catch (IOException e) {
+				catch(IOException e) {
 					LoggerUtils.exception(e);
 				}
 			}
@@ -71,7 +71,7 @@ public final class IOUtils {
 				try {
 					outputStream.close();
 				}
-				catch (IOException e) {
+				catch(IOException e) {
 					LoggerUtils.exception(e);
 				}
 
@@ -103,7 +103,7 @@ public final class IOUtils {
 		byte[] buf = new byte[8192];
 		int len;
 
-		while ((len = in.read(buf)) != -1) {
+		while((len = in.read(buf)) != -1) {
 			baos.write(buf, 0, len);
 		}
 

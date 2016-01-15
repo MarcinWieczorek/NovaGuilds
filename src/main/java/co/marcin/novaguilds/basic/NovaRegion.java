@@ -95,8 +95,8 @@ public class NovaRegion {
 			int w = getWidth();
 			int h = getHeight();
 
-			int sumsq = (int)(Math.pow(w,2) + Math.pow(h,2));
-			size = Math.round((int)Math.sqrt(sumsq));
+			int sumsq = (int) (Math.pow(w, 2) + Math.pow(h, 2));
+			size = Math.round((int) Math.sqrt(sumsq));
 		}
 
 		return size;
@@ -143,7 +143,7 @@ public class NovaRegion {
 		}
 	}
 	
-	public void setCorner(int index,Location l) {
+	public void setCorner(int index, Location l) {
 		corners[index] = l;
 		changed();
 	}

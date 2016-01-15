@@ -55,7 +55,7 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 			}
 		}
 		else if(event.getCurrentItem().equals(kickItem)) {
-			nPlayer.getPlayer().performCommand("g kick "+nPlayer.getName());
+			nPlayer.getPlayer().performCommand("g kick " + nPlayer.getName());
 		}
 	}
 

@@ -97,7 +97,7 @@ public class CommandGuildWar implements Executor {
 				cmdGuild.removeWar(guild);
 
 				//broadcast
-				vars.put("GUILD1",guild.getName());
+				vars.put("GUILD1", guild.getName());
 				vars.put("GUILD2", cmdGuild.getName());
 				Message.BROADCAST_GUILD_NOWAR.vars(vars).broadcast();
 			}
@@ -113,7 +113,7 @@ public class CommandGuildWar implements Executor {
 
 				//notify the guild
 				vars.clear();
-				vars.put("GUILDNAME",guild.getName());
+				vars.put("GUILDNAME", guild.getName());
 				Message.CHAT_GUILD_WAR_NOWARINV_NOTIFY.vars(vars).broadcast(cmdGuild);
 			}
 		}
@@ -138,7 +138,7 @@ public class CommandGuildWar implements Executor {
 
 			//broadcasts
 			Map<String, String> vars = new HashMap<>();
-			vars.put("GUILD1",guild.getName());
+			vars.put("GUILD1", guild.getName());
 			vars.put("GUILD2", cmdGuild.getName());
 			Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
 			TagUtils.refreshAll();

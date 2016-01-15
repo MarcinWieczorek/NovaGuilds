@@ -116,7 +116,7 @@ public class RankManager {
 					NovaGuild guild = plugin.getGuildManager().getGuildByName(res.getString("guild"));
 
 					if(guild == null) {
-						LoggerUtils.error("Failed to find guild: "+res.getString("name"));
+						LoggerUtils.error("Failed to find guild: " + res.getString("name"));
 						continue;
 					}
 
@@ -186,17 +186,17 @@ public class RankManager {
 						}
 					}
 
-					ranksConfigurationSection.set(rank.getName()+".members", memberNames);
+					ranksConfigurationSection.set(rank.getName() + ".members", memberNames);
 
 					List<String> permissionNamesList = new ArrayList<>();
 					for(GuildPermission permission : rank.getPermissions()) {
 						permissionNamesList.add(permission.name());
 					}
 
-					ranksConfigurationSection.set(rank.getName()+".permissions", permissionNamesList);
+					ranksConfigurationSection.set(rank.getName() + ".permissions", permissionNamesList);
 
-					ranksConfigurationSection.set(rank.getName()+".def", rank.isDef());
-					ranksConfigurationSection.set(rank.getName()+".clone", rank.isClone());
+					ranksConfigurationSection.set(rank.getName() + ".def", rank.isDef());
+					ranksConfigurationSection.set(rank.getName() + ".clone", rank.isClone());
 
 					rank.setUnchanged();
 				}

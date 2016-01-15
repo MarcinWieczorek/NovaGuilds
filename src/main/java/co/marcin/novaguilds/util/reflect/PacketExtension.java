@@ -55,7 +55,7 @@ public class PacketExtension {
 			Object eP = handleMethod.invoke(p);
 			return clientChannel.get(networkManager.get(playerConnection.get(eP)));
 		}
-		catch(Exception e){
+		catch(Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -93,7 +93,7 @@ public class PacketExtension {
 	}
 
 	public static void unregisterNovaGuildsChannel() {
-		for(Player player : Bukkit.getOnlinePlayers()){
+		for(Player player : Bukkit.getOnlinePlayers()) {
 			getChannel(player).pipeline().remove("NovaGuilds");
 		}
 	}

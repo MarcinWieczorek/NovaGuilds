@@ -31,69 +31,69 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildSetLeader implements Executor {
-    private final Command command = Command.ADMIN_GUILD_SET_LEADER;
+	private final Command command = Command.ADMIN_GUILD_SET_LEADER;
 
-    public CommandAdminGuildSetLeader() {
-        plugin.getCommandManager().registerExecutor(command, this);
-    }
+	public CommandAdminGuildSetLeader() {
+		plugin.getCommandManager().registerExecutor(command, this);
+	}
 
-    @Override
-    public void execute(CommandSender sender, String[] args) {
-        if(args.length == 0) { //no leader
-            Message.CHAT_PLAYER_ENTERNAME.send(sender);
-            return;
-        }
+	@Override
+	public void execute(CommandSender sender, String[] args) {
+		if(args.length == 0) { //no leader
+			Message.CHAT_PLAYER_ENTERNAME.send(sender);
+			return;
+		}
 
-        String playername = args[0];
+		String playername = args[0];
 
-        NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
 
-        if(nPlayer == null) { //invalid player
-            Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-            return;
-        }
+		if(nPlayer == null) { //invalid player
+			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+			return;
+		}
 
-        Map<String, String> vars = new HashMap<>();
-        vars.put("PLAYERNAME",nPlayer.getName());
+		Map<String, String> vars = new HashMap<>();
+		vars.put("PLAYERNAME", nPlayer.getName());
 
-        if(!nPlayer.hasGuild()) { //has no guild
-            Message.CHAT_PLAYER_HASNOGUILD.send(sender);
-            return;
-        }
+		if(!nPlayer.hasGuild()) { //has no guild
+			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
+			return;
+		}
 
-        NovaGuild guild = nPlayer.getGuild();
-        vars.put("GUILDNAME", guild.getName());
+		NovaGuild guild = nPlayer.getGuild();
+		vars.put("GUILDNAME", guild.getName());
 
-        if(!guild.isMember(nPlayer)) { //is not member
-            Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.vars(vars).send(sender);
-            return;
-        }
+		if(!guild.isMember(nPlayer)) { //is not member
+			Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.vars(vars).send(sender);
+			return;
+		}
 
-        if(nPlayer.isLeader()) { //already leader
-            Message.CHAT_ADMIN_GUILD_SET_LEADER_ALREADYLEADER.vars(vars).send(sender);
-            return;
-        }
+		if(nPlayer.isLeader()) { //already leader
+			Message.CHAT_ADMIN_GUILD_SET_LEADER_ALREADYLEADER.vars(vars).send(sender);
+			return;
+		}
 
-        Player oldLeader = guild.getLeader().getPlayer();
+		Player oldLeader = guild.getLeader().getPlayer();
 
-        guild.getLeader().cancelToolProgress();
+		guild.getLeader().cancelToolProgress();
 
-        guild.setLeader(nPlayer);
+		guild.setLeader(nPlayer);
 
-        if(oldLeader != null) {
-            TagUtils.updatePrefix(oldLeader);
-        }
+		if(oldLeader != null) {
+			TagUtils.updatePrefix(oldLeader);
+		}
 
-        if(nPlayer.isOnline()) {
-            TagUtils.updatePrefix(nPlayer.getPlayer());
-        }
+		if(nPlayer.isOnline()) {
+			TagUtils.updatePrefix(nPlayer.getPlayer());
+		}
 
-        Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.vars(vars).send(sender);
-        Message.BROADCAST_GUILD_NEWLEADER.vars(vars).broadcast();
-    }
+		Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.vars(vars).send(sender);
+		Message.BROADCAST_GUILD_NEWLEADER.vars(vars).broadcast();
+	}
 
-    @Override
-    public Command getCommand() {
-        return command;
-    }
+	@Override
+	public Command getCommand() {
+		return command;
+	}
 }

@@ -55,7 +55,7 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 				return;
 			}
 
-			 nPlayerOther = plugin.getPlayerManager().getPlayer(args[1]);
+			nPlayerOther = plugin.getPlayerManager().getPlayer(args[1]);
 
 			if(nPlayerOther == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);

@@ -44,11 +44,11 @@ public class CommandAdminGuildSetTimerest implements Executor.ReversedAdminGuild
 	public void execute(CommandSender sender, String[] args) {
 		String timeString = "";
 		if(args.length > 0) {
-			timeString = StringUtils.join(args," ");
+			timeString = StringUtils.join(args, " ");
 		}
 
 		int iseconds = StringUtils.StringToSeconds(timeString);
-		long seconds = Long.parseLong(iseconds+"");
+		long seconds = Long.parseLong(iseconds + "");
 
 		long newtimerest = NumberUtils.systemSeconds() - (Config.RAID_TIMEREST.getSeconds() - seconds);
 

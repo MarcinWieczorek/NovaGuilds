@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * NovaGroup - a configurable group for players
+ *
  * @author Marcin Wieczorek
  */
 public class NovaGroup {
@@ -99,6 +100,7 @@ public class NovaGroup {
 
 	/**
 	 * Get command sender's group
+	 *
 	 * @param sender command sender
 	 * @return sender's group
 	 */
@@ -108,6 +110,7 @@ public class NovaGroup {
 
 	/**
 	 * Get group's name
+	 *
 	 * @return name
 	 */
 	public String getName() {
@@ -116,6 +119,7 @@ public class NovaGroup {
 
 	/**
 	 * Get teleport delay
+	 *
 	 * @return teleport delay in seconds
 	 */
 	public int getGuildTeleportDelay() {
@@ -125,6 +129,7 @@ public class NovaGroup {
 	/**
 	 * Get auto-region's size
 	 * The size is one side's of a square length in blocks
+	 *
 	 * @return size
 	 */
 	public int getRegionAutoSize() {
@@ -133,6 +138,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the amount of money required to create a guild
+	 *
 	 * @return money
 	 */
 	public double getGuildCreateMoney() {
@@ -141,6 +147,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the price of one block of region's surface
+	 *
 	 * @return money
 	 */
 	public double getRegionPricePerBlock() {
@@ -149,6 +156,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the price of creating a region (without surface cost)
+	 *
 	 * @return money
 	 */
 	public double getRegionCreateMoney() {
@@ -157,6 +165,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the list of items required to create a guild
+	 *
 	 * @return list of items
 	 */
 	public List<ItemStack> getGuildCreateItems() {
@@ -164,8 +173,10 @@ public class NovaGroup {
 	}
 
 	//guild home
+
 	/**
 	 * Get the price of teleporting to guild's home
+	 *
 	 * @return money
 	 */
 	public double getGuildHomeMoney() {
@@ -174,6 +185,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the list of items required to teleport to guild's home
+	 *
 	 * @return list of items
 	 */
 	public List<ItemStack> getGuildHomeItems() {
@@ -181,8 +193,10 @@ public class NovaGroup {
 	}
 
 	//guild join
+
 	/**
 	 * Get the price of joining a guild
+	 *
 	 * @return money
 	 */
 	public double getGuildJoinMoney() {
@@ -191,6 +205,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the list of items required to join a guild
+	 *
 	 * @return list of items
 	 */
 	public List<ItemStack> getGuildJoinItems() {
@@ -198,8 +213,10 @@ public class NovaGroup {
 	}
 
 	//buylife
+
 	/**
 	 * Get the price of buying a life
+	 *
 	 * @return money
 	 */
 	public double getGuildBuylifeMoney() {
@@ -208,6 +225,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the list of items required to buy a life
+	 *
 	 * @return list of items
 	 */
 	public List<ItemStack> getGuildBuylifeItems() {
@@ -218,6 +236,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the list of items required to buy a slot
+	 *
 	 * @return list of items
 	 */
 	public List<ItemStack> getGuildBuySlotItems() {
@@ -226,6 +245,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the price of buying a slot
+	 *
 	 * @return money
 	 */
 	public double getGuildBuySlotMoney() {
@@ -236,6 +256,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the list of items required to buy an effect
+	 *
 	 * @return list of items
 	 */
 	public List<ItemStack> getGuildEffectItems() {
@@ -244,6 +265,7 @@ public class NovaGroup {
 
 	/**
 	 * Get the price of buying an effect
+	 *
 	 * @return money
 	 */
 	public double getGuildEffectPrice() {

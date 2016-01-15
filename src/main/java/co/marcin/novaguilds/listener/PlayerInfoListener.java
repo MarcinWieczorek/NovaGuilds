@@ -32,7 +32,7 @@ public class PlayerInfoListener implements Listener {
 
 	public PlayerInfoListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this,plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)

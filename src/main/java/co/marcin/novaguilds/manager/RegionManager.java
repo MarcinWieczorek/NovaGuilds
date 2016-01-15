@@ -53,7 +53,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
 	private final NovaGuilds plugin;
-	private final Map<String,NovaRegion> regions = new HashMap<>();
+	private final Map<String, NovaRegion> regions = new HashMap<>();
 	
 	public RegionManager(NovaGuilds pl) {
 		plugin = pl;
@@ -90,7 +90,7 @@ public class RegionManager {
 	public void load() {
 		regions.clear();
 
-		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			for(String guildName : plugin.getFlatDataManager().getRegionList()) {
 				FileConfiguration regionData = plugin.getFlatDataManager().getRegionData(guildName);
 				NovaRegion region = regionFromFlat(regionData);
@@ -143,7 +143,7 @@ public class RegionManager {
 								remove(novaRegion);
 							}
 
-							LoggerUtils.error("Removed region with doubled name ("+res.getString("guild")+")");
+							LoggerUtils.error("Removed region with doubled name (" + res.getString("guild") + ")");
 							continue;
 						}
 
@@ -159,11 +159,11 @@ public class RegionManager {
 			}
 		}
 
-		LoggerUtils.info("Loaded "+regions.size()+" regions.");
+		LoggerUtils.info("Loaded " + regions.size() + " regions.");
 	}
 	
 	public void add(NovaRegion region, NovaGuild guild) {
-		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			plugin.getFlatDataManager().add(region);
 		}
 		else {
@@ -208,7 +208,7 @@ public class RegionManager {
 	public void save(NovaRegion region) {
 		if(region != null) {
 			if(region.isChanged()) {
-				if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+				if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 					plugin.getFlatDataManager().save(region);
 				}
 				else {
@@ -252,7 +252,7 @@ public class RegionManager {
 	
 	//delete region
 	public void remove(NovaRegion region) {
-		if(plugin.getConfigManager().getDataStorageType()== DataStorageType.FLAT) {
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			plugin.getFlatDataManager().delete(region);
 		}
 		else {
@@ -269,7 +269,7 @@ public class RegionManager {
 				preparedStatement.executeUpdate();
 			}
 			catch(SQLException e) {
-				LoggerUtils.info("An error occured while deleting a guild's region ("+region.getGuild().getName()+")");
+				LoggerUtils.info("An error occured while deleting a guild's region (" + region.getGuild().getName() + ")");
 				LoggerUtils.exception(e);
 			}
 		}
@@ -288,7 +288,7 @@ public class RegionManager {
 			boolean remove = false;
 
 			if(region.getGuild() == null) {
-				LoggerUtils.info("("+region.getGuildName() + ") Guild is null");
+				LoggerUtils.info("(" + region.getGuildName() + ") Guild is null");
 				remove = true;
 			}
 
@@ -311,8 +311,8 @@ public class RegionManager {
 		int z1 = l1.getBlockZ();
 		int z2 = l2.getBlockZ();
 		
-		int dif_x = Math.abs(x1 - x2) +1;
-		int dif_z = Math.abs(z1 - z2) +1;
+		int dif_x = Math.abs(x1 - x2) + 1;
+		int dif_z = Math.abs(z1 - z2) + 1;
 		
 		int minsize = Config.REGION_MINSIZE.getInt();
 		int maxsize = Config.REGION_MAXSIZE.getInt();
@@ -323,10 +323,10 @@ public class RegionManager {
 		else if(dif_x > maxsize || dif_z > maxsize) {
 			return RegionValidity.TOOBIG;
 		}
-		else if(!getRegionsInsideArea(l1,l2).isEmpty()) {
+		else if(!getRegionsInsideArea(l1, l2).isEmpty()) {
 			return RegionValidity.OVERLAPS;
 		}
-		else if(!isFarEnough(l1,l2)) {
+		else if(!isFarEnough(l1, l2)) {
 			return RegionValidity.TOOCLOSE;
 		}
 		else {
@@ -350,7 +350,7 @@ public class RegionManager {
 		boolean ov2;
 		boolean overlaps;
 		
-		for(NovaRegion region: getRegions()) {
+		for(NovaRegion region : getRegions()) {
 			Location c1 = region.getCorner(0);
 			Location c2 = region.getCorner(1);
 			
@@ -398,7 +398,7 @@ public class RegionManager {
 
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;
-		int radius1 = Math.round((int)Math.sqrt((int)(Math.pow(width,2) + Math.pow(height,2))) /2);
+		int radius1 = Math.round((int) Math.sqrt((int) (Math.pow(width, 2) + Math.pow(height, 2))) / 2);
 
 		int min = radius1 + Config.REGION_MINDISTANCE.getInt();
 		Location centerLocation = RegionUtils.getCenterLocation(l1, l2);
@@ -444,7 +444,7 @@ public class RegionManager {
 
 		//Chat message
 		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME",region.getGuildName());
+		vars.put("GUILDNAME", region.getGuildName());
 		vars.put("PLAYERNAME", player.getName());
 		Message.CHAT_REGION_ENTERED.vars(vars).send(player);
 
@@ -527,8 +527,8 @@ public class RegionManager {
 			if(Config.RAID_ENABLED.getBoolean() && nPlayer.getGuild().isWarWith(guildDefender)) {
 				if(!guildDefender.isRaid()) {
 					if(NumberUtils.systemSeconds() - Config.RAID_TIMEREST.getSeconds() > guildDefender.getTimeRest()) {
-						if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size()==guildDefender.getPlayers().size()) {
-							if(NumberUtils.systemSeconds()-guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
+						if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size() == guildDefender.getPlayers().size()) {
+							if(NumberUtils.systemSeconds() - guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
 								guildDefender.createRaid(nPlayer.getGuild());
 								plugin.guildRaids.add(guildDefender);
 
@@ -546,7 +546,9 @@ public class RegionManager {
 					else {
 						final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 
-						Message.CHAT_RAID_RESTING.vars(new HashMap<String, String>(){{put("TIMEREST", StringUtils.secondsToString(timeWait));}}).send(player);
+						Message.CHAT_RAID_RESTING.vars(new HashMap<String, String>() {{
+							put("TIMEREST", StringUtils.secondsToString(timeWait));
+						}}).send(player);
 					}
 				}
 

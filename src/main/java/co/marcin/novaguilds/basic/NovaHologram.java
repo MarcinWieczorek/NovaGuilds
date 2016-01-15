@@ -77,7 +77,7 @@ public class NovaHologram {
 	public void refresh() {
 		if(isDeleted()) {
 			//TODO: check if this occurs
-			LoggerUtils.error("Trying to refresh deleted hologram: "+getName());
+			LoggerUtils.error("Trying to refresh deleted hologram: " + getName());
 			return;
 		}
 

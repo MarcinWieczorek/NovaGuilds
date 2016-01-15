@@ -74,10 +74,10 @@ public enum Command {
 	GUILD_ALLY(Permission.NOVAGUILDS_GUILD_ALLY, false),
 	GUILD_BANK_PAY(Permission.NOVAGUILDS_GUILD_BANK_PAY, false),
 	GUILD_BANK_WITHDRAW(Permission.NOVAGUILDS_GUILD_BANK_WITHDRAW, false),
-	GUILD_BUYLIFE(Permission.NOVAGUILDS_GUILD_BUYLIFE,false),
+	GUILD_BUYLIFE(Permission.NOVAGUILDS_GUILD_BUYLIFE, false),
 	GUILD_BUYSLOT(Permission.NOVAGUILDS_GUILD_BUYSLOT, false),
 	GUILD_CHATMODE(Permission.NOVAGUILDS_GUILD_CHATMODE, false),
-	GUILD_COMPASS(Permission.NOVAGUILDS_GUILD_COMPASS,false),
+	GUILD_COMPASS(Permission.NOVAGUILDS_GUILD_COMPASS, false),
 	GUILD_CREATE(Permission.NOVAGUILDS_GUILD_CREATE, false, "create"),
 	GUILD_EFFECT(Permission.NOVAGUILDS_GUILD_EFFECT, false),
 	GUILD_HOME(Permission.NOVAGUILDS_GUILD_HOME, false),
@@ -189,7 +189,7 @@ public enum Command {
 			return;
 		}
 
-		if(isNeedConfirm() && (nPlayer.getCommandExecutorHandler()==null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED)) {
+		if(isNeedConfirm() && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED)) {
 			nPlayer.newCommandExecutorHandler(this, args);
 			nPlayer.getCommandExecutorHandler().executorVariable(getExecutorVariable());
 

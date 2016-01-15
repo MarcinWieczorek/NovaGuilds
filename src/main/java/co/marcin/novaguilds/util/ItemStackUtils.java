@@ -51,8 +51,8 @@ public final class ItemStackUtils {
 			short durability = 0;
 			PotionType potionType = null;
 			int potionLevel = 0;
-			byte data = (byte)0;
-			Map<Enchantment,Integer> enchantments = new HashMap<>();
+			byte data = (byte) 0;
+			Map<Enchantment, Integer> enchantments = new HashMap<>();
 
 			String[] explode = str.split(" ");
 
@@ -90,7 +90,7 @@ public final class ItemStackUtils {
 				return null;
 			}
 
-			if(explode.length>1) { //amount
+			if(explode.length > 1) { //amount
 				if(NumberUtils.isNumeric(explode[1])) {
 					amount = Integer.parseInt(explode[1]);
 					explode[1] = null;
@@ -161,87 +161,87 @@ public final class ItemStackUtils {
 								break;
 							case "arrowdamage":
 							case "ardmg":
-								enchantments.put(Enchantment.ARROW_DAMAGE,Integer.valueOf(value));
+								enchantments.put(Enchantment.ARROW_DAMAGE, Integer.valueOf(value));
 								break;
 							case "baneofarthropods":
-								enchantments.put(Enchantment.DAMAGE_ARTHROPODS,Integer.valueOf(value));
+								enchantments.put(Enchantment.DAMAGE_ARTHROPODS, Integer.valueOf(value));
 								break;
 							case "durability":
 							case "unbreaking":
-								enchantments.put(Enchantment.DURABILITY,Integer.valueOf(value));
+								enchantments.put(Enchantment.DURABILITY, Integer.valueOf(value));
 								break;
 							case "fire":
 							case "fireaspect":
-								enchantments.put(Enchantment.FIRE_ASPECT,Integer.valueOf(value));
+								enchantments.put(Enchantment.FIRE_ASPECT, Integer.valueOf(value));
 								break;
 							case "knockback":
-								enchantments.put(Enchantment.KNOCKBACK,Integer.valueOf(value));
+								enchantments.put(Enchantment.KNOCKBACK, Integer.valueOf(value));
 								break;
 							case "looting":
 							case "fortune":
-								enchantments.put(Enchantment.LOOT_BONUS_BLOCKS,Integer.valueOf(value));
+								enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, Integer.valueOf(value));
 								break;
 							case "mobloot":
-								enchantments.put(Enchantment.LOOT_BONUS_MOBS,Integer.valueOf(value));
+								enchantments.put(Enchantment.LOOT_BONUS_MOBS, Integer.valueOf(value));
 								break;
 							case "smite":
 							case "undeaddamage":
-								enchantments.put(Enchantment.DAMAGE_UNDEAD,Integer.valueOf(value));
+								enchantments.put(Enchantment.DAMAGE_UNDEAD, Integer.valueOf(value));
 								break;
 							case "arrowknockback":
 							case "punch":
-								enchantments.put(Enchantment.ARROW_KNOCKBACK,Integer.valueOf(value));
+								enchantments.put(Enchantment.ARROW_KNOCKBACK, Integer.valueOf(value));
 								break;
 							case "flame":
 							case "flamearrow":
-								enchantments.put(Enchantment.ARROW_FIRE,Integer.valueOf(value));
+								enchantments.put(Enchantment.ARROW_FIRE, Integer.valueOf(value));
 								break;
 							case "infarrows":
 							case "infinity":
-								enchantments.put(Enchantment.ARROW_INFINITE,Integer.valueOf(value));
+								enchantments.put(Enchantment.ARROW_INFINITE, Integer.valueOf(value));
 								break;
 							case "digspeed":
 							case "efficiency":
-								enchantments.put(Enchantment.DIG_SPEED,Integer.valueOf(value));
+								enchantments.put(Enchantment.DIG_SPEED, Integer.valueOf(value));
 							case "silktouch":
-								enchantments.put(Enchantment.SILK_TOUCH,Integer.valueOf(value));
+								enchantments.put(Enchantment.SILK_TOUCH, Integer.valueOf(value));
 								break;
 							case "highcrit":
 							case "thorns":
-								enchantments.put(Enchantment.THORNS,Integer.valueOf(value));
+								enchantments.put(Enchantment.THORNS, Integer.valueOf(value));
 								break;
 							case "blastprotect":
-								enchantments.put(Enchantment.PROTECTION_EXPLOSIONS,Integer.valueOf(value));
+								enchantments.put(Enchantment.PROTECTION_EXPLOSIONS, Integer.valueOf(value));
 								break;
 							case "fallprot":
 							case "featherfall":
-								enchantments.put(Enchantment.PROTECTION_FALL,Integer.valueOf(value));
+								enchantments.put(Enchantment.PROTECTION_FALL, Integer.valueOf(value));
 								break;
 							case "fireprot":
 							case "fireprotect":
-								enchantments.put(Enchantment.PROTECTION_FIRE,Integer.valueOf(value));
+								enchantments.put(Enchantment.PROTECTION_FIRE, Integer.valueOf(value));
 								break;
 							case "projectileprotection":
 							case "projprot":
-								enchantments.put(Enchantment.PROTECTION_PROJECTILE,Integer.valueOf(value));
+								enchantments.put(Enchantment.PROTECTION_PROJECTILE, Integer.valueOf(value));
 								break;
 							case "protect":
 							case "protection":
-								enchantments.put(Enchantment.PROTECTION_ENVIRONMENTAL,Integer.valueOf(value));
+								enchantments.put(Enchantment.PROTECTION_ENVIRONMENTAL, Integer.valueOf(value));
 								break;
 							case "waterworker":
-								enchantments.put(Enchantment.WATER_WORKER,Integer.valueOf(value));
+								enchantments.put(Enchantment.WATER_WORKER, Integer.valueOf(value));
 								break;
 							case "respiration":
 							case "breath":
 							case "aquainfinity":
-								enchantments.put(Enchantment.OXYGEN,Integer.valueOf(value));
+								enchantments.put(Enchantment.OXYGEN, Integer.valueOf(value));
 								break;
 							case "luck":
-								enchantments.put(Enchantment.LUCK,Integer.valueOf(value));
+								enchantments.put(Enchantment.LUCK, Integer.valueOf(value));
 								break;
 							case "lure":
-								enchantments.put(Enchantment.LURE,Integer.valueOf(value));
+								enchantments.put(Enchantment.LURE, Integer.valueOf(value));
 								break;
 						}
 					}
@@ -262,7 +262,7 @@ public final class ItemStackUtils {
 			}
 
 
-			itemStack = new ItemStack(material,amount,data);
+			itemStack = new ItemStack(material, amount, data);
 			itemStack.addUnsafeEnchantments(enchantments);
 			ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -275,7 +275,7 @@ public final class ItemStackUtils {
 			}
 
 			if(material == Material.POTION && potionLevel != 0 && potionType != null) {
-				Potion potion = new Potion(potionType,potionLevel);
+				Potion potion = new Potion(potionType, potionLevel);
 				potion.apply(itemStack);
 			}
 
@@ -289,7 +289,7 @@ public final class ItemStackUtils {
 			}
 
 			if(material == Material.WRITTEN_BOOK) {
-				BookMeta bm = (BookMeta)itemStack.getItemMeta();
+				BookMeta bm = (BookMeta) itemStack.getItemMeta();
 				List<String> pages = new ArrayList<>();
 				List<String> pagesColor = new ArrayList<>();
 				for(String page : pages) {

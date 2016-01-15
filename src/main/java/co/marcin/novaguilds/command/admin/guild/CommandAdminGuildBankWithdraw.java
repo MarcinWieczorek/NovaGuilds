@@ -72,7 +72,7 @@ public class CommandAdminGuildBankWithdraw implements Executor.ReversedAdminGuil
 		guild.takeMoney(money);
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("MONEY",money_str);
+		vars.put("MONEY", money_str);
 		vars.put("GUILDNAME", guild.getName());
 		Message.CHAT_ADMIN_GUILD_BANK_WITHDREW.vars(vars).send(sender);
 	}

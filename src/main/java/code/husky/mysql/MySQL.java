@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 /**
  * Connects to and uses a MySQL database
- * 
+ *
  * @author -_Husky_-
  * @author tips48
  */
@@ -23,19 +23,13 @@ public class MySQL extends Database {
 
 	/**
 	 * Creates a new MySQL instance
-	 * 
-	 * @param plugin
-	 *            Plugin instance
-	 * @param hostname
-	 *            Name of the host
-	 * @param port
-	 *            Port number
-	 * @param database
-	 *            Database name
-	 * @param username
-	 *            Username
-	 * @param password
-	 *            Password
+	 *
+	 * @param plugin   Plugin instance
+	 * @param hostname Name of the host
+	 * @param port     Port number
+	 * @param database Database name
+	 * @param username Username
+	 * @param password Password
 	 */
 	public MySQL(Plugin plugin, String hostname, String port, String database, String username, String password) {
 		super(plugin);
@@ -52,7 +46,7 @@ public class MySQL extends Database {
 			return connection;
 		}
 		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database +"?autoReconnect=true", user, password);
+		connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database + "?autoReconnect=true", user, password);
 		return connection;
 	}
 }

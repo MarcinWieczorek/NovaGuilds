@@ -33,7 +33,7 @@ public class ChestGUIUtils {
 	public static final List<NovaPlayer> guiContinueList = new ArrayList<>();
 
 	public static int getChestSize(int count) {
-		return (count/9)*9 + (count%9==0 ? 0 : 9);
+		return (count / 9) * 9 + (count % 9 == 0 ? 0 : 9);
 	}
 
 	public static void openGUIInventory(NovaPlayer nPlayer, GUIInventory guiInventory) {
@@ -50,8 +50,8 @@ public class ChestGUIUtils {
 			Inventory inventory = guiInventory.getInventory();
 
 			ItemStack lastItem = inventory.getItem(inventory.getSize() - 1);
-			if((lastItem == null || lastItem.getType() == Material.AIR) && nPlayer.getGuiInventoryHistory().size()>1) {
-				inventory.setItem(inventory.getSize()-1, Message.INVENTORY_GUI_BACK.getItemStack());
+			if((lastItem == null || lastItem.getType() == Material.AIR) && nPlayer.getGuiInventoryHistory().size() > 1) {
+				inventory.setItem(inventory.getSize() - 1, Message.INVENTORY_GUI_BACK.getItemStack());
 			}
 
 			nPlayer.getPlayer().openInventory(inventory);

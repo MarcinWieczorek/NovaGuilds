@@ -60,13 +60,13 @@ public class CommandAdminRegionList implements Executor {
 		}
 
 		String rowformat = Message.CHAT_REGION_LIST_ITEM.get();
-		int i=0;
+		int i = 0;
 		boolean display = false;
 		Map<String, String> vars = new HashMap<>();
 
-		if(size>perpage) {
+		if(size > perpage) {
 			vars.put("PAGE", String.valueOf(page));
-			vars.put("NEXT", String.valueOf(page+1));
+			vars.put("NEXT", String.valueOf(page + 1));
 			vars.put("PAGES", String.valueOf(pages_number));
 
 			if(pages_number > page) {
@@ -80,20 +80,20 @@ public class CommandAdminRegionList implements Executor {
 		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
 			vars.clear();
 
-			if((i+1>(page-1)*perpage || page==1) && !display) {
+			if((i + 1 > (page - 1) * perpage || page == 1) && !display) {
 				display = true;
-				i=0;
+				i = 0;
 			}
 
 			if(display) {
 				vars.put("GUILDNAME", region.getGuild().getName());
-				vars.put("X", region.getCorner(0).getBlockX()+"");
-				vars.put("Z", region.getCorner(0).getBlockZ()+"");
+				vars.put("X", region.getCorner(0).getBlockX() + "");
+				vars.put("Z", region.getCorner(0).getBlockZ() + "");
 
-				String rowmsg = StringUtils.replaceMap(rowformat,vars);
+				String rowmsg = StringUtils.replaceMap(rowformat, vars);
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
-				if(i+1 >= perpage) {
+				if(i + 1 >= perpage) {
 					break;
 				}
 			}

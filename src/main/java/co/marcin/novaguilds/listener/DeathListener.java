@@ -38,7 +38,7 @@ public class DeathListener implements Listener {
 	
 	public DeathListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this,plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler

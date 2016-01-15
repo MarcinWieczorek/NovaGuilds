@@ -36,11 +36,11 @@ public class PacketReceiveEvent extends Event implements Cancellable {
 		this.cancelled = false;
 	}
 
-	public Object getPacket(){
+	public Object getPacket() {
 		return packet;
 	}
 	
-	public Player getPlayer(){
+	public Player getPlayer() {
 		return player;
 	}
 	

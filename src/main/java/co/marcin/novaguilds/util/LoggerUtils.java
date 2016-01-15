@@ -38,7 +38,7 @@ public final class LoggerUtils {
 	}
 
 	public static void debug(String msg) {
-		if(NovaGuilds.getInstance()!=null && NovaGuilds.getInstance().getConfigManager() != null) {
+		if(NovaGuilds.getInstance() != null && NovaGuilds.getInstance().getConfigManager() != null) {
 			if(Config.DEBUG.getBoolean()) {
 				info("[DEBUG] " + classPrefix() + msg);
 			}
@@ -48,10 +48,10 @@ public final class LoggerUtils {
 	public static String classPrefix() {
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		String line = ste[3].toString();
-		String[] split1 = org.apache.commons.lang.StringUtils.split(line,'(');
+		String[] split1 = org.apache.commons.lang.StringUtils.split(line, '(');
 		String[] split2 = split1[1].split(":");
-		String cname = split2[0].replace(".java","");
-		return cname.equals("NovaGuilds") ? "" : "["+cname+"]";
+		String cname = split2[0].replace(".java", "");
+		return cname.equals("NovaGuilds") ? "" : "[" + cname + "]";
 	}
 
 	public static String space(String s) {
@@ -71,14 +71,14 @@ public final class LoggerUtils {
 		error("  Thread: " + Thread.currentThread());
 		error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"));
 		error("  Exception Message: ");
-		error("   "+e.getMessage());
+		error("   " + e.getMessage());
 		error("");
 
-		StackTraceElement[] ste = cause==null ? e.getStackTrace() : cause.getStackTrace();
+		StackTraceElement[] ste = cause == null ? e.getStackTrace() : cause.getStackTrace();
 
 		if(ste != null && ste.length > 0) {
 			error("Stack trace: ");
-			error(cause==null ? "Invalid Cause!" : "Caused by: "+cause);
+			error(cause == null ? "Invalid Cause!" : "Caused by: " + cause);
 			for(StackTraceElement st : ste) {
 				error("	at " + st.toString());
 			}

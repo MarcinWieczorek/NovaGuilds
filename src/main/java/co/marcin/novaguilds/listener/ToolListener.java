@@ -46,7 +46,7 @@ public class ToolListener implements Listener {
 	
 	public ToolListener(NovaGuilds pl) {
 		plugin = pl;
-		plugin.getServer().getPluginManager().registerEvents(this,plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -113,7 +113,7 @@ public class ToolListener implements Listener {
 		else if(event.getAction() != Action.PHYSICAL && nPlayer.getRegionMode()) { //CREATE MODE
 			Location pointedCornerLocation = pointedLocation.clone();
 			pointedCornerLocation.setY(0);
-			double[] cornerDistance = new double[]{ region==null?1:pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()), region==null?1:pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation()) };
+			double[] cornerDistance = new double[]{region == null ? 1 : pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()), region == null ? 1 : pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation())};
 
 			if(region != null && !nPlayer.isResizing() && (cornerDistance[0] < 1 || cornerDistance[1] < 1)) { //resizing
 				if(!Permission.NOVAGUILDS_REGION_RESIZE.has(player)) {
@@ -172,12 +172,12 @@ public class ToolListener implements Listener {
 						if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()) != null) {
 							RegionUtils.setCorner(player, nPlayer.getSelectedLocation(nPlayer.getResizingCorner()), null);
 
-							if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()==0 ? 1 : 0) != null) {
+							if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner() == 0 ? 1 : 0) != null) {
 								RegionUtils.sendRectangle(player, sl0, sl1, null);
 							}
 						}
 
-						if(nPlayer.getResizingCorner()==0) {
+						if(nPlayer.getResizingCorner() == 0) {
 							sl0 = pointedLocation;
 						}
 						else {
@@ -213,8 +213,8 @@ public class ToolListener implements Listener {
 
 					//When resizing if overlaps player's region
 					if(nPlayer.isResizing() && validSelect == RegionValidity.OVERLAPS) {
-						List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0,sl1);
-						if(regionsOverlaped.size()==1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
+						List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0, sl1);
+						if(regionsOverlaped.size() == 1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
 							validSelect = RegionValidity.VALID;
 						}
 					}

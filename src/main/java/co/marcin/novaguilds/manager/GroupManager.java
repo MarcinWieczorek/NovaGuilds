@@ -30,7 +30,7 @@ import java.util.Set;
 
 public class GroupManager {
 	private final NovaGuilds plugin;
-	private final Map<String,NovaGroup> groups = new HashMap<>();
+	private final Map<String, NovaGroup> groups = new HashMap<>();
 
 	public GroupManager(NovaGuilds novaguilds) {
 		plugin = novaguilds;
@@ -61,7 +61,7 @@ public class GroupManager {
 		}
 
 		for(String name : groups.keySet()) {
-			if(player.hasPermission("novaguilds.group."+name) && !name.equalsIgnoreCase("default")) {
+			if(player.hasPermission("novaguilds.group." + name) && !name.equalsIgnoreCase("default")) {
 				groupName = name;
 				break;
 			}
@@ -72,7 +72,7 @@ public class GroupManager {
 
 	public NovaGroup getGroup(CommandSender sender) {
 		if(sender instanceof Player) {
-			return getGroup((Player)sender);
+			return getGroup((Player) sender);
 		}
 		else {
 			return getGroup("admin");

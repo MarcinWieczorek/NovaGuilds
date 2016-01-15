@@ -69,7 +69,7 @@ public class VaultListener implements Listener {
 		dissalowedActions.add(InventoryAction.UNKNOWN);
 
 		//double chest faces
-		doubleChestFaces = new BlockFace[] {
+		doubleChestFaces = new BlockFace[]{
 				BlockFace.EAST,
 				BlockFace.NORTH,
 				BlockFace.SOUTH,
@@ -95,7 +95,7 @@ public class VaultListener implements Listener {
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
 		String nameVault = Config.VAULT_ITEM.getItemStack().getItemMeta().getDisplayName();
 
-		if(event.getInventory().getTitle()==null || !event.getInventory().getTitle().equals(nameVault)) {
+		if(event.getInventory().getTitle() == null || !event.getInventory().getTitle().equals(nameVault)) {
 			return;
 		}
 

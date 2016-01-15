@@ -33,7 +33,7 @@ import java.util.Map;
 public class CommandAdminRegion implements Executor {
 	private final Command command = Command.ADMIN_REGION_ACCESS;
 
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("bypass", Command.ADMIN_REGION_BYPASS);
 		put("bp", Command.ADMIN_REGION_BYPASS);
 
@@ -63,7 +63,7 @@ public class CommandAdminRegion implements Executor {
 			return;
 		}
 
-		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0: 1];
+		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0 : 1];
 		Command subCommand = commandsMap.get(subCmd.toLowerCase());
 
 		if(subCommand == null) {

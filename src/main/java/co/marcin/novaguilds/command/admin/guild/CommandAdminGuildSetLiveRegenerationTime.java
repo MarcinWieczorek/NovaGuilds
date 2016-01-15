@@ -44,14 +44,14 @@ public class CommandAdminGuildSetLiveRegenerationTime implements Executor.Revers
 	public void execute(CommandSender sender, String[] args) {
 		String timeString;
 		if(args.length > 1) {
-			timeString = StringUtils.join(args," ");
+			timeString = StringUtils.join(args, " ");
 		}
 		else {
 			timeString = args[0];
 		}
 
 		int iseconds = StringUtils.StringToSeconds(timeString);
-		long seconds = Long.parseLong(iseconds+"");
+		long seconds = Long.parseLong(iseconds + "");
 
 		long newregentime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());
 

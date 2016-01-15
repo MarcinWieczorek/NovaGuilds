@@ -44,7 +44,7 @@ public class CommandAdminRegionBypass implements Executor {
 	public void execute(CommandSender sender, String[] args) {
 		Map<String, String> vars = new HashMap<>();
 
-		if(args.length==0 || args[0].equalsIgnoreCase(sender.getName())) {
+		if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 			nPlayer.toggleBypass();

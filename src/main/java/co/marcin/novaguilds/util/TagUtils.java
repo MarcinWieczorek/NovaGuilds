@@ -67,7 +67,7 @@ public final class TagUtils {
 		Scoreboard board = p.getScoreboard();
 		Team team = board.getPlayerTeam(player);
 		if(team == null) {
-			String tName = "ng_"+player.getName();
+			String tName = "ng_" + player.getName();
 			if(tName.length() > 16) {
 				tName = tName.substring(0, 16);
 			}

@@ -61,8 +61,8 @@ public final class RegionUtils {
 		Block highest1 = player.getWorld().getHighestBlockAt(loc1.getBlockX(), loc1.getBlockZ());
 		Block highest2 = player.getWorld().getHighestBlockAt(loc2.getBlockX(), loc2.getBlockZ());
 
-		loc1.setY(highest1.getY() - (highest1.getType()==Material.SNOW ? 0 : 1));
-		loc2.setY(highest2.getY() - (highest2.getType()==Material.SNOW ? 0 : 1));
+		loc1.setY(highest1.getY() - (highest1.getType() == Material.SNOW ? 0 : 1));
+		loc2.setY(highest2.getY() - (highest2.getType() == Material.SNOW ? 0 : 1));
 
 		Material material1;
 		Material material2;
@@ -131,8 +131,8 @@ public final class RegionUtils {
 
 			Block highestBlock1 = world.getHighestBlockAt(x, z1);
 			Block highestBlock2 = world.getHighestBlockAt(x, z2);
-			int highest1 = highestBlock1.getY() - (highestBlock1.getType()==Material.SNOW ? 0 : 1);
-			int highest2 = highestBlock2.getY() - (highestBlock2.getType()==Material.SNOW ? 0 : 1);
+			int highest1 = highestBlock1.getY() - (highestBlock1.getType() == Material.SNOW ? 0 : 1);
+			int highest2 = highestBlock2.getY() - (highestBlock2.getType() == Material.SNOW ? 0 : 1);
 
 			blocks.add(world.getBlockAt(x, highest1, z1));
 			blocks.add(world.getBlockAt(x, highest2, z2));
@@ -144,8 +144,8 @@ public final class RegionUtils {
 
 			Block highestBlock1 = world.getHighestBlockAt(x1, z);
 			Block highestBlock2 = world.getHighestBlockAt(x2, z);
-			int highest1 = highestBlock1.getY() - (highestBlock1.getType()==Material.SNOW ? 0 : 1);
-			int highest2 = highestBlock2.getY() - (highestBlock2.getType()==Material.SNOW ? 0 : 1);
+			int highest1 = highestBlock1.getY() - (highestBlock1.getType() == Material.SNOW ? 0 : 1);
+			int highest2 = highestBlock2.getY() - (highestBlock2.getType() == Material.SNOW ? 0 : 1);
 
 			blocks.add(world.getBlockAt(x1, highest1, z));
 			blocks.add(world.getBlockAt(x2, highest2, z));
@@ -178,17 +178,17 @@ public final class RegionUtils {
 	}
 
 	public static void sendRectangle(Player player, Location l1, Location l2, Material material) {
-		sendRectangle(player, l1, l2, material, (byte)0);
+		sendRectangle(player, l1, l2, material, (byte) 0);
 	}
 
 	public static Location getCenterLocation(Location l1, Location l2) {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX());
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ());
 
-		int newx = l1.getBlockX() + (l1.getBlockX() < l2.getBlockX() ? width : -width)/2;
-		int newz = l1.getBlockZ() + (l1.getBlockZ() < l2.getBlockZ() ? height : -height)/2;
+		int newx = l1.getBlockX() + (l1.getBlockX() < l2.getBlockX() ? width : -width) / 2;
+		int newz = l1.getBlockZ() + (l1.getBlockZ() < l2.getBlockZ() ? height : -height) / 2;
 
-		return new Location(l1.getWorld(),newx,l1.getBlockY(),newz);
+		return new Location(l1.getWorld(), newx, l1.getBlockY(), newz);
 	}
 
 	public static int checkRegionSize(Location l1, Location l2) {
@@ -197,8 +197,8 @@ public final class RegionUtils {
 		int z1 = l1.getBlockZ();
 		int z2 = l2.getBlockZ();
 
-		int dif_x = Math.abs(x1 - x2) +1;
-		int dif_z = Math.abs(z1 - z2) +1;
+		int dif_x = Math.abs(x1 - x2) + 1;
+		int dif_z = Math.abs(z1 - z2) + 1;
 
 		return dif_x * dif_z;
 	}

@@ -49,7 +49,7 @@ public class YamlIncompleteTranslationTest {
 			System.out.println("Result: No missing keys");
 		}
 		else {
-			throw new Exception("Found "+missingCount+" missing keys in en-en file that are present in Message enum");
+			throw new Exception("Found " + missingCount + " missing keys in en-en file that are present in Message enum");
 		}
 	}
 
@@ -88,15 +88,15 @@ public class YamlIncompleteTranslationTest {
 
 			System.out.println("---");
 			System.out.println();
-			System.out.println("Testing lang: "+name);
+			System.out.println("Testing lang: " + name);
 
 			for(String mKey : motherKeys) {
 				if(!configuration.contains(mKey)) {
-					if(missingCount==0) {
+					if(missingCount == 0) {
 						System.out.println("Missing keys:");
 					}
 
-					System.out.println(" - "+mKey);
+					System.out.println(" - " + mKey);
 					missingCount++;
 				}
 			}
@@ -105,7 +105,7 @@ public class YamlIncompleteTranslationTest {
 				System.out.println("Result: No missing keys");
 			}
 			else {
-				throw new Exception("Found "+missingCount+" missing keys in lang "+name);
+				throw new Exception("Found " + missingCount + " missing keys in lang " + name);
 			}
 		}
 	}

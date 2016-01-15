@@ -22,11 +22,11 @@ import java.util.Random;
 
 public final class NumberUtils {
 	public static int negativeIsPlusOne(int i) {
-		return i<0 ? i+1 : i;
+		return i < 0 ? i + 1 : i;
 	}
 
 	public static double negativeIsPlusOne(double i) {
-		return i<0 ? i+1 : i;
+		return i < 0 ? i + 1 : i;
 	}
 
 	public static boolean isNumeric(String str) {
@@ -40,7 +40,7 @@ public final class NumberUtils {
 	}
 
 	public static double roundOffTo2DecPlaces(double val) {
-		return Math.round(val*100)/100;
+		return Math.round(val * 100) / 100;
 	}
 
 	public static long systemSeconds() {

@@ -57,7 +57,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			rank.setDef(true);
 		}
 		else if(clickedItemStack.equals(cloneItem)) {
-			NovaRank clone = new NovaRank("Clone of "+rank.getName());
+			NovaRank clone = new NovaRank("Clone of " + rank.getName());
 
 			boolean doubleName;
 			int i = 0;
@@ -74,7 +74,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 				}
 
 				if(doubleName) {
-					clone.setName(clone.getName() + " " +  NumberUtils.randInt(1,999));
+					clone.setName(clone.getName() + " " + NumberUtils.randInt(1, 999));
 				}
 
 				i++;

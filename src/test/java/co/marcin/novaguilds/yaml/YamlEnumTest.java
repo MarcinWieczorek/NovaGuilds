@@ -30,90 +30,90 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class YamlEnumTest {
-    private String[] ignoreConfig;
+	private String[] ignoreConfig;
 
-    public YamlEnumTest() {
-        ignoreConfig = new String[]{
-            "aliases.",
-            "gguicmd",
-            "groups",
-            "guild.defaultranks",
-        };
-    }
+	public YamlEnumTest() {
+		ignoreConfig = new String[]{
+				"aliases.",
+				"gguicmd",
+				"groups",
+				"guild.defaultranks",
+		};
+	}
 
-    @Test
-    public void testConfig() throws Exception {
-        System.out.println();
-        System.out.println("Testing config enums...");
-        File configFile = new File(YamlParseTest.resourcesDirectory, "config.yml");
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
-        List<String> configEnumNames = new ArrayList<>();
-        for(Config v : Config.values()) {
-            configEnumNames.add(v.name());
-        }
+	@Test
+	public void testConfig() throws Exception {
+		System.out.println();
+		System.out.println("Testing config enums...");
+		File configFile = new File(YamlParseTest.resourcesDirectory, "config.yml");
+		YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+		List<String> configEnumNames = new ArrayList<>();
+		for(Config v : Config.values()) {
+			configEnumNames.add(v.name());
+		}
 
-        int missingCount = 0;
-        for(String key : config.getKeys(true)) {
-            boolean ig = config.isConfigurationSection(key);
-            for(String ignore : ignoreConfig) {
-                if(key.startsWith(ignore)) {
-                    ig = true;
-                    break;
-                }
-            }
+		int missingCount = 0;
+		for(String key : config.getKeys(true)) {
+			boolean ig = config.isConfigurationSection(key);
+			for(String ignore : ignoreConfig) {
+				if(key.startsWith(ignore)) {
+					ig = true;
+					break;
+				}
+			}
 
-            if(!ig) {
-                String name = StringUtils.replace(key, ".", "_").toUpperCase();
-                if(!configEnumNames.contains(name)) {
-                    if(missingCount == 0) {
-                        System.out.println("Missing keys:");
-                    }
+			if(!ig) {
+				String name = StringUtils.replace(key, ".", "_").toUpperCase();
+				if(!configEnumNames.contains(name)) {
+					if(missingCount == 0) {
+						System.out.println("Missing keys:");
+					}
 
-                    System.out.println(name+",");
-                    missingCount++;
-                }
-            }
-        }
+					System.out.println(name + ",");
+					missingCount++;
+				}
+			}
+		}
 
-        if(missingCount == 0) {
-            System.out.println("All values are present in Config enum");
-        }
-        else {
-            throw new Exception("Found "+missingCount+" missing Config enums");
-        }
-    }
+		if(missingCount == 0) {
+			System.out.println("All values are present in Config enum");
+		}
+		else {
+			throw new Exception("Found " + missingCount + " missing Config enums");
+		}
+	}
 
-    @Test
-    public void testMessages() throws Exception {
-        System.out.println();
-        System.out.println("Testing message enums...");
-        File motherFile = new File(YamlParseTest.resourcesDirectory, "lang/en-en.yml");
-        YamlConfiguration motherConfiguration = Lang.loadConfiguration(motherFile);
-        List<String> messageEnumNames = new ArrayList<>();
-        for(Message v : Message.values()) {
-            messageEnumNames.add(v.name());
-        }
+	@Test
+	public void testMessages() throws Exception {
+		System.out.println();
+		System.out.println("Testing message enums...");
+		File motherFile = new File(YamlParseTest.resourcesDirectory, "lang/en-en.yml");
+		YamlConfiguration motherConfiguration = Lang.loadConfiguration(motherFile);
+		List<String> messageEnumNames = new ArrayList<>();
+		for(Message v : Message.values()) {
+			messageEnumNames.add(v.name());
+		}
 
-        int missingCount = 0;
-        for(String key : motherConfiguration.getKeys(true)) {
-            if(!motherConfiguration.isConfigurationSection(key)) {
-                String name = StringUtils.replace(key, ".", "_").toUpperCase();
-                if(!messageEnumNames.contains(name)) {
-                    if(missingCount == 0) {
-                        System.out.println("Missing keys:");
-                    }
+		int missingCount = 0;
+		for(String key : motherConfiguration.getKeys(true)) {
+			if(!motherConfiguration.isConfigurationSection(key)) {
+				String name = StringUtils.replace(key, ".", "_").toUpperCase();
+				if(!messageEnumNames.contains(name)) {
+					if(missingCount == 0) {
+						System.out.println("Missing keys:");
+					}
 
-                    System.out.println(name+",");
-                    missingCount++;
-                }
-            }
-        }
+					System.out.println(name + ",");
+					missingCount++;
+				}
+			}
+		}
 
-        if(missingCount == 0) {
-            System.out.println("All values are present in Message enum");
-        }
-        else {
-            throw new Exception("Found "+missingCount+" missing Message enums");
-        }
-    }
+		if(missingCount == 0) {
+			System.out.println("All values are present in Message enum");
+		}
+		else {
+			throw new Exception("Found " + missingCount + " missing Message enums");
+		}
+	}
 }

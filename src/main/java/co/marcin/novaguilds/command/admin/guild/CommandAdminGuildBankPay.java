@@ -67,8 +67,8 @@ public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
 		guild.addMoney(money);
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("MONEY",money_str);
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("MONEY", money_str);
+		vars.put("GUILDNAME", guild.getName());
 		Message.CHAT_ADMIN_GUILD_BANK_PAID.vars(vars).send(sender);
 	}
 

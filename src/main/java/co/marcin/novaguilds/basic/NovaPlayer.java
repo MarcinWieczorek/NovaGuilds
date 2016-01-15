@@ -177,7 +177,7 @@ public class NovaPlayer {
 	}
 
 	public GUIInventory getGuiInventory() {
-		return guiInventoryHistory.isEmpty() ? null : guiInventoryHistory.get(guiInventoryHistory.size()-1);
+		return guiInventoryHistory.isEmpty() ? null : guiInventoryHistory.get(guiInventoryHistory.size() - 1);
 	}
 
 	public List<GUIInventory> getGuiInventoryHistory() {
@@ -225,7 +225,7 @@ public class NovaPlayer {
 		regionMode = rm;
 	}
 	
-	public void setSelectedLocation(int index,Location l) {
+	public void setSelectedLocation(int index, Location l) {
 		regionSelectedLocations[index] = l;
 	}
 	

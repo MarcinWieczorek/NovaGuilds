@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 public class CommandGuildInfo implements CommandExecutor, Executor {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Command command = Command.GUILD_INFO;
-	 
+
 	public CommandGuildInfo() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
@@ -58,7 +58,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		String guildname;
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		
-		if(args.length>0) {
+		if(args.length > 0) {
 			guildname = args[0];
 		}
 		else {
@@ -121,9 +121,9 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 					leaderp = leaderprefix;
 				}
 
-				players += pcolor+leaderp+nPlayerList.getName();
+				players += pcolor + leaderp + nPlayerList.getName();
 
-				if(!nPlayerList.equals(gplayers.get(gplayers.size()-1))) {
+				if(!nPlayerList.equals(gplayers.get(gplayers.size() - 1))) {
 					players += separator;
 				}
 			}
@@ -138,7 +138,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 				allies = allies + guildName + separator;
 			}
 
-			allies = allies.substring(0,allies.length()-separator.length());
+			allies = allies.substring(0, allies.length() - separator.length());
 		}
 
 		//wars
@@ -150,10 +150,10 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 				wars = wars + warName + separator;
 			}
 
-			wars = wars.substring(0,wars.length()-separator.length());
+			wars = wars.substring(0, wars.length() - separator.length());
 		}
 
-		vars.put("RANK","");
+		vars.put("RANK", "");
 		vars.put("GUILDNAME", guild.getName());
 		vars.put("LEADER", guild.getLeader().getName());
 		vars.put("TAG", guild.getTag());
@@ -172,7 +172,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		long timeWait = (guild.getTimeRest() + Config.RAID_TIMEREST.getSeconds()) - NumberUtils.systemSeconds();
 
 		vars.put("LIVEREGENERATIONTIME", liveRegenerationString);
-		vars.put("TIMEREST",StringUtils.secondsToString(timeWait));
+		vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
 
 		//time created and protection
 		long createdAgo = NumberUtils.systemSeconds() - guild.getTimeCreated();
@@ -193,7 +193,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		vars.put("ALLIES", allies);
 		vars.put("WARS", wars);
 
-		for(i=1;i < guildInfoMessages.size();i++) {
+		for(i = 1; i < guildInfoMessages.size(); i++) {
 			boolean skipmsg = false;
 			String gmsg = guildInfoMessages.get(i);
 
@@ -231,7 +231,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 			}
 
 			if(!skipmsg) {
-				gmsg = StringUtils.replaceMap(gmsg,vars);
+				gmsg = StringUtils.replaceMap(gmsg, vars);
 				sender.sendMessage(StringUtils.fixColors(gmsg));
 			}
 		}

@@ -64,13 +64,13 @@ public class CommandAdminGuildList implements Executor {
 		Message.CHAT_ADMIN_GUILD_LIST_HEADER.send(sender);
 		String rowformat = Message.CHAT_ADMIN_GUILD_LIST_ITEM.get();
 
-		int i=0;
+		int i = 0;
 		boolean display = false;
 
-		if(size>perpage) {
+		if(size > perpage) {
 			Map<String, String> vars = new HashMap<>();
 			vars.put("PAGE", String.valueOf(page));
-			vars.put("NEXT", String.valueOf(page+1));
+			vars.put("NEXT", String.valueOf(page + 1));
 			vars.put("PAGES", String.valueOf(pages_number));
 
 			if(pages_number > page) {
@@ -82,25 +82,25 @@ public class CommandAdminGuildList implements Executor {
 		}
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			if((i+1>(page-1)*perpage || page==1) && !display) {
+			if((i + 1 > (page - 1) * perpage || page == 1) && !display) {
 				display = true;
-				i=0;
+				i = 0;
 			}
 
 			if(display) {
-				String inactiveString = StringUtils.secondsToString(NumberUtils.systemSeconds()-guild.getInactiveTime());
+				String inactiveString = StringUtils.secondsToString(NumberUtils.systemSeconds() - guild.getInactiveTime());
 
 				Map<String, String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
 				vars.put("PLAYERNAME", guild.getLeader().getName());
 				vars.put("TAG", guild.getTag());
-				vars.put("PLAYERSCOUNT", guild.getPlayers().size()+"");
-				vars.put("INACTIVE",inactiveString);
+				vars.put("PLAYERSCOUNT", guild.getPlayers().size() + "");
+				vars.put("INACTIVE", inactiveString);
 
-				String rowmsg = StringUtils.replaceMap(rowformat,vars);
+				String rowmsg = StringUtils.replaceMap(rowformat, vars);
 				sender.sendMessage(StringUtils.fixColors(rowmsg));
 
-				if(i+1 >= perpage) {
+				if(i + 1 >= perpage) {
 					break;
 				}
 			}

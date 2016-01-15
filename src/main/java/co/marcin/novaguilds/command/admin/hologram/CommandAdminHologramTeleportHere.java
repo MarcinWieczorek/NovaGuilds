@@ -34,7 +34,7 @@ public class CommandAdminHologramTeleportHere implements Executor.ReversedAdminH
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		hologram.teleport(((Player)sender).getLocation());
+		hologram.teleport(((Player) sender).getLocation());
 	}
 
 	@Override

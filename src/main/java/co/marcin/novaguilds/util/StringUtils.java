@@ -48,10 +48,10 @@ public final class StringUtils {
 		char altColorChar = ChatColor.COLOR_CHAR;
 
 		char[] b = msg.toCharArray();
-		for (int i = 0; i < b.length - 1; i++) {
-			if (b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i+1]) > -1) {
+		for(int i = 0; i < b.length - 1; i++) {
+			if(b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i + 1]) > -1) {
 				b[i] = '&';
-				b[i+1] = Character.toLowerCase(b[i+1]);
+				b[i + 1] = Character.toLowerCase(b[i + 1]);
 			}
 		}
 
@@ -70,7 +70,7 @@ public final class StringUtils {
 		String encoding = con.getContentEncoding();
 		encoding = encoding == null ? "UTF-8" : encoding;
 		body = IOUtils.toString(in, encoding);
-			    
+
 		return body;
 	}
 	
@@ -79,19 +79,19 @@ public final class StringUtils {
 	}
 	
 	public static String parseDBLocationCoords2D(Location l) {
-		return l.getBlockX()+";"+l.getBlockZ();
+		return l.getBlockX() + ";" + l.getBlockZ();
 	}
 	
 	public static String[] parseArgs(String[] args, int cut) {
-		if(args.length==0 || args.length < cut) {
+		if(args.length == 0 || args.length < cut) {
 			return args;
 		}
 		
-		String[] newargs = new String[args.length-cut];
+		String[] newargs = new String[args.length - cut];
 		
 		int index = 0;
-		for(int i=0; i<args.length; i++) {
-			if(i>=cut) {
+		for(int i = 0; i < args.length; i++) {
+			if(i >= cut) {
 				newargs[index] = args[i];
 				index++;
 			}
@@ -120,11 +120,11 @@ public final class StringUtils {
 
 		if(!items.isEmpty()) {
 			for(String row : items) {
-				row = org.apache.commons.lang.StringUtils.replace(pattern,"{GUILDNAME}",row);
+				row = org.apache.commons.lang.StringUtils.replace(pattern, "{GUILDNAME}", row);
 				joined = joined + row + separator;
 			}
 
-			joined = joined.substring(0,joined.length()-separator.length());
+			joined = joined.substring(0, joined.length() - separator.length());
 		}
 
 		return joined;
@@ -147,7 +147,7 @@ public final class StringUtils {
 				joined = joined + row + separator;
 			}
 
-			joined = joined.substring(0,joined.length()-separator.length());
+			joined = joined.substring(0, joined.length() - separator.length());
 		}
 
 		return joined;
@@ -173,7 +173,7 @@ public final class StringUtils {
 		int hour = 3600;
 		int minute = 60;
 
-		int seconds = Integer.parseInt(lseconds+"");
+		int seconds = Integer.parseInt(lseconds + "");
 
 		int years = seconds / year;
 		seconds = seconds % year;
@@ -187,49 +187,49 @@ public final class StringUtils {
 		int minutes = seconds / minute;
 		seconds = seconds % minute;
 
-		String stringYears="", stringDays="", stringHours="", stringSeconds="", stringMinutes="";
+		String stringYears = "", stringDays = "", stringHours = "", stringSeconds = "", stringMinutes = "";
 
 		if(years > 0) {
 			Message formYear = years > 1 ? Message.TIMEUNIT_YEAR_PLURAL : Message.TIMEUNIT_YEAR_SINGULAR;
 
-			stringYears = years + " "+formYear.get()+" ";
+			stringYears = years + " " + formYear.get() + " ";
 		}
 
 		if(days > 0) {
 			Message formDay = days > 1 ? Message.TIMEUNIT_DAY_PLURAL : Message.TIMEUNIT_DAY_SINGULAR;
 
-			stringDays = days + " "+formDay.get()+" ";
+			stringDays = days + " " + formDay.get() + " ";
 		}
 
 		if(hours > 0) {
 			Message formHour = hours > 1 ? Message.TIMEUNIT_HOUR_PLURAL : Message.TIMEUNIT_HOUR_SINGULAR;
 
-			stringHours = hours + " "+formHour.get()+" ";
+			stringHours = hours + " " + formHour.get() + " ";
 		}
 
 		if(minutes > 0) {
 			Message formMinute = minutes > 1 ? Message.TIMEUNIT_MINUTE_PLURAL : Message.TIMEUNIT_MINUTE_SINGULAR;
 
-			stringMinutes = minutes + " "+formMinute.get()+" ";
+			stringMinutes = minutes + " " + formMinute.get() + " ";
 		}
 
 		if(seconds > 0) {
 			Message formSecond = seconds > 1 ? Message.TIMEUNIT_SECOND_PLURAL : Message.TIMEUNIT_SECOND_SINGULAR;
 
-			stringSeconds = seconds + " "+formSecond.get()+" ";
+			stringSeconds = seconds + " " + formSecond.get() + " ";
 		}
 
 		if(unit == TimeUnit.DAYS && days > 0) {
-			stringHours="";
-			stringMinutes="";
-			stringSeconds="";
+			stringHours = "";
+			stringMinutes = "";
+			stringSeconds = "";
 		}
 		else if(unit == TimeUnit.HOURS && hours > 0) {
-			stringMinutes="";
-			stringSeconds="";
+			stringMinutes = "";
+			stringSeconds = "";
 		}
 		else if(unit == TimeUnit.MINUTES && minutes > 0) {
-			stringSeconds="";
+			stringSeconds = "";
 		}
 
 		return stringYears + stringDays + stringHours + stringMinutes + stringSeconds;
@@ -248,28 +248,28 @@ public final class StringUtils {
 			}
 
 			if(word.endsWith("m")) {
-				word = word.substring(0,word.length()-1);
+				word = word.substring(0, word.length() - 1);
 				if(NumberUtils.isNumeric(word)) {
 					seconds += Integer.parseInt(word) * 60;
 				}
 			}
 
 			if(word.endsWith("h")) {
-				word = word.substring(0,word.length()-1);
+				word = word.substring(0, word.length() - 1);
 				if(NumberUtils.isNumeric(word)) {
 					seconds += Integer.parseInt(word) * 60 * 60;
 				}
 			}
 
 			if(word.endsWith("d")) {
-				word = word.substring(0,word.length()-1);
+				word = word.substring(0, word.length() - 1);
 				if(NumberUtils.isNumeric(word)) {
 					seconds += Integer.parseInt(word) * 60 * 60 * 24;
 				}
 			}
 
 			if(word.endsWith("y")) {
-				word = word.substring(0,word.length()-1);
+				word = word.substring(0, word.length() - 1);
 				if(NumberUtils.isNumeric(word)) {
 					seconds += Integer.parseInt(word) * 60 * 60 * 24 * 365;
 				}
@@ -286,7 +286,7 @@ public final class StringUtils {
 			}
 			else {
 				String allowed = Config.GUILD_STRINGCHECK_PATTERN.getString();
-				for(int i=0;i<string.length();i++) {
+				for(int i = 0; i < string.length(); i++) {
 					if(allowed.indexOf(string.charAt(i)) == -1) {
 						return false;
 					}
@@ -307,7 +307,7 @@ public final class StringUtils {
 
 			itemlist += itemrow;
 
-			if(i<items.size()-1) {
+			if(i < items.size() - 1) {
 				itemlist += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
 			}
 			i++;

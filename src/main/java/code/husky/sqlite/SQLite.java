@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 /**
  * Connects to and uses a SQLite database
- * 
+ *
  * @author tips48
  */
 public class SQLite extends Database {
@@ -20,11 +20,9 @@ public class SQLite extends Database {
 
 	/**
 	 * Creates a new SQLite instance
-	 * 
-	 * @param plugin
-	 *            Plugin instance
-	 * @param dbLocation
-	 *            Location of the Database (Must end in .db)
+	 *
+	 * @param plugin     Plugin instance
+	 * @param dbLocation Location of the Database (Must end in .db)
 	 */
 	public SQLite(Plugin plugin, String dbLocation) {
 		super(plugin);
@@ -47,7 +45,7 @@ public class SQLite extends Database {
 			try {
 				file.createNewFile();
 			}
-			catch (IOException e) {
+			catch(IOException e) {
 				LoggerUtils.exception(e);
 			}
 		}

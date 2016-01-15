@@ -49,11 +49,11 @@ public class ConfigManager {
 
 	private final Map<Config, Object> cache = new HashMap<>();
 
-	public static final Map<String, String> essentialsLocale = new HashMap<String, String>(){{
-		put("en","en-en");
-		put("pl","pl-pl");
-		put("de","de-de");
-		put("zh","zh-cn");
+	public static final Map<String, String> essentialsLocale = new HashMap<String, String>() {{
+		put("en", "en-en");
+		put("pl", "pl-pl");
+		put("de", "de-de");
+		put("zh", "zh-cn");
 	}};
 
 	public ConfigManager(NovaGuilds novaGuilds) {
@@ -66,7 +66,7 @@ public class ConfigManager {
 	public void reload() {
 		cache.clear();
 
-		if(!new File(plugin.getDataFolder(),"config.yml").exists()) {
+		if(!new File(plugin.getDataFolder(), "config.yml").exists()) {
 			LoggerUtils.info("Creating default config...");
 			plugin.saveDefaultConfig();
 		}
@@ -119,7 +119,7 @@ public class ConfigManager {
 		primaryDataStorageType = DataStorageType.valueOf(primaryDataStorageTypeString);
 		secondaryDataStorageType = DataStorageType.valueOf(secondaryDataStorageTypeString);
 		setToPrimaryDataStorageType();
-		LoggerUtils.info("Data storage: Primary: "+primaryDataStorageType.name()+", Secondary: "+secondaryDataStorageType.name());
+		LoggerUtils.info("Data storage: Primary: " + primaryDataStorageType.name() + ", Secondary: " + secondaryDataStorageType.name());
 
 		//Effects
 		List<String> guildEffectsString = Config.GUILD_EFFECT_LIST.getStringList();
@@ -232,12 +232,12 @@ public class ConfigManager {
 	}
 
 	public Material getMaterial(String path) {
-		return Material.getMaterial((getString(path).contains(":")?org.apache.commons.lang.StringUtils.split(getString(path), ':')[0]:getString(path)).toUpperCase());
+		return Material.getMaterial((getString(path).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path), ':')[0] : getString(path)).toUpperCase());
 	}
 
 	//STONE:1
 	public byte getMaterialData(String path) {
-		return Byte.valueOf(getString(path).contains(":")?org.apache.commons.lang.StringUtils.split(getString(path), ':')[1]:"0");
+		return Byte.valueOf(getString(path).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path), ':')[1] : "0");
 	}
 
 	public List<ItemStack> getItemStackList(String path) {

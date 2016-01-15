@@ -80,7 +80,7 @@ public class CommandGuildBankWithdraw implements Executor {
 		guild.takeMoney(money);
 		nPlayer.addMoney(money);
 		Map<String, String> vars = new HashMap<>();
-		vars.put("AMOUNT",money+"");
+		vars.put("AMOUNT", money + "");
 		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.vars(vars).send(sender);
 	}
 

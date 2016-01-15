@@ -51,7 +51,9 @@ public class CommandGuildOpenInvitation implements Executor {
 		final boolean status = !nPlayer.getGuild().isOpenInvitation();
 		nPlayer.getGuild().setOpenInvitation(status);
 
-		Message.CHAT_GUILD_OPENINVITATION.vars(new HashMap<String, String>(){{put("STATUS", Message.getOnOff(status));}}).send(sender);
+		Message.CHAT_GUILD_OPENINVITATION.vars(new HashMap<String, String>() {{
+			put("STATUS", Message.getOnOff(status));
+		}}).send(sender);
 	}
 
 	@Override

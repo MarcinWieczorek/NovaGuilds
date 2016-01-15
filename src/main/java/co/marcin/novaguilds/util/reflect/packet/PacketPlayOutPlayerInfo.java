@@ -29,20 +29,21 @@ import java.util.UUID;
 public class PacketPlayOutPlayerInfo {
 
 	private static final Class<?> packetClass = Reflections.getCraftClass("PacketPlayOutPlayerInfo");
-	private static final Class<?>[] typesClass = new Class<?>[] { String.class, boolean.class, int.class };
+	private static final Class<?>[] typesClass = new Class<?>[]{String.class, boolean.class, int.class};
 	private static int type = 0;
 
-	static{
+	static {
 		try {
 			if(packetClass.getConstructor(typesClass) == null) type = 1;
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			type = 1;
 		}
 	}
 
-	public static Object getPacket(String s, boolean b, int i){
+	public static Object getPacket(String s, boolean b, int i) {
 		try {
-			if(type == 0){
+			if(type == 0) {
 				return packetClass.getConstructor(typesClass).newInstance(s, b, i);
 			}
 			else if(type == 1) {
@@ -61,7 +62,7 @@ public class PacketPlayOutPlayerInfo {
 								String.class
 						}).newInstance(uuid, s);
 				}
-				catch (Exception e) {
+				catch(Exception e) {
 					e.printStackTrace();
 				}
 
@@ -79,7 +80,7 @@ public class PacketPlayOutPlayerInfo {
 				return packet;
 			}
 		}
-		catch (Exception e){
+		catch(Exception e) {
 			LoggerUtils.exception(e);
 		}
 		return null;

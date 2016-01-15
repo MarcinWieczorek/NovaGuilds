@@ -51,9 +51,9 @@ public class CommandGuildHome implements Executor {
 			return;
 		}
 
-		Player player = (Player)sender;
+		Player player = (Player) sender;
 
-		if(args.length>0 && args[0].equalsIgnoreCase("set")) {
+		if(args.length > 0 && args[0].equalsIgnoreCase("set")) {
 			if(!Permission.NOVAGUILDS_GUILD_HOME_SET.has(sender)) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
 				return;
@@ -66,7 +66,7 @@ public class CommandGuildHome implements Executor {
 
 			NovaRegion rgatloc = plugin.getRegionManager().getRegion(player.getLocation());
 
-			if(rgatloc==null && nPlayer.getGuild().hasRegion()) {
+			if(rgatloc == null && nPlayer.getGuild().hasRegion()) {
 				Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);
 				return;
 			}

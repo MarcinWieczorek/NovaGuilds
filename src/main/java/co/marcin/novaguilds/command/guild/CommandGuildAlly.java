@@ -66,7 +66,7 @@ public class CommandGuildAlly implements Executor {
 		}
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("GUILDNAME", guild.getName());
 		vars.put("ALLYNAME", allyGuild.getName());
 
 		if(!guild.isAlly(allyGuild)) {

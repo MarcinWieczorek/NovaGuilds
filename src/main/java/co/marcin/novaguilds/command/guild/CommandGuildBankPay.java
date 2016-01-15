@@ -53,7 +53,7 @@ public class CommandGuildBankPay implements Executor {
 			return;
 		}
 
-		if(args.length==0 || !NumberUtils.isNumeric(args[0])) {
+		if(args.length == 0 || !NumberUtils.isNumeric(args[0])) {
 			Message.CHAT_GUILD_BANK_ENTERAMOUNT.send(sender);
 			return;
 		}
@@ -75,7 +75,7 @@ public class CommandGuildBankPay implements Executor {
 		nPlayer.takeMoney(money);
 		guild.addMoney(money);
 		Map<String, String> vars = new HashMap<>();
-		vars.put("AMOUNT",money+"");
+		vars.put("AMOUNT", money + "");
 		Message.CHAT_GUILD_BANK_PAY_PAID.vars(vars).send(sender);
 	}
 

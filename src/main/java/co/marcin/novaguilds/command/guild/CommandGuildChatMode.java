@@ -60,7 +60,7 @@ public class CommandGuildChatMode implements Executor {
 		nPlayer.setChatMode(chatMode);
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("MODE", Message.valueOf("CHAT_GUILD_CHATMODE_NAMES_"+chatMode.name()).get());
+		vars.put("MODE", Message.valueOf("CHAT_GUILD_CHATMODE_NAMES_" + chatMode.name()).get());
 		Message.CHAT_GUILD_CHATMODE_SUCCESS.vars(vars).send(sender);
 	}
 

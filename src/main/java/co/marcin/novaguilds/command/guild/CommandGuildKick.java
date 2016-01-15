@@ -89,8 +89,8 @@ public class CommandGuildKick implements Executor {
 		}
 		
 		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME",nPlayerKick.getName());
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("PLAYERNAME", nPlayerKick.getName());
+		vars.put("GUILDNAME", guild.getName());
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
 		
 		//tab/tag

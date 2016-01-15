@@ -28,11 +28,11 @@ public class PacketSender {
 	private static final String packageName = Bukkit.getServer().getClass().getPackage().getName();
 	private static final String version = packageName.substring(packageName.lastIndexOf(".") + 1);
 
-	public static void sendPacket(Player player, Object... os){
-		sendPacket(new Player[]{ player }, os);
+	public static void sendPacket(Player player, Object... os) {
+		sendPacket(new Player[]{player}, os);
 	}
 
-	public static void sendPacket(Player[] players, Object... os){
+	public static void sendPacket(Player[] players, Object... os) {
 		try {
 			Class<?> packetClass = Class.forName("net.minecraft.server." + version + ".Packet");
 			Class<?> craftPlayer = Class.forName("org.bukkit.craftbukkit." + version + ".entity.CraftPlayer");
@@ -49,7 +49,7 @@ public class PacketSender {
 				}
 			}
 		}
-		catch (Exception e){
+		catch(Exception e) {
 			LoggerUtils.exception(e);
 		}
 	}

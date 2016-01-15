@@ -65,7 +65,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 			return;
 		}
 
-		Player player = (Player)sender;
+		Player player = (Player) sender;
 
 		String tag = args[0];
 		String guildname = args[1];
@@ -75,7 +75,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		if(!Config.GUILD_SETTINGS_TAG_COLOR.getBoolean()) {
 			tag = StringUtils.removeColors(tag);
 		}
-			
+
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 		Map<String, String> vars = new HashMap<>();
 		
@@ -122,7 +122,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		List<ItemStack> items = group.getGuildCreateItems();
 		double requiredmoney = group.getGuildCreateMoney();
 
-		if(requiredmoney>0 && !nPlayer.hasMoney(requiredmoney)) {
+		if(requiredmoney > 0 && !nPlayer.hasMoney(requiredmoney)) {
 			vars.put("REQUIREDMONEY", String.valueOf(requiredmoney));
 			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 			return;
@@ -172,7 +172,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 				newGuild.setTimeCreated(NumberUtils.systemSeconds());
 
 				//fire event
-				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(newGuild,(Player)sender);
+				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(newGuild, (Player) sender);
 				plugin.getServer().getPluginManager().callEvent(guildCreateEvent);
 
 				if(!guildCreateEvent.isCancelled()) {
@@ -186,7 +186,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					InventoryUtils.removeItems(player, items);
 
 					//update tag and tabs
-					TagUtils.updatePrefix((Player)sender);
+					TagUtils.updatePrefix((Player) sender);
 
 					//Update holograms
 					plugin.getHologramManager().refreshTopHolograms();
@@ -201,7 +201,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 
 						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
 							if(region.equals(plugin.getRegionManager().getRegion(playerCheck.getLocation()))) {
-								plugin.getRegionManager().playerEnteredRegion(playerCheck,playerCheck.getLocation());
+								plugin.getRegionManager().playerEnteredRegion(playerCheck, playerCheck.getLocation());
 							}
 						}
 					}

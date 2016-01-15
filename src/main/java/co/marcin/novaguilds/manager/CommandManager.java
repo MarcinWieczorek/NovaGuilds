@@ -103,8 +103,8 @@ import java.util.Set;
 
 public class CommandManager {
 	private final NovaGuilds plugin;
-	private final Map<String,String> aliases = new HashMap<>();
-	private final Map<ItemStack,String> guiCommands = new HashMap<>();
+	private final Map<String, String> aliases = new HashMap<>();
+	private final Map<ItemStack, String> guiCommands = new HashMap<>();
 	private final Map<Command, Executor> executors = new HashMap<>();
 	private ItemStack topItem;
 
@@ -117,7 +117,7 @@ public class CommandManager {
 
 		for(String key : section.getKeys(false)) {
 			for(String alias : section.getStringList(key)) {
-				aliases.put(alias,key);
+				aliases.put(alias, key);
 			}
 		}
 

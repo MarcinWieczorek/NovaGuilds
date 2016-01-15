@@ -40,7 +40,7 @@ public class LoginListener implements Listener {
 	
 	public LoginListener(NovaGuilds plugin) {
 		this.plugin = plugin;
-		plugin.getServer().getPluginManager().registerEvents(this,plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -70,7 +70,7 @@ public class LoginListener implements Listener {
 		}
 
 		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
-			plugin.getRegionManager().playerEnteredRegion(player,player.getLocation());
+			plugin.getRegionManager().playerEnteredRegion(player, player.getLocation());
 		}
 
 		//TabAPI

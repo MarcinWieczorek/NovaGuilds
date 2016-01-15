@@ -67,7 +67,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		String guildname;
 
 		//one or more guilds
-		if(invitedTo.size()==1) {
+		if(invitedTo.size() == 1) {
 			if(args.length == 0) {
 				guildname = invitedTo.get(0).getName();
 			}
@@ -88,7 +88,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 
 					invitedlist += itemrow;
 
-					if(i<invitedTo.size()-1) {
+					if(i < invitedTo.size() - 1) {
 						invitedlist += Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR.get();
 					}
 					i++;
@@ -163,8 +163,8 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		guild.showVaultHologram(nPlayer.getPlayer());
 
 		vars.clear();
-		vars.put("PLAYER",sender.getName());
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("PLAYER", sender.getName());
+		vars.put("GUILDNAME", guild.getName());
 		Message.BROADCAST_GUILD_JOINED.vars(vars).broadcast();
 	}
 

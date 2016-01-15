@@ -76,7 +76,7 @@ public class HologramManager {
 				count++;
 			}
 
-			LoggerUtils.info("Finished loading holograms. ("+count+" loaded)");
+			LoggerUtils.info("Finished loading holograms. (" + count + " loaded)");
 		}
 		catch(IOException e) {
 			LoggerUtils.exception(e);
@@ -107,7 +107,7 @@ public class HologramManager {
 			try {
 				configuration.save(file);
 			}
-			catch (IOException e) {
+			catch(IOException e) {
 				LoggerUtils.exception(e);
 			}
 		}
@@ -123,7 +123,7 @@ public class HologramManager {
 		nHologram.setLocation(location);
 		nHologram.addLine(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
 		nHologram.addLine(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
-		nHologram.setName("topX" + NumberUtils.randInt(1,999));
+		nHologram.setName("topX" + NumberUtils.randInt(1, 999));
 		nHologram.create();
 		nHologram.setTop(true);
 		holograms.add(nHologram);

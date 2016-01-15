@@ -498,7 +498,7 @@ public class NovaGuild {
 				nPlayer.setGuildRank(getDefaultRank());
 			}
 
-			if(getLeaderName()!=null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
+			if(getLeaderName() != null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
 				setLeader(nPlayer);
 				leaderName = null;
 			}
@@ -522,7 +522,7 @@ public class NovaGuild {
 	public void addRank(NovaRank rank) {
 		if(!ranks.contains(rank)) {
 			ranks.add(rank);
-			if(rank.getGuild()==null || !rank.getGuild().equals(this)) {
+			if(rank.getGuild() == null || !rank.getGuild().equals(this)) {
 				rank.setGuild(this);
 			}
 		}
@@ -592,7 +592,7 @@ public class NovaGuild {
 	}
 
 	public void createRaid(NovaGuild attacker) {
-		raid = new NovaRaid(attacker,this);
+		raid = new NovaRaid(attacker, this);
 	}
 
 	public boolean isMember(NovaPlayer nPlayer) {
@@ -662,7 +662,7 @@ public class NovaGuild {
 		GuildManager.checkVaultDestroyed(this);
 		if(getVaultLocation() != null) {
 			getVaultLocation().getBlock().breakNaturally();
-			getVaultLocation().getWorld().playEffect(getVaultLocation(), Effect.SMOKE,1000);
+			getVaultLocation().getWorld().playEffect(getVaultLocation(), Effect.SMOKE, 1000);
 		}
 
 		//Delete ranks

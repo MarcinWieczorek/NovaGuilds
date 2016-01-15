@@ -34,7 +34,7 @@ public class InventoryListener implements Listener {
 
 	public InventoryListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this,plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler
@@ -45,7 +45,7 @@ public class InventoryListener implements Listener {
 
 		Inventory clickedInventory = InventoryUtils.getClickedInventory(event);
 
-		if(clickedInventory != null && clickedInventory.getTitle()!=null && event.getCurrentItem() != null && event.getCurrentItem().getType()!= Material.AIR) {
+		if(clickedInventory != null && clickedInventory.getTitle() != null && event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
 			if(event.getInventory().getName().equals(nameRequiredItems) || event.getInventory().getName().equals(nameGGUI)) {
 				if(clickedInventory.equals(event.getView().getTopInventory()) || event.isShiftClick()) {
 					//gui

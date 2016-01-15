@@ -58,8 +58,8 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 			Map<String, String[]> langInfo = new HashMap<>();
 			
 			langInfo.put("zh-cn", new String[]{
-					Message.CHAT_PREFIX.get()+"NovaGuilds 公会插件信息",
-					"&2NovaGuilds &6#&c"+ VersionUtils.buildCurrent,
+					Message.CHAT_PREFIX.get() + "NovaGuilds 公会插件信息",
+					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent,
 					"&2作者: &6Marcin (CTRL) Wieczorek",
 					"&22015 &4波&f兰",
 					"&6网址: &bhttp://novaguilds.pl/",
@@ -67,8 +67,8 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 			});
 			
 			langInfo.put("en-en", new String[]{
-					Message.CHAT_PREFIX.get()+"NovaGuilds Information",
-					"&2NovaGuilds &6#&c"+ VersionUtils.buildCurrent,
+					Message.CHAT_PREFIX.get() + "NovaGuilds Information",
+					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent,
 					"&2Author: &6Marcin (CTRL) Wieczorek",
 					"&22015 &4Pol&fand",
 					"&bhttp://novaguilds.pl/",
@@ -76,8 +76,8 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 			});
 
 			langInfo.put("pl-pl", new String[]{
-					Message.CHAT_PREFIX.get()+"NovaGuilds Informacje",
-					"&2NovaGuilds &6#&c"+ VersionUtils.buildCurrent,
+					Message.CHAT_PREFIX.get() + "NovaGuilds Informacje",
+					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent,
 					"&2Autor: &6Marcin (CTRL) Wieczorek",
 					"&22015 &4Pol&fska",
 					"&bhttp://novaguilds.pl/",
@@ -124,18 +124,18 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 					}
 				}
 
-				sender.sendMessage("name = "+group.getName());
-				sender.sendMessage("guildCreateMoney = "+group.getGuildCreateMoney());
-				sender.sendMessage("guildHomeMoney = "+group.getGuildHomeMoney());
-				sender.sendMessage("guildJoinMoney = "+group.getGuildJoinMoney());
+				sender.sendMessage("name = " + group.getName());
+				sender.sendMessage("guildCreateMoney = " + group.getGuildCreateMoney());
+				sender.sendMessage("guildHomeMoney = " + group.getGuildHomeMoney());
+				sender.sendMessage("guildJoinMoney = " + group.getGuildJoinMoney());
 				sender.sendMessage("guildCreateItems = " + group.getGuildCreateItems().toString());
 				sender.sendMessage("guildHomeItems = " + group.getGuildHomeItems().toString());
 				sender.sendMessage("guildJoinItems = " + group.getGuildJoinItems().toString());
 				sender.sendMessage("guildEffectItems = " + group.getGuildEffectItems().toString());
 				sender.sendMessage("guildEffectMoney = " + group.getGuildEffectPrice());
-				sender.sendMessage("guildTeleportDelay = "+ group.getGuildTeleportDelay()+"s");
-				sender.sendMessage("regionCreateMoney = "+ group.getRegionCreateMoney());
-				sender.sendMessage("regionPricePerBlock = "+ group.getRegionPricePerBlock());
+				sender.sendMessage("guildTeleportDelay = " + group.getGuildTeleportDelay() + "s");
+				sender.sendMessage("regionCreateMoney = " + group.getRegionCreateMoney());
+				sender.sendMessage("regionPricePerBlock = " + group.getRegionPricePerBlock());
 				break;
 			case "g":
 			case "guild":
@@ -151,7 +151,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 			case "?":
 			case "help":
 				ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-				BookMeta bm = (BookMeta)book.getItemMeta();
+				BookMeta bm = (BookMeta) book.getItemMeta();
 				List<String> pages = plugin.getMessageManager().getMessages().getStringList("book.help.pages");
 				List<String> pagesColor = new ArrayList<>();
 				for(String page : pages) {

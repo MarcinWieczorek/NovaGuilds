@@ -30,8 +30,8 @@ import java.util.Map;
 /**
  * Minecraft 1.8 Title
  *
- * @version 1.0.4
  * @author Maxim Van de Wynckel
+ * @version 1.0.4
  */
 @SuppressWarnings({"unused", "ConstantConditions"})
 public class Title {
@@ -60,8 +60,7 @@ public class Title {
 	/**
 	 * Create a new 1.8 title
 	 *
-	 * @param title
-	 *            Title
+	 * @param title Title
 	 */
 	public Title(String title) {
 		this.title = title;
@@ -71,10 +70,8 @@ public class Title {
 	/**
 	 * Create a new 1.8 title
 	 *
-	 * @param title
-	 *            Title text
-	 * @param subtitle
-	 *            Subtitle text
+	 * @param title    Title text
+	 * @param subtitle Subtitle text
 	 */
 	public Title(String title, String subtitle) {
 		this.title = title;
@@ -85,8 +82,7 @@ public class Title {
 	/**
 	 * Copy 1.8 title
 	 *
-	 * @param title
-	 *            Title
+	 * @param title Title
 	 */
 	public Title(Title title) {
 		// Copy title
@@ -104,19 +100,14 @@ public class Title {
 	/**
 	 * Create a new 1.8 title
 	 *
-	 * @param title
-	 *            Title text
-	 * @param subtitle
-	 *            Subtitle text
-	 * @param fadeInTime
-	 *            Fade in time
-	 * @param stayTime
-	 *            Stay on screen time
-	 * @param fadeOutTime
-	 *            Fade out time
+	 * @param title       Title text
+	 * @param subtitle    Subtitle text
+	 * @param fadeInTime  Fade in time
+	 * @param stayTime    Stay on screen time
+	 * @param fadeOutTime Fade out time
 	 */
 	public Title(String title, String subtitle, int fadeInTime, int stayTime,
-				 int fadeOutTime) {
+	             int fadeOutTime) {
 		this.title = title;
 		this.subtitle = subtitle;
 		this.fadeInTime = fadeInTime;
@@ -138,8 +129,7 @@ public class Title {
 	/**
 	 * Set title text
 	 *
-	 * @param title
-	 *            Title
+	 * @param title Title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -157,8 +147,7 @@ public class Title {
 	/**
 	 * Set subtitle text
 	 *
-	 * @param subtitle
-	 *            Subtitle text
+	 * @param subtitle Subtitle text
 	 */
 	public void setSubtitle(String subtitle) {
 		this.subtitle = subtitle;
@@ -176,8 +165,7 @@ public class Title {
 	/**
 	 * Set the title color
 	 *
-	 * @param color
-	 *            Chat color
+	 * @param color Chat color
 	 */
 	public void setTitleColor(ChatColor color) {
 		titleColor = color;
@@ -186,8 +174,7 @@ public class Title {
 	/**
 	 * Set the subtitle color
 	 *
-	 * @param color
-	 *            Chat color
+	 * @param color Chat color
 	 */
 	public void setSubtitleColor(ChatColor color) {
 		subtitleColor = color;
@@ -196,8 +183,7 @@ public class Title {
 	/**
 	 * Set title fade in time
 	 *
-	 * @param time
-	 *            Time
+	 * @param time Time
 	 */
 	public void setFadeInTime(int time) {
 		fadeInTime = time;
@@ -206,8 +192,7 @@ public class Title {
 	/**
 	 * Set title fade out time
 	 *
-	 * @param time
-	 *            Time
+	 * @param time Time
 	 */
 	public void setFadeOutTime(int time) {
 		fadeOutTime = time;
@@ -216,8 +201,7 @@ public class Title {
 	/**
 	 * Set title stay time
 	 *
-	 * @param time
-	 *            Time
+	 * @param time Time
 	 */
 	public void setStayTime(int time) {
 		stayTime = time;
@@ -240,8 +224,7 @@ public class Title {
 	/**
 	 * Send the title to a player
 	 *
-	 * @param player
-	 *            Player
+	 * @param player Player
 	 */
 	public void send(Player player) {
 		if(packetTitle != null) {
@@ -267,28 +250,28 @@ public class Title {
 
 				// Send title
 				Object serialized = getMethod(nmsChatSerializer, "a", String.class).invoke(null, "{text:\""
-								+ ChatColor.translateAlternateColorCodes('&',
-								title) + "\",color:"
-								+ titleColor.name().toLowerCase() + "}");
+						+ ChatColor.translateAlternateColorCodes('&',
+						title) + "\",color:"
+						+ titleColor.name().toLowerCase() + "}");
 				packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[0], serialized);
 				sendPacket.invoke(connection, packet);
 				//if(subtitle != "") {
 				if(!subtitle.isEmpty()) {
 					// Send subtitle if present
 					serialized = getMethod(nmsChatSerializer, "a", String.class).invoke(null, "{text:\""
-											+ ChatColor
-											.translateAlternateColorCodes(
-													'&', subtitle)
-											+ "\",color:"
-											+ subtitleColor.name()
-											.toLowerCase() + "}");
+							+ ChatColor
+							.translateAlternateColorCodes(
+									'&', subtitle)
+							+ "\",color:"
+							+ subtitleColor.name()
+							.toLowerCase() + "}");
 					packet = packetTitle.getConstructor(packetActions,
 							chatBaseComponent).newInstance(actions[1],
 							serialized);
 					sendPacket.invoke(connection, packet);
 				}
 			}
-			catch (Exception e) {
+			catch(Exception e) {
 				LoggerUtils.exception(e);
 			}
 		}
@@ -298,7 +281,7 @@ public class Title {
 	 * Broadcast the title to all players
 	 */
 	public void broadcast() {
-		for (Player p : Bukkit.getOnlinePlayers()) {
+		for(Player p : Bukkit.getOnlinePlayers()) {
 			send(p);
 		}
 	}
@@ -306,8 +289,7 @@ public class Title {
 	/**
 	 * Clear the title
 	 *
-	 * @param player
-	 *            Player
+	 * @param player Player
 	 */
 	public void clearTitle(Player player) {
 		try {
@@ -319,7 +301,7 @@ public class Title {
 			Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[3], null);
 			sendPacket.invoke(connection, packet);
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			LoggerUtils.exception(e);
 		}
 	}
@@ -327,8 +309,7 @@ public class Title {
 	/**
 	 * Reset the title settings
 	 *
-	 * @param player
-	 *            Player
+	 * @param player Player
 	 */
 	public void resetTitle(Player player) {
 		try {
@@ -340,7 +321,7 @@ public class Title {
 			Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[4], null);
 			sendPacket.invoke(connection, packet);
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			LoggerUtils.exception(e);
 		}
 	}
@@ -375,14 +356,14 @@ public class Title {
 		try {
 			return getMethod("getHandle", obj.getClass()).invoke(obj);
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			LoggerUtils.exception(e);
 			return null;
 		}
 	}
 
 	private Method getMethod(String name, Class<?> clazz,
-							 Class<?>... paramTypes) {
+	                         Class<?>... paramTypes) {
 		Class<?>[] t = toPrimitiveTypeArray(paramTypes);
 		for(Method m : clazz.getMethods()) {
 			Class<?>[] types = toPrimitiveTypeArray(m.getParameterTypes());
@@ -404,7 +385,7 @@ public class Title {
 		try {
 			clazz = Class.forName(fullName);
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			LoggerUtils.exception(e);
 		}
 		return clazz;
@@ -416,7 +397,7 @@ public class Title {
 			field.setAccessible(true);
 			return field;
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			LoggerUtils.exception(e);
 			return null;
 		}

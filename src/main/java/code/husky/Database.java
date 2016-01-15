@@ -8,7 +8,7 @@ import java.sql.SQLException;
 /**
  * Abstract Database class, serves as a base for any connection method (MySQL,
  * SQLite, etc.)
- * 
+ *
  * @author -_Husky_-
  * @author tips48
  */
@@ -23,9 +23,8 @@ public abstract class Database {
 
 	/**
 	 * Creates a new Database
-	 * 
-	 * @param plugin
-	 *            Plugin instance
+	 *
+	 * @param plugin Plugin instance
 	 */
 	protected Database(Plugin plugin) {
 		this.plugin = plugin;
@@ -34,22 +33,19 @@ public abstract class Database {
 
 	/**
 	 * Opens a connection with the database
-	 * 
+	 *
 	 * @return Opened connection
-	 * @throws SQLException
-	 *             if the connection can not be opened
-	 * @throws ClassNotFoundException
-	 *             if the driver cannot be found
+	 * @throws SQLException           if the connection can not be opened
+	 * @throws ClassNotFoundException if the driver cannot be found
 	 */
 	public abstract Connection openConnection() throws SQLException,
 			ClassNotFoundException;
 
 	/**
 	 * Checks if a connection is open with the database
-	 * 
+	 *
 	 * @return true if the connection is open
-	 * @throws SQLException
-	 *             if the connection cannot be checked
+	 * @throws SQLException if the connection cannot be checked
 	 */
 	public boolean checkConnection() throws SQLException {
 		return connection != null && !connection.isClosed();
@@ -57,7 +53,7 @@ public abstract class Database {
 
 	/**
 	 * Gets the connection with the database
-	 * 
+	 *
 	 * @return Connection with the database, null if none
 	 */
 	public Connection getConnection() {
@@ -66,10 +62,9 @@ public abstract class Database {
 
 	/**
 	 * Closes the connection with the database
-	 * 
+	 *
 	 * @return true if successful
-	 * @throws SQLException
-	 *             if the connection cannot be closed
+	 * @throws SQLException if the connection cannot be closed
 	 */
 	public boolean closeConnection() throws SQLException {
 		if(connection == null) {

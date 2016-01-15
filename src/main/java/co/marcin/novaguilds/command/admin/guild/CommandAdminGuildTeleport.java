@@ -48,11 +48,11 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 	public void execute(CommandSender sender, String[] args) {
 		Location home = guild.getSpawnPoint();
 
-		Player player = (Player)sender;
+		Player player = (Player) sender;
 		boolean other = false;
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("GUILDNAME", guild.getName());
 
 		if(args.length == 1) {
 			if(!Permission.NOVAGUILDS_ADMIN_GUILD_TELEPORT_OTHER.has(sender)) {

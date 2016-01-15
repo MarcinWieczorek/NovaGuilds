@@ -34,7 +34,7 @@ public class CommandGuildCompass implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		Player player = (Player)sender;
+		Player player = (Player) sender;
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {

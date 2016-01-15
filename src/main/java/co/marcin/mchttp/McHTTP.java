@@ -39,6 +39,7 @@ import java.util.Locale;
 
 /**
  * McHTTP - NovaGuilds' http server
+ *
  * @author Marcin Wieczorek
  */
 public class McHTTP {
@@ -70,6 +71,7 @@ public class McHTTP {
 
 		/**
 		 * Constructor with a header string
+		 *
 		 * @param header header string
 		 */
 		ContentType(String header) {
@@ -78,6 +80,7 @@ public class McHTTP {
 
 		/**
 		 * Returns the header string
+		 *
 		 * @return header string
 		 */
 		public String getHeader() {
@@ -86,6 +89,7 @@ public class McHTTP {
 
 		/**
 		 * Get enum by name
+		 *
 		 * @param str enum name
 		 * @return ContentType enum
 		 */
@@ -100,14 +104,20 @@ public class McHTTP {
 		}
 	}
 
-	/** HTTP protocol version */
+	/**
+	 * HTTP protocol version
+	 */
 	public static final String protocolVersion = "HTTP/1.1";
 
-	/** OK header */
-	public static final String HEADER_FIRST_OK = protocolVersion+" 200 OK";
+	/**
+	 * OK header
+	 */
+	public static final String HEADER_FIRST_OK = protocolVersion + " 200 OK";
 
-	/** 404 header */
-	public static final String HEADER_FIRST_404 = protocolVersion+" 404 Not Found";
+	/**
+	 * 404 header
+	 */
+	public static final String HEADER_FIRST_404 = protocolVersion + " 404 Not Found";
 
 	private int port = 80;
 	private boolean running = false;
@@ -117,6 +127,7 @@ public class McHTTP {
 
 	/**
 	 * Set the port
+	 *
 	 * @param port desired port
 	 */
 	public void setPort(int port) {
@@ -125,6 +136,7 @@ public class McHTTP {
 
 	/**
 	 * Returns the port
+	 *
 	 * @return port
 	 */
 	public int getPort() {
@@ -185,9 +197,9 @@ public class McHTTP {
 
 						targetFile = getHTMLFile(path);
 						String[] split = StringUtils.split(path, ".");
-						String ext = split[split.length-1];
+						String ext = split[split.length - 1];
 						ContentType contentTypeEnum = ContentType.get(ext);
-						String contentType = contentTypeEnum==null ? ContentType.TXT.getHeader() : contentTypeEnum.getHeader();
+						String contentType = contentTypeEnum == null ? ContentType.TXT.getHeader() : contentTypeEnum.getHeader();
 
 						String headerFirst = HEADER_FIRST_OK;
 						if(!targetFile.exists()) {
@@ -213,7 +225,8 @@ public class McHTTP {
 								"Content-Type: " + contentType
 						};
 
-						if(Config.WWW_VERBOSE.getBoolean()) LoggerUtils.info("Client: " + clientSocket.getRemoteSocketAddress() + " requested file " + path);
+						if(Config.WWW_VERBOSE.getBoolean())
+							LoggerUtils.info("Client: " + clientSocket.getRemoteSocketAddress() + " requested file " + path);
 
 //						System.out.println();
 //						System.out.println("Output: ");
@@ -269,6 +282,7 @@ public class McHTTP {
 
 	/**
 	 * Returns a File at provided path
+	 *
 	 * @param path path to the file
 	 * @return File
 	 */

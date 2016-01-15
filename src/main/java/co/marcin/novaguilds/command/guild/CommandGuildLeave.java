@@ -70,8 +70,8 @@ public class CommandGuildLeave implements CommandExecutor, Executor {
 		Message.CHAT_GUILD_LEAVE_LEFT.send(sender);
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYER",sender.getName());
-		vars.put("GUILDNAME",guild.getName());
+		vars.put("PLAYER", sender.getName());
+		vars.put("GUILDNAME", guild.getName());
 		Message.BROADCAST_GUILD_LEFT.vars(vars).broadcast();
 
 		TagUtils.refreshAll();

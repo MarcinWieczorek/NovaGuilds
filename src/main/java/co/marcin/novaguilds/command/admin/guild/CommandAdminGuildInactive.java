@@ -57,7 +57,7 @@ public class CommandAdminGuildInactive implements Executor {
 					count++;
 				}
 				Map<String, String> vars = new HashMap<>();
-				vars.put("COUNT",count+"");
+				vars.put("COUNT", count + "");
 				Message.CHAT_ADMIN_GUILD_INACTIVE_UPDATED.vars(vars).send(sender);
 				return;
 			}
@@ -98,7 +98,7 @@ public class CommandAdminGuildInactive implements Executor {
 		if(size > perpage) {
 			Map<String, String> vars = new HashMap<>();
 			vars.put("PAGE", String.valueOf(page));
-			vars.put("NEXT", String.valueOf(page+1));
+			vars.put("NEXT", String.valueOf(page + 1));
 			vars.put("PAGES", String.valueOf(pages_number));
 
 			if(pages_number > page) {
@@ -132,7 +132,7 @@ public class CommandAdminGuildInactive implements Executor {
 				vars.put("PLAYERNAME", guild.getLeader().getName());
 				vars.put("TAG", guild.getTag());
 				vars.put("PLAYERSCOUNT", guild.getPlayers().size() + "");
-				vars.put("AGONOW",agonow);
+				vars.put("AGONOW", agonow);
 				vars.put("INACTIVE", inactiveString);
 
 				String rowmsg = StringUtils.replaceMap(rowformat, vars);

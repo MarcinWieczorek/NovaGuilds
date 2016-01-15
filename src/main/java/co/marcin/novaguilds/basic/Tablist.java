@@ -66,27 +66,27 @@ public class Tablist {
 		vars.put("TAG", nPlayer.hasGuild() ? nPlayer.getGuild().getTag() : "");
 		vars.put("PLAYER", nPlayer.getName());
 
-		char[] colors = new char[]{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'f' };
+		char[] colors = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'f'};
 
 		List<String> scheme = Config.TABLIST_SCHEME.getStringList();
-		int i=0;
+		int i = 0;
 		int t = 0;
 		for(String line : scheme) {
 			i++;
 
 			if(i == 15) {
-				i=0;
+				i = 0;
 				t++;
 			}
 
-			line = "&"+colors[i]+StringUtils.replaceMap(line, vars);
+			line = "&" + colors[i] + StringUtils.replaceMap(line, vars);
 
 			if(t >= 0) {
-				line = "&"+colors[t] + line;
+				line = "&" + colors[t] + line;
 			}
 
 			while(lines.contains(StringUtils.fixColors(line))) {
-				line = "&"+(NumberUtils.randInt(0, 9)) + line;
+				line = "&" + (NumberUtils.randInt(0, 9)) + line;
 
 				if(line.length() >= 16) {
 					break;

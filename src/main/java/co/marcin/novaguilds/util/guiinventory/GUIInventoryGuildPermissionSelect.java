@@ -87,7 +87,7 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 		for(GuildPermission perm : GuildPermission.values()) {
 			ItemStack itemStack;
 			vars.clear();
-			vars.put("PERMNAME", Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_"+perm.name()).get());
+			vars.put("PERMNAME", Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
 
 			if(rank.hasPermission(perm)) {
 				itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).get());
@@ -121,7 +121,7 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 		}
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("PERMNAME", Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_"+perm.name()).get());
+		vars.put("PERMNAME", Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
 
 		if(rank.hasPermission(perm)) {
 			itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).get());

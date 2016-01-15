@@ -33,7 +33,7 @@ import java.util.Map;
 public class CommandAdminGuild implements Executor {
 	private final Command command = Command.ADMIN_GUILD_ACCESS;
 
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("tp", Command.ADMIN_GUILD_TELEPORT);
 		put("teleport", Command.ADMIN_GUILD_TELEPORT);
 		put("abandon", Command.ADMIN_GUILD_ABANDON);
@@ -87,7 +87,7 @@ public class CommandAdminGuild implements Executor {
 			return;
 		}
 
-		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0: 1];
+		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0 : 1];
 		Command subCommand = commandsMap.get(subCmd.toLowerCase());
 
 		if(subCommand == null) {

@@ -34,7 +34,7 @@ public class MoveListener implements Listener {
 
 	public MoveListener(NovaGuilds novaGuilds) {
 		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this,plugin);
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler
@@ -62,7 +62,7 @@ public class MoveListener implements Listener {
 		NovaRegion toRegion = plugin.getRegionManager().getRegion(to);
 
 		//entering
-		if((fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) || (fromRegion!=null && toRegion!=null && !fromRegion.equals(toRegion))) {
+		if((fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) || (fromRegion != null && toRegion != null && !fromRegion.equals(toRegion))) {
 			plugin.getRegionManager().playerEnteredRegion(player, event.getTo());
 		}
 

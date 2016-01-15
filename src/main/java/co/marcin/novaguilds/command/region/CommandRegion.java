@@ -29,7 +29,7 @@ import java.util.Map;
 public class CommandRegion implements Executor {
 	private static final Command command = Command.REGION_ACCESS;
 
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("buy", Command.REGION_BUY);
 		put("create", Command.REGION_BUY);
 
@@ -43,7 +43,7 @@ public class CommandRegion implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(args.length>0) {
+		if(args.length > 0) {
 			Command subCommand = commandsMap.get(args[0].toLowerCase());
 
 			if(subCommand == null) {

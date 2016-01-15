@@ -78,9 +78,9 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 
 		RegionValidity selectionValidity = plugin.getRegionManager().checkRegionSelect(sl0, sl1);
 
-		if(nPlayer.isResizing() && selectionValidity==RegionValidity.OVERLAPS) {
-			List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0,sl1);
-			if(regionsOverlaped.size()==1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
+		if(nPlayer.isResizing() && selectionValidity == RegionValidity.OVERLAPS) {
+			List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0, sl1);
+			if(regionsOverlaped.size() == 1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
 				selectionValidity = RegionValidity.VALID;
 			}
 		}

@@ -82,7 +82,7 @@ public class MessageManager {
 	}
 
 	private void setupDirectories() {
-		File langsDir = new File(plugin.getDataFolder(),"lang/");
+		File langsDir = new File(plugin.getDataFolder(), "lang/");
 
 		if(!langsDir.exists()) {
 			if(langsDir.mkdir()) {
@@ -108,7 +108,7 @@ public class MessageManager {
 				Config.LANG_NAME.set(ConfigManager.essentialsLocale.get(locale));
 			}
 
-			LoggerUtils.info("Changed lang to Essentials' locale: "+Config.LANG_NAME.getString());
+			LoggerUtils.info("Changed lang to Essentials' locale: " + Config.LANG_NAME.getString());
 		}
 	}
 
@@ -116,7 +116,7 @@ public class MessageManager {
 	public static String getMessagesString(String path) {
 		String msg = StringUtils.fixColors(instance.getMessages().getString(path));
 
-		return msg==null ? path : msg;
+		return msg == null ? path : msg;
 	}
 
 	//get messages
@@ -136,7 +136,7 @@ public class MessageManager {
 		}
 	}
 
-	public static void sendMessagesList(CommandSender sender, String path, Map<String,String> vars, boolean prefix) {
+	public static void sendMessagesList(CommandSender sender, String path, Map<String, String> vars, boolean prefix) {
 		List<String> list = instance.messages.getStringList(path);
 
 		if(list != null) {
@@ -159,7 +159,7 @@ public class MessageManager {
 		sendMessagesMsg(sender, path, false);
 	}
 
-	public static void sendMessagesMsg(CommandSender sender, Message message, Map<String,String> vars) {
+	public static void sendMessagesMsg(CommandSender sender, Message message, Map<String, String> vars) {
 		sendMessagesMsg(sender, message.getPath(), vars, message.getTitle());
 	}
 
@@ -202,7 +202,7 @@ public class MessageManager {
 		}
 	}
 
-	public static void broadcastMessage(Message message, Map<String,String> vars) {
+	public static void broadcastMessage(Message message, Map<String, String> vars) {
 		String msg = getMessagesString(message.getPath());
 		msg = replaceMap(msg, vars);
 
@@ -211,7 +211,7 @@ public class MessageManager {
 		}
 	}
 
-	public static void broadcastGuild(NovaGuild guild, Message message, Map<String,String> vars, boolean prefix) {
+	public static void broadcastGuild(NovaGuild guild, Message message, Map<String, String> vars, boolean prefix) {
 		String msg = getMessagesString(message.getPath());
 		msg = replaceMap(msg, vars);
 

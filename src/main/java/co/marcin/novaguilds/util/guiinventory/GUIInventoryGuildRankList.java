@@ -89,7 +89,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 			String rankName = "rank"; //TODO name
 			for(NovaRank rank : guild.getRanks()) {
 				if(rank.getName().equals(rankName)) {
-					rankName = rankName + " " + NumberUtils.randInt(1,999);
+					rankName = rankName + " " + NumberUtils.randInt(1, 999);
 				}
 			}
 
