@@ -69,9 +69,9 @@ public class CommandAdminHologram implements Executor {
 			return;
 		}
 
-		Command command = commandsMap.get(args[noHologramCommands.contains(args[0]) ? 0 : 1].toLowerCase());
+		Command subCommand = commandsMap.get(args[noHologramCommands.contains(args[0]) ? 0 : 1].toLowerCase());
 
-		if(command == null) {
+		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);
 			return;
 		}
@@ -86,10 +86,10 @@ public class CommandAdminHologram implements Executor {
 				return;
 			}
 
-			((Executor.ReversedAdminHologram) executor).hologram(hologram);
+			subCommand.executorVariable(hologram);
 		}
 
-		executor.execute(sender, StringUtils.parseArgs(args, 2));
+		command.execute(sender, StringUtils.parseArgs(args, noHologramCommands.contains(args[0]) ? 1 : 2));
 	}
 
 	@Override

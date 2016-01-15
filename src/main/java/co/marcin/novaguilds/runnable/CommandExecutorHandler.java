@@ -20,11 +20,10 @@ package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.concurrent.ScheduledFuture;
@@ -35,21 +34,21 @@ public class CommandExecutorHandler implements Runnable {
 	private final Command command;
 	private final String[] args;
 	private CommandExecutorHandlerState state = CommandExecutorHandlerState.WAITING;
-	private final Executor executor;
 	private final ScheduledFuture scheduledFuture;
+	private Object executorVariable;
 
 	public CommandExecutorHandler(Command command, CommandSender sender, String[] args) {
 		this.command = command;
 		this.sender = sender;
 		this.args = args;
 
-		executor = NovaGuilds.getInstance().getCommandManager().getExecutor(command);
 		scheduledFuture = NovaGuilds.getInstance().getWorker().schedule(this, Config.CHAT_CONFIRMTIMEOUT.getSeconds(), TimeUnit.SECONDS);
 	}
 
 	public void execute() {
 		if(!scheduledFuture.isCancelled() && !scheduledFuture.isDone()) {
-			executor.execute(sender, args);
+			command.executorVariable(executorVariable).execute(sender, args);
+			NovaPlayer.get(sender).removeCommandExecutorHandler();
 		}
 	}
 
@@ -76,5 +75,17 @@ public class CommandExecutorHandler implements Runnable {
 
 	public Command getCommand() {
 		return command;
+	}
+
+	public CommandExecutorHandlerState getState() {
+		return state;
+	}
+
+	public Object getExecutorVariable() {
+		return executorVariable;
+	}
+
+	public void executorVariable(Object executorVariable) {
+		this.executorVariable = executorVariable;
 	}
 }

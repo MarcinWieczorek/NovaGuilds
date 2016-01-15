@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -64,9 +63,13 @@ public class CommandAdminRegion implements Executor {
 			return;
 		}
 
-		NovaRegion region = null;
 		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0: 1];
 		Command subCommand = commandsMap.get(subCmd.toLowerCase());
+
+		if(subCommand == null) {
+			Message.CHAT_UNKNOWNCMD.send(sender);
+			return;
+		}
 
 		if(!noGuildCommands.contains(subCommand)) {
 			NovaGuild guild = plugin.getGuildManager().getGuildFind(args[0]);
@@ -81,24 +84,10 @@ public class CommandAdminRegion implements Executor {
 				return;
 			}
 
-			region = guild.getRegion();
+			subCommand.executorVariable(guild.getRegion());
 		}
 
-		Executor executor = plugin.getCommandManager().getExecutor(subCommand);
-
-		if(executor == null) {
-			Message.CHAT_UNKNOWNCMD.send(sender);
-			return;
-		}
-
-		int subArgsCut = 1;
-
-		if(executor instanceof Executor.ReversedAdminRegion) {
-			((Executor.ReversedAdminRegion) executor).region(region);
-			subArgsCut = 2;
-		}
-
-		executor.execute(sender, StringUtils.parseArgs(args, subArgsCut));
+		subCommand.execute(sender, StringUtils.parseArgs(args, noGuildCommands.contains(subCommand) ? 1 : 2));
 	}
 
 	@Override

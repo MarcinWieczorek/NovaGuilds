@@ -19,9 +19,14 @@
 package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterAdmin;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterGuild;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
@@ -108,6 +113,8 @@ public enum Command {
 	private Permission permission;
 	private String genericCommand;
 	private TabCompleter tabCompleter;
+	private boolean needConfirm = false;
+	private Object executorVariable;
 
 	Command(Permission permission, boolean allowConsole) {
 		this.permission = permission;
@@ -137,6 +144,14 @@ public enum Command {
 		this.usageMessage = usageMessage;
 	}
 
+	Command(Permission permission, boolean allowConsole, Message usageMessage, boolean needConfirm) {
+		this.permission = permission;
+		this.permissionPath = permission.getPath();
+		this.allowConsole = allowConsole;
+		this.usageMessage = usageMessage;
+		this.needConfirm = needConfirm;
+	}
+
 	public boolean allowConsole() {
 		return allowConsole;
 	}
@@ -163,18 +178,36 @@ public enum Command {
 
 	public void execute(CommandSender sender, String[] args) {
 		Executor executor = getExecutor();
+		NovaPlayer nPlayer = NovaPlayer.get(sender);
 
-		if(!executor.getCommand().hasPermission(sender)) {
+		if(!this.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return;
 		}
 
-		if(!executor.getCommand().allowedSender(sender)) {
+		if(!this.allowedSender(sender)) {
 			Message.CHAT_CMDFROMCONSOLE.send(sender);
 			return;
 		}
 
-		executor.execute(sender, args);
+		if(isNeedConfirm() && (nPlayer.getCommandExecutorHandler()==null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED)) {
+			nPlayer.newCommandExecutorHandler(this, args);
+			nPlayer.getCommandExecutorHandler().executorVariable(getExecutorVariable());
+
+		}
+		else {
+			if(executor instanceof Executor.ReversedAdminGuild) {
+				((Executor.ReversedAdminGuild) executor).guild((NovaGuild) getExecutorVariable());
+			}
+			else if(executor instanceof Executor.ReversedAdminRegion) {
+				((Executor.ReversedAdminRegion) executor).region((NovaRegion) getExecutorVariable());
+			}
+			else if(executor instanceof Executor.ReversedAdminHologram) {
+				((Executor.ReversedAdminHologram) executor).hologram((NovaHologram) getExecutorVariable());
+			}
+
+			executor.execute(sender, args);
+		}
 	}
 
 	public boolean hasGenericCommand() {
@@ -191,5 +224,18 @@ public enum Command {
 
 	public TabCompleter getTabCompleter() {
 		return tabCompleter;
+	}
+
+	public boolean isNeedConfirm() {
+		return needConfirm;
+	}
+
+	public Command executorVariable(Object executorVariable) {
+		this.executorVariable = executorVariable;
+		return this;
+	}
+
+	public Object getExecutorVariable() {
+		return executorVariable;
 	}
 }

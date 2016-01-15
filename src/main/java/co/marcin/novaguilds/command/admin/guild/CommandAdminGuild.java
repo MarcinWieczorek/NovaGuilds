@@ -87,34 +87,26 @@ public class CommandAdminGuild implements Executor {
 			return;
 		}
 
-		NovaGuild guild = null;
 		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0: 1];
 		Command subCommand = commandsMap.get(subCmd.toLowerCase());
 
+		if(subCommand == null) {
+			Message.CHAT_UNKNOWNCMD.send(sender);
+			return;
+		}
+
 		if(!noGuildCommands.contains(subCommand) && (args.length > 1 || !noGuildCommands.contains(subCommand))) {
-			guild = plugin.getGuildManager().getGuildFind(args[0]);
+			NovaGuild guild = plugin.getGuildManager().getGuildFind(args[0]);
 
 			if(guild == null) {
 				Message.CHAT_GUILD_COULDNOTFIND.send(sender);
 				return;
 			}
+
+			subCommand.executorVariable(guild);
 		}
 
-		Executor executor = plugin.getCommandManager().getExecutor(subCommand);
-
-		if(executor == null) {
-			Message.CHAT_UNKNOWNCMD.send(sender);
-			return;
-		}
-
-		int subArgsCut = 1;
-
-		if(executor instanceof Executor.ReversedAdminGuild) {
-			((Executor.ReversedAdminGuild) executor).guild(guild);
-			subArgsCut = 2;
-		}
-
-		executor.execute(sender, StringUtils.parseArgs(args, subArgsCut));
+		subCommand.execute(sender, StringUtils.parseArgs(args, noGuildCommands.contains(subCommand) ? 1 : 2));
 	}
 
 	@Override
