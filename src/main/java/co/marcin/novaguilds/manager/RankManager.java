@@ -409,7 +409,7 @@ public class RankManager {
 				NovaRank rank;
 
 				if(nPlayer.isLeader()) {
-					rank = getDefaultRanks().get(0);
+					rank = getLeaderRank();
 				}
 				else {
 					if(defaultRank == null) {
@@ -423,5 +423,9 @@ public class RankManager {
 				nPlayer.setGuildRank(rank);
 			}
 		}
+	}
+
+	public static NovaRank getLeaderRank() {
+		return NovaGuilds.getInstance().getRankManager().getDefaultRanks().get(0);
 	}
 }

@@ -21,6 +21,7 @@ package co.marcin.novaguilds.basic;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -268,6 +269,11 @@ public class NovaGuild {
 	}
 
 	public void setLeader(NovaPlayer nPlayer) {
+		if(leader != null) {
+			leader.setGuildRank(getDefaultRank());
+			nPlayer.setGuildRank(RankManager.getLeaderRank());
+		}
+
 		leader = nPlayer;
 		changed();
 	}
