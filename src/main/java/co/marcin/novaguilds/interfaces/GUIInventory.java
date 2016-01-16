@@ -34,4 +34,6 @@ public interface GUIInventory {
 	NovaPlayer getViewer();
 
 	void setViewer(NovaPlayer nPlayer);
+
+	void close();
 }

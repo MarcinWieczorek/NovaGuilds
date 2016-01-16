@@ -126,4 +126,9 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 	public void setViewer(NovaPlayer nPlayer) {
 		this.viewer = nPlayer;
 	}
+
+	@Override
+	public void close() {
+		getViewer().getPlayer().closeInventory();
+	}
 }

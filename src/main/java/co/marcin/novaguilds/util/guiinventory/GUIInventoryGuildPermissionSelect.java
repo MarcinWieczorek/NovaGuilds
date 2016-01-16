@@ -132,4 +132,9 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 
 		inventory.setItem(slot, itemStack);
 	}
+
+	@Override
+	public void close() {
+		getViewer().getPlayer().closeInventory();
+	}
 }
