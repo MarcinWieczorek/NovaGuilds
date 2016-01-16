@@ -284,6 +284,11 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onVehicleEnter(VehicleEnterEvent event) {
 		Vehicle vehicle = event.getVehicle();
+
+		if(!(event.getEntered() instanceof Player)) {
+			return;
+		}
+
 		final Player player = (Player) event.getEntered();
 
 		List<String> denyRiding = Config.REGION_DENYRIDING.getStringList();
