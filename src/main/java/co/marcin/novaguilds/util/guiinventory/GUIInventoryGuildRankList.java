@@ -96,6 +96,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 			NovaRank rank = new NovaRank(rankName);
 			guild.addRank(rank);
 			generateContent();
+			ChestGUIUtils.addBackItem(this);
 		}
 		else {
 			NovaRank rank = slotRanksMap.get(event.getRawSlot());

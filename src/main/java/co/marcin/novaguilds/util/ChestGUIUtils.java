@@ -49,10 +49,7 @@ public class ChestGUIUtils {
 
 			Inventory inventory = guiInventory.getInventory();
 
-			ItemStack lastItem = inventory.getItem(inventory.getSize() - 1);
-			if((lastItem == null || lastItem.getType() == Material.AIR) && nPlayer.getGuiInventoryHistory().size() > 1) {
-				inventory.setItem(inventory.getSize() - 1, Message.INVENTORY_GUI_BACK.getItemStack());
-			}
+			addBackItem(guiInventory);
 
 			nPlayer.getPlayer().openInventory(inventory);
 
@@ -74,5 +71,15 @@ public class ChestGUIUtils {
 
 	public static Inventory createInventory(int size) {
 		return createInventory(size, "");
+	}
+
+	public static void addBackItem(GUIInventory guiInventory) {
+		Inventory inventory = guiInventory.getInventory();
+		NovaPlayer nPlayer = guiInventory.getViewer();
+
+		ItemStack lastItem = inventory.getItem(inventory.getSize() - 1);
+		if((lastItem == null || lastItem.getType() == Material.AIR) && nPlayer.getGuiInventoryHistory().size() > 1) {
+			inventory.setItem(inventory.getSize() - 1, Message.INVENTORY_GUI_BACK.getItemStack());
+		}
 	}
 }
