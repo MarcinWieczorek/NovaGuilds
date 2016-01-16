@@ -131,4 +131,8 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 	public void close() {
 		getViewer().getPlayer().closeInventory();
 	}
+
+	public NovaGuild getGuild() {
+		return guild;
+	}
 }

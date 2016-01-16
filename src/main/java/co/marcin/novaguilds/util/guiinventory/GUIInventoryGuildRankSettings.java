@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.Message;
@@ -58,6 +59,24 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 		}
 		else if(clickedItemStack.equals(cloneItem)) {
 			NovaRank clone = new NovaRank("Clone of " + rank.getName());
+			NovaGuild guild;
+
+			if(rank.isGeneric()) {
+				GUIInventory previousGui = getViewer().getGuiInventoryHistory().get(getViewer().getGuiInventoryHistory().size() - 2);
+
+				if(previousGui == null) {
+					return;
+				}
+
+				if(!(previousGui instanceof GUIInventoryGuildRankList)) {
+					return;
+				}
+
+				guild = ((GUIInventoryGuildRankList) previousGui).getGuild();
+			}
+			else {
+				guild = rank.getGuild();
+			}
 
 			boolean doubleName;
 			int i = 0;
@@ -67,7 +86,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 				}
 
 				doubleName = false;
-				for(NovaRank loopRank : rank.getGuild().getRanks()) {
+				for(NovaRank loopRank : guild.getRanks()) {
 					if(loopRank.getName().equalsIgnoreCase(clone.getName())) {
 						doubleName = true;
 					}
@@ -81,7 +100,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			} while(doubleName);
 
 			clone.setPermissions(rank.getPermissions());
-			rank.getGuild().addRank(clone);
+			guild.addRank(clone);
 		}
 		else if(clickedItemStack.equals(renameItem)) {
 			//TODO renaming
