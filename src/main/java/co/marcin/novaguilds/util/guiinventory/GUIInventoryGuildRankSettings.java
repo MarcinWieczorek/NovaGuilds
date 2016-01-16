@@ -88,6 +88,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 		}
 		else if(clickedItemStack.equals(deleteItem)) {
 			rank.delete();
+			close();
 		}
 	}
 
