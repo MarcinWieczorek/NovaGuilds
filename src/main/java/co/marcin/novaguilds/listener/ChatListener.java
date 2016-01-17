@@ -94,7 +94,7 @@ public class ChatListener implements Listener {
 					}
 
 					for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-						if(nPlayerLoop.equals(nPlayer) || nPlayerLoop.getSpyMode() || nPlayerLoop.getGuild().isAlly(guild)) {
+						if(nPlayerLoop.equals(nPlayer) || nPlayerLoop.getSpyMode() || (nPlayerLoop.hasGuild() && nPlayerLoop.getGuild().isAlly(guild))) {
 							nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
 						}
 					}
