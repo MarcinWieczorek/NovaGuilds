@@ -27,6 +27,7 @@ import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -58,7 +59,19 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			rank.setDef(true);
 		}
 		else if(clickedItemStack.equals(cloneItem)) {
-			NovaRank clone = new NovaRank("Clone of " + rank.getName());
+			String clonePrefix = Message.INVENTORY_GUI_RANK_SETTINGS_CLONEPREFIX.get();
+			String cloneName = rank.getName().startsWith(clonePrefix) || rank.isGeneric() ? rank.getName() : clonePrefix + rank.getName();
+
+			if(StringUtils.contains(cloneName, ' ')) {
+				String[] split = StringUtils.split(cloneName, ' ');
+
+				if(NumberUtils.isNumeric(split[split.length-1])) {
+					cloneName = cloneName.substring(0, cloneName.length() - split[split.length-1].length() - 1);
+				}
+			}
+
+			NovaRank clone = new NovaRank(cloneName);
+			clone.setClone(rank.isGeneric());
 			NovaGuild guild;
 
 			if(rank.isGeneric()) {
@@ -79,7 +92,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			}
 
 			boolean doubleName;
-			int i = 0;
+			int i = 1;
 			do {
 				if(i > 999) {
 					break;
@@ -87,13 +100,13 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 
 				doubleName = false;
 				for(NovaRank loopRank : guild.getRanks()) {
-					if(loopRank.getName().equalsIgnoreCase(clone.getName())) {
+					if(!loopRank.isGeneric() && loopRank.getName().equalsIgnoreCase(clone.getName())) {
 						doubleName = true;
 					}
 				}
 
 				if(doubleName) {
-					clone.setName(clone.getName() + " " + NumberUtils.randInt(1, 999));
+					clone.setName(cloneName + " " + i);
 				}
 
 				i++;
@@ -132,7 +145,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 		renameItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME.get());
 		deleteItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.get());
 
-		if(editPermissionsItem != null) {
+		if(editPermissionsItem != null && !rank.isGeneric()) {
 			inventory.addItem(editPermissionsItem);
 		}
 

@@ -63,10 +63,17 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 		ranks.addAll(guild.getRanks());
 
 		for(NovaRank rank : ranks) {
+			NovaRank cloneOfGeneric = guild.getCloneOfGenericRank(rank);
+
+			if(cloneOfGeneric != null) {
+				continue;
+			}
+
 			vars.clear();
 			vars.put("RANKNAME", StringUtils.replace(rank.getName(), " ", "_"));
 			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANKS_ROWITEM.vars(vars).get());
-			inventory.addItem(itemStack);
+
+			inventory.setItem(slot, itemStack);
 			slotRanksMap.put(slot, rank);
 			slot++;
 		}

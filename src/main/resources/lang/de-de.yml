@@ -523,6 +523,7 @@ inventory:
    additem: "BOOK_AND_QUILL 1 name:Rang_hinzufügen"
   rank:
    settings:
+    cloneprefix: "Clone of "
     item:
      editpermissions: "BOOK_AND_QUILL 1 name:&6Edit_Permissions"
      setdefault: "WOOD_DOOR 1 name:&6Set_as_default"

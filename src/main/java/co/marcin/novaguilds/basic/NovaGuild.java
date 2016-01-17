@@ -222,6 +222,20 @@ public class NovaGuild {
 		return NovaGuilds.getInstance().getRankManager().getDefaultRanks().get(1);
 	}
 
+	public NovaRank getCloneOfGenericRank(NovaRank genericRank) {
+		if(genericRank != null && genericRank.isGeneric()) {
+			for(NovaRank rank : getRanks()) {
+				if(rank.isClone()) {
+					if(genericRank.getName().equals(rank.getName())) {
+						return rank;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
 	//setters
 	public void setVaultHologram(Hologram hologram) {
 		vaultHologram = hologram;

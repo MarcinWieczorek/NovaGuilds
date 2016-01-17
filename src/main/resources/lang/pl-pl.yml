@@ -523,6 +523,7 @@ inventory:
    additem: "BOOK_AND_QUILL 1 name:Dodaj_rangę"
   rank:
    settings:
+    cloneprefix: "Kopia "
     item:
      editpermissions: "BOOK_AND_QUILL 1 name:&6Edytuj_uprawnienia"
      setdefault: "WOOD_DOOR 1 name:&6Ustaw_jako_domyślna"

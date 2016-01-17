@@ -389,7 +389,7 @@ public class RankManager {
 	}
 
 	public boolean isDefaultRank(NovaRank rank) {
-		return defaultRanks.contains(rank);
+		return getDefaultRanks().contains(rank);
 	}
 
 	public List<NovaRank> getDefaultRanks() {
