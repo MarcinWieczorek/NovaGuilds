@@ -18,12 +18,12 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
+import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -56,7 +56,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			new GUIInventoryGuildPermissionSelect(rank).open(viewer);
 		}
 		else if(clickedItemStack.equals(setDefaultItem)) {
-			rank.setDef(true);
+			rank.setDefault(true);
 		}
 		else if(clickedItemStack.equals(cloneItem)) {
 			String clonePrefix = Message.INVENTORY_GUI_RANK_SETTINGS_CLONEPREFIX.get();
@@ -153,7 +153,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			inventory.addItem(setDefaultItem);
 		}
 
-		if(cloneItem != null && !NovaGuilds.getInstance().getRankManager().getDefaultRanks().get(0).equals(rank)) {
+		if(cloneItem != null && !RankManager.getLeaderRank().equals(rank)) {
 			inventory.addItem(cloneItem);
 		}
 

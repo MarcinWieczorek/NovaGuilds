@@ -73,7 +73,7 @@ public class NovaRank implements Cloneable {
 		return clone;
 	}
 
-	public boolean isDef() {
+	public boolean isDefault() {
 		return def;
 	}
 
@@ -107,7 +107,7 @@ public class NovaRank implements Cloneable {
 		changed();
 	}
 
-	public void setDef(boolean def) {
+	public void setDefault(boolean def) {
 		this.def = def;
 		changed();
 	}
@@ -166,7 +166,7 @@ public class NovaRank implements Cloneable {
 	}
 
 	public boolean isGeneric() {
-		return NovaGuilds.getInstance().getRankManager().isDefaultRank(this);
+		return NovaGuilds.getInstance().getRankManager().isGenericRank(this);
 	}
 
 	@Override
@@ -179,7 +179,7 @@ public class NovaRank implements Cloneable {
 	}
 
 	public void delete() {
-		if(!isDef()) {
+		if(!isDefault()) {
 			for(NovaPlayer nPlayer : new ArrayList<>(getMembers())) {
 				nPlayer.setGuildRank(getGuild().getDefaultRank());
 			}

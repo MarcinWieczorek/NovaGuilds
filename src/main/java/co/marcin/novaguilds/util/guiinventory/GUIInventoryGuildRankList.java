@@ -59,7 +59,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 		int slot = 0;
 		Map<String, String> vars = new HashMap<>();
 		List<NovaRank> ranks = new ArrayList<>();
-		ranks.addAll(NovaGuilds.getInstance().getRankManager().getDefaultRanks());
+		ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
 		ranks.addAll(guild.getRanks());
 
 		for(NovaRank rank : ranks) {

@@ -214,7 +214,7 @@ public class NovaGuild {
 
 	public NovaRank getDefaultRank() {
 		for(NovaRank rank : getRanks()) {
-			if(rank.isDef()) {
+			if(rank.isDefault()) {
 				return rank;
 			}
 		}

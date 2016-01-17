@@ -42,7 +42,7 @@ import java.util.List;
 
 public class RankManager {
 	private final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final List<NovaRank> defaultRanks = new ArrayList<>();
+	private final List<NovaRank> genericRanks = new ArrayList<>();
 	private boolean loaded = false;
 
 	public boolean isLoaded() {
@@ -50,7 +50,7 @@ public class RankManager {
 	}
 
 	public void load() {
-		defaultRanks.clear();
+		genericRanks.clear();
 
 		//Load default ranks
 		loadDefaultRanks();
@@ -90,7 +90,7 @@ public class RankManager {
 						rank.addMember(nPlayer);
 					}
 
-					rank.setDef(rankConfiguration.getBoolean("def"));
+					rank.setDefault(rankConfiguration.getBoolean("def"));
 					rank.setClone(rankConfiguration.getBoolean("clone"));
 
 					rank.setUnchanged();
@@ -131,7 +131,7 @@ public class RankManager {
 						rank.addMember(plugin.getPlayerManager().getPlayer(playerName));
 					}
 
-					rank.setDef(res.getBoolean("def"));
+					rank.setDefault(res.getBoolean("def"));
 					rank.setClone(res.getBoolean("clone"));
 
 					rank.setUnchanged();
@@ -180,7 +180,7 @@ public class RankManager {
 					}
 
 					List<String> memberNames = new ArrayList<>();
-					if(!rank.isDef()) {
+					if(!rank.isDefault()) {
 						for(NovaPlayer nPlayer : rank.getMembers()) {
 							memberNames.add(nPlayer.getName());
 						}
@@ -195,7 +195,7 @@ public class RankManager {
 
 					ranksConfigurationSection.set(rank.getName() + ".permissions", permissionNamesList);
 
-					ranksConfigurationSection.set(rank.getName() + ".def", rank.isDef());
+					ranksConfigurationSection.set(rank.getName() + ".def", rank.isDefault());
 					ranksConfigurationSection.set(rank.getName() + ".clone", rank.isClone());
 
 					rank.setUnchanged();
@@ -234,7 +234,7 @@ public class RankManager {
 					}
 
 					List<String> memberNamesList = new ArrayList<>();
-					if(!rank.isDef()) {
+					if(!rank.isDefault()) {
 						for(NovaPlayer nPlayer : rank.getMembers()) {
 							memberNamesList.add(nPlayer.getName());
 						}
@@ -251,7 +251,7 @@ public class RankManager {
 						preparedStatement.setString(2, guild.getName());
 						preparedStatement.setString(3, JSONArray.toJSONString(permissionNamesList));
 						preparedStatement.setString(4, JSONArray.toJSONString(memberNamesList));
-						preparedStatement.setBoolean(5, rank.isDef());
+						preparedStatement.setBoolean(5, rank.isDefault());
 						preparedStatement.setBoolean(6, rank.isClone());
 
 						preparedStatement.setInt(7, rank.getId());
@@ -292,7 +292,7 @@ public class RankManager {
 				preparedStatement.setString(2, rank.getGuild().getName());
 				preparedStatement.setString(3, JSONArray.toJSONString(permissionNamesList));
 				preparedStatement.setString(4, JSONArray.toJSONString(memberNamesList));
-				preparedStatement.setBoolean(5, rank.isDef());
+				preparedStatement.setBoolean(5, rank.isDefault());
 				preparedStatement.setBoolean(6, rank.isClone());
 				preparedStatement.execute();
 
@@ -370,7 +370,7 @@ public class RankManager {
 	public void loadDefaultRanks() {
 		NovaRank leaderRank = new NovaRank("Leader");
 		leaderRank.setPermissions(Lists.newArrayList(GuildPermission.values()));
-		defaultRanks.add(leaderRank);
+		genericRanks.add(leaderRank);
 		int count = 1;
 
 		ConfigurationSection section = Config.GUILD_DEFAULTRANKS.getConfigurationSection();
@@ -381,19 +381,19 @@ public class RankManager {
 				rank.addPermission(GuildPermission.valueOf(permName.toUpperCase()));
 			}
 
-			defaultRanks.add(rank);
+			genericRanks.add(rank);
 			count++;
 		}
 
 		LoggerUtils.info("Loaded " + count + " default (guild) ranks.");
 	}
 
-	public boolean isDefaultRank(NovaRank rank) {
-		return getDefaultRanks().contains(rank);
+	public boolean isGenericRank(NovaRank rank) {
+		return getGenericRanks().contains(rank);
 	}
 
-	public List<NovaRank> getDefaultRanks() {
-		return defaultRanks;
+	public List<NovaRank> getGenericRanks() {
+		return genericRanks;
 	}
 
 	private void assignRanks() {
@@ -413,7 +413,7 @@ public class RankManager {
 				}
 				else {
 					if(defaultRank == null) {
-						rank = getDefaultRanks().get(1);
+						rank = getGenericRanks().get(1);
 					}
 					else {
 						rank = defaultRank;
@@ -426,6 +426,6 @@ public class RankManager {
 	}
 
 	public static NovaRank getLeaderRank() {
-		return NovaGuilds.getInstance().getRankManager().getDefaultRanks().get(0);
+		return NovaGuilds.getInstance().getRankManager().getGenericRanks().get(0);
 	}
 }
