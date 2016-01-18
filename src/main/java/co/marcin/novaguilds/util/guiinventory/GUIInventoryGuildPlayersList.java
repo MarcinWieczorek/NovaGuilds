@@ -31,12 +31,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GUIInventoryGuildPlayersList implements GUIInventory {
 	private final Inventory inventory;
 	private final Map<Integer, NovaPlayer> slotPlayersMap = new HashMap<>();
-	private final NovaGuild guild;
+	protected final NovaGuild guild;
 	private NovaPlayer viewer;
 
 	public GUIInventoryGuildPlayersList(NovaGuild guild) {
@@ -47,12 +48,14 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 
 	@Override
 	public void generateContent() {
+		generateContent(guild.getPlayers());
+	}
+
+	public void generateContent(List<NovaPlayer> playerList) {
 		inventory.clear();
 		int slot = 0;
 		slotPlayersMap.clear();
-		for(NovaPlayer nPlayer : guild.getPlayers()) {
-//			ItemStack itemStack = InventoryUtils.getPlayerHead(nPlayer.getName());
-
+		for(NovaPlayer nPlayer : playerList) {
 			Map<String, String> vars = new HashMap<>();
 			vars.put("PLAYERNAME", nPlayer.getName());
 

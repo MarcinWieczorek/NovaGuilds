@@ -87,7 +87,7 @@ public final class ItemStackUtils {
 			}
 
 			if(material == null) {
-				return null;
+				return stringToItemStack("DIRT 1 name:&cINVALID_ITEM");
 			}
 
 			if(explode.length > 1) { //amount
@@ -304,7 +304,8 @@ public final class ItemStackUtils {
 
 			return itemStack;
 		}
-		return null;
+
+		return stringToItemStack("DIRT 1 name:&cINVALID_ITEM");
 	}
 
 	public static List<ItemStack> stringToItemStackList(List<String> list) {

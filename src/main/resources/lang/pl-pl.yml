@@ -530,6 +530,7 @@ inventory:
      clone: "GOLD_NUGGET 1 name:&6Sklonuj"
      rename: "NAME_TAG 1 name:&6Zmień_nazwę"
      delete: "REDSTONE_BLOCK 1 name:&cUsuń"
+     memberlist: "SKULL_ITEM:3 1 name:Członkowie"
   permissions:
    title: "Edycja rangi: &l{RANKNAME}"
    item:

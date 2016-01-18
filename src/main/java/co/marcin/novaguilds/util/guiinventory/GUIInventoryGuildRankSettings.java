@@ -43,6 +43,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 	private ItemStack cloneItem;
 	private ItemStack renameItem;
 	private ItemStack deleteItem;
+	private ItemStack memberListItem;
 
 	public GUIInventoryGuildRankSettings(NovaRank rank) {
 		inventory = ChestGUIUtils.createInventory(9, Message.INVENTORY_GUI_RANKS_TITLE);
@@ -79,6 +80,9 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			rank.delete();
 			close();
 		}
+		else if(clickedItemStack.equals(memberListItem)) {
+			new GUIInventoryGuildRankMembers(getGuild(), rank).open(getViewer());
+		}
 	}
 
 	@Override
@@ -101,6 +105,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 		cloneItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_CLONE.get());
 		renameItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME.get());
 		deleteItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.get());
+		memberListItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.get());
 
 		if(editPermissionsItem != null && !rank.isGeneric()) {
 			inventory.addItem(editPermissionsItem);
@@ -120,6 +125,10 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 
 		if(deleteItem != null && !rank.isGeneric()) {
 			inventory.addItem(deleteItem);
+		}
+
+		if(memberListItem != null && GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).size() > 0) {
+			inventory.addItem(memberListItem);
 		}
 
 		ChestGUIUtils.addBackItem(this);
