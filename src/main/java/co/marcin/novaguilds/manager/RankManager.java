@@ -428,4 +428,8 @@ public class RankManager {
 	public static NovaRank getLeaderRank() {
 		return NovaGuilds.getInstance().getRankManager().getGenericRanks().get(0);
 	}
+
+	public static NovaRank getDefaultRank() {
+		return NovaGuilds.getInstance().getRankManager().getGenericRanks().get(1);
+	}
 }

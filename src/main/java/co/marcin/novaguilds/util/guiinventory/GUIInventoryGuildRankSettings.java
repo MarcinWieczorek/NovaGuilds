@@ -35,6 +35,7 @@ import org.bukkit.inventory.ItemStack;
 public class GUIInventoryGuildRankSettings implements GUIInventory {
 	private final Inventory inventory;
 	private final NovaRank rank;
+	private NovaGuild guild;
 	private NovaPlayer viewer;
 
 	private ItemStack editPermissionsItem;
@@ -56,64 +57,20 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			new GUIInventoryGuildPermissionSelect(rank).open(viewer);
 		}
 		else if(clickedItemStack.equals(setDefaultItem)) {
-			rank.setDefault(true);
+			NovaRank clonedRank = rank;
+			if(rank.isGeneric() && !RankManager.getDefaultRank().equals(rank)) {
+				clonedRank = cloneRank();
+			}
+
+			if(!getGuild().getDefaultRank().isGeneric()) {
+				getGuild().getDefaultRank().setDefault(false);
+			}
+
+			clonedRank.setDefault(true);
+			generateContent();
 		}
 		else if(clickedItemStack.equals(cloneItem)) {
-			String clonePrefix = Message.INVENTORY_GUI_RANK_SETTINGS_CLONEPREFIX.get();
-			String cloneName = rank.getName().startsWith(clonePrefix) || rank.isGeneric() ? rank.getName() : clonePrefix + rank.getName();
-
-			if(StringUtils.contains(cloneName, ' ')) {
-				String[] split = StringUtils.split(cloneName, ' ');
-
-				if(NumberUtils.isNumeric(split[split.length-1])) {
-					cloneName = cloneName.substring(0, cloneName.length() - split[split.length-1].length() - 1);
-				}
-			}
-
-			NovaRank clone = new NovaRank(cloneName);
-			clone.setClone(rank.isGeneric());
-			NovaGuild guild;
-
-			if(rank.isGeneric()) {
-				GUIInventory previousGui = getViewer().getGuiInventoryHistory().get(getViewer().getGuiInventoryHistory().size() - 2);
-
-				if(previousGui == null) {
-					return;
-				}
-
-				if(!(previousGui instanceof GUIInventoryGuildRankList)) {
-					return;
-				}
-
-				guild = ((GUIInventoryGuildRankList) previousGui).getGuild();
-			}
-			else {
-				guild = rank.getGuild();
-			}
-
-			boolean doubleName;
-			int i = 1;
-			do {
-				if(i > 999) {
-					break;
-				}
-
-				doubleName = false;
-				for(NovaRank loopRank : guild.getRanks()) {
-					if(!loopRank.isGeneric() && loopRank.getName().equalsIgnoreCase(clone.getName())) {
-						doubleName = true;
-					}
-				}
-
-				if(doubleName) {
-					clone.setName(cloneName + " " + i);
-				}
-
-				i++;
-			} while(doubleName);
-
-			clone.setPermissions(rank.getPermissions());
-			guild.addRank(clone);
+			cloneRank();
 		}
 		else if(clickedItemStack.equals(renameItem)) {
 			//TODO renaming
@@ -149,7 +106,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 			inventory.addItem(editPermissionsItem);
 		}
 
-		if(setDefaultItem != null && !rank.isGeneric() && rank.isDef()) {
+		if(setDefaultItem != null && !rank.equals(getGuild().getDefaultRank()) && !RankManager.getLeaderRank().equals(rank)) {
 			inventory.addItem(setDefaultItem);
 		}
 
@@ -164,6 +121,8 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 		if(deleteItem != null && !rank.isGeneric()) {
 			inventory.addItem(deleteItem);
 		}
+
+		ChestGUIUtils.addBackItem(this);
 	}
 
 	@Override
@@ -179,5 +138,63 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 	@Override
 	public void close() {
 		getViewer().getPlayer().closeInventory();
+	}
+
+	public NovaGuild getGuild() {
+		return guild;
+	}
+
+	public void setGuild(NovaGuild guild) {
+		this.guild = guild;
+	}
+
+	private NovaRank cloneRank() {
+		String clonePrefix = Message.INVENTORY_GUI_RANK_SETTINGS_CLONEPREFIX.get();
+		String cloneName = rank.getName().startsWith(clonePrefix) || rank.isGeneric() ? rank.getName() : clonePrefix + rank.getName();
+
+		if(StringUtils.contains(cloneName, ' ')) {
+			String[] split = StringUtils.split(cloneName, ' ');
+
+			if(NumberUtils.isNumeric(split[split.length-1])) {
+				cloneName = cloneName.substring(0, cloneName.length() - split[split.length-1].length() - 1);
+			}
+		}
+
+		NovaRank clone = new NovaRank(cloneName);
+		clone.setClone(rank.isGeneric());
+		NovaGuild guild;
+
+		if(rank.isGeneric()) {
+			GUIInventory previousGui = getViewer().getGuiInventoryHistory().get(getViewer().getGuiInventoryHistory().size() - 2);
+			guild = ((GUIInventoryGuildRankList) previousGui).getGuild();
+		}
+		else {
+			guild = rank.getGuild();
+		}
+
+		boolean doubleName;
+		int i = 1;
+		do {
+			if(i > 999) {
+				break;
+			}
+
+			doubleName = false;
+			for(NovaRank loopRank : guild.getRanks()) {
+				if(!loopRank.isGeneric() && loopRank.getName().equalsIgnoreCase(clone.getName())) {
+					doubleName = true;
+				}
+			}
+
+			if(doubleName) {
+				clone.setName(cloneName + " " + i);
+			}
+
+			i++;
+		} while(doubleName);
+
+		clone.setPermissions(rank.getPermissions());
+		guild.addRank(clone);
+		return clone;
 	}
 }

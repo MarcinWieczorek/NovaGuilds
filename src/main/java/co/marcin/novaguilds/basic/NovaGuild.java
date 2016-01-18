@@ -219,7 +219,7 @@ public class NovaGuild {
 			}
 		}
 
-		return NovaGuilds.getInstance().getRankManager().getDefaultRanks().get(1);
+		return RankManager.getDefaultRank();
 	}
 
 	public NovaRank getCloneOfGenericRank(NovaRank genericRank) {
