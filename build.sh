@@ -32,3 +32,5 @@ echo " *******"
 echo "Desired file can be found in target/ directory"
 find target/ -maxdepth 1 -type f -name "NovaGuilds*"
 echo " ******* NovaGuilds *******"
+
+git checkout develop
