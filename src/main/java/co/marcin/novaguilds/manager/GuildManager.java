@@ -531,6 +531,9 @@ public class GuildManager {
 					delete(guild);
 					LoggerUtils.info("DELETED guild " + (guild == null ? "null" : guild.getName()));
 				}
+				else if(guild != null) {
+					guilds.remove(guild.getName());
+				}
 
 				if(guild != null) {
 					if(guild.hasRegion()) {

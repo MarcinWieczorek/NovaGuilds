@@ -297,6 +297,9 @@ public class RegionManager {
 					remove(region);
 					LoggerUtils.info("DELETED region " + region.getGuildName());
 				}
+				else {
+					regions.remove(region.getGuildName());
+				}
 
 				i++;
 			}
