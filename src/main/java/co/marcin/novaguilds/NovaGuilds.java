@@ -480,7 +480,17 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//HolographicDisplays
 		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
+			//Try to find the API
+			boolean apiFound;
+			try {
+				Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
+				apiFound = true;
+			}
+			catch(ClassNotFoundException e) {
+				apiFound = false;
+			}
+
+			if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null || !apiFound) {
 				LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
 				Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
 			}
