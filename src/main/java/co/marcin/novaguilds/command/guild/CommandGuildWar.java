@@ -56,7 +56,7 @@ public class CommandGuildWar implements Executor {
 			String guildnameformat = Message.CHAT_GUILD_WAR_LIST_ITEM.get();
 
 			if(!guild.getWars().isEmpty()) {
-				String warsstr = StringUtils.join(guild.getWarsNames(), guildnameformat, separator);
+				String warsstr = StringUtils.join(guild.getWarsNames(), guildnameformat, separator, "GUILDNAME");
 				MessageManager.sendPrefixMessage(sender, warsstr);
 			}
 			else {
@@ -66,7 +66,7 @@ public class CommandGuildWar implements Executor {
 			if(!guild.getNoWarInvitations().isEmpty()) {
 				Message.CHAT_GUILD_WAR_LIST_NOWARINVHEADER.send(sender);
 
-				String nowarinvs = StringUtils.join(guild.getNoWarInvitations(), guildnameformat, separator);
+				String nowarinvs = StringUtils.join(guild.getNoWarInvitations(), guildnameformat, separator, "GUILDNAME");
 
 				MessageManager.sendPrefixMessage(sender, nowarinvs);
 			}

@@ -114,13 +114,12 @@ public final class StringUtils {
 		return list;
 	}
 
-	//TODO dafuq
-	public static String join(List<String> items, String pattern, String separator) {
+	public static String join(List<String> items, String pattern, String separator, String varName) {
 		String joined = "";
 
 		if(!items.isEmpty()) {
 			for(String row : items) {
-				row = org.apache.commons.lang.StringUtils.replace(pattern, "{GUILDNAME}", row);
+				row = org.apache.commons.lang.StringUtils.replace(pattern, "{" + varName + "}", row);
 				joined = joined + row + separator;
 			}
 
