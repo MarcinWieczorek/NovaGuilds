@@ -376,7 +376,7 @@ public class GuildManager {
 
 					//WARS
 					String wars = "";
-					String nowar_inv = "";
+					String noWarInvitationString = "";
 
 					if(!guild.getWars().isEmpty()) {
 						for(NovaGuild war : guild.getWars()) {
@@ -389,12 +389,12 @@ public class GuildManager {
 					}
 
 					if(!guild.getNoWarInvitations().isEmpty()) {
-						for(String nowarinv : guild.getNoWarInvitations()) {
-							if(!nowar_inv.equals("")) {
-								nowar_inv += ";";
+						for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
+							if(!noWarInvitationString.equals("")) {
+								noWarInvitationString += ";";
 							}
 
-							nowar_inv = nowar_inv + nowarinv;
+							noWarInvitationString = noWarInvitationString + guildLoop.getName();
 						}
 					}
 
@@ -410,7 +410,7 @@ public class GuildManager {
 					preparedStatement.setString(5, allies);
 					preparedStatement.setString(6, alliesinv);
 					preparedStatement.setString(7, wars);
-					preparedStatement.setString(8, nowar_inv);
+					preparedStatement.setString(8, noWarInvitationString);
 					preparedStatement.setDouble(9, guild.getMoney());
 					preparedStatement.setInt(10, guild.getPoints());
 					preparedStatement.setInt(11, guild.getLives());
@@ -568,7 +568,9 @@ public class GuildManager {
 				guild.setUnchanged();
 
 				//No-war invitations
-				//TODO
+				for(String guildName : guild.getNoWarInvitationNames()) {
+					guild.addNoWarInvitation(getGuildByName(guildName));
+				}
 
 				//Ally invitations
 				//TODO

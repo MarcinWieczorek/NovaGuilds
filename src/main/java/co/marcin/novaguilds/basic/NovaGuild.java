@@ -67,9 +67,9 @@ public class NovaGuild {
 	private final List<NovaGuild> war = new ArrayList<>();
 	private final List<String> warNames = new ArrayList<>();
 
-	private final List<String> nowarInvited = new ArrayList<>();
+	private final List<String> nowarInvitedNames = new ArrayList<>();
+	private final List<NovaGuild> nowarInvited = new ArrayList<>();
 
-	private final List<String> invitedPlayersNames = new ArrayList<>();
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
 	private final List<NovaRank> ranks = new ArrayList<>();
 
@@ -106,7 +106,11 @@ public class NovaGuild {
 		return war;
 	}
 
-	public List<String> getNoWarInvitations() {
+	public List<String> getNoWarInvitationNames() {
+		return nowarInvitedNames;
+	}
+
+	public List<NovaGuild> getNoWarInvitations() {
 		return nowarInvited;
 	}
 
@@ -341,8 +345,8 @@ public class NovaGuild {
 	}
 
 	public void setNoWarInvitations(List<String> list) {
-		nowarInvited.clear();
-		nowarInvited.addAll(list);
+		nowarInvitedNames.clear();
+		nowarInvitedNames.addAll(list);
 
 		changed();
 	}
@@ -428,7 +432,7 @@ public class NovaGuild {
 	}
 
 	public boolean isNoWarInvited(NovaGuild guild) {
-		return nowarInvited.contains(guild.getName().toLowerCase());
+		return nowarInvited.contains(guild);
 	}
 
 	public boolean isLeader(NovaPlayer nPlayer) {
@@ -493,7 +497,7 @@ public class NovaGuild {
 
 	public void addNoWarInvitation(NovaGuild guild) {
 		if(!isNoWarInvited(guild)) {
-			nowarInvited.add(guild.getName().toLowerCase());
+			nowarInvited.add(guild);
 			changed();
 		}
 	}
@@ -567,8 +571,8 @@ public class NovaGuild {
 	}
 
 	public void removeNoWarInvitation(NovaGuild guild) {
-		if(nowarInvited.contains(guild.getName().toLowerCase())) {
-			nowarInvited.remove(guild.getName().toLowerCase());
+		if(nowarInvited.contains(guild)) {
+			nowarInvited.remove(guild);
 			changed();
 		}
 	}

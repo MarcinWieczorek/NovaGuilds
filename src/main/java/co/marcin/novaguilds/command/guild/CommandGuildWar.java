@@ -29,7 +29,9 @@ import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandGuildWar implements Executor {
@@ -66,7 +68,12 @@ public class CommandGuildWar implements Executor {
 			if(!guild.getNoWarInvitations().isEmpty()) {
 				Message.CHAT_GUILD_WAR_LIST_NOWARINVHEADER.send(sender);
 
-				String nowarinvs = StringUtils.join(guild.getNoWarInvitations(), guildnameformat, separator, "GUILDNAME");
+				List<String> noWarInvitationNames = new ArrayList<>();
+				for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
+					noWarInvitationNames.add(guildLoop.getName());
+				}
+
+				String nowarinvs = StringUtils.join(noWarInvitationNames, guildnameformat, separator, "GUILDNAME");
 
 				MessageManager.sendPrefixMessage(sender, nowarinvs);
 			}
