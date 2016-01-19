@@ -24,10 +24,14 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.MessageManager;
+import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandGuildAlly implements Executor {
@@ -39,12 +43,6 @@ public class CommandGuildAlly implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(args.length != 1) {
-			Message.CHAT_GUILD_ENTERNAME.send(sender);
-			return;
-		}
-
-		String allyname = args[0];
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -53,80 +51,114 @@ public class CommandGuildAlly implements Executor {
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
-		NovaGuild allyGuild = plugin.getGuildManager().getGuildFind(allyname);
 
-		if(allyGuild == null) {
-			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
-			return;
-		}
+		if(args.length > 0) {
+			NovaGuild allyGuild = plugin.getGuildManager().getGuildFind(args[0]);
 
-		if(allyGuild.equals(guild)) {
-			Message.CHAT_GUILD_ALLY_SAMENAME.send(sender);
-			return;
-		}
-
-		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", guild.getName());
-		vars.put("ALLYNAME", allyGuild.getName());
-
-		if(!guild.isAlly(allyGuild)) {
-			if(guild.isWarWith(allyGuild)) {
-				Message.CHAT_GUILD_ALLY_WAR.vars(vars).send(sender);
+			if(allyGuild == null) {
+				Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
 				return;
 			}
 
-			if(guild.isInvitedToAlly(allyGuild)) { //Accepting
-				if(!nPlayer.hasPermission(GuildPermission.ALLY_ACCEPT)) {
+			if(allyGuild.equals(guild)) {
+				Message.CHAT_GUILD_ALLY_SAMENAME.send(sender);
+				return;
+			}
+
+			Map<String, String> vars = new HashMap<>();
+			vars.put("GUILDNAME", guild.getName());
+			vars.put("ALLYNAME", allyGuild.getName());
+
+			if(!guild.isAlly(allyGuild)) {
+				if(guild.isWarWith(allyGuild)) {
+					Message.CHAT_GUILD_ALLY_WAR.vars(vars).send(sender);
+					return;
+				}
+
+				if(guild.isInvitedToAlly(allyGuild)) { //Accepting
+					if(!nPlayer.hasPermission(GuildPermission.ALLY_ACCEPT)) {
+						Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+						return;
+					}
+
+					allyGuild.addAlly(guild);
+					guild.addAlly(allyGuild);
+					guild.removeAllyInvitation(allyGuild);
+					Message.BROADCAST_GUILD_ALLIED.vars(vars).broadcast();
+
+					Message.CHAT_GUILD_ALLY_ACCEPTED.vars(vars).send(sender);
+
+					//tags
+					TagUtils.refreshAll();
+				}
+				else { //Inviting
+					if(!allyGuild.isInvitedToAlly(guild)) {
+						if(!nPlayer.hasPermission(GuildPermission.ALLY_INVITE_SEND)) {
+							Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+							return;
+						}
+
+						allyGuild.addAllyInvitation(guild);
+						Message.CHAT_GUILD_ALLY_INVITED.vars(vars).send(sender);
+						Message.CHAT_GUILD_ALLY_NOTIFYGUILD.vars(vars).broadcast(allyGuild);
+					}
+					else { //cancel inv
+						if(!nPlayer.hasPermission(GuildPermission.ALLY_INVITE_CANCEL)) {
+							Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+							return;
+						}
+
+						allyGuild.removeAllyInvitation(guild);
+
+						Message.CHAT_GUILD_ALLY_CANCELED.vars(vars).send(sender);
+						Message.CHAT_GUILD_ALLY_NOTIFYGUILDCANCELED.vars(vars).broadcast(allyGuild);
+					}
+				}
+			}
+			else { //UN-ALLY
+				if(!nPlayer.hasPermission(GuildPermission.ALLY_CANCEL)) {
 					Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 					return;
 				}
 
-				allyGuild.addAlly(guild);
-				guild.addAlly(allyGuild);
-				guild.removeAllyInvitation(allyGuild);
-				Message.BROADCAST_GUILD_ALLIED.vars(vars).broadcast();
+				guild.removeAlly(allyGuild);
+				allyGuild.removeAlly(guild);
 
-				Message.CHAT_GUILD_ALLY_ACCEPTED.vars(vars).send(sender);
+				Message.BROADCAST_GUILD_ENDALLY.vars(vars).broadcast();
 
-				//tags
 				TagUtils.refreshAll();
 			}
-			else { //Inviting
-				if(!allyGuild.isInvitedToAlly(guild)) {
-					if(!nPlayer.hasPermission(GuildPermission.ALLY_INVITE_SEND)) {
-						Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-						return;
-					}
 
-					allyGuild.addAllyInvitation(guild);
-					Message.CHAT_GUILD_ALLY_INVITED.vars(vars).send(sender);
-					Message.CHAT_GUILD_ALLY_NOTIFYGUILD.vars(vars).broadcast(allyGuild);
-				}
-				else { //cancel inv
-					if(!nPlayer.hasPermission(GuildPermission.ALLY_INVITE_CANCEL)) {
-						Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-						return;
-					}
-
-					allyGuild.removeAllyInvitation(guild);
-
-					Message.CHAT_GUILD_ALLY_CANCELED.vars(vars).send(sender);
-					Message.CHAT_GUILD_ALLY_NOTIFYGUILDCANCELED.vars(vars).broadcast(allyGuild);
-				}
-			}
+			return;
 		}
-		else { //UN-ALLY
-			if(!nPlayer.hasPermission(GuildPermission.ALLY_CANCEL)) {
-				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-				return;
+
+		//List allies
+		Message.CHAT_GUILD_ALLY_LIST_HEADER_ALLIES.send(sender);
+		String separator = Message.CHAT_GUILD_ALLY_LIST_SEPARATOR.get();
+		String guildNameFormat = Message.CHAT_GUILD_ALLY_LIST_ITEM.get();
+
+		if(!guild.getAllies().isEmpty()) {
+			List<String> alliesNamesList = new ArrayList<>();
+
+			for(NovaGuild guildLoop : guild.getAllies()) {
+				alliesNamesList.add(guildLoop.getName());
 			}
 
-			guild.removeAlly(allyGuild);
-			allyGuild.removeAlly(guild);
+			MessageManager.sendMessage(sender, StringUtils.join(alliesNamesList, guildNameFormat, separator, "GUILDNAME"));
+		}
+		else {
+			Message.CHAT_GUILD_ALLY_LIST_NOALLIES.send(sender);
+		}
 
-			Message.BROADCAST_GUILD_ENDALLY.vars(vars).broadcast();
+		if(!guild.getAllyInvitations().isEmpty()) {
+			Message.CHAT_GUILD_ALLY_LIST_HEADER_INVITATIONS.send(sender);
 
-			TagUtils.refreshAll();
+			List<String> allyInvitationNames = new ArrayList<>();
+			for(NovaGuild guildLoop : guild.getAllyInvitations()) {
+				allyInvitationNames.add(guildLoop.getName());
+			}
+
+			MessageManager.sendMessage(sender, StringUtils.join(allyInvitationNames, guildNameFormat, separator, "GUILDNAME"));
 		}
 	}
 

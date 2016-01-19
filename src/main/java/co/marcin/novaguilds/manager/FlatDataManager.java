@@ -158,13 +158,18 @@ public class FlatDataManager {
 					warsNames.add(war.getName());
 				}
 
+				List<String> allyInvitationNames = new ArrayList<>();
+				for(NovaGuild guildLoop : guild.getAllyInvitations()) {
+					allyInvitationNames.add(guildLoop.getName());
+				}
+
 				//set values
 				guildData.set("id", guild.getId());
 				guildData.set("name", guild.getName());
 				guildData.set("tag", guild.getTag());
 				guildData.set("leader", guild.getLeader() == null ? "" : guild.getLeader().getName());
 				guildData.set("allies", alliesNames);
-				guildData.set("alliesinv", guild.getAllyInvitations());
+				guildData.set("alliesinv", allyInvitationNames);
 				guildData.set("wars", warsNames);
 				guildData.set("nowar", guild.getNoWarInvitations());
 				guildData.set("money", guild.getMoney());

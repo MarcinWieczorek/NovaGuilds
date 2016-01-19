@@ -256,6 +256,13 @@ chat:
    notifyguild: "Die Gilde &a{GUILDNAME} hat euch eingeladen Verbündete zu sein."
    notifyguildcanceled: "Die Gilde &a{GUILDNAME} haben ihre Verbündeteneinladung abgebrochen."
    canceled: "Verbündeteneinladung von &a{GUILDNAME} abgebrochen "
+   list:
+    noallies: "No allies."
+    header:
+     allies: "List of allies:"
+     invitations: "List of alliance invitations:"
+    item: "&c{GUILDNAME}"
+    separator: "&f, "
 
   couldnotfind: "Diese Gilde wurde nicht gefunden."
   hasnoregion: "Diese Gilde hat kein Gebiet."

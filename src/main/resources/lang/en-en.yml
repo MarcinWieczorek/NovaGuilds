@@ -256,6 +256,13 @@ chat:
    notifyguild: "Guild &a{GUILDNAME} invited you to an ally."
    notifyguildcanceled: "Guild &a{GUILDNAME} canceled their ally invitation"
    canceled: "Canceled ally invitation with guild &a{GUILDNAME}"
+   list:
+    noallies: "No allies."
+    header:
+     allies: "List of allies:"
+     invitations: "List of alliance invitations:"
+    item: "&c{GUILDNAME}"
+    separator: "&f, "
    
   couldnotfind: "Couldn't find the guild."
   hasnoregion: "This guild has no region"

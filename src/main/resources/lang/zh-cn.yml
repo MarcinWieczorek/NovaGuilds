@@ -256,6 +256,13 @@ chat:
    notifyguild: "&a{GUILDNAME}公会向您发出了结盟申请."
    notifyguildcanceled: "&a{GUILDNAME}取消了他们的结盟申请."
    canceled: "&3您已取消向&a{GUILDNAME}的结盟申请."
+   list:
+    noallies: "No allies."
+    header:
+     allies: "List of allies:"
+     invitations: "List of alliance invitations:"
+    item: "&c{GUILDNAME}"
+    separator: "&f, "
 
   couldnotfind: "该公会不存在."
   hasnoregion: "该公会没有领地."

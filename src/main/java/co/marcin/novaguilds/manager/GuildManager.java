@@ -228,7 +228,7 @@ public class GuildManager {
 						novaGuild.setSlots(res.getInt("slots"));
 
 						novaGuild.setAlliesNames(allies);
-						novaGuild.setAllyInvitations(alliesinv);
+						novaGuild.setAllyInvitationNames(alliesinv);
 
 						novaGuild.setWarsNames(wars);
 						novaGuild.setNoWarInvitations(nowarinv);
@@ -352,7 +352,7 @@ public class GuildManager {
 
 					//ALLIES
 					String allies = "";
-					String alliesinv = "";
+					String allyInvitationsString = "";
 
 					if(!guild.getAllies().isEmpty()) {
 						for(NovaGuild ally : guild.getAllies()) {
@@ -365,12 +365,12 @@ public class GuildManager {
 					}
 
 					if(!guild.getAllyInvitations().isEmpty()) {
-						for(String allyinv : guild.getAllyInvitations()) {
-							if(!alliesinv.equals("")) {
-								alliesinv += ";";
+						for(NovaGuild guildLoop : guild.getAllyInvitations()) {
+							if(!allyInvitationsString.equals("")) {
+								allyInvitationsString += ";";
 							}
 
-							alliesinv = alliesinv + allyinv;
+							allyInvitationsString = allyInvitationsString + guildLoop.getName();
 						}
 					}
 
@@ -408,7 +408,7 @@ public class GuildManager {
 					preparedStatement.setString(3, guild.getLeader().getName());
 					preparedStatement.setString(4, spawnpointcoords);
 					preparedStatement.setString(5, allies);
-					preparedStatement.setString(6, alliesinv);
+					preparedStatement.setString(6, allyInvitationsString);
 					preparedStatement.setString(7, wars);
 					preparedStatement.setString(8, noWarInvitationString);
 					preparedStatement.setDouble(9, guild.getMoney());
@@ -565,15 +565,18 @@ public class GuildManager {
 				}
 				guild.setWars(wars);
 
-				guild.setUnchanged();
-
 				//No-war invitations
 				for(String guildName : guild.getNoWarInvitationNames()) {
 					guild.addNoWarInvitation(getGuildByName(guildName));
 				}
 
 				//Ally invitations
-				//TODO
+				for(String guildName : guild.getAllyInvitationNames()) {
+					guild.addAllyInvitation(getGuildByName(guildName));
+				}
+				guild.setAllyInvitationNames(new ArrayList<String>());
+
+				guild.setUnchanged();
 			}
 		}
 
@@ -651,7 +654,7 @@ public class GuildManager {
 			guild.setAlliesNames(guildData.getStringList("allies"));
 			guild.setWarsNames(guildData.getStringList("wars"));
 			guild.setNoWarInvitations(guildData.getStringList("nowar"));
-			guild.setAllyInvitations(guildData.getStringList("alliesinv"));
+			guild.setAllyInvitationNames(guildData.getStringList("alliesinv"));
 
 			guild.setMoney(guildData.getDouble("money"));
 			guild.setPoints(guildData.getInt("points"));

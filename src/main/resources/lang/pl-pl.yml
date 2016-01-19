@@ -256,6 +256,13 @@ chat:
    notifyguild: "Gildia &a{GUILDNAME} Zaprosila Cie do sojuszu"
    notifyguildcanceled: "Gildia &a{GUILDNAME} cofnela propozycje sojuszu"
    canceled: "Cofnieto zaproszenie sojuszu z &a{GUILDNAME}"
+   list:
+    noallies: "Brak sojuszy."
+    header:
+     allies: "Lista sojuszy:"
+     invitations: "Lista zaproszeń do sojuszy:"
+    item: "&c{GUILDNAME}"
+    separator: "&f, "
 
   couldnotfind: "Nie udalo sie znalezc gildii"
   hasnoregion: "Ta gildia nie ma swojego terenu"
