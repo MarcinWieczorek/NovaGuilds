@@ -121,7 +121,6 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), joinItems);
 
 			if(!missingItems.isEmpty()) {
-				//TODO: list missing items and test messages/make other msgs
 				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 				sender.sendMessage(StringUtils.getItemList(missingItems));
 
@@ -134,9 +133,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		//money
 		double joinMoney = plugin.getGroupManager().getGroup(sender).getGuildJoinMoney();
 		if(joinMoney > 0) {
-			//if(plugin.econ.getBalance((Player) sender) < joinMoney) { //1.8
 			if(!nPlayer.hasMoney(joinMoney)) {
-				//TODO not enought money msg
 				vars.put("{REQUIREDMONEY}", joinMoney + "");
 				Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 				return;

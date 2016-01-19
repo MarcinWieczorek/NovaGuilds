@@ -92,7 +92,6 @@ public class CommandGuildHome implements Executor {
 				List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
 
 				if(!missingItems.isEmpty()) {
-					//TODO: list missing items and test messages/make other msgs
 					Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 					sender.sendMessage(StringUtils.getItemList(missingItems));
 
@@ -103,9 +102,7 @@ public class CommandGuildHome implements Executor {
 			//money
 			double homeMoney = plugin.getGroupManager().getGroup(sender).getGuildHomeMoney();
 			if(homeMoney > 0) {
-//				if(plugin.econ.getBalance((Player)sender) < homeMoney) { //1.8
-				if(!nPlayer.hasMoney(homeMoney)) { //1.7
-					//TODO not enought money
+				if(!nPlayer.hasMoney(homeMoney)) {
 					Map<String, String> vars = new HashMap<>();
 					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
 					Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
