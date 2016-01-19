@@ -55,6 +55,7 @@ tabapi:
  rankprefix: false
 
 tagapi:
+ enabled: true
  colortags: true
  rankprefix: false
  allycolor:

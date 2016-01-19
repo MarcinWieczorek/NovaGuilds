@@ -25,7 +25,6 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -63,25 +62,27 @@ public final class TagUtils {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void setPrefix(OfflinePlayer player, String tag, Player p) {
-		Scoreboard board = p.getScoreboard();
-		Team team = board.getPlayerTeam(player);
-		if(team == null) {
-			String tName = "ng_" + player.getName();
-			if(tName.length() > 16) {
-				tName = tName.substring(0, 16);
-			}
-
-			team = board.registerNewTeam(tName);
-			team.addPlayer(player);
+	public static void updatePrefix(Player p) {
+		if(!Config.TAGAPI_ENABLED.getBoolean()) {
+			return;
 		}
 
-		team.setPrefix(StringUtils.fixColors(tag));
-	}
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			String tag = getTag(player);
+			Scoreboard board = p.getScoreboard();
+			Team team = board.getPlayerTeam(player);
 
-	public static void updatePrefix(Player p) {
-		for(Player of : Bukkit.getOnlinePlayers()) {
-			setPrefix(of, getTag(of), p);
+			if(team == null) {
+				String tName = "ng_" + player.getName();
+				if(tName.length() > 16) {
+					tName = tName.substring(0, 16);
+				}
+
+				team = board.registerNewTeam(tName);
+				team.addPlayer(player);
+			}
+
+			team.setPrefix(StringUtils.fixColors(tag));
 		}
 	}
 

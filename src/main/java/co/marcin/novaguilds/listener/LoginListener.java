@@ -53,9 +53,6 @@ public class LoginListener implements Listener {
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
-		//scoreboard
-		player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-
 		nPlayer.setPlayer(player);
 		plugin.getPlayerManager().updateUUID(nPlayer);
 
@@ -74,7 +71,13 @@ public class LoginListener implements Listener {
 		}
 
 		//TabAPI
-		TagUtils.updatePrefix(player);
+		if(Config.TAGAPI_ENABLED.getBoolean()) {
+			if(player.getScoreboard() == null) {
+				player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+			}
+
+			TagUtils.updatePrefix(player);
+		}
 
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
