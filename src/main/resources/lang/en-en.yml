@@ -502,12 +502,6 @@ holographicdisplays:
 #no prefix, start with color
 barapi:
  warprogress: "&3Guild &a{DEFENDER} &3is under attack!"
- 
-book:
- help:
-  title: "NovaGuilds Tutorial"
-  pages:
-   - "&6[&5NovaGuilds&6] &3HELP"
 
 inventory:
  requireditems:

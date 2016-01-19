@@ -503,12 +503,6 @@ holographicdisplays:
 barapi:
  warprogress: "&3&a{DEFENDER}公会正遭受攻击！"
 
-book:
- help:
-  title: "公会教程"
-  pages:
-   - "公会帮助"
-
 inventory:
  requireditems:
   name: "需要的物品"

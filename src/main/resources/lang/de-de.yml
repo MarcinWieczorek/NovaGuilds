@@ -503,12 +503,6 @@ holographicdisplays:
 barapi:
  warprogress: "&3Gilde &a{DEFENDER} wird angegrifen!"
 
-book:
- help:
-  title: "NovaGuilds Tutorial"
-  pages:
-   - "&6[&5NovaGuilds&6] &3HILFE"
-
 inventory:
  requireditems:
   name: benötigte Gegenstände

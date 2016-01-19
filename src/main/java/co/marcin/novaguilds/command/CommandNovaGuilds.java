@@ -27,16 +27,11 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.VersionUtils;
-import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CommandNovaGuilds implements CommandExecutor, Executor {
@@ -146,23 +141,6 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				for(Player player : plugin.getServer().getOnlinePlayers()) {
 					NovaPlayer.get(player).getTablist().send();
 				}
-				break;
-			case "?":
-			case "help":
-				ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-				BookMeta bm = (BookMeta) book.getItemMeta();
-				List<String> pages = plugin.getMessageManager().getMessages().getStringList("book.help.pages");
-				List<String> pagesColor = new ArrayList<>();
-				for(String page : pages) {
-					pagesColor.add(StringUtils.fixColors(page));
-				}
-
-				bm.setPages(pagesColor);
-				bm.setAuthor("CTRL");
-				bm.setTitle(Message.BOOK_HELP_TITLE.get());
-				book.setItemMeta(bm);
-				Player player = (Player) sender;
-				player.getInventory().addItem(book);
 				break;
 			default:
 				Message.CHAT_UNKNOWNCMD.send(sender);
