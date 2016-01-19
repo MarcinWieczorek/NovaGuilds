@@ -166,6 +166,7 @@ chat:
      - "&5* &7/nga &cg &6purge &2- &3Löscht alle Gilden"
    hologram:
     header: "Hologramm Befehle:"
+    disabled: "&cThis command is disabled without HolographicDisplays plugin present."
     items:
      - "&5* &7/nga &ch &6list &2- &3Listet alle Hologramme auf"
      - "&5* &7/nga &ch &6addtop &2- &3Fügt eine Zeile OBEN hinzu"

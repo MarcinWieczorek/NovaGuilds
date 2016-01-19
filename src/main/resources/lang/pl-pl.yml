@@ -166,6 +166,7 @@ chat:
      - "&5* &7/nga &cg &6purge &2- &3Usun wszystkie gildie"
    hologram:
     header: "Komendy hologramow:"
+    disabled: "&cTa komenda jest zablokowana gdy plugin HolographicDisplays nie jest obecny."
     items:
      - "&5* &7/nga &ch &6list &2- &3Lista hologramow"
      - "&5* &7/nga &ch &6addtop &2- &3Dodaj hologram TOPki"

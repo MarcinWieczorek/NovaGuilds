@@ -166,6 +166,7 @@ chat:
      - "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
    hologram:
     header: "Hologram commands:"
+    disabled: "&cThis command is disabled without HolographicDisplays plugin present."
     items:
      - "&5* &7/nga &ch &6list &2- &3List all holograms"
      - "&5* &7/nga &ch &6addtop &2- &3Add TOP hologram"

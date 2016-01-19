@@ -166,6 +166,7 @@ chat:
      - "&5* &7/nga &cg &6purge &2- &3删除所有公会"
    hologram:
     header: "全息图指令:"
+    disabled: "&cThis command is disabled without HolographicDisplays plugin present."
     items:
      - "&5* &7/nga &ch &6list &2- &3全息图列表"
      - "&5* &7/nga &ch &6addtop &2- &3添加top全息图"

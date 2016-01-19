@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.admin.hologram;
 
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
@@ -62,6 +63,11 @@ public class CommandAdminHologram implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
+		if(!Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
+			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_DISABLED.send(sender);
+			return;
+		}
+
 		if(args.length == 0 || (args.length < 2 && !noHologramCommands.contains(args[0]))) {
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS.send(sender);
