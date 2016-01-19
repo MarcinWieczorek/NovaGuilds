@@ -100,7 +100,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private final GuildManager guildManager = new GuildManager(this);
 	private final RegionManager regionManager = new RegionManager(this);
 	private final PlayerManager playerManager = new PlayerManager(this);
-	private final MessageManager messageManager = new MessageManager(this);
+	private MessageManager messageManager;
 	private CommandManager commandManager;
 	private ConfigManager configManager;
 	private GroupManager groupManager;
@@ -123,6 +123,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//managers
 		configManager = new ConfigManager(this);
+		messageManager = new MessageManager();
 
 		if(!getMessageManager().load()) {
 			getServer().getPluginManager().disablePlugin(this);

@@ -231,8 +231,8 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 			}
 
 			if(!skipmsg) {
-				gmsg = StringUtils.replaceMap(gmsg, vars);
-				sender.sendMessage(StringUtils.fixColors(gmsg));
+				gmsg = MessageManager.replaceMap(gmsg, vars);
+				MessageManager.sendMessage(sender, gmsg);
 			}
 		}
 	}

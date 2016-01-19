@@ -18,12 +18,10 @@
 
 package co.marcin.novaguilds.enums;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
-import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
@@ -346,7 +344,7 @@ public enum Message {
 
 	HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS,
 	HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER,
-	HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW,
+	HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW(false),
 
 	BARAPI_WARPROGRESS,
 
@@ -431,7 +429,6 @@ public enum Message {
 	TIMEUNIT_YEAR_SINGULAR,
 	TIMEUNIT_YEAR_PLURAL;
 
-	private static final MessageManager messageManager = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getMessageManager();
 	private boolean title = false;
 	private String path = null;
 	private Map<String, String> vars = new HashMap<>();
@@ -455,10 +452,18 @@ public enum Message {
 		}
 	}
 
+	/**
+	 * Tells if the message is suitable for Title
+	 * @return true/false
+	 */
 	public boolean getTitle() {
 		return title;
 	}
 
+	/**
+	 * Gets message's yaml path
+	 * @return the path
+	 */
 	public String getPath() {
 		if(path == null) {
 			path = name().replace("_", ".").toLowerCase();
@@ -467,65 +472,117 @@ public enum Message {
 		return path;
 	}
 
+	/**
+	 * Tells if the prefix is turned on
+	 * @return prefix status true/false
+	 */
+	public boolean isPrefix() {
+		return prefix;
+	}
+
+	/**
+	 * Gets the map of variables
+	 * @return The Map
+	 */
+	public Map<String, String> getVars() {
+		return vars;
+	}
+
+	/**
+	 * Sends the Message to a player
+	 * @param sender receiver
+	 */
 	public void send(CommandSender sender) {
 		if(list) {
-			MessageManager.sendMessagesList(sender, getPath(), vars, prefix);
+			MessageManager.sendMessagesList(sender, this);
 		}
 		else {
-			MessageManager.sendMessagesMsg(sender, this, vars);
+			MessageManager.sendMessagesMsg(sender, this);
 		}
 	}
 
+	/**
+	 * Send the message to a player using NovaPlayer instance
+	 * @param nPlayer receiver NovaPlayer
+	 */
 	public void send(NovaPlayer nPlayer) {
 		if(nPlayer.isOnline()) {
 			send(nPlayer.getPlayer());
 		}
 	}
 
+	/**
+	 * Adds a map of vars;
+	 * @param vars Map of variables
+	 * @return Message instance
+	 */
 	public Message vars(Map<String, String> vars) {
 		this.vars = vars;
 		return this;
 	}
 
-	public Message list() {
-		list = true;
-		return this;
-	}
-
-	public Message title(boolean title) {
-		this.title = title;
-		return this;
-	}
-
+	/**
+	 * Sets whether the prefix should be displayed
+	 * @param prefix prefix status
+	 * @return Message instance
+	 */
 	public Message prefix(boolean prefix) {
 		this.prefix = prefix;
 		return this;
 	}
 
+	/**
+	 * Broadcasts the message to all players of a guild
+	 * @param guild the guild
+	 */
 	public void broadcast(NovaGuild guild) {
-		MessageManager.broadcastGuild(guild, this, vars, prefix);
+		MessageManager.broadcast(guild, this);
 	}
 
+	/**
+	 * Broadcasts the message to all players
+	 */
 	public void broadcast() {
-		MessageManager.broadcastMessage(this, vars);
+		MessageManager.broadcast(this);
 	}
 
+	/**
+	 * Broadcasts the message to all players with a certain permission
+	 * @param permission the permission enum
+	 */
 	public void broadcast(Permission permission) {
-		MessageManager.broadcastMessageForPermitted(this, permission);
+		MessageManager.broadcast(this, permission);
 	}
 
+	/**
+	 * Gets the message string
+	 * @return message string
+	 */
 	public String get() {
-		return StringUtils.replaceMap(MessageManager.getMessagesString(getPath()), vars); //TODO replace with Message
+		return MessageManager.replaceMap(MessageManager.getMessagesString(this), vars);
 	}
 
+	/**
+	 * Gets an ItemStacks from the Message
+	 * @return ItemStack instance
+	 */
 	public ItemStack getItemStack() {
 		return ItemStackUtils.stringToItemStack(get());
 	}
 
+	/**
+	 * Gets a list
+	 * @return the list
+	 */
 	public List<String> getList() {
-		return messageManager.getMessages().getStringList(getPath());
+		return MessageManager.getMessages().getStringList(getPath());
 	}
 
+	/**
+	 * Gets a message depending on the boolean, it can be either ON or OFF message
+	 * @param b boolean
+	 * @return string of ON or OFF message
+	 */
 	public static String getOnOff(boolean b) {
 		return b ? Message.CHAT_BASIC_ON.get() : Message.CHAT_BASIC_OFF.get();
 	}

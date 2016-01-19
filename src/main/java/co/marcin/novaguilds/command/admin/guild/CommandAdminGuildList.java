@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -97,8 +98,8 @@ public class CommandAdminGuildList implements Executor {
 				vars.put("PLAYERSCOUNT", guild.getPlayers().size() + "");
 				vars.put("INACTIVE", inactiveString);
 
-				String rowmsg = StringUtils.replaceMap(rowformat, vars);
-				sender.sendMessage(StringUtils.fixColors(rowmsg));
+				String rowMessage = MessageManager.replaceMap(rowformat, vars);
+				MessageManager.sendMessage(sender, rowMessage);
 
 				if(i + 1 >= perpage) {
 					break;

@@ -25,7 +25,6 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
-import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import org.bukkit.Material;
@@ -160,7 +159,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 
 				bm.setPages(pagesColor);
 				bm.setAuthor("CTRL");
-				bm.setTitle(StringUtils.fixColors(MessageManager.getMessagesString("book.help.title")));
+				bm.setTitle(Message.BOOK_HELP_TITLE.get());
 				book.setItemMeta(bm);
 				Player player = (Player) sender;
 				player.getInventory().addItem(book);

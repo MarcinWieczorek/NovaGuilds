@@ -358,7 +358,7 @@ public class PlayerManager {
 
 		for(String row : Message.CHAT_PLAYER_INFO_ITEMS.getList()) {
 			if(!row.contains("{GUILDROW}") || nCPlayer.hasGuild()) {
-				row = StringUtils.replaceMap(row, vars);
+				row = MessageManager.replaceMap(row, vars);
 				MessageManager.sendMessage(sender, row);
 			}
 		}

@@ -435,7 +435,7 @@ chat:
    - " &c* &2Leben: &6{LIVES}"
    - " &c* &2Lebensregeneration in: &6{LIVEREGENERATIONTIME}"
    - " &c* &2Erholungszeit: &6{TIMEREST}"
-   - " &c* &2Position: &6{SP_X},{SP_Y},{SP_Z}"
+   - " &c* &2Position: &6{SP_X}&2,&6{SP_Y}&2,&6{SP_Z}"
    - " &c* &2Spieler: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - " &c* &2Verbündete: {ALLIES}"
    - " &c* &2Kriege: {WARS}"

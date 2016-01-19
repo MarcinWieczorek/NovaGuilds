@@ -37,21 +37,28 @@ import org.yaml.snakeyaml.scanner.ScannerException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class MessageManager {
-	private final NovaGuilds plugin;
+	private final NovaGuilds plugin = NovaGuilds.getInstance();
 	private FileConfiguration messages = null;
 	public String prefix;
 	public ChatColor prefixColor = ChatColor.WHITE;
 	public static MessageManager instance;
 
-	public MessageManager(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
+	/**
+	 * The constructor
+	 */
+	public MessageManager() {
 		instance = this;
 	}
 
+	/**
+	 * Loads messages
+	 * @return true if success
+	 */
 	public boolean load() {
 		setupDirectories();
 		detectEssentialsLocale();
@@ -81,6 +88,9 @@ public class MessageManager {
 		return true;
 	}
 
+	/**
+	 * Setups directories
+	 */
 	private void setupDirectories() {
 		File langsDir = new File(plugin.getDataFolder(), "lang/");
 
@@ -91,6 +101,9 @@ public class MessageManager {
 		}
 	}
 
+	/**
+	 * Detects Essentials' Locale
+	 */
 	public static void detectEssentialsLocale() {
 		Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 
@@ -112,32 +125,56 @@ public class MessageManager {
 		}
 	}
 
-	//set string from file
-	public static String getMessagesString(String path) {
-		String msg = StringUtils.fixColors(instance.getMessages().getString(path));
+	/**
+	 * Gets message string from configuration
+	 * @param message Message enum
+	 * @return message string
+	 */
+	public static String getMessagesString(Message message) {
+		String msg = StringUtils.fixColors(getMessages().getString(message.getPath()));
 
-		return msg == null ? path : msg;
+		return msg == null ? message.getPath() : msg;
 	}
 
-	//get messages
-	public FileConfiguration getMessages() {
-		return messages;
+	/**
+	 * Gets messages FileConfiguration
+	 * @return Messages' FileConfiguration
+	 */
+	public static FileConfiguration getMessages() {
+		return instance.messages;
 	}
 
+	/**
+	 * Sends prefixed message to a player
+	 * @param sender receiver
+	 * @param msg message string
+	 */
 	public static void sendPrefixMessage(CommandSender sender, String msg) {
 		if(!msg.equals("none")) {
 			sender.sendMessage(StringUtils.fixColors(instance.prefix + msg));
 		}
 	}
 
+	/**
+	 * Sends a message without prefix to a player
+	 * @param sender receiver
+	 * @param msg message string
+	 */
 	public static void sendMessage(CommandSender sender, String msg) {
 		if(!msg.equals("none")) {
 			sender.sendMessage(StringUtils.fixColors(msg));
 		}
 	}
 
-	public static void sendMessagesList(CommandSender sender, String path, Map<String, String> vars, boolean prefix) {
-		List<String> list = instance.messages.getStringList(path);
+	/**
+	 * Sends a list of messages to a player
+	 * @param sender receiver
+	 * @param message Message enum
+	 */
+	public static void sendMessagesList(CommandSender sender, Message message) {
+		List<String> list = getMessages().getStringList(message.getPath());
+		Map<String, String> vars = message.getVars();
+		boolean prefix = message.isPrefix();
 
 		if(list != null) {
 			for(String msg : list) {
@@ -155,37 +192,34 @@ public class MessageManager {
 		}
 	}
 
-	public static void sendMessagesMsg(CommandSender sender, String path) {
-		sendMessagesMsg(sender, path, false);
-	}
-
-	public static void sendMessagesMsg(CommandSender sender, Message message, Map<String, String> vars) {
-		sendMessagesMsg(sender, message.getPath(), vars, message.getTitle());
-	}
-
-	public static void sendMessagesMsg(CommandSender sender, String path, boolean title) {
-		String msg = getMessagesString(path);
-
-		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
-			sendTitle((Player) sender, msg);
-		}
-		else {
-			sendPrefixMessage(sender, msg);
-		}
-	}
-
-	public static void sendMessagesMsg(CommandSender sender, String path, Map<String, String> vars, boolean title) {
-		String msg = getMessagesString(path);
-		msg = replaceMap(msg, vars);
+	/**
+	 * Sends a message to a player
+	 * @param sender receiver
+	 * @param message Message enum
+	 */
+	public static void sendMessagesMsg(CommandSender sender, Message message) {
+		String msg = getMessagesString(message);
+		msg = replaceMap(msg, message.getVars());
+		boolean title = message.getTitle();
 
 		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
 			sendTitle((Player) sender, msg);
 		}
 		else {
-			sendPrefixMessage(sender, msg);
+			if(message.isPrefix()) {
+				sendPrefixMessage(sender, msg);
+			}
+			else {
+				sendMessage(sender, msg);
+			}
 		}
 	}
 
+	/**
+	 * Send a Title to the player
+	 * @param player Player instance
+	 * @param msg message string
+	 */
 	public static void sendTitle(Player player, String msg) {
 		Title title = new Title("");
 		title.setSubtitleColor(instance.prefixColor);
@@ -193,38 +227,52 @@ public class MessageManager {
 		title.send(player);
 	}
 
-	//broadcast message from file to all players with permission
-	public static void broadcastMessageForPermitted(Message message, Permission permission) {
-		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-			if(permission.has(p)) {
-				sendMessagesMsg(p, message.getPath());
+	/**
+	 * Broadcasts Message to players
+	 * @param playerList List of Players
+	 * @param message Message enum
+	 * @param permission Permission enum (null for none)
+	 */
+	public static void broadcast(List<Player> playerList, Message message, Permission permission) {
+		for(Player player : playerList) {
+			if(permission == null || permission.has(player)) {
+				message.send(player);
 			}
 		}
 	}
 
-	public static void broadcastMessage(Message message, Map<String, String> vars) {
-		String msg = getMessagesString(message.getPath());
-		msg = replaceMap(msg, vars);
-
-		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-			sendPrefixMessage(p, msg);
-		}
+	/**
+	 * Broadcasts message from file to all players with permission
+	 * @param message Message enum
+	 * @param permission Permission enum
+	 */
+	public static void broadcast(Message message, Permission permission) {
+		broadcast(new ArrayList<>(Bukkit.getOnlinePlayers()), message, permission);
 	}
 
-	public static void broadcastGuild(NovaGuild guild, Message message, Map<String, String> vars, boolean prefix) {
-		String msg = getMessagesString(message.getPath());
-		msg = replaceMap(msg, vars);
-
-		for(Player p : guild.getOnlinePlayers()) {
-			if(prefix) {
-				sendPrefixMessage(p, msg);
-			}
-			else {
-				sendMessage(p, msg);
-			}
-		}
+	/**
+	 * Broadcasts message to all players
+	 * @param message Message enum
+	 */
+	public static void broadcast(Message message) {
+		broadcast(message, null);
 	}
 
+	/**
+	 * Broadcasts message to guild members
+	 * @param guild Guild instance
+	 * @param message Message enum
+	 */
+	public static void broadcast(NovaGuild guild, Message message) {
+		broadcast(guild.getOnlinePlayers(), message, null);
+	}
+
+	/**
+	 * Replaces a map of vars preserving the prefix color
+	 * @param msg message string
+	 * @param vars Map<String, String> of variables
+	 * @return String
+	 */
 	public static String replaceMap(String msg, Map<String, String> vars) {
 		for(Map.Entry<String, String> entry : vars.entrySet()) {
 			vars.put(entry.getKey(), entry.getValue() + NovaGuilds.getInstance().getMessageManager().prefixColor);
