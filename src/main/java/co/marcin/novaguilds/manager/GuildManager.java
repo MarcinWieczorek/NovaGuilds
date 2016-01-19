@@ -827,7 +827,7 @@ public class GuildManager {
 
 				Map<String, String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
-				Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast(); //TODO message that its auto clean
+				Message.BROADCAST_ADMIN_GUILD_CLEANUP.vars(vars).broadcast();
 			}
 		}
 	}

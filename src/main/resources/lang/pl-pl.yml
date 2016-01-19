@@ -462,6 +462,7 @@ broadcast:
   autosave: "Zapisano dane pluginu."
   guild:
    abandon: "Admin &c{PLAYERNAME} rozwiazal gildie &a{GUILDNAME}"
+   cleanup: "Gildia &a{GUILDNAME} została usunięta w skutek nieobecności"
  guild:
   war: "Gildia &a{GUILD1} rozpoczela &cwojne &3z &a{GUILD2}"
   nowar: "Gildie &a{GUILD1} i &a{GUILD2} zakonczyly wojne"

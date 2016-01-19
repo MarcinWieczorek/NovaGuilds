@@ -462,6 +462,7 @@ broadcast:
   autosave: "公会信息已保存."
   guild:
    abandon: "管理员&c{PLAYERNAME}废弃了&a{GUILDNAME}公会."
+   cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"
  guild:
   war: "&a{GUILD1}&公会向&a{GUILD2}公会发起了一场&c战争."
   nowar: "&a{GUILD1}公会已与&a{GUILD2}公会停战."

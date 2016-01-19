@@ -462,6 +462,7 @@ broadcast:
   autosave: "Plugindaten gespeichert!"
   guild:
    abandon: "Admin &c{PLAYERNAME} hat die Gilde &a{GUILDNAME} aufgelöst!"
+   cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"
  guild:
   war: "Gilde &a{GUILD1} hat den &cKrieg &3gegen &a{GUILD2} begonnen"
   nowar: "Gilde &a{GUILD1} und &a{GUILD2} haben ihren Krieg gestoppt."

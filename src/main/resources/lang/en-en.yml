@@ -462,6 +462,7 @@ broadcast:
   autosave: "Saved plugin data."
   guild:
    abandon: "Admin &c{PLAYERNAME} abandoned guild &a{GUILDNAME}"
+   cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"
  guild:
   war: "Guild &a{GUILD1} has started a &cwar &3with &a{GUILD2}"
   nowar: "Guild &a{GUILD1} and &a{GUILD2} have stopped the war"
