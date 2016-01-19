@@ -201,7 +201,6 @@ public class RankManager {
 					rank.setUnchanged();
 				}
 
-				//remove deleted ranks TODO test
 				for(String rankName : rankList) {
 					ranksConfigurationSection.set(rankName, null);
 				}
@@ -332,16 +331,16 @@ public class RankManager {
 					preparedStatement.setInt(1, rank.getId());
 					preparedStatement.execute();
 				}
-
-				rank.getGuild().removeRank(rank);
-
-				for(NovaPlayer nPlayer : new ArrayList<>(rank.getMembers())) {
-					rank.removeMember(nPlayer);
-				}
 			}
 			catch(SQLException e) {
 				LoggerUtils.exception(e);
 			}
+		}
+
+		rank.getGuild().removeRank(rank);
+
+		for(NovaPlayer nPlayer : new ArrayList<>(rank.getMembers())) {
+			rank.removeMember(nPlayer);
 		}
 	}
 
