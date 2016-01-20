@@ -78,7 +78,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 					"&2Najnowsza wersja pluginu: &6#&c" + VersionUtils.buildLatest
 			});
 
-			String[] info = langInfo.get(Config.LANG_NAME.getString());
+			String[] info = langInfo.get(langInfo.containsKey(Config.LANG_NAME.getString().toLowerCase()) ? Config.LANG_NAME.getString().toLowerCase() : "en-en");
 
 			for(String i : info) {
 				sender.sendMessage(StringUtils.fixColors(i));
