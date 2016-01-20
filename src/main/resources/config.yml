@@ -89,7 +89,7 @@ liveregeneration:
  taskinterval: 30m
 
 cleanup:
- enabled: false
+ enabled: true
  inactivetime: 7d
  interval: 1d
 

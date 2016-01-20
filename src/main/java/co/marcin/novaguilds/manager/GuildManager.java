@@ -816,6 +816,8 @@ public class GuildManager {
 	}
 
 	public void cleanInactiveGuilds() {
+		int count = 0;
+
 		for(NovaGuild guild : plugin.getGuildManager().getMostInactiveGuilds()) {
 			if(NumberUtils.systemSeconds() - guild.getInactiveTime() < Config.CLEANUP_INACTIVETIME.getSeconds()) {
 				break;
@@ -827,13 +829,16 @@ public class GuildManager {
 
 			//if event is not cancelled
 			if(!guildAbandonEvent.isCancelled()) {
-				//delete guild
-				plugin.getGuildManager().delete(guild);
-
 				Map<String, String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_CLEANUP.vars(vars).broadcast();
+				LoggerUtils.debug("Abandoned guild " + guild.getName() + " due to inactivity.");
+				count++;
+
+				plugin.getGuildManager().delete(guild);
 			}
 		}
+
+		LoggerUtils.debug("Guilds cleanup finished, removed " + count + " guilds.");
 	}
 }
