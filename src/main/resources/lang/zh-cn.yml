@@ -524,6 +524,8 @@ inventory:
    iconitem: "EMPTY_MAP 1 name:头衔"
    rowitem: "BOOK 1 name:{RANKNAME}"
    additem: "BOOK_AND_QUILL 1 name:提拔"
+   defaultname: "Custom Rank"
+   leadername: "Leader"
   rank:
    settings:
     cloneprefix: "Clone of "

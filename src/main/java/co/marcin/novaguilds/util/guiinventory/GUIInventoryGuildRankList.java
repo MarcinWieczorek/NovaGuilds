@@ -93,7 +93,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 		ItemStack clickedItemStack = event.getCurrentItem();
 
 		if(clickedItemStack.equals(addRankItem)) {
-			String rankName = "rank"; //TODO name
+			String rankName = Message.INVENTORY_GUI_RANKS_DEFAULTNAME.get();
 			for(NovaRank rank : guild.getRanks()) {
 				if(rank.getName().equals(rankName)) {
 					rankName = rankName + " " + NumberUtils.randInt(1, 999);

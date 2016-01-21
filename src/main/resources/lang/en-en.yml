@@ -524,6 +524,8 @@ inventory:
    iconitem: "EMPTY_MAP 1 name:Ranks"
    rowitem: "BOOK 1 name:{RANKNAME}"
    additem: "BOOK_AND_QUILL 1 name:Add_rank"
+   defaultname: "Custom Rank"
+   leadername: "Leader"
   rank:
    settings:
     cloneprefix: "Clone of "
