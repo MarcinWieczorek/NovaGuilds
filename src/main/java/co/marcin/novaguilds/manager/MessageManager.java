@@ -47,6 +47,7 @@ public class MessageManager {
 	public String prefix;
 	public ChatColor prefixColor = ChatColor.WHITE;
 	public static MessageManager instance;
+	private File messagesFile;
 
 	/**
 	 * The constructor
@@ -56,14 +57,14 @@ public class MessageManager {
 	}
 
 	/**
-	 * Loads messages
-	 * @return true if success
+	 * Detects the language basing on Essentials and config
+	 * @return false if detecting/creating new file failed
 	 */
-	public boolean load() {
-		setupDirectories();
+	public boolean detectLanguage() {
 		detectEssentialsLocale();
 		String lang = Config.LANG_NAME.getString();
-		File messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
+		messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
+
 		if(!messagesFile.exists()) {
 			if(plugin.getResource("lang/" + lang + ".yml") != null) {
 				plugin.saveResource("lang/" + lang + ".yml", false);
@@ -73,6 +74,28 @@ public class MessageManager {
 				LoggerUtils.info("Couldn't find language file: " + lang + ".yml");
 				return false;
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the messages file exists
+	 * @return true if the file exists
+	 */
+	public boolean existsFile() {
+		return messagesFile.exists();
+	}
+
+	/**
+	 * Loads messages
+	 * @return true if success
+	 */
+	public boolean load() {
+		setupDirectories();
+		
+		if(!detectLanguage()) {
+			return false;
 		}
 
 		try {
