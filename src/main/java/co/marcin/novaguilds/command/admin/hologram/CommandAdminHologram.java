@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
+import co.marcin.novaguilds.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -33,10 +34,10 @@ import java.util.Map;
 public class CommandAdminHologram implements Executor {
 	private final Command command = Command.ADMIN_HOLOGRAM_ACCESS;
 
-	private static final List<String> noHologramCommands = new ArrayList<String>() {{
-		add("list");
-		add("add");
-		add("addtop");
+	private static final List<Command> noHologramCommands = new ArrayList<Command>() {{
+		add(Command.ADMIN_HOLOGRAM_LIST);
+		add(Command.ADMIN_HOLOGRAM_ADD);
+		add(Command.ADMIN_HOLOGRAM_ADDTOP);
 	}};
 
 	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
@@ -68,20 +69,33 @@ public class CommandAdminHologram implements Executor {
 			return;
 		}
 
-		if(args.length == 0 || (args.length < 2 && !noHologramCommands.contains(args[0]))) {
+		boolean isNoHologramCommand = args.length > 0 && noHologramCommands.contains(commandsMap.get(args[0]));
+
+		if(args.length == 0 || (args.length < 2 && !isNoHologramCommand)) {
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS.send(sender);
 			return;
 		}
 
-		Command subCommand = commandsMap.get(args[noHologramCommands.contains(args[0]) ? 0 : 1].toLowerCase());
+		Command subCommand = commandsMap.get(args[isNoHologramCommand || args.length==1 ? 0 : 1].toLowerCase());
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);
 			return;
 		}
 
-		subCommand.execute(sender, StringUtils.parseArgs(args, noHologramCommands.contains(args[0]) ? 1 : 2));
+		if(!noHologramCommands.contains(subCommand) && (args.length > 1 || !isNoHologramCommand)) {
+			NovaHologram hologram = plugin.getHologramManager().getHologram(args[0]);
+
+			if(hologram == null) {
+				Message.CHAT_ADMIN_HOLOGRAM_NOTFOUND.send(sender);
+				return;
+			}
+
+			subCommand.executorVariable(hologram);
+		}
+
+		subCommand.execute(sender, StringUtils.parseArgs(args, isNoHologramCommand ? 1 : 2));
 	}
 
 	@Override
