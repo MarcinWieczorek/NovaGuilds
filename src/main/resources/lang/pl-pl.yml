@@ -38,7 +38,6 @@ chat:
    bank:
     paid: "Wplaciles &c${MONEY} do banku gildii &a{GUILDNAME}"
     withdrew: "Zabrales &c${MONEY} z banku &a{GUILDNAME}"
-   abandon: "Gildia &a{GUILDNAME} zostala rozwiazana."
    kick:
     leader: "Nie mozesz wyrzucic lidera. Musisz rozwiazac gildie."
    invited: "Zaproszono gracza &c{PLAYERNAME} do &a{GUILDNAME}"
@@ -87,7 +86,6 @@ chat:
     success: "Dodano hologram: &a{NAME}"
    delete:
     success: "Pomyslnie usunieto hologram: &a{NAME}"
-    entername: "Prosze wprowadz nazwe hologramu"
    list:
     header: "List of all holograms:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
@@ -123,8 +121,6 @@ chat:
      withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
     purge: "&5* &7/nga &cg &6purge &2- &3Usuń wszystkie gildie"
     tp: "&7/nga &cg &6tp &c<gildia> &6[gracz]"
-  ng:
-   broadcast: "&c/ng bc <wiadomosc>"
   guild:
    create: "&5* &7/zaloz &c<tag> &6<nazwa> &2- &3Stworz gildie"
    invite: "&5* &7/zapros &c<gracz> &2- &3Zapros gracza do gildii"
@@ -217,8 +213,6 @@ chat:
   team: "Nie mozesz bic swoich kolegow z gildii"
   ally: "Nie mozesz ranic swoich sojusznikow"
 
- noguild: "Brak gildii"
-
  raid:
   resting: "Musisz poczekac &c{TIMEREST} Przed atakowaniem tej gildii."
   protection: "Ta gildia jest nowa i obejmuje ja ochrona. Sprobuj jutro."
@@ -248,11 +242,8 @@ chat:
   ally:
    war: "Najpierw musisz zakonczyc wojne z ta gildia"
    samename: "Nie mozesz zaprosic swojej gildii do sojuszu!"
-   alreadyally: "Juz jestescie sojusznikami!"
-   alreadyinvited: "Juz zaprosiles te gildie do sojuszu"
    invited: "Zaprosiles &a{ALLYNAME} do sojuszu"
    accepted: "Zaakceptowales propozycje sojuszu z &a{ALLYNAME}"
-   newinvite: "Gildia &a{GUILDNAME} Zaprosila Cie do sojuszu"
    notifyguild: "Gildia &a{GUILDNAME} Zaprosila Cie do sojuszu"
    notifyguildcanceled: "Gildia &a{GUILDNAME} cofnela propozycje sojuszu"
    canceled: "Cofnieto zaproszenie sojuszu z &a{GUILDNAME}"
@@ -308,7 +299,6 @@ chat:
    success: "&a{PLAYERNAME} jest teraz liderem!"
    samenick: "Juz jestes liderem!"
    notsameguild: "Ten gracz nie nalezy do Twojej gildii"
-   notifynewleader: "Jestes teraz liderem gildii &a{GUILDNAME}"
   leave:
    isleader: "Lider nie moze opuscic swojej gildii. &c/abandon"
    left: "Opusciles gildie."
@@ -467,7 +457,6 @@ chat:
 #broadcast messages:
 broadcast:
  admin:
-  autosave: "Zapisano dane pluginu."
   guild:
    abandon: "Admin &c{PLAYERNAME} rozwiazal gildie &a{GUILDNAME}"
    cleanup: "Gildia &a{GUILDNAME} została usunięta w skutek nieobecności"

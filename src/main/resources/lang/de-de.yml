@@ -38,7 +38,6 @@ chat:
    bank:
     paid: "Du hast &c${MONEY} in &a{GUILDNAME}s Bank gezahlt."
     withdrew: "Du hast &c${MONEY} von &a{GUILDNAME}s Bank abgehoben."
-   abandon: "Du hast &a{GUILDNAME} aufgelöst."
    kick:
     leader: "Du kannst den Anführer nicht entfernen, du must die Gilde verlassen."
    invited: "Spieler &c{PLAYERNAME} eingeladen zu &a{GUILDNAME}"
@@ -87,7 +86,6 @@ chat:
     success: "Das Hologramm &a{NAME} wurde hinzugefügt."
    delete:
     success: "Das Hologramm &a{NAME} wurde gelöscht."
-    entername: "Bitte gebe dem Hologramm einen Namen."
    list:
     header: "Liste von allen Hologrammen:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
@@ -123,8 +121,6 @@ chat:
      withdraw: "&5* &7/nga &cg &6<Gilde> &cwithdraw &6<Menge> &2- &3Hebe Geld von der Gildenbank ab"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<Gilde> &ctp &6[Spieler] &2- &3Teleportiert zu Gilden Haus"
-  ng:
-   broadcast: "&c/ng bc <Nachricht>"
   guild:
    create: "&5* &7/create &c<tag> &6<Name> &2- &3Erstelle eine Gilde"
    invite: "&5* &7/invite &c<Spieler> &2- &3Lade ein Spieler in deine Gilde ein"
@@ -217,8 +213,6 @@ chat:
   team: "Du kannst dein Team nicht verletzen"
   ally: "Du kannst deine Verbündeten nicht verletzen."
 
- noguild: "Keine Gilde"
-
  raid:
   resting: "Du musst noch &c{TIMEREST} warten bevor du diese Gilde angreifen kannst."
   protection: "Diese Gilde ist neu und ist noch Geschützt. Versuche es Morgen nochmal."
@@ -248,11 +242,8 @@ chat:
   ally:
    war: "Als erstes musst du den Krieg mit dieser Gilde beenden!"
    samename: "Du kannst nicht mit deiner eigenen Gilde verbündet sein!"
-   alreadyally: "Du bist schon mit ihnen verbündet!"
-   alreadyinvited: "Du hast sie schon als Verbündete eingeladen!"
    invited: "Du hast &a{ALLYNAME} als Verbündete eingalden."
    accepted: "Du hast die Verbündeteneinladung von &a{ALLYNAME} angenommen."
-   newinvite: "Die Gilde &a{GUILDNAME} hat dich dazu eingeladen sich zu verbünden."
    notifyguild: "Die Gilde &a{GUILDNAME} hat euch eingeladen Verbündete zu sein."
    notifyguildcanceled: "Die Gilde &a{GUILDNAME} haben ihre Verbündeteneinladung abgebrochen."
    canceled: "Verbündeteneinladung von &a{GUILDNAME} abgebrochen "
@@ -308,7 +299,6 @@ chat:
    success: "&a{PLAYERNAME} ist jetzt der Anführer!"
    samenick: "Du bist schon der Anführer!"
    notsameguild: "Dieser Spieler ist nicht in deiner Gilde."
-   notifynewleader: "Du bist nun der Anführer von &a{GUILDNAME}"
   leave:
    isleader: "Der Anführer kann die Gilde nicht verlassen. &c/abandon"
    left: "Du hast die Gilde verlassen."
@@ -467,7 +457,6 @@ chat:
 #broadcast messages:
 broadcast:
  admin:
-  autosave: "Plugindaten gespeichert!"
   guild:
    abandon: "Admin &c{PLAYERNAME} hat die Gilde &a{GUILDNAME} aufgelöst!"
    cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"

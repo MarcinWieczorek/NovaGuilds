@@ -38,7 +38,6 @@ chat:
    bank:
     paid: "You paid &c${MONEY} to &a{GUILDNAME}'s bank."
     withdrew: "You took &c${MONEY} from &a{GUILDNAME}'s bank."
-   abandon: "&a{GUILDNAME} abandoned."
    kick:
     leader: "You can't kick the leader. You have to abandon the guild."
    invited: "Invited player &c{PLAYERNAME} to &a{GUILDNAME}"
@@ -87,7 +86,6 @@ chat:
     success: "Successfuly added a hologram: &a{NAME}"
    delete:
     success: "Successfuly deleted a hologram: &a{NAME}"
-    entername: "Please enter hologram's name"
    list:
     header: "List of all holograms:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
@@ -123,8 +121,6 @@ chat:
      withdraw: "&5* &7/nga &cg &6<guild> &cwithdraw &6<amount> &2- &3Take money from the bank"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<guild> &ctp &6[player] &2- &3TP to guild's home"
-  ng:
-   broadcast: "&c/ng bc <message>"
   guild:
    create: "&5* &7/create &c<tag> &6<name> &2- &3Create a guild"
    invite: "&5* &7/invite &c<playername> &2- &3Invite player to the guild"
@@ -216,8 +212,6 @@ chat:
  pvp:
   team: "You cannot hurt your teammates"
   ally: "You cannot hurt your allies."
-
- noguild: "No guild"
  
  raid:
   resting: "You have to wait &c{TIMEREST} before attacking this guild."
@@ -248,11 +242,8 @@ chat:
   ally:
    war: "First you need to end the war with that guild."
    samename: "You cannot be allies with your own guild!"
-   alreadyally: "You already are allies!"
-   alreadyinvited: "You already invited that guild to an ally"
    invited: "You invited &a{ALLYNAME} to an ally."
    accepted: "You accepted ally invitation with &a{ALLYNAME}"
-   newinvite: "Guild &a{GUILDNAME} invited you to an ally."
    notifyguild: "Guild &a{GUILDNAME} invited you to an ally."
    notifyguildcanceled: "Guild &a{GUILDNAME} canceled their ally invitation"
    canceled: "Canceled ally invitation with guild &a{GUILDNAME}"
@@ -308,7 +299,6 @@ chat:
    success: "&a{PLAYERNAME} is now the leader!"
    samenick: "You already are the leader!"
    notsameguild: "This player is not in your guild."
-   notifynewleader: "You are now the leader of &a{GUILDNAME}"
   leave:
    isleader: "The leader cannot leave the guild. &c/abandon"
    left: "You left the guild."
@@ -467,7 +457,6 @@ chat:
 #broadcast messages:
 broadcast:
  admin:
-  autosave: "Saved plugin data."
   guild:
    abandon: "Admin &c{PLAYERNAME} abandoned guild &a{GUILDNAME}"
    cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"

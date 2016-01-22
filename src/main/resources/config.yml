@@ -160,9 +160,6 @@ guild:
   - world_nether
   - world_the_end
 
- #time to remove inactive guilds (minutes) (default 7 days)
- inactivetime: 7d
-
  #New guilds protection
  createprotection: 24h
 

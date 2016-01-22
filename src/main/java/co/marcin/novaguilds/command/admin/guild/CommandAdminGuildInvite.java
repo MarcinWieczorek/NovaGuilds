@@ -68,7 +68,7 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 		
 		//all passed
 		nPlayer.addInvitation(guild);
-		Message.CHAT_PLAYER_INVITE_INVITED.send(sender);
+		Message.CHAT_ADMIN_GUILD_INVITED.send(sender);
 		
 		if(nPlayer.getPlayer() != null) {
 			Map<String, String> vars = new HashMap<>();
