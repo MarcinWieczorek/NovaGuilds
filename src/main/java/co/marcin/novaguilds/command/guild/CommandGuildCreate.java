@@ -191,9 +191,6 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					//Update holograms
 					plugin.getHologramManager().refreshTopHolograms();
 
-					//Assign ranks
-					plugin.getRankManager().assignRanks(newGuild);
-
 					//autoregion
 					if(region != null) {
 						region.setGuild(nPlayer.getGuild());

@@ -51,12 +51,6 @@ public class RankManager {
 	}
 
 	public void load() {
-		genericRanks.clear();
-
-		//Load default ranks
-		loadDefaultRanks();
-
-		//Load ranks from storage
 		int count = 0;
 		if(Config.getManager().getDataStorageType() == DataStorageType.FLAT) {
 			for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
@@ -368,6 +362,7 @@ public class RankManager {
 	}
 
 	public void loadDefaultRanks() {
+		genericRanks.clear();
 		NovaRank leaderRank = new NovaRank(Message.INVENTORY_GUI_RANKS_LEADERNAME.get());
 		leaderRank.setPermissions(Lists.newArrayList(GuildPermission.values()));
 		genericRanks.add(leaderRank);

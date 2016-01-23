@@ -294,10 +294,10 @@ public class NovaGuild {
 	public void setLeader(NovaPlayer nPlayer) {
 		if(leader != null) {
 			leader.setGuildRank(getDefaultRank());
-			nPlayer.setGuildRank(RankManager.getLeaderRank());
 		}
 
 		leader = nPlayer;
+		leader.setGuildRank(RankManager.getLeaderRank());
 		changed();
 	}
 
@@ -517,13 +517,13 @@ public class NovaGuild {
 			players.add(nPlayer);
 			nPlayer.setGuild(this);
 
-			if(NovaGuilds.getInstance().getRankManager().isLoaded()) {
-				nPlayer.setGuildRank(getDefaultRank());
-			}
-
 			if(getLeaderName() != null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
 				setLeader(nPlayer);
 				leaderName = null;
+			}
+
+			if(NovaGuilds.getInstance().getRankManager().isLoaded() && !nPlayer.isLeader()) {
+				nPlayer.setGuildRank(getDefaultRank());
 			}
 		}
 	}

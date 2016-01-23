@@ -181,6 +181,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		LoggerUtils.info("Regions data loaded");
 		getGuildManager().load();
 		LoggerUtils.info("Guilds data loaded");
+		getRankManager().loadDefaultRanks();
 		getPlayerManager().load();
 		LoggerUtils.info("Players data loaded");
 
