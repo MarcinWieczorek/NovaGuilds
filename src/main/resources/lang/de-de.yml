@@ -310,7 +310,10 @@ chat:
   tooclose: "Du bist zu nah an einer anderen Gilde!"
   isfull: "Die Gilde hat die maximale Anzahl an Spielern erreicht!"
   buylife: "Du hast ein Leben für deine Gilde gekauft."
-  buyslot: "Du hast einen Extraplatz für deine Gilde gekauft."
+  buy:
+   slot:
+    success: "Du hast einen Extraplatz für deine Gilde gekauft."
+    maxreached: "The slot amount has reached the maximum value."
 
   war:
    ally: "Du musst als erstes die Freundschaft mit dieser Gilde beenden!"

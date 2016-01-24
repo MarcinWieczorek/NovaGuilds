@@ -310,7 +310,10 @@ chat:
   tooclose: "您的位置距离其他公会太近！"
   isfull: "公会成员数目已达到上限."
   buylife: "为你的公会买一个生活区."
-  buyslot: "为你公会购买了一个人数上限."
+  buy:
+   slot:
+    success: "为你公会购买了一个人数上限."
+    maxreached: "The slot amount has reached the maximum value."
 
   war:
    ally: "您需要先解除与该公会的结盟."

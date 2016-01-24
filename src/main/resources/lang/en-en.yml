@@ -310,7 +310,10 @@ chat:
   tooclose: "You are too close to other guild"
   isfull: "This guild has reached the limit of players"
   buylife: "You bought a life for your guild."
-  buyslot: "You bought an additional slot for your guild."
+  buy:
+   slot:
+    success: "You bought an additional slot for your guild."
+    maxreached: "The slot amount has reached the maximum value."
 
   war:
    ally: "First you need to end your ally with that guild."

@@ -165,7 +165,11 @@ guild:
  startpoints: 1000
  startmoney: 0
  startlives: 2
- startslots: 10
+
+ slots:
+  start: 10
+  max: 50
+
  #distance from spawn
  fromspawn: 100
  stringcheck:

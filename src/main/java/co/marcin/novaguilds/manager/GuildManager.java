@@ -241,7 +241,7 @@ public class GuildManager {
 
 						//Fix slots amount
 						if(novaGuild.getSlots() <= 0) {
-							novaGuild.setSlots(Config.GUILD_STARTSLOTS.getInt());
+							novaGuild.setSlots(Config.GUILD_SLOTS_START.getInt());
 						}
 
 						if(novaGuild.getId() > 0) {
@@ -707,7 +707,7 @@ public class GuildManager {
 
 			//Fix slots amount
 			if(guild.getSlots() <= 0) {
-				guild.setSlots(Config.GUILD_STARTSLOTS.getInt());
+				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 			}
 		}
 

@@ -168,7 +168,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 				newGuild.setLives(Config.GUILD_STARTLIVES.getInt());
 				newGuild.setPoints(Config.GUILD_STARTPOINTS.getInt());
 				newGuild.setMoney(Config.GUILD_STARTMONEY.getInt());
-				newGuild.setSlots(Config.GUILD_STARTSLOTS.getInt());
+				newGuild.setSlots(Config.GUILD_SLOTS_START.getInt());
 				newGuild.setTimeCreated(NumberUtils.systemSeconds());
 
 				//fire event
