@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds;
 
-import co.marcin.mchttp.McHTTP;
 import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaRaid;
@@ -116,7 +115,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
 	private HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
-	private McHTTP mcHTTP;
 	private RankManager rankManager;
 
 	public void onEnable() {
@@ -264,15 +262,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//metrics
 		setupMetrics();
 
-		//HTTP Server
-		if(Config.WWW_ENABLED.getBoolean()) {
-			mcHTTP = new McHTTP();
-			mcHTTP.setPort(Config.WWW_PORT.getInt());
-			mcHTTP.prepareFiles();
-			mcHTTP.start();
-			LoggerUtils.info("HTTP Server started.");
-		}
-
 		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Enabled");
 	}
 	
@@ -288,11 +277,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
 			PacketExtension.unregisterNovaGuildsChannel();
-		}
-
-		//Disable McHTTP
-		if(Config.WWW_ENABLED.getBoolean()) {
-			mcHTTP.stop();
 		}
 
 		//Stop schedulers
