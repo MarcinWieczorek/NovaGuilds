@@ -245,9 +245,18 @@ public class RegionManager {
 	}
 	
 	public void save() {
-		for(NovaRegion r : getRegions()) {
-			save(r);
+		long startTime = System.nanoTime();
+		int count = 0;
+
+		for(NovaRegion region : getRegions()) {
+			if(region.isChanged()) {
+				count++;
+			}
+
+			save(region);
 		}
+
+		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
 	
 	//delete region

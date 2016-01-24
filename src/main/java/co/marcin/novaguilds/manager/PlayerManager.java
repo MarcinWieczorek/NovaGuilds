@@ -42,6 +42,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("deprecation")
 public class PlayerManager {
@@ -125,9 +126,18 @@ public class PlayerManager {
 	}
 	
 	public void save() {
+		long startTime = System.nanoTime();
+		int count = 0;
+
 		for(NovaPlayer nPlayer : getPlayers()) {
+			if(nPlayer.isChanged()) {
+				count++;
+			}
+
 			save(nPlayer);
 		}
+
+		LoggerUtils.info("Players data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 	}
 	
 	//load

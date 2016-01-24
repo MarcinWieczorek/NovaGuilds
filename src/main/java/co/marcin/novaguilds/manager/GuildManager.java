@@ -54,7 +54,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
@@ -436,9 +435,18 @@ public class GuildManager {
 	}
 	
 	public void save() {
-		for(Entry<String, NovaGuild> g : guilds.entrySet()) {
-			save(g.getValue());
+		long startTime = System.nanoTime();
+		int count = 0;
+
+		for(NovaGuild guild : getGuilds()) {
+			if(guild.isChanged()) {
+				count++;
+			}
+
+			save(guild);
 		}
+
+		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 	}
 
 	public void delete(NovaGuild guild) {
