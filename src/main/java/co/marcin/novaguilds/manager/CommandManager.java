@@ -92,6 +92,7 @@ import co.marcin.novaguilds.command.region.CommandRegionDelete;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -290,7 +291,7 @@ public class CommandManager {
 			return;
 		}
 
-		if(command.isNeedConfirm() && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED)) {
+		if(command.isNeedConfirm() && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED)) {
 			nPlayer.newCommandExecutorHandler(command, args);
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}
