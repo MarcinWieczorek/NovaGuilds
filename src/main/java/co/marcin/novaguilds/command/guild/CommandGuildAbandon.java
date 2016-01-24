@@ -53,7 +53,7 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 			return true;
 		}
 
-		nPlayer.newCommandExecutorHandler(command, args);
+		command.execute(sender, args);
 		return true;
 	}
 	

@@ -122,6 +122,7 @@ chat:
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<公会> &ctp &6[玩家] &2- &3将玩家传送至公会出生点"
   guild:
+   abandon: "&5* &7/abandon &2- &3abandon your guild"
    create: "&5* &7/create &c<tag> &6<name> &2- &3创建一个公会"
    invite: "&5* &7/invite &c<playername> &2- &3将玩家邀请至公会"
  commands:

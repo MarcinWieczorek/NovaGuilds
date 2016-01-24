@@ -122,6 +122,7 @@ chat:
     purge: "&5* &7/nga &cg &6purge &2- &3Usuń wszystkie gildie"
     tp: "&7/nga &cg &6tp &c<gildia> &6[gracz]"
   guild:
+   abandon: "&5* &7/rozwiaz &2- &3Porzuć gildię"
    create: "&5* &7/zaloz &c<tag> &6<nazwa> &2- &3Stworz gildie"
    invite: "&5* &7/zapros &c<gracz> &2- &3Zapros gracza do gildii"
  commands:

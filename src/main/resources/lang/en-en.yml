@@ -122,6 +122,7 @@ chat:
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<guild> &ctp &6[player] &2- &3TP to guild's home"
   guild:
+   abandon: "&5* &7/abandon &2- &3abandon your guild"
    create: "&5* &7/create &c<tag> &6<name> &2- &3Create a guild"
    invite: "&5* &7/invite &c<playername> &2- &3Invite player to the guild"
  commands:

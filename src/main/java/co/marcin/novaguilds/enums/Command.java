@@ -66,7 +66,7 @@ public enum Command {
 	ADMIN_HOLOGRAM_TELEPORT_HERE(Permission.NOVAGUILDS_ADMIN_HOLOGRAM_TELEPORT_HERE, false),
 
 	GUILD_ACCESS(Permission.NOVAGUILDS_GUILD_ACCESS, false, "guild", new TabCompleterGuild()),
-	GUILD_ABANDON(Permission.NOVAGUILDS_GUILD_ABANDON, false, "abandon"),
+	GUILD_ABANDON(Permission.NOVAGUILDS_GUILD_ABANDON, false, "abandon", Message.CHAT_USAGE_GUILD_ABANDON, true),
 	GUILD_ALLY(Permission.NOVAGUILDS_GUILD_ALLY, false),
 	GUILD_BANK_PAY(Permission.NOVAGUILDS_GUILD_BANK_PAY, false),
 	GUILD_BANK_WITHDRAW(Permission.NOVAGUILDS_GUILD_BANK_WITHDRAW, false),
@@ -143,6 +143,15 @@ public enum Command {
 		this.permission = permission;
 		this.permissionPath = permission.getPath();
 		this.allowConsole = allowConsole;
+		this.usageMessage = usageMessage;
+		this.needConfirm = needConfirm;
+	}
+
+	Command(Permission permission, boolean allowConsole, String genericCommand, Message usageMessage, boolean needConfirm) {
+		this.permission = permission;
+		this.permissionPath = permission.getPath();
+		this.allowConsole = allowConsole;
+		this.genericCommand = genericCommand;
 		this.usageMessage = usageMessage;
 		this.needConfirm = needConfirm;
 	}
