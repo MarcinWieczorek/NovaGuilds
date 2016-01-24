@@ -123,8 +123,37 @@ chat:
     tp: "&7/nga &cg &6tp &c<gildia> &6[gracz]"
   guild:
    abandon: "&5* &7/rozwiaz &2- &3Porzuć gildię"
+   ally: "&5* &7/g &cally &6<gildia> &2- &3Zaproś do sojuszu"
+   bank:
+    pay: "&5* &7/g &cpay &6<ilosc> &2- &3Wpłać pieniądze do banku"
+    withdraw: "&5* &7/g &cwithdraw &6<ilosc> &2- &3Zabierz pieniądze z banku"
+   buy:
+    life: "&5* &7/g &cbuylife &2- &3Kup życie"
+    slot: "&5* &7/g &cbuyslot &2- &3Kup dodatkowy slot w gildii."
+   chatmode: "&5* &7/g &cc &2- &3Zmiana trybu czatu"
+   compass: "&5* &7/g &ccompass &2- &3Niech kompas wskazuje dom Twojej gildii!"
    create: "&5* &7/zaloz &c<tag> &6<nazwa> &2- &3Stworz gildie"
+   effect: "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
+   home:
+    teleport: "&5* &7/g &chome &2- &3Teleport do domu gildii"
+    set: "&5* &7/g &chome set &2- &3Ustaw dom gildii"
+   info: "&5* &7/gi &2- &3Informacje o gildii."
    invite: "&5* &7/zapros &c<gracz> &2- &3Zapros gracza do gildii"
+   join: "&5* &7/dolacz &6[gildia] &2- &3Dolacz do gildii"
+   kick: "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuć gracza"
+   leader: "&5* &7/g &cleader &6<gracz> &2- &3Ustaw lidera"
+   leave: "&5* &7/opusc &2- &3Opuść gildię"
+   menu: "&5* &7/gg &2- &3Menu gildii"
+   openinvitation: "&5* &7/g &copeninv &2- &3Przełącz status otwartych zaproszen"
+   pvptoggle: "&5* &7/g &cpvp &2- &3Wlacz/Wyłącz PVP"
+   requireditems: "&5* &7/g &citems &2- &3Wymagane przedmioty"
+   set:
+    name: "&5* &7/g &csetname &2- &3Zmień nazwę"
+    tag: "&5* &7/g &csettag &2- &3Zmień tag"
+   top: "&5* &7/g &ctop &2- &3Top 5"
+   war: "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
+  tool: "&5* &7/ng &ctool &2- &3Sprawdź lub zaznacz teren patykiem!"
+
  commands:
   admin:
    main:

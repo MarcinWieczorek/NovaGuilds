@@ -123,8 +123,37 @@ chat:
     tp: "&5* &7/nga &cg &6<guild> &ctp &6[player] &2- &3TP to guild's home"
   guild:
    abandon: "&5* &7/abandon &2- &3abandon your guild"
+   ally: "&5* &7/g &cally &6<guildname> &2- &3Invite to an ally"
+   bank:
+    pay: "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
+    withdraw: "&5* &7/g &cwithdraw &6<amount> &2- &3Withdraw money from guild's bank"
+   buy:
+    life: "&5* &7/g &cbuylife &2- &3Buy a life"
+    slot: "&5* &7/g &cbuyslot &2- &3Extend players count limit!"
+   chatmode: "&5* &7/g &cc &2- &3Change chat mode"
+   compass: "&5* &7/g &ccompass &2- &3Let the compass point your guild's home!"
    create: "&5* &7/create &c<tag> &6<name> &2- &3Create a guild"
+   effect: "&5* &7/g &ceffect &2- &3Effect for guild"
+   home:
+    teleport: "&5* &7/g &chome &2- &3TP to guild's home"
+    set: "&5* &7/g &chome set &2- &3Set guild's home"
    invite: "&5* &7/invite &c<playername> &2- &3Invite player to the guild"
+   info: "&5* &7/gi &2- &3Guild's info."
+   join: "&5* &7/join &6[guildname] &2- &3Join a guild"
+   kick: "&5* &7/g &ckick &6<playername> &2- &3Kick a player from the guild"
+   leader: "&5* &7/g &cleader &6<playername> &2- &3Set guild's leader"
+   leave: "&5* &7/leave &2- &3Leave the guild"
+   menu: "&5* &7/gg &2- &3Guild's menu"
+   openinvitation: "&5* &7/g &copeninv &2- &3Toggle open invitation status"
+   pvptoggle: "&5* &7/g &cpvp &2- &3Toggle PVP"
+   requireditems: "&5* &7/g &csettag &2- &Show items required to create a guild"
+   set:
+    name: "&5* &7/g &csetname &2- &3Set the name"
+    tag: "&5* &7/g &csettag &2- &3Set the tag"
+   top: "&5* &7/g &ctop &2- &3Top 5"
+   war: "&5* &7/g &cwar &6[guildname] &2- &3War!"
+  tool: "&5* &7/ng &ctool &2- &3Check or select area with the tool!"
+
  commands:
   admin:
    main:

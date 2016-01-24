@@ -122,9 +122,38 @@ chat:
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<Gilde> &ctp &6[Spieler] &2- &3Teleportiert zu Gilden Haus"
   guild:
-   abandon: "&5* &7/abandon &2- &3abandon your guild"
+   abandon: "&5* &7/abandon &2- &3Löse deine Gilde auf"
+   ally: "&5* &7/g &cally &6<Gilden Name> &2- &3Lade sie als Verbündete ein"
+   bank:
+    pay: "&5* &7/g &cpay &6<Menge> &2- &3Zahle Geld in die Gildenbank ein"
+    withdraw: "&5* &7/g &cwithdraw &6<Menge> &2- &3Hebe Geld von deiner Gilden Bank ab"
+   buy:
+    life: "&5* &7/g &cbuylife &2- &3Kaufe ein Leben"
+    slot: "&5* &7/g &cbuyslot &2- &3Erweiter die maximale Spieleranzahl deiner Gilde!"
+   chatmode: "&5* &7/g &cc &2- &3Change chat mode"
+   compass: "&5* &7/g &ccompass &2- &3Lässt deinen Kompass auf den Gilden Punkt zeigen"
    create: "&5* &7/create &c<tag> &6<Name> &2- &3Erstelle eine Gilde"
+   effect: "&5* &7/g &ceffect &2- &3Effekt für deine Gilde"
+   home:
+    teleport: "&5* &7/g &chome &2- &3Teleportiert dich zum Haus der Gilde"
+    set: "&5* &7/g &chome set &2- &3Setze das Gilden Haus"
    invite: "&5* &7/invite &c<Spieler> &2- &3Lade ein Spieler in deine Gilde ein"
+   info: "&5* &7/gi &2- &3Gildeninformationen"
+   join: "&5* &7/join &6[Gilden Name] &2- &3Trete einer Gilde bei"
+   kick: "&5* &7/g &ckick &6<Spieler Name> &2- &3Entfernt ein Spieler von der Gilde"
+   leader: "&5* &7/g &cleader &6<Spieler> &2- &3Setze Gildenanführer"
+   leave: "&5* &7/leave &2- &3Verlässt die Gilde"
+   menu: "&5* &7/gg &2- &3Gildenmenü"
+   openinvitation: "&5* &7/g &copeninv &2- &3Schaltet offene Einladungen an oder aus"
+   pvptoggle: "&5* &7/g &cpvp &2- &3Wechselt PvP Einstellung"
+   requireditems: "&5* &7/g &citems &2- &3Benötigte Gegenstände"
+   set:
+    name: "&5* &7/g &csetname &2- &3Set the name"
+    tag: "&5* &7/g &csettag &2- &3Set the tag"
+   top: "&5* &7/g &ctop &2- &3Top 5"
+   war: "&5* &7/g &cwar &6[Gilden Name] &2- &3Krieg!"
+  tool: "&5* &7/ng &ctool &2- &3Prüfe oder wähle dein Gebiet mit diesen Werkzeug!"
+
  commands:
   admin:
    main:
