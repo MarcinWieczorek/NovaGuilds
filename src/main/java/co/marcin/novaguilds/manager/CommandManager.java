@@ -19,6 +19,10 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.command.CommandConfirm;
 import co.marcin.novaguilds.command.CommandNovaGuilds;
 import co.marcin.novaguilds.command.CommandPlayerInfo;
@@ -86,12 +90,14 @@ import co.marcin.novaguilds.command.region.CommandRegion;
 import co.marcin.novaguilds.command.region.CommandRegionBuy;
 import co.marcin.novaguilds.command.region.CommandRegionDelete;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -267,6 +273,39 @@ public class CommandManager {
 					genericCommand.setTabCompleter(command.getTabCompleter());
 				}
 			}
+		}
+	}
+
+	public void execute(Command command, CommandSender sender, String[] args) {
+		Executor executor = getExecutor(command);
+		NovaPlayer nPlayer = NovaPlayer.get(sender);
+
+		if(!command.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
+		}
+
+		if(command.isNeedConfirm() && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED)) {
+			nPlayer.newCommandExecutorHandler(command, args);
+			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
+		}
+		else {
+			if(executor instanceof Executor.ReversedAdminGuild) {
+				((Executor.ReversedAdminGuild) executor).guild((NovaGuild) command.getExecutorVariable());
+			}
+			else if(executor instanceof Executor.ReversedAdminRegion) {
+				((Executor.ReversedAdminRegion) executor).region((NovaRegion) command.getExecutorVariable());
+			}
+			else if(executor instanceof Executor.ReversedAdminHologram) {
+				((Executor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
+			}
+
+			executor.execute(sender, args);
 		}
 	}
 

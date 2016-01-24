@@ -19,10 +19,6 @@
 package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaHologram;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterAdmin;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterGuild;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -176,37 +172,7 @@ public enum Command {
 	}
 
 	public void execute(CommandSender sender, String[] args) {
-		Executor executor = getExecutor();
-		NovaPlayer nPlayer = NovaPlayer.get(sender);
-
-		if(!this.hasPermission(sender)) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
-
-		if(!this.allowedSender(sender)) {
-			Message.CHAT_CMDFROMCONSOLE.send(sender);
-			return;
-		}
-
-		if(isNeedConfirm() && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED)) {
-			nPlayer.newCommandExecutorHandler(this, args);
-			nPlayer.getCommandExecutorHandler().executorVariable(getExecutorVariable());
-
-		}
-		else {
-			if(executor instanceof Executor.ReversedAdminGuild) {
-				((Executor.ReversedAdminGuild) executor).guild((NovaGuild) getExecutorVariable());
-			}
-			else if(executor instanceof Executor.ReversedAdminRegion) {
-				((Executor.ReversedAdminRegion) executor).region((NovaRegion) getExecutorVariable());
-			}
-			else if(executor instanceof Executor.ReversedAdminHologram) {
-				((Executor.ReversedAdminHologram) executor).hologram((NovaHologram) getExecutorVariable());
-			}
-
-			executor.execute(sender, args);
-		}
+		NovaGuilds.getInstance().getCommandManager().execute(this, sender, args);
 	}
 
 	public boolean hasGenericCommand() {
