@@ -234,7 +234,7 @@ public final class StringUtils {
 		return stringYears + stringDays + stringHours + stringMinutes + stringSeconds;
 	}
 
-	public static int StringToSeconds(String str) {
+	public static int stringToSeconds(String str) {
 		String[] spacexp = str.split(" ");
 		int seconds = 0;
 

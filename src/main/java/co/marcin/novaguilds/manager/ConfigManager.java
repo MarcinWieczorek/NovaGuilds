@@ -224,7 +224,7 @@ public class ConfigManager {
 	}
 
 	public int getSeconds(String path) {
-		return StringUtils.StringToSeconds(getString(path));
+		return StringUtils.stringToSeconds(getString(path));
 	}
 
 	public ItemStack getItemStack(String path) {
