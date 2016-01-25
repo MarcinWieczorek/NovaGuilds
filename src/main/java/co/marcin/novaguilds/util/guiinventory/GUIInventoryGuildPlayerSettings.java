@@ -51,11 +51,11 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 	public void onClick(InventoryClickEvent event) {
 		if(event.getCurrentItem().equals(rankItem)) {
 			if(NovaPlayer.get(event.getWhoClicked()).hasPermission(GuildPermission.RANK_SET)) {
-				new GUIInventoryGuildPlayerSettingsRank(nPlayer).open(NovaPlayer.get(event.getWhoClicked()));
+				new GUIInventoryGuildPlayerSettingsRank(nPlayer).open(viewer);
 			}
 		}
 		else if(event.getCurrentItem().equals(kickItem)) {
-			nPlayer.getPlayer().performCommand("g kick " + nPlayer.getName());
+			viewer.getPlayer().performCommand("g kick " + nPlayer.getName());
 		}
 	}
 
