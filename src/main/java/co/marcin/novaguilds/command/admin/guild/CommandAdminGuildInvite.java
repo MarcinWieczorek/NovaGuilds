@@ -43,13 +43,12 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(args.length == 0) { //no player name
+		if(args.length == 0) {
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;
 		}
-		
-		String playername = args[0];
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
+
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(args[0]);
 		
 		if(nPlayer == null) { //noplayer
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
@@ -68,11 +67,13 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 		
 		//all passed
 		nPlayer.addInvitation(guild);
-		Message.CHAT_ADMIN_GUILD_INVITED.send(sender);
-		
+
+		Map<String, String> vars = new HashMap<>();
+		vars.put("PLAYERNAME", nPlayer.getName());
+		vars.put("GUILDNAME", guild.getName());
+		Message.CHAT_ADMIN_GUILD_INVITED.vars(vars).send(sender);
+
 		if(nPlayer.getPlayer() != null) {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("GUILDNAME", guild.getName());
 			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(sender);
 		}
 	}
