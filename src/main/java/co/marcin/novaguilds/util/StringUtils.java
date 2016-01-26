@@ -226,8 +226,8 @@ public final class StringUtils {
 			stringMinutes = minutes + " " + form.get() + " ";
 		}
 
-		if(seconds > 0) {
-			Message form = seconds > 1 ? Message.TIMEUNIT_SECOND_PLURAL : Message.TIMEUNIT_SECOND_SINGULAR;
+		if(seconds > 0 || lseconds == 0) {
+			Message form = seconds > 1 || seconds == 0 ? Message.TIMEUNIT_SECOND_PLURAL : Message.TIMEUNIT_SECOND_SINGULAR;
 			stringSeconds = seconds + " " + form.get() + " ";
 		}
 

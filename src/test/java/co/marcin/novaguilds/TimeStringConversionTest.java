@@ -29,6 +29,8 @@ import java.io.File;
 
 public class TimeStringConversionTest {
 	private final String[] strings = {
+			"",
+			"0s",
 			"1s",
 			"1m",
 			"1h",
@@ -40,6 +42,8 @@ public class TimeStringConversionTest {
 	};
 
 	private final Long[] longs = {
+			0L,
+			0L,
 			1L,
 			60L,
 			3600L,
@@ -51,6 +55,8 @@ public class TimeStringConversionTest {
 	};
 
 	private final String[] strings2 = {
+			"0 seconds",
+			"0 seconds",
 			"1 second",
 			"1 minute",
 			"1 hour",
