@@ -237,7 +237,10 @@ public class GuildManager {
 
 						//set unchanged
 						novaGuild.setUnchanged();
-						novaGuild.getRegion().setUnChanged();
+
+						if(novaGuild.getRegion() != null) {
+							novaGuild.getRegion().setUnChanged();
+						}
 
 						//Fix slots amount
 						if(novaGuild.getSlots() <= 0) {
