@@ -121,7 +121,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		inst = this;
 
 		//managers
-		configManager = new ConfigManager(this);
+		configManager = new ConfigManager();
 		messageManager = new MessageManager();
 
 		if(!getMessageManager().load()) {

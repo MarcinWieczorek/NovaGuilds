@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RankManager {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final List<NovaRank> genericRanks = new ArrayList<>();
 	private boolean loaded = false;
 
@@ -425,6 +425,6 @@ public class RankManager {
 	}
 
 	public static NovaRank getDefaultRank() {
-		return NovaGuilds.getInstance().getRankManager().getGenericRanks().get(1);
+		return plugin.getRankManager().getGenericRanks().get(1);
 	}
 }

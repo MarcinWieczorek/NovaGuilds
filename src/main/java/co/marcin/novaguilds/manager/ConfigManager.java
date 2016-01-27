@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigManager {
-	private final NovaGuilds plugin;
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private FileConfiguration config;
 
 	private DataStorageType primaryDataStorageType;
@@ -56,9 +56,8 @@ public class ConfigManager {
 		put("zh", "zh-cn");
 	}};
 
-	public ConfigManager(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		NovaGuilds.getInstance().setConfigManager(this);
+	public ConfigManager() {
+		plugin.setConfigManager(this);
 		reload();
 		LoggerUtils.info("Enabled");
 	}

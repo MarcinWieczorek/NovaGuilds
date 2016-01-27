@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.admin;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -30,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdmin implements CommandExecutor, Executor {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Command command = Command.ADMIN_ACCESS;
 
 	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{

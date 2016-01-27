@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MessageManager {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private FileConfiguration messages = null;
 	public String prefix;
 	public ChatColor prefixColor = ChatColor.WHITE;
@@ -299,7 +299,7 @@ public class MessageManager {
 	 */
 	public static String replaceMap(String msg, Map<String, String> vars) {
 		for(Map.Entry<String, String> entry : vars.entrySet()) {
-			vars.put(entry.getKey(), entry.getValue() + NovaGuilds.getInstance().getMessageManager().prefixColor);
+			vars.put(entry.getKey(), entry.getValue() + plugin.getMessageManager().prefixColor);
 		}
 
 		return StringUtils.replaceMap(msg, vars);
