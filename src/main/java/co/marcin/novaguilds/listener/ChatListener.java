@@ -58,7 +58,7 @@ public class ChatListener implements Listener {
 		NovaGuild guild = nPlayer.getGuild();
 
 		String rank = "";
-		if(Config.CHAT_ALLY_LEADERPREFIX.getBoolean() && nPlayer.isLeader()) {
+		if(nPlayer.isLeader()) {
 			rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 		}
 
@@ -71,6 +71,7 @@ public class ChatListener implements Listener {
 		else if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
 			format = TagUtils.getTag(player) + format;
 		}
+
 		format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", tag);
 		event.setFormat(StringUtils.fixColors(format));
 
@@ -117,7 +118,12 @@ public class ChatListener implements Listener {
 		}
 		else if(isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD) { //guild chat
 			if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
+				if(!Config.CHAT_GUILD_LEADERPREFIX.getBoolean()) {
+					rank = "";
+				}
+
 				String cFormat = Config.CHAT_GUILD_FORMAT.getString();
+				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{LEADERPREFIX}", rank);
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
 				cFormat = StringUtils.fixColors(cFormat);
 
