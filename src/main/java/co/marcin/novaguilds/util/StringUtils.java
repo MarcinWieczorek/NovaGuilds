@@ -167,6 +167,10 @@ public final class StringUtils {
 	}
 
 	public static String secondsToString(long lseconds, TimeUnit unit) {
+		if(lseconds <= 0) {
+			return "";
+		}
+
 		int minute = 60;
 		int hour = 60 * minute;
 		int day = hour * 24;
