@@ -166,9 +166,9 @@ public final class StringUtils {
 		return secondsToString(lseconds, TimeUnit.SECONDS);
 	}
 
-	public static String secondsToString(long lseconds, TimeUnit unit) {
-		if(lseconds <= 0) {
-			return "";
+	public static String secondsToString(long seconds, TimeUnit unit) {
+		if(seconds <= 0) {
+			seconds = 0;
 		}
 
 		int minute = 60;
@@ -178,24 +178,22 @@ public final class StringUtils {
 		int month = day * 31;
 		int year = 31536000;
 
-		int seconds = Integer.parseInt(lseconds + "");
-
-		int years = seconds / year;
+		long years = seconds / year;
 		seconds = seconds % year;
 
-		int months = seconds / month;
+		long months = seconds / month;
 		seconds = seconds % month;
 
-		int weeks = seconds / week;
+		long weeks = seconds / week;
 		seconds = seconds % week;
 
-		int days = seconds / day;
+		long days = seconds / day;
 		seconds = seconds % day;
 
-		int hours = seconds / hour;
+		long hours = seconds / hour;
 		seconds = seconds % hour;
 
-		int minutes = seconds / minute;
+		long minutes = seconds / minute;
 		seconds = seconds % minute;
 
 		String stringYears = "", stringMonths = "", stringWeeks = "", stringDays = "", stringHours = "", stringSeconds = "", stringMinutes = "";
@@ -230,8 +228,8 @@ public final class StringUtils {
 			stringMinutes = minutes + " " + form.get() + " ";
 		}
 
-		if(seconds > 0 || lseconds == 0) {
-			Message form = seconds > 1 || seconds == 0 ? Message.TIMEUNIT_SECOND_PLURAL : Message.TIMEUNIT_SECOND_SINGULAR;
+		if(seconds > 0) {
+			Message form = seconds > 1 ? Message.TIMEUNIT_SECOND_PLURAL : Message.TIMEUNIT_SECOND_SINGULAR;
 			stringSeconds = seconds + " " + form.get() + " ";
 		}
 
