@@ -104,6 +104,8 @@ public class TimeStringConversionTest {
 
 	@Test
 	public void testRandom() throws Exception {
+		System.out.println("Testing random values");
+
 		for(int i = 1; i < 100; i++) {
 			int seconds = NumberUtils.randInt(0, 100000000);
 
