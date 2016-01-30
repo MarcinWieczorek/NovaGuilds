@@ -174,6 +174,10 @@ public enum Config {
 		path = StringUtils.replace(name(), "_", ".").toLowerCase();
 	}
 
+	public String getPath() {
+		return path;
+	}
+
 	public String getString() {
 		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path);
 		cM.putInCache(this, r);
@@ -255,7 +259,7 @@ public enum Config {
 	}
 
 	public void set(Object obj) {
-		cM.set(path, obj);
+		cM.set(this, obj);
 	}
 
 	public static Config fromPath(String path) {

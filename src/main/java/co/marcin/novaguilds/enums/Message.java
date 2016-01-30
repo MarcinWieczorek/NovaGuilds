@@ -22,9 +22,12 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,14 @@ public enum Message {
 	CHAT_CONFIRM_NULLHANDLER,
 	CHAT_CONFIRM_NEEDCONFIRM,
 	CHAT_CONFIRM_TIMEOUT,
+
+	CHAT_ADMIN_CONFIG_RELOADED,
+	CHAT_ADMIN_CONFIG_RESET,
+	CHAT_ADMIN_CONFIG_SAVED,
+	CHAT_ADMIN_CONFIG_SET,
+	CHAT_ADMIN_CONFIG_GET_SINGLE,
+	CHAT_ADMIN_CONFIG_GET_LIST_SECTION(MessageFlag.NOPREFIX),
+	CHAT_ADMIN_CONFIG_GET_LIST_KEY(MessageFlag.NOPREFIX),
 
 	CHAT_ADMIN_GUILD_TIMEREST_SET,
 	CHAT_ADMIN_GUILD_LIST_HEADER,
@@ -266,6 +277,13 @@ public enum Message {
 	CHAT_REGION_TOOL_MODES_SELECT,
 	CHAT_REGION_BLOCKEDCMD,
 	CHAT_REGION_DELETED,
+
+	CHAT_USAGE_NGA_CONFIG_ACCESS,
+	CHAT_USAGE_NGA_CONFIG_GET,
+	CHAT_USAGE_NGA_CONFIG_RELOAD,
+	CHAT_USAGE_NGA_CONFIG_RESET,
+	CHAT_USAGE_NGA_CONFIG_SAVE,
+	CHAT_USAGE_NGA_CONFIG_SET,
 
 	CHAT_USAGE_NGA_GUILD_SET_POINTS,
 	CHAT_USAGE_NGA_GUILD_SET_LIVES,
@@ -615,5 +633,60 @@ public enum Message {
 	 */
 	public static String getOnOff(boolean b) {
 		return b ? Message.CHAT_BASIC_ON.get() : Message.CHAT_BASIC_OFF.get();
+	}
+
+	/**
+	 * Gets a ConfigurationSection
+	 * @return the ConfigurationSection
+	 */
+	public ConfigurationSection getConfigurationSection() {
+		return MessageManager.getMessages().getConfigurationSection(getParentPath());
+	}
+
+	/**
+	 * Gets Message's neighbours (excluding itslef)
+	 * @return a list of Messages in one ConfigurationSection
+	 */
+	public List<Message> getNeighbours() {
+		List<Message> list = new ArrayList<>();
+		String parentPath = getParentPath();
+		for(String key : getConfigurationSection().getKeys(false)) {
+			key = parentPath + "." + key;
+
+			if(!key.equals(getPath())) {
+				list.add(Message.fromPath(key));
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Sends a list of messages
+	 * @param list the list
+	 * @param sender the receiver
+	 */
+	public static void send(List<Message> list, CommandSender sender) {
+		for(Message message : list) {
+			message.send(sender);
+		}
+	}
+
+	/**
+	 * Gets the path of ConfigurationSection the Message's in
+	 * @return the path
+	 */
+	private String getParentPath() {
+		String[] split = StringUtils.split(getPath(), ".");
+		return StringUtils.removeEnd(getPath(), "." + split[split.length-1]);
+	}
+
+	/**
+	 * Gets a message from path
+	 * @param path path string
+	 * @return message enum
+	 */
+	public static Message fromPath(String path) {
+		return Message.valueOf(StringUtils.replace(path, ".", "_").toUpperCase());
 	}
 }

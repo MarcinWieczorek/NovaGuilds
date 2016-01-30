@@ -30,6 +30,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +41,7 @@ import java.util.Map;
 public class ConfigManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private FileConfiguration config;
+	private final File configFile = new File(plugin.getDataFolder(), "config.yml");
 
 	private DataStorageType primaryDataStorageType;
 	private DataStorageType secondaryDataStorageType;
@@ -268,8 +272,26 @@ public class ConfigManager {
 		return materialList;
 	}
 
-	public void set(String path, Object obj) {
-		config.set(path, obj);
-		removeFromCache(Config.fromPath(path));
+	public File getConfigFile() {
+		return configFile;
+	}
+
+	public void backupFile() throws IOException {
+		File backupFile = new File(getConfigFile().getParentFile(), "config.yml.backup");
+		Files.copy(getConfigFile().toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	}
+
+	public void set(Config e, Object obj) {
+		config.set(e.getPath(), obj);
+		removeFromCache(e);
+	}
+
+	public void save() {
+		try {
+			config.save(configFile);
+		}
+		catch(IOException e) {
+			LoggerUtils.exception(e);
+		}
 	}
 }

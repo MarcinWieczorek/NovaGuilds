@@ -31,6 +31,12 @@ import co.marcin.novaguilds.command.admin.CommandAdmin;
 import co.marcin.novaguilds.command.admin.CommandAdminChatSpy;
 import co.marcin.novaguilds.command.admin.CommandAdminReload;
 import co.marcin.novaguilds.command.admin.CommandAdminSave;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfig;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigGet;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigReload;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigReset;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigSave;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigSet;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuild;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildAbandon;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildBankPay;
@@ -184,6 +190,14 @@ public class CommandManager {
 		new CommandAdminReload();
 		new CommandAdminSave();
 		new CommandAdminChatSpy();
+
+		//AdminConfig
+		new CommandAdminConfig();
+		new CommandAdminConfigGet();
+		new CommandAdminConfigReload();
+		new CommandAdminConfigReset();
+		new CommandAdminConfigSave();
+		new CommandAdminConfigSet();
 
 		//AdminRegion
 		new CommandAdminRegion();

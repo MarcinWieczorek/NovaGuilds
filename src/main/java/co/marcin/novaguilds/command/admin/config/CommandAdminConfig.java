@@ -16,55 +16,36 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.command.admin;
+package co.marcin.novaguilds.command.admin.config;
 
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdmin implements CommandExecutor, Executor {
-	private final Command command = Command.ADMIN_ACCESS;
+public class CommandAdminConfig implements Executor {
+	private final Command command = Command.ADMIN_CONFIG_ACCESS;
 
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
-		put("guild", Command.ADMIN_GUILD_ACCESS);
-		put("g", Command.ADMIN_GUILD_ACCESS);
-
-		put("region", Command.ADMIN_REGION_ACCESS);
-		put("rg", Command.ADMIN_REGION_ACCESS);
-
-		put("hologram", Command.ADMIN_HOLOGRAM_ACCESS);
-		put("h", Command.ADMIN_HOLOGRAM_ACCESS);
-
-		put("reload", Command.ADMIN_RELOAD);
-		put("save", Command.ADMIN_SAVE);
-
-		put("spy", Command.ADMIN_CHATSPY);
-		put("chatspy", Command.ADMIN_CHATSPY);
-
-		put("config", Command.ADMIN_CONFIG_ACCESS);
-	}};
-
-	public CommandAdmin() {
+	public CommandAdminConfig() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		command.execute(sender, args);
-		return true;
-	}
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+		put("get", Command.ADMIN_CONFIG_GET);
+		put("reload", Command.ADMIN_CONFIG_RELOAD);
+		put("reset", Command.ADMIN_CONFIG_RESET);
+		put("save", Command.ADMIN_CONFIG_SAVE);
+		put("set", Command.ADMIN_CONFIG_SET);
+	}};
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		if(args.length == 0) {
-			Message.CHAT_COMMANDS_ADMIN_MAIN_HEADER.send(sender);
-			Message.CHAT_COMMANDS_ADMIN_MAIN_ITEMS.send(sender);
+			Message.send(Message.CHAT_USAGE_NGA_CONFIG_ACCESS.getNeighbours(), sender);
 			return;
 		}
 

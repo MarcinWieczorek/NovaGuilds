@@ -19,6 +19,16 @@ chat:
   timeout: "Zadanie potwierdzenia komendy wygaslo."
 
  admin:
+  config:
+   reloaded: "Konfiguracja została przeładowana."
+   reset: "Konfiguracja została zresetowana"
+   saved: "Konfiguracja została zapisana"
+   set: "Wartość &c{KEY} została ustawiona na: &c{VALUE}"
+   get:
+    single: "&f{KEY}&c: &f{VALUE}"
+    list:
+     section: "{DEPTH}&c{KEY}"
+     key: "{DEPTH}&5* &7{KEY}"
   guild:
    timerest:
     set: "Ustawiono czas odpoczynku gildii"
@@ -110,6 +120,13 @@ chat:
 
  usage:
   nga:
+   config:
+    access: "&5* &7/nga &cconfig &2- &3Komendy konfiguracji"
+    reload: "&5* &7/nga &cconfig &6reload &2- &3Przeładuj konfigurację"
+    save: "&5* &7/nga &cconfig &6save &2- &3Zapisz konfigurację"
+    reset: "&5* &7/nga &cconfig &6reset &2- &3Resetuj konfigurację"
+    get: "&5* &7/nga &cconfig &6get &c<key> &2- &3Pobierz wartość"
+    set: "&5* &7/nga &cconfig &6set &c<key> &6<value> &2- &3Ustaw wartość"
    guild:
     set:
      slots: "&5* &7/nga &cg &6<guild> &cslots &6<ilosc> &2- &3Zmien ilosc slotow"
@@ -159,6 +176,7 @@ chat:
    main:
     header: "Komendy Admina:"
     items:
+     - "&5* &7/nga &cconfig &2- &3Komendy konfiguracji"
      - "&5* &7/nga &crg &2- &3Komendy regionow"
      - "&5* &7/nga &cg &2- &3Komendy gildii"
      - "&5* &7/nga &ch &2- &3Komendy hologramow"
