@@ -441,7 +441,7 @@ public class NovaGuild {
 	}
 
 	public boolean isLeader(NovaPlayer nPlayer) {
-		return leader.equals(nPlayer);
+		return nPlayer.equals(leader) || (leaderName != null && nPlayer.getName().equals(leaderName));
 	}
 
 	public boolean isLeader(CommandSender sender) {

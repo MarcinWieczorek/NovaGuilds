@@ -544,14 +544,10 @@ public class GuildManager {
 					LoggerUtils.info("DELETED guild " + (guild == null ? "null" : guild.getName()));
 				}
 				else if(guild != null) {
-					guilds.remove(guild.getName());
+					guilds.remove(guild.getName().toLowerCase());
+					guild.destroy();
 				}
 
-				if(guild != null) {
-					if(guild.hasRegion()) {
-						guild.getRegion().setGuild(null);
-					}
-				}
 				i++;
 			}
 			else { //Add allies, wars etc
