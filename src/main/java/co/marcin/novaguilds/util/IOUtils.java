@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +118,15 @@ public final class IOUtils {
 		catch(FileNotFoundException e) {
 			LoggerUtils.exception(e);
 			return null;
+		}
+	}
+
+	public static void write(File file, String string) {
+		try(PrintWriter out = new PrintWriter(file)) {
+			out.println(string);
+		}
+		catch(FileNotFoundException e) {
+			LoggerUtils.exception(e);
 		}
 	}
 }

@@ -53,6 +53,7 @@ import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableInactiveCleaner;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableRefreshHolograms;
+import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -61,6 +62,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -106,6 +108,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private GroupManager groupManager;
 	private FlatDataManager flatDataManager;
 	private static final String logPrefix = "[NovaGuilds]";
+	private final String commit = getResource("commit.yml")==null ? "invalid" : IOUtils.inputStreamToString(getResource("commit.yml"));
 
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	public final List<NovaGuild> guildRaids = new ArrayList<>();
@@ -262,7 +265,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//metrics
 		setupMetrics();
 
-		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Enabled");
+		LoggerUtils.info("#" + VersionUtils.buildCurrent + " (" + getCommit() + ") Enabled");
 	}
 	
 	public void onDisable() {
@@ -558,5 +561,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public static void runTaskLater(Runnable runnable, long delay, TimeUnit timeUnit) {
 		Bukkit.getScheduler().runTaskLater(inst, runnable, timeUnit.toSeconds(delay) * 20);
+	}
+
+	public String getCommit() {
+		return StringUtils.substring(commit, 0, 7);
 	}
 }
