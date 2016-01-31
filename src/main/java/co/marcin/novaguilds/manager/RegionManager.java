@@ -53,12 +53,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
-	private final NovaGuilds plugin;
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaRegion> regions = new CaseInsensitiveMap<>();
-	
-	public RegionManager(NovaGuilds pl) {
-		plugin = pl;
-	}
 
 	//getters
 	public NovaRegion getRegion(NovaGuild guild) {

@@ -115,14 +115,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandManager {
-	private final NovaGuilds plugin;
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, String> aliases = new HashMap<>();
 	private final Map<ItemStack, String> guiCommands = new HashMap<>();
 	private final Map<Command, Executor> executors = new HashMap<>();
 	private ItemStack topItem;
 
-	public CommandManager(NovaGuilds plugin) {
-		this.plugin = plugin;
+	public CommandManager() {
 		plugin.setCommandManager(this);
 		registerCommands();
 

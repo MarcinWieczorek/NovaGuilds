@@ -99,9 +99,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	//Vault
 	public Economy econ = null;
 
-	private final GuildManager guildManager = new GuildManager(this);
-	private final RegionManager regionManager = new RegionManager(this);
-	private final PlayerManager playerManager = new PlayerManager(this);
+	private GuildManager guildManager;
+	private RegionManager regionManager;
+	private PlayerManager playerManager;
 	private MessageManager messageManager;
 	private CommandManager commandManager;
 	private ConfigManager configManager;
@@ -134,10 +134,13 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		LoggerUtils.info("Messages loaded: " + Config.LANG_NAME.getString());
 
-		commandManager = new CommandManager(this);
-		groupManager = new GroupManager(this);
+		commandManager = new CommandManager();
+		guildManager = new GuildManager();
+		playerManager = new PlayerManager();
+		regionManager = new RegionManager();
+		groupManager = new GroupManager();
 		rankManager = new RankManager();
-		databaseManager = new DatabaseManager(this);
+		databaseManager = new DatabaseManager();
 
 		if(!checkDependencies()) {
 			getServer().getPluginManager().disablePlugin(this);

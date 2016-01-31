@@ -58,11 +58,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
-	private final NovaGuilds plugin;
-	
-	public GuildManager(NovaGuilds pl) {
-		plugin = pl;
-	}
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaGuild> guilds = new CaseInsensitiveMap<>();
 	
 	//getters
@@ -79,10 +75,11 @@ public class GuildManager {
 		return null;
 	}
 
-	/*
-	* Find by player/tag/guildname
-	* @param: String mixed
-	* */
+	/**
+	 * Find by player/tag/guildname
+	 * @param mixed mixed string
+	 * @return guild instance
+	 */
 	public NovaGuild getGuildFind(String mixed) {
 		NovaGuild guild = getGuildByTag(mixed);
 
@@ -490,7 +487,6 @@ public class GuildManager {
 		guilds.remove(guild.getName());
 		guilds.put(newName, guild);
 		guild.setName(newName);
-		save(guild);
 	}
 
 	public List<NovaRaid> getRaidsTakingPart(NovaGuild guild) {
