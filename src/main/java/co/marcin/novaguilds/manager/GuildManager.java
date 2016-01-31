@@ -30,6 +30,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
+import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -58,15 +59,15 @@ import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
 	private final NovaGuilds plugin;
-	private final Map<String, NovaGuild> guilds = new HashMap<>();
 	
 	public GuildManager(NovaGuilds pl) {
 		plugin = pl;
 	}
+	private final Map<String, NovaGuild> guilds = new CaseInsensitiveMap<>();
 	
 	//getters
 	public NovaGuild getGuildByName(String name) {
-		return guilds.get(name.toLowerCase());
+		return guilds.get(name);
 	}
 	
 	public NovaGuild getGuildByTag(String tag) {
@@ -107,7 +108,7 @@ public class GuildManager {
 	}
 	
 	public boolean exists(String guildname) {
-		return guilds.containsKey(guildname.toLowerCase());
+		return guilds.containsKey(guildname);
 	}
 
 	public List<NovaGuild> nameListToGuildsList(List<String> namesList) {
@@ -132,7 +133,7 @@ public class GuildManager {
 				NovaGuild guild = guildFromFlat(guildData);
 
 				if(guild != null) {
-					guilds.put(guildName.toLowerCase(), guild);
+					guilds.put(guildName, guild);
 				}
 				else {
 					LoggerUtils.info("Loaded guild is null. name: " + guildName);
@@ -248,7 +249,7 @@ public class GuildManager {
 						}
 
 						if(novaGuild.getId() > 0) {
-							if(guilds.containsKey(res.getString("name").toLowerCase())) {
+							if(guilds.containsKey(res.getString("name"))) {
 								if(Config.DELETEINVALID.getBoolean()) {
 									delete(novaGuild);
 								}
@@ -257,7 +258,7 @@ public class GuildManager {
 								continue;
 							}
 
-							guilds.put(res.getString("name").toLowerCase(), novaGuild);
+							guilds.put(res.getString("name"), novaGuild);
 						}
 						else {
 							LoggerUtils.info("Failed to load guild " + res.getString("name") + ". Invalid ID");
@@ -283,7 +284,7 @@ public class GuildManager {
 	public void add(NovaGuild guild) {
 		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			plugin.getFlatDataManager().add(guild);
-			guilds.put(guild.getName().toLowerCase(), guild);
+			guilds.put(guild.getName(), guild);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
@@ -321,7 +322,7 @@ public class GuildManager {
 
 				if(id > 0) {
 					guild.setId(id);
-					guilds.put(guild.getName().toLowerCase(), guild);
+					guilds.put(guild.getName(), guild);
 					guild.setUnchanged();
 				}
 			}
@@ -481,14 +482,14 @@ public class GuildManager {
 			plugin.getRegionManager().remove(guild.getRegion());
 		}
 
-		guilds.remove(guild.getName().toLowerCase());
+		guilds.remove(guild.getName());
 		guild.destroy();
 	}
 	
-	public void changeName(NovaGuild guild, String newname) {
+	public void changeName(NovaGuild guild, String newName) {
 		guilds.remove(guild.getName());
-		guilds.put(newname, guild);
-		guild.setName(newname);
+		guilds.put(newName, guild);
+		guild.setName(newName);
 		save(guild);
 	}
 
@@ -544,7 +545,7 @@ public class GuildManager {
 					LoggerUtils.info("DELETED guild " + (guild == null ? "null" : guild.getName()));
 				}
 				else if(guild != null) {
-					guilds.remove(guild.getName().toLowerCase());
+					guilds.remove(guild.getName());
 					guild.destroy();
 				}
 
