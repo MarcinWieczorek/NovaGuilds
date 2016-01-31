@@ -49,10 +49,7 @@ import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.manager.RegionManager;
-import co.marcin.novaguilds.runnable.RunnableAutoSave;
-import co.marcin.novaguilds.runnable.RunnableInactiveCleaner;
-import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
-import co.marcin.novaguilds.runnable.RunnableRefreshHolograms;
+import co.marcin.novaguilds.manager.TaskManager;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -119,6 +116,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private VanishPlugin vanishNoPacket;
 	private HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
 	private RankManager rankManager;
+	private TaskManager taskManager;
 
 	public void onEnable() {
 		inst = this;
@@ -141,6 +139,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		groupManager = new GroupManager();
 		rankManager = new RankManager();
 		databaseManager = new DatabaseManager();
+		taskManager = new TaskManager();
 
 		if(!checkDependencies()) {
 			getServer().getPluginManager().disablePlugin(this);
@@ -247,21 +246,21 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		TagUtils.refreshAll();
 
 		//save scheduler
-		runSaveScheduler();
+		taskManager.startTask(TaskManager.Task.AUTOSAVE);
 		LoggerUtils.info("Save scheduler is running");
 
 		//live regeneration task
-		runLiveRegenerationTask();
+		taskManager.startTask(TaskManager.Task.LIVEREGENERATION);
 		LoggerUtils.info("Live regeneration task is running");
 
 		//Hologram refresh task
 		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			runLiveHologramRefreshTask();
+			taskManager.startTask(TaskManager.Task.HOLOGRAM_REFRESH);
 		}
 
 		//Inactive cleaner task
 		if(Config.CLEANUP_ENABLED.getBoolean()) {
-			runLiveInactiveCleanerTask();
+			taskManager.startTask(TaskManager.Task.CLEANUP);
 			LoggerUtils.info("Cleanup task started.");
 		}
 
@@ -355,6 +354,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		return databaseManager;
 	}
 
+	public TaskManager getTaskManager() {
+		return taskManager;
+	}
+
 	//Vault economy
 	private boolean setupEconomy() {
 		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
@@ -376,25 +379,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		return vanishNoPacket != null;
-	}
-	
-	private void runSaveScheduler() {
-		worker.scheduleAtFixedRate(new RunnableAutoSave(this), Config.SAVEINTERVAL.getSeconds(), Config.SAVEINTERVAL.getSeconds(), TimeUnit.SECONDS);
-	}
-
-	private void runLiveRegenerationTask() {
-		Runnable task = new RunnableLiveRegeneration(this);
-		worker.scheduleAtFixedRate(task, Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), TimeUnit.SECONDS);
-	}
-
-	private void runLiveHologramRefreshTask() {
-		Runnable task = new RunnableRefreshHolograms(this);
-		worker.scheduleAtFixedRate(task, Config.HOLOGRAPHICDISPLAYS_REFRESH.getSeconds(), Config.HOLOGRAPHICDISPLAYS_REFRESH.getSeconds(), TimeUnit.SECONDS);
-	}
-
-	private void runLiveInactiveCleanerTask() {
-		Runnable task = new RunnableInactiveCleaner();
-		worker.scheduleAtFixedRate(task, 30, Config.CLEANUP_INTERVAL.getSeconds(), TimeUnit.SECONDS);
 	}
 
 	private void setupMetrics() {

@@ -33,11 +33,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RunnableRaid implements Runnable {
-	private final NovaGuilds plugin;
-
-	public RunnableRaid(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-	}
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	public void run() {
 		NovaGuilds.setRaidRunnableRunning(false);

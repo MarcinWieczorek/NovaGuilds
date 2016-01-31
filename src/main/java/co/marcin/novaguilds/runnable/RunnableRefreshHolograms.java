@@ -22,11 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.LoggerUtils;
 
 public class RunnableRefreshHolograms implements Runnable {
-	private final NovaGuilds plugin;
-
-	public RunnableRefreshHolograms(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-	}
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	@Override
 	public void run() {

@@ -87,6 +87,7 @@ cleanup:
  enabled: true
  inactivetime: 7d
  interval: 1d
+ startupdelay: 30s
 
 aliases:
  guild:
