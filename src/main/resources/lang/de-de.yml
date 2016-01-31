@@ -138,6 +138,12 @@ chat:
      withdraw: "&5* &7/nga &cg &6<Gilde> &cwithdraw &6<Menge> &2- &3Hebe Geld von der Gildenbank ab"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<Gilde> &ctp &6[Spieler] &2- &3Teleportiert zu Gilden Haus"
+   region:
+    access: "&5* &7/nga &crg &2- &3Gebietsbefehle"
+    list: "&5* &7/nga &crg &6list &2- &3Gebieteliste"
+    delete: "&5* &7/nga &crg &6<Gilde> &cdel &2- &3Löscht ein Gebiet"
+    teleport: "&5* &7/nga &crg &6<Gilde> &ctp &2- &3Teleportiert zum Gildengebiet"
+    bypass: "&5* &7/nga &crg &6bypass &c[player] &2- &3ändert den Umgehungsmodus"
   guild:
    abandon: "&5* &7/abandon &2- &3Löse deine Gilde auf"
    ally: "&5* &7/g &cally &6<Gilden Name> &2- &3Lade sie als Verbündete ein"
@@ -169,6 +175,10 @@ chat:
     tag: "&5* &7/g &csettag &2- &3Set the tag"
    top: "&5* &7/g &ctop &2- &3Top 5"
    war: "&5* &7/g &cwar &6[Gilden Name] &2- &3Krieg!"
+  region:
+   access: "&5* &7/g &crg &2- &3Gebietsbefehle"
+   buy: "&5* &7/g &crg &6buy &2- &3Erstellt ein Gebiet"
+   delete: "&5* &7/g &crg &6delete &2- &3Löscht ein Gebiet"
   tool: "&5* &7/ng &ctool &2- &3Prüfe oder wähle dein Gebiet mit diesen Werkzeug!"
 
  commands:

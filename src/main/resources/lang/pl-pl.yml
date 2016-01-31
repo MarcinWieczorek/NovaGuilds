@@ -138,6 +138,12 @@ chat:
      withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
     purge: "&5* &7/nga &cg &6purge &2- &3Usuń wszystkie gildie"
     tp: "&7/nga &cg &6tp &c<gildia> &6[gracz]"
+   region:
+    access: "&5* &7/nga &crg &2- &3Komendy regionów"
+    list: "&5* &7/nga &crg &6list &2- &3Lista regionów"
+    delete: "&5* &7/nga &crg &6<gildia> &cdel &2- &3Usuń region"
+    teleport: "&5* &7/nga &crg &6<gildia> &ctp &2- &3Teleport do regionu"
+    bypass: "&5* &7/nga &crg &6bypass &c[gracz] &2- &3Zmiana trybu ignorowania regionów"
   guild:
    abandon: "&5* &7/rozwiaz &2- &3Porzuć gildię"
    ally: "&5* &7/g &cally &6<gildia> &2- &3Zaproś do sojuszu"
@@ -169,6 +175,10 @@ chat:
     tag: "&5* &7/g &csettag &2- &3Zmień tag"
    top: "&5* &7/g &ctop &2- &3Top 5"
    war: "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
+  region:
+   access: "&5* &7/g &crg &2- &3Komendy regionów"
+   buy: "&5* &7/g &crg &6buy &2- &3Stwórz region"
+   delete: "&5* &7/g &crg &6delete &2- &3Usuń region"
   tool: "&5* &7/ng &ctool &2- &3Sprawdź lub zaznacz teren patykiem!"
 
  commands:

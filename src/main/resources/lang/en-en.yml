@@ -138,6 +138,12 @@ chat:
      withdraw: "&5* &7/nga &cg &6<guild> &cwithdraw &6<amount> &2- &3Take money from the bank"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<guild> &ctp &6[player] &2- &3TP to guild's home"
+   region:
+    access: "&5* &7/nga &crg &2- &3Region commands"
+    list: "&5* &7/nga &crg &6list &2- &3Region list"
+    delete: "&5* &7/nga &crg &6<guild> &cdel &2- &3Delete region"
+    teleport: "&5* &7/nga &crg &6<guild> &ctp &2- &3Teleport to region"
+    bypass: "&5* &7/nga &crg &6bypass &c[player] &2- &3Change bypass mode"
   guild:
    abandon: "&5* &7/abandon &2- &3abandon your guild"
    ally: "&5* &7/g &cally &6<guildname> &2- &3Invite to an ally"
@@ -169,6 +175,10 @@ chat:
     tag: "&5* &7/g &csettag &2- &3Set the tag"
    top: "&5* &7/g &ctop &2- &3Top 5"
    war: "&5* &7/g &cwar &6[guildname] &2- &3War!"
+  region:
+   access: "&5* &7/g &crg &2- &3Region commands"
+   buy: "&5* &7/g &crg &6buy &2- &3Create a region"
+   delete: "&5* &7/g &crg &6delete &2- &3Delete the region"
   tool: "&5* &7/ng &ctool &2- &3Check or select area with the tool!"
 
  commands:

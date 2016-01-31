@@ -138,6 +138,12 @@ chat:
      withdraw: "&5* &7/nga &cg &6<公会> &cwithdraw &6<金额> &2- &3从公会银行取款"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<公会> &ctp &6[玩家] &2- &3将玩家传送至公会出生点"
+   region:
+    access: "&5* &7/nga &crg &2- &3领地管理指令"
+    list: "&5* &7/nga &crg &6list &2- &3列出所有领地"
+    delete: "&5* &7/nga &crg &6del &c<公会名> &2- &3删除指定领地"
+    teleport: "&5* &7/nga &crg &6tp &c<公会名> &2- &3传送至指定领地"
+    bypass: "&5* &7/nga &crg &6bypass &c[玩家] &2- &3更改通行权限"
   guild:
    abandon: "&5* &7/abandon &2- &3abandon your guild"
    ally: "&5* &7/g &cally &6<公会名> &2- &3申请与指定公会结盟."
@@ -169,6 +175,10 @@ chat:
     tag: "&5* &7/g &csettag &2- &3Set the tag"
    top: "&5* &7/g &ctop &2- &3查看公会排行前5的玩家"
    war: "&5* &7/g &cwar &6[公会名] &2- &3向指定公会宣战."
+  region:
+   access: "&5* &7/g &crg &2- &3领地命令"
+   buy: "&5* &7/g &crg &6buy &2- &3创建领地"
+   delete: "&5* &7/g &crg &6delete &2- &3删除领地"
   tool: "&5* &7/ng &ctool &2- &3用工具检查指定领地"
 
  commands:
