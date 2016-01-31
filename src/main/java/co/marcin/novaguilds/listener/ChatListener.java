@@ -156,8 +156,8 @@ public class ChatListener implements Listener {
 			cmd = split[0];
 		}
 
-		if(Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+		if(!nPlayer.getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
 			NovaRegion region = plugin.getRegionManager().getRegion(event.getPlayer().getLocation());
 
 			if(region != null) {
