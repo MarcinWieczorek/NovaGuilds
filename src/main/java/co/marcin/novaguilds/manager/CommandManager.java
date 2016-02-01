@@ -107,6 +107,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -292,7 +293,6 @@ public class CommandManager {
 
 	public void execute(Command command, CommandSender sender, String[] args) {
 		Executor executor = getExecutor(command);
-		NovaPlayer nPlayer = NovaPlayer.get(sender);
 
 		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
@@ -304,7 +304,9 @@ public class CommandManager {
 			return;
 		}
 
-		if(command.isNeedConfirm() && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED)) {
+		NovaPlayer nPlayer = NovaPlayer.get(sender);
+
+		if((sender instanceof Player) && (command.isNeedConfirm() && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED))) {
 			nPlayer.newCommandExecutorHandler(command, args);
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}
