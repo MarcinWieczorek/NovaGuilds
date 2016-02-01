@@ -50,10 +50,11 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 	public void execute(CommandSender sender, String[] args) {
 		if(args.length == 0) {
 			Map<String, String[]> langInfo = new HashMap<>();
+			String commit = plugin.getCommit();
 			
 			langInfo.put("zh-cn", new String[]{
 					Message.CHAT_PREFIX.get() + "NovaGuilds 公会插件信息",
-					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent,
+					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent + " &4(&e" + commit + "&4)",
 					"&2作者: &6Marcin (CTRL) Wieczorek",
 					"&22015 &4波&f兰",
 					"&6网址: &bhttp://novaguilds.pl/",
@@ -62,7 +63,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 			
 			langInfo.put("en-en", new String[]{
 					Message.CHAT_PREFIX.get() + "NovaGuilds Information",
-					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent,
+					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent + " &4(&e" + commit + "&4)",
 					"&2Author: &6Marcin (CTRL) Wieczorek",
 					"&22015 &4Pol&fand",
 					"&bhttp://novaguilds.pl/",
@@ -71,7 +72,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 
 			langInfo.put("pl-pl", new String[]{
 					Message.CHAT_PREFIX.get() + "NovaGuilds Informacje",
-					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent,
+					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent + " &4(&e" + commit + "&4)",
 					"&2Autor: &6Marcin (CTRL) Wieczorek",
 					"&22015 &4Pol&fska",
 					"&bhttp://novaguilds.pl/",

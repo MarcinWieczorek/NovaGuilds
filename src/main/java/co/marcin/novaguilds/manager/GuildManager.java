@@ -30,6 +30,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
+import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -54,20 +55,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
-	private final NovaGuilds plugin;
-	private final Map<String, NovaGuild> guilds = new HashMap<>();
-	
-	public GuildManager(NovaGuilds pl) {
-		plugin = pl;
-	}
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Map<String, NovaGuild> guilds = new CaseInsensitiveMap<>();
 	
 	//getters
 	public NovaGuild getGuildByName(String name) {
-		return guilds.get(name.toLowerCase());
+		return guilds.get(name);
 	}
 	
 	public NovaGuild getGuildByTag(String tag) {
@@ -79,10 +75,11 @@ public class GuildManager {
 		return null;
 	}
 
-	/*
-	* Find by player/tag/guildname
-	* @param: String mixed
-	* */
+	/**
+	 * Find by player/tag/guildname
+	 * @param mixed mixed string
+	 * @return guild instance
+	 */
 	public NovaGuild getGuildFind(String mixed) {
 		NovaGuild guild = getGuildByTag(mixed);
 
@@ -108,7 +105,7 @@ public class GuildManager {
 	}
 	
 	public boolean exists(String guildname) {
-		return guilds.containsKey(guildname.toLowerCase());
+		return guilds.containsKey(guildname);
 	}
 
 	public List<NovaGuild> nameListToGuildsList(List<String> namesList) {
@@ -133,7 +130,7 @@ public class GuildManager {
 				NovaGuild guild = guildFromFlat(guildData);
 
 				if(guild != null) {
-					guilds.put(guildName.toLowerCase(), guild);
+					guilds.put(guildName, guild);
 				}
 				else {
 					LoggerUtils.info("Loaded guild is null. name: " + guildName);
@@ -239,13 +236,17 @@ public class GuildManager {
 						//set unchanged
 						novaGuild.setUnchanged();
 
+						if(novaGuild.getRegion() != null) {
+							novaGuild.getRegion().setUnChanged();
+						}
+
 						//Fix slots amount
 						if(novaGuild.getSlots() <= 0) {
-							novaGuild.setSlots(Config.GUILD_STARTSLOTS.getInt());
+							novaGuild.setSlots(Config.GUILD_SLOTS_START.getInt());
 						}
 
 						if(novaGuild.getId() > 0) {
-							if(guilds.containsKey(res.getString("name").toLowerCase())) {
+							if(guilds.containsKey(res.getString("name"))) {
 								if(Config.DELETEINVALID.getBoolean()) {
 									delete(novaGuild);
 								}
@@ -254,7 +255,7 @@ public class GuildManager {
 								continue;
 							}
 
-							guilds.put(res.getString("name").toLowerCase(), novaGuild);
+							guilds.put(res.getString("name"), novaGuild);
 						}
 						else {
 							LoggerUtils.info("Failed to load guild " + res.getString("name") + ". Invalid ID");
@@ -280,7 +281,7 @@ public class GuildManager {
 	public void add(NovaGuild guild) {
 		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			plugin.getFlatDataManager().add(guild);
-			guilds.put(guild.getName().toLowerCase(), guild);
+			guilds.put(guild.getName(), guild);
 		}
 		else {
 			if(!plugin.getDatabaseManager().isConnected()) {
@@ -318,7 +319,7 @@ public class GuildManager {
 
 				if(id > 0) {
 					guild.setId(id);
-					guilds.put(guild.getName().toLowerCase(), guild);
+					guilds.put(guild.getName(), guild);
 					guild.setUnchanged();
 				}
 			}
@@ -435,9 +436,18 @@ public class GuildManager {
 	}
 	
 	public void save() {
-		for(Entry<String, NovaGuild> g : guilds.entrySet()) {
-			save(g.getValue());
+		long startTime = System.nanoTime();
+		int count = 0;
+
+		for(NovaGuild guild : getGuilds()) {
+			if(guild.isChanged()) {
+				count++;
+			}
+
+			save(guild);
 		}
+
+		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 	}
 
 	public void delete(NovaGuild guild) {
@@ -469,15 +479,14 @@ public class GuildManager {
 			plugin.getRegionManager().remove(guild.getRegion());
 		}
 
-		guilds.remove(guild.getName().toLowerCase());
+		guilds.remove(guild.getName());
 		guild.destroy();
 	}
 	
-	public void changeName(NovaGuild guild, String newname) {
+	public void changeName(NovaGuild guild, String newName) {
 		guilds.remove(guild.getName());
-		guilds.put(newname, guild);
-		guild.setName(newname);
-		save(guild);
+		guilds.put(newName, guild);
+		guild.setName(newName);
 	}
 
 	public List<NovaRaid> getRaidsTakingPart(NovaGuild guild) {
@@ -533,13 +542,9 @@ public class GuildManager {
 				}
 				else if(guild != null) {
 					guilds.remove(guild.getName());
+					guild.destroy();
 				}
 
-				if(guild != null) {
-					if(guild.hasRegion()) {
-						guild.getRegion().setGuild(null);
-					}
-				}
 				i++;
 			}
 			else { //Add allies, wars etc
@@ -698,7 +703,7 @@ public class GuildManager {
 
 			//Fix slots amount
 			if(guild.getSlots() <= 0) {
-				guild.setSlots(Config.GUILD_STARTSLOTS.getInt());
+				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 			}
 		}
 
@@ -816,6 +821,8 @@ public class GuildManager {
 	}
 
 	public void cleanInactiveGuilds() {
+		int count = 0;
+
 		for(NovaGuild guild : plugin.getGuildManager().getMostInactiveGuilds()) {
 			if(NumberUtils.systemSeconds() - guild.getInactiveTime() < Config.CLEANUP_INACTIVETIME.getSeconds()) {
 				break;
@@ -827,13 +834,16 @@ public class GuildManager {
 
 			//if event is not cancelled
 			if(!guildAbandonEvent.isCancelled()) {
-				//delete guild
-				plugin.getGuildManager().delete(guild);
-
 				Map<String, String> vars = new HashMap<>();
 				vars.put("GUILDNAME", guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_CLEANUP.vars(vars).broadcast();
+				LoggerUtils.debug("Abandoned guild " + guild.getName() + " due to inactivity.");
+				count++;
+
+				plugin.getGuildManager().delete(guild);
 			}
 		}
+
+		LoggerUtils.debug("Guilds cleanup finished, removed " + count + " guilds.");
 	}
 }

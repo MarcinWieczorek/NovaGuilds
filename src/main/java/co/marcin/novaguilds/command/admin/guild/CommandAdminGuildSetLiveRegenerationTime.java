@@ -50,7 +50,7 @@ public class CommandAdminGuildSetLiveRegenerationTime implements Executor.Revers
 			timeString = args[0];
 		}
 
-		int iseconds = StringUtils.StringToSeconds(timeString);
+		int iseconds = StringUtils.stringToSeconds(timeString);
 		long seconds = Long.parseLong(iseconds + "");
 
 		long newregentime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());

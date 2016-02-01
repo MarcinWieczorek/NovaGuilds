@@ -27,7 +27,8 @@ import org.bukkit.Bukkit;
 import java.util.logging.Logger;
 
 public final class LoggerUtils {
-	public static final Logger logger = Logger.getLogger("Minecraft");
+	private static final Logger logger = Logger.getLogger("Minecraft");
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	public static void error(String error) {
 		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + classPrefix() + space(error) + error));
@@ -38,7 +39,7 @@ public final class LoggerUtils {
 	}
 
 	public static void debug(String msg) {
-		if(NovaGuilds.getInstance() != null && NovaGuilds.getInstance().getConfigManager() != null) {
+		if(plugin != null && plugin.getConfigManager() != null) {
 			if(Config.DEBUG.getBoolean()) {
 				info("[DEBUG] " + classPrefix() + msg);
 			}
@@ -64,8 +65,8 @@ public final class LoggerUtils {
 		error("[NovaGuilds] Severe error:");
 		error("");
 		error("Server Information:");
-		error("  NovaGuilds: #" + NovaGuilds.getInstance().getBuild());
-		error("  Storage Type: " + NovaGuilds.getInstance().getConfigManager().getDataStorageType().name());
+		error("  NovaGuilds: #" + plugin.getBuild());
+		error("  Storage Type: " + plugin.getConfigManager().getDataStorageType().name());
 		error("  Bukkit: " + Bukkit.getBukkitVersion());
 		error("  Java: " + System.getProperty("java.version"));
 		error("  Thread: " + Thread.currentThread());

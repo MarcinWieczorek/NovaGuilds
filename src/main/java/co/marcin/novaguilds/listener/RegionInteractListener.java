@@ -33,6 +33,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LeashHitch;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -47,6 +48,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
@@ -54,7 +57,6 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class RegionInteractListener implements Listener {
 	private final NovaGuilds plugin;
@@ -121,7 +123,9 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) { //BREAKING
 		Player player = event.getPlayer();
-		if(NovaRegion.get(event.getBlock()) != null && (!plugin.getRegionManager().canInteract(player, event.getBlock()) || !NovaPlayer.get(player).hasPermission(GuildPermission.BLOCK_BREAK))) {
+		NovaPlayer nPlayer = NovaPlayer.get(player);
+
+		if(NovaRegion.get(event.getBlock()) != null && (!plugin.getRegionManager().canInteract(player, event.getBlock()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_BREAK)))) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
@@ -130,7 +134,9 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) { //PLACING
 		Player player = event.getPlayer();
-		if(NovaRegion.get(event.getBlock()) != null && (!plugin.getRegionManager().canInteract(player, event.getBlock()) || !NovaPlayer.get(player).hasPermission(GuildPermission.BLOCK_PLACE))) {
+		NovaPlayer nPlayer = NovaPlayer.get(player);
+
+		if(NovaRegion.get(event.getBlock()) != null && (!plugin.getRegionManager().canInteract(player, event.getBlock()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
@@ -163,7 +169,9 @@ public class RegionInteractListener implements Listener {
 				return;
 			}
 
-			if(NovaRegion.get(event.getEntity()) != null && (!plugin.getRegionManager().canInteract(player, event.getEntity()) || !NovaPlayer.get(player).hasPermission(GuildPermission.MOB_ATTACK))) {
+			NovaPlayer nPlayer = NovaPlayer.get(player);
+
+			if(NovaRegion.get(event.getEntity()) != null && (!plugin.getRegionManager().canInteract(player, event.getEntity()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_ATTACK)))) {
 				if(!(event.getEntity().getPassenger() instanceof Player)) {
 					event.setCancelled(true);
 					Message.CHAT_REGION_DENY_ATTACKMOB.send(player);
@@ -180,11 +188,12 @@ public class RegionInteractListener implements Listener {
 	@EventHandler
 	public void onPlayerClickEntityEvent(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
+		NovaPlayer nPlayer = NovaPlayer.get(player);
 		Entity entity = event.getEntity();
 		List<String> denyDamage = Config.REGION_DENYMOBDAMAGE.getStringList();
 
 		if(event.getAction() == EntityUseAction.ATTACK) {
-			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || !NovaPlayer.get(player).hasPermission(GuildPermission.MOB_ATTACK))) {
+			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_ATTACK)))) {
 				if(denyDamage.contains(entity.getType().name())) {
 					if(!(entity instanceof LivingEntity)) {
 						event.setCancelled(true);
@@ -194,7 +203,7 @@ public class RegionInteractListener implements Listener {
 			}
 		}
 		else {
-			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || !NovaPlayer.get(player).hasPermission(GuildPermission.MOB_RIDE))) {
+			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_RIDE)))) {
 				if(entity.getType() == EntityType.SHEEP && player.getItemInHand().getType() == Material.SHEARS) {
 					event.setCancelled(true);
 					Message.CHAT_REGION_DENY_RIDEMOB.send(player);
@@ -229,7 +238,7 @@ public class RegionInteractListener implements Listener {
 		NovaPlayer nPlayer = NovaPlayer.get(player);
 
 		if(denyRiding.contains(entity.getType().name())) {
-			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || !nPlayer.hasPermission(GuildPermission.MOB_LEASH))) {
+			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_LEASH)))) {
 				if(!(entity instanceof Vehicle) || !NovaPlayer.get(player).isVehicleListed((Vehicle) event.getEntity())) {
 					event.setCancelled(true);
 					Message.CHAT_REGION_DENY_UNLEASH.send(player);
@@ -246,7 +255,7 @@ public class RegionInteractListener implements Listener {
 		NovaPlayer nPlayer = NovaPlayer.get(player);
 
 		if(denyRiding.contains(entity.getType().name())) {
-			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || !nPlayer.hasPermission(GuildPermission.MOB_LEASH))) {
+			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_LEASH)))) {
 				if(!(entity instanceof Vehicle) || !NovaPlayer.get(player).isVehicleListed((Vehicle) event.getEntity())) {
 					event.setCancelled(true);
 					Message.CHAT_REGION_DENY_LEASH.send(event.getPlayer());
@@ -261,7 +270,7 @@ public class RegionInteractListener implements Listener {
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = NovaPlayer.get(player);
 
-		if(NovaRegion.get(block) != null && (!plugin.getRegionManager().canInteract(player, block) || !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE))) {
+		if(NovaRegion.get(block) != null && (!plugin.getRegionManager().canInteract(player, block) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(event.getPlayer());
 		}
@@ -290,28 +299,53 @@ public class RegionInteractListener implements Listener {
 		}
 
 		final Player player = (Player) event.getEntered();
+		NovaPlayer nPlayer = NovaPlayer.get(player);
 
 		List<String> denyRiding = Config.REGION_DENYRIDING.getStringList();
 
 		if(denyRiding.contains(vehicle.getType().name())) {
-			if(NovaRegion.get(vehicle) != null && (!plugin.getRegionManager().canInteract(player, vehicle) || !NovaPlayer.get(player).hasPermission(GuildPermission.MOB_RIDE))) {
+			if(NovaRegion.get(vehicle) != null && (!plugin.getRegionManager().canInteract(player, vehicle) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_RIDE)))) {
 				if(!NovaPlayer.get(event.getEntered()).isVehicleListed(vehicle)) {
 					event.setCancelled(true);
 					Message.CHAT_REGION_DENY_RIDEMOB.send(event.getEntered());
-					final float pitch = player.getLocation().getPitch();
-					final float yaw = player.getLocation().getYaw();
-
-					NovaGuilds.runTaskLater(new Runnable() {
-						@Override
-						public void run() {
-							Location location = player.getLocation();
-							location.setYaw(yaw);
-							location.setPitch(pitch);
-							player.teleport(location);
-						}
-					}, 1000, TimeUnit.MILLISECONDS);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Handles breaking pantings, item frames, leashes
+	 * @param event The event
+	 */
+	@EventHandler
+	public void onHangingEntityBreak(HangingBreakByEntityEvent event) {
+		if(!(event.getRemover() instanceof Player)) {
+			return;
+		}
+
+		Player player = (Player) event.getRemover();
+		NovaPlayer nPlayer = NovaPlayer.get(player);
+		boolean isLeash = event.getEntity() instanceof LeashHitch;
+
+		if(NovaRegion.get(event.getEntity()) != null && (!plugin.getRegionManager().canInteract(player, event.getEntity()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(isLeash ? GuildPermission.MOB_LEASH : GuildPermission.BLOCK_BREAK)))) {
+			event.setCancelled(true);
+			(isLeash ? Message.CHAT_REGION_DENY_UNLEASH : Message.CHAT_REGION_DENY_INTERACT).send(player);
+		}
+	}
+
+	/**
+	 * Handles placing paintings, item frames, leashes
+	 * @param event The event
+	 */
+	@EventHandler
+	public void onHangingPlace(HangingPlaceEvent event) {
+		Player player = event.getPlayer();
+		NovaPlayer nPlayer = NovaPlayer.get(player);
+		Location location = event.getEntity().getLocation();
+
+		if(NovaRegion.get(location) != null && (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
+			event.setCancelled(true);
+			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
 	}
 }

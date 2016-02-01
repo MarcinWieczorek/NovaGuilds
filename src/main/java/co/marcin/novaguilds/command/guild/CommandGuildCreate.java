@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
@@ -45,7 +44,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandGuildCreate implements CommandExecutor, Executor {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Command command = Command.GUILD_CREATE;
 	
 	public CommandGuildCreate() {
@@ -168,7 +166,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 				newGuild.setLives(Config.GUILD_STARTLIVES.getInt());
 				newGuild.setPoints(Config.GUILD_STARTPOINTS.getInt());
 				newGuild.setMoney(Config.GUILD_STARTMONEY.getInt());
-				newGuild.setSlots(Config.GUILD_STARTSLOTS.getInt());
+				newGuild.setSlots(Config.GUILD_SLOTS_START.getInt());
 				newGuild.setTimeCreated(NumberUtils.systemSeconds());
 
 				//fire event
@@ -190,9 +188,6 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 
 					//Update holograms
 					plugin.getHologramManager().refreshTopHolograms();
-
-					//Assign ranks
-					plugin.getRankManager().assignRanks(newGuild);
 
 					//autoregion
 					if(region != null) {
@@ -239,7 +234,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 	}
 
 	public static Message validTag(String tag) {
-		if(NovaGuilds.getInstance().getGuildManager().getGuildByTag(tag) != null) { //Check for an existing guild
+		if(plugin.getGuildManager().getGuildByTag(tag) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_TAGEXISTS;
 		}
 
@@ -259,7 +254,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 	}
 
 	public static Message validName(String name) {
-		if(NovaGuilds.getInstance().getGuildManager().getGuildByName(name) != null) { //Check for an existing guild
+		if(plugin.getGuildManager().getGuildByName(name) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_NAMEEXISTS;
 		}
 

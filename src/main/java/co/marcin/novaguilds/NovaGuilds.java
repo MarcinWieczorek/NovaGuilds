@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds;
 
-import co.marcin.mchttp.McHTTP;
 import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaRaid;
@@ -50,9 +49,8 @@ import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.manager.RegionManager;
-import co.marcin.novaguilds.runnable.RunnableAutoSave;
-import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
-import co.marcin.novaguilds.runnable.RunnableRefreshHolograms;
+import co.marcin.novaguilds.manager.TaskManager;
+import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -61,6 +59,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -97,15 +96,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	//Vault
 	public Economy econ = null;
 
-	private final GuildManager guildManager = new GuildManager(this);
-	private final RegionManager regionManager = new RegionManager(this);
-	private final PlayerManager playerManager = new PlayerManager(this);
+	private GuildManager guildManager;
+	private RegionManager regionManager;
+	private PlayerManager playerManager;
 	private MessageManager messageManager;
 	private CommandManager commandManager;
 	private ConfigManager configManager;
 	private GroupManager groupManager;
 	private FlatDataManager flatDataManager;
 	private static final String logPrefix = "[NovaGuilds]";
+	private final String commit = getResource("commit.yml")==null ? "invalid" : IOUtils.inputStreamToString(getResource("commit.yml"));
 
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	public final List<NovaGuild> guildRaids = new ArrayList<>();
@@ -115,14 +115,14 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
 	private HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
-	private McHTTP mcHTTP;
 	private RankManager rankManager;
+	private TaskManager taskManager;
 
 	public void onEnable() {
 		inst = this;
 
 		//managers
-		configManager = new ConfigManager(this);
+		configManager = new ConfigManager();
 		messageManager = new MessageManager();
 
 		if(!getMessageManager().load()) {
@@ -132,10 +132,14 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		LoggerUtils.info("Messages loaded: " + Config.LANG_NAME.getString());
 
-		commandManager = new CommandManager(this);
-		groupManager = new GroupManager(this);
+		commandManager = new CommandManager();
+		guildManager = new GuildManager();
+		playerManager = new PlayerManager();
+		regionManager = new RegionManager();
+		groupManager = new GroupManager();
 		rankManager = new RankManager();
-		databaseManager = new DatabaseManager(this);
+		databaseManager = new DatabaseManager();
+		taskManager = new TaskManager();
 
 		if(!checkDependencies()) {
 			getServer().getPluginManager().disablePlugin(this);
@@ -180,6 +184,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		LoggerUtils.info("Regions data loaded");
 		getGuildManager().load();
 		LoggerUtils.info("Guilds data loaded");
+		getRankManager().loadDefaultRanks();
 		getPlayerManager().load();
 		LoggerUtils.info("Players data loaded");
 
@@ -241,31 +246,28 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		TagUtils.refreshAll();
 
 		//save scheduler
-		runSaveScheduler();
+		taskManager.startTask(TaskManager.Task.AUTOSAVE);
 		LoggerUtils.info("Save scheduler is running");
 
 		//live regeneration task
-		runLiveRegenerationTask();
+		taskManager.startTask(TaskManager.Task.LIVEREGENERATION);
 		LoggerUtils.info("Live regeneration task is running");
 
-		//Hologram refersh task
+		//Hologram refresh task
 		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			runLiveHologramRefreshTask();
+			taskManager.startTask(TaskManager.Task.HOLOGRAM_REFRESH);
+		}
+
+		//Inactive cleaner task
+		if(Config.CLEANUP_ENABLED.getBoolean()) {
+			taskManager.startTask(TaskManager.Task.CLEANUP);
+			LoggerUtils.info("Cleanup task started.");
 		}
 
 		//metrics
 		setupMetrics();
 
-		//HTTP Server
-		if(Config.WWW_ENABLED.getBoolean()) {
-			mcHTTP = new McHTTP();
-			mcHTTP.setPort(Config.WWW_PORT.getInt());
-			mcHTTP.prepareFiles();
-			mcHTTP.start();
-			LoggerUtils.info("HTTP Server started.");
-		}
-
-		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Enabled");
+		LoggerUtils.info("#" + VersionUtils.buildCurrent + " (" + getCommit() + ") Enabled");
 	}
 	
 	public void onDisable() {
@@ -280,11 +282,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
 			PacketExtension.unregisterNovaGuildsChannel();
-		}
-
-		//Disable McHTTP
-		if(Config.WWW_ENABLED.getBoolean()) {
-			mcHTTP.stop();
 		}
 
 		//Stop schedulers
@@ -357,6 +354,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		return databaseManager;
 	}
 
+	public TaskManager getTaskManager() {
+		return taskManager;
+	}
+
 	//Vault economy
 	private boolean setupEconomy() {
 		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
@@ -378,20 +379,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		return vanishNoPacket != null;
-	}
-	
-	private void runSaveScheduler() {
-		worker.scheduleAtFixedRate(new RunnableAutoSave(this), Config.SAVEINTERVAL.getSeconds(), Config.SAVEINTERVAL.getSeconds(), TimeUnit.SECONDS);
-	}
-
-	private void runLiveRegenerationTask() {
-		Runnable task = new RunnableLiveRegeneration(this);
-		worker.scheduleAtFixedRate(task, Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), Config.LIVEREGENERATION_TASKINTERVAL.getSeconds(), TimeUnit.SECONDS);
-	}
-
-	private void runLiveHologramRefreshTask() {
-		Runnable task = new RunnableRefreshHolograms(this);
-		worker.scheduleAtFixedRate(task, Config.HOLOGRAPHICDISPLAYS_REFRESH.getSeconds(), Config.HOLOGRAPHICDISPLAYS_REFRESH.getSeconds(), TimeUnit.SECONDS);
 	}
 
 	private void setupMetrics() {
@@ -561,5 +548,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public static void runTaskLater(Runnable runnable, long delay, TimeUnit timeUnit) {
 		Bukkit.getScheduler().runTaskLater(inst, runnable, timeUnit.toSeconds(delay) * 20);
+	}
+
+	public String getCommit() {
+		return StringUtils.substring(commit, 0, 7);
 	}
 }

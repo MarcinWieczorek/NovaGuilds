@@ -19,6 +19,16 @@ chat:
   timeout: "确认请求超时"
 
  admin:
+  config:
+   reloaded: "The config has been reloaded"
+   reset: "The config has been reset"
+   saved: "The config has been saved"
+   set: "&c{KEY} has been set to &c{VALUE}"
+   get:
+    single: "&f{KEY}&c: &f{VALUE}"
+    list:
+     section: "{DEPTH}&c{KEY}"
+     key: "{DEPTH}&5* &7{KEY}"
   guild:
    timerest:
     set: "公会剩余时间设置."
@@ -38,7 +48,6 @@ chat:
    bank:
     paid: "你支付了 &c${MONEY} 给 &a{GUILDNAME}公会的银行."
     withdrew: "你取出了 &c${MONEY} 从 &a{GUILDNAME}公会的银行."
-   abandon: "&a{GUILDNAME} 抛弃."
    kick:
     leader: "你不能踢会长,除非你要删除公会."
    invited: "邀请了玩家 &c{PLAYERNAME} 到 &a{GUILDNAME} 公会"
@@ -87,7 +96,6 @@ chat:
     success: "添加一个全息图: &a{NAME}"
    delete:
     success: "删除一个全息图: &a{NAME}"
-    entername: "请输入全息图名称"
    list:
     header: "全息图列表:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
@@ -112,6 +120,13 @@ chat:
 
  usage:
   nga:
+   config:
+    access: "&5* &7/nga &cconfig &2- &3Config commands"
+    reload: "&5* &7/nga &cconfig &6reload &2- &3Reload the config"
+    save: "&5* &7/nga &cconfig &6save &2- &3Save the config"
+    reset: "&5* &7/nga &cconfig &6reset &2- &3Reset the config"
+    get: "&5* &7/nga &cconfig &6get &c<key> &2- &3Get a value"
+    set: "&5* &7/nga &cconfig &6set &c<key> &6<value> &2- &3Set a value"
    guild:
     set:
      slots: "&5* &7/nga &cg &6<guild> &cslots &6<数量> &2- &3设置人数"
@@ -123,16 +138,55 @@ chat:
      withdraw: "&5* &7/nga &cg &6<公会> &cwithdraw &6<金额> &2- &3从公会银行取款"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<公会> &ctp &6[玩家] &2- &3将玩家传送至公会出生点"
-  ng:
-   broadcast: "&c/ng bc <信息>"
+   region:
+    access: "&5* &7/nga &crg &2- &3领地管理指令"
+    list: "&5* &7/nga &crg &6list &2- &3列出所有领地"
+    delete: "&5* &7/nga &crg &6del &c<公会名> &2- &3删除指定领地"
+    teleport: "&5* &7/nga &crg &6tp &c<公会名> &2- &3传送至指定领地"
+    bypass: "&5* &7/nga &crg &6bypass &c[玩家] &2- &3更改通行权限"
   guild:
+   abandon: "&5* &7/abandon &2- &3abandon your guild"
+   ally: "&5* &7/g &cally &6<公会名> &2- &3申请与指定公会结盟."
+   bank:
+    pay: "&5* &7/g &cpay &6<金额> &2- &3向公会银行存款"
+    withdraw: "&5* &7/g &cwithdraw &6<金额> &2- &3从公会银行中取款."
+   buy:
+    life: "&5* &7/g &cbuylife &2- &3购买生活区"
+    slot: "&5* &7/g &cbuyslot &2- &3扩展公会玩家人数限制!"
+   chatmode: "&5* &7/g &cc &2- &3Change chat mode"
+   compass: "&5* &7/g &ccompass &2- &3令指南针上指向公会出生点所在的方向！"
    create: "&5* &7/create &c<tag> &6<name> &2- &3创建一个公会"
+   effect: "&5* &7/g &ceffect &2- &3公会特效"
+   home:
+    teleport: "&5* &7/g &chome &2- &3传送至公会出生点"
+    set: "&5* &7/g &chome set &2- &3设置公会出生点"
    invite: "&5* &7/invite &c<playername> &2- &3将玩家邀请至公会"
+   info: "&5* &7/gi &c[guild/tag/player] &2- &3查看公会信息"
+   join: "&5* &7/join &6[公会名] &2- &3加入公会"
+   kick: "&5* &7/g &ckick &6<玩家名> &2- &3将玩家踢出公会."
+   leader: "&5* &7/g &cleader &6<玩家> &2- &3设置公会会长."
+   leave: "&5* &7/leave &2- &3退出公会"
+   menu: "&5* &7/gg &2- &3公会菜单"
+   openinvitation: "&5* &7/g &copeninv &2- &3切换公会公开邀请状态"
+   pvptoggle: "&5* &7/g &cpvp &2- &3切换PVP"
+   requireditems: "&5* &7/g &citems &2- &3需求的物品"
+   set:
+    name: "&5* &7/g &csetname &2- &3Set the name"
+    tag: "&5* &7/g &csettag &2- &3Set the tag"
+   top: "&5* &7/g &ctop &2- &3查看公会排行前5的玩家"
+   war: "&5* &7/g &cwar &6[公会名] &2- &3向指定公会宣战."
+  region:
+   access: "&5* &7/g &crg &2- &3领地命令"
+   buy: "&5* &7/g &crg &6buy &2- &3创建领地"
+   delete: "&5* &7/g &crg &6delete &2- &3删除领地"
+  tool: "&5* &7/ng &ctool &2- &3用工具检查指定领地"
+
  commands:
   admin:
    main:
     header: "管理指令::"
     items:
+     - "&5* &7/nga &cconfig &2- &3Config commands"
      - "&5* &7/nga &crg &2- &3领地管理指令"
      - "&5* &7/nga &cg &2- &3公会管理指令"
      - "&5* &7/nga &ch &2- &3全息图指令"
@@ -217,8 +271,6 @@ chat:
   team: "你无法攻击队友."
   ally: "你无法攻击盟友."
 
- noguild: "未加入公会."
-
  raid:
   resting: "你还需等待&c{TIMEREST}才可以攻击该公会."
   protection: "该公会刚刚成立,尚处在保护状态,请明天再试."
@@ -248,11 +300,8 @@ chat:
   ally:
    war: "您需要先结束与该公会的敌对状态."
    samename: "您无法与自己结盟！"
-   alreadyally: "你们已经是盟友了！"
-   alreadyinvited: "您已向该公会申请结盟."
    invited: "您已向&a{ALLYNAME}公会发出了结盟申请."
    accepted: "您已接受&a{ALLYNAME}公会的结盟申请."
-   newinvite: "&a{GUILDNAME}公会向您发出了结盟申请."
    notifyguild: "&a{GUILDNAME}公会向您发出了结盟申请."
    notifyguildcanceled: "&a{GUILDNAME}取消了他们的结盟申请."
    canceled: "&3您已取消向&a{GUILDNAME}的结盟申请."
@@ -289,7 +338,10 @@ chat:
   tooclose: "您的位置距离其他公会太近！"
   isfull: "公会成员数目已达到上限."
   buylife: "为你的公会买一个生活区."
-  buyslot: "为你公会购买了一个人数上限."
+  buy:
+   slot:
+    success: "为你公会购买了一个人数上限."
+    maxreached: "The slot amount has reached the maximum value."
 
   war:
    ally: "您需要先解除与该公会的结盟."
@@ -308,7 +360,6 @@ chat:
    success: "&a{PLAYERNAME}已成为公会会长！"
    samenick: "您已成为公会会长！"
    notsameguild: "该玩家不在您的公会内"
-   notifynewleader: "您已成为&a{GUILDNAME}公会的会长."
   leave:
    isleader: "公会会长无法退出公会."
    left: "您已退出公会."
@@ -467,7 +518,6 @@ chat:
 #broadcast messages:
 broadcast:
  admin:
-  autosave: "公会信息已保存."
   guild:
    abandon: "管理员&c{PLAYERNAME}废弃了&a{GUILDNAME}公会."
    cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"
@@ -524,6 +574,8 @@ inventory:
    iconitem: "EMPTY_MAP 1 name:头衔"
    rowitem: "BOOK 1 name:{RANKNAME}"
    additem: "BOOK_AND_QUILL 1 name:提拔"
+   defaultname: "Custom Rank"
+   leadername: "Leader"
   rank:
    settings:
     cloneprefix: "Clone of "

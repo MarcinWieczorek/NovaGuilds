@@ -25,11 +25,7 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.entity.Player;
 
 public class RunnableAutoSave implements Runnable {
-	private final NovaGuilds plugin;
-
-	public RunnableAutoSave(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-	}
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	public void run() {
 		plugin.getGuildManager().save();

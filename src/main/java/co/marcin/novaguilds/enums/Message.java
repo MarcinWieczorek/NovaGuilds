@@ -22,9 +22,12 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +52,14 @@ public enum Message {
 	CHAT_CONFIRM_NEEDCONFIRM,
 	CHAT_CONFIRM_TIMEOUT,
 
+	CHAT_ADMIN_CONFIG_RELOADED,
+	CHAT_ADMIN_CONFIG_RESET,
+	CHAT_ADMIN_CONFIG_SAVED,
+	CHAT_ADMIN_CONFIG_SET,
+	CHAT_ADMIN_CONFIG_GET_SINGLE,
+	CHAT_ADMIN_CONFIG_GET_LIST_SECTION(MessageFlag.NOPREFIX),
+	CHAT_ADMIN_CONFIG_GET_LIST_KEY(MessageFlag.NOPREFIX),
+
 	CHAT_ADMIN_GUILD_TIMEREST_SET,
 	CHAT_ADMIN_GUILD_LIST_HEADER,
 	CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT,
@@ -64,7 +75,6 @@ public enum Message {
 	CHAT_ADMIN_GUILD_BANK_PAID,
 	CHAT_ADMIN_GUILD_BANK_WITHDREW,
 
-	CHAT_ADMIN_GUILD_ABANDON,
 	CHAT_ADMIN_GUILD_KICK_LEADER,
 	CHAT_ADMIN_GUILD_INVITED,
 	CHAT_ADMIN_GUILD_TELEPORTED_SELF,
@@ -107,7 +117,6 @@ public enum Message {
 	CHAT_ADMIN_HOLOGRAM_NOTFOUND,
 	CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS,
 	CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS,
-	CHAT_ADMIN_HOLOGRAM_DELETE_ENTERNAME,
 	CHAT_ADMIN_HOLOGRAM_LIST_HEADER,
 	CHAT_ADMIN_HOLOGRAM_LIST_ITEM,
 
@@ -126,8 +135,6 @@ public enum Message {
 	CHAT_PVP_TEAM,
 	CHAT_PVP_ALLY,
 
-	CHAT_NOGUILD,
-
 	CHAT_RAID_RESTING,
 	CHAT_RAID_PROTECTION,
 
@@ -140,11 +147,8 @@ public enum Message {
 
 	CHAT_GUILD_ALLY_WAR,
 	CHAT_GUILD_ALLY_SAMENAME,
-	CHAT_GUILD_ALLY_ALREADYALLY,
-	CHAT_GUILD_ALLY_ALREADYINVITED,
 	CHAT_GUILD_ALLY_INVITED,
 	CHAT_GUILD_ALLY_ACCEPTED,
-	CHAT_GUILD_ALLY_NEWINVITE,
 	CHAT_GUILD_ALLY_NOTIFYGUILD,
 	CHAT_GUILD_ALLY_NOTIFYGUILDCANCELED,
 	CHAT_GUILD_ALLY_CANCELED,
@@ -180,7 +184,6 @@ public enum Message {
 	CHAT_GUILD_LEADER_SUCCESS,
 	CHAT_GUILD_LEADER_SAMENICK,
 	CHAT_GUILD_LEADER_NOTSAMEGUILD,
-	CHAT_GUILD_LEADER_NOTIFYNEWLEADER,
 
 	CHAT_GUILD_LEAVE_ISLEADER,
 	CHAT_GUILD_LEAVE_LEFT,
@@ -202,16 +205,17 @@ public enum Message {
 	CHAT_GUILD_WAR_LIST_SEPARATOR,
 
 	CHAT_GUILD_BUYLIFE,
-	CHAT_GUILD_BUYSLOT,
+	CHAT_GUILD_BUY_SLOT_SUCCESS,
+	CHAT_GUILD_BUY_SLOT_MAXREACHED,
 
-	CHAT_GUILD_VAULT_OUTSIDEREGION(true),
-	CHAT_GUILD_VAULT_PLACE_SUCCESS(true),
-	CHAT_GUILD_VAULT_DROP(true),
-	CHAT_GUILD_VAULT_PLACE_EXISTS(true),
-	CHAT_GUILD_VAULT_PLACE_DOUBLECHEST(true),
-	CHAT_GUILD_VAULT_BREAK_NOTEMPTY(true),
-	CHAT_GUILD_VAULT_BREAK_SUCCESS(true),
-	CHAT_GUILD_VAULT_DENYRELATIVE(true),
+	CHAT_GUILD_VAULT_OUTSIDEREGION(MessageFlag.TITLE),
+	CHAT_GUILD_VAULT_PLACE_SUCCESS(MessageFlag.TITLE),
+	CHAT_GUILD_VAULT_DROP(MessageFlag.TITLE),
+	CHAT_GUILD_VAULT_PLACE_EXISTS(MessageFlag.TITLE),
+	CHAT_GUILD_VAULT_PLACE_DOUBLECHEST(MessageFlag.TITLE),
+	CHAT_GUILD_VAULT_BREAK_NOTEMPTY(MessageFlag.TITLE),
+	CHAT_GUILD_VAULT_BREAK_SUCCESS(MessageFlag.TITLE),
+	CHAT_GUILD_VAULT_DENYRELATIVE(MessageFlag.TITLE),
 
 	CHAT_GUILD_CHATMODE_SUCCESS,
 	CHAT_GUILD_CHATMODE_INVALID,
@@ -262,8 +266,8 @@ public enum Message {
 	CHAT_REGION_CNOTAFFORD,
 	CHAT_REGION_CREATED,
 	CHAT_REGION_MUSTVEGUILD,
-	CHAT_REGION_ENTERED(true),
-	CHAT_REGION_EXITED(true),
+	CHAT_REGION_ENTERED(MessageFlag.TITLE),
+	CHAT_REGION_EXITED(MessageFlag.TITLE),
 	CHAT_REGION_NOTIFYGUILD_ENTERED,
 	CHAT_REGION_BELONGSTO,
 	CHAT_REGION_LIST_HEADER,
@@ -274,6 +278,13 @@ public enum Message {
 	CHAT_REGION_BLOCKEDCMD,
 	CHAT_REGION_DELETED,
 
+	CHAT_USAGE_NGA_CONFIG_ACCESS,
+	CHAT_USAGE_NGA_CONFIG_GET,
+	CHAT_USAGE_NGA_CONFIG_RELOAD,
+	CHAT_USAGE_NGA_CONFIG_RESET,
+	CHAT_USAGE_NGA_CONFIG_SAVE,
+	CHAT_USAGE_NGA_CONFIG_SET,
+
 	CHAT_USAGE_NGA_GUILD_SET_POINTS,
 	CHAT_USAGE_NGA_GUILD_SET_LIVES,
 	CHAT_USAGE_NGA_GUILD_SET_SLOTS,
@@ -282,23 +293,59 @@ public enum Message {
 	CHAT_USAGE_NGA_GUILD_BANK_WITHDRAW,
 	CHAT_USAGE_NGA_GUILD_PURGE,
 	CHAT_USAGE_NGA_GUILD_TP,
-	CHAT_USAGE_NG_BROADCAST,
+
+	CHAT_USAGE_NGA_REGION_ACCESS,
+	CHAT_USAGE_NGA_REGION_BYPASS,
+	CHAT_USAGE_NGA_REGION_DELETE,
+	CHAT_USAGE_NGA_REGION_LIST,
+	CHAT_USAGE_NGA_REGION_TELEPORT,
+
+	CHAT_USAGE_GUILD_ABANDON,
+	CHAT_USAGE_GUILD_ALLY,
+	CHAT_USAGE_GUILD_BANK_PAY,
+	CHAT_USAGE_GUILD_BANK_WITHDRAW,
+	CHAT_USAGE_GUILD_BUY_SLOT,
+	CHAT_USAGE_GUILD_BUY_LIFE,
+	CHAT_USAGE_GUILD_COMPASS,
+	CHAT_USAGE_GUILD_CHATMODE,
 	CHAT_USAGE_GUILD_CREATE,
+	CHAT_USAGE_GUILD_EFFECT,
+	CHAT_USAGE_GUILD_HOME_SET,
+	CHAT_USAGE_GUILD_HOME_TELEPORT,
+	CHAT_USAGE_GUILD_INFO,
 	CHAT_USAGE_GUILD_INVITE,
+	CHAT_USAGE_GUILD_JOIN,
+	CHAT_USAGE_GUILD_KICK,
+	CHAT_USAGE_GUILD_LEADER,
+	CHAT_USAGE_GUILD_LEAVE,
+	CHAT_USAGE_GUILD_MENU,
+	CHAT_USAGE_GUILD_OPENINVITATION,
+	CHAT_USAGE_GUILD_PVPTOGGLE,
+	CHAT_USAGE_GUILD_REQUIREDITEMS,
+	CHAT_USAGE_GUILD_SET_NAME,
+	CHAT_USAGE_GUILD_SET_TAG,
+	CHAT_USAGE_GUILD_TOP,
+	CHAT_USAGE_GUILD_WAR,
+
+	CHAT_USAGE_REGION_DELETE,
+	CHAT_USAGE_REGION_BUY,
+	CHAT_USAGE_REGION_ACCESS,
+
+	CHAT_USAGE_TOOL,
 
 	CHAT_COMMANDS_ADMIN_MAIN_HEADER,
-	CHAT_COMMANDS_ADMIN_MAIN_ITEMS(false, true),
+	CHAT_COMMANDS_ADMIN_MAIN_ITEMS(MessageFlag.LIST),
 	CHAT_COMMANDS_ADMIN_REGION_HEADER,
-	CHAT_COMMANDS_ADMIN_REGION_ITEMS(false, true),
+	CHAT_COMMANDS_ADMIN_REGION_ITEMS(MessageFlag.LIST),
 	CHAT_COMMANDS_ADMIN_GUILD_HEADER,
-	CHAT_COMMANDS_ADMIN_GUILD_ITEMS(false, true),
+	CHAT_COMMANDS_ADMIN_GUILD_ITEMS(MessageFlag.LIST),
 	CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER,
 	CHAT_COMMANDS_ADMIN_HOLOGRAM_DISABLED,
-	CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS(false, true),
-	CHAT_COMMANDS_GUILD_HASGUILD(false, true),
-	CHAT_COMMANDS_GUILD_NOGUILD(false, true),
+	CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS(MessageFlag.LIST),
+	CHAT_COMMANDS_GUILD_HASGUILD(MessageFlag.LIST),
+	CHAT_COMMANDS_GUILD_NOGUILD(MessageFlag.LIST),
 	CHAT_COMMANDS_REGION_HEADER,
-	CHAT_COMMANDS_REGION_ITEMS(false, true),
+	CHAT_COMMANDS_REGION_ITEMS(MessageFlag.LIST),
 
 	CHAT_CREATEGUILD_NOTENOUGHMONEY,
 	CHAT_CREATEGUILD_ITEMLIST,
@@ -326,7 +373,6 @@ public enum Message {
 	CHAT_GUILDINFO_FULLINFO,
 	CHAT_GUILDINFO_INFO,
 
-	BROADCAST_ADMIN_AUTOSAVE,
 	BROADCAST_ADMIN_GUILD_ABANDON,
 	BROADCAST_ADMIN_GUILD_CLEANUP,
 
@@ -350,7 +396,7 @@ public enum Message {
 
 	HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS,
 	HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER,
-	HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW(false),
+	HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW,
 
 	BARAPI_WARPROGRESS,
 
@@ -368,6 +414,8 @@ public enum Message {
 	INVENTORY_GUI_RANKS_ICONITEM,
 	INVENTORY_GUI_RANKS_ROWITEM,
 	INVENTORY_GUI_RANKS_ADDITEM,
+	INVENTORY_GUI_RANKS_DEFAULTNAME,
+	INVENTORY_GUI_RANKS_LEADERNAME,
 	INVENTORY_GUI_RANK_SETTINGS_CLONEPREFIX,
 	INVENTORY_GUI_RANK_SETTINGS_ITEM_EDITPERMISSIONS,
 	INVENTORY_GUI_RANK_SETTINGS_ITEM_SETDEFAULT,
@@ -438,20 +486,27 @@ public enum Message {
 	private boolean prefix = true;
 	private boolean list = false;
 
-	Message(boolean title) {
-		this.title = title;
+	private enum MessageFlag {
+		NOPREFIX,
+		TITLE,
+		LIST,
 	}
 
 	Message() {
 
 	}
 
-	Message(boolean title, boolean list) {
-		this.title = title;
-		this.list = list;
-
-		if(list) {
-			prefix = false;
+	Message(MessageFlag... flags) {
+		for(MessageFlag flag : flags) {
+			if(flag == MessageFlag.NOPREFIX) {
+				prefix = false;
+			}
+			else if(flag == MessageFlag.TITLE) {
+				title = true;
+			}
+			else if(flag == MessageFlag.LIST) {
+				list = true;
+			}
 		}
 	}
 
@@ -588,5 +643,60 @@ public enum Message {
 	 */
 	public static String getOnOff(boolean b) {
 		return b ? Message.CHAT_BASIC_ON.get() : Message.CHAT_BASIC_OFF.get();
+	}
+
+	/**
+	 * Gets a ConfigurationSection
+	 * @return the ConfigurationSection
+	 */
+	public ConfigurationSection getConfigurationSection() {
+		return MessageManager.getMessages().getConfigurationSection(getParentPath());
+	}
+
+	/**
+	 * Gets Message's neighbours (excluding itslef)
+	 * @return a list of Messages in one ConfigurationSection
+	 */
+	public List<Message> getNeighbours() {
+		List<Message> list = new ArrayList<>();
+		String parentPath = getParentPath();
+		for(String key : getConfigurationSection().getKeys(false)) {
+			key = parentPath + "." + key;
+
+			if(!key.equals(getPath())) {
+				list.add(Message.fromPath(key));
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Sends a list of messages
+	 * @param list the list
+	 * @param sender the receiver
+	 */
+	public static void send(List<Message> list, CommandSender sender) {
+		for(Message message : list) {
+			message.send(sender);
+		}
+	}
+
+	/**
+	 * Gets the path of ConfigurationSection the Message's in
+	 * @return the path
+	 */
+	private String getParentPath() {
+		String[] split = StringUtils.split(getPath(), ".");
+		return StringUtils.removeEnd(getPath(), "." + split[split.length-1]);
+	}
+
+	/**
+	 * Gets a message from path
+	 * @param path path string
+	 * @return message enum
+	 */
+	public static Message fromPath(String path) {
+		return Message.valueOf(StringUtils.replace(path, ".", "_").toUpperCase());
 	}
 }

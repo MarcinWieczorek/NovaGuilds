@@ -16,57 +16,51 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.command.guild;
+package co.marcin.novaguilds.command.admin.config;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.Map;
+public class CommandAdminConfigSet implements Executor {
+	private static final Command command = Command.ADMIN_CONFIG_SET;
 
-public class CommandGuildChatMode implements Executor {
-	private final Command command = Command.GUILD_CHATMODE;
-	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>(){{
-		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
-		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
-		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
-	}};
-
-	public CommandGuildChatMode() {
+	public CommandAdminConfigSet() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		final NovaPlayer nPlayer = NovaPlayer.get(sender);
-
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
+		if(args.length != 2) {
+			command.getUsageMessage().send(sender);
 			return;
 		}
 
-		final ChatMode chatMode;
-		if(args.length == 0) {
-			chatMode = nPlayer.getChatMode().next();
-		}
-		else {
-			chatMode = ChatMode.fromString(args[0]);
-		}
+		Config config = Config.fromPath(args[0]);
 
-		if(chatMode == null) {
-			Message.CHAT_GUILD_CHATMODE_INVALID.send(sender);
+		if(config == null) {
+			Message.CHAT_INVALIDPARAM.send(sender);
 			return;
 		}
 
-		nPlayer.setChatMode(chatMode);
+		String valueString = args[1];
+		Object value = valueString;
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("MODE", chatModeMessages.get(chatMode).get());
-		Message.CHAT_GUILD_CHATMODE_SUCCESS.vars(vars).send(sender);
+		if(valueString.toLowerCase().equals("true")) {
+			value = true;
+		}
+		else if(valueString.toLowerCase().equals("false")) {
+			value = false;
+		}
+		else if(NumberUtils.isNumeric(valueString)) {
+			value = Integer.parseInt(valueString);
+		}
+
+		plugin.getConfigManager().set(config, value);
+		Message.CHAT_ADMIN_CONFIG_SET.send(sender);
 	}
 
 	@Override

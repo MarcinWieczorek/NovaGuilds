@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.region;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
@@ -35,7 +34,6 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public class CommandRegionBuy implements CommandExecutor, Executor {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Command command = Command.REGION_BUY;
 
 	public CommandRegionBuy() {

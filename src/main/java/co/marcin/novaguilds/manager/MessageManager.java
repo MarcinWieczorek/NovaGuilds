@@ -32,6 +32,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
@@ -42,11 +43,12 @@ import java.util.List;
 import java.util.Map;
 
 public class MessageManager {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private FileConfiguration messages = null;
 	public String prefix;
 	public ChatColor prefixColor = ChatColor.WHITE;
 	public static MessageManager instance;
+	private File messagesFile;
 
 	/**
 	 * The constructor
@@ -56,14 +58,14 @@ public class MessageManager {
 	}
 
 	/**
-	 * Loads messages
-	 * @return true if success
+	 * Detects the language basing on Essentials and config
+	 * @return false if detecting/creating new file failed
 	 */
-	public boolean load() {
-		setupDirectories();
+	public boolean detectLanguage() {
 		detectEssentialsLocale();
 		String lang = Config.LANG_NAME.getString();
-		File messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
+		messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
+
 		if(!messagesFile.exists()) {
 			if(plugin.getResource("lang/" + lang + ".yml") != null) {
 				plugin.saveResource("lang/" + lang + ".yml", false);
@@ -73,6 +75,28 @@ public class MessageManager {
 				LoggerUtils.info("Couldn't find language file: " + lang + ".yml");
 				return false;
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the messages file exists
+	 * @return true if the file exists
+	 */
+	public boolean existsFile() {
+		return messagesFile.exists();
+	}
+
+	/**
+	 * Loads messages
+	 * @return true if success
+	 */
+	public boolean load() {
+		setupDirectories();
+		
+		if(!detectLanguage()) {
+			return false;
 		}
 
 		try {
@@ -275,9 +299,13 @@ public class MessageManager {
 	 */
 	public static String replaceMap(String msg, Map<String, String> vars) {
 		for(Map.Entry<String, String> entry : vars.entrySet()) {
-			vars.put(entry.getKey(), entry.getValue() + NovaGuilds.getInstance().getMessageManager().prefixColor);
+			vars.put(entry.getKey(), entry.getValue() + plugin.getMessageManager().prefixColor);
 		}
 
 		return StringUtils.replaceMap(msg, vars);
+	}
+
+	public void setMessages(YamlConfiguration messages) {
+		this.messages = messages;
 	}
 }

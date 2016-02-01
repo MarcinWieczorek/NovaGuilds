@@ -50,7 +50,7 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 		Player player;
 
 		if(args.length > 1) { //other
-			if(!Permission.NOVAGUILDS_ADMIN_REGION_TELEPORT_SELF.has(sender)) {
+			if(!Permission.NOVAGUILDS_ADMIN_REGION_TELEPORT_OTHER.has(sender)) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
 				return;
 			}

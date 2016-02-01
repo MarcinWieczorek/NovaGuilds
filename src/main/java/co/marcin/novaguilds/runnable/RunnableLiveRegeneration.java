@@ -24,11 +24,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.NumberUtils;
 
 public class RunnableLiveRegeneration implements Runnable {
-	private final NovaGuilds plugin;
-
-	public RunnableLiveRegeneration(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-	}
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	public void run() {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
