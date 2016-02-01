@@ -166,56 +166,71 @@ public final class StringUtils {
 		return secondsToString(lseconds, TimeUnit.SECONDS);
 	}
 
-	public static String secondsToString(long lseconds, TimeUnit unit) {
-		int year = 31536000;
-		int day = 86400;
-		int hour = 3600;
+	public static String secondsToString(long seconds, TimeUnit unit) {
+		if(seconds <= 0) {
+			seconds = 0;
+		}
+
 		int minute = 60;
+		int hour = 60 * minute;
+		int day = hour * 24;
+		int week = day * 7;
+		int month = day * 31;
+		int year = 31536000;
 
-		int seconds = Integer.parseInt(lseconds + "");
-
-		int years = seconds / year;
+		long years = seconds / year;
 		seconds = seconds % year;
 
-		int days = seconds / day;
+		long months = seconds / month;
+		seconds = seconds % month;
+
+		long weeks = seconds / week;
+		seconds = seconds % week;
+
+		long days = seconds / day;
 		seconds = seconds % day;
 
-		int hours = seconds / hour;
+		long hours = seconds / hour;
 		seconds = seconds % hour;
 
-		int minutes = seconds / minute;
+		long minutes = seconds / minute;
 		seconds = seconds % minute;
 
-		String stringYears = "", stringDays = "", stringHours = "", stringSeconds = "", stringMinutes = "";
+		String stringYears = "", stringMonths = "", stringWeeks = "", stringDays = "", stringHours = "", stringSeconds = "", stringMinutes = "";
 
 		if(years > 0) {
-			Message formYear = years > 1 ? Message.TIMEUNIT_YEAR_PLURAL : Message.TIMEUNIT_YEAR_SINGULAR;
+			Message form = years > 1 ? Message.TIMEUNIT_YEAR_PLURAL : Message.TIMEUNIT_YEAR_SINGULAR;
+			stringYears = years + " " + form.get() + " ";
+		}
 
-			stringYears = years + " " + formYear.get() + " ";
+		if(months > 0) {
+			Message form = months > 1 ? Message.TIMEUNIT_MONTH_PLURAL : Message.TIMEUNIT_MONTH_SINGULAR;
+			stringMonths = months + " " + form.get() + " ";
+		}
+
+		if(weeks > 0) {
+			Message form = weeks > 1 ? Message.TIMEUNIT_WEEK_PLURAL : Message.TIMEUNIT_WEEK_SINGULAR;
+			stringWeeks = weeks + " " + form.get() + " ";
 		}
 
 		if(days > 0) {
-			Message formDay = days > 1 ? Message.TIMEUNIT_DAY_PLURAL : Message.TIMEUNIT_DAY_SINGULAR;
-
-			stringDays = days + " " + formDay.get() + " ";
+			Message form = days > 1 ? Message.TIMEUNIT_DAY_PLURAL : Message.TIMEUNIT_DAY_SINGULAR;
+			stringDays = days + " " + form.get() + " ";
 		}
 
 		if(hours > 0) {
-			Message formHour = hours > 1 ? Message.TIMEUNIT_HOUR_PLURAL : Message.TIMEUNIT_HOUR_SINGULAR;
-
-			stringHours = hours + " " + formHour.get() + " ";
+			Message form = hours > 1 ? Message.TIMEUNIT_HOUR_PLURAL : Message.TIMEUNIT_HOUR_SINGULAR;
+			stringHours = hours + " " + form.get() + " ";
 		}
 
 		if(minutes > 0) {
-			Message formMinute = minutes > 1 ? Message.TIMEUNIT_MINUTE_PLURAL : Message.TIMEUNIT_MINUTE_SINGULAR;
-
-			stringMinutes = minutes + " " + formMinute.get() + " ";
+			Message form = minutes > 1 ? Message.TIMEUNIT_MINUTE_PLURAL : Message.TIMEUNIT_MINUTE_SINGULAR;
+			stringMinutes = minutes + " " + form.get() + " ";
 		}
 
-		if(seconds > 0) {
-			Message formSecond = seconds > 1 ? Message.TIMEUNIT_SECOND_PLURAL : Message.TIMEUNIT_SECOND_SINGULAR;
-
-			stringSeconds = seconds + " " + formSecond.get() + " ";
+		if(seconds > 0 || (seconds == 0 && minutes == 0 && hours == 0 && days == 0 && weeks == 0 && months == 0 && years == 0)) {
+			Message form = seconds == 1 ? Message.TIMEUNIT_SECOND_SINGULAR : Message.TIMEUNIT_SECOND_PLURAL;
+			stringSeconds = seconds + " " + form.get() + " ";
 		}
 
 		if(unit == TimeUnit.DAYS && days > 0) {
@@ -231,10 +246,12 @@ public final class StringUtils {
 			stringSeconds = "";
 		}
 
-		return stringYears + stringDays + stringHours + stringMinutes + stringSeconds;
+		String r = stringYears + stringMonths + stringWeeks + stringDays + stringHours + stringMinutes + stringSeconds;
+		r = r.substring(0, r.length() - 1);
+		return r;
 	}
 
-	public static int StringToSeconds(String str) {
+	public static int stringToSeconds(String str) {
 		String[] spacexp = str.split(" ");
 		int seconds = 0;
 
@@ -264,6 +281,20 @@ public final class StringUtils {
 				word = word.substring(0, word.length() - 1);
 				if(NumberUtils.isNumeric(word)) {
 					seconds += Integer.parseInt(word) * 60 * 60 * 24;
+				}
+			}
+
+			if(word.endsWith("w")) {
+				word = word.substring(0, word.length() - 1);
+				if(NumberUtils.isNumeric(word)) {
+					seconds += Integer.parseInt(word) * 60 * 60 * 24 * 7;
+				}
+			}
+
+			if(word.endsWith("mo")) {
+				word = word.substring(0, word.length() - 2);
+				if(NumberUtils.isNumeric(word)) {
+					seconds += Integer.parseInt(word) * 60 * 60 * 24 * 31;
 				}
 			}
 

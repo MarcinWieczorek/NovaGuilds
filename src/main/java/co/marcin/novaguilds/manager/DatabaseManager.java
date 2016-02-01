@@ -41,15 +41,11 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class DatabaseManager {
-	private final NovaGuilds plugin;
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private MySQL mySQL;
 	private Connection connection = null;
 	private boolean connected = false;
 	private final Map<PreparedStatements, PreparedStatement> preparedStatementMap = new HashMap<>();
-
-	public DatabaseManager(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-	}
 
 	private void prepareStatements() {
 		try {

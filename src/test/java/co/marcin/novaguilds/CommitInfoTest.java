@@ -16,17 +16,30 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.runnable;
+package co.marcin.novaguilds;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.IOUtils;
+import org.junit.Test;
 
-public class RunnableRefreshHolograms implements Runnable {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-	@Override
-	public void run() {
-		plugin.getHologramManager().refreshTopHolograms();
-		LoggerUtils.info("Top holograms refreshed.");
+public class CommitInfoTest {
+	@Test
+	public void addCommitInfo() throws IOException {
+		File commitInfoFile = new File("./target/classes/commit.yml");
+
+		if(commitInfoFile.createNewFile()) {
+			Runtime rt = Runtime.getRuntime();
+			Process proc = rt.exec("git rev-parse HEAD");
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			System.out.println("Latest commit:");
+			String commit = stdInput.readLine();
+			System.out.println(commit);
+
+			IOUtils.write(commitInfoFile, commit);
+		}
 	}
 }

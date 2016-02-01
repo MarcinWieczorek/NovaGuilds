@@ -29,12 +29,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class GroupManager {
-	private final NovaGuilds plugin;
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaGroup> groups = new HashMap<>();
 
-	public GroupManager(NovaGuilds novaguilds) {
-		plugin = novaguilds;
-
+	public GroupManager() {
 		load();
 		LoggerUtils.info("Enabled");
 	}

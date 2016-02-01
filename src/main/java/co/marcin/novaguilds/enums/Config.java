@@ -65,10 +65,6 @@ public enum Config {
 
 	PACKETS_ENABLED,
 
-	WWW_ENABLED,
-	WWW_PORT,
-	WWW_VERBOSE,
-
 	LIVEREGENERATION_REGENTIME,
 
 	CHAT_DISPLAYNAMETAGS,
@@ -86,7 +82,6 @@ public enum Config {
 	CHAT_GUILD_FORMAT,
 	CHAT_GUILD_MSGPREFIX,
 
-	GUILD_INACTIVETIME,
 	GUILD_FROMSPAWN,
 	GUILD_STRINGCHECK_ENABLED,
 	GUILD_STRINGCHECK_REGEX,
@@ -119,6 +114,7 @@ public enum Config {
 	CLEANUP_ENABLED,
 	CLEANUP_INACTIVETIME,
 	CLEANUP_INTERVAL,
+	CLEANUP_STARTUPDELAY,
 
 	VAULT_ENABLED,
 	VAULT_ITEM,
@@ -151,7 +147,6 @@ public enum Config {
 	REGION_MATERIALS_RESIZE_RECTANGLE,
 
 	GUILD_CREATEPROTECTION,
-	GUILD_MAXPLAYERS,
 	GUILD_TAG,
 	GUILD_HOMEFLOOR_ENABLED,
 	GUILD_HOMEFLOOR_MATERIAL,
@@ -159,7 +154,8 @@ public enum Config {
 	GUILD_STARTPOINTS,
 	GUILD_STARTLIVES,
 	GUILD_STARTMONEY,
-	GUILD_STARTSLOTS,
+	GUILD_SLOTS_START,
+	GUILD_SLOTS_MAX,
 
 	GUILD_DISABLEDWORLDS,
 
@@ -177,6 +173,10 @@ public enum Config {
 
 	Config() {
 		path = StringUtils.replace(name(), "_", ".").toLowerCase();
+	}
+
+	public String getPath() {
+		return path;
 	}
 
 	public String getString() {
@@ -260,7 +260,7 @@ public enum Config {
 	}
 
 	public void set(Object obj) {
-		cM.set(path, obj);
+		cM.set(this, obj);
 	}
 
 	public static Config fromPath(String path) {

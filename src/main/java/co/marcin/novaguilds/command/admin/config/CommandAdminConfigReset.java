@@ -16,57 +16,41 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.command.guild;
+package co.marcin.novaguilds.command.admin.config;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
-public class CommandGuildChatMode implements Executor {
-	private final Command command = Command.GUILD_CHATMODE;
-	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>(){{
-		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
-		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
-		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
-	}};
+public class CommandAdminConfigReset implements Executor {
+	private static final Command command = Command.ADMIN_CONFIG_RESET;
 
-	public CommandGuildChatMode() {
+	public CommandAdminConfigReset() {
 		plugin.getCommandManager().registerExecutor(command, this);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		final NovaPlayer nPlayer = NovaPlayer.get(sender);
-
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
+		try {
+			plugin.getConfigManager().backupFile();
+		}
+		catch(IOException e) {
+			LoggerUtils.exception(e);
 		}
 
-		final ChatMode chatMode;
-		if(args.length == 0) {
-			chatMode = nPlayer.getChatMode().next();
+		if(plugin.getConfigManager().getConfigFile().delete()) {
+			plugin.getConfigManager().reload();
 		}
 		else {
-			chatMode = ChatMode.fromString(args[0]);
-		}
-
-		if(chatMode == null) {
-			Message.CHAT_GUILD_CHATMODE_INVALID.send(sender);
+			Message.CHAT_ERROROCCURED.send(sender);
 			return;
 		}
 
-		nPlayer.setChatMode(chatMode);
-
-		Map<String, String> vars = new HashMap<>();
-		vars.put("MODE", chatModeMessages.get(chatMode).get());
-		Message.CHAT_GUILD_CHATMODE_SUCCESS.vars(vars).send(sender);
+		Message.CHAT_ADMIN_CONFIG_RESET.send(sender);
 	}
 
 	@Override

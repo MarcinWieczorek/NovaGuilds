@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
@@ -40,7 +39,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class CommandGuildInfo implements CommandExecutor, Executor {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Command command = Command.GUILD_INFO;
 
 	public CommandGuildInfo() {

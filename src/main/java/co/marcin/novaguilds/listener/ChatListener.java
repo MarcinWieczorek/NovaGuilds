@@ -49,93 +49,102 @@ public class ChatListener implements Listener {
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
+		if(!nPlayer.hasGuild()) {
+			return;
+		}
+
 		String format = event.getFormat();
-		String tag = "";
+		String tag = Config.GUILD_TAG.getString();
+		NovaGuild guild = nPlayer.getGuild();
 
-		if(nPlayer.hasGuild()) {
-			tag = Config.GUILD_TAG.getString();
-			NovaGuild guild = nPlayer.getGuild();
+		String rank = "";
+		if(nPlayer.isLeader()) {
+			rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
+		}
 
-			String rank = "";
-			if(Config.CHAT_ALLY_LEADERPREFIX.getBoolean() && nPlayer.isLeader()) {
-				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
-			}
+		tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
+		tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
 
-			tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
-
-			tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
-
-			String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
-			String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
-
-			boolean isAllyPrefix = msg.startsWith(prefixChatAlly);
-			boolean isGuildPrefix = msg.startsWith(prefixChatGuild) && !isAllyPrefix;
-
-			if(!isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
-				if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
-					if(!Config.CHAT_ALLY_COLORTAGS.getBoolean()) {
-						tag = StringUtils.removeColors(tag);
-					}
-
-					if(!Config.CHAT_ALLY_LEADERPREFIX.getBoolean()) {
-						rank = "";
-					}
-
-					tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
-
-					String cFormat = Config.CHAT_ALLY_FORMAT.getString();
-					cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", tag);
-					cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
-					cFormat = StringUtils.fixColors(cFormat);
-
-					//Trim prefix
-					if(nPlayer.getChatMode() != ChatMode.ALLY) {
-						msg = msg.substring(prefixChatAlly.length(), msg.length());
-					}
-
-					for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-						if(nPlayerLoop.equals(nPlayer) || nPlayerLoop.getSpyMode() || (nPlayerLoop.hasGuild() && nPlayerLoop.getGuild().isAlly(guild))) {
-							nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
-						}
-					}
-
-					event.setCancelled(true);
-					return;
-				}
-			}
-			else if(isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD) { //guild chat
-				if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
-					String cFormat = Config.CHAT_GUILD_FORMAT.getString();
-					cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
-					cFormat = StringUtils.fixColors(cFormat);
-
-					//Trim prefix
-					if(nPlayer.getChatMode() != ChatMode.GUILD) {
-						msg = msg.substring(prefixChatGuild.length(), msg.length());
-					}
-
-					for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-						if(guild.isMember(nPlayerLoop) || nPlayerLoop.getSpyMode()) {
-							nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
-						}
-					}
-
-					event.setCancelled(true);
-					return;
-				}
-			}
-			else {
-				if(Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
-					tag = "";
-				}
-				else if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
-					format = TagUtils.getTag(player) + format;
-				}
-			}
+		if(Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
+			tag = "";
+		}
+		else if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
+			format = TagUtils.getTag(player) + format;
 		}
 
 		format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", tag);
 		event.setFormat(StringUtils.fixColors(format));
+
+		String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
+		String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
+
+		boolean isAllyPrefix = msg.startsWith(prefixChatAlly);
+		boolean isGuildPrefix = msg.startsWith(prefixChatGuild) && !isAllyPrefix;
+
+		if(!isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
+			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
+				if(!Config.CHAT_ALLY_COLORTAGS.getBoolean()) {
+					tag = StringUtils.removeColors(tag);
+				}
+
+				if(!Config.CHAT_ALLY_LEADERPREFIX.getBoolean()) {
+					rank = "";
+				}
+
+				tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
+
+				String cFormat = Config.CHAT_ALLY_FORMAT.getString();
+				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", tag);
+				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
+				cFormat = StringUtils.fixColors(cFormat);
+
+				//Trim prefix
+				if(nPlayer.getChatMode() != ChatMode.ALLY) {
+					msg = msg.substring(prefixChatAlly.length(), msg.length());
+
+					if(msg.length() == 0) {
+						return;
+					}
+				}
+
+				for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
+					if(nPlayerLoop.equals(nPlayer) || nPlayerLoop.getSpyMode() || (nPlayerLoop.hasGuild() && nPlayerLoop.getGuild().isAlly(guild))) {
+						nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
+					}
+				}
+
+				event.setCancelled(true);
+			}
+		}
+		else if(isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD) { //guild chat
+			if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
+				if(!Config.CHAT_GUILD_LEADERPREFIX.getBoolean()) {
+					rank = "";
+				}
+
+				String cFormat = Config.CHAT_GUILD_FORMAT.getString();
+				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{LEADERPREFIX}", rank);
+				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
+				cFormat = StringUtils.fixColors(cFormat);
+
+				//Trim prefix
+				if(nPlayer.getChatMode() != ChatMode.GUILD) {
+					msg = msg.substring(prefixChatGuild.length(), msg.length());
+
+					if(msg.length() == 0) {
+						return;
+					}
+				}
+
+				for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
+					if(guild.isMember(nPlayerLoop) || nPlayerLoop.getSpyMode()) {
+						nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
+					}
+				}
+
+				event.setCancelled(true);
+			}
+		}
 	}
 
 	@EventHandler
@@ -147,8 +156,8 @@ public class ChatListener implements Listener {
 			cmd = split[0];
 		}
 
-		if(Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+		if(!nPlayer.getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
 			NovaRegion region = plugin.getRegionManager().getRegion(event.getPlayer().getLocation());
 
 			if(region != null) {

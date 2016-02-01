@@ -28,6 +28,7 @@ import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.manager.TaskManager;
 
 /**
  * NovaGuilds API
@@ -104,6 +105,13 @@ public interface NovaGuildsAPI {
 	 * @return RankManager
 	 */
 	RankManager getRankManager();
+
+	/**
+	 * Returns the instance of TaskManager
+	 *
+	 * @return TaskManager
+	 */
+	TaskManager getTaskManager();
 
 	/**
 	 * Returns the build of the plugin

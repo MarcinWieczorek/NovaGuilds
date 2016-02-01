@@ -19,6 +19,16 @@ chat:
   timeout: "Your confirmation request has timed out."
 
  admin:
+  config:
+   reloaded: "The config has been reloaded"
+   reset: "The config has been reset"
+   saved: "The config has been saved"
+   set: "&c{KEY} has been set to &c{VALUE}"
+   get:
+    single: "&f{KEY}&c: &f{VALUE}"
+    list:
+     section: "{DEPTH}&c{KEY}"
+     key: "{DEPTH}&5* &7{KEY}"
   guild:
    timerest:
     set: "Guild's resting time set."
@@ -33,12 +43,11 @@ chat:
     list:
      header: "Most inactive guilds"
      item: " &2- &a{GUILDNAME} active {AGONOW}"
-     ago: "&c{INACTIVE}ago"
+     ago: "&c{INACTIVE} ago"
      now: "&cnow"
    bank:
     paid: "You paid &c${MONEY} to &a{GUILDNAME}'s bank."
     withdrew: "You took &c${MONEY} from &a{GUILDNAME}'s bank."
-   abandon: "&a{GUILDNAME} abandoned."
    kick:
     leader: "You can't kick the leader. You have to abandon the guild."
    invited: "Invited player &c{PLAYERNAME} to &a{GUILDNAME}"
@@ -87,7 +96,6 @@ chat:
     success: "Successfuly added a hologram: &a{NAME}"
    delete:
     success: "Successfuly deleted a hologram: &a{NAME}"
-    entername: "Please enter hologram's name"
    list:
     header: "List of all holograms:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
@@ -112,6 +120,13 @@ chat:
   
  usage:
   nga:
+   config:
+    access: "&5* &7/nga &cconfig &2- &3Config commands"
+    reload: "&5* &7/nga &cconfig &6reload &2- &3Reload the config"
+    save: "&5* &7/nga &cconfig &6save &2- &3Save the config"
+    reset: "&5* &7/nga &cconfig &6reset &2- &3Reset the config"
+    get: "&5* &7/nga &cconfig &6get &c<key> &2- &3Get a value"
+    set: "&5* &7/nga &cconfig &6set &c<key> &6<value> &2- &3Set a value"
    guild:
     set:
      slots: "&5* &7/nga &cg &6<guild> &cslots &6<amount> &2- &3set slots"
@@ -123,16 +138,55 @@ chat:
      withdraw: "&5* &7/nga &cg &6<guild> &cwithdraw &6<amount> &2- &3Take money from the bank"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<guild> &ctp &6[player] &2- &3TP to guild's home"
-  ng:
-   broadcast: "&c/ng bc <message>"
+   region:
+    access: "&5* &7/nga &crg &2- &3Region commands"
+    list: "&5* &7/nga &crg &6list &2- &3Region list"
+    delete: "&5* &7/nga &crg &6<guild> &cdel &2- &3Delete region"
+    teleport: "&5* &7/nga &crg &6<guild> &ctp &2- &3Teleport to region"
+    bypass: "&5* &7/nga &crg &6bypass &c[player] &2- &3Change bypass mode"
   guild:
+   abandon: "&5* &7/abandon &2- &3abandon your guild"
+   ally: "&5* &7/g &cally &6<guildname> &2- &3Invite to an ally"
+   bank:
+    pay: "&5* &7/g &cpay &6<amount> &2- &3Pay money into guild's bank"
+    withdraw: "&5* &7/g &cwithdraw &6<amount> &2- &3Withdraw money from guild's bank"
+   buy:
+    life: "&5* &7/g &cbuylife &2- &3Buy a life"
+    slot: "&5* &7/g &cbuyslot &2- &3Extend players count limit!"
+   chatmode: "&5* &7/g &cc &2- &3Change chat mode"
+   compass: "&5* &7/g &ccompass &2- &3Let the compass point your guild's home!"
    create: "&5* &7/create &c<tag> &6<name> &2- &3Create a guild"
+   effect: "&5* &7/g &ceffect &2- &3Effect for guild"
+   home:
+    teleport: "&5* &7/g &chome &2- &3TP to guild's home"
+    set: "&5* &7/g &chome set &2- &3Set guild's home"
    invite: "&5* &7/invite &c<playername> &2- &3Invite player to the guild"
+   info: "&5* &7/gi &2- &3Guild's info."
+   join: "&5* &7/join &6[guildname] &2- &3Join a guild"
+   kick: "&5* &7/g &ckick &6<playername> &2- &3Kick a player from the guild"
+   leader: "&5* &7/g &cleader &6<playername> &2- &3Set guild's leader"
+   leave: "&5* &7/leave &2- &3Leave the guild"
+   menu: "&5* &7/gg &2- &3Guild's menu"
+   openinvitation: "&5* &7/g &copeninv &2- &3Toggle open invitation status"
+   pvptoggle: "&5* &7/g &cpvp &2- &3Toggle PVP"
+   requireditems: "&5* &7/g &csettag &2- &Show items required to create a guild"
+   set:
+    name: "&5* &7/g &csetname &2- &3Set the name"
+    tag: "&5* &7/g &csettag &2- &3Set the tag"
+   top: "&5* &7/g &ctop &2- &3Top 5"
+   war: "&5* &7/g &cwar &6[guildname] &2- &3War!"
+  region:
+   access: "&5* &7/g &crg &2- &3Region commands"
+   buy: "&5* &7/g &crg &6buy &2- &3Create a region"
+   delete: "&5* &7/g &crg &6delete &2- &3Delete the region"
+  tool: "&5* &7/ng &ctool &2- &3Check or select area with the tool!"
+
  commands:
   admin:
    main:
     header: "Admin commands:"
     items:
+     - "&5* &7/nga &cconfig &2- &3Config commands"
      - "&5* &7/nga &crg &2- &3Region commands"
      - "&5* &7/nga &cg &2- &3Guild commands"
      - "&5* &7/nga &ch &2- &3Hologram commands"
@@ -216,8 +270,6 @@ chat:
  pvp:
   team: "You cannot hurt your teammates"
   ally: "You cannot hurt your allies."
-
- noguild: "No guild"
  
  raid:
   resting: "You have to wait &c{TIMEREST} before attacking this guild."
@@ -248,11 +300,8 @@ chat:
   ally:
    war: "First you need to end the war with that guild."
    samename: "You cannot be allies with your own guild!"
-   alreadyally: "You already are allies!"
-   alreadyinvited: "You already invited that guild to an ally"
    invited: "You invited &a{ALLYNAME} to an ally."
    accepted: "You accepted ally invitation with &a{ALLYNAME}"
-   newinvite: "Guild &a{GUILDNAME} invited you to an ally."
    notifyguild: "Guild &a{GUILDNAME} invited you to an ally."
    notifyguildcanceled: "Guild &a{GUILDNAME} canceled their ally invitation"
    canceled: "Canceled ally invitation with guild &a{GUILDNAME}"
@@ -289,7 +338,10 @@ chat:
   tooclose: "You are too close to other guild"
   isfull: "This guild has reached the limit of players"
   buylife: "You bought a life for your guild."
-  buyslot: "You bought an additional slot for your guild."
+  buy:
+   slot:
+    success: "You bought an additional slot for your guild."
+    maxreached: "The slot amount has reached the maximum value."
 
   war:
    ally: "First you need to end your ally with that guild."
@@ -308,7 +360,6 @@ chat:
    success: "&a{PLAYERNAME} is now the leader!"
    samenick: "You already are the leader!"
    notsameguild: "This player is not in your guild."
-   notifynewleader: "You are now the leader of &a{GUILDNAME}"
   leave:
    isleader: "The leader cannot leave the guild. &c/abandon"
    left: "You left the guild."
@@ -437,9 +488,9 @@ chat:
    - " &c* &2Name: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Leader: &6{LEADER}"
-   - " &c* &2Created: &6{CREATEDAGO}&2ago"
+   - " &c* &2Created: &6{CREATEDAGO} &2ago"
    - " &c* &2Open invitation: &6{OPENINV}"
-   - " &c* &2Protection: &6{PROTLEFT}&2left"
+   - " &c* &2Protection: &6{PROTLEFT} &2left"
    - " &c* &2Lives: &6{LIVES}"
    - " &c* &2Live Regeneration in: &6{LIVEREGENERATIONTIME}"
    - " &c* &2Resting time: &6{TIMEREST}"
@@ -454,9 +505,9 @@ chat:
    - " &c* &2Name: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Leader: &6{LEADER}"
-   - " &c* &2Created: &6{CREATEDAGO}&2ago"
+   - " &c* &2Created: &6{CREATEDAGO} &2ago"
    - " &c* &2Open invitation: &6{OPENINV}"
-   - " &c* &2Protection: &6{PROTLEFT}&2left"
+   - " &c* &2Protection: &6{PROTLEFT} &2left"
    - " &c* &2Lives: &6{LIVES}"
    - " &c* &2Resting time: &6{TIMEREST}"
    - " &c* &2Players: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
@@ -467,7 +518,6 @@ chat:
 #broadcast messages:
 broadcast:
  admin:
-  autosave: "Saved plugin data."
   guild:
    abandon: "Admin &c{PLAYERNAME} abandoned guild &a{GUILDNAME}"
    cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"
@@ -524,6 +574,8 @@ inventory:
    iconitem: "EMPTY_MAP 1 name:Ranks"
    rowitem: "BOOK 1 name:{RANKNAME}"
    additem: "BOOK_AND_QUILL 1 name:Add_rank"
+   defaultname: "Custom Rank"
+   leadername: "Leader"
   rank:
    settings:
     cloneprefix: "Clone of "

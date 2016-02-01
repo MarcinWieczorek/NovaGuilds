@@ -19,6 +19,16 @@ chat:
   timeout: "Zadanie potwierdzenia komendy wygaslo."
 
  admin:
+  config:
+   reloaded: "Konfiguracja została przeładowana."
+   reset: "Konfiguracja została zresetowana"
+   saved: "Konfiguracja została zapisana"
+   set: "Wartość &c{KEY} została ustawiona na: &c{VALUE}"
+   get:
+    single: "&f{KEY}&c: &f{VALUE}"
+    list:
+     section: "{DEPTH}&c{KEY}"
+     key: "{DEPTH}&5* &7{KEY}"
   guild:
    timerest:
     set: "Ustawiono czas odpoczynku gildii"
@@ -38,7 +48,6 @@ chat:
    bank:
     paid: "Wplaciles &c${MONEY} do banku gildii &a{GUILDNAME}"
     withdrew: "Zabrales &c${MONEY} z banku &a{GUILDNAME}"
-   abandon: "Gildia &a{GUILDNAME} zostala rozwiazana."
    kick:
     leader: "Nie mozesz wyrzucic lidera. Musisz rozwiazac gildie."
    invited: "Zaproszono gracza &c{PLAYERNAME} do &a{GUILDNAME}"
@@ -87,7 +96,6 @@ chat:
     success: "Dodano hologram: &a{NAME}"
    delete:
     success: "Pomyslnie usunieto hologram: &a{NAME}"
-    entername: "Prosze wprowadz nazwe hologramu"
    list:
     header: "List of all holograms:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
@@ -112,6 +120,13 @@ chat:
 
  usage:
   nga:
+   config:
+    access: "&5* &7/nga &cconfig &2- &3Komendy konfiguracji"
+    reload: "&5* &7/nga &cconfig &6reload &2- &3Przeładuj konfigurację"
+    save: "&5* &7/nga &cconfig &6save &2- &3Zapisz konfigurację"
+    reset: "&5* &7/nga &cconfig &6reset &2- &3Resetuj konfigurację"
+    get: "&5* &7/nga &cconfig &6get &c<key> &2- &3Pobierz wartość"
+    set: "&5* &7/nga &cconfig &6set &c<key> &6<value> &2- &3Ustaw wartość"
    guild:
     set:
      slots: "&5* &7/nga &cg &6<guild> &cslots &6<ilosc> &2- &3Zmien ilosc slotow"
@@ -123,16 +138,55 @@ chat:
      withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
     purge: "&5* &7/nga &cg &6purge &2- &3Usuń wszystkie gildie"
     tp: "&7/nga &cg &6tp &c<gildia> &6[gracz]"
-  ng:
-   broadcast: "&c/ng bc <wiadomosc>"
+   region:
+    access: "&5* &7/nga &crg &2- &3Komendy regionów"
+    list: "&5* &7/nga &crg &6list &2- &3Lista regionów"
+    delete: "&5* &7/nga &crg &6<gildia> &cdel &2- &3Usuń region"
+    teleport: "&5* &7/nga &crg &6<gildia> &ctp &2- &3Teleport do regionu"
+    bypass: "&5* &7/nga &crg &6bypass &c[gracz] &2- &3Zmiana trybu ignorowania regionów"
   guild:
+   abandon: "&5* &7/rozwiaz &2- &3Porzuć gildię"
+   ally: "&5* &7/g &cally &6<gildia> &2- &3Zaproś do sojuszu"
+   bank:
+    pay: "&5* &7/g &cpay &6<ilosc> &2- &3Wpłać pieniądze do banku"
+    withdraw: "&5* &7/g &cwithdraw &6<ilosc> &2- &3Zabierz pieniądze z banku"
+   buy:
+    life: "&5* &7/g &cbuylife &2- &3Kup życie"
+    slot: "&5* &7/g &cbuyslot &2- &3Kup dodatkowy slot w gildii."
+   chatmode: "&5* &7/g &cc &2- &3Zmiana trybu czatu"
+   compass: "&5* &7/g &ccompass &2- &3Niech kompas wskazuje dom Twojej gildii!"
    create: "&5* &7/zaloz &c<tag> &6<nazwa> &2- &3Stworz gildie"
+   effect: "&5* &7/g &ceffect &2- &3Kup efekt dla gildii"
+   home:
+    teleport: "&5* &7/g &chome &2- &3Teleport do domu gildii"
+    set: "&5* &7/g &chome set &2- &3Ustaw dom gildii"
+   info: "&5* &7/gi &2- &3Informacje o gildii."
    invite: "&5* &7/zapros &c<gracz> &2- &3Zapros gracza do gildii"
+   join: "&5* &7/dolacz &6[gildia] &2- &3Dolacz do gildii"
+   kick: "&5* &7/g &ckick &6<gracz> &2- &3Wyrzuć gracza"
+   leader: "&5* &7/g &cleader &6<gracz> &2- &3Ustaw lidera"
+   leave: "&5* &7/opusc &2- &3Opuść gildię"
+   menu: "&5* &7/gg &2- &3Menu gildii"
+   openinvitation: "&5* &7/g &copeninv &2- &3Przełącz status otwartych zaproszen"
+   pvptoggle: "&5* &7/g &cpvp &2- &3Wlacz/Wyłącz PVP"
+   requireditems: "&5* &7/g &citems &2- &3Wymagane przedmioty"
+   set:
+    name: "&5* &7/g &csetname &2- &3Zmień nazwę"
+    tag: "&5* &7/g &csettag &2- &3Zmień tag"
+   top: "&5* &7/g &ctop &2- &3Top 5"
+   war: "&5* &7/g &cwar &6[gildia] &2- &3Wojna!"
+  region:
+   access: "&5* &7/g &crg &2- &3Komendy regionów"
+   buy: "&5* &7/g &crg &6buy &2- &3Stwórz region"
+   delete: "&5* &7/g &crg &6delete &2- &3Usuń region"
+  tool: "&5* &7/ng &ctool &2- &3Sprawdź lub zaznacz teren patykiem!"
+
  commands:
   admin:
    main:
     header: "Komendy Admina:"
     items:
+     - "&5* &7/nga &cconfig &2- &3Komendy konfiguracji"
      - "&5* &7/nga &crg &2- &3Komendy regionow"
      - "&5* &7/nga &cg &2- &3Komendy gildii"
      - "&5* &7/nga &ch &2- &3Komendy hologramow"
@@ -217,8 +271,6 @@ chat:
   team: "Nie mozesz bic swoich kolegow z gildii"
   ally: "Nie mozesz ranic swoich sojusznikow"
 
- noguild: "Brak gildii"
-
  raid:
   resting: "Musisz poczekac &c{TIMEREST} Przed atakowaniem tej gildii."
   protection: "Ta gildia jest nowa i obejmuje ja ochrona. Sprobuj jutro."
@@ -248,11 +300,8 @@ chat:
   ally:
    war: "Najpierw musisz zakonczyc wojne z ta gildia"
    samename: "Nie mozesz zaprosic swojej gildii do sojuszu!"
-   alreadyally: "Juz jestescie sojusznikami!"
-   alreadyinvited: "Juz zaprosiles te gildie do sojuszu"
    invited: "Zaprosiles &a{ALLYNAME} do sojuszu"
    accepted: "Zaakceptowales propozycje sojuszu z &a{ALLYNAME}"
-   newinvite: "Gildia &a{GUILDNAME} Zaprosila Cie do sojuszu"
    notifyguild: "Gildia &a{GUILDNAME} Zaprosila Cie do sojuszu"
    notifyguildcanceled: "Gildia &a{GUILDNAME} cofnela propozycje sojuszu"
    canceled: "Cofnieto zaproszenie sojuszu z &a{GUILDNAME}"
@@ -289,7 +338,10 @@ chat:
   tooclose: "Jestes zbyt blisko innej gildii"
   isfull: "Ta gildia osiagnela limit graczy."
   buylife: "Kupiles dodatkowe zycie dla swojej gildii"
-  buyslot: "Kupiles dodatkowy slot dla swojej gildii"
+  buy:
+   slot:
+    success: "Kupiles dodatkowy slot dla swojej gildii."
+    maxreached: "Maksymalna ilość slotów została osiągnięta."
 
   war:
    ally: "Najpierw zakoncz sojusz z ta gildia"
@@ -308,7 +360,6 @@ chat:
    success: "&a{PLAYERNAME} jest teraz liderem!"
    samenick: "Juz jestes liderem!"
    notsameguild: "Ten gracz nie nalezy do Twojej gildii"
-   notifynewleader: "Jestes teraz liderem gildii &a{GUILDNAME}"
   leave:
    isleader: "Lider nie moze opuscic swojej gildii. &c/abandon"
    left: "Opusciles gildie."
@@ -437,7 +488,7 @@ chat:
    - " &c* &2Nazwa: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Lider: &6{LEADER}"
-   - " &c* &2Stworzona: &6{CREATEDAGO}&2temu"
+   - " &c* &2Stworzona: &6{CREATEDAGO} &2temu"
    - " &c* &2Otwarte zaproszenie: &6{OPENINV}"
    - " &c* &2Ochrona: &6{PROTLEFT}"
    - " &c* &2Zycia: &6{LIVES}"
@@ -454,7 +505,7 @@ chat:
    - " &c* &2Nazwa: &6{GUILDNAME}"
    - " &c* &2Tag: &6{TAG}"
    - " &c* &2Lider: &6{LEADER}"
-   - " &c* &2Stworzona: &6{CREATEDAGO}&2temu"
+   - " &c* &2Stworzona: &6{CREATEDAGO} &2temu"
    - " &c* &2Otwarte zaproszenie: &6{OPENINV}"
    - " &c* &2Ochrona: &6{PROTLEFT}"
    - " &c* &2Zycia: &6{LIVES}"
@@ -467,7 +518,6 @@ chat:
 #broadcast messages:
 broadcast:
  admin:
-  autosave: "Zapisano dane pluginu."
   guild:
    abandon: "Admin &c{PLAYERNAME} rozwiazal gildie &a{GUILDNAME}"
    cleanup: "Gildia &a{GUILDNAME} została usunięta w skutek nieobecności"
@@ -524,6 +574,8 @@ inventory:
    iconitem: "EMPTY_MAP 1 name:Rangi"
    rowitem: "BOOK 1 name:{RANKNAME}"
    additem: "BOOK_AND_QUILL 1 name:Dodaj_rangę"
+   defaultname: "Nowa Ranga"
+   leadername: "Lider"
   rank:
    settings:
     cloneprefix: "Kopia "

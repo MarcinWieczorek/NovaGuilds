@@ -72,7 +72,7 @@ public class CommandGuildBuyLife implements Executor {
 
 		nPlayer.getGuild().addLive();
 
-		sender.sendMessage("bought life TODO");
+		Message.CHAT_GUILD_BUYLIFE.send(sender);
 	}
 
 	@Override

@@ -75,11 +75,6 @@ holographicdisplays:
 packets:
  enabled: false
 
-www:
- enabled: false
- verbose: true
- port: 80
-
 #Save interval
 saveinterval: 30m
 
@@ -89,9 +84,10 @@ liveregeneration:
  taskinterval: 30m
 
 cleanup:
- enabled: false
+ enabled: true
  inactivetime: 7d
  interval: 1d
+ startupdelay: 30s
 
 aliases:
  guild:
@@ -126,7 +122,7 @@ chat:
   prefix: "!"
   enabled: true
   leaderprefix: true
-  format: "&6[&7Guild&6] &8{PLAYERNAME}&6:&r "
+  format: "&6[&7Guild&6] &a{LEADERPREFIX}&8{PLAYERNAME}&6:&r "
   msgprefix: "&6"
 
 raid:
@@ -160,9 +156,6 @@ guild:
   - world_nether
   - world_the_end
 
- #time to remove inactive guilds (minutes) (default 7 days)
- inactivetime: 7d
-
  #New guilds protection
  createprotection: 24h
 
@@ -173,7 +166,11 @@ guild:
  startpoints: 1000
  startmoney: 0
  startlives: 2
- startslots: 10
+
+ slots:
+  start: 10
+  max: 50
+
  #distance from spawn
  fromspawn: 100
  stringcheck:

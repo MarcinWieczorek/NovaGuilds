@@ -25,6 +25,7 @@ import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.GuildPermission;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RankManager {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final List<NovaRank> genericRanks = new ArrayList<>();
 	private boolean loaded = false;
 
@@ -50,12 +51,6 @@ public class RankManager {
 	}
 
 	public void load() {
-		genericRanks.clear();
-
-		//Load default ranks
-		loadDefaultRanks();
-
-		//Load ranks from storage
 		int count = 0;
 		if(Config.getManager().getDataStorageType() == DataStorageType.FLAT) {
 			for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
@@ -367,7 +362,8 @@ public class RankManager {
 	}
 
 	public void loadDefaultRanks() {
-		NovaRank leaderRank = new NovaRank("Leader");
+		genericRanks.clear();
+		NovaRank leaderRank = new NovaRank(Message.INVENTORY_GUI_RANKS_LEADERNAME.get());
 		leaderRank.setPermissions(Lists.newArrayList(GuildPermission.values()));
 		genericRanks.add(leaderRank);
 		int count = 1;
@@ -429,6 +425,6 @@ public class RankManager {
 	}
 
 	public static NovaRank getDefaultRank() {
-		return NovaGuilds.getInstance().getRankManager().getGenericRanks().get(1);
+		return plugin.getRankManager().getGenericRanks().get(1);
 	}
 }

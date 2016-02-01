@@ -19,6 +19,10 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.command.CommandConfirm;
 import co.marcin.novaguilds.command.CommandNovaGuilds;
 import co.marcin.novaguilds.command.CommandPlayerInfo;
@@ -27,6 +31,12 @@ import co.marcin.novaguilds.command.admin.CommandAdmin;
 import co.marcin.novaguilds.command.admin.CommandAdminChatSpy;
 import co.marcin.novaguilds.command.admin.CommandAdminReload;
 import co.marcin.novaguilds.command.admin.CommandAdminSave;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfig;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigGet;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigReload;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigReset;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigSave;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfigSet;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuild;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildAbandon;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildBankPay;
@@ -86,14 +96,18 @@ import co.marcin.novaguilds.command.region.CommandRegion;
 import co.marcin.novaguilds.command.region.CommandRegionBuy;
 import co.marcin.novaguilds.command.region.CommandRegionDelete;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -102,14 +116,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandManager {
-	private final NovaGuilds plugin;
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, String> aliases = new HashMap<>();
 	private final Map<ItemStack, String> guiCommands = new HashMap<>();
 	private final Map<Command, Executor> executors = new HashMap<>();
 	private ItemStack topItem;
 
-	public CommandManager(NovaGuilds plugin) {
-		this.plugin = plugin;
+	public CommandManager() {
 		plugin.setCommandManager(this);
 		registerCommands();
 
@@ -177,6 +190,14 @@ public class CommandManager {
 		new CommandAdminReload();
 		new CommandAdminSave();
 		new CommandAdminChatSpy();
+
+		//AdminConfig
+		new CommandAdminConfig();
+		new CommandAdminConfigGet();
+		new CommandAdminConfigReload();
+		new CommandAdminConfigReset();
+		new CommandAdminConfigSave();
+		new CommandAdminConfigSet();
 
 		//AdminRegion
 		new CommandAdminRegion();
@@ -267,6 +288,40 @@ public class CommandManager {
 					genericCommand.setTabCompleter(command.getTabCompleter());
 				}
 			}
+		}
+	}
+
+	public void execute(Command command, CommandSender sender, String[] args) {
+		Executor executor = getExecutor(command);
+
+		if(!command.hasPermission(sender)) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
+		}
+
+		if(!command.allowedSender(sender)) {
+			Message.CHAT_CMDFROMCONSOLE.send(sender);
+			return;
+		}
+
+		NovaPlayer nPlayer = NovaPlayer.get(sender);
+
+		if((sender instanceof Player) && (command.isNeedConfirm() && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED))) {
+			nPlayer.newCommandExecutorHandler(command, args);
+			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
+		}
+		else {
+			if(executor instanceof Executor.ReversedAdminGuild) {
+				((Executor.ReversedAdminGuild) executor).guild((NovaGuild) command.getExecutorVariable());
+			}
+			else if(executor instanceof Executor.ReversedAdminRegion) {
+				((Executor.ReversedAdminRegion) executor).region((NovaRegion) command.getExecutorVariable());
+			}
+			else if(executor instanceof Executor.ReversedAdminHologram) {
+				((Executor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
+			}
+
+			executor.execute(sender, args);
 		}
 	}
 

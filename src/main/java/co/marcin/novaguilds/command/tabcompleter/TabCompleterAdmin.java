@@ -18,7 +18,9 @@
 
 package co.marcin.novaguilds.command.tabcompleter;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.command.admin.CommandAdmin;
+import co.marcin.novaguilds.command.admin.config.CommandAdminConfig;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuild;
 import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologram;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegion;
@@ -51,6 +53,17 @@ public class TabCompleterAdmin implements TabCompleter {
 				case "h":
 				case "hologram":
 					keys = CommandAdminHologram.commandsMap.keySet();
+					break;
+
+				case "config":
+					if(args.length > 2) {
+						if(args[1].equalsIgnoreCase("get") || args[1].equalsIgnoreCase("set")) {
+							keys = NovaGuilds.getInstance().getConfigManager().getConfig().getKeys(true);
+						}
+					}
+					else {
+						keys = CommandAdminConfig.commandsMap.keySet();
+					}
 					break;
 			}
 		}

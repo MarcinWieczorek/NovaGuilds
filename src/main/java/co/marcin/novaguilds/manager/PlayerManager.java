@@ -42,15 +42,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("deprecation")
 public class PlayerManager {
-	private final NovaGuilds plugin;
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaPlayer> players = new HashMap<>();
-	
-	public PlayerManager(NovaGuilds pl) {
-		plugin = pl;
-	}
 	
 	public boolean exists(String playername) {
 		return players.containsKey(playername.toLowerCase());
@@ -125,9 +122,18 @@ public class PlayerManager {
 	}
 	
 	public void save() {
+		long startTime = System.nanoTime();
+		int count = 0;
+
 		for(NovaPlayer nPlayer : getPlayers()) {
+			if(nPlayer.isChanged()) {
+				count++;
+			}
+
 			save(nPlayer);
 		}
+
+		LoggerUtils.info("Players data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 	}
 	
 	//load

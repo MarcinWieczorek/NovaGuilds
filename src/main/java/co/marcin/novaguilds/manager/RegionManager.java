@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.runnable.RunnableRaid;
+import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -52,16 +53,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
-	private final NovaGuilds plugin;
-	private final Map<String, NovaRegion> regions = new HashMap<>();
-	
-	public RegionManager(NovaGuilds pl) {
-		plugin = pl;
-	}
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Map<String, NovaRegion> regions = new CaseInsensitiveMap<>();
 
 	//getters
 	public NovaRegion getRegion(NovaGuild guild) {
-		return regions.get(guild.getName().toLowerCase());
+		return regions.get(guild.getName());
 	}
 	
 	public NovaRegion getRegion(Location l) {
@@ -96,7 +93,7 @@ public class RegionManager {
 				NovaRegion region = regionFromFlat(regionData);
 
 				if(region != null) {
-					regions.put(guildName.toLowerCase(), region);
+					regions.put(guildName, region);
 				}
 				else {
 					LoggerUtils.info("Loaded region is null. name: " + guildName);
@@ -138,7 +135,7 @@ public class RegionManager {
 						novaRegion.setGuildName(res.getString("guild"));
 						novaRegion.setUnChanged();
 
-						if(regions.containsKey(res.getString("guild").toLowerCase())) {
+						if(regions.containsKey(res.getString("guild"))) {
 							if(Config.DELETEINVALID.getBoolean()) {
 								remove(novaRegion);
 							}
@@ -147,7 +144,7 @@ public class RegionManager {
 							continue;
 						}
 
-						regions.put(res.getString("guild").toLowerCase(), novaRegion);
+						regions.put(res.getString("guild"), novaRegion);
 					}
 					else {
 						LoggerUtils.info("Failed loading region for guild " + res.getString("guild") + ", world does not exist.");
@@ -202,7 +199,7 @@ public class RegionManager {
 		guild.setRegion(region);
 		region.setGuildName(guild.getName());
 		region.setUnChanged();
-		regions.put(guild.getName().toLowerCase(), region);
+		regions.put(guild.getName(), region);
 	}
 	
 	public void save(NovaRegion region) {
@@ -245,9 +242,18 @@ public class RegionManager {
 	}
 	
 	public void save() {
-		for(NovaRegion r : getRegions()) {
-			save(r);
+		long startTime = System.nanoTime();
+		int count = 0;
+
+		for(NovaRegion region : getRegions()) {
+			if(region.isChanged()) {
+				count++;
+			}
+
+			save(region);
 		}
+
+		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
 	
 	//delete region
@@ -274,7 +280,7 @@ public class RegionManager {
 			}
 		}
 
-		regions.remove(region.getGuildName().toLowerCase());
+		regions.remove(region.getGuildName());
 
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);
@@ -536,7 +542,7 @@ public class RegionManager {
 								plugin.guildRaids.add(guildDefender);
 
 								if(!NovaGuilds.isRaidRunnableRunning()) {
-									Runnable task = new RunnableRaid(plugin);
+									Runnable task = new RunnableRaid();
 									plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
 									NovaGuilds.setRaidRunnableRunning(true);
 								}

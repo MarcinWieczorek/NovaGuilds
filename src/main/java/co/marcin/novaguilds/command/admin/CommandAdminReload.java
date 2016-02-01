@@ -64,6 +64,10 @@ public class CommandAdminReload implements Executor {
 		Message.CHAT_RELOAD_MYSQL.send(sender);
 
 		//messages
+		if(!plugin.getMessageManager().existsFile()) {
+			Message.CHAT_RELOAD_NEWMSGFILE.send(sender);
+		}
+
 		plugin.getMessageManager().load();
 		Message.CHAT_RELOAD_MESSAGES.send(sender);
 

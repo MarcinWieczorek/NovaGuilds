@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
@@ -52,6 +53,11 @@ public class CommandGuildBuySlot implements Executor {
 			return;
 		}
 
+		if(nPlayer.getGuild().getSlots() >= Config.GUILD_SLOTS_MAX.getInt()) {
+			Message.CHAT_GUILD_BUY_SLOT_MAXREACHED.send(sender);
+			return;
+		}
+
 		NovaGroup group = NovaGroup.get(sender);
 		double money = group.getGuildBuySlotMoney();
 		List<ItemStack> items = group.getGuildBuySlotItems();
@@ -72,7 +78,7 @@ public class CommandGuildBuySlot implements Executor {
 		}
 
 		nPlayer.getGuild().addSlot();
-		Message.CHAT_GUILD_BUYSLOT.send(sender);
+		Message.CHAT_GUILD_BUY_SLOT_SUCCESS.send(sender);
 	}
 
 	@Override
