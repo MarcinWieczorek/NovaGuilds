@@ -33,6 +33,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LeashHitch;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -47,6 +48,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
@@ -307,6 +310,42 @@ public class RegionInteractListener implements Listener {
 					Message.CHAT_REGION_DENY_RIDEMOB.send(event.getEntered());
 				}
 			}
+		}
+	}
+
+	/**
+	 * Handles breaking pantings, item frames, leashes
+	 * @param event The event
+	 */
+	@EventHandler
+	public void onHangingEntityBreak(HangingBreakByEntityEvent event) {
+		if(!(event.getRemover() instanceof Player)) {
+			return;
+		}
+
+		Player player = (Player) event.getRemover();
+		NovaPlayer nPlayer = NovaPlayer.get(player);
+		boolean isLeash = event.getEntity() instanceof LeashHitch;
+
+		if(NovaRegion.get(event.getEntity()) != null && (!plugin.getRegionManager().canInteract(player, event.getEntity()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(isLeash ? GuildPermission.MOB_LEASH : GuildPermission.BLOCK_BREAK)))) {
+			event.setCancelled(true);
+			(isLeash ? Message.CHAT_REGION_DENY_UNLEASH : Message.CHAT_REGION_DENY_INTERACT).send(player);
+		}
+	}
+
+	/**
+	 * Handles placing paintings, item frames, leashes
+	 * @param event The event
+	 */
+	@EventHandler
+	public void onHangingPlace(HangingPlaceEvent event) {
+		Player player = event.getPlayer();
+		NovaPlayer nPlayer = NovaPlayer.get(player);
+		Location location = event.getEntity().getLocation();
+
+		if(NovaRegion.get(location) != null && (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
+			event.setCancelled(true);
+			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
 	}
 }
