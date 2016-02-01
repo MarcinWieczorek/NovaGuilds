@@ -54,7 +54,6 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class RegionInteractListener implements Listener {
 	private final NovaGuilds plugin;
@@ -306,18 +305,6 @@ public class RegionInteractListener implements Listener {
 				if(!NovaPlayer.get(event.getEntered()).isVehicleListed(vehicle)) {
 					event.setCancelled(true);
 					Message.CHAT_REGION_DENY_RIDEMOB.send(event.getEntered());
-					final float pitch = player.getLocation().getPitch();
-					final float yaw = player.getLocation().getYaw();
-
-					NovaGuilds.runTaskLater(new Runnable() {
-						@Override
-						public void run() {
-							Location location = player.getLocation();
-							location.setYaw(yaw);
-							location.setPitch(pitch);
-							player.teleport(location);
-						}
-					}, 1000, TimeUnit.MILLISECONDS);
 				}
 			}
 		}
