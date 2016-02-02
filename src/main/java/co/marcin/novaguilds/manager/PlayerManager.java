@@ -169,11 +169,15 @@ public class PlayerManager {
 				while(res.next()) {
 					NovaPlayer nPlayer = playerFromResult(res);
 
+					if(nPlayer == null) {
+						continue;
+					}
+
 					if(nPlayer.getPoints() == 0 && nPlayer.getKills() == 0 && nPlayer.getDeaths() == 0) {
 						nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
 					}
 
-					players.put(res.getString("name").toLowerCase(), nPlayer);
+					players.put(nPlayer.getName().toLowerCase(), nPlayer);
 				}
 			}
 			catch(SQLException e) {
@@ -211,12 +215,42 @@ public class PlayerManager {
 					statement.setInt(3, Config.KILLING_STARTPOINTS.getInt());
 					statement.executeUpdate();
 
+					ResultSet keys = statement.getGeneratedKeys();
+					int id = 0;
+					if(keys.next()) {
+						id = keys.getInt(1);
+					}
+
+					nPlayer.setId(id);
+					nPlayer.setUnchanged();
+
 					LoggerUtils.info("New player " + player.getName() + " added to the database");
 					players.put(player.getName().toLowerCase(), nPlayer);
 				}
 				else {
 					LoggerUtils.error("Statement is closed.");
 				}
+			}
+			catch(SQLException e) {
+				LoggerUtils.exception(e);
+			}
+		}
+	}
+
+	public void delete(int id) {
+		if(plugin.getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
+			if(!plugin.getDatabaseManager().isConnected()) {
+				LoggerUtils.info("Connection is not estabilished, stopping current action");
+				return;
+			}
+
+			plugin.getDatabaseManager().mysqlReload();
+
+			try {
+				PreparedStatement statement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.PLAYERS_DELETE);
+				statement.setInt(1, id);
+				statement.executeUpdate();
+
 			}
 			catch(SQLException e) {
 				LoggerUtils.exception(e);
@@ -261,18 +295,30 @@ public class PlayerManager {
 	}
 
 	private NovaPlayer playerFromResult(ResultSet res) {
-		NovaPlayer nPlayer = null;
 		try {
-			nPlayer = new NovaPlayer();
-			Player player = plugin.getServer().getPlayerExact(res.getString("name"));
+			String playerName = res.getString("name");
 
-			if(player != null) {
-				if(player.isOnline()) {
-					nPlayer.setPlayer(player);
+			//Doubled players
+			if(getPlayer(playerName) != null) {
+				if(Config.DELETEINVALID.getBoolean()) {
+					delete(res.getInt("id"));
+					LoggerUtils.info("Removed doubled player: " + playerName);
 				}
+				else {
+					LoggerUtils.error("Doubled player: " + playerName);
+				}
+
+				return null;
 			}
 
-			String guildname = res.getString("guild").toLowerCase();
+			NovaPlayer nPlayer = new NovaPlayer();
+			Player player = plugin.getServer().getPlayerExact(playerName);
+
+			if(player != null && player.isOnline()) {
+				nPlayer.setPlayer(player);
+			}
+
+			String guildName = res.getString("guild").toLowerCase();
 
 			String invitedTo = res.getString("invitedto");
 			List<String> invitedToListNames = StringUtils.semicolonToList(invitedTo);
@@ -281,15 +327,16 @@ public class PlayerManager {
 			UUID uuid = UUID.fromString(res.getString("uuid"));
 
 			nPlayer.setUUID(uuid);
-			nPlayer.setName(res.getString("name"));
+			nPlayer.setId(res.getInt("id"));
+			nPlayer.setName(playerName);
 			nPlayer.setInvitedTo(invitedToList);
 
 			nPlayer.setPoints(res.getInt("points"));
 			nPlayer.setKills(res.getInt("kills"));
 			nPlayer.setDeaths(res.getInt("deaths"));
 
-			if(!guildname.isEmpty()) {
-				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildname);
+			if(!guildName.isEmpty()) {
+				NovaGuild guild = plugin.getGuildManager().getGuildByName(guildName);
 
 				if(guild != null) {
 					guild.addPlayer(nPlayer);
@@ -297,12 +344,14 @@ public class PlayerManager {
 			}
 
 			nPlayer.setUnchanged();
+
+			return nPlayer;
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
 		}
 
-		return nPlayer;
+		return null;
 	}
 
 	private NovaPlayer playerFromFlat(FileConfiguration playerData) {

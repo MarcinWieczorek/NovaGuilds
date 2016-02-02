@@ -86,12 +86,14 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.PLAYERS_SELECT, playersSelect);
 
 			//Players update
-			// TODO UUID is changeable, the username is not!
-			// TODO Dunno how drunk I was, but it's the opposite, right?
 			String playersUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "players` SET `invitedto`=?, `guild`=?, `points`=?, `kills`=?, `deaths`=? WHERE `uuid`=?";
 			PreparedStatement playersUpdate = getConnection().prepareStatement(playersUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
 
+			//Players delete
+			String playersDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "players` WHERE `id`=?";
+			PreparedStatement playersDelete = getConnection().prepareStatement(playersDeleteSQL);
+			preparedStatementMap.put(PreparedStatements.PLAYERS_DELETE, playersDelete);
 
 			//Regions insert (id, loc_1, loc_2, guild, world)
 			String regionsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "regions` VALUES(0,?,?,?,?);";

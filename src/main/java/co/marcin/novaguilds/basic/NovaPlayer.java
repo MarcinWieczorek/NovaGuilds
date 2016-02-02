@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class NovaPlayer {
+	private int id;
 	private Player player;
 	private NovaGuild guild;
 	private String name;
@@ -196,6 +197,10 @@ public class NovaPlayer {
 		return spyMode;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	//setters
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
@@ -315,6 +320,10 @@ public class NovaPlayer {
 
 	public void setSpyMode(boolean spyMode) {
 		this.spyMode = spyMode;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	//check stuff
