@@ -40,6 +40,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class RankManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
@@ -54,6 +55,8 @@ public class RankManager {
 		int count = 0;
 		if(Config.getManager().getDataStorageType() == DataStorageType.FLAT) {
 			for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+				boolean fixPlayerList = false;
+
 				FileConfiguration guildData = plugin.getFlatDataManager().getGuildData(guild.getName());
 				ConfigurationSection ranksConfigurationSection = guildData.getConfigurationSection("ranks");
 				List<String> rankNamesList = new ArrayList<>();
@@ -82,13 +85,23 @@ public class RankManager {
 
 					for(String playerName : rankConfiguration.getStringList("members")) {
 						NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playerName);
+
+						if(nPlayer == null) {
+							LoggerUtils.error("Player " + playerName + " doesn't exist, cannot be added to rank '" + rank.getName() + "' of guild " + rank.getGuild().getName());
+							fixPlayerList = true;
+							continue;
+						}
+
 						rank.addMember(nPlayer);
 					}
 
 					rank.setDefault(rankConfiguration.getBoolean("def"));
 					rank.setClone(rankConfiguration.getBoolean("clone"));
 
-					rank.setUnchanged();
+					if(!fixPlayerList) {
+						rank.setUnchanged();
+					}
+
 					count++;
 				}
 			}
@@ -106,6 +119,7 @@ public class RankManager {
 
 				ResultSet res = statement.executeQuery();
 				while(res.next()) {
+					boolean fixPlayerList = false;
 					NovaRank rank = new NovaRank(res.getInt("id"));
 
 					NovaGuild guild = plugin.getGuildManager().getGuildByName(res.getString("guild"));
@@ -123,13 +137,24 @@ public class RankManager {
 					}
 
 					for(String playerName : StringUtils.jsonToList(res.getString("members"))) {
-						rank.addMember(plugin.getPlayerManager().getPlayer(playerName));
+						NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playerName);
+
+						if(nPlayer == null) {
+							LoggerUtils.error("Player " + playerName + " doesn't exist, cannot be added to rank '" + rank.getName() + "' of guild " + rank.getGuild().getName());
+							fixPlayerList = true;
+							continue;
+						}
+
+						rank.addMember(nPlayer);
 					}
 
 					rank.setDefault(res.getBoolean("def"));
 					rank.setClone(res.getBoolean("clone"));
 
-					rank.setUnchanged();
+					if(!fixPlayerList) {
+						rank.setUnchanged();
+					}
+
 					count++;
 				}
 			}
@@ -147,99 +172,80 @@ public class RankManager {
 	}
 
 	public void save() {
-		if(Config.getManager().getDataStorageType() == DataStorageType.FLAT) {
-			for(String guildName : plugin.getFlatDataManager().getGuildList()) {
-				NovaGuild guild = NovaGuild.get(guildName);
-				if(guild == null) {
-					continue;
-				}
+		long nanoTime = System.nanoTime();
+		int count = 0;
 
-				FileConfiguration guildData = plugin.getFlatDataManager().getGuildData(guildName);
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+			final List<String> rankList = new ArrayList<>();
+			FileConfiguration guildData = null;
+			ConfigurationSection ranksConfigurationSection = null;
 
-				if(!guildData.isConfigurationSection("ranks") && guild.getRanks().size() > 0) {
+			if(Config.getManager().getDataStorageType() == DataStorageType.FLAT) {
+				guildData = plugin.getFlatDataManager().getGuildData(guild.getName());
+
+				if(!guildData.isConfigurationSection("ranks")) {
 					guildData.createSection("ranks");
 				}
 
-				ConfigurationSection ranksConfigurationSection = guildData.getConfigurationSection("ranks");
-				List<String> rankList = new ArrayList<>(ranksConfigurationSection.getKeys(false));
+				ranksConfigurationSection = guildData.getConfigurationSection("ranks");
+				rankList.addAll(ranksConfigurationSection.getKeys(false));
+			}
 
-				for(NovaRank rank : guild.getRanks()) {
-					rankList.remove(rank.getName());
+			for(NovaRank rank : guild.getRanks()) {
+				if(!rank.isChanged()) {
+					continue;
+				}
 
-					if(!rank.isChanged()) {
+				count++;
+
+				//Permission list
+				List<String> permissionNamesList = new ArrayList<>();
+				for(GuildPermission permission : rank.getPermissions()) {
+					permissionNamesList.add(permission.name());
+				}
+
+				//Member list
+				List<String> memberNamesList = new ArrayList<>();
+				if(!rank.isDefault()) {
+					for(NovaPlayer nPlayer : rank.getMembers()) {
+						memberNamesList.add(nPlayer.getName());
+					}
+				}
+
+				if(Config.getManager().getDataStorageType() == DataStorageType.FLAT) {
+					if(guildData == null) {
 						continue;
 					}
+
+					rankList.remove(rank.getName());
 
 					if(!ranksConfigurationSection.isConfigurationSection(rank.getName())) {
 						ranksConfigurationSection.createSection(rank.getName());
 					}
 
-					List<String> memberNames = new ArrayList<>();
-					if(!rank.isDefault()) {
-						for(NovaPlayer nPlayer : rank.getMembers()) {
-							memberNames.add(nPlayer.getName());
-						}
-					}
-
-					ranksConfigurationSection.set(rank.getName() + ".members", memberNames);
-
-					List<String> permissionNamesList = new ArrayList<>();
-					for(GuildPermission permission : rank.getPermissions()) {
-						permissionNamesList.add(permission.name());
-					}
-
+					ranksConfigurationSection.set(rank.getName() + ".members", memberNamesList);
 					ranksConfigurationSection.set(rank.getName() + ".permissions", permissionNamesList);
-
 					ranksConfigurationSection.set(rank.getName() + ".def", rank.isDefault());
 					ranksConfigurationSection.set(rank.getName() + ".clone", rank.isClone());
 
-					rank.setUnchanged();
-				}
-
-				for(String rankName : rankList) {
-					ranksConfigurationSection.set(rankName, null);
-				}
-
-				try {
-					guildData.save(plugin.getFlatDataManager().getGuildFile(guild.getName()));
-				}
-				catch(IOException e) {
-					LoggerUtils.exception(e);
-				}
-			}
-		}
-		else {
-			plugin.getDatabaseManager().mysqlReload();
-
-			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("Connection is not estabilished, stopping current action");
-				return;
-			}
-
-			for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-				for(NovaRank rank : guild.getRanks()) {
-					if(!rank.isChanged()) {
-						continue;
+					for(String rankName : rankList) {
+						ranksConfigurationSection.set(rankName, null);
 					}
-
+				}
+				else {
 					if(rank.isNew()) {
 						add(rank);
 						continue;
 					}
 
-					List<String> memberNamesList = new ArrayList<>();
-					if(!rank.isDefault()) {
-						for(NovaPlayer nPlayer : rank.getMembers()) {
-							memberNamesList.add(nPlayer.getName());
-						}
-					}
-
-					List<String> permissionNamesList = new ArrayList<>();
-					for(GuildPermission permission : rank.getPermissions()) {
-						permissionNamesList.add(permission.name());
-					}
-
 					try {
+						plugin.getDatabaseManager().mysqlReload();
+
+						if(!plugin.getDatabaseManager().isConnected()) {
+							LoggerUtils.info("Connection is not estabilished, stopping current action");
+							return;
+						}
+
 						PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.RANKS_UPDATE);
 						preparedStatement.setString(1, rank.getName());
 						preparedStatement.setString(2, guild.getName());
@@ -251,14 +257,30 @@ public class RankManager {
 						preparedStatement.setInt(7, rank.getId());
 						preparedStatement.execute();
 
-						rank.setUnchanged();
 					}
 					catch(SQLException e) {
 						LoggerUtils.exception(e);
 					}
 				}
+
+				rank.setUnchanged();
+			}
+
+			if(Config.getManager().getDataStorageType() == DataStorageType.FLAT) {
+				try {
+					if(guildData == null) {
+						continue;
+					}
+
+					guildData.save(plugin.getFlatDataManager().getGuildFile(guild.getName()));
+				}
+				catch(IOException e) {
+					LoggerUtils.exception(e);
+				}
 			}
 		}
+
+		LoggerUtils.info("Ranks data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " ranks)");
 	}
 
 	public void add(NovaRank rank) {
