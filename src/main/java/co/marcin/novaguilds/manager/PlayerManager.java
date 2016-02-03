@@ -299,7 +299,7 @@ public class PlayerManager {
 			String playerName = res.getString("name");
 
 			//Doubled players
-			if(getPlayer(playerName) != null) {
+			if(players.containsKey(playerName)) {
 				if(Config.DELETEINVALID.getBoolean()) {
 					delete(res.getInt("id"));
 					LoggerUtils.info("Removed doubled player: " + playerName);
