@@ -125,8 +125,8 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 			region.setCorner(0, sl0);
 			region.setCorner(1, sl1);
 			region.setWorld(nPlayer.getPlayer().getWorld());
-			region.setGuild(nPlayer.getGuild());
-			plugin.getRegionManager().add(region, guild);
+			nPlayer.getGuild().setRegion(region);
+			plugin.getRegionManager().add(region);
 			Message.CHAT_REGION_CREATED.send(sender);
 		}
 

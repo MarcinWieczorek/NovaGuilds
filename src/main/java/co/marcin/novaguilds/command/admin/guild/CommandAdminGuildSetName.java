@@ -62,11 +62,6 @@ public class CommandAdminGuildSetName implements Executor.ReversedAdminGuild {
 			return;
 		}
 
-		//all passed
-		if(guild.hasRegion()) {
-			guild.getRegion().setGuildName(newName);
-		}
-
 		plugin.getGuildManager().changeName(guild, newName);
 		plugin.getHologramManager().refreshTopHolograms();
 

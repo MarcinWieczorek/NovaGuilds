@@ -220,7 +220,6 @@ public class GuildManager {
 						novaGuild.setTimeRest(res.getLong("timerest"));
 						novaGuild.setLostLiveTime(res.getLong("lostlive"));
 						novaGuild.setSpawnPoint(spawnpoint);
-						novaGuild.setRegion(plugin.getRegionManager().getRegion(novaGuild));
 						novaGuild.setVaultLocation(vaultLocation);
 						novaGuild.setSlots(res.getInt("slots"));
 
@@ -695,9 +694,6 @@ public class GuildManager {
 					guild.setVaultLocation(vaultLocation);
 				}
 			}
-
-			//region
-			guild.setRegion(plugin.getRegionManager().getRegion(guild));
 
 			guild.setUnchanged();
 

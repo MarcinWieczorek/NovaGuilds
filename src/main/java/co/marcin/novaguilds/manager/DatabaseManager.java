@@ -106,7 +106,7 @@ public class DatabaseManager {
 			preparedStatementMap.put(PreparedStatements.REGIONS_SELECT, regionsSelect);
 
 			//Regions delete
-			String regionsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "regions` WHERE `guild`=?";
+			String regionsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "regions` WHERE `id`=?";
 			PreparedStatement regionsDelete = getConnection().prepareStatement(regionsDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_DELETE, regionsDelete);
 

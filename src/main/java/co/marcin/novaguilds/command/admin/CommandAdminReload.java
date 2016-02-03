@@ -71,13 +71,13 @@ public class CommandAdminReload implements Executor {
 		plugin.getMessageManager().load();
 		Message.CHAT_RELOAD_MESSAGES.send(sender);
 
-		//regions
-		plugin.getRegionManager().load();
-		Message.CHAT_RELOAD_REGIONS.send(sender);
-
 		//guilds
 		plugin.getGuildManager().load();
 		Message.CHAT_RELOAD_GUILDS.send(sender);
+
+		//regions
+		plugin.getRegionManager().load();
+		Message.CHAT_RELOAD_REGIONS.send(sender);
 
 		//players
 		plugin.getPlayerManager().load();
@@ -93,7 +93,6 @@ public class CommandAdminReload implements Executor {
 
 		LoggerUtils.info("Post checks running");
 		plugin.getGuildManager().postCheck();
-		plugin.getRegionManager().postCheck();
 
 		//all done
 		Message.CHAT_RELOAD_RELOADED.send(sender);

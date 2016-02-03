@@ -273,12 +273,11 @@ public class NovaGuild {
 		changed();
 	}
 
-	public void setRegion(NovaRegion r) {
-		region = r;
-		changed();
+	public void setRegion(NovaRegion region) {
+		this.region = region;
 
-		if(r != null) {
-			r.setGuild(this);
+		if(region != null) {
+			region.setGuild(this);
 		}
 	}
 

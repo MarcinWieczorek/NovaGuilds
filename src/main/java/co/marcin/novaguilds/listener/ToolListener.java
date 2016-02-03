@@ -102,7 +102,7 @@ public class ToolListener implements Listener {
 
 			if(region != null) {
 				RegionUtils.highlightRegion(player, region, Config.REGION_MATERIALS_CHECK_HIGHLIGHT.getMaterial());
-				vars.put("GUILDNAME", region.getGuildName());
+				vars.put("GUILDNAME", region.getGuild().getName());
 				Message.CHAT_REGION_BELONGSTO.vars(vars).send(player);
 				nPlayer.setSelectedRegion(region);
 			}

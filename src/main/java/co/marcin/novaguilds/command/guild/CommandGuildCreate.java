@@ -191,8 +191,8 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 
 					//autoregion
 					if(region != null) {
-						region.setGuild(nPlayer.getGuild());
-						plugin.getRegionManager().add(region, nPlayer.getGuild());
+						nPlayer.getGuild().setRegion(region);
+						plugin.getRegionManager().add(region);
 
 						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
 							if(region.equals(plugin.getRegionManager().getRegion(playerCheck.getLocation()))) {

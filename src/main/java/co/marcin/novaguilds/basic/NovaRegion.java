@@ -27,8 +27,7 @@ import org.bukkit.entity.Entity;
 
 public class NovaRegion {
 	private final Location[] corners = new Location[2];
-	
-	private String guildname;
+
 	private int id;
 	private World world;
 	private NovaGuild guild;
@@ -60,10 +59,6 @@ public class NovaRegion {
 		}
 
 		return id;
-	}
-	
-	public String getGuildName() {
-		return guildname;
 	}
 
 	public NovaGuild getGuild() {
@@ -119,32 +114,22 @@ public class NovaRegion {
 		changed = true;
 	}
 
-	public void setWorld(World w) {
-		world = w;
+	public void setWorld(World world) {
+		this.world = world;
 		changed();
 	}
 
-	public void setId(int i) {
-		id = i;
-		changed();
-	}
-
-	public void setGuildName(String name) {
-		guildname = name;
+	public void setId(int id) {
+		this.id = id;
 		changed();
 	}
 
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
-		changed();
-
-		if(guild != null) {
-			guildname = guild.getName();
-		}
 	}
 	
-	public void setCorner(int index, Location l) {
-		corners[index] = l;
+	public void setCorner(int index, Location location) {
+		corners[index] = location;
 		changed();
 	}
 

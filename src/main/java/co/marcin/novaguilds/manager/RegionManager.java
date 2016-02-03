@@ -28,7 +28,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.runnable.RunnableRaid;
-import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -48,19 +47,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<String, NovaRegion> regions = new CaseInsensitiveMap<>();
 
 	//getters
-	public NovaRegion getRegion(NovaGuild guild) {
-		return regions.get(guild.getName());
-	}
-	
 	public NovaRegion getRegion(Location l) {
 		int x = l.getBlockX();
 		int z = l.getBlockZ();
@@ -81,11 +76,21 @@ public class RegionManager {
 	}
 	
 	public Collection<NovaRegion> getRegions() {
-		return regions.values();
+		Collection<NovaRegion> regions = new HashSet<>();
+
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+			if(guild.hasRegion()) {
+				regions.add(guild.getRegion());
+			}
+		}
+
+		return regions;
 	}
 	
 	public void load() {
-		regions.clear();
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+			guild.setRegion(null);
+		}
 
 		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			for(String guildName : plugin.getFlatDataManager().getRegionList()) {
@@ -93,7 +98,14 @@ public class RegionManager {
 				NovaRegion region = regionFromFlat(regionData);
 
 				if(region != null) {
-					regions.put(guildName, region);
+					NovaGuild guild = NovaGuild.get(guildName);
+
+					if(guild == null) {
+						LoggerUtils.error("There's no guild matching region " + guildName);
+						continue;
+					}
+
+					guild.setRegion(region);
 				}
 				else {
 					LoggerUtils.info("Loaded region is null. name: " + guildName);
@@ -114,9 +126,16 @@ public class RegionManager {
 				ResultSet res = statement.executeQuery();
 				while(res.next()) {
 					World world = plugin.getServer().getWorld(res.getString("world"));
+					String guildName = res.getString("guild");
+					NovaGuild guild = NovaGuild.get(guildName);
+
+					if(guild == null) {
+						LoggerUtils.error("There's no guild matching region " + guildName);
+						continue;
+					}
 
 					if(world != null) {
-						NovaRegion novaRegion = new NovaRegion();
+						NovaRegion region = new NovaRegion();
 
 						String loc1 = res.getString("loc_1");
 						String[] loc1_split = loc1.split(";");
@@ -127,24 +146,13 @@ public class RegionManager {
 						Location c1 = new Location(world, Integer.parseInt(loc1_split[0]), 0, Integer.parseInt(loc1_split[1]));
 						Location c2 = new Location(world, Integer.parseInt(loc2_split[0]), 0, Integer.parseInt(loc2_split[1]));
 
-						novaRegion.setCorner(0, c1);
-						novaRegion.setCorner(1, c2);
-						novaRegion.setWorld(world);
-						novaRegion.setId(res.getInt("id"));
+						region.setCorner(0, c1);
+						region.setCorner(1, c2);
+						region.setWorld(world);
+						region.setId(res.getInt("id"));
+						guild.setRegion(region);
+						region.setUnChanged();
 
-						novaRegion.setGuildName(res.getString("guild"));
-						novaRegion.setUnChanged();
-
-						if(regions.containsKey(res.getString("guild"))) {
-							if(Config.DELETEINVALID.getBoolean()) {
-								remove(novaRegion);
-							}
-
-							LoggerUtils.error("Removed region with doubled name (" + res.getString("guild") + ")");
-							continue;
-						}
-
-						regions.put(res.getString("guild"), novaRegion);
 					}
 					else {
 						LoggerUtils.info("Failed loading region for guild " + res.getString("guild") + ", world does not exist.");
@@ -156,10 +164,12 @@ public class RegionManager {
 			}
 		}
 
-		LoggerUtils.info("Loaded " + regions.size() + " regions.");
+		LoggerUtils.info("Loaded " + getRegions().size() + " regions.");
 	}
 	
-	public void add(NovaRegion region, NovaGuild guild) {
+	public void add(NovaRegion region) {
+		NovaGuild guild = region.getGuild();
+
 		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
 			plugin.getFlatDataManager().add(region);
 		}
@@ -176,7 +186,7 @@ public class RegionManager {
 				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
 
 				if(guild == null) {
-					LoggerUtils.info("addRegion w/o guild attempt");
+					LoggerUtils.error("addRegion w/o guild attempt");
 					return;
 				}
 
@@ -190,6 +200,17 @@ public class RegionManager {
 				preparedStatement.setString(3, guild.getName());
 				preparedStatement.setString(4, region.getWorld().getName());
 				preparedStatement.executeUpdate();
+
+				ResultSet keys = preparedStatement.getGeneratedKeys();
+				keys.next();
+				int id = keys.getInt(1);
+
+				if(id != 0) {
+					region.setId(id);
+				}
+				else {
+					throw new UnsupportedOperationException("Added region's ID is 0!");
+				}
 			}
 			catch(SQLException e) {
 				LoggerUtils.exception(e);
@@ -197,9 +218,7 @@ public class RegionManager {
 		}
 
 		guild.setRegion(region);
-		region.setGuildName(guild.getName());
 		region.setUnChanged();
-		regions.put(guild.getName(), region);
 	}
 	
 	public void save(NovaRegion region) {
@@ -271,7 +290,7 @@ public class RegionManager {
 
 			try {
 				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_DELETE);
-				preparedStatement.setString(1, region.getGuildName());
+				preparedStatement.setInt(1, region.getId());
 				preparedStatement.executeUpdate();
 			}
 			catch(SQLException e) {
@@ -280,38 +299,9 @@ public class RegionManager {
 			}
 		}
 
-		regions.remove(region.getGuildName());
-
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);
 		}
-	}
-
-	public void postCheck() {
-		int i = 0;
-
-		for(NovaRegion region : new ArrayList<>(getRegions())) {
-			boolean remove = false;
-
-			if(region.getGuild() == null) {
-				LoggerUtils.info("(" + region.getGuildName() + ") Guild is null");
-				remove = true;
-			}
-
-			if(remove) {
-				if(Config.DELETEINVALID.getBoolean()) {
-					remove(region);
-					LoggerUtils.info("DELETED region " + region.getGuildName());
-				}
-				else {
-					regions.remove(region.getGuildName());
-				}
-
-				i++;
-			}
-		}
-
-		LoggerUtils.info("PostCheck finished, unloaded " + i + " invalid regions");
 	}
 	
 	public RegionValidity checkRegionSelect(Location l1, Location l2) {
@@ -453,7 +443,7 @@ public class RegionManager {
 
 		//Chat message
 		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", region.getGuildName());
+		vars.put("GUILDNAME", region.getGuild().getName());
 		vars.put("PLAYERNAME", player.getName());
 		Message.CHAT_REGION_ENTERED.vars(vars).send(player);
 
@@ -485,7 +475,7 @@ public class RegionManager {
 
 		nPlayer.setAtRegion(null);
 		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", region.getGuildName());
+		vars.put("GUILDNAME", region.getGuild().getName());
 		Message.CHAT_REGION_EXITED.vars(vars).send(player);
 
 		if(nPlayer.hasGuild()) {
@@ -512,7 +502,6 @@ public class RegionManager {
 
 			if(world != null) {
 				region = new NovaRegion();
-				region.setGuildName(regionData.getString("guild"));
 				region.setWorld(world);
 
 				Location c1 = new Location(world, regionData.getInt("corner1.x"), 0, regionData.getInt("corner1.z"));
