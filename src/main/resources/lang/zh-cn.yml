@@ -68,6 +68,11 @@ chat:
      notinguild: "该尚未加入&a{GUILDNAME}公会"
      alreadyleader: "玩家 &c{PLAYERNAME} 已成为会长！"
      success: "新的会长已设置！"
+   reset:
+    points:
+     invalidconditiontype: "&cInvalid condition type &4(&a< > = all&4)"
+     novalue: "Please add a value after &a{CHAR}"
+     success: "Successfully reset &a{COUNT} guilds' points"
   region:
    bypass:
     toggled:
@@ -138,6 +143,8 @@ chat:
      withdraw: "&5* &7/nga &cg &6<公会> &cwithdraw &6<金额> &2- &3从公会银行取款"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<公会> &ctp &6[玩家] &2- &3将玩家传送至公会出生点"
+    reset:
+     points: "&5* &7/nga &cg &6resetpoints &c<condition> &6[value] &2- &3Reset guild's points"
    region:
     access: "&5* &7/nga &crg &2- &3领地管理指令"
     list: "&5* &7/nga &crg &6list &2- &3列出所有领地"
@@ -218,6 +225,7 @@ chat:
      - "&5* &7/nga &cg &6promote &c<玩家> &2- &3将玩家升职为公会管理"
      - "&5* &7/nga &cg &6list &2- &3查看公会列表"
      - "&5* &7/nga &cg &6purge &2- &3删除所有公会"
+     - "&5* &7/nga &cg &6resetpoints &c<condition> &6[value] &2- &3Reset guild's points"
    hologram:
     header: "全息图指令:"
     disabled: "&cThis command is disabled without HolographicDisplays plugin present."

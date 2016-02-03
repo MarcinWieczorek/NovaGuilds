@@ -64,6 +64,7 @@ public class CommandAdminGuild implements Executor {
 		put("list", Command.ADMIN_GUILD_LIST);
 		put("inactive", Command.ADMIN_GUILD_INACTIVE);
 		put("kick", Command.ADMIN_GUILD_KICK);
+		put("resetpoints", Command.ADMIN_GUILD_RESET_POINTS);
 	}};
 
 	private static final List<Command> noGuildCommands = new ArrayList<Command>() {{
@@ -72,6 +73,7 @@ public class CommandAdminGuild implements Executor {
 		add(Command.ADMIN_GUILD_SET_LEADER);
 		add(Command.ADMIN_GUILD_PURGE);
 		add(Command.ADMIN_GUILD_INACTIVE);
+		add(Command.ADMIN_GUILD_RESET_POINTS);
 	}};
 
 	public CommandAdminGuild() {

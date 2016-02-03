@@ -68,6 +68,11 @@ chat:
      notinguild: "Dieser Spieler ist nicht in der Gilde: &a{GUILDNAME}"
      alreadyleader: "Spieler &c{PLAYERNAME} ist schon der Anführer"
      success: "Anführer neu gesetzt!"
+   reset:
+    points:
+     invalidconditiontype: "&cInvalid condition type &4(&a< > = all&4)"
+     novalue: "Please add a value after &a{CHAR}"
+     success: "Successfully reset &a{COUNT} guilds' points"
   region:
    bypass:
     toggled:
@@ -138,6 +143,8 @@ chat:
      withdraw: "&5* &7/nga &cg &6<Gilde> &cwithdraw &6<Menge> &2- &3Hebe Geld von der Gildenbank ab"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<Gilde> &ctp &6[Spieler] &2- &3Teleportiert zu Gilden Haus"
+    reset:
+     points: "&5* &7/nga &cg &6resetpoints &c<condition> &6[value] &2- &3Reset guild's points"
    region:
     access: "&5* &7/nga &crg &2- &3Gebietsbefehle"
     list: "&5* &7/nga &crg &6list &2- &3Gebieteliste"
@@ -218,6 +225,7 @@ chat:
      - "&5* &7/nga &cg &6promote &c<Spieler> &2- &3Befördert Spieler zum Anführer"
      - "&5* &7/nga &cg &6list &2- &3Listet alle Gilden auf"
      - "&5* &7/nga &cg &6purge &2- &3Löscht alle Gilden"
+     - "&5* &7/nga &cg &6resetpoints &c<condition> &6[value] &2- &3Reset guild's points"
    hologram:
     header: "Hologramm Befehle:"
     disabled: "&cThis command is disabled without HolographicDisplays plugin present."

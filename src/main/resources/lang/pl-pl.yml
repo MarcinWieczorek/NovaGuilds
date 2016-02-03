@@ -68,6 +68,11 @@ chat:
      notinguild: "Ten gracz nie jest w gildii &a{GUILDNAME}"
      alreadyleader: "Gracz &c{PLAYERNAME} jest juz liderem!"
      success: "Nowy lider ustalony!"
+   reset:
+    points:
+     invalidconditiontype: "&cNiepoprawny typ warunku &4(&a< > = all&4)"
+     novalue: "Proszę dodaj wartość po &a{CHAR}"
+     success: "Zresetowano punkty &a{COUNT} guildiom"
   region:
    bypass:
     toggled:
@@ -138,6 +143,8 @@ chat:
      withdraw: "&7/nga &cg &6withdraw &c<gildia> &6<ilosc>"
     purge: "&5* &7/nga &cg &6purge &2- &3Usuń wszystkie gildie"
     tp: "&7/nga &cg &6tp &c<gildia> &6[gracz]"
+    reset:
+     points: "&5* &7/nga &cg &6resetpoints &c<condition> &6[value] &2- &3Resetuj punkty gildi"
    region:
     access: "&5* &7/nga &crg &2- &3Komendy regionów"
     list: "&5* &7/nga &crg &6list &2- &3Lista regionów"
@@ -218,6 +225,7 @@ chat:
      - "&5* &7/nga &cg &6promote &c<gracz> &2- &3Zmien lidera gildii"
      - "&5* &7/nga &cg &6list &2- &3Lista gildii"
      - "&5* &7/nga &cg &6purge &2- &3Usun wszystkie gildie"
+     - "&5* &7/nga &cg &6resetpoints &c<condition> &6[value] &2- &3Reset guild's points"
    hologram:
     header: "Komendy hologramow:"
     disabled: "&cTa komenda jest zablokowana gdy plugin HolographicDisplays nie jest obecny."

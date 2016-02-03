@@ -46,6 +46,7 @@ import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildInvite;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildKick;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildList;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildPurge;
+import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildResetPoints;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildSetLeader;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildSetLiveRegenerationTime;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildSetLives;
@@ -206,7 +207,7 @@ public class CommandManager {
 		new CommandAdminRegionTeleport();
 		new CommandAdminRegionBypass();
 
-		//AdminGuilds
+		//AdminGuild
 		new CommandAdminGuild();
 		new CommandAdminGuildList();
 		new CommandAdminGuildAbandon();
@@ -225,6 +226,7 @@ public class CommandManager {
 		new CommandAdminGuildSetTag();
 		new CommandAdminGuildSetTimerest();
 		new CommandAdminGuildTeleport();
+		new CommandAdminGuildResetPoints();
 
 		//AdminHologram
 		new CommandAdminHologram();

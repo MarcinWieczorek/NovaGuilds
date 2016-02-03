@@ -68,6 +68,11 @@ chat:
      notinguild: "This player is not in guild &a{GUILDNAME}"
      alreadyleader: "Player &c{PLAYERNAME} already is the leader!"
      success: "New leader set!"
+   reset:
+    points:
+     invalidconditiontype: "&cInvalid condition type &4(&a< > = all&4)"
+     novalue: "Please add a value after &a{CHAR}"
+     success: "Successfully reset &a{COUNT} guilds' points"
   region:
    bypass:
     toggled:
@@ -138,6 +143,8 @@ chat:
      withdraw: "&5* &7/nga &cg &6<guild> &cwithdraw &6<amount> &2- &3Take money from the bank"
     purge: "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
     tp: "&5* &7/nga &cg &6<guild> &ctp &6[player] &2- &3TP to guild's home"
+    reset:
+     points: "&5* &7/nga &cg &6resetpoints &c<condition> &6[value] &2- &3Reset guild's points"
    region:
     access: "&5* &7/nga &crg &2- &3Region commands"
     list: "&5* &7/nga &crg &6list &2- &3Region list"
@@ -218,6 +225,7 @@ chat:
      - "&5* &7/nga &cg &6promote &c<player> &2- &3Promote player to leader rank"
      - "&5* &7/nga &cg &6list &2- &3List all guilds"
      - "&5* &7/nga &cg &6purge &2- &3Delete all the guilds"
+     - "&5* &7/nga &cg &6resetpoints &c<condition> &6[value] &2- &3Reset guild's points"
    hologram:
     header: "Hologram commands:"
     disabled: "&cThis command is disabled without HolographicDisplays plugin present."
