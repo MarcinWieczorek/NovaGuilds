@@ -45,6 +45,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -483,6 +484,18 @@ public class GuildManager {
 	}
 	
 	public void changeName(NovaGuild guild, String newName) {
+		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
+			File guildFile = plugin.getFlatDataManager().getGuildFile(guild.getName());
+			if(!guildFile.renameTo(plugin.getFlatDataManager().getGuildFile(newName))) {
+				LoggerUtils.error("Failed renaming guild's file");
+			}
+
+			File regionFile = plugin.getFlatDataManager().getRegionFile(guild.getName());
+			if(!regionFile.renameTo(plugin.getFlatDataManager().getRegionFile(newName))) {
+				LoggerUtils.error("Failed renaming region's file");
+			}
+		}
+
 		guilds.remove(guild.getName());
 		guilds.put(newName, guild);
 		guild.setName(newName);

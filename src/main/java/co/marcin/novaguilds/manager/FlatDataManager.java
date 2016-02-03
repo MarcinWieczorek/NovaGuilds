@@ -122,7 +122,6 @@ public class FlatDataManager {
 			try {
 				//set values
 				regionData.set("world", region.getWorld().getName());
-				regionData.set("guild", region.getGuild().getName());
 
 				//corners
 				regionData.set("corner1.x", region.getCorner(0).getBlockX());
@@ -290,7 +289,7 @@ public class FlatDataManager {
 		return new File(guildsDir + "/" + name + ".yml");
 	}
 
-	private File getRegionFile(String name) {
+	public File getRegionFile(String name) {
 		return new File(regionsDir + "/" + name + ".yml");
 	}
 

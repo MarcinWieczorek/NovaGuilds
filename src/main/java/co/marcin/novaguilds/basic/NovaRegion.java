@@ -110,7 +110,7 @@ public class NovaRegion {
 		changed = false;
 	}
 
-	private void changed() {
+	public void changed() {
 		changed = true;
 	}
 

@@ -266,6 +266,10 @@ public class NovaGuild {
 		for(NovaPlayer nPlayer : getPlayers()) {
 			nPlayer.setGuild(this);
 		}
+
+		if(hasRegion()) {
+			getRegion().changed();
+		}
 	}
 
 	public void setTag(String t) {
