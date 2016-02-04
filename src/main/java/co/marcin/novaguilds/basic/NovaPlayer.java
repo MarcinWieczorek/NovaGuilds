@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
+import co.marcin.novaguilds.interfaces.TabList;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -60,17 +61,13 @@ public class NovaPlayer {
 	private int resizingCorner = 0;
 	private boolean compassPointingGuild = false;
 	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
-	private final Tablist tablist;
+	private final TabList tabList = null;
 	private CommandExecutorHandler commandExecutorHandler;
 	private final List<Vehicle> vehicles = new ArrayList<>();
 	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
 	private NovaRank guildRank;
 	private ChatMode chatMode = ChatMode.NORMAL;
 	private boolean spyMode = false;
-
-	public NovaPlayer() {
-		tablist = new Tablist(this);
-	}
 
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
@@ -169,8 +166,8 @@ public class NovaPlayer {
 		return player.isOnline() ? player.getScoreboard() : null;
 	}
 
-	public Tablist getTablist() {
-		return tablist;
+	public TabList getTabList() {
+		return tabList;
 	}
 
 	public CommandExecutorHandler getCommandExecutorHandler() {

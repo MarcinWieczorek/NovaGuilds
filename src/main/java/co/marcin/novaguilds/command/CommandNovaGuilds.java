@@ -20,7 +20,6 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.Tablist;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -137,11 +136,6 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				Command.GUILD_ACCESS.execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "tr":
-				Tablist.patch();
-
-				for(Player player : plugin.getServer().getOnlinePlayers()) {
-					NovaPlayer.get(player).getTablist().send();
-				}
 				break;
 			default:
 				Message.CHAT_UNKNOWNCMD.send(sender);

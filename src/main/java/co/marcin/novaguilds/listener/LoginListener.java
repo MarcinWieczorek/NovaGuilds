@@ -21,7 +21,6 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
-import co.marcin.novaguilds.basic.Tablist;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
@@ -81,8 +80,6 @@ public class LoginListener implements Listener {
 
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
-			Tablist.patch();
-			nPlayer.getTablist().send();
 		}
 
 		//PacketExtension
