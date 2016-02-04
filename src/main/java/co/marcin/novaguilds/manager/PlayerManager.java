@@ -35,7 +35,10 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -416,5 +419,43 @@ public class PlayerManager {
 				MessageManager.sendMessage(sender, row);
 			}
 		}
+	}
+
+	/**
+	 * Gets a limited list of top players by points
+	 * @param count limit
+	 * @return list of players
+	 */
+	public List<NovaPlayer> getTopPlayersByPoints(int count) {
+		List<NovaPlayer> playersByPoints = new ArrayList<>(getTopPlayersByPoints());
+		List<NovaPlayer> playersLimited = new ArrayList<>();
+
+		int i = 0;
+		for(NovaPlayer nPlayer : playersByPoints) {
+			playersLimited.add(nPlayer);
+
+			i++;
+			if(i == count) {
+				break;
+			}
+		}
+
+		return playersLimited;
+	}
+
+	/**
+	 * Gets top players by points
+	 * @return list of players
+	 */
+	public List<NovaPlayer> getTopPlayersByPoints() {
+		List<NovaPlayer> playerList = new ArrayList<>(players.values());
+
+		Collections.sort(playerList, new Comparator<NovaPlayer>() {
+			public int compare(NovaPlayer o1, NovaPlayer o2) {
+				return o2.getPoints() - o1.getPoints();
+			}
+		});
+
+		return playerList;
 	}
 }
