@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -48,6 +49,7 @@ public class ConfigManager {
 	private DataStorageType dataStorageType;
 
 	private boolean useVanishNoPacket = true;
+	private static final boolean bukkit18 = Bukkit.getBukkitVersion().startsWith("1.8");
 
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 
@@ -78,7 +80,7 @@ public class ConfigManager {
 		config = plugin.getConfig();
 
 		if(Config.USETITLES.getBoolean()) {
-			if(!plugin.getServer().getBukkitVersion().startsWith("1.8")) {
+			if(!isBukkit18()) {
 				Config.USETITLES.set(false);
 				LoggerUtils.error("You can't use Titles with Bukkit older than 1.8");
 			}
@@ -293,5 +295,13 @@ public class ConfigManager {
 		catch(IOException e) {
 			LoggerUtils.exception(e);
 		}
+	}
+
+	/**
+	 * Gets detected server version
+	 * @return true if it's bukkit 1.8
+	 */
+	public static boolean isBukkit18() {
+		return bukkit18;
 	}
 }
