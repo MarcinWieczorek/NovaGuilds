@@ -153,6 +153,10 @@ public class NovaPlayer {
 		return kills;
 	}
 
+	public double getKillDeathRate() {
+		return NumberUtils.roundOffTo2DecPlaces((double) getKills() / (getDeaths() == 0 ? 1 : (double) getDeaths()));
+	}
+
 	public double getMoney() {
 		return NovaGuilds.getInstance().econ.getBalance(name);
 	}
