@@ -312,7 +312,7 @@ chat:
    accepted: "Zaakceptowales propozycje sojuszu z &a{ALLYNAME}"
    notifyguild: "Gildia &a{GUILDNAME} Zaprosila Cie do sojuszu"
    notifyguildcanceled: "Gildia &a{GUILDNAME} cofnela propozycje sojuszu"
-   canceled: "Cofnieto zaproszenie sojuszu z &a{GUILDNAME}"
+   canceled: "Cofnieto zaproszenie sojuszu z &a{ALLYNAME}"
    list:
     noallies: "Brak sojuszy."
     header:

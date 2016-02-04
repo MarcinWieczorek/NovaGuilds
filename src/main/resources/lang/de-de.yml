@@ -312,7 +312,7 @@ chat:
    accepted: "Du hast die Verbündeteneinladung von &a{ALLYNAME} angenommen."
    notifyguild: "Die Gilde &a{GUILDNAME} hat euch eingeladen Verbündete zu sein."
    notifyguildcanceled: "Die Gilde &a{GUILDNAME} haben ihre Verbündeteneinladung abgebrochen."
-   canceled: "Verbündeteneinladung von &a{GUILDNAME} abgebrochen "
+   canceled: "Verbündeteneinladung von &a{ALLYNAME} abgebrochen "
    list:
     noallies: "No allies."
     header:

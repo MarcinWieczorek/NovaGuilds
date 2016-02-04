@@ -312,7 +312,7 @@ chat:
    accepted: "You accepted ally invitation with &a{ALLYNAME}"
    notifyguild: "Guild &a{GUILDNAME} invited you to an ally."
    notifyguildcanceled: "Guild &a{GUILDNAME} canceled their ally invitation"
-   canceled: "Canceled ally invitation with guild &a{GUILDNAME}"
+   canceled: "Canceled ally invitation with guild &a{ALLYNAME}"
    list:
     noallies: "No allies."
     header:

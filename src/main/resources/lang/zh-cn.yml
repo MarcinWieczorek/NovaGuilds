@@ -312,7 +312,7 @@ chat:
    accepted: "您已接受&a{ALLYNAME}公会的结盟申请."
    notifyguild: "&a{GUILDNAME}公会向您发出了结盟申请."
    notifyguildcanceled: "&a{GUILDNAME}取消了他们的结盟申请."
-   canceled: "&3您已取消向&a{GUILDNAME}的结盟申请."
+   canceled: "&3您已取消向&a{ALLYNAME}的结盟申请."
    list:
     noallies: "No allies."
     header:
