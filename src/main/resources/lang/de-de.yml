@@ -13,6 +13,7 @@ chat:
   negativenumber: "Du musst eine positive Zahl eingeben."
   'on': "AN"
   'off': "AUS"
+  coords3d: "&6{X}&c/&6{Y}&c/&6{Z}"
  confirm:
   nullhandler: "Das ist kein Befehl zum Bestätigen."
   needconfirm: "Du must diese Aktion bestätigen. &c/confirm"

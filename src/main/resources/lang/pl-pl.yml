@@ -13,6 +13,7 @@ chat:
   negativenumber: "Wprowadz liczbe wieksza lub rowna zeru."
   'on': "ON"
   'off': "OFF"
+  coords3d: "&6{X}&c/&6{Y}&c/&6{Z}"
  confirm:
   nullhandler: "Zadna komenda nie oczekuje na potwierdzenie"
   needconfirm: "Ta komenda wymaga potwierdzenia. &c/confirm"

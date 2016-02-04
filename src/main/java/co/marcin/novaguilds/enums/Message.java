@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -47,6 +48,7 @@ public enum Message {
 	CHAT_BASIC_NEGATIVENUMBER,
 	CHAT_BASIC_ON,
 	CHAT_BASIC_OFF,
+	CHAT_BASIC_COORDS3D,
 
 	CHAT_CONFIRM_NULLHANDLER,
 	CHAT_CONFIRM_NEEDCONFIRM,
@@ -717,5 +719,22 @@ public enum Message {
 	 */
 	public static Message getChatModeName(ChatMode chatMode) {
 		return chatModeMessages.get(chatMode);
+	}
+
+	/**
+	 * Gets a message with filled coordinated
+	 * @param location location instance
+	 * @return the message
+	 */
+	public static Message getCoords3D(Location location) {
+		Message message = Message.CHAT_BASIC_COORDS3D;
+
+		Map<String, String> vars = new HashMap<>();
+		vars.put("X", String.valueOf(location.getBlockX()));
+		vars.put("Y", String.valueOf(location.getBlockY()));
+		vars.put("Z", String.valueOf(location.getBlockZ()));
+		message.vars(vars);
+
+		return message;
 	}
 }

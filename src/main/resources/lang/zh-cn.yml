@@ -13,6 +13,7 @@ chat:
   negativenumber: "请输入数字(不得小于0)"
   'on': "开"
   'off': "关"
+  coords3d: "&6{X}&c/&6{Y}&c/&6{Z}"
  confirm:
   nullhandler: "没有等待确认的命令"
   needconfirm: "你需要使用 &c/confirm 确认执行指令"
