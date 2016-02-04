@@ -490,6 +490,12 @@ public enum Message {
 	private boolean prefix = true;
 	private boolean list = false;
 
+	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>(){{
+		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
+		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
+		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
+	}};
+
 	private enum MessageFlag {
 		NOPREFIX,
 		TITLE,
@@ -702,5 +708,14 @@ public enum Message {
 	 */
 	public static Message fromPath(String path) {
 		return Message.valueOf(StringUtils.replace(path, ".", "_").toUpperCase());
+	}
+
+	/**
+	 * Gets a name of chat mode
+	 * @param chatMode chat mode enum
+	 * @return the name
+	 */
+	public static Message getChatModeName(ChatMode chatMode) {
+		return chatModeMessages.get(chatMode);
 	}
 }

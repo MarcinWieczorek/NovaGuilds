@@ -30,11 +30,6 @@ import java.util.Map;
 
 public class CommandGuildChatMode implements Executor {
 	private final Command command = Command.GUILD_CHATMODE;
-	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>(){{
-		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
-		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
-		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
-	}};
 
 	public CommandGuildChatMode() {
 		plugin.getCommandManager().registerExecutor(command, this);
@@ -65,7 +60,7 @@ public class CommandGuildChatMode implements Executor {
 		nPlayer.setChatMode(chatMode);
 
 		Map<String, String> vars = new HashMap<>();
-		vars.put("MODE", chatModeMessages.get(chatMode).get());
+		vars.put("MODE", Message.getChatModeName(chatMode).get());
 		Message.CHAT_GUILD_CHATMODE_SUCCESS.vars(vars).send(sender);
 	}
 
