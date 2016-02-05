@@ -221,10 +221,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 		}
 		else {
-			if(Config.TABLIST_ENABLED.getBoolean()) {
-				Config.TABLIST_ENABLED.set(false);
-			}
-
 			getServer().getPluginManager().registerEvents(new Listener() {
 				@EventHandler
 				public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
