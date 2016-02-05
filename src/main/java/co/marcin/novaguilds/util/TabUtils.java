@@ -78,11 +78,11 @@ public final class TabUtils {
 		//Time
 		Date date = Calendar.getInstance().getTime();
 		vars.put("DATE_YEAR", String.valueOf(1900 + date.getYear()));
-		vars.put("DATE_MONTH", String.valueOf(date.getMonth()));
-		vars.put("DATE_DAY", String.valueOf(date.getDay()));
-		vars.put("DATE_HOURS", String.valueOf(date.getHours()));
-		vars.put("DATE_MINUTES", String.valueOf(date.getMinutes()));
-		vars.put("DATE_SECONDS", String.valueOf(date.getSeconds()));
+		vars.put("DATE_MONTH", String.valueOf((date.getMonth()<10?"0":"") + date.getMonth()));
+		vars.put("DATE_DAY", String.valueOf((date.getDay()<10?"0":"") + date.getDay()));
+		vars.put("DATE_HOURS", String.valueOf((date.getHours()<10?"0":"") + date.getHours()));
+		vars.put("DATE_MINUTES", String.valueOf((date.getMinutes()<10?"0":"") + date.getMinutes()));
+		vars.put("DATE_SECONDS", String.valueOf((date.getSeconds()<10?"0":"") + date.getSeconds()));
 
 		//World vars
 		if(nPlayer.isOnline()) {
