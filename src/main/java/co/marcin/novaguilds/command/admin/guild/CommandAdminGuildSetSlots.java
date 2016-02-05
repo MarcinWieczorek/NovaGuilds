@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetSlots implements Executor.ReversedAdminGuild {
@@ -63,6 +64,8 @@ public class CommandAdminGuildSetSlots implements Executor.ReversedAdminGuild {
 		}
 
 		guild.setSlots(slots);
+		TabUtils.refresh(guild);
+
 		Message.CHAT_ADMIN_GUILD_SET_SLOTS_SUCCESS.send(sender);
 	}
 

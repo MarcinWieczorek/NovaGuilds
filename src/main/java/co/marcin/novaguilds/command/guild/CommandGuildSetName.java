@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildSetName implements Executor {
@@ -62,6 +63,7 @@ public class CommandGuildSetName implements Executor {
 
 		plugin.getGuildManager().changeName(nPlayer.getGuild(), newName);
 		Message.CHAT_GUILD_SET_NAME.send(sender);
+		TabUtils.refresh(nPlayer.getGuild());
 	}
 
 	@Override

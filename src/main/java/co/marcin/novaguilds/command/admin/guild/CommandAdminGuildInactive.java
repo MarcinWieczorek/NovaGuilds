@@ -26,6 +26,7 @@ import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -57,6 +58,9 @@ public class CommandAdminGuildInactive implements Executor {
 					guild.updateInactiveTime();
 					count++;
 				}
+
+				TabUtils.refresh();
+
 				Map<String, String> vars = new HashMap<>();
 				vars.put("COUNT", count + "");
 				Message.CHAT_ADMIN_GUILD_INACTIVE_UPDATED.vars(vars).send(sender);

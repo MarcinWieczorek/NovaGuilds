@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -65,6 +66,7 @@ public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
 		money = NumberUtils.roundOffTo2DecPlaces(money);
 
 		guild.addMoney(money);
+		TabUtils.refresh(guild);
 
 		Map<String, String> vars = new HashMap<>();
 		vars.put("MONEY", money_str);

@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetName implements Executor.ReversedAdminGuild {
@@ -64,6 +65,7 @@ public class CommandAdminGuildSetName implements Executor.ReversedAdminGuild {
 
 		plugin.getGuildManager().changeName(guild, newName);
 		plugin.getHologramManager().refreshTopHolograms();
+		TabUtils.refresh(guild);
 
 		Message.CHAT_ADMIN_GUILD_SET_NAME_SUCCESS.send(sender);
 	}

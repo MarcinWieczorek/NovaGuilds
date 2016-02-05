@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
@@ -88,8 +89,9 @@ public class CommandGuildAlly implements Executor {
 
 					Message.CHAT_GUILD_ALLY_ACCEPTED.vars(vars).send(sender);
 
-					//tags
+					//tags & tab
 					TagUtils.refreshAll();
+					TabUtils.refresh();
 				}
 				else { //Inviting
 					if(!allyGuild.isInvitedToAlly(guild)) {
@@ -127,6 +129,7 @@ public class CommandGuildAlly implements Executor {
 				Message.BROADCAST_GUILD_ENDALLY.vars(vars).broadcast();
 
 				TagUtils.refreshAll();
+				TabUtils.refresh();
 			}
 
 			return;

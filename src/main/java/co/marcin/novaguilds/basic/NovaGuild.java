@@ -24,6 +24,7 @@ import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import me.confuser.barapi.BarAPI;
@@ -696,6 +697,9 @@ public class NovaGuild {
 
 		//Refresh top holograms
 		plugin.getHologramManager().refreshTopHolograms();
+
+		//Update tab
+		TabUtils.refresh(this);
 	}
 
 	public void showVaultHologram(Player player) {

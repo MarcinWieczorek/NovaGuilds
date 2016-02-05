@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
@@ -60,6 +61,7 @@ public class CommandAdminGuildAbandon implements Executor.ReversedAdminGuild {
 		}
 
 		TagUtils.refreshGuild(guild);
+		TabUtils.refresh(guild);
 	}
 
 	@Override

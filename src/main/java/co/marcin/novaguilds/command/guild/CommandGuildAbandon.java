@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -87,6 +88,7 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 			vars.put("GUILDNAME", guild.getName());
 			Message.BROADCAST_GUILD_ABANDONED.vars(vars).broadcast();
 			TagUtils.refreshAll();
+			TabUtils.refresh();
 		}
 	}
 

@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetPoints implements Executor.ReversedAdminGuild {
@@ -60,6 +61,7 @@ public class CommandAdminGuildSetPoints implements Executor.ReversedAdminGuild {
 		}
 
 		guild.setPoints(pointsInteger);
+		TabUtils.refresh(guild);
 
 		Message.CHAT_ADMIN_GUILD_SET_POINTS.send(sender);
 	}

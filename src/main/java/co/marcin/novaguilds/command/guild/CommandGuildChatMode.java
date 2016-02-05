@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -62,6 +63,7 @@ public class CommandGuildChatMode implements Executor {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("MODE", Message.getChatModeName(chatMode).get());
 		Message.CHAT_GUILD_CHATMODE_SUCCESS.vars(vars).send(sender);
+		TabUtils.refresh(nPlayer);
 	}
 
 	@Override

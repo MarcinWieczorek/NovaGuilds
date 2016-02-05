@@ -24,6 +24,7 @@ import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
@@ -80,6 +81,7 @@ public class LoginListener implements Listener {
 
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
+			TabUtils.refresh();
 		}
 
 		//PacketExtension

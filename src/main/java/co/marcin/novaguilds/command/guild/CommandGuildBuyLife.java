@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
@@ -73,6 +74,7 @@ public class CommandGuildBuyLife implements Executor {
 		nPlayer.getGuild().addLive();
 
 		Message.CHAT_GUILD_BUYLIFE.send(sender);
+		TabUtils.refresh(nPlayer.getGuild());
 	}
 
 	@Override

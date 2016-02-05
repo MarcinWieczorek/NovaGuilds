@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -136,6 +137,8 @@ public class CommandAdminGuildResetPoints implements Executor {
 				}
 
 				guild.setPoints(newPoints);
+				TabUtils.refresh(guild);
+
 				count++;
 			}
 		}

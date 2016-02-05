@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetLives implements Executor.ReversedAdminGuild {
@@ -59,6 +60,7 @@ public class CommandAdminGuildSetLives implements Executor.ReversedAdminGuild {
 
 		guild.setLives(lives);
 		Message.CHAT_ADMIN_GUILD_SET_LIVES.send(sender);
+		TabUtils.refresh(guild);
 	}
 
 	@Override

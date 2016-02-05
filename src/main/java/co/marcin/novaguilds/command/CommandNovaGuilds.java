@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -136,6 +137,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				Command.GUILD_ACCESS.execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "tr":
+				TabUtils.refresh();
 				break;
 			default:
 				Message.CHAT_UNKNOWNCMD.send(sender);

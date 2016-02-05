@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -53,6 +54,7 @@ public class CommandGuildPvpToggle implements Executor {
 		nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
 		vars.put("FPVP", Message.getOnOff(nPlayer.getGuild().getFriendlyPvp()));
 		Message.CHAT_GUILD_FPVPTOGGLED.vars(vars).send(sender);
+		TabUtils.refresh(nPlayer.getGuild());
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
@@ -185,6 +186,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 
 					//update tag and tabs
 					TagUtils.updatePrefix((Player) sender);
+					TabUtils.refresh(nPlayer);
 
 					//Update holograms
 					plugin.getHologramManager().refreshTopHolograms();

@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -82,6 +83,7 @@ public class CommandGuildBankWithdraw implements Executor {
 		Map<String, String> vars = new HashMap<>();
 		vars.put("AMOUNT", money + "");
 		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.vars(vars).send(sender);
+		TabUtils.refresh(nPlayer.getGuild());
 	}
 
 	@Override

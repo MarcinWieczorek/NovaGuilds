@@ -52,6 +52,7 @@ import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.manager.TaskManager;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
@@ -243,6 +244,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//Tablist/tag update
 		TagUtils.refreshAll();
+		TabUtils.refresh();
 
 		//save scheduler
 		taskManager.startTask(TaskManager.Task.AUTOSAVE);

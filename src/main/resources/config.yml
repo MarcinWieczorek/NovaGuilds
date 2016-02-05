@@ -279,6 +279,9 @@ vault:
 
 tablist:
  enabled: false
+ toprow:
+  players: "&6[&2{N}&6] &a{PLAYERNAME} &c{POINTS}"
+  guilds: "&6[&2{N}&6] &a{GUILDNAME} &c{POINTS}"
  scheme:
   - "{PLAYER}"
   - "{GUILD}"

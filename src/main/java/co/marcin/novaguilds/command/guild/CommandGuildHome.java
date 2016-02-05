@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,7 @@ public class CommandGuildHome implements Executor {
 
 			nPlayer.getGuild().setSpawnPoint(player.getLocation());
 			Message.CHAT_GUILD_SETHOME_SUCCESS.send(sender);
+			TabUtils.refresh(nPlayer.getGuild());
 		}
 		else {
 			if(!nPlayer.hasPermission(GuildPermission.HOME_TELEPORT)) {
