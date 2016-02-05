@@ -24,6 +24,7 @@ import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableInactiveCleaner;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableRefreshHolograms;
+import co.marcin.novaguilds.runnable.RunnableRefreshTablist;
 import co.marcin.novaguilds.util.LoggerUtils;
 
 import java.util.HashMap;
@@ -42,7 +43,8 @@ public class TaskManager {
 		LIVEREGENERATION(RunnableLiveRegeneration.class, Config.LIVEREGENERATION_TASKINTERVAL),
 		CLEANUP(RunnableInactiveCleaner.class, Config.CLEANUP_STARTUPDELAY, Config.CLEANUP_INTERVAL),
 		HOLOGRAM_REFRESH(RunnableRefreshHolograms.class, Config.HOLOGRAPHICDISPLAYS_REFRESH),
-		AUTOSAVE(RunnableAutoSave.class, Config.SAVEINTERVAL);
+		AUTOSAVE(RunnableAutoSave.class, Config.SAVEINTERVAL),
+		TABLIST_REFRESH(RunnableRefreshTablist.class, Config.TABLIST_REFRESH);
 
 		private final Config start;
 		private final Config interval;
@@ -77,7 +79,6 @@ public class TaskManager {
 		try {
 			Runnable taskInstance = (Runnable) task.getClazz().newInstance();
 			ScheduledFuture<?> future = worker.scheduleAtFixedRate(taskInstance, task.getStart(), task.getInterval(), TimeUnit.SECONDS);
-//			ScheduledFuture<?> future = worker.scheduleAtFixedRate(taskInstance, 10, 20, TimeUnit.SECONDS);
 			taskRunnableMap.put(task, future);
 		}
 		catch(InstantiationException | IllegalAccessException e) {

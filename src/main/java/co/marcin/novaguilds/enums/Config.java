@@ -166,9 +166,10 @@ public enum Config {
 	KILLING_MONEYFORREVENGE,
 
 	TABLIST_ENABLED,
-	TABLIST_SCHEME,
+	TABLIST_REFRESH,
 	TABLIST_TOPROW_PLAYERS,
-	TABLIST_TOPROW_GUILDS;
+	TABLIST_TOPROW_GUILDS,
+	TABLIST_SCHEME;
 
 	private static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
 	private final String path;

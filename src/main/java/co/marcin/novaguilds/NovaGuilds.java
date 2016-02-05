@@ -261,6 +261,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			LoggerUtils.info("Cleanup task started.");
 		}
 
+		if(Config.TABLIST_ENABLED.getBoolean()) {
+			taskManager.startTask(TaskManager.Task.TABLIST_REFRESH);
+			LoggerUtils.info("Tablist refresh task started");
+		}
+
 		//metrics
 		setupMetrics();
 
