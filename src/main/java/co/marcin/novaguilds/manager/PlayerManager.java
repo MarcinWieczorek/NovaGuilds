@@ -427,20 +427,7 @@ public class PlayerManager {
 	 * @return list of players
 	 */
 	public List<NovaPlayer> getTopPlayersByPoints(int count) {
-		List<NovaPlayer> playersByPoints = new ArrayList<>(getTopPlayersByPoints());
-		List<NovaPlayer> playersLimited = new ArrayList<>();
-
-		int i = 0;
-		for(NovaPlayer nPlayer : playersByPoints) {
-			playersLimited.add(nPlayer);
-
-			i++;
-			if(i == count) {
-				break;
-			}
-		}
-
-		return playersLimited;
+		return limitList(getTopPlayersByPoints(), count);
 	}
 
 	/**
@@ -457,5 +444,27 @@ public class PlayerManager {
 		});
 
 		return playerList;
+	}
+
+	public List<NovaPlayer> getTopPlayersByKDR() {
+		List<NovaPlayer> playerList = new ArrayList<>(players.values());
+
+		Collections.sort(playerList, new Comparator<NovaPlayer>() {
+			public int compare(NovaPlayer p1, NovaPlayer p2) {
+				if (p1.getKillDeathRate() > p2.getKillDeathRate()) return -1;
+				if (p1.getKillDeathRate() < p2.getKillDeathRate()) return 1;
+				return 0;
+			}
+		});
+
+		return playerList;
+	}
+
+	public List<NovaPlayer> getTopPlayersByKDR(int count) {
+		return limitList(getTopPlayersByKDR(), count);
+	}
+
+	public static <T> List<T> limitList(List<T> list, int limit) {
+		return list.subList(0, list.size() < limit ? list.size() : limit);
 	}
 }

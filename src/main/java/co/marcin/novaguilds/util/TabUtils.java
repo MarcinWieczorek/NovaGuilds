@@ -166,26 +166,57 @@ public final class TabUtils {
 			}
 		}
 
-		//Players TOP (by points)
-		List<NovaPlayer> topPlayersList = plugin.getPlayerManager().getTopPlayersByPoints(20);
-		for(int i=1; i<=20; i++) {
-			if(i <= topPlayersList.size()) {
-				NovaPlayer nPlayerTop = topPlayersList.get(i - 1);
-				String row = Config.TABLIST_TOPROW_PLAYERS.getString();
-				Map<String, String> rowVars = new HashMap<>();
-				rowVars.put("N", String.valueOf(i));
-				rowVars.put("PLAYERNAME", nPlayerTop.getName());
-				rowVars.put("KILLS", String.valueOf(nPlayerTop.getKills()));
-				rowVars.put("DEATHS", String.valueOf(nPlayerTop.getDeaths()));
-				rowVars.put("KDR", String.valueOf(nPlayerTop.getKillDeathRate()));
-				rowVars.put("POINTS", String.valueOf(nPlayerTop.getPoints()));
-				row = StringUtils.replaceMap(row, rowVars);
+		//Players TOP
+		List<ListDisplay> listDisplays = new ArrayList<>();
+		listDisplays.add(new ListDisplay(Config.TABLIST_TOPROW_PLAYERS_POINTS, "POINTS", plugin.getPlayerManager().getTopPlayersByPoints(20)));
+		listDisplays.add(new ListDisplay(Config.TABLIST_TOPROW_PLAYERS_KDR, "KDR", plugin.getPlayerManager().getTopPlayersByKDR(20)));
 
-				vars.put("PLAYER_TOP_POINTS_N" + i, row);
+		for(ListDisplay listDisplay : listDisplays) {
+			List<NovaPlayer> topPlayersList = listDisplay.getList();
+
+			for(int i = 1; i <= 20; i++) {
+				if(i <= topPlayersList.size()) {
+					NovaPlayer nPlayerTop = topPlayersList.get(i - 1);
+					String row = listDisplay.getRowPattern().getString();
+					Map<String, String> rowVars = new HashMap<>();
+					rowVars.put("N", String.valueOf(i));
+					rowVars.put("PLAYERNAME", nPlayerTop.getName());
+					rowVars.put("KILLS", String.valueOf(nPlayerTop.getKills()));
+					rowVars.put("DEATHS", String.valueOf(nPlayerTop.getDeaths()));
+					rowVars.put("KDR", String.valueOf(nPlayerTop.getKillDeathRate()));
+					rowVars.put("POINTS", String.valueOf(nPlayerTop.getPoints()));
+					row = StringUtils.replaceMap(row, rowVars);
+
+					vars.put("PLAYER_TOP_" + listDisplay.getVarKey() + "_N" + i, row);
+				}
+				else {
+					vars.put("PLAYER_TOP_" + listDisplay.getVarKey() + "_N" + i, "");
+				}
 			}
-			else {
-				vars.put("PLAYER_TOP_POINTS_N" + i, "");
-			}
+		}
+	}
+
+	private static class ListDisplay {
+		private Config rowPattern;
+		private String varKey;
+		private List<NovaPlayer> list;
+
+		ListDisplay(Config rowPattern, String varKey, List<NovaPlayer> list) {
+			this.rowPattern = rowPattern;
+			this.varKey = varKey;
+			this.list = list;
+		}
+
+		public Config getRowPattern() {
+			return rowPattern;
+		}
+
+		public String getVarKey() {
+			return varKey;
+		}
+
+		public List<NovaPlayer> getList() {
+			return list;
 		}
 	}
 }

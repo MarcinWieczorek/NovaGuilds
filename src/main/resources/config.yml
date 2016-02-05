@@ -281,7 +281,9 @@ tablist:
  enabled: false
  refresh: 30s
  toprow:
-  players: "&6[&2{N}&6] &a{PLAYERNAME} &c{POINTS}"
+  players:
+   points: "&6[&2{N}&6] &a{PLAYERNAME} &c{POINTS}"
+   kdr: "&6[&2{N}&6] &a{PLAYERNAME} &c{KDR}"
   guilds: "&6[&2{N}&6] &a{GUILDNAME} &c{POINTS}"
  scheme:
   - "{PLAYER}"
