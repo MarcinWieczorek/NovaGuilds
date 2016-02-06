@@ -49,31 +49,31 @@ public class ChatListener implements Listener {
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
 
-		if(!nPlayer.hasGuild()) {
-			return;
-		}
-
 		String format = event.getFormat();
-		String tag = Config.GUILD_TAG.getString();
 		NovaGuild guild = nPlayer.getGuild();
-
+		String tag = "";
 		String rank = "";
-		if(nPlayer.isLeader()) {
-			rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
-		}
+		if(nPlayer.hasGuild() && !Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
+			tag = Config.GUILD_TAG.getString();
 
-		tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
-		tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
+			if(nPlayer.isLeader()) {
+				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
+			}
 
-		if(Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
-			tag = "";
-		}
-		else if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
-			format = TagUtils.getTag(player) + format;
+			tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
+			tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
+
+			if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
+				format = TagUtils.getTag(player) + format;
+			}
 		}
 
 		format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", tag);
 		event.setFormat(StringUtils.fixColors(format));
+
+		if(!nPlayer.hasGuild()) {
+			return;
+		}
 
 		String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
 		String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
