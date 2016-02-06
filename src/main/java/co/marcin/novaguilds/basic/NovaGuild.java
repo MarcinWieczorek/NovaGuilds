@@ -700,6 +700,9 @@ public class NovaGuild {
 
 		//Update tab
 		TabUtils.refresh(this);
+
+		//Give all the money to the leader
+		getLeader().addMoney(getMoney());
 	}
 
 	public void showVaultHologram(Player player) {
