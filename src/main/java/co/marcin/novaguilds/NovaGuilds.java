@@ -26,6 +26,8 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
+import co.marcin.novaguilds.impl.listener.packet.PacketListener1_8Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
 import co.marcin.novaguilds.listener.ChatListener;
@@ -34,7 +36,6 @@ import co.marcin.novaguilds.listener.DeathListener;
 import co.marcin.novaguilds.listener.InventoryListener;
 import co.marcin.novaguilds.listener.LoginListener;
 import co.marcin.novaguilds.listener.MoveListener;
-import co.marcin.novaguilds.listener.PacketListener;
 import co.marcin.novaguilds.listener.PlayerInfoListener;
 import co.marcin.novaguilds.listener.PvpListener;
 import co.marcin.novaguilds.listener.RegionInteractListener;
@@ -218,11 +219,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		new ChestGUIListener();
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
-			new PacketListener(this);
 			if(ConfigManager.isBukkit18()) {
+				new PacketListener1_8Impl();
 				packetExtension = new PacketExtension1_8Impl();
 			}
 			else {
+				new PacketListener1_7Impl();
 				packetExtension = new PacketExtension1_7Impl();
 			}
 
