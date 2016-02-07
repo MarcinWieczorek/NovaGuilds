@@ -86,6 +86,11 @@ public class ConfigManager {
 			}
 		}
 
+		if(Config.TABLIST_ENABLED.getBoolean() && !isBukkit18()) {
+			Config.TABLIST_ENABLED.set(false);
+			LoggerUtils.error("TabList is not currently implemented for servers older than 1.8");
+		}
+
 		String primaryDataStorageTypeString = Config.DATASTORAGE_PRIMARY.getString().toUpperCase();
 		String secondaryDataStorageTypeString = Config.DATASTORAGE_SECONDARY.getString().toUpperCase();
 

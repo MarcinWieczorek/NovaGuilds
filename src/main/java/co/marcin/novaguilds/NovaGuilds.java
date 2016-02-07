@@ -509,6 +509,19 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			getConfigManager().disableVanishNoPacket();
 		}
 
+		//NorthTab
+		if(Config.TABLIST_ENABLED.getBoolean()) {
+			if(ConfigManager.isBukkit18()) {
+				if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
+					LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
+					Config.TABLIST_ENABLED.set(false);
+				}
+				else {
+					LoggerUtils.info("NorthTab hooked");
+				}
+			}
+		}
+
 		return true;
 	}
 

@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.basic.tablist.TabList18Impl;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
@@ -26,6 +27,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.interfaces.TabList;
+import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -61,7 +63,7 @@ public class NovaPlayer {
 	private int resizingCorner = 0;
 	private boolean compassPointingGuild = false;
 	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
-	private final TabList tabList = null;
+	private final TabList tabList = Config.TABLIST_ENABLED.getBoolean() ? (ConfigManager.isBukkit18() ? new TabList18Impl(this) : null) : null;
 	private CommandExecutorHandler commandExecutorHandler;
 	private final List<Vehicle> vehicles = new ArrayList<>();
 	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();

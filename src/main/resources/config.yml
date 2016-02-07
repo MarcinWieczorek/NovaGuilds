@@ -277,6 +277,22 @@ vault:
    - "[ITEM]GOLD_INGOT 1"
    - "&6Guild's Vault"
 
+ # ------------------------------
+ # The Tablist
+ # It is available only for 1.8 versions
+ # and requires NorthTab plugin as a dependency
+ # That plugin can be found in local or remote maven repositories.
+ # http://repo.novaguilds.pl/tk/northpl/NorthTab/1.1-INDEV/NorthTab-1.1-INDEV.jar
+ # It can be also found in ~/.m2/repository/tk/northpl/NorthTab/
+ # if you've compiled the plugin yourself
+ # All vars and info is available on the website
+ # which is given on the top
+ #
+ # Players top:
+ # By points: {PLAYER_TOP_POINTS_Nx}
+ # By KDR (kills/deaths): {PLAYER_TOP_KDR_Nx}
+ # Replace 'x' with numbers 1-20 and place lines in the scheme
+ # The plugin will do the rest.
 tablist:
  enabled: false
  refresh: 30s
@@ -286,11 +302,77 @@ tablist:
    kdr: "&6[&2{N}&6] &a{PLAYERNAME} &c{KDR}"
   guilds: "&6[&2{N}&6] &a{GUILDNAME} &c{POINTS}"
  scheme:
-  - "{PLAYER}"
-  - "{GUILD}"
-  - "{TAG}"
-  - "{ONLINE}/{MAX}"
-  - "{BALANCE}$"
+  - "{PLAYER_NAME}"
+  - "Money: &2{PLAYER_BALANCE}$"
+  - "Kills: {PLAYER_KILLS}"
+  - "Deaths: {PLAYER_DEATHS}"
+  - "KDR: {PLAYER_KDR}"
+  - "ChatMode: {PLAYER_CHATMODE}"
+  - "SpyMode: {PLAYER_SPYMODE}"
+  - "Bypass: {PLAYER_BYPASS}"
+  - ""
+  - "{SERVER_ONLINE}/{SERVER_MAX}"
+  - "{WORLD_NAME}"
+  - "{WORLD_SPAWN}"
+  - ""
+  - "{DATE_DAY}-{DATE_MONTH}-{DATE_YEAR}"
+  - "{DATE_HOURS}:{DATE_MINUTES}:{DATE_SECONDS}"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "Name: {GUILD_NAME}"
+  - "Tag: {GUILD_TAG}"
+  - "{GUILD_PLAYERS_ONLINE}/{GUILD_PLAYERS_MAX}"
+  - "Lives: {GUILD_LIVES}"
+  - "Progress: {GUILD_RAIDPROGRESS}"
+  - "PVP: {GUILD_PVP}"
+  - "Money: {GUILD_MONEY}"
+  - "Points: {GUILD_POINTS}"
+  - "Slots: {GUILD_SLOTS}"
+  - "OpenInv: {GUILD_OPENINVITATION}"
+  - "{GUILD_TIME_REGEN}"
+  - "{GUILD_TIME_REST}"
+  - "{GUILD_TIME_CREATED}"
+  - "{GUILD_HOME}"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "Guild top"
+  - ""
+  - "{GUILD_TOP_N1}"
+  - "{GUILD_TOP_N2}"
+  - "{GUILD_TOP_N3}"
+  - "{GUILD_TOP_N4}"
+  - "{GUILD_TOP_N5}"
+  - "{GUILD_TOP_N6}"
+  - "{GUILD_TOP_N7}"
+  - "{GUILD_TOP_N8}"
+  - "{GUILD_TOP_N9}"
+  - "{GUILD_TOP_N10}"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "Players TOP (kdr)"
+  - "{PLAYER_TOP_KDR_N1}"
+  - "{PLAYER_TOP_KDR_N2}"
+  - "{PLAYER_TOP_KDR_N3}"
+  - "{PLAYER_TOP_KDR_N4}"
+  - "{PLAYER_TOP_KDR_N5}"
+  - "{PLAYER_TOP_KDR_N6}"
+  - "{PLAYER_TOP_KDR_N7}"
+  - "{PLAYER_TOP_KDR_N8}"
+  - "{PLAYER_TOP_KDR_N9}"
+  - "{PLAYER_TOP_KDR_N10}"
 
 region:
  materials:
