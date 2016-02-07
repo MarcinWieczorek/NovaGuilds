@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
@@ -26,6 +27,8 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.impl.util.ChatMessageImpl;
 import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
@@ -44,34 +47,19 @@ public class ChatListener implements Listener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		String msg = event.getMessage();
-		
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-
-		String format = event.getFormat();
+		event.setCancelled(true);
 		NovaGuild guild = nPlayer.getGuild();
 		String tagString = "";
 		String rank = "";
 
-		PreparedTag tag = new PreparedTagImpl(nPlayer);
-
-		if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
-			format = tag.get() + format;
-		}
-		else {
-			format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", tag.get());
-		}
-
-		event.setFormat(format);
-
-		if(!nPlayer.hasGuild()) {
-			return;
-		}
+		PreparedTag preparedTag = new PreparedTagImpl(nPlayer);
 
 		String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
 		String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
 
+		String msg = event.getMessage();
 		boolean isAllyPrefix = msg.startsWith(prefixChatAlly);
 		boolean isGuildPrefix = msg.startsWith(prefixChatGuild) && !isAllyPrefix;
 
@@ -108,6 +96,7 @@ public class ChatListener implements Listener {
 				}
 
 				event.setCancelled(true);
+				return;
 			}
 		}
 		else if(isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD) { //guild chat
@@ -137,8 +126,38 @@ public class ChatListener implements Listener {
 				}
 
 				event.setCancelled(true);
+				return;
 			}
 		}
+
+		//Message with a tag
+		ChatMessage chatMessage = new ChatMessageImpl(player);
+		chatMessage.setTag(preparedTag);
+		chatMessage.setFormat(event.getFormat());
+		chatMessage.setMessage(event.getMessage());
+
+		if(nPlayer.hasGuild() && !Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
+			for(NovaPlayer onlineNovaPlayer : plugin.getPlayerManager().getOnlinePlayers()) {
+				PreparedTagImpl.Color color = PreparedTagImpl.Color.NEUTRAL;
+				if(onlineNovaPlayer.hasGuild()) {
+					NovaGuild onlineNovaPlayerGuild = onlineNovaPlayer.getGuild();
+
+					if(onlineNovaPlayerGuild.isAlly(guild)) {
+						color = PreparedTagImpl.Color.ALLY;
+					}
+					else if(onlineNovaPlayerGuild.isWarWith(guild)) {
+						color = PreparedTagImpl.Color.WAR;
+					}
+				}
+
+				preparedTag.setColor(color);
+				chatMessage.send(onlineNovaPlayer);
+			}
+
+			return;
+		}
+
+		chatMessage.send();
 	}
 
 	@EventHandler

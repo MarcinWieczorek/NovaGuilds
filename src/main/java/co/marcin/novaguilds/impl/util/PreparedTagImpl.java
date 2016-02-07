@@ -93,7 +93,7 @@ public class PreparedTagImpl implements PreparedTag {
 
 	@Override
 	public String get() {
-		if(isHidden() ||  guild == null) {
+		if(isHidden() || guild == null) {
 			return "";
 		}
 
