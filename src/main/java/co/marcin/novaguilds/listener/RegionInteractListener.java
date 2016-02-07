@@ -50,6 +50,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
@@ -344,6 +345,22 @@ public class RegionInteractListener implements Listener {
 		Location location = event.getEntity().getLocation();
 
 		if(NovaRegion.get(location) != null && (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
+			event.setCancelled(true);
+			Message.CHAT_REGION_DENY_INTERACT.send(player);
+		}
+	}
+
+	/**
+	 * Handles editing items on an ArmorStand
+	 * @param event The event
+	 */
+	@EventHandler
+	public void onPlayerManipulateArmorStand(PlayerArmorStandManipulateEvent event) {
+		Player player = event.getPlayer();
+		NovaPlayer nPlayer = NovaPlayer.get(player);
+		Location location = event.getRightClicked().getLocation();
+
+		if(NovaRegion.get(location) != null && (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.INTERACT)))) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}

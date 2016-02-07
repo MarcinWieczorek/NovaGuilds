@@ -429,6 +429,7 @@ region:
   - BREWING_STAND
  denyuse:
   - ITEM_FRAME
+  - ARMOR_STAND
  denymobdamage:
   - PIG
   - COW
