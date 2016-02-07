@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.basic.NovaGroup;
+import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;

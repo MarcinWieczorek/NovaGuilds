@@ -18,13 +18,14 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaGroup;
+import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -59,7 +60,7 @@ public class CommandGuildBuySlot implements Executor {
 			return;
 		}
 
-		NovaGroup group = NovaGroup.get(sender);
+		NovaGroup group = GroupManager.getGroup(sender);
 		double money = group.getGuildBuySlotMoney();
 		List<ItemStack> items = group.getGuildBuySlotItems();
 

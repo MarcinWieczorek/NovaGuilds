@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGroup;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
@@ -30,11 +29,11 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
-import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
@@ -797,11 +796,11 @@ public class GuildManager {
 
 	public void delayedTeleport(Player player, Location location, Message message) {
 		Runnable task = new RunnableTeleportRequest(player, location, message);
-		int delay = NovaGroup.get(player) == null ? 0 : NovaGroup.get(player).getGuildTeleportDelay();
+		int delay = GroupManager.getGroup(player) == null ? 0 : GroupManager.getGroup(player).getGuildTeleportDelay();
 
 		if(delay > 0) {
 			Map<String, String> vars = new HashMap<>();
-			vars.put("DELAY", plugin.getGroupManager().getGroup(player).getGuildTeleportDelay() + "");
+			vars.put("DELAY", String.valueOf(GroupManager.getGroup(player).getGuildTeleportDelay()));
 			NovaGuilds.runTaskLater(task, delay, TimeUnit.SECONDS);
 			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
 		}
