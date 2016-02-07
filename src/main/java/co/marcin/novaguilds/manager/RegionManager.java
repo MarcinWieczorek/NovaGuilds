@@ -519,40 +519,41 @@ public class RegionManager {
 	public void checkRaidInit(Player player) {
 		NovaPlayer nPlayer = NovaPlayer.get(player);
 
-		if(nPlayer.hasGuild()) {
-			NovaGuild guildDefender = nPlayer.getAtRegion().getGuild();
+		if(!Config.RAID_ENABLED.getBoolean() || !nPlayer.hasGuild() || !nPlayer.isAtRegion()) {
+			return;
+		}
 
-			if(Config.RAID_ENABLED.getBoolean() && nPlayer.getGuild().isWarWith(guildDefender)) {
-				if(!guildDefender.isRaid()) {
-					if(NumberUtils.systemSeconds() - Config.RAID_TIMEREST.getSeconds() > guildDefender.getTimeRest()) {
-						if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size() == guildDefender.getPlayers().size()) {
-							if(NumberUtils.systemSeconds() - guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
-								guildDefender.createRaid(nPlayer.getGuild());
-								plugin.guildRaids.add(guildDefender);
+		NovaGuild guildDefender = nPlayer.getAtRegion().getGuild();
 
-								if(!NovaGuilds.isRaidRunnableRunning()) {
-									Runnable task = new RunnableRaid();
-									plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
-									NovaGuilds.setRaidRunnableRunning(true);
-								}
-							}
-							else {
-								Message.CHAT_RAID_PROTECTION.send(player);
+		if(nPlayer.getGuild().isWarWith(guildDefender)) {
+			if(guildDefender.isRaid()) {
+				nPlayer.setPartRaid(guildDefender.getRaid());
+				guildDefender.getRaid().addPlayerOccupying(nPlayer);
+			}
+			else {
+				if(NumberUtils.systemSeconds() - Config.RAID_TIMEREST.getSeconds() > guildDefender.getTimeRest()) {
+					if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size() == guildDefender.getPlayers().size()) {
+						if(NumberUtils.systemSeconds() - guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
+							guildDefender.createRaid(nPlayer.getGuild());
+							plugin.guildRaids.add(guildDefender);
+
+							if(!NovaGuilds.isRaidRunnableRunning()) {
+								Runnable task = new RunnableRaid();
+								plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+								NovaGuilds.setRaidRunnableRunning(true);
 							}
 						}
-					}
-					else {
-						final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
-
-						Message.CHAT_RAID_RESTING.vars(new HashMap<String, String>() {{
-							put("TIMEREST", StringUtils.secondsToString(timeWait));
-						}}).send(player);
+						else {
+							Message.CHAT_RAID_PROTECTION.send(player);
+						}
 					}
 				}
+				else {
+					final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 
-				if(guildDefender.isRaid()) {
-					nPlayer.setPartRaid(guildDefender.getRaid());
-					guildDefender.getRaid().addPlayerOccupying(nPlayer);
+					Message.CHAT_RAID_RESTING.vars(new HashMap<String, String>() {{
+						put("TIMEREST", StringUtils.secondsToString(timeWait));
+					}}).send(player);
 				}
 			}
 		}

@@ -461,4 +461,8 @@ public class NovaPlayer {
 	public void removeLastGUIInventoryHistory() {
 		getGuiInventoryHistory().remove(getGuiInventoryHistory().size() - 1);
 	}
+
+	public boolean isAtRegion() {
+		return atRegion != null;
+	}
 }
