@@ -87,7 +87,7 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 			vars.put("PLAYER", sender.getName());
 			vars.put("GUILDNAME", guild.getName());
 			Message.BROADCAST_GUILD_ABANDONED.vars(vars).broadcast();
-			TagUtils.refreshAll();
+			TagUtils.refresh();
 			TabUtils.refresh();
 		}
 	}

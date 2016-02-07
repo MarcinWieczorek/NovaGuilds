@@ -82,12 +82,12 @@ public class CommandAdminGuildSetLeader implements Executor {
 		guild.setLeader(nPlayer);
 
 		if(oldLeader != null) {
-			TagUtils.updatePrefix(oldLeader);
+			TagUtils.refresh(oldLeader);
 			TabUtils.refresh(oldLeader);
 		}
 
 		if(nPlayer.isOnline()) {
-			TagUtils.updatePrefix(nPlayer.getPlayer());
+			TagUtils.refresh(nPlayer.getPlayer());
 			TabUtils.refresh(nPlayer);
 		}
 

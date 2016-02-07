@@ -58,7 +58,7 @@ public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 		//all passed
 		guild.setTag(newtag);
 
-		TagUtils.refreshAll();
+		TagUtils.refresh();
 		TabUtils.refresh();
 
 		Message.CHAT_ADMIN_GUILD_SET_TAG.vars(new HashMap<String, String>() {{

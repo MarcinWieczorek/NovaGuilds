@@ -239,7 +239,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//Tablist/tag update
-		TagUtils.refreshAll();
+		TagUtils.refresh();
 		TabUtils.refresh();
 
 		//save scheduler

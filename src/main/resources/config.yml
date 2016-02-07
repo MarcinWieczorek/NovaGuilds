@@ -51,22 +51,11 @@ barapi:
  raidbar: true
 
 tabapi:
- colortags: true
  rankprefix: false
 
 tagapi:
  enabled: true
- colortags: true
  rankprefix: false
- allycolor:
-  enabled: true
-  color: "&5"
- guildcolor:
-  enabled: true
-  color: "&a"
- warcolor:
-  enabled: true
-  color: "&c"
 
 holographicdisplays:
  enabled: true
@@ -109,8 +98,14 @@ gguicmd:
  TOP: Sign 1
 
 chat:
+ tag: "&a{RANK}&{COLOR}{TAG} &r"
+ leaderprefix: "*"
  displaynametags: false
  confirmtimeout: 20s
+ tagcolors:
+  neutral: "a"
+  ally: "5"
+  war: "c"
  ally:
   prefix: "!!"
   enabled: true
@@ -159,7 +154,6 @@ guild:
  #New guilds protection
  createprotection: 24h
 
- tag: "&a{RANK}{TAG} &r"
  homefloor:
   enabled: true
   material: obsidian

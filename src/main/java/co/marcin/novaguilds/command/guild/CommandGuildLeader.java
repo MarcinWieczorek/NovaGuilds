@@ -87,7 +87,7 @@ public class CommandGuildLeader implements Executor {
 		Message.BROADCAST_GUILD_SETLEADER.vars(vars).broadcast();
 
 		//Tab and tags
-		TagUtils.refreshAll();
+		TagUtils.refresh();
 		TabUtils.refresh();
 	}
 

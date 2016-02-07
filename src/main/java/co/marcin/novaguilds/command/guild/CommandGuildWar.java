@@ -149,7 +149,7 @@ public class CommandGuildWar implements Executor {
 			vars.put("GUILD1", guild.getName());
 			vars.put("GUILD2", cmdGuild.getName());
 			Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
-			TagUtils.refreshAll();
+			TagUtils.refresh();
 			TabUtils.refresh();
 			plugin.getRegionManager().checkRaidInit(nPlayer.getPlayer());
 		}

@@ -19,13 +19,14 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.util.TabUtils;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -68,24 +69,16 @@ public class DeathListener implements Listener {
 			}
 		}
 
-		String tag1 = "";
-		String tag2 = "";
-		String tagscheme = Config.GUILD_TAG.getString();
-		tagscheme = StringUtils.replace(tagscheme, "{RANK}", "");
-
-		if(nPlayer.hasGuild()) {
-			tag1 = StringUtils.replace(tagscheme, "{TAG}", nPlayer.getGuild().getTag());
-		}
-
-		if(nPlayerAttacker.hasGuild()) {
-			tag2 = StringUtils.replace(tagscheme, "{TAG}", nPlayerAttacker.getGuild().getTag());
-		}
+		PreparedTag preparedTag1 = new PreparedTagImpl(nPlayer);
+		PreparedTag preparedTag2 = new PreparedTagImpl(nPlayerAttacker);
+		preparedTag1.setLeaderPrefix(false);
+		preparedTag2.setLeaderPrefix(false);
 
 		Map<String, String> vars = new HashMap<>();
 		vars.put("PLAYER1", victim.getName());
 		vars.put("PLAYER2", attacker.getName());
-		vars.put("TAG1", tag1);
-		vars.put("TAG2", tag2);
+		vars.put("TAG1", preparedTag1.get());
+		vars.put("TAG2", preparedTag2.get());
 		Message.BROADCAST_PVP_KILLED.vars(vars).broadcast();
 
 		//guildpoints and money

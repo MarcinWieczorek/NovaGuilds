@@ -60,7 +60,7 @@ public class CommandAdminGuildAbandon implements Executor.ReversedAdminGuild {
 			Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast();
 		}
 
-		TagUtils.refreshGuild(guild);
+		TagUtils.refresh(guild);
 		TabUtils.refresh(guild);
 	}
 

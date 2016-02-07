@@ -90,7 +90,7 @@ public class CommandGuildAlly implements Executor {
 					Message.CHAT_GUILD_ALLY_ACCEPTED.vars(vars).send(sender);
 
 					//tags & tab
-					TagUtils.refreshAll();
+					TagUtils.refresh();
 					TabUtils.refresh();
 				}
 				else { //Inviting
@@ -128,7 +128,7 @@ public class CommandGuildAlly implements Executor {
 
 				Message.BROADCAST_GUILD_ENDALLY.vars(vars).broadcast();
 
-				TagUtils.refreshAll();
+				TagUtils.refresh();
 				TabUtils.refresh();
 			}
 

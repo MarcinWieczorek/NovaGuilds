@@ -65,7 +65,7 @@ public class CommandGuildSetTag implements Executor {
 		nPlayer.getGuild().setTag(newTag);
 		Message.CHAT_GUILD_SET_TAG.send(sender);
 		TabUtils.refresh(nPlayer.getGuild());
-		TagUtils.refreshGuild(nPlayer.getGuild());
+		TagUtils.refresh(nPlayer.getGuild());
 	}
 
 	@Override

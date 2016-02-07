@@ -72,7 +72,7 @@ public class CommandAdminGuildKick implements Executor {
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
 		
 		//tab/tag
-		TagUtils.refreshAll();
+		TagUtils.refresh();
 		TabUtils.refresh();
 		nPlayerKick.cancelToolProgress();
 	}

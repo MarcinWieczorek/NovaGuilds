@@ -73,7 +73,7 @@ public class CommandGuildLeave implements CommandExecutor, Executor {
 		vars.put("GUILDNAME", guild.getName());
 		Message.BROADCAST_GUILD_LEFT.vars(vars).broadcast();
 
-		TagUtils.refreshAll();
+		TagUtils.refresh();
 		TabUtils.refresh();
 	}
 

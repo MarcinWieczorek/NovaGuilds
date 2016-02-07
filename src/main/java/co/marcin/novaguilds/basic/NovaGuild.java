@@ -637,7 +637,7 @@ public class NovaGuild {
 
 			if(nPlayer.isOnline()) {
 				//update tags
-				TagUtils.updatePrefix(nPlayer.getPlayer());
+				TagUtils.refresh(nPlayer.getPlayer());
 
 				//Close GUI
 				if(nPlayer.getGuiInventory() != null) {

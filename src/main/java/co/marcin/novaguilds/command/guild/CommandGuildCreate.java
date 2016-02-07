@@ -185,7 +185,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					InventoryUtils.removeItems(player, items);
 
 					//update tag and tabs
-					TagUtils.updatePrefix((Player) sender);
+					TagUtils.refresh((Player) sender);
 					TabUtils.refresh(nPlayer);
 
 					//Update holograms

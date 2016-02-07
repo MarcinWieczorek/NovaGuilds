@@ -18,57 +18,26 @@
 
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public final class TagUtils {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-
-	public static String getTag(Player namedplayer) { //TODO deleted second arg Player player
-		String tag = Config.GUILD_TAG.getString();
-		String guildTag;
-		String rank = "";
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(namedplayer);
-
-		if(Permission.NOVAGUILDS_CHAT_NOTAG.has(namedplayer) || !nPlayer.hasGuild()) {
-			return "";
-		}
-
-		guildTag = nPlayer.getGuild().getTag();
-
-		if(!Config.TAGAPI_COLORTAGS.getBoolean()) {
-			guildTag = StringUtils.removeColors(guildTag);
-		}
-
-		tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", guildTag);
-
-		if(Config.TABAPI_RANKPREFIX.getBoolean()) {
-			if(nPlayer.isLeader()) {
-				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
-			}
-		}
-
-		tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
-
-		return StringUtils.fixColors(tag);
-	}
-
 	@SuppressWarnings("deprecation")
-	public static void updatePrefix(Player p) {
+	public static void refresh(Player p) {
 		if(!Config.TAGAPI_ENABLED.getBoolean()) {
 			return;
 		}
 
 		for(Player player : Bukkit.getOnlinePlayers()) {
-			String tag = getTag(player);
+			PreparedTag tag = new PreparedTagImpl(NovaPlayer.get(player));
+
 			Scoreboard board = p.getScoreboard();
 			Team team = board.getPlayerTeam(player);
 
@@ -82,20 +51,20 @@ public final class TagUtils {
 				team.addPlayer(player);
 			}
 
-			team.setPrefix(StringUtils.fixColors(tag));
+			team.setPrefix(tag.get());
 		}
 	}
 
-	public static void refreshAll() {
+	public static void refresh() {
 		for(Player player : Bukkit.getOnlinePlayers()) {
-			updatePrefix(player);
+			refresh(player);
 		}
 	}
 
-	public static void refreshGuild(NovaGuild guild) {
+	public static void refresh(NovaGuild guild) {
 		if(guild != null) {
 			for(Player player : guild.getOnlinePlayers()) {
-				updatePrefix(player);
+				refresh(player);
 			}
 		}
 	}

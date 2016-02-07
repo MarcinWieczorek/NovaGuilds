@@ -19,15 +19,15 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.util.StringUtils;
-import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -51,25 +51,19 @@ public class ChatListener implements Listener {
 
 		String format = event.getFormat();
 		NovaGuild guild = nPlayer.getGuild();
-		String tag = "";
+		String tagString = "";
 		String rank = "";
-		if(nPlayer.hasGuild() && !Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
-			tag = Config.GUILD_TAG.getString();
 
-			if(nPlayer.isLeader()) {
-				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
-			}
+		PreparedTag tag = new PreparedTagImpl(nPlayer);
 
-			tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
-			tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
-
-			if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
-				format = TagUtils.getTag(player) + format;
-			}
+		if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
+			format = tag.get() + format;
+		}
+		else {
+			format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", tag.get());
 		}
 
-		format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", tag);
-		event.setFormat(StringUtils.fixColors(format));
+		event.setFormat(format);
 
 		if(!nPlayer.hasGuild()) {
 			return;
@@ -84,17 +78,17 @@ public class ChatListener implements Listener {
 		if(!isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
 			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
 				if(!Config.CHAT_ALLY_COLORTAGS.getBoolean()) {
-					tag = StringUtils.removeColors(tag);
+					tagString = StringUtils.removeColors(tagString);
 				}
 
 				if(!Config.CHAT_ALLY_LEADERPREFIX.getBoolean()) {
 					rank = "";
 				}
 
-				tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
+				tagString = org.apache.commons.lang.StringUtils.replace(tagString, "{RANK}", rank);
 
 				String cFormat = Config.CHAT_ALLY_FORMAT.getString();
-				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", tag);
+				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", tagString);
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
 				cFormat = StringUtils.fixColors(cFormat);
 

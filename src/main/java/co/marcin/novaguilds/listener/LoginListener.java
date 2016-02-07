@@ -76,7 +76,7 @@ public class LoginListener implements Listener {
 				player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			}
 
-			TagUtils.updatePrefix(player);
+			TagUtils.refresh(player);
 		}
 
 		//Tab
