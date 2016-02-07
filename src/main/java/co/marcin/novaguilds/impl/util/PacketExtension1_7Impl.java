@@ -16,10 +16,12 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.reflect;
+package co.marcin.novaguilds.impl.util;
 
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.event.PacketSendEvent;
+import co.marcin.novaguilds.util.reflect.Reflections;
 import net.minecraft.util.io.netty.channel.Channel;
 import net.minecraft.util.io.netty.channel.ChannelDuplexHandler;
 import net.minecraft.util.io.netty.channel.ChannelHandler;
@@ -32,7 +34,7 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class PacketExtension {
+public class PacketExtension1_7Impl implements PacketExtension {
 	private static Reflections.FieldAccessor<Channel> clientChannel;
 	private static Field playerConnection;
 	private static Field networkManager;
@@ -61,12 +63,12 @@ public class PacketExtension {
 		}
 	}
 
-	public static void registerPlayer(final Player p) {
-		Channel c = getChannel(p);
+	public void registerPlayer(final Player player) {
+		Channel c = getChannel(player);
 		ChannelHandler handler = new ChannelDuplexHandler() {
 			@Override
 			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-				PacketSendEvent event = new PacketSendEvent(msg, p);
+				PacketSendEvent event = new PacketSendEvent(msg, player);
 				Bukkit.getPluginManager().callEvent(event);
 
 				if(event.isCancelled() || event.getPacket() == null) {
@@ -78,7 +80,7 @@ public class PacketExtension {
 
 			@Override
 			public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-				PacketReceiveEvent event = new PacketReceiveEvent(msg, p);
+				PacketReceiveEvent event = new PacketReceiveEvent(msg, player);
 				Bukkit.getPluginManager().callEvent(event);
 				if(event.isCancelled() || event.getPacket() == null) {
 					return;
@@ -92,10 +94,9 @@ public class PacketExtension {
 		cp.addBefore("packet_handler", "NovaGuilds", handler);
 	}
 
-	public static void unregisterNovaGuildsChannel() {
+	public void unregisterChannel() {
 		for(Player player : Bukkit.getOnlinePlayers()) {
 			getChannel(player).pipeline().remove("NovaGuilds");
 		}
 	}
-
 }

@@ -19,12 +19,15 @@
 package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.api.NovaGuildsAPI;
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
+import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
 import co.marcin.novaguilds.listener.ChatListener;
 import co.marcin.novaguilds.listener.ChestGUIListener;
 import co.marcin.novaguilds.listener.DeathListener;
@@ -55,7 +58,6 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
-import co.marcin.novaguilds.util.reflect.PacketExtension;
 import com.earth2me.essentials.Essentials;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -113,6 +115,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	public final List<NovaGuild> guildRaids = new ArrayList<>();
 	private static boolean raidRunnableRunning = false;
+	private co.marcin.novaguilds.api.util.packet.PacketExtension packetExtension;
 
 	//Database
 	private DatabaseManager databaseManager;
@@ -216,10 +219,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
 			new PacketListener(this);
+			if(ConfigManager.isBukkit18()) {
+				packetExtension = new PacketExtension1_8Impl();
+			}
+			else {
+				packetExtension = new PacketExtension1_7Impl();
+			}
 
 			//Register players (for reload)
 			for(Player p : Bukkit.getOnlinePlayers()) {
-				PacketExtension.registerPlayer(p);
+				getPacketExtension().registerPlayer(p);
 			}
 		}
 		else {
@@ -285,7 +294,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		getHologramManager().save();
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
-			PacketExtension.unregisterNovaGuildsChannel();
+			getPacketExtension().unregisterChannel();
 		}
 
 		//Stop schedulers
@@ -360,6 +369,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public TaskManager getTaskManager() {
 		return taskManager;
+	}
+
+	@Override
+	public PacketExtension getPacketExtension() {
+		return packetExtension;
 	}
 
 	//Vault economy

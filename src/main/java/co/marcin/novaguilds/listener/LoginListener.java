@@ -27,7 +27,6 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
-import co.marcin.novaguilds.util.reflect.PacketExtension;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -86,7 +85,7 @@ public class LoginListener implements Listener {
 
 		//PacketExtension
 		if(Config.PACKETS_ENABLED.getBoolean()) {
-			PacketExtension.registerPlayer(player);
+			plugin.getPacketExtension().registerPlayer(player);
 		}
 	}
 	

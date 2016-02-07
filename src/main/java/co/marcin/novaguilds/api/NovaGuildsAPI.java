@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.api;
 
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.FlatDataManager;
@@ -119,4 +120,10 @@ public interface NovaGuildsAPI {
 	 * @return current plugin version
 	 */
 	int getBuild();
+
+	/**
+	 * Returns the PacketExtension
+	 * @return the PacketExtension
+	 */
+	PacketExtension getPacketExtension();
 }
