@@ -25,8 +25,8 @@ import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
-import code.husky.mysql.MySQL;
-import code.husky.sqlite.SQLite;
+import co.marcin.novaguilds.impl.storage.MySQL;
+import co.marcin.novaguilds.impl.storage.SQLite;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.InputStream;
