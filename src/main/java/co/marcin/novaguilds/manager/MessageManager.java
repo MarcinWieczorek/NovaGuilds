@@ -27,7 +27,6 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.Title;
-import com.earth2me.essentials.Essentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -129,14 +128,12 @@ public class MessageManager {
 	 * Detects Essentials' Locale
 	 */
 	public static void detectEssentialsLocale() {
-		Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-
-		if(essentials != null && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
-			if(essentials.getSettings() == null) {
+		if(plugin.isEssentialsEnabled() && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
+			if(plugin.getEssentials().getSettings() == null) {
 				return;
 			}
 
-			String locale = essentials.getSettings().getLocale();
+			String locale = plugin.getEssentials().getSettings().getLocale();
 			if(locale.isEmpty()) {
 				locale = "en";
 			}

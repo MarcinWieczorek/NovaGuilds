@@ -56,6 +56,7 @@ import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import co.marcin.novaguilds.util.reflect.PacketExtension;
+import com.earth2me.essentials.Essentials;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
@@ -96,6 +97,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	//Vault
 	public Economy econ = null;
+	private Essentials essentials;
 
 	private GuildManager guildManager;
 	private RegionManager regionManager;
@@ -522,6 +524,13 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 		}
 
+		//Essentials
+		essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+
+		if(isEssentialsEnabled()) {
+
+		}
+
 		return true;
 	}
 
@@ -567,5 +576,13 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public String getCommit() {
 		return StringUtils.substring(commit, 0, 7);
+	}
+
+	public Essentials getEssentials() {
+		return essentials;
+	}
+
+	public boolean isEssentialsEnabled() {
+		return essentials != null;
 	}
 }
