@@ -23,7 +23,13 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommandAdminConfigSet implements Executor {
 	private static final Command command = Command.ADMIN_CONFIG_SET;
@@ -34,11 +40,6 @@ public class CommandAdminConfigSet implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(args.length != 2) {
-			command.getUsageMessage().send(sender);
-			return;
-		}
-
 		Config config = Config.fromPath(args[0]);
 
 		if(config == null) {
@@ -46,7 +47,7 @@ public class CommandAdminConfigSet implements Executor {
 			return;
 		}
 
-		String valueString = args[1];
+		String valueString = StringUtils.join(StringUtils.parseArgs(args, 1), " ");
 		Object value = valueString;
 
 		if(valueString.toLowerCase().equals("true")) {
@@ -58,9 +59,24 @@ public class CommandAdminConfigSet implements Executor {
 		else if(NumberUtils.isNumeric(valueString)) {
 			value = Integer.parseInt(valueString);
 		}
+		else if(valueString.startsWith("{") && valueString.endsWith("}")) {
+			valueString = valueString.substring(1);
+			valueString = valueString.substring(0, valueString.length() - 1);
+
+			String[] split = { valueString };
+			if(org.apache.commons.lang.StringUtils.contains(valueString, ";")) {
+				split = org.apache.commons.lang.StringUtils.split(valueString, ";");
+			}
+
+			value  = new ArrayList<>(Arrays.asList(split));
+		}
 
 		plugin.getConfigManager().set(config, value);
-		Message.CHAT_ADMIN_CONFIG_SET.send(sender);
+
+		Map<String, String> vars = new HashMap<>();
+		vars.put("KEY", config.name());
+		vars.put("VALUE", valueString);
+		Message.CHAT_ADMIN_CONFIG_SET.vars(vars).send(sender);
 	}
 
 	@Override
