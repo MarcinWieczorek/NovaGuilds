@@ -69,6 +69,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -239,6 +240,14 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 					co.marcin.novaguilds.event.PlayerInteractEntityEvent clickEvent = new co.marcin.novaguilds.event.PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
 					getServer().getPluginManager().callEvent(clickEvent);
+					event.setCancelled(clickEvent.isCancelled());
+				}
+
+				@EventHandler
+				public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+					co.marcin.novaguilds.event.PlayerInteractEntityEvent interactEntityEvent = new co.marcin.novaguilds.event.PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
+					Bukkit.getPluginManager().callEvent(interactEntityEvent);
+					event.setCancelled(interactEntityEvent.isCancelled());
 				}
 			}, this);
 		}

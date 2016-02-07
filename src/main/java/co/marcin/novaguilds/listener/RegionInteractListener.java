@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -170,17 +171,13 @@ public class RegionInteractListener implements Listener {
 				return;
 			}
 
-			NovaPlayer nPlayer = NovaPlayer.get(player);
+			PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(player, event.getEntity(), EntityUseAction.ATTACK);
+			Bukkit.getPluginManager().callEvent(interactEntityEvent);
+			event.setCancelled(interactEntityEvent.isCancelled());
 
-			if(NovaRegion.get(event.getEntity()) != null && (!plugin.getRegionManager().canInteract(player, event.getEntity()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_ATTACK)))) {
-				if(!(event.getEntity().getPassenger() instanceof Player)) {
-					event.setCancelled(true);
-					Message.CHAT_REGION_DENY_ATTACKMOB.send(player);
-
-					//remove the arrow so it wont bug
-					if(arrow != null) {
-						arrow.remove();
-					}
+			if(interactEntityEvent.isCancelled()) {
+				if(arrow != null) {
+					arrow.remove();
 				}
 			}
 		}
@@ -193,21 +190,21 @@ public class RegionInteractListener implements Listener {
 		Entity entity = event.getEntity();
 		List<String> denyDamage = Config.REGION_DENYMOBDAMAGE.getStringList();
 
-		if(event.getAction() == EntityUseAction.ATTACK) {
-			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_ATTACK)))) {
-				if(denyDamage.contains(entity.getType().name())) {
-					if(!(entity instanceof LivingEntity)) {
+		if(NovaRegion.get(entity) != null) {
+			if(event.getAction() == EntityUseAction.ATTACK) {
+				if(!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_ATTACK))) {
+					if(denyDamage.contains(entity.getType().name())) {
 						event.setCancelled(true);
 						Message.CHAT_REGION_DENY_ATTACKMOB.send(player);
 					}
 				}
 			}
-		}
-		else {
-			if(NovaRegion.get(entity) != null && (!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_RIDE)))) {
-				if(entity.getType() == EntityType.SHEEP && player.getItemInHand().getType() == Material.SHEARS) {
-					event.setCancelled(true);
-					Message.CHAT_REGION_DENY_RIDEMOB.send(player);
+			else {
+				if(!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_RIDE))) {
+					if(entity.getType() == EntityType.SHEEP && player.getItemInHand().getType() == Material.SHEARS) {
+						event.setCancelled(true);
+						Message.CHAT_REGION_DENY_RIDEMOB.send(player);
+					}
 				}
 			}
 		}
