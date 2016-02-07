@@ -21,12 +21,12 @@ datastorage:
  primary: mysql
  secondary: flat
 mysql:
- host:
+ host: ""
  port: 3306
- database:
- username:
- password:
- prefix: novaguilds_
+ database: ""
+ username: ""
+ password: ""
+ prefix: "novaguilds_"
 
 debug: false
 deleteinvalid: false
