@@ -104,29 +104,31 @@ public final class TabUtils {
 
 		//Guild vars
 		NovaGuild guild = nPlayer.getGuild();
-		String guildName, guildTag, guildPlayersOnline, guildPlayersMax, guildLives, guildRegenTime, guildRaidProgress, guildPvp, guildMoney, guildPoints, guildSlots = "";
-		String guildTimeRest, guildTimeCreated, guildHomeCoords, guildOpenInvitation = "";
-		guildName = guildTag = guildPlayersOnline = guildPlayersMax = guildLives = guildRegenTime = guildRaidProgress = guildPvp = guildMoney = guildPoints = guildSlots;
-		guildTimeRest = guildTimeCreated = guildHomeCoords = guildOpenInvitation;
+		String guildName, guildTag, guildPlayersOnline, guildPlayersMax, guildLives, guildTimeRegen, guildRaidProgress, guildPvp, guildMoney, guildPoints, guildSlots = "";
+		String guildTimeRest, guildTimeCreated, guildHomeCoords, guildOpenInvitation, guildTimeProtection = "";
+		guildName = guildTag = guildPlayersOnline = guildPlayersMax = guildLives = guildTimeRegen = guildRaidProgress = guildPvp = guildMoney = guildPoints = guildSlots;
+		guildTimeRest = guildTimeCreated = guildHomeCoords = guildOpenInvitation = guildTimeProtection;
 
 		if(nPlayer.hasGuild()) {
 			long liveRegenerationTime = Config.LIVEREGENERATION_REGENTIME.getSeconds() - (NumberUtils.systemSeconds() - guild.getLostLiveTime());
-			long createdTime = Config.LIVEREGENERATION_REGENTIME.getSeconds() - (NumberUtils.systemSeconds() - guild.getTimeCreated());
-			long restTime = Config.LIVEREGENERATION_REGENTIME.getSeconds() - (NumberUtils.systemSeconds() - guild.getTimeRest());
+			long createdTime = NumberUtils.systemSeconds() - guild.getTimeCreated();
+			long restTime = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guild.getTimeRest());
+			long timeProtection = Config.GUILD_CREATEPROTECTION.getSeconds() - createdTime;
 
 			guildName = guild.getName();
 			guildTag = guild.getTag();
 			guildPlayersOnline = String.valueOf(guild.getOnlinePlayers().size());
 			guildPlayersMax = String.valueOf(guild.getPlayers().size());
 			guildLives = String.valueOf(guild.getLives());
-			guildRegenTime = StringUtils.secondsToString(liveRegenerationTime, TimeUnit.HOURS);
 			guildRaidProgress = guild.isRaid() ? String.valueOf(guild.getRaid().getProgress()) : "";
 			guildPvp = Message.getOnOff(guild.getFriendlyPvp());
 			guildMoney = String.valueOf(guild.getMoney());
 			guildPoints = String.valueOf(guild.getPoints());
 			guildSlots = String.valueOf(guild.getSlots());
+			guildTimeRegen = StringUtils.secondsToString(liveRegenerationTime, TimeUnit.HOURS);
 			guildTimeRest = StringUtils.secondsToString(restTime, TimeUnit.HOURS);
 			guildTimeCreated = StringUtils.secondsToString(createdTime, TimeUnit.HOURS);
+			guildTimeProtection = StringUtils.secondsToString(timeProtection, TimeUnit.HOURS);
 			guildHomeCoords = Message.getCoords3D(guild.getSpawnPoint()).get();
 			guildOpenInvitation = Message.getOnOff(guild.isOpenInvitation());
 		}
@@ -141,9 +143,10 @@ public final class TabUtils {
 		vars.put(VarKey.GUILD_MONEY, guildMoney);
 		vars.put(VarKey.GUILD_POINTS, guildPoints);
 		vars.put(VarKey.GUILD_SLOTS, guildSlots);
-		vars.put(VarKey.GUILD_TIME_REGEN, guildRegenTime);
+		vars.put(VarKey.GUILD_TIME_REGEN, guildTimeRegen);
 		vars.put(VarKey.GUILD_TIME_REST, guildTimeRest);
 		vars.put(VarKey.GUILD_TIME_CREATED, guildTimeCreated);
+		vars.put(VarKey.GUILD_TIME_PROTECTION, guildTimeProtection);
 		vars.put(VarKey.GUILD_HOME, guildHomeCoords);
 		vars.put(VarKey.GUILD_OPENINVITATION, guildOpenInvitation);
 
