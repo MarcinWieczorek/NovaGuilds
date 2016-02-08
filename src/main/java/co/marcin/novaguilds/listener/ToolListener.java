@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -53,7 +54,7 @@ public class ToolListener implements Listener {
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		if(!player.getItemInHand().equals(Config.REGION_TOOL.getItemStack())) {
 			return;
@@ -84,7 +85,7 @@ public class ToolListener implements Listener {
 
 			Message mode = nPlayer.getRegionMode() ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
 
-			vars.put("MODE", mode.get());
+			vars.put(VarKey.MODE, mode.get());
 			Message.CHAT_REGION_TOOL_TOGGLEDMODE.vars(vars).send(player);
 			return;
 		}
@@ -102,7 +103,7 @@ public class ToolListener implements Listener {
 
 			if(region != null) {
 				RegionUtils.highlightRegion(player, region, Config.REGION_MATERIALS_CHECK_HIGHLIGHT.getMaterial());
-				vars.put("GUILDNAME", region.getGuild().getName());
+				vars.put(VarKey.GUILDNAME, region.getGuild().getName());
 				Message.CHAT_REGION_BELONGSTO.vars(vars).send(player);
 				nPlayer.setSelectedRegion(region);
 			}
@@ -245,8 +246,8 @@ public class ToolListener implements Listener {
 									price = ppb * regionsize + plugin.getGroupManager().getGroup(player).getRegionCreateMoney();
 								}
 
-								vars.put("SIZE", String.valueOf(regionsize));
-								vars.put("PRICE", String.valueOf(price));
+								vars.put(VarKey.SIZE, String.valueOf(regionsize));
+								vars.put(VarKey.PRICE, String.valueOf(price));
 
 								Message.CHAT_REGION_SIZE.vars(vars).send(player);
 
@@ -254,7 +255,7 @@ public class ToolListener implements Listener {
 									Message.CHAT_REGION_PRICE.vars(vars).send(player);
 
 									if(!nPlayer.getGuild().hasMoney(price)) {
-										vars.put("NEEDMORE", String.valueOf(price - nPlayer.getGuild().getMoney()));
+										vars.put(VarKey.NEEDMORE, String.valueOf(price - nPlayer.getGuild().getMoney()));
 										Message.CHAT_REGION_CNOTAFFORD.vars(vars).send(player);
 										break;
 									}
@@ -267,11 +268,11 @@ public class ToolListener implements Listener {
 							}
 							break;
 						case TOOSMALL:
-							vars.put("MINSIZE", Config.REGION_MINSIZE.getString());
+							vars.put(VarKey.MINSIZE, Config.REGION_MINSIZE.getString());
 							Message.CHAT_REGION_VALIDATION_TOOSMALL.vars(vars).send(player);
 							break;
 						case TOOBIG:
-							vars.put("MAXSIZE", Config.REGION_MAXSIZE.getString());
+							vars.put(VarKey.MAXSIZE, Config.REGION_MAXSIZE.getString());
 							Message.CHAT_REGION_VALIDATION_TOOBIG.vars(vars).send(player);
 							break;
 						case OVERLAPS:

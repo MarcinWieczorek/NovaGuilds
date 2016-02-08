@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -105,9 +106,7 @@ public class CommandGuildHome implements Executor {
 			double homeMoney = plugin.getGroupManager().getGroup(sender).getGuildHomeMoney();
 			if(homeMoney > 0) {
 				if(!nPlayer.hasMoney(homeMoney)) {
-					Map<String, String> vars = new HashMap<>();
-					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
-					Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
+					Message.CHAT_GUILD_NOTENOUGHMONEY.setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
 					return;
 				}
 			}

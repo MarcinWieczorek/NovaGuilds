@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -75,9 +76,9 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
-		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", guild.getName());
-		vars.put("PLAYERNAME", invitePlayer.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.GUILDNAME, guild.getName());
+		vars.put(VarKey.PLAYERNAME, invitePlayer.getName());
 
 		if(!invitePlayer.isInvitedTo(guild)) { //invite
 			invitePlayer.addInvitation(guild);

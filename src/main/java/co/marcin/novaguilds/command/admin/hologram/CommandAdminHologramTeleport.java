@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin.hologram;
 import co.marcin.novaguilds.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -48,9 +49,9 @@ public class CommandAdminHologramTeleport implements Executor.ReversedAdminHolog
 
 		player.teleport(hologram.getLocation());
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", player.getName());
-		vars.put("NAME", hologram.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, player.getName());
+		vars.put(VarKey.NAME, hologram.getName());
 
 		if(sender.equals(player)) {
 			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_SELF.vars(vars).send(sender);

@@ -23,6 +23,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -99,10 +100,7 @@ public class CommandGuildEffect implements Executor {
 		InventoryUtils.removeItems(player, guildEffectItems);
 
 		//message
-		Map<String, String> vars = new HashMap<>();
-		vars.put("EFFECTTYPE", effectType.getName());
-
-		Message.CHAT_GUILD_EFFECT_SUCCESS.vars(vars).send(sender);
+		Message.CHAT_GUILD_EFFECT_SUCCESS.setVar(VarKey.EFFECTTYPE, effectType.getName()).send(sender);
 	}
 
 	@Override

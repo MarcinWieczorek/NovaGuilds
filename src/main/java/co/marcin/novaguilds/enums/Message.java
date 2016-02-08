@@ -488,7 +488,7 @@ public enum Message {
 
 	private boolean title = false;
 	private String path = null;
-	private Map<String, String> vars = new HashMap<>();
+	private Map<VarKey, String> vars = new HashMap<>();
 	private boolean prefix = true;
 	private boolean list = false;
 
@@ -554,7 +554,7 @@ public enum Message {
 	 * Gets the map of variables
 	 * @return The Map
 	 */
-	public Map<String, String> getVars() {
+	public Map<VarKey, String> getVars() {
 		return vars;
 	}
 
@@ -586,9 +586,22 @@ public enum Message {
 	 * @param vars Map of variables
 	 * @return Message instance
 	 */
-	public Message vars(Map<String, String> vars) {
+	public Message vars(Map<VarKey, String> vars) {
 		this.vars = vars;
 		return this;
+	}
+
+	public Message setVar(VarKey varKey, String string) {
+		vars.put(varKey, string);
+		return this;
+	}
+
+	public Message setVar(VarKey varKey, Integer integer) {
+		return setVar(varKey, String.valueOf(integer));
+	}
+
+	public Message setVar(VarKey varKey, Double value) {
+		return setVar(varKey, String.valueOf(value));
 	}
 
 	/**
@@ -629,7 +642,7 @@ public enum Message {
 	 * @return message string
 	 */
 	public String get() {
-		return MessageManager.replaceMap(MessageManager.getMessagesString(this), vars);
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars);
 	}
 
 	/**
@@ -729,10 +742,10 @@ public enum Message {
 	public static Message getCoords3D(Location location) {
 		Message message = Message.CHAT_BASIC_COORDS3D;
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("X", String.valueOf(location.getBlockX()));
-		vars.put("Y", String.valueOf(location.getBlockY()));
-		vars.put("Z", String.valueOf(location.getBlockZ()));
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.X, String.valueOf(location.getBlockX()));
+		vars.put(VarKey.Y, String.valueOf(location.getBlockY()));
+		vars.put(VarKey.Z, String.valueOf(location.getBlockZ()));
 		message.vars(vars);
 
 		return message;

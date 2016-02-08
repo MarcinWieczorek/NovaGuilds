@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -73,8 +74,8 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 			player = (Player) sender;
 		}
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", region.getGuild().getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.GUILDNAME, region.getGuild().getName());
 
 		Location location = region.getCenter().clone();
 		location.setY(location.getWorld().getHighestBlockYAt(location));

@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -68,9 +69,9 @@ public class CommandGuildLeave implements CommandExecutor, Executor {
 
 		Message.CHAT_GUILD_LEAVE_LEFT.send(sender);
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYER", sender.getName());
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYER, sender.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.BROADCAST_GUILD_LEFT.vars(vars).broadcast();
 
 		TagUtils.refresh();

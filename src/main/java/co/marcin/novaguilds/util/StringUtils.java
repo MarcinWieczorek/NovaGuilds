@@ -20,6 +20,7 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import com.google.gson.Gson;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -150,6 +151,16 @@ public final class StringUtils {
 		}
 
 		return joined;
+	}
+
+	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars) {
+		if(vars != null) {
+			for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
+				msg = org.apache.commons.lang.StringUtils.replace(msg, "{" + entry.getKey().name() + "}", entry.getValue());
+			}
+		}
+
+		return msg;
 	}
 
 	public static String replaceMap(String msg, Map<String, String> vars) {

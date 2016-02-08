@@ -24,6 +24,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
@@ -57,7 +58,6 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 		slotRanksMap.clear();
 
 		int slot = 0;
-		Map<String, String> vars = new HashMap<>();
 		List<NovaRank> ranks = new ArrayList<>();
 		ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
 		ranks.addAll(guild.getRanks());
@@ -69,9 +69,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 				continue;
 			}
 
-			vars.clear();
-			vars.put("RANKNAME", StringUtils.replace(rank.getName(), " ", "_"));
-			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANKS_ROWITEM.vars(vars).get());
+			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).get());
 
 			inventory.setItem(slot, itemStack);
 			slotRanksMap.put(slot, rank);

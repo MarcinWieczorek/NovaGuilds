@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -49,14 +50,14 @@ public class CommandAdminGuildBankWithdraw implements Executor.ReversedAdminGuil
 			return;
 		}
 
-		String money_str = args[0];
+		String moneyString = args[0];
 
-		if(!NumberUtils.isNumeric(money_str)) { //money not int
+		if(!NumberUtils.isNumeric(moneyString)) { //money not int
 			Message.CHAT_ENTERINTEGER.send(sender);
 			return;
 		}
 
-		double money = Double.parseDouble(money_str);
+		double money = Double.parseDouble(moneyString);
 
 		if(money < 0) {
 			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
@@ -73,9 +74,9 @@ public class CommandAdminGuildBankWithdraw implements Executor.ReversedAdminGuil
 		guild.takeMoney(money);
 		TabUtils.refresh(guild);
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("MONEY", money_str);
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.MONEY, moneyString);
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.CHAT_ADMIN_GUILD_BANK_WITHDREW.vars(vars).send(sender);
 	}
 

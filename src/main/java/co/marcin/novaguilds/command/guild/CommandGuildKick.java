@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -89,9 +90,9 @@ public class CommandGuildKick implements Executor {
 			guild.hideVaultHologram(nPlayerKick.getPlayer());
 		}
 		
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", nPlayerKick.getName());
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, nPlayerKick.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
 		
 		//tab/tag

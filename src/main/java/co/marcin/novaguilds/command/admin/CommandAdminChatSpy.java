@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
@@ -58,12 +59,12 @@ public class CommandAdminChatSpy implements Executor {
 		}
 
 		nPlayerChange.setSpyMode(!nPlayerChange.getSpyMode());
-		Map<String, String> vars = new HashMap<>();
-		vars.put("MODE", Message.getOnOff(nPlayerChange.getSpyMode()));
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.MODE, Message.getOnOff(nPlayerChange.getSpyMode()));
 
 		//Notify message
 		if(!nPlayer.equals(nPlayerChange)) {
-			vars.put("PLAYERNAME", nPlayerChange.getName());
+			vars.put(VarKey.PLAYERNAME, nPlayerChange.getName());
 
 			Message.CHAT_ADMIN_SPYMODE_NOTIFY.vars(vars).send(nPlayerChange);
 			Message.CHAT_ADMIN_SPYMODE_SUCCESS_OTHER.vars(vars).send(sender);

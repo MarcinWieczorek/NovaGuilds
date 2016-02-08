@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
@@ -54,9 +55,9 @@ public class CommandAdminGuildPurge implements Executor {
 				//delete guild
 				plugin.getGuildManager().delete(guild);
 
-				Map<String, String> vars = new HashMap<>();
-				vars.put("PLAYERNAME", sender.getName());
-				vars.put("GUILDNAME", guild.getName());
+				Map<VarKey, String> vars = new HashMap<>();
+				vars.put(VarKey.PLAYERNAME, sender.getName());
+				vars.put(VarKey.GUILDNAME, guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast();
 			}
 		}

@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.Title;
@@ -194,13 +195,13 @@ public class MessageManager {
 	 */
 	public static void sendMessagesList(CommandSender sender, Message message) {
 		List<String> list = getMessages().getStringList(message.getPath());
-		Map<String, String> vars = message.getVars();
+		Map<VarKey, String> vars = message.getVars();
 		boolean prefix = message.isPrefix();
 
 		if(list != null) {
 			for(String msg : list) {
 				if(vars != null) {
-					msg = replaceMap(msg, vars);
+					msg = replaceVarKeyMap(msg, vars);
 				}
 
 				if(prefix) {
@@ -220,7 +221,7 @@ public class MessageManager {
 	 */
 	public static void sendMessagesMsg(CommandSender sender, Message message) {
 		String msg = getMessagesString(message);
-		msg = replaceMap(msg, message.getVars());
+		msg = replaceVarKeyMap(msg, message.getVars());
 		boolean title = message.getTitle();
 
 		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
@@ -294,12 +295,12 @@ public class MessageManager {
 	 * @param vars Map<String, String> of variables
 	 * @return String
 	 */
-	public static String replaceMap(String msg, Map<String, String> vars) {
-		for(Map.Entry<String, String> entry : vars.entrySet()) {
+	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars) {
+		for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
 			vars.put(entry.getKey(), entry.getValue() + plugin.getMessageManager().prefixColor);
 		}
 
-		return StringUtils.replaceMap(msg, vars);
+		return StringUtils.replaceVarKeyMap(msg, vars);
 	}
 
 	public void setMessages(YamlConfiguration messages) {

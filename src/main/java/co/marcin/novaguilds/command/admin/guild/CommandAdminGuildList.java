@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -69,10 +70,10 @@ public class CommandAdminGuildList implements Executor {
 		boolean display = false;
 
 		if(size > perpage) {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("PAGE", String.valueOf(page));
-			vars.put("NEXT", String.valueOf(page + 1));
-			vars.put("PAGES", String.valueOf(pages_number));
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.PAGE, String.valueOf(page));
+			vars.put(VarKey.NEXT, String.valueOf(page + 1));
+			vars.put(VarKey.PAGES, String.valueOf(pages_number));
 
 			if(pages_number > page) {
 				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.vars(vars).send(sender);
@@ -91,14 +92,14 @@ public class CommandAdminGuildList implements Executor {
 			if(display) {
 				String inactiveString = StringUtils.secondsToString(NumberUtils.systemSeconds() - guild.getInactiveTime());
 
-				Map<String, String> vars = new HashMap<>();
-				vars.put("GUILDNAME", guild.getName());
-				vars.put("PLAYERNAME", guild.getLeader().getName());
-				vars.put("TAG", guild.getTag());
-				vars.put("PLAYERSCOUNT", guild.getPlayers().size() + "");
-				vars.put("INACTIVE", inactiveString);
+				Map<VarKey, String> vars = new HashMap<>();
+				vars.put(VarKey.GUILDNAME, guild.getName());
+				vars.put(VarKey.PLAYERNAME, guild.getLeader().getName());
+				vars.put(VarKey.TAG, guild.getTag());
+				vars.put(VarKey.PLAYERSCOUNT, String.valueOf(guild.getPlayers().size()));
+				vars.put(VarKey.INACTIVE, inactiveString);
 
-				String rowMessage = MessageManager.replaceMap(rowformat, vars);
+				String rowMessage = MessageManager.replaceVarKeyMap(rowformat, vars);
 				MessageManager.sendMessage(sender, rowMessage);
 
 				if(i + 1 >= perpage) {

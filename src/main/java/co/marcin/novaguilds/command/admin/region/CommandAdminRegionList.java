@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin.region;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -62,12 +63,12 @@ public class CommandAdminRegionList implements Executor {
 		String rowformat = Message.CHAT_REGION_LIST_ITEM.get();
 		int i = 0;
 		boolean display = false;
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		if(size > perpage) {
-			vars.put("PAGE", String.valueOf(page));
-			vars.put("NEXT", String.valueOf(page + 1));
-			vars.put("PAGES", String.valueOf(pages_number));
+			vars.put(VarKey.PAGE, String.valueOf(page));
+			vars.put(VarKey.NEXT, String.valueOf(page + 1));
+			vars.put(VarKey.PAGES, String.valueOf(pages_number));
 
 			if(pages_number > page) {
 				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.vars(vars).send(sender);
@@ -86,11 +87,11 @@ public class CommandAdminRegionList implements Executor {
 			}
 
 			if(display) {
-				vars.put("GUILDNAME", region.getGuild().getName());
-				vars.put("X", region.getCorner(0).getBlockX() + "");
-				vars.put("Z", region.getCorner(0).getBlockZ() + "");
+				vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+				vars.put(VarKey.X, String.valueOf(region.getCorner(0).getBlockX()));
+				vars.put(VarKey.Z, String.valueOf(region.getCorner(0).getBlockZ()));
 
-				String rowMessage = MessageManager.replaceMap(rowformat, vars);
+				String rowMessage = MessageManager.replaceVarKeyMap(rowformat, vars);
 				MessageManager.sendMessage(sender, rowMessage);
 
 				if(i + 1 >= perpage) {

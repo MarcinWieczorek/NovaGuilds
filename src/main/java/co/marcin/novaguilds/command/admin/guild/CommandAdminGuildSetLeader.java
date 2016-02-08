@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -54,8 +55,8 @@ public class CommandAdminGuildSetLeader implements Executor {
 			return;
 		}
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", nPlayer.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, nPlayer.getName());
 
 		if(!nPlayer.hasGuild()) { //has no guild
 			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
@@ -63,7 +64,7 @@ public class CommandAdminGuildSetLeader implements Executor {
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
-		vars.put("GUILDNAME", guild.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 
 		if(!guild.isMember(nPlayer)) { //is not member
 			Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.vars(vars).send(sender);

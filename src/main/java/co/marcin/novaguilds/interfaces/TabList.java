@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.interfaces;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.VarKey;
 
 import java.util.Map;
 
@@ -29,5 +30,5 @@ public interface TabList {
 
 	NovaPlayer getPlayer();
 
-	Map<String, String> getVars();
+	Map<VarKey, String> getVars();
 }

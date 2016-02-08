@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.TabList;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -68,38 +69,38 @@ public final class TabUtils {
 	@SuppressWarnings("deprecation")
 	public static void fillVars(TabList tabList) {
 		NovaPlayer nPlayer = tabList.getPlayer();
-		Map<String, String> vars = tabList.getVars();
+		Map<VarKey, String> vars = tabList.getVars();
 		tabList.clear();
 
 		//Server vars
-		vars.put("SERVER_ONLINE", String.valueOf(Bukkit.getOnlinePlayers().size()));
-		vars.put("SERVER_MAX", String.valueOf(Bukkit.getMaxPlayers()));
+		vars.put(VarKey.SERVER_ONLINE, String.valueOf(Bukkit.getOnlinePlayers().size()));
+		vars.put(VarKey.SERVER_MAX, String.valueOf(Bukkit.getMaxPlayers()));
 
 		//Time
 		Date date = Calendar.getInstance().getTime();
-		vars.put("DATE_YEAR", String.valueOf(1900 + date.getYear()));
-		vars.put("DATE_MONTH", String.valueOf((date.getMonth()<10?"0":"") + date.getMonth()));
-		vars.put("DATE_DAY", String.valueOf((date.getDay()<10?"0":"") + date.getDay()));
-		vars.put("DATE_HOURS", String.valueOf((date.getHours()<10?"0":"") + date.getHours()));
-		vars.put("DATE_MINUTES", String.valueOf((date.getMinutes()<10?"0":"") + date.getMinutes()));
-		vars.put("DATE_SECONDS", String.valueOf((date.getSeconds()<10?"0":"") + date.getSeconds()));
+		vars.put(VarKey.DATE_YEAR, String.valueOf(1900 + date.getYear()));
+		vars.put(VarKey.DATE_MONTH, String.valueOf((date.getMonth()<10?"0":"") + date.getMonth()));
+		vars.put(VarKey.DATE_DAY, String.valueOf((date.getDay()<10?"0":"") + date.getDay()));
+		vars.put(VarKey.DATE_HOURS, String.valueOf((date.getHours()<10?"0":"") + date.getHours()));
+		vars.put(VarKey.DATE_MINUTES, String.valueOf((date.getMinutes()<10?"0":"") + date.getMinutes()));
+		vars.put(VarKey.DATE_SECONDS, String.valueOf((date.getSeconds()<10?"0":"") + date.getSeconds()));
 
 		//World vars
 		if(nPlayer.isOnline()) {
 			World world = Bukkit.getWorlds().get(0);
-			vars.put("WORLD_NAME", world.getName());
-			vars.put("WORLD_SPAWN", Message.getCoords3D(world.getSpawnLocation()).get());
+			vars.put(VarKey.WORLD_NAME, world.getName());
+			vars.put(VarKey.WORLD_SPAWN, Message.getCoords3D(world.getSpawnLocation()).get());
 		}
 
 		//Player vars
-		vars.put("PLAYER_NAME", nPlayer.getName());
-		vars.put("PLAYER_BALANCE", String.valueOf(nPlayer.getMoney()));
-		vars.put("PLAYER_KILLS", String.valueOf(nPlayer.getKills()));
-		vars.put("PLAYER_DEATHS", String.valueOf(nPlayer.getDeaths()));
-		vars.put("PLAYER_KDR", String.valueOf(nPlayer.getKillDeathRate()));
-		vars.put("PLAYER_CHATMODE", Message.getChatModeName(nPlayer.getChatMode()).get());
-		vars.put("PLAYER_SPYMODE", Message.getOnOff(nPlayer.getSpyMode()));
-		vars.put("PLAYER_BYPASS", Message.getOnOff(nPlayer.getBypass()));
+		vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
+		vars.put(VarKey.PLAYER_BALANCE, String.valueOf(nPlayer.getMoney()));
+		vars.put(VarKey.PLAYER_KILLS, String.valueOf(nPlayer.getKills()));
+		vars.put(VarKey.PLAYER_DEATHS, String.valueOf(nPlayer.getDeaths()));
+		vars.put(VarKey.PLAYER_KDR, String.valueOf(nPlayer.getKillDeathRate()));
+		vars.put(VarKey.PLAYER_CHATMODE, Message.getChatModeName(nPlayer.getChatMode()).get());
+		vars.put(VarKey.PLAYER_SPYMODE, Message.getOnOff(nPlayer.getSpyMode()));
+		vars.put(VarKey.PLAYER_BYPASS, Message.getOnOff(nPlayer.getBypass()));
 
 		//Guild vars
 		NovaGuild guild = nPlayer.getGuild();
@@ -130,21 +131,21 @@ public final class TabUtils {
 			guildOpenInvitation = Message.getOnOff(guild.isOpenInvitation());
 		}
 
-		vars.put("GUILD_NAME", guildName);
-		vars.put("GUILD_TAG", guildTag);
-		vars.put("GUILD_PLAYERS_ONLINE", guildPlayersOnline);
-		vars.put("GUILD_PLAYERS_MAX", guildPlayersMax);
-		vars.put("GUILD_LIVES", guildLives);
-		vars.put("GUILD_RAIDPROGRESS", guildRaidProgress);
-		vars.put("GUILD_PVP", guildPvp);
-		vars.put("GUILD_MONEY", guildMoney);
-		vars.put("GUILD_POINTS", guildPoints);
-		vars.put("GUILD_SLOTS", guildSlots);
-		vars.put("GUILD_TIME_REGEN", guildRegenTime);
-		vars.put("GUILD_TIME_REST", guildTimeRest);
-		vars.put("GUILD_TIME_CREATED", guildTimeCreated);
-		vars.put("GUILD_HOME", guildHomeCoords);
-		vars.put("GUILD_OPENINVITATION", guildOpenInvitation);
+		vars.put(VarKey.GUILD_NAME, guildName);
+		vars.put(VarKey.GUILD_TAG, guildTag);
+		vars.put(VarKey.GUILD_PLAYERS_ONLINE, guildPlayersOnline);
+		vars.put(VarKey.GUILD_PLAYERS_MAX, guildPlayersMax);
+		vars.put(VarKey.GUILD_LIVES, guildLives);
+		vars.put(VarKey.GUILD_RAIDPROGRESS, guildRaidProgress);
+		vars.put(VarKey.GUILD_PVP, guildPvp);
+		vars.put(VarKey.GUILD_MONEY, guildMoney);
+		vars.put(VarKey.GUILD_POINTS, guildPoints);
+		vars.put(VarKey.GUILD_SLOTS, guildSlots);
+		vars.put(VarKey.GUILD_TIME_REGEN, guildRegenTime);
+		vars.put(VarKey.GUILD_TIME_REST, guildTimeRest);
+		vars.put(VarKey.GUILD_TIME_CREATED, guildTimeCreated);
+		vars.put(VarKey.GUILD_HOME, guildHomeCoords);
+		vars.put(VarKey.GUILD_OPENINVITATION, guildOpenInvitation);
 
 		//Guild TOP
 		List<NovaGuild> topGuildsList = plugin.getGuildManager().getTopGuildsByPoints(20);
@@ -152,17 +153,17 @@ public final class TabUtils {
 			if(i <= topGuildsList.size()) {
 				NovaGuild guildTop = topGuildsList.get(i - 1);
 				String row = Config.TABLIST_TOPROW_GUILDS.getString();
-				Map<String, String> rowVars = new HashMap<>();
-				rowVars.put("N", String.valueOf(i));
-				rowVars.put("GUILDNAME", guildTop.getName());
-				rowVars.put("GUILDTAG", guildTop.getTag());
-				rowVars.put("POINTS", String.valueOf(guildTop.getPoints()));
-				row = StringUtils.replaceMap(row, rowVars);
+				Map<VarKey, String> rowVars = new HashMap<>();
+				rowVars.put(VarKey.N, String.valueOf(i));
+				rowVars.put(VarKey.GUILDNAME, guildTop.getName());
+				rowVars.put(VarKey.GUILDTAG, guildTop.getTag());
+				rowVars.put(VarKey.POINTS, String.valueOf(guildTop.getPoints()));
+				row = StringUtils.replaceVarKeyMap(row, rowVars);
 
-				vars.put("GUILD_TOP_N" + i, row);
+				vars.put(VarKey.valueOf("GUILD_TOP_N" + i), row);
 			}
 			else {
-				vars.put("GUILD_TOP_N" + i, "");
+				vars.put(VarKey.valueOf("GUILD_TOP_N" + i), "");
 			}
 		}
 
@@ -178,19 +179,19 @@ public final class TabUtils {
 				if(i <= topPlayersList.size()) {
 					NovaPlayer nPlayerTop = topPlayersList.get(i - 1);
 					String row = listDisplay.getRowPattern().getString();
-					Map<String, String> rowVars = new HashMap<>();
-					rowVars.put("N", String.valueOf(i));
-					rowVars.put("PLAYERNAME", nPlayerTop.getName());
-					rowVars.put("KILLS", String.valueOf(nPlayerTop.getKills()));
-					rowVars.put("DEATHS", String.valueOf(nPlayerTop.getDeaths()));
-					rowVars.put("KDR", String.valueOf(nPlayerTop.getKillDeathRate()));
-					rowVars.put("POINTS", String.valueOf(nPlayerTop.getPoints()));
-					row = StringUtils.replaceMap(row, rowVars);
+					Map<VarKey, String> rowVars = new HashMap<>();
+					rowVars.put(VarKey.N, String.valueOf(i));
+					rowVars.put(VarKey.PLAYERNAME, nPlayerTop.getName());
+					rowVars.put(VarKey.KILLS, String.valueOf(nPlayerTop.getKills()));
+					rowVars.put(VarKey.DEATHS, String.valueOf(nPlayerTop.getDeaths()));
+					rowVars.put(VarKey.KDR, String.valueOf(nPlayerTop.getKillDeathRate()));
+					rowVars.put(VarKey.POINTS, String.valueOf(nPlayerTop.getPoints()));
+					row = StringUtils.replaceVarKeyMap(row, rowVars);
 
-					vars.put("PLAYER_TOP_" + listDisplay.getVarKey() + "_N" + i, row);
+					vars.put(VarKey.valueOf("PLAYER_TOP_" + listDisplay.getVarKey() + "_N" + i), row);
 				}
 				else {
-					vars.put("PLAYER_TOP_" + listDisplay.getVarKey() + "_N" + i, "");
+					vars.put(VarKey.valueOf("PLAYER_TOP_" + listDisplay.getVarKey() + "_N" + i), "");
 				}
 			}
 		}

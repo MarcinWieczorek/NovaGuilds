@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
@@ -49,12 +50,12 @@ public class CommandGuildTop implements Executor {
 
 		Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.send(sender);
 
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
 			vars.clear();
-			vars.put("GUILDNAME", guild.getName());
-			vars.put("N", String.valueOf(i));
-			vars.put("POINTS", String.valueOf(guild.getPoints()));
+			vars.put(VarKey.GUILDNAME, guild.getName());
+			vars.put(VarKey.N, String.valueOf(i));
+			vars.put(VarKey.POINTS, String.valueOf(guild.getPoints()));
 			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).send(sender);
 			i++;
 		}

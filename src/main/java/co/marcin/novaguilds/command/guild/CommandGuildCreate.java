@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GuildManager;
@@ -76,7 +77,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 
 		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 		
 		if(nPlayer.hasGuild()) { //has guild already
 			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
@@ -105,7 +106,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 
 		//distance from spawn
 		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < Config.GUILD_FROMSPAWN.getInt()) {
-			vars.put("DISTANCE", String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
+			vars.put(VarKey.DISTANCE, String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
 			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.vars(vars).send(sender);
 			return;
 		}
@@ -122,7 +123,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		double requiredmoney = group.getGuildCreateMoney();
 
 		if(requiredmoney > 0 && !nPlayer.hasMoney(requiredmoney)) {
-			vars.put("REQUIREDMONEY", String.valueOf(requiredmoney));
+			vars.put(VarKey.REQUIREDMONEY, String.valueOf(requiredmoney));
 			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 			return;
 		}
@@ -216,8 +217,8 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					//messages
 					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);
 
-					vars.put("GUILDNAME", newGuild.getName());
-					vars.put("PLAYER", sender.getName());
+					vars.put(VarKey.GUILDNAME, newGuild.getName());
+					vars.put(VarKey.PLAYER, sender.getName());
 					Message.BROADCAST_GUILD_CREATED.vars(vars).broadcast();
 				}
 				break;

@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin.config;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -73,9 +74,9 @@ public class CommandAdminConfigSet implements Executor {
 
 		plugin.getConfigManager().set(config, value);
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("KEY", config.name());
-		vars.put("VALUE", valueString);
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.KEY, config.name());
+		vars.put(VarKey.VALUE, valueString);
 		Message.CHAT_ADMIN_CONFIG_SET.vars(vars).send(sender);
 	}
 

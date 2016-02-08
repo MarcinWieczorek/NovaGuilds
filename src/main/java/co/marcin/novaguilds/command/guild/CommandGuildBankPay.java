@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -75,9 +76,7 @@ public class CommandGuildBankPay implements Executor {
 
 		nPlayer.takeMoney(money);
 		guild.addMoney(money);
-		Map<String, String> vars = new HashMap<>();
-		vars.put("AMOUNT", money + "");
-		Message.CHAT_GUILD_BANK_PAY_PAID.vars(vars).send(sender);
+		Message.CHAT_GUILD_BANK_PAY_PAID.setVar(VarKey.AMOUNT, money).send(sender);
 		TabUtils.refresh(nPlayer.getGuild());
 	}
 

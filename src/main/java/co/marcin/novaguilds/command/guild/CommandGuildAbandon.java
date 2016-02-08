@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TabUtils;
@@ -83,9 +84,9 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 
 			Message.CHAT_GUILD_ABANDONED.send(sender);
 
-			Map<String, String> vars = new HashMap<>();
-			vars.put("PLAYER", sender.getName());
-			vars.put("GUILDNAME", guild.getName());
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.PLAYER, sender.getName());
+			vars.put(VarKey.GUILDNAME, guild.getName());
 			Message.BROADCAST_GUILD_ABANDONED.vars(vars).broadcast();
 			TagUtils.refresh();
 			TabUtils.refresh();

@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -82,7 +83,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 			return;
 		}
 
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		List<String> guildInfoMessages;
 		String separator = Message.CHAT_GUILDINFO_PLAYERSEPARATOR.get();
@@ -151,17 +152,17 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 			wars = wars.substring(0, wars.length() - separator.length());
 		}
 
-		vars.put("RANK", "");
-		vars.put("GUILDNAME", guild.getName());
-		vars.put("LEADER", guild.getLeader().getName());
-		vars.put("TAG", guild.getTag());
-		vars.put("MONEY", guild.getMoney() + "");
-		vars.put("PLAYERS", players);
-		vars.put("PLAYERSCOUNT", String.valueOf(guild.getPlayers().size()));
-		vars.put("SLOTS", String.valueOf(guild.getSlots()));
-		vars.put("POINTS", guild.getPoints() + "");
-		vars.put("LIVES", guild.getLives() + "");
-		vars.put("OPENINV", Message.getOnOff(guild.isOpenInvitation()));
+		vars.put(VarKey.RANK, "");
+		vars.put(VarKey.GUILDNAME, guild.getName());
+		vars.put(VarKey.LEADER, guild.getLeader().getName());
+		vars.put(VarKey.TAG, guild.getTag());
+		vars.put(VarKey.MONEY, String.valueOf(guild.getMoney()));
+		vars.put(VarKey.PLAYERS, players);
+		vars.put(VarKey.PLAYERSCOUNT, String.valueOf(guild.getPlayers().size()));
+		vars.put(VarKey.SLOTS, String.valueOf(guild.getSlots()));
+		vars.put(VarKey.POINTS, String.valueOf(guild.getPoints()));
+		vars.put(VarKey.LIVES, String.valueOf(guild.getLives()));
+		vars.put(VarKey.OPENINV, Message.getOnOff(guild.isOpenInvitation()));
 
 		//live regeneration time
 		long liveRegenerationTime = Config.LIVEREGENERATION_REGENTIME.getSeconds() - (NumberUtils.systemSeconds() - guild.getLostLiveTime());
@@ -169,27 +170,27 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 
 		long timeWait = (guild.getTimeRest() + Config.RAID_TIMEREST.getSeconds()) - NumberUtils.systemSeconds();
 
-		vars.put("LIVEREGENERATIONTIME", liveRegenerationString);
-		vars.put("TIMEREST", StringUtils.secondsToString(timeWait));
+		vars.put(VarKey.LIVEREGENERATIONTIME, liveRegenerationString);
+		vars.put(VarKey.TIMEREST, StringUtils.secondsToString(timeWait));
 
 		//time created and protection
 		long createdAgo = NumberUtils.systemSeconds() - guild.getTimeCreated();
 		long protLeft = Config.GUILD_CREATEPROTECTION.getSeconds() - createdAgo;
 
-		vars.put("CREATEDAGO", StringUtils.secondsToString(createdAgo, TimeUnit.HOURS));
-		vars.put("PROTLEFT", StringUtils.secondsToString(protLeft, TimeUnit.HOURS));
+		vars.put(VarKey.CREATEDAGO, StringUtils.secondsToString(createdAgo, TimeUnit.HOURS));
+		vars.put(VarKey.PROTLEFT, StringUtils.secondsToString(protLeft, TimeUnit.HOURS));
 
 		//spawnpoint location coords
 		Location sp = guild.getSpawnPoint();
 		if(sp != null) {
-			vars.put("SP_X", sp.getBlockX() + "");
-			vars.put("SP_Y", sp.getBlockY() + "");
-			vars.put("SP_Z", sp.getBlockZ() + "");
+			vars.put(VarKey.SP_X, String.valueOf(sp.getBlockX()));
+			vars.put(VarKey.SP_Y, String.valueOf(sp.getBlockY()));
+			vars.put(VarKey.SP_Z, String.valueOf(sp.getBlockZ()));
 		}
 
 		//put wars and allies into vars
-		vars.put("ALLIES", allies);
-		vars.put("WARS", wars);
+		vars.put(VarKey.ALLIES, allies);
+		vars.put(VarKey.WARS, wars);
 
 		for(i = 1; i < guildInfoMessages.size(); i++) {
 			boolean skipmsg = false;
@@ -229,7 +230,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 			}
 
 			if(!skipmsg) {
-				gmsg = MessageManager.replaceMap(gmsg, vars);
+				gmsg = MessageManager.replaceVarKeyMap(gmsg, vars);
 				MessageManager.sendMessage(sender, gmsg);
 			}
 		}

@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
@@ -56,10 +57,7 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 		int slot = 0;
 		slotPlayersMap.clear();
 		for(NovaPlayer nPlayer : playerList) {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("PLAYERNAME", nPlayer.getName());
-
-			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.vars(vars).get());
+			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.setVar(VarKey.PLAYERNAME, nPlayer.getName()).get());
 
 			if(itemStack == null) {
 				continue;

@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_8Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
@@ -443,14 +444,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			raid.getGuildDefender().removeRaidBar();
 		}
 		else {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("DEFENDER", raid.getGuildDefender().getName());
 			List<Player> players = raid.getGuildAttacker().getOnlinePlayers();
 			players.addAll(raid.getGuildDefender().getOnlinePlayers());
 
 			for(Player player : players) {
 				if(Config.BARAPI_ENABLED.getBoolean()) {
-					BarAPI.setMessage(player, Message.BARAPI_WARPROGRESS.vars(vars).get(), raid.getProgress());
+					BarAPI.setMessage(player, Message.BARAPI_WARPROGRESS.setVar(VarKey.DEFENDER, raid.getGuildDefender().getName()).get(), raid.getProgress());
 				}
 				else {
 					//TODO

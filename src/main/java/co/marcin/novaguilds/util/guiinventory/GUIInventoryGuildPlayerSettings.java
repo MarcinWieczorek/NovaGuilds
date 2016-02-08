@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.apache.commons.lang.StringUtils;
@@ -42,9 +43,8 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 	public GUIInventoryGuildPlayerSettings(NovaPlayer nPlayer) {
 		this.nPlayer = nPlayer;
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", nPlayer.getName());
-		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.vars(vars));
+		Message message = Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.setVar(VarKey.PLAYERNAME, nPlayer.getName());
+		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), message);
 	}
 
 	@Override
@@ -73,8 +73,8 @@ public class GUIInventoryGuildPlayerSettings implements GUIInventory {
 	public void generateContent() {
 		inventory.clear();
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("RANKNAME", nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.RANKNAME, nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
 
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();

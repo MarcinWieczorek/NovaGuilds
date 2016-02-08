@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
@@ -92,7 +93,7 @@ public class CommandGuildWar implements Executor {
 		}
 
 		if(guild.isWarWith(cmdGuild)) { //no war inv
-			Map<String, String> vars = new HashMap<>();
+			Map<VarKey, String> vars = new HashMap<>();
 
 			if(guild.isNoWarInvited(cmdGuild)) { //accepting no-war
 				if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_ACCEPT)) {
@@ -105,8 +106,8 @@ public class CommandGuildWar implements Executor {
 				cmdGuild.removeWar(guild);
 
 				//broadcast
-				vars.put("GUILD1", guild.getName());
-				vars.put("GUILD2", cmdGuild.getName());
+				vars.put(VarKey.GUILD1, guild.getName());
+				vars.put(VarKey.GUILD2, cmdGuild.getName());
 				Message.BROADCAST_GUILD_NOWAR.vars(vars).broadcast();
 			}
 			else { //inviting to no-war
@@ -116,12 +117,12 @@ public class CommandGuildWar implements Executor {
 				}
 
 				cmdGuild.addNoWarInvitation(guild);
-				vars.put("GUILDNAME", cmdGuild.getName());
+				vars.put(VarKey.GUILDNAME, cmdGuild.getName());
 				Message.CHAT_GUILD_WAR_NOWARINV_SUCCESS.vars(vars).send(sender);
 
 				//notify the guild
 				vars.clear();
-				vars.put("GUILDNAME", guild.getName());
+				vars.put(VarKey.GUILDNAME, guild.getName());
 				Message.CHAT_GUILD_WAR_NOWARINV_NOTIFY.vars(vars).broadcast(cmdGuild);
 			}
 		}
@@ -145,9 +146,9 @@ public class CommandGuildWar implements Executor {
 			cmdGuild.addWar(guild);
 
 			//broadcasts
-			Map<String, String> vars = new HashMap<>();
-			vars.put("GUILD1", guild.getName());
-			vars.put("GUILD2", cmdGuild.getName());
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.GUILD1, guild.getName());
+			vars.put(VarKey.GUILD2, cmdGuild.getName());
 			Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
 			TagUtils.refresh();
 			TabUtils.refresh();

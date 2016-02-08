@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin.guild;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -48,22 +49,20 @@ public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 			return;
 		}
 
-		final String newtag = args[0];
+		String newTag = args[0];
 
-		if(plugin.getGuildManager().getGuildFind(newtag) != null) {
+		if(plugin.getGuildManager().getGuildFind(newTag) != null) {
 			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
 			return;
 		}
 
 		//all passed
-		guild.setTag(newtag);
+		guild.setTag(newTag);
 
 		TagUtils.refresh();
 		TabUtils.refresh();
 
-		Message.CHAT_ADMIN_GUILD_SET_TAG.vars(new HashMap<String, String>() {{
-			put("TAG", newtag);
-		}}).send(sender);
+		Message.CHAT_ADMIN_GUILD_SET_TAG.setVar(VarKey.TAG, newTag).send(sender);
 	}
 
 	@Override

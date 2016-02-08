@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -442,9 +443,9 @@ public class RegionManager {
 		}
 
 		//Chat message
-		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", region.getGuild().getName());
-		vars.put("PLAYERNAME", player.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+		vars.put(VarKey.PLAYERNAME, player.getName());
 		Message.CHAT_REGION_ENTERED.vars(vars).send(player);
 
 		//Player is at region
@@ -474,9 +475,7 @@ public class RegionManager {
 		NovaGuild guild = region.getGuild();
 
 		nPlayer.setAtRegion(null);
-		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", region.getGuild().getName());
-		Message.CHAT_REGION_EXITED.vars(vars).send(player);
+		Message.CHAT_REGION_EXITED.setVar(VarKey.GUILDNAME, region.getGuild().getName()).send(player);
 
 		if(nPlayer.hasGuild()) {
 			if(nPlayer.getGuild().isWarWith(guild)) {
@@ -551,9 +550,7 @@ public class RegionManager {
 				else {
 					final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 
-					Message.CHAT_RAID_RESTING.vars(new HashMap<String, String>() {{
-						put("TIMEREST", StringUtils.secondsToString(timeWait));
-					}}).send(player);
+					Message.CHAT_RAID_RESTING.setVar(VarKey.TIMEREST, StringUtils.secondsToString(timeWait)).send(player);
 				}
 			}
 		}

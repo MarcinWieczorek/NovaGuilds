@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.StringUtils;
 
 import java.util.HashMap;
@@ -99,11 +100,11 @@ public class PreparedTagImpl implements PreparedTag {
 
 		String tag = Config.CHAT_TAG.getString();
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("RANK", isLeaderPrefix() ? Config.CHAT_LEADERPREFIX.getString() : "");
-		vars.put("COLOR", color.getConfig().getString());
-		vars.put("TAG", guild.getTag());
-		tag = StringUtils.replaceMap(tag, vars);
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.RANK, isLeaderPrefix() ? Config.CHAT_LEADERPREFIX.getString() : "");
+		vars.put(VarKey.COLOR, color.getConfig().getString());
+		vars.put(VarKey.TAG, guild.getTag());
+		tag = StringUtils.replaceVarKeyMap(tag, vars);
 		tag = StringUtils.fixColors(tag);
 
 		return tag;

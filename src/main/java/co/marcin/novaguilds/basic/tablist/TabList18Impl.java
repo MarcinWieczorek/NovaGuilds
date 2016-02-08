@@ -20,6 +20,7 @@ package co.marcin.novaguilds.basic.tablist;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.TabList;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -33,7 +34,7 @@ import java.util.Map;
 public class TabList18Impl implements TabList {
 	private final NovaPlayer nPlayer;
 	private final List<String> lines = new ArrayList<>();
-	private final Map<String, String> vars = new HashMap<>();
+	private final Map<VarKey, String> vars = new HashMap<>();
 
 	public TabList18Impl(NovaPlayer nPlayer) {
 		this.nPlayer = nPlayer;
@@ -51,7 +52,7 @@ public class TabList18Impl implements TabList {
 		int x = 0;
 		int y = 0;
 		for(String line : lines) {
-			line = StringUtils.replaceMap(line, vars);
+			line = StringUtils.replaceVarKeyMap(line, vars);
 			line = StringUtils.fixColors(line);
 
 			API.setTabSlot(nPlayer.getPlayer(), x, y, line);
@@ -65,7 +66,7 @@ public class TabList18Impl implements TabList {
 	}
 
 	@Override
-	public Map<String, String> getVars() {
+	public Map<VarKey, String> getVars() {
 		return vars;
 	}
 

@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -77,8 +78,8 @@ public class CommandAdminGuildResetPoints implements Executor {
 			return;
 		}
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("CHAR", String.valueOf(condition.charAt(0)));
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.CHAR, String.valueOf(condition.charAt(0)));
 
 		if(condition.length() == 1) {
 			Message.CHAT_ADMIN_GUILD_RESET_POINTS_NOVALUE.vars(vars).send(sender);
@@ -142,7 +143,7 @@ public class CommandAdminGuildResetPoints implements Executor {
 				count++;
 			}
 		}
-		vars.put("COUNT", String.valueOf(count));
+		vars.put(VarKey.COUNT, String.valueOf(count));
 
 		Message.CHAT_ADMIN_GUILD_RESET_POINTS_SUCCESS.vars(vars).send(sender);
 	}

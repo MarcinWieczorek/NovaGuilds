@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -161,14 +162,14 @@ public class ChatMessageImpl implements ChatMessage {
 	private String parse() {
 		String format = getFormat();
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("DISPLAYNAME", getPlayer().getDisplayName());
-		vars.put("PLAYER", getPlayer().getName());
-		vars.put("WORLD", getPlayer().getWorld().getName());
-		vars.put("WORLDNAME", getPlayer().getWorld().getName());
-		vars.put("TAG", tag.get());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.DISPLAYNAME, getPlayer().getDisplayName());
+		vars.put(VarKey.PLAYER, getPlayer().getName());
+		vars.put(VarKey.WORLD, getPlayer().getWorld().getName());
+		vars.put(VarKey.WORLDNAME, getPlayer().getWorld().getName());
+		vars.put(VarKey.TAG, tag.get());
 
-		format = co.marcin.novaguilds.util.StringUtils.replaceMap(format, vars);
+		format = co.marcin.novaguilds.util.StringUtils.replaceVarKeyMap(format, vars);
 		format = co.marcin.novaguilds.util.StringUtils.fixColors(format);
 		format = StringUtils.replace(format, "{MESSAGE}", getMessage());
 

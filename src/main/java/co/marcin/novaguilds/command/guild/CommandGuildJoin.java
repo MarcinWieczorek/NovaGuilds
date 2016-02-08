@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -127,13 +128,13 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 			}
 		}
 
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		//money
 		double joinMoney = plugin.getGroupManager().getGroup(sender).getGuildJoinMoney();
 		if(joinMoney > 0) {
 			if(!nPlayer.hasMoney(joinMoney)) {
-				vars.put("{REQUIREDMONEY}", joinMoney + "");
+				vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
 				Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 				return;
 			}
@@ -160,8 +161,8 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		guild.showVaultHologram(nPlayer.getPlayer());
 
 		vars.clear();
-		vars.put("PLAYER", sender.getName());
-		vars.put("GUILDNAME", guild.getName());
+		vars.put(VarKey.PLAYER, sender.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.BROADCAST_GUILD_JOINED.vars(vars).broadcast();
 	}
 

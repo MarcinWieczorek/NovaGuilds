@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -80,9 +81,9 @@ public class CommandGuildLeader implements Executor {
 		guild.setLeader(newLeader);
 		plugin.getGuildManager().save(guild);
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", newLeader.getName());
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, newLeader.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.CHAT_GUILD_LEADER_SUCCESS.vars(vars).send(sender);
 		Message.BROADCAST_GUILD_SETLEADER.vars(vars).broadcast();
 

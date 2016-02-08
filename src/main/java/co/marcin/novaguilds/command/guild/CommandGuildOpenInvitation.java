@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
@@ -52,9 +53,7 @@ public class CommandGuildOpenInvitation implements Executor {
 		final boolean status = !nPlayer.getGuild().isOpenInvitation();
 		nPlayer.getGuild().setOpenInvitation(status);
 
-		Message.CHAT_GUILD_OPENINVITATION.vars(new HashMap<String, String>() {{
-			put("STATUS", Message.getOnOff(status));
-		}}).send(sender);
+		Message.CHAT_GUILD_OPENINVITATION.setVar(VarKey.STATUS, Message.getOnOff(status)).send(sender);
 
 		TabUtils.refresh(nPlayer.getGuild());
 	}

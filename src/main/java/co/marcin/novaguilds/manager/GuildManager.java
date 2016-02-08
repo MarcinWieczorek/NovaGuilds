@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.ItemStackUtils;
@@ -799,8 +800,8 @@ public class GuildManager {
 		int delay = GroupManager.getGroup(player) == null ? 0 : GroupManager.getGroup(player).getGuildTeleportDelay();
 
 		if(delay > 0) {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("DELAY", String.valueOf(GroupManager.getGroup(player).getGuildTeleportDelay()));
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.DELAY, String.valueOf(GroupManager.getGroup(player).getGuildTeleportDelay()));
 			NovaGuilds.runTaskLater(task, delay, TimeUnit.SECONDS);
 			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
 		}
@@ -814,13 +815,13 @@ public class GuildManager {
 		int i = 1;
 
 		List<String> list = new ArrayList<>();
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
 			vars.clear();
-			vars.put("GUILDNAME", guild.getName());
-			vars.put("N", String.valueOf(i));
-			vars.put("POINTS", String.valueOf(guild.getPoints()));
+			vars.put(VarKey.GUILDNAME, guild.getName());
+			vars.put(VarKey.N, String.valueOf(i));
+			vars.put(VarKey.POINTS, String.valueOf(guild.getPoints()));
 			list.add(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).get());
 			i++;
 		}
@@ -840,10 +841,9 @@ public class GuildManager {
 			GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.INACTIVE);
 			plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
 
-			//if event is not cancelled
 			if(!guildAbandonEvent.isCancelled()) {
-				Map<String, String> vars = new HashMap<>();
-				vars.put("GUILDNAME", guild.getName());
+				Map<VarKey, String> vars = new HashMap<>();
+				vars.put(VarKey.GUILDNAME, guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_CLEANUP.vars(vars).broadcast();
 				LoggerUtils.debug("Abandoned guild " + guild.getName() + " due to inactivity.");
 				count++;

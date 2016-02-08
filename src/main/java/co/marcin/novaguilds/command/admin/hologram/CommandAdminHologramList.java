@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin.hologram;
 import co.marcin.novaguilds.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
@@ -37,13 +38,13 @@ public class CommandAdminHologramList implements Executor {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		Message.CHAT_ADMIN_HOLOGRAM_LIST_HEADER.send(sender);
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 		for(NovaHologram hologram : plugin.getHologramManager().getHolograms()) {
 			vars.clear();
-			vars.put("NAME", hologram.getName());
-			vars.put("X", String.valueOf(hologram.getLocation().getBlockX()));
-			vars.put("Y", String.valueOf(hologram.getLocation().getBlockY()));
-			vars.put("Z", String.valueOf(hologram.getLocation().getBlockZ()));
+			vars.put(VarKey.NAME, hologram.getName());
+			vars.put(VarKey.X, String.valueOf(hologram.getLocation().getBlockX()));
+			vars.put(VarKey.Y, String.valueOf(hologram.getLocation().getBlockY()));
+			vars.put(VarKey.Z, String.valueOf(hologram.getLocation().getBlockZ()));
 
 			Message.CHAT_ADMIN_HOLOGRAM_LIST_ITEM.vars(vars).prefix(false).send(sender);
 		}

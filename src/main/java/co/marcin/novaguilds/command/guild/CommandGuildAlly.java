@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.StringUtils;
@@ -66,9 +67,9 @@ public class CommandGuildAlly implements Executor {
 				return;
 			}
 
-			Map<String, String> vars = new HashMap<>();
-			vars.put("GUILDNAME", guild.getName());
-			vars.put("ALLYNAME", allyGuild.getName());
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.GUILDNAME, guild.getName());
+			vars.put(VarKey.ALLYNAME, allyGuild.getName());
 
 			if(!guild.isAlly(allyGuild)) {
 				if(guild.isWarWith(allyGuild)) {

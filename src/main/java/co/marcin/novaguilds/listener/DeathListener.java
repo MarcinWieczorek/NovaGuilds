@@ -25,6 +25,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.entity.Player;
@@ -74,11 +75,11 @@ public class DeathListener implements Listener {
 		preparedTag1.setLeaderPrefix(false);
 		preparedTag2.setLeaderPrefix(false);
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYER1", victim.getName());
-		vars.put("PLAYER2", attacker.getName());
-		vars.put("TAG1", preparedTag1.get());
-		vars.put("TAG2", preparedTag2.get());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYER1, victim.getName());
+		vars.put(VarKey.PLAYER2, attacker.getName());
+		vars.put(VarKey.TAG1, preparedTag1.get());
+		vars.put(VarKey.TAG2, preparedTag2.get());
 		Message.BROADCAST_PVP_KILLED.vars(vars).broadcast();
 
 		//guildpoints and money
@@ -110,13 +111,13 @@ public class DeathListener implements Listener {
 
 			//money
 			vars.clear();
-			vars.put("PLAYERNAME", victim.getName());
+			vars.put(VarKey.PLAYERNAME, victim.getName());
 			double money;
 			if(nPlayer.canGetKillPoints(attacker)) {
 				money = (Config.KILLING_MONEYFORKILL.getPercent() + bonusPercentMoney) * nPlayer.getMoney();
 
 				if(money > 0) {
-					vars.put("MONEY", String.valueOf(money));
+					vars.put(VarKey.MONEY, String.valueOf(money));
 					Message.CHAT_PLAYER_PVPMONEY_KILL.vars(vars).send(attacker);
 				}
 			}
@@ -124,7 +125,7 @@ public class DeathListener implements Listener {
 				money = (Config.KILLING_MONEYFORREVENGE.getPercent() + bonusPercentMoney) * nPlayer.getMoney();
 
 				if(money > 0) {
-					vars.put("MONEY", String.valueOf(money));
+					vars.put(VarKey.MONEY, String.valueOf(money));
 					Message.CHAT_PLAYER_PVPMONEY_REVENGE.vars(vars).send(attacker);
 				}
 			}

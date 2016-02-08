@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
@@ -41,8 +42,8 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 	public GUIInventoryGuildPermissionSelect(NovaRank rank) {
 		this.rank = rank;
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("RANKNAME", rank.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.RANKNAME, rank.getName());
 		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.vars(vars));
 	}
 
@@ -82,12 +83,12 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 	public void generateContent() {
 		inventory.clear();
 		int slot = 0;
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		for(GuildPermission perm : GuildPermission.values()) {
 			ItemStack itemStack;
 			vars.clear();
-			vars.put("PERMNAME", Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
+			vars.put(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
 
 			if(rank.hasPermission(perm)) {
 				itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).get());
@@ -120,8 +121,8 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 			return;
 		}
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PERMNAME", Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
 
 		if(rank.hasPermission(perm)) {
 			itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).get());

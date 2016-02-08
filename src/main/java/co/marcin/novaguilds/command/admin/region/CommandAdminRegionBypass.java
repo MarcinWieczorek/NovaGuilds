@@ -22,6 +22,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
@@ -42,13 +43,13 @@ public class CommandAdminRegionBypass implements Executor {
 	* */
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {
 			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
 
 			nPlayer.toggleBypass();
-			vars.put("BYPASS", Message.getOnOff(nPlayer.getBypass()));
+			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getBypass()));
 			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF.vars(vars).send(sender);
 		}
 		else { //for other
@@ -65,8 +66,8 @@ public class CommandAdminRegionBypass implements Executor {
 			}
 
 			nPlayer.toggleBypass();
-			vars.put("PLAYER", nPlayer.getName());
-			vars.put("BYPASS", Message.getOnOff(nPlayer.getBypass()));
+			vars.put(VarKey.PLAYER, nPlayer.getName());
+			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getBypass()));
 
 			if(nPlayer.isOnline()) {
 				Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.vars(vars).send(sender);

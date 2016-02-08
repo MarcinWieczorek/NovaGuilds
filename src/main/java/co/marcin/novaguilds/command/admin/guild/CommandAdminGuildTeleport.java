@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -51,8 +52,8 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 		Player player = (Player) sender;
 		boolean other = false;
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.GUILDNAME, guild.getName());
 
 		if(args.length == 1) {
 			if(!Permission.NOVAGUILDS_ADMIN_GUILD_TELEPORT_OTHER.has(sender)) {
@@ -78,7 +79,7 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 		}
 
 		if(other) {
-			vars.put("PLAYERNAME", player.getName());
+			vars.put(VarKey.PLAYERNAME, player.getName());
 			Message.CHAT_ADMIN_GUILD_TELEPORTED_OTHER.vars(vars).send(sender);
 		}
 		else {

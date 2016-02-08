@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Bukkit;
@@ -395,27 +396,27 @@ public class PlayerManager {
 	}
 
 	public void sendPlayerInfo(CommandSender sender, NovaPlayer nCPlayer) {
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", nCPlayer.getName());
-		vars.put("POINTS", String.valueOf(nCPlayer.getPoints()));
-		vars.put("KILLS", String.valueOf(nCPlayer.getKills()));
-		vars.put("DEATHS", String.valueOf(nCPlayer.getDeaths()));
-		vars.put("KDR", String.valueOf(nCPlayer.getKillDeathRate()));
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, nCPlayer.getName());
+		vars.put(VarKey.POINTS, String.valueOf(nCPlayer.getPoints()));
+		vars.put(VarKey.KILLS, String.valueOf(nCPlayer.getKills()));
+		vars.put(VarKey.DEATHS, String.valueOf(nCPlayer.getDeaths()));
+		vars.put(VarKey.KDR, String.valueOf(nCPlayer.getKillDeathRate()));
 
 		String guildRow = "";
 		if(nCPlayer.hasGuild()) {
-			vars.put("GUILDNAME", nCPlayer.getGuild().getName());
-			vars.put("TAG", nCPlayer.getGuild().getTag());
+			vars.put(VarKey.GUILDNAME, nCPlayer.getGuild().getName());
+			vars.put(VarKey.TAG, nCPlayer.getGuild().getTag());
 			guildRow = Message.CHAT_PLAYER_INFO_GUILDROW.vars(vars).get();
 		}
 
-		vars.put("GUILDROW", guildRow);
+		vars.put(VarKey.GUILDROW, guildRow);
 
 		Message.CHAT_PLAYER_INFO_HEADER.send(sender);
 
 		for(String row : Message.CHAT_PLAYER_INFO_ITEMS.getList()) {
 			if(!row.contains("{GUILDROW}") || nCPlayer.hasGuild()) {
-				row = MessageManager.replaceMap(row, vars);
+				row = MessageManager.replaceVarKeyMap(row, vars);
 				MessageManager.sendMessage(sender, row);
 			}
 		}

@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.admin.hologram;
 import co.marcin.novaguilds.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,11 +39,7 @@ public class CommandAdminHologramAddTop implements Executor {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		NovaHologram hologram = plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());
-
-		Map<String, String> vars = new HashMap<>();
-		vars.put("NAME", hologram.getName());
-
-		Message.CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS.vars(vars).send(sender);
+		Message.CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS.setVar(VarKey.NAME, hologram.getName()).send(sender);
 	}
 
 	@Override
