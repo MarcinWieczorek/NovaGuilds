@@ -18,16 +18,15 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
+import co.marcin.novaguilds.api.util.AbstractGUIInventory;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -35,16 +34,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GUIInventoryGuildPlayersList implements GUIInventory {
-	private final Inventory inventory;
+public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 	private final Map<Integer, NovaPlayer> slotPlayersMap = new HashMap<>();
 	protected final NovaGuild guild;
-	private NovaPlayer viewer;
 
 	public GUIInventoryGuildPlayersList(NovaGuild guild) {
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSLIST_TITLE);
 		this.guild = guild;
-
-		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSLIST_TITLE);
 	}
 
 	@Override
@@ -80,30 +76,5 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 		}
 
 		new GUIInventoryGuildPlayerSettings(slotPlayersMap.get(event.getRawSlot())).open(NovaPlayer.get(event.getWhoClicked()));
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void open(NovaPlayer nPlayer) {
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
-	}
-
-	@Override
-	public NovaPlayer getViewer() {
-		return viewer;
-	}
-
-	@Override
-	public void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
-
-	@Override
-	public void close() {
-		getViewer().getPlayer().closeInventory();
 	}
 }

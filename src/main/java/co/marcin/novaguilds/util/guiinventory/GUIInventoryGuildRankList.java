@@ -19,20 +19,18 @@
 package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractGUIInventory;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -40,16 +38,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GUIInventoryGuildRankList implements GUIInventory {
-	private final Inventory inventory;
+public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 	private final NovaGuild guild;
 	protected Map<Integer, NovaRank> slotRanksMap = new HashMap<>();
 	protected ItemStack addRankItem;
-	private NovaPlayer viewer;
 
 	public GUIInventoryGuildRankList(NovaGuild guild) {
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE);
 		this.guild = guild;
-		inventory = Bukkit.createInventory(null, ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE.get());
 	}
 
 	@Override
@@ -112,31 +108,6 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 				guiInventory.open(nPlayer);
 			}
 		}
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void open(NovaPlayer nPlayer) {
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
-	}
-
-	@Override
-	public NovaPlayer getViewer() {
-		return viewer;
-	}
-
-	@Override
-	public void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
-
-	@Override
-	public void close() {
-		getViewer().getPlayer().closeInventory();
 	}
 
 	public NovaGuild getGuild() {

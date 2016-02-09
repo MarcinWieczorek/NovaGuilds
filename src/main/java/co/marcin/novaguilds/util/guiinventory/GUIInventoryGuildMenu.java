@@ -18,28 +18,22 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractGUIInventory;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.GUIInventory;
-import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class GUIInventoryGuildMenu implements GUIInventory {
-	private final Inventory inventory;
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
+public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 	private final NovaPlayer nPlayer;
 	private ItemStack ranksItem;
 	private ItemStack playersItem;
-	private NovaPlayer viewer;
 
 	public GUIInventoryGuildMenu(NovaPlayer nPlayer) {
+		super(9, Message.INVENTORY_GGUI_NAME);
 		this.nPlayer = nPlayer;
-		inventory = ChestGUIUtils.createInventory(9, Message.INVENTORY_GGUI_NAME);
 	}
 
 	@Override
@@ -52,16 +46,6 @@ public class GUIInventoryGuildMenu implements GUIInventory {
 		else if(clickedItemStack.equals(playersItem)) {
 			new GUIInventoryGuildPlayersList(nPlayer.getGuild()).open(nPlayer);
 		}
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void open(NovaPlayer nPlayer) {
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
 	}
 
 	@Override
@@ -85,20 +69,5 @@ public class GUIInventoryGuildMenu implements GUIInventory {
 				inventory.addItem(ranksItem);
 			}
 		}
-	}
-
-	@Override
-	public NovaPlayer getViewer() {
-		return viewer;
-	}
-
-	@Override
-	public void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
-
-	@Override
-	public void close() {
-		getViewer().getPlayer().closeInventory();
 	}
 }

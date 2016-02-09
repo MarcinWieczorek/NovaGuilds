@@ -18,33 +18,26 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.util.AbstractGUIInventory;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GUIInventoryGuildPermissionSelect implements GUIInventory {
+public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 	private final NovaRank rank;
-	private final Inventory inventory;
 	private final Map<Integer, GuildPermission> slotPermissionsMap = new HashMap<>();
-	private NovaPlayer viewer;
 
 	public GUIInventoryGuildPermissionSelect(NovaRank rank) {
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
-
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.RANKNAME, rank.getName());
-		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.vars(vars));
 	}
 
 	@Override
@@ -58,16 +51,6 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 
 		togglePermission(slotPermissionsMap.get(slot));
 		refreshSlot(slot);
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void open(NovaPlayer nPlayer) {
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
 	}
 
 	private void togglePermission(GuildPermission permission) {
@@ -103,16 +86,6 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 		}
 	}
 
-	@Override
-	public NovaPlayer getViewer() {
-		return viewer;
-	}
-
-	@Override
-	public void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
-
 	private void refreshSlot(int slot) {
 		ItemStack itemStack;
 		GuildPermission perm = slotPermissionsMap.get(slot);
@@ -132,10 +105,5 @@ public class GUIInventoryGuildPermissionSelect implements GUIInventory {
 		}
 
 		inventory.setItem(slot, itemStack);
-	}
-
-	@Override
-	public void close() {
-		getViewer().getPlayer().closeInventory();
 	}
 }

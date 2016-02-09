@@ -18,8 +18,8 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
+import co.marcin.novaguilds.api.util.AbstractGUIInventory;
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.GUIInventory;
@@ -29,14 +29,11 @@ import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class GUIInventoryGuildRankSettings implements GUIInventory {
-	private final Inventory inventory;
+public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private final NovaRank rank;
 	private NovaGuild guild;
-	private NovaPlayer viewer;
 
 	private ItemStack editPermissionsItem;
 	private ItemStack setDefaultItem;
@@ -46,7 +43,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 	private ItemStack memberListItem;
 
 	public GUIInventoryGuildRankSettings(NovaRank rank) {
-		inventory = ChestGUIUtils.createInventory(9, Message.INVENTORY_GUI_RANKS_TITLE);
+		super(9, Message.INVENTORY_GUI_RANKS_TITLE);
 		this.rank = rank;
 	}
 
@@ -55,7 +52,7 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 		ItemStack clickedItemStack = event.getCurrentItem();
 
 		if(clickedItemStack.equals(editPermissionsItem)) {
-			new GUIInventoryGuildPermissionSelect(rank).open(viewer);
+			new GUIInventoryGuildPermissionSelect(rank).open(getViewer());
 		}
 		else if(clickedItemStack.equals(setDefaultItem)) {
 			NovaRank clonedRank = rank;
@@ -83,17 +80,6 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 		else if(clickedItemStack.equals(memberListItem)) {
 			new GUIInventoryGuildRankMembers(getGuild(), rank).open(getViewer());
 		}
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void open(NovaPlayer nPlayer) {
-		viewer = nPlayer;
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
 	}
 
 	@Override
@@ -132,21 +118,6 @@ public class GUIInventoryGuildRankSettings implements GUIInventory {
 		}
 
 		ChestGUIUtils.addBackItem(this);
-	}
-
-	@Override
-	public NovaPlayer getViewer() {
-		return viewer;
-	}
-
-	@Override
-	public void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
-
-	@Override
-	public void close() {
-		getViewer().getPlayer().closeInventory();
 	}
 
 	public NovaGuild getGuild() {
