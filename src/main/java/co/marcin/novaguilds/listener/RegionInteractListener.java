@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
@@ -35,12 +35,10 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LeashHitch;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
@@ -60,14 +58,7 @@ import org.bukkit.event.vehicle.VehicleEnterEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegionInteractListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public RegionInteractListener(NovaGuilds pl) {
-		plugin = pl;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-	
+public class RegionInteractListener extends AbstractListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();

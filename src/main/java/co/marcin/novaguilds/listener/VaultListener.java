@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
@@ -32,7 +32,6 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryAction;
@@ -42,15 +41,11 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VaultListener implements Listener {
-	private final NovaGuilds plugin;
-	private final List<InventoryAction> dissalowedActions = new ArrayList<>();
-	private final BlockFace[] doubleChestFaces;
+public class VaultListener extends AbstractListener {
+	private static final List<InventoryAction> dissalowedActions = new ArrayList<>();
+	private static final BlockFace[] doubleChestFaces;
 
-	public VaultListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
+	static {
 		//Add disallowed actions
 		dissalowedActions.add(InventoryAction.CLONE_STACK);
 		dissalowedActions.add(InventoryAction.COLLECT_TO_CURSOR);

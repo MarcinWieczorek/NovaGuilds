@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
@@ -33,7 +33,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -42,14 +41,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-public class ToolListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public ToolListener(NovaGuilds pl) {
-		plugin = pl;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class ToolListener extends AbstractListener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {

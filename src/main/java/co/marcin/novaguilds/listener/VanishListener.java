@@ -18,20 +18,12 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.kitteh.vanish.event.VanishStatusChangeEvent;
 
-public class VanishListener implements Listener {
-	private final NovaGuilds plugin;
-
-	public VanishListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class VanishListener extends AbstractListener {
 	@EventHandler
 	public void onVanishStatusChange(VanishStatusChangeEvent event) {
 		if(event.isVanishing()) {

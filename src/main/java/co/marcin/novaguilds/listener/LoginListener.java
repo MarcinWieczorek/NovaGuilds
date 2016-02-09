@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
@@ -30,18 +30,10 @@ import co.marcin.novaguilds.util.VersionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class LoginListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public LoginListener(NovaGuilds plugin) {
-		this.plugin = plugin;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class LoginListener extends AbstractListener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {

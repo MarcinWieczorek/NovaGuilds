@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
@@ -30,20 +30,12 @@ import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeathListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public DeathListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class DeathListener extends AbstractListener {
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		if(event.getEntity().getKiller() == null) {

@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.basic.NovaGuild;
@@ -33,17 +33,10 @@ import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class ChatListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public ChatListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
+public class ChatListener extends AbstractListener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {

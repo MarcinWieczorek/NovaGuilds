@@ -81,9 +81,7 @@ import org.mcstats.Metrics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -209,15 +207,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//Listeners
-		new LoginListener(this);
-		new ToolListener(this);
-		new RegionInteractListener(this);
-		new MoveListener(this);
-		new ChatListener(this);
-		new PvpListener(this);
-		new DeathListener(this);
-		new InventoryListener(this);
-		new PlayerInfoListener(this);
+		new LoginListener();
+		new ToolListener();
+		new RegionInteractListener();
+		new MoveListener();
+		new ChatListener();
+		new PvpListener();
+		new DeathListener();
+		new InventoryListener();
+		new PlayerInfoListener();
 		new ChestGUIListener();
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
@@ -254,11 +252,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		if(Config.VAULT_ENABLED.getBoolean()) {
-			new VaultListener(this);
+			new VaultListener();
 		}
 
 		if(getConfigManager().useVanishNoPacket()) {
-			new VanishListener(this);
+			new VanishListener();
 		}
 
 		//Tablist/tag update
