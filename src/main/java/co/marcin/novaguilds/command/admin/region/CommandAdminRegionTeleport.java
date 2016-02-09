@@ -50,13 +50,21 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 		NovaPlayer nPlayerOther;
 		Player player;
 
-		if(args.length > 1) { //other
+		if(args.length == 0) {
+			if(!(sender instanceof Player)) {
+				Message.CHAT_CMDFROMCONSOLE.send(sender);
+				return;
+			}
+
+			player = (Player) sender;
+		}
+		else { //other
 			if(!Permission.NOVAGUILDS_ADMIN_REGION_TELEPORT_OTHER.has(sender)) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
 				return;
 			}
 
-			nPlayerOther = plugin.getPlayerManager().getPlayer(args[1]);
+			nPlayerOther = plugin.getPlayerManager().getPlayer(args[0]);
 
 			if(nPlayerOther == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
@@ -70,12 +78,10 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 
 			player = nPlayerOther.getPlayer();
 		}
-		else {
-			player = (Player) sender;
-		}
 
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+		vars.put(VarKey.PLAYERNAME, player.getName());
 
 		Location location = region.getCenter().clone();
 		location.setY(location.getWorld().getHighestBlockYAt(location));
