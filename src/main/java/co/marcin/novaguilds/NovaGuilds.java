@@ -549,10 +549,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//Essentials
 		essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 
-		if(isEssentialsEnabled()) {
-
-		}
-
 		return true;
 	}
 
