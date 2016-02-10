@@ -518,6 +518,7 @@ public enum Message {
 			}
 			else if(flag == MessageFlag.LIST) {
 				list = true;
+				prefix = false;
 			}
 		}
 	}
