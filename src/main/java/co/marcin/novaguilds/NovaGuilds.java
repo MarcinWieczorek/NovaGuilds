@@ -101,6 +101,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	//Vault
 	public Economy econ = null;
 	private Essentials essentials;
+	private boolean protocolSupportEnabled;
 
 	private GuildManager guildManager;
 	private RegionManager regionManager;
@@ -546,6 +547,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 		}
 
+		//ProtocolSupport
+		protocolSupportEnabled = getServer().getPluginManager().getPlugin("ProtocolSupport") != null;
+		if(isProtocolSupportEnabled()) {
+			LoggerUtils.info("Found ProtocolSupport plugin!");
+		}
+
 		//Essentials
 		essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 
@@ -602,5 +609,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public boolean isEssentialsEnabled() {
 		return essentials != null;
+	}
+
+	public boolean isProtocolSupportEnabled() {
+		return protocolSupportEnabled;
 	}
 }

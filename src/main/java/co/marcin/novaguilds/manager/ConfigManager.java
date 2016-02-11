@@ -79,6 +79,8 @@ public class ConfigManager {
 		plugin.reloadConfig();
 		config = plugin.getConfig();
 
+		LoggerUtils.info("This server is using Bukkit: " + Bukkit.getBukkitVersion());
+
 		if(Config.USETITLES.getBoolean()) {
 			if(!isBukkit18()) {
 				Config.USETITLES.set(false);

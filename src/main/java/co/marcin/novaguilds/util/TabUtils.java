@@ -45,6 +45,10 @@ public final class TabUtils {
 			return;
 		}
 
+		if(!nPlayer.hasTabList()) {
+			return;
+		}
+
 		nPlayer.getTabList().send();
 	}
 
