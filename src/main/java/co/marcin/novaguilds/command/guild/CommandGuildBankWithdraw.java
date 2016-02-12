@@ -29,9 +29,6 @@ import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CommandGuildBankWithdraw implements Executor {
 	private final Command command = Command.GUILD_BANK_WITHDRAW;
 

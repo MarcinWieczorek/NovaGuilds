@@ -27,8 +27,6 @@ import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-
 public class CommandGuildOpenInvitation implements Executor {
 	private final Command command = Command.GUILD_OPENINVITATION;
 

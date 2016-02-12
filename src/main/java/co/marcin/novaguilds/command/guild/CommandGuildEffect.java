@@ -34,9 +34,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CommandGuildEffect implements Executor {
 	private final Command command = Command.GUILD_EFFECT;

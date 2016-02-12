@@ -33,9 +33,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CommandGuildHome implements Executor {
 	private final Command command = Command.GUILD_HOME;

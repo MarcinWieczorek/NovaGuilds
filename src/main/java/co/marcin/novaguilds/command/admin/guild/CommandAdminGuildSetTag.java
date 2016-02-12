@@ -27,8 +27,6 @@ import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-
 public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 	private NovaGuild guild;
 	private final Command command = Command.ADMIN_GUILD_SET_TAG;
