@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.basic.tablist;
+package co.marcin.novaguilds.impl.basic.tablist;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
@@ -31,12 +31,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TabList18Impl implements TabList {
+public class TabList1_8NorthTabImpl implements TabList {
 	private final NovaPlayer nPlayer;
 	private final List<String> lines = new ArrayList<>();
 	private final Map<VarKey, String> vars = new HashMap<>();
 
-	public TabList18Impl(NovaPlayer nPlayer) {
+	public TabList1_8NorthTabImpl(NovaPlayer nPlayer) {
 		this.nPlayer = nPlayer;
 		clear();
 	}

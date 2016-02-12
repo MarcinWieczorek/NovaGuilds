@@ -21,7 +21,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
-import co.marcin.novaguilds.basic.tablist.TabList18Impl;
+import co.marcin.novaguilds.impl.basic.tablist.TabList1_8NorthTabImpl;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
@@ -86,7 +86,7 @@ public class LoginListener extends AbstractListener {
 				switch(protocolVersion) {
 					case MINECRAFT_1_8:
 						LoggerUtils.debug("Detected 1.8: " + player.getName());
-						tabList = new TabList18Impl(nPlayer);
+						tabList = new TabList1_8NorthTabImpl(nPlayer);
 						break;
 					default:
 						LoggerUtils.debug("Detected " + protocolVersion.name() + ": " + player.getName());
@@ -96,7 +96,7 @@ public class LoginListener extends AbstractListener {
 			}
 			else {
 				if(ConfigManager.isBukkit18()) {
-					tabList = new TabList18Impl(nPlayer);
+					tabList = new TabList1_8NorthTabImpl(nPlayer);
 				}
 				else {
 					tabList = null;
