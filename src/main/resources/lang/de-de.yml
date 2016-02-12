@@ -200,7 +200,7 @@ chat:
      - "&5* &7/nga &ch &2- &3Hologrammbefehle"
      - "&5* &7/nga &cspy &2- &3Toggle spy mode"
      - "&5* &7/nga &creload &2- &6[&5NovaGuilds&6] &3neu laden"
-     - "&5* &7/nga &csave &6[players/guilds/regions/ranks] &2- &3Daten Speichern"
+     - "&5* &7/nga &csave &6[&cplayers&6/&cguilds&6/&cregions&6/&cranks] &2- &3Daten Speichern"
    region:
     header: "Admin Gebiet Befehle:"
     items:
@@ -434,8 +434,8 @@ chat:
   noregionhere: "Hier ist keine Gilde"
   regionhere: "Das ist das Gebiet von einer anderen Gilde"
   validation:
-   toosmall: "Das ausgewählte Gebiet ist zu klein! &6(&3min: &c{MINSIZE}x{MINSIZE}&6)"
-   toobig: "Das ausgewählte Gebiet ist zu groß! &6(&3max: &c{MAXSIZE}x{MAXSIZE}&6)"
+   toosmall: "Das ausgewählte Gebiet ist zu klein! &6(&3min: &c{MINSIZE}x&c{MINSIZE}&6)"
+   toobig: "Das ausgewählte Gebiet ist zu groß! &6(&3max: &c{MAXSIZE}x&c{MAXSIZE}&6)"
    tooclose: "Das ausgewählte Gebiet ist zu nah an einem anderen Gebiet!"
    overlaps: "Das ausgewählte Gebiet geht über ein anderes Gebiet!"
    notvalid: "Das ausgewählte Gebiet ist nicht gültigt! Versuch es nochmal."
