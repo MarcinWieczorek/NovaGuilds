@@ -16,9 +16,10 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.basic;
+package co.marcin.novaguilds.impl.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -31,7 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NovaHologram {
+public class NovaHologramImpl implements NovaHologram {
 	private String name;
 	private Location location;
 	private List<String> lines = new ArrayList<>();
@@ -40,40 +41,49 @@ public class NovaHologram {
 	private boolean deleted = false;
 
 	//getters
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public Location getLocation() {
 		return location;
 	}
 
+	@Override
 	public List<String> getLines() {
 		return lines;
 	}
 
 	//setters
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public void setLocation(Location location) {
 		this.location = location;
 	}
 
 	//add
+	@Override
 	public void addLine(String line) {
 		lines.add(line);
 	}
 
+	@Override
 	public void clearLines() {
 		lines.clear();
 	}
 
+	@Override
 	public void addLine(List<String> lines) {
 		this.lines.addAll(lines);
 	}
 
+	@Override
 	public void refresh() {
 		if(isDeleted()) {
 			//TODO: check if this occurs
@@ -104,16 +114,19 @@ public class NovaHologram {
 		}
 	}
 
+	@Override
 	public void teleport(Location location) {
 		hologram.teleport(location);
 		setLocation(location);
 	}
 
+	@Override
 	public void create() {
 		hologram = HologramsAPI.createHologram(NovaGuilds.getInstance(), location);
 		refresh();
 	}
 
+	@Override
 	public void delete() {
 		hologram.delete();
 		NovaGuilds.getInstance().getHologramManager().getHolograms().remove(this);
@@ -122,14 +135,17 @@ public class NovaHologram {
 	}
 
 	//check
+	@Override
 	public boolean isTop() {
 		return isTop;
 	}
 
+	@Override
 	public boolean isDeleted() {
 		return deleted || hologram.isDeleted();
 	}
 
+	@Override
 	public void setTop(boolean top) {
 		this.isTop = top;
 	}

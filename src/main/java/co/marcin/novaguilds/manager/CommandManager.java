@@ -19,8 +19,8 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaHologram;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.command.CommandConfirm;

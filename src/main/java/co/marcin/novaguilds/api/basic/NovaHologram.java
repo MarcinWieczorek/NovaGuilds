@@ -16,31 +16,40 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.interfaces;
+package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.api.basic.NovaHologram;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaRegion;
-import co.marcin.novaguilds.enums.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.Location;
 
-public interface Executor {
-	NovaGuilds plugin = NovaGuilds.getInstance();
+import java.util.List;
 
-	void execute(CommandSender sender, String[] args);
+public interface NovaHologram {
+	String getName();
 
-	Command getCommand();
+	Location getLocation();
 
-	interface ReversedAdminGuild extends Executor {
-		void guild(NovaGuild guild);
-	}
+	List<String> getLines();
 
-	interface ReversedAdminRegion extends Executor {
-		void region(NovaRegion guild);
-	}
+	void setName(String name);
 
-	interface ReversedAdminHologram extends Executor {
-		void hologram(NovaHologram guild);
-	}
+	void setLocation(Location location);
+
+	void addLine(String line);
+
+	void clearLines();
+
+	void addLine(List<String> lines);
+
+	void refresh();
+
+	void teleport(Location location);
+
+	void create();
+
+	void delete();
+
+	boolean isTop();
+
+	boolean isDeleted();
+
+	void setTop(boolean top);
 }

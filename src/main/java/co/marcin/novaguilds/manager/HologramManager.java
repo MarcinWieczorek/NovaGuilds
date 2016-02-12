@@ -19,8 +19,9 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.basic.NovaHologramImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -51,7 +52,7 @@ public class HologramManager {
 			int count = 0;
 
 			for(String name : configuration.getKeys(false)) {
-				NovaHologram nHologram = new NovaHologram();
+				NovaHologram nHologram = new NovaHologramImpl();
 				Location location = RegionUtils.sectionToLocation(configuration.getConfigurationSection(name + ".location"));
 
 				nHologram.setName(name);
@@ -119,16 +120,17 @@ public class HologramManager {
 	}
 
 	public NovaHologram addTopHologram(Location location) {
-		NovaHologram nHologram = new NovaHologram();
-		nHologram.setLocation(location);
-		nHologram.addLine(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
-		nHologram.addLine(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
-		nHologram.setName("topX" + NumberUtils.randInt(1, 999));
-		nHologram.create();
-		nHologram.setTop(true);
-		holograms.add(nHologram);
+		NovaHologram hologram = new NovaHologramImpl();
+		hologram.setLocation(location);
+		hologram.addLine(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
+		hologram.addLine(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
+		hologram.setName("topX" + NumberUtils.randInt(1, 999));
+		hologram.create();
+		hologram.setTop(true);
+		
+		holograms.add(hologram);
 
-		return nHologram;
+		return hologram;
 	}
 
 	public void refreshTopHolograms() {
