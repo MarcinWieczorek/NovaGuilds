@@ -283,7 +283,7 @@ public enum Message {
 	CHAT_REGION_BLOCKEDCMD,
 	CHAT_REGION_DELETED,
 
-	CHAT_USAGE_NGA_CONFIG_ACCESS,
+	CHAT_USAGE_NGA_CONFIG_ACCESS(MessageFlag.NOPREFIX),
 	CHAT_USAGE_NGA_CONFIG_GET,
 	CHAT_USAGE_NGA_CONFIG_RELOAD,
 	CHAT_USAGE_NGA_CONFIG_RESET,
@@ -690,7 +690,7 @@ public enum Message {
 			key = parentPath + "." + key;
 
 			if(!key.equals(getPath())) {
-				list.add(Message.fromPath(key));
+				list.add(Message.fromPath(key).prefix(isPrefix()));
 			}
 		}
 
