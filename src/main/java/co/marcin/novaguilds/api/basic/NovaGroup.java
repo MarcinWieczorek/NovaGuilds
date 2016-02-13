@@ -73,8 +73,6 @@ public interface NovaGroup {
 	 */
 	List<ItemStack> getGuildCreateItems();
 
-	//guild home
-
 	/**
 	 * Get the price of teleporting to guild's home
 	 *
@@ -88,8 +86,6 @@ public interface NovaGroup {
 	 * @return list of items
 	 */
 	List<ItemStack> getGuildHomeItems();
-
-	//guild join
 
 	/**
 	 * Get the price of joining a guild
@@ -105,8 +101,6 @@ public interface NovaGroup {
 	 */
 	List<ItemStack> getGuildJoinItems();
 
-	//buylife
-
 	/**
 	 * Get the price of buying a life
 	 *
@@ -121,8 +115,6 @@ public interface NovaGroup {
 	 */
 	List<ItemStack> getGuildBuylifeItems();
 
-	//buySlot
-
 	/**
 	 * Get the list of items required to buy a slot
 	 *
@@ -136,8 +128,6 @@ public interface NovaGroup {
 	 * @return money
 	 */
 	double getGuildBuySlotMoney();
-
-	//Effect
 
 	/**
 	 * Get the list of items required to buy an effect

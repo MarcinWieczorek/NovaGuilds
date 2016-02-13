@@ -123,6 +123,7 @@ public interface NovaGuildsAPI {
 
 	/**
 	 * Returns the PacketExtension
+	 *
 	 * @return the PacketExtension
 	 */
 	PacketExtension getPacketExtension();

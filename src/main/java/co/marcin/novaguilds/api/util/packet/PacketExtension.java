@@ -21,7 +21,15 @@ package co.marcin.novaguilds.api.util.packet;
 import org.bukkit.entity.Player;
 
 public interface PacketExtension {
-	void registerPlayer(final Player p);
+	/**
+	 * Registers a player
+	 *
+	 * @param player the player
+	 */
+	void registerPlayer(final Player player);
 
+	/**
+	 * Unregisters the channel
+	 */
 	void unregisterChannel();
 }

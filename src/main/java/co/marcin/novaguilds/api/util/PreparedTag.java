@@ -39,20 +39,66 @@ public interface PreparedTag {
 		}
 	}
 
+	/**
+	 * Gets the guild
+	 *
+	 * @return the guild
+	 */
 	NovaGuild getGuild();
 
+	/**
+	 * Gets the color
+	 *
+	 * @return the color enum
+	 */
 	Color getColor();
 
+	/**
+	 * Returns if the leader prefix is being displayed
+	 *
+	 * @return true if the prefix is displayed
+	 */
 	boolean isLeaderPrefix();
 
+	/**
+	 * Returns if the tag is hidden
+	 *
+	 * @return true if hidden
+	 */
 	boolean isHidden();
+
+	/**
+	 * Sets hidden flag
+	 *
+	 * @param hidden flag boolean
+	 */
 	void setHidden(boolean hidden);
 
+	/**
+	 * Sets the leader prefix flag
+	 *
+	 * @param leaderPrefix flag boolean
+	 */
 	void setLeaderPrefix(boolean leaderPrefix);
 
+	/**
+	 * Sets the color
+	 *
+	 * @param color the color enum
+	 */
 	void setColor(Color color);
 
+	/**
+	 * Sets the tag up for a specific player
+	 *
+	 * @param nPlayer the owner of the tag
+	 */
 	void setUpFor(NovaPlayer nPlayer);
 
+	/**
+	 * Gets the tag
+	 *
+	 * @return the tag string
+	 */
 	String get();
 }

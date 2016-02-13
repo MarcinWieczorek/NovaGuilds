@@ -23,17 +23,48 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 public interface GUIInventory {
+	/**
+	 * Handles the event of a slot being clicked
+	 *
+	 * @param event inventory click event
+	 */
 	void onClick(InventoryClickEvent event);
 
+	/**
+	 * Gets the inventory
+	 *
+	 * @return the inventory
+	 */
 	Inventory getInventory();
 
+	/**
+	 * Opens a GUI
+	 *
+	 * @param nPlayer the player
+	 */
 	void open(NovaPlayer nPlayer);
 
+	/**
+	 * Generates the content
+	 */
 	void generateContent();
 
+	/**
+	 * Gets the viewer
+	 *
+	 * @return the viewer
+	 */
 	NovaPlayer getViewer();
 
+	/**
+	 * Sets the viewer
+	 *
+	 * @param nPlayer the viewer
+	 */
 	void setViewer(NovaPlayer nPlayer);
 
+	/**
+	 * Closes the GUI
+	 */
 	void close();
 }
