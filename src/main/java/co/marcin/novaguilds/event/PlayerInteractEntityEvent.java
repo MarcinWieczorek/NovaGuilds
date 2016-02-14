@@ -27,8 +27,8 @@ import org.bukkit.event.player.PlayerEvent;
 
 public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
-	protected Entity clickedEntity;
-	private EntityUseAction action;
+	protected final Entity clickedEntity;
+	private final EntityUseAction action;
 	private boolean cancelled = false;
 
 	public PlayerInteractEntityEvent(final Player who, final Entity clickedEntity, EntityUseAction action) {

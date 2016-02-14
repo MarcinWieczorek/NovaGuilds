@@ -47,7 +47,7 @@ public class MessageManager {
 	private FileConfiguration messages = null;
 	public String prefix;
 	public ChatColor prefixColor = ChatColor.WHITE;
-	public static MessageManager instance;
+	private static MessageManager instance;
 	private File messagesFile;
 
 	/**

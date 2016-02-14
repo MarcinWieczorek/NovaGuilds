@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -59,14 +60,14 @@ public class CommandGuildEffect implements Executor {
 		}
 
 		//Money
-		double money = plugin.getGroupManager().getGroup(sender).getGuildEffectPrice();
+		double money = GroupManager.getGroup(sender).getGuildEffectPrice();
 		if(!nPlayer.getGuild().hasMoney(money)) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
 			return;
 		}
 
 		//items
-		List<ItemStack> guildEffectItems = plugin.getGroupManager().getGroup(sender).getGuildEffectItems();
+		List<ItemStack> guildEffectItems = GroupManager.getGroup(sender).getGuildEffectItems();
 		if(!guildEffectItems.isEmpty()) {
 			List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), guildEffectItems);
 

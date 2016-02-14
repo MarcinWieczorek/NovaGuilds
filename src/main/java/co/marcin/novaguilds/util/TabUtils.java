@@ -205,9 +205,9 @@ public final class TabUtils {
 	}
 
 	private static class ListDisplay {
-		private Config rowPattern;
-		private String varKey;
-		private List<NovaPlayer> list;
+		private final Config rowPattern;
+		private final String varKey;
+		private final List<NovaPlayer> list;
 
 		ListDisplay(Config rowPattern, String varKey, List<NovaPlayer> list) {
 			this.rowPattern = rowPattern;

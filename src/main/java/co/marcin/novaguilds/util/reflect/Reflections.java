@@ -165,8 +165,7 @@ public class Reflections {
 
 	public static String getVersion() {
 		String name = Bukkit.getServer().getClass().getPackage().getName();
-		String version = name.substring(name.lastIndexOf('.') + 1) + ".";
-		return version;
+		return name.substring(name.lastIndexOf('.') + 1) + ".";
 	}
 
 	public interface ConstructorInvoker {

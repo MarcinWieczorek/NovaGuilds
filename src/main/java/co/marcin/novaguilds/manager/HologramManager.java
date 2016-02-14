@@ -36,7 +36,7 @@ import java.util.List;
 public class HologramManager {
 	private final File file;
 	private YamlConfiguration configuration;
-	private List<NovaHologram> holograms = new ArrayList<>();
+	private final List<NovaHologram> holograms = new ArrayList<>();
 
 	public HologramManager(File file) {
 		this.file = file;

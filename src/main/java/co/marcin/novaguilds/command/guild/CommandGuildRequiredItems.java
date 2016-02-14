@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -39,7 +40,7 @@ public class CommandGuildRequiredItems implements Executor {
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
 
-		List<ItemStack> requiredItems = plugin.getGroupManager().getGroup(sender).getGuildCreateItems();
+		List<ItemStack> requiredItems = GroupManager.getGroup(sender).getGuildCreateItems();
 		int size = 9 * Math.round(requiredItems.size() / 9);
 		if(size == 0) {
 			size = 9;

@@ -30,6 +30,7 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -119,7 +120,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 
 		//items required
-		NovaGroup group = plugin.getGroupManager().getGroup(sender);
+		NovaGroup group = GroupManager.getGroup(sender);
 		List<ItemStack> items = group.getGuildCreateItems();
 		double requiredmoney = group.getGuildCreateMoney();
 

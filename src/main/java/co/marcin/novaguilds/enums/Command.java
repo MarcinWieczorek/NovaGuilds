@@ -117,7 +117,7 @@ public enum Command {
 
 	private Message usageMessage;
 	private boolean allowConsole = true;
-	private Permission permission;
+	private final Permission permission;
 	private String genericCommand;
 	private TabCompleter tabCompleter;
 	private boolean needConfirm = false;

@@ -100,7 +100,7 @@ public class RegionManager {
 				NovaRegion region = regionFromFlat(regionData);
 
 				if(region != null) {
-					NovaGuild guild = NovaGuildImpl.get(guildName);
+					NovaGuild guild = GuildManager.getGuildFind(guildName);
 
 					if(guild == null) {
 						LoggerUtils.error("There's no guild matching region " + guildName);
@@ -129,7 +129,7 @@ public class RegionManager {
 				while(res.next()) {
 					World world = plugin.getServer().getWorld(res.getString("world"));
 					String guildName = res.getString("guild");
-					NovaGuild guild = NovaGuildImpl.get(guildName);
+					NovaGuild guild = GuildManager.getGuildFind(guildName);
 
 					if(guild == null) {
 						LoggerUtils.error("There's no guild matching region " + guildName);

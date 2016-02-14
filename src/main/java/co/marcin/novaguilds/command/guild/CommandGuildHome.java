@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -87,7 +88,7 @@ public class CommandGuildHome implements Executor {
 			}
 
 			//items
-			List<ItemStack> homeItems = plugin.getGroupManager().getGroup(sender).getGuildHomeItems();
+			List<ItemStack> homeItems = GroupManager.getGroup(sender).getGuildHomeItems();
 
 			if(!homeItems.isEmpty()) {
 				List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
@@ -101,7 +102,7 @@ public class CommandGuildHome implements Executor {
 			}
 
 			//money
-			double homeMoney = plugin.getGroupManager().getGroup(sender).getGuildHomeMoney();
+			double homeMoney = GroupManager.getGroup(sender).getGuildHomeMoney();
 			if(homeMoney > 0) {
 				if(!nPlayer.hasMoney(homeMoney)) {
 					Message.CHAT_GUILD_NOTENOUGHMONEY.setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);

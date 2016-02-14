@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -109,10 +110,10 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				Command.ADMIN_ACCESS.execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "group":
-				NovaGroup group = plugin.getGroupManager().getGroup(sender);
+				NovaGroup group = GroupManager.getGroup(sender);
 
 				if(args.length > 1) {
-					group = plugin.getGroupManager().getGroup(args[1]);
+					group = GroupManager.getGroup(args[1]);
 					if(group == null) {
 						sender.sendMessage("Invalid group");
 						return;

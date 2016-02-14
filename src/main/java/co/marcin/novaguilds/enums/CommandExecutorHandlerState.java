@@ -21,5 +21,5 @@ package co.marcin.novaguilds.enums;
 public enum CommandExecutorHandlerState {
 	WAITING,
 	CANCELED,
-	CONFIRMED;
+	CONFIRMED
 }

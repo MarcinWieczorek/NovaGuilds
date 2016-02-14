@@ -40,7 +40,7 @@ import java.util.Map;
 
 public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 	private final NovaGuild guild;
-	protected Map<Integer, NovaRank> slotRanksMap = new HashMap<>();
+	protected final Map<Integer, NovaRank> slotRanksMap = new HashMap<>();
 	protected ItemStack addRankItem;
 
 	public GUIInventoryGuildRankList(NovaGuild guild) {

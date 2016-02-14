@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -225,7 +226,7 @@ public class ToolListener extends AbstractListener {
 							if(nPlayer.hasGuild()) {
 								int regionsize = RegionUtils.checkRegionSize(sl0, sl1);
 								double price;
-								double ppb = plugin.getGroupManager().getGroup(player).getRegionPricePerBlock();
+								double ppb = GroupManager.getGroup(player).getRegionPricePerBlock();
 
 								if(nPlayer.isResizing()) {
 									rectangleData = Config.REGION_MATERIALS_RESIZE_RECTANGLE.getMaterialData();
@@ -235,7 +236,7 @@ public class ToolListener extends AbstractListener {
 								else {
 									rectangleData = Config.REGION_MATERIALS_SELECTION_RECTANGLE.getMaterialData();
 									rectangleMaterial = Config.REGION_MATERIALS_SELECTION_RECTANGLE.getMaterial();
-									price = ppb * regionsize + plugin.getGroupManager().getGroup(player).getRegionCreateMoney();
+									price = ppb * regionsize + GroupManager.getGroup(player).getRegionCreateMoney();
 								}
 
 								vars.put(VarKey.SIZE, String.valueOf(regionsize));

@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -116,7 +117,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		}
 
 		//items
-		List<ItemStack> joinItems = plugin.getGroupManager().getGroup(sender).getGuildJoinItems();
+		List<ItemStack> joinItems = GroupManager.getGroup(sender).getGuildJoinItems();
 
 		if(!joinItems.isEmpty()) {
 			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), joinItems);
@@ -132,7 +133,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		Map<VarKey, String> vars = new HashMap<>();
 
 		//money
-		double joinMoney = plugin.getGroupManager().getGroup(sender).getGuildJoinMoney();
+		double joinMoney = GroupManager.getGroup(sender).getGuildJoinMoney();
 		if(joinMoney > 0) {
 			if(!nPlayer.hasMoney(joinMoney)) {
 				vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));

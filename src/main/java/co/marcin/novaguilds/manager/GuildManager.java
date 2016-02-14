@@ -64,12 +64,12 @@ public class GuildManager {
 	private final Map<String, NovaGuild> guilds = new CaseInsensitiveMap<>();
 	
 	//getters
-	public NovaGuild getGuildByName(String name) {
-		return guilds.get(name);
+	public static NovaGuild getGuildByName(String name) {
+		return plugin.getGuildManager().guilds.get(name);
 	}
 	
-	public NovaGuild getGuildByTag(String tag) {
-		for(NovaGuild guild : getGuilds()) {
+	public static NovaGuild getGuildByTag(String tag) {
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			if(StringUtils.removeColors(guild.getTag()).equalsIgnoreCase(tag)) {
 				return guild;
 			}
@@ -82,7 +82,7 @@ public class GuildManager {
 	 * @param mixed mixed string
 	 * @return guild instance
 	 */
-	public NovaGuild getGuildFind(String mixed) {
+	public static NovaGuild getGuildFind(String mixed) {
 		NovaGuild guild = getGuildByTag(mixed);
 
 		if(guild == null) {

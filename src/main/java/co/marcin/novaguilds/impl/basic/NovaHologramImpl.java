@@ -35,7 +35,7 @@ import java.util.List;
 public class NovaHologramImpl implements NovaHologram {
 	private String name;
 	private Location location;
-	private List<String> lines = new ArrayList<>();
+	private final List<String> lines = new ArrayList<>();
 	private Hologram hologram;
 	private boolean isTop = false;
 	private boolean deleted = false;

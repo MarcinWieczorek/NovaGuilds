@@ -79,10 +79,6 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
 	private final List<NovaRank> ranks = new ArrayList<>();
 
-	public static NovaGuild get(String mixedString) {
-		return NovaGuilds.getInstance().getGuildManager().getGuildFind(mixedString);
-	}
-
 	//getters
 	@Override
 	public String getName() {

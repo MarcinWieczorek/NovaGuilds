@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildAbandon implements CommandExecutor, Executor {
-	private static Command command = Command.GUILD_ABANDON;
+	private static final Command command = Command.GUILD_ABANDON;
 	
 	public CommandGuildAbandon() {
 		plugin.getCommandManager().registerExecutor(command, this);

@@ -64,15 +64,12 @@ public final class StringUtils {
 	}
 	
 	public static String getContent(String s) throws IOException {
-		String body = null;
 		URL url = new URL(s);
 		URLConnection con = url.openConnection();
 		InputStream in = con.getInputStream();
 		String encoding = con.getContentEncoding();
 		encoding = encoding == null ? "UTF-8" : encoding;
-		body = IOUtils.toString(in, encoding);
-
-		return body;
+		return IOUtils.toString(in, encoding);
 	}
 	
 	public static String parseDBLocation(Location l) {

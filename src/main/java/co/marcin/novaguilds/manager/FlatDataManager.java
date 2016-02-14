@@ -37,7 +37,7 @@ public class FlatDataManager {
 	private File playersDir;
 	private File guildsDir;
 	private File regionsDir;
-	private File dataDirectory;
+	private final File dataDirectory;
 
 	private boolean connected = false;
 

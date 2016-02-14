@@ -48,7 +48,7 @@ public class TaskManager {
 
 		private final Config start;
 		private final Config interval;
-		Class clazz;
+		final Class clazz;
 
 		Task(Class<? extends Runnable> clazz, Config both) {
 			this.clazz = clazz;

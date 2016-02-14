@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
@@ -101,13 +102,13 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 
 		//region's price
 		double price;
-		double ppb = plugin.getGroupManager().getGroup(sender).getRegionPricePerBlock();
+		double ppb = GroupManager.getGroup(sender).getRegionPricePerBlock();
 
 		if(nPlayer.isResizing()) {
 			price = ppb * (regionsize - guild.getRegion().getSurface());
 		}
 		else {
-			price = ppb * regionsize + plugin.getGroupManager().getGroup(sender).getRegionCreateMoney();
+			price = ppb * regionsize + GroupManager.getGroup(sender).getRegionCreateMoney();
 		}
 
 		if(price > 0 && guild.getMoney() < price) {
