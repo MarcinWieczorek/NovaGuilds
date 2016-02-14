@@ -27,6 +27,7 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.RankManager;
+import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -34,6 +35,7 @@ import co.marcin.novaguilds.util.TagUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import me.confuser.barapi.BarAPI;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -786,6 +788,12 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 		if(getVaultLocation() != null) {
 			getVaultLocation().getBlock().breakNaturally();
 			getVaultLocation().getWorld().playEffect(getVaultLocation(), Effect.SMOKE, 1000);
+		}
+
+		if(getLeader().isOnline() && getLeader().getPlayer().getGameMode() != GameMode.CREATIVE) {
+			while(InventoryUtils.containsAtLeast(getLeader().getPlayer().getInventory(), Config.VAULT_ITEM.getItemStack(), 1)) {
+				getLeader().getPlayer().getInventory().removeItem(Config.VAULT_ITEM.getItemStack());
+			}
 		}
 
 		//Delete ranks

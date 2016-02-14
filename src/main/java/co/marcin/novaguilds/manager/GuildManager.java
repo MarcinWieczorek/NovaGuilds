@@ -729,7 +729,7 @@ public class GuildManager {
 	}
 
 	public boolean isVaultItemStack(ItemStack itemStack) {
-		return itemStack.equals(Config.VAULT_ITEM.getItemStack());
+		return ItemStackUtils.isSimilar(itemStack, Config.VAULT_ITEM.getItemStack());
 	}
 
 	public void appendVaultHologram(NovaGuild guild) {
