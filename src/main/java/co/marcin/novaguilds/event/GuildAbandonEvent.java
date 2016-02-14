@@ -18,7 +18,8 @@
 
 package co.marcin.novaguilds.event;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.enums.AbandonCause;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;

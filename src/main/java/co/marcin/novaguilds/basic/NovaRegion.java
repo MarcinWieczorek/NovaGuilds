@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.World;

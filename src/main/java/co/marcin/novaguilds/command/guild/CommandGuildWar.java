@@ -18,7 +18,8 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
@@ -60,7 +61,12 @@ public class CommandGuildWar implements Executor {
 			String guildnameformat = Message.CHAT_GUILD_WAR_LIST_ITEM.get();
 
 			if(!guild.getWars().isEmpty()) {
-				String warsstr = StringUtils.join(guild.getWarsNames(), guildnameformat, separator, "GUILDNAME");
+				List<String> warNames = new ArrayList<>();
+				for(NovaGuild guildLoop : guild.getWars()) {
+					warNames.add(guildLoop.getName());
+				}
+
+				String warsstr = StringUtils.join(warNames, guildnameformat, separator, "GUILDNAME");
 				MessageManager.sendPrefixMessage(sender, warsstr);
 			}
 			else {

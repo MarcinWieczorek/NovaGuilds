@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.util.IOUtils;
@@ -183,7 +183,7 @@ public class FlatDataManager {
 				guildData.set("openinv", guild.isOpenInvitation());
 
 				//spawnpoint
-				Location home = guild.getSpawnPoint();
+				Location home = guild.getHome();
 				guildData.set("home.world", home.getWorld().getName());
 				guildData.set("home.x", home.getBlockX());
 				guildData.set("home.y", home.getBlockY());

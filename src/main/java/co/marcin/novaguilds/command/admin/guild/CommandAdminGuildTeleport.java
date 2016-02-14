@@ -18,7 +18,8 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
@@ -47,7 +48,7 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		Location home = guild.getSpawnPoint();
+		Location home = guild.getHome();
 
 		Player player = (Player) sender;
 		boolean other = false;

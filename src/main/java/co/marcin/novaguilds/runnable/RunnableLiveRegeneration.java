@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.NumberUtils;
 

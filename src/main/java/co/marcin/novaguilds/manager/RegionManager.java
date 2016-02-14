@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -99,7 +100,7 @@ public class RegionManager {
 				NovaRegion region = regionFromFlat(regionData);
 
 				if(region != null) {
-					NovaGuild guild = NovaGuild.get(guildName);
+					NovaGuild guild = NovaGuildImpl.get(guildName);
 
 					if(guild == null) {
 						LoggerUtils.error("There's no guild matching region " + guildName);
@@ -128,7 +129,7 @@ public class RegionManager {
 				while(res.next()) {
 					World world = plugin.getServer().getWorld(res.getString("world"));
 					String guildName = res.getString("guild");
-					NovaGuild guild = NovaGuild.get(guildName);
+					NovaGuild guild = NovaGuildImpl.get(guildName);
 
 					if(guild == null) {
 						LoggerUtils.error("There's no guild matching region " + guildName);
@@ -404,16 +405,16 @@ public class RegionManager {
 		Location centerLocation = RegionUtils.getCenterLocation(l1, l2);
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
-			if(guildLoop.getSpawnPoint().getWorld().equals(l1.getWorld())) {
+			if(guildLoop.getHome().getWorld().equals(l1.getWorld())) {
 				int radius2 = 0;
 
 				if(guildLoop.hasRegion()) {
 					radius2 = guildLoop.getRegion().getDiagonal() / 2;
 				}
 
-				centerLocation.setY(guildLoop.getSpawnPoint().getY());
+				centerLocation.setY(guildLoop.getHome().getY());
 
-				double distance = centerLocation.distance(guildLoop.getSpawnPoint());
+				double distance = centerLocation.distance(guildLoop.getHome());
 				if(distance < min + radius2) {
 					list.add(guildLoop);
 				}

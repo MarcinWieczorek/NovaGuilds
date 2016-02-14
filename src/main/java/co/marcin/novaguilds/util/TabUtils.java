@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -133,7 +133,7 @@ public final class TabUtils {
 			guildTimeRest = StringUtils.secondsToString(restTime, TimeUnit.HOURS);
 			guildTimeCreated = StringUtils.secondsToString(createdTime, TimeUnit.HOURS);
 			guildTimeProtection = StringUtils.secondsToString(timeProtection, TimeUnit.HOURS);
-			guildHomeCoords = Message.getCoords3D(guild.getSpawnPoint()).get();
+			guildHomeCoords = Message.getCoords3D(guild.getHome()).get();
 			guildOpenInvitation = Message.getOnOff(guild.isOpenInvitation());
 		}
 

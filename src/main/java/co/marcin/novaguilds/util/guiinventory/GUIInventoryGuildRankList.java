@@ -19,8 +19,8 @@
 package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.util.AbstractGUIInventory;
-import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;

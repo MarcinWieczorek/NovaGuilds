@@ -19,8 +19,8 @@
 package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.api.NovaGuildsAPI;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
-import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;

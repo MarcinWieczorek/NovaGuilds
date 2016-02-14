@@ -18,7 +18,8 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
@@ -181,7 +182,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		vars.put(VarKey.PROTLEFT, StringUtils.secondsToString(protLeft, TimeUnit.HOURS));
 
 		//spawnpoint location coords
-		Location sp = guild.getSpawnPoint();
+		Location sp = guild.getHome();
 		if(sp != null) {
 			vars.put(VarKey.SP_X, String.valueOf(sp.getBlockX()));
 			vars.put(VarKey.SP_Y, String.valueOf(sp.getBlockY()));
@@ -207,7 +208,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 			}
 
 			//spawnpoint
-			if((gmsg.contains("{SP_X}") || gmsg.contains("{SP_Y}") || gmsg.contains("{SP_Z}")) && guild.getSpawnPoint() == null) {
+			if((gmsg.contains("{SP_X}") || gmsg.contains("{SP_Y}") || gmsg.contains("{SP_Z}")) && guild.getHome() == null) {
 				skipmsg = true;
 			}
 

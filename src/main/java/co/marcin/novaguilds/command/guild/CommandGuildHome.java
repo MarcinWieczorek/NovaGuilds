@@ -111,7 +111,7 @@ public class CommandGuildHome implements Executor {
 
 			nPlayer.takeMoney(homeMoney);
 			InventoryUtils.removeItems(player, homeItems);
-			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_GUILD_HOME);
+			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getHome(), Message.CHAT_GUILD_HOME);
 		}
 	}
 

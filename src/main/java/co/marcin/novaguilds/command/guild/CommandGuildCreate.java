@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGroup;
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildCreateEvent;
+import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -158,7 +159,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		switch(regionValid) {
 			case VALID:
 				//Guild object
-				NovaGuild newGuild = new NovaGuild();
+				NovaGuild newGuild = new NovaGuildImpl();
 				newGuild.setName(guildname);
 				newGuild.setTag(tag);
 				newGuild.setLeader(nPlayer);

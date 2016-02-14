@@ -27,13 +27,12 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class PacketExtension1_8Impl implements PacketExtension {
 	private static Reflections.FieldAccessor<Channel> clientChannel;

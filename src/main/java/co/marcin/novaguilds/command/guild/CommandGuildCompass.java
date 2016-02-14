@@ -49,7 +49,7 @@ public class CommandGuildCompass implements Executor {
 		}
 		else { //enable
 			nPlayer.setCompassPointingGuild(true);
-			player.setCompassTarget(nPlayer.getGuild().getSpawnPoint());
+			player.setCompassTarget(nPlayer.getGuild().getHome());
 			Message.CHAT_GUILD_COMPASSTARGET_ON.send(sender);
 		}
 	}

@@ -19,8 +19,8 @@
 package co.marcin.novaguilds.interfaces;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaHologram;
-import co.marcin.novaguilds.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import org.bukkit.command.CommandSender;

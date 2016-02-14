@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
@@ -81,7 +81,7 @@ public class RunnableRaid implements Runnable {
 				guild.takeLive();
 				guild.updateTimeRest();
 				guild.updateLostLive();
-				guild.isNotRaid();
+				guild.removeRaid();
 				plugin.guildRaids.remove(guild);
 
 				int pointsTake = Config.RAID_POINTSTAKE.getInt();

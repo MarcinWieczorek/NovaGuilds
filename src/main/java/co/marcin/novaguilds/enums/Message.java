@@ -18,7 +18,8 @@
 
 package co.marcin.novaguilds.enums;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;

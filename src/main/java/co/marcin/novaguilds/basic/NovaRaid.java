@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.basic;
 
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.NumberUtils;
 

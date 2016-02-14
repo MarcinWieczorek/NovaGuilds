@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.api.util;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.entity.Player;
 

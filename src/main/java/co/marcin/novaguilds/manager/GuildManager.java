@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
@@ -29,6 +29,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
+import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -210,7 +211,7 @@ public class GuildManager {
 							nowarinv = StringUtils.semicolonToList(res.getString("nowarinv"));
 						}
 
-						NovaGuild novaGuild = new NovaGuild();
+						NovaGuild novaGuild = new NovaGuildImpl();
 						novaGuild.setId(res.getInt("id"));
 						novaGuild.setMoney(res.getDouble("money"));
 						novaGuild.setPoints(res.getInt("points"));
@@ -293,8 +294,8 @@ public class GuildManager {
 
 			try {
 				String spawnpointcoords = "";
-				if(guild.getSpawnPoint() != null) {
-					spawnpointcoords = StringUtils.parseDBLocation(guild.getSpawnPoint());
+				if(guild.getHome() != null) {
+					spawnpointcoords = StringUtils.parseDBLocation(guild.getHome());
 				}
 
 				//adding to MySQL
@@ -347,8 +348,8 @@ public class GuildManager {
 					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_UPDATE);
 
 					String spawnpointcoords = "";
-					if(guild.getSpawnPoint() != null) {
-						spawnpointcoords = StringUtils.parseDBLocation(guild.getSpawnPoint());
+					if(guild.getHome() != null) {
+						spawnpointcoords = StringUtils.parseDBLocation(guild.getHome());
 					}
 
 					//ALLIES
@@ -531,7 +532,7 @@ public class GuildManager {
 					remove = true;
 				}
 
-				if(guild.getSpawnPoint() == null) {
+				if(guild.getHome() == null) {
 					LoggerUtils.info("(" + guild.getName() + ") Spawnpoint is null");
 					remove = true;
 				}
@@ -602,7 +603,7 @@ public class GuildManager {
 
 	public static void createHomeFloor(NovaGuild guild) {
 		if(Config.GUILD_HOMEFLOOR_ENABLED.getBoolean()) {
-			Location sp = guild.getSpawnPoint();
+			Location sp = guild.getHome();
 			Material material = Config.GUILD_HOMEFLOOR_MATERIAL.getMaterial();
 
 			if(material != null) {
@@ -662,7 +663,7 @@ public class GuildManager {
 		NovaGuild guild = null;
 
 		if(guildData != null) {
-			guild = new NovaGuild();
+			guild = new NovaGuildImpl();
 			guild.setId(guildData.getInt("id"));
 			guild.setName(guildData.getString("name"));
 			guild.setTag(guildData.getString("tag"));
