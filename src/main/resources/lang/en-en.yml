@@ -238,7 +238,7 @@ chat:
      - "&4&l> &7/nga &ch &6<&cname&6> &6tphere &2- &6Teleport a hologram"
   guild:
    noguild:
-    - "&4&l> &7/create &6<&ctag&6> <name> &2- &6Create a guild"
+    - "&4&l> &7/create &6<&ctag&6> <&cname&6> &2- &6Create a guild"
     - "&4&l> &7/join &6[&cguild&6] &2- &6Join a guild"
     - "&4&l> &7/gi &6[&cguild/tag/player&6] &2- &6Guild's info"
     - "&4&l> &7/g &ctop &2- &6Top 5"
