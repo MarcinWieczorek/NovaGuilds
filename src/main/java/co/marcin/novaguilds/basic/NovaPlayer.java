@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.interfaces.GUIInventory;
 import co.marcin.novaguilds.interfaces.TabList;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;

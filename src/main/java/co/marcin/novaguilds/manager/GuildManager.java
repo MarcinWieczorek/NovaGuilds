@@ -21,7 +21,7 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;

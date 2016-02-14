@@ -16,16 +16,18 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.basic;
+package co.marcin.novaguilds.impl.basic;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NovaRaid {
+public class NovaRaidImpl implements NovaRaid {
 	private NovaGuild guildAttacker;
 	private NovaGuild guildDefender;
 	private final long startTime = NumberUtils.systemSeconds();
@@ -36,7 +38,7 @@ public class NovaRaid {
 	private boolean finished;
 	private final List<NovaPlayer> playersOccupying = new ArrayList<>();
 
-	public NovaRaid(NovaGuild guildAttacker, NovaGuild guildDefender) {
+	public NovaRaidImpl(NovaGuild guildAttacker, NovaGuild guildDefender) {
 		this.guildAttacker = guildAttacker;
 		this.guildDefender = guildDefender;
 	}
