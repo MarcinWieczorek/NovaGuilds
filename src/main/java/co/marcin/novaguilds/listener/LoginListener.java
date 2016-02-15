@@ -25,7 +25,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.basic.tablist.TabList1_8NorthTabImpl;
-import co.marcin.novaguilds.interfaces.TabList;
+import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;

@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.interfaces;
+package co.marcin.novaguilds.api.basic;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.VarKey;

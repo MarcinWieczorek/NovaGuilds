@@ -20,7 +20,7 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.GUIInventory;
+import co.marcin.novaguilds.api.basic.GUIInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
