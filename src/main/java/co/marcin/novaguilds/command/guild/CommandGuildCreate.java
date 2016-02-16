@@ -46,6 +46,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class CommandGuildCreate implements CommandExecutor, Executor {
 	private final Command command = Command.GUILD_CREATE;
@@ -160,7 +161,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		switch(regionValid) {
 			case VALID:
 				//Guild object
-				NovaGuild newGuild = new NovaGuildImpl();
+				NovaGuild newGuild = new NovaGuildImpl(UUID.randomUUID());
 				newGuild.setName(guildname);
 				newGuild.setTag(tag);
 				newGuild.setLeader(nPlayer);
@@ -239,7 +240,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 	}
 
 	public static Message validTag(String tag) {
-		if(plugin.getGuildManager().getGuildByTag(tag) != null) { //Check for an existing guild
+		if(GuildManager.getGuildByTag(tag) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_TAGEXISTS;
 		}
 
@@ -259,7 +260,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 	}
 
 	public static Message validName(String name) {
-		if(plugin.getGuildManager().getGuildByName(name) != null) { //Check for an existing guild
+		if(GuildManager.getGuildByName(name) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_NAMEEXISTS;
 		}
 

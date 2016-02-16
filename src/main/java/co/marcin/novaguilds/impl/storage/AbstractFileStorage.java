@@ -95,7 +95,7 @@ public abstract class AbstractFileStorage extends AbstractStorage {
 	}
 
 	protected File getGuildFile(NovaGuild guild) {
-		return new File(guildsDirectory, guild.getName() + "." + extension);
+		return new File(guildsDirectory, guild.getUUID().toString() + "." + extension);
 	}
 
 	protected File getRegionFile(NovaRegion region) {

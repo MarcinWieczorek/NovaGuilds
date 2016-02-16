@@ -41,8 +41,10 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
+	private final UUID uuid;
 	private int id;
 	private String name;
 	private String tag;
@@ -81,7 +83,16 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
 	private final List<NovaRank> ranks = new ArrayList<>();
 
+	public NovaGuildImpl(UUID uuid) {
+		this.uuid = uuid;
+	}
+
 	//getters
+	@Override
+	public UUID getUUID() {
+		return uuid;
+	}
+
 	@Override
 	public String getName() {
 		return name;

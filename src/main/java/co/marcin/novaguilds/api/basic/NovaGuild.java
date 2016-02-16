@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.api.basic;
 
 import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.basic.NovaRegion;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -27,8 +26,16 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface NovaGuild {
+	/**
+	 * Gets the UUID
+	 *
+	 * @return the UUID
+	 */
+	UUID getUUID();
+
 	/**
 	 * Gets the name
 	 *
