@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.storage;
 
+import co.marcin.novaguilds.api.storage.Database;
 import org.bukkit.plugin.Plugin;
 
 import java.sql.Connection;
@@ -30,8 +31,7 @@ import java.sql.SQLException;
  * @author -_Husky_-
  * @author tips48
  */
-public abstract class AbstractDatabase implements co.marcin.novaguilds.api.storage.Database {
-
+public abstract class AbstractDatabase implements Database {
 	protected Connection connection;
 	
 	/**
