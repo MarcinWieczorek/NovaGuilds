@@ -43,7 +43,7 @@ public abstract class AbstractStorage implements Storage {
 		int count = 0;
 
 		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
-			if(!nPlayer.isChanged()) {
+			if(nPlayer.isChanged()) {
 				count++;
 			}
 
