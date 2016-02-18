@@ -20,7 +20,6 @@ package co.marcin.novaguilds.command.admin;
 
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -51,16 +50,7 @@ public class CommandAdminReload implements Executor {
 		Message.CHAT_RELOAD_CONFIG.send(sender);
 
 		//Connecting to database
-		if(!plugin.getDatabaseManager().isConnected()) {
-			if(plugin.getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
-				plugin.getDatabaseManager().connectToMysql();
-			}
-			else if(plugin.getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
-				plugin.getDatabaseManager().connectToSQLite();
-			}
-		}
-
-		plugin.getDatabaseManager().mysqlReload();
+		plugin.setUpStorage();
 		Message.CHAT_RELOAD_MYSQL.send(sender);
 
 		//messages

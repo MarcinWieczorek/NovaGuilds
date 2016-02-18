@@ -23,12 +23,9 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -36,16 +33,11 @@ import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Effect;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -94,212 +86,30 @@ public class RegionManager {
 			guild.setRegion(null);
 		}
 
-		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-			for(String guildName : plugin.getFlatDataManager().getRegionList()) {
-				FileConfiguration regionData = plugin.getFlatDataManager().getRegionData(guildName);
-				NovaRegion region = regionFromFlat(regionData);
-
-				if(region != null) {
-					NovaGuild guild = GuildManager.getGuildFind(guildName);
-
-					if(guild == null) {
-						LoggerUtils.error("There's no guild matching region " + guildName);
-						continue;
-					}
-
-					guild.setRegion(region);
-				}
-				else {
-					LoggerUtils.info("Loaded region is null. name: " + guildName);
-				}
-			}
-		}
-		else {
-			plugin.getDatabaseManager().mysqlReload();
-
-			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("Connection is not estabilished, stopping current action");
-				return;
-			}
-
-			try {
-				PreparedStatement statement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_SELECT);
-
-				ResultSet res = statement.executeQuery();
-				while(res.next()) {
-					World world = plugin.getServer().getWorld(res.getString("world"));
-					String guildName = res.getString("guild");
-					NovaGuild guild = GuildManager.getGuildFind(guildName);
-
-					if(guild == null) {
-						LoggerUtils.error("There's no guild matching region " + guildName);
-						continue;
-					}
-
-					if(world != null) {
-						NovaRegion region = new NovaRegion();
-
-						String loc1 = res.getString("loc_1");
-						String[] loc1_split = loc1.split(";");
-
-						String loc2 = res.getString("loc_2");
-						String[] loc2_split = loc2.split(";");
-
-						Location c1 = new Location(world, Integer.parseInt(loc1_split[0]), 0, Integer.parseInt(loc1_split[1]));
-						Location c2 = new Location(world, Integer.parseInt(loc2_split[0]), 0, Integer.parseInt(loc2_split[1]));
-
-						region.setCorner(0, c1);
-						region.setCorner(1, c2);
-						region.setWorld(world);
-						region.setId(res.getInt("id"));
-						guild.setRegion(region);
-						region.setUnChanged();
-
-					}
-					else {
-						LoggerUtils.info("Failed loading region for guild " + res.getString("guild") + ", world does not exist.");
-					}
-				}
-			}
-			catch(SQLException e) {
-				LoggerUtils.exception(e);
-			}
-		}
+		plugin.getStorage().loadRegions();
 
 		LoggerUtils.info("Loaded " + getRegions().size() + " regions.");
 	}
 	
 	public void add(NovaRegion region) {
-		NovaGuild guild = region.getGuild();
-
-		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-			plugin.getFlatDataManager().add(region);
-		}
-		else {
-			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("Connection is not estabilished, stopping current action");
-				return;
-			}
-
-			plugin.getDatabaseManager().mysqlReload();
-
-			try {
-				String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
-				String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
-
-				if(guild == null) {
-					LoggerUtils.error("addRegion w/o guild attempt");
-					return;
-				}
-
-				if(region.getWorld() == null) {
-					region.setWorld(plugin.getServer().getWorlds().get(0));
-				}
-
-				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_INSERT);
-				preparedStatement.setString(1, loc1);
-				preparedStatement.setString(2, loc2);
-				preparedStatement.setString(3, guild.getName());
-				preparedStatement.setString(4, region.getWorld().getName());
-				preparedStatement.executeUpdate();
-
-				ResultSet keys = preparedStatement.getGeneratedKeys();
-				keys.next();
-				int id = keys.getInt(1);
-
-				if(id != 0) {
-					region.setId(id);
-				}
-				else {
-					throw new UnsupportedOperationException("Added region's ID is 0!");
-				}
-			}
-			catch(SQLException e) {
-				LoggerUtils.exception(e);
-			}
-		}
-
-		guild.setRegion(region);
-		region.setUnChanged();
+		plugin.getStorage().add(region);
 	}
 	
 	public void save(NovaRegion region) {
-		if(region != null) {
-			if(region.isChanged()) {
-				if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-					plugin.getFlatDataManager().save(region);
-				}
-				else {
-					if(!plugin.getDatabaseManager().isConnected()) {
-						LoggerUtils.info("Connection is not estabilished, stopping current action");
-						return;
-					}
-
-					plugin.getDatabaseManager().mysqlReload();
-					try {
-						PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_UPDATE);
-
-						String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
-						String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
-
-						preparedStatement.setString(1, loc1);
-						preparedStatement.setString(2, loc2);
-						preparedStatement.setString(3, region.getGuild().getName());
-						preparedStatement.setString(4, region.getWorld().getName());
-						preparedStatement.setInt(5, region.getId());
-						preparedStatement.executeUpdate();
-
-						region.setUnChanged();
-					}
-					catch(SQLException e) {
-						LoggerUtils.exception(e);
-					}
-				}
-			}
-		}
-		else {
-			LoggerUtils.info("null found while saving a region!");
-		}
+		plugin.getStorage().save(region);
 	}
 	
 	public void save() {
 		long startTime = System.nanoTime();
-		int count = 0;
 
-		for(NovaRegion region : getRegions()) {
-			if(region.isChanged()) {
-				count++;
-			}
-
-			save(region);
-		}
+		int count = plugin.getStorage().saveRegions();
 
 		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
 	
 	//delete region
 	public void remove(NovaRegion region) {
-		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-			plugin.getFlatDataManager().delete(region);
-		}
-		else {
-			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("Connection is not estabilished, stopping current action");
-				return;
-			}
-
-			plugin.getDatabaseManager().mysqlReload();
-
-			try {
-				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.REGIONS_DELETE);
-				preparedStatement.setInt(1, region.getId());
-				preparedStatement.executeUpdate();
-			}
-			catch(SQLException e) {
-				LoggerUtils.info("An error occured while deleting a guild's region (" + region.getGuild().getName() + ")");
-				LoggerUtils.exception(e);
-			}
-		}
+		plugin.getStorage().remove(region);
 
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);
@@ -492,28 +302,6 @@ public class RegionManager {
 				}
 			}
 		}
-	}
-
-	private NovaRegion regionFromFlat(FileConfiguration regionData) {
-		NovaRegion region = null;
-
-		if(regionData != null) {
-			World world = plugin.getServer().getWorld(regionData.getString("world"));
-
-			if(world != null) {
-				region = new NovaRegion();
-				region.setWorld(world);
-
-				Location c1 = new Location(world, regionData.getInt("corner1.x"), 0, regionData.getInt("corner1.z"));
-				Location c2 = new Location(world, regionData.getInt("corner2.x"), 0, regionData.getInt("corner2.z"));
-
-				region.setCorner(0, c1);
-				region.setCorner(1, c2);
-				region.setUnChanged();
-			}
-		}
-
-		return region;
 	}
 
 	public void checkRaidInit(Player player) {

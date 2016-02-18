@@ -20,10 +20,10 @@ package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.storage.Storage;
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
@@ -45,8 +45,6 @@ import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
-import co.marcin.novaguilds.manager.DatabaseManager;
-import co.marcin.novaguilds.manager.FlatDataManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
@@ -110,7 +108,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private CommandManager commandManager;
 	private ConfigManager configManager;
 	private GroupManager groupManager;
-	private FlatDataManager flatDataManager;
 	private static final String logPrefix = "[NovaGuilds]";
 	private final String commit = getResource("commit.yml")==null ? "invalid" : IOUtils.inputStreamToString(getResource("commit.yml"));
 
@@ -119,12 +116,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private static boolean raidRunnableRunning = false;
 	private co.marcin.novaguilds.api.util.packet.PacketExtension packetExtension;
 
-	//Database
-	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
 	private final HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
 	private RankManager rankManager;
 	private TaskManager taskManager;
+	private Storage storage;
 
 	public void onEnable() {
 		inst = this;
@@ -146,7 +142,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		regionManager = new RegionManager();
 		groupManager = new GroupManager();
 		rankManager = new RankManager();
-		databaseManager = new DatabaseManager();
 		taskManager = new TaskManager();
 
 		if(!checkDependencies()) {
@@ -157,35 +152,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//Version check
 		VersionUtils.checkVersion();
 
-		int attempts = 0;
-		while(!databaseManager.isConnected()) {
-			if(attempts == 2) {
-				LoggerUtils.error("Tried to connect twice but failed.");
-				break;
-			}
-
-			LoggerUtils.info("Connecting to " + getConfigManager().getDataStorageType().name() + " storage");
-			attempts++;
-
-			if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
-				databaseManager.connectToMysql();
-			}
-
-			if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
-				databaseManager.connectToSQLite();
-			}
-
-			if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-				flatDataManager = new FlatDataManager(this);
-				if(flatDataManager.isConnected()) {
-					LoggerUtils.info("Connected to FLAT storage.");
-					break;
-				}
-				else {
-					getConfigManager().setToSecondaryDataStorageType();
-				}
-			}
-		}
+		setUpStorage();
 
 		//Data loading
 		getGuildManager().load();
@@ -293,6 +260,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		LoggerUtils.info("#" + VersionUtils.buildCurrent + " (" + getCommit() + ") Enabled");
 	}
+
+	public void setUpStorage() {
+	}
 	
 	public void onDisable() {
 		getGuildManager().save();
@@ -338,48 +308,64 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 	
 	//Managers
+	@Override
 	public GuildManager getGuildManager() {
 		return guildManager;
 	}
 
+	@Override
 	public RegionManager getRegionManager() {
 		return regionManager;
 	}
 
+	@Override
 	public PlayerManager getPlayerManager() {
 		return playerManager;
 	}
 
+	@Override
 	public CommandManager getCommandManager() {
 		return commandManager;
 	}
 
+	@Override
 	public MessageManager getMessageManager() {
 		return messageManager;
 	}
 
+	@Override
 	public HologramManager getHologramManager() {
 		return hologramManager;
 	}
 
+	@Override
 	public ConfigManager getConfigManager() {
 		return configManager;
 	}
 
+	@Override
 	public GroupManager getGroupManager() {
 		return groupManager;
 	}
 
-	public FlatDataManager getFlatDataManager() {
-		return flatDataManager;
-	}
-
-	public DatabaseManager getDatabaseManager() {
-		return databaseManager;
-	}
-
+	@Override
 	public TaskManager getTaskManager() {
 		return taskManager;
+	}
+
+	@Override
+	public Storage getStorage() {
+		return storage;
+	}
+
+	@Override
+	public int getBuild() {
+		return build;
+	}
+
+	@Override
+	public RankManager getRankManager() {
+		return rankManager;
 	}
 
 	@Override
@@ -559,10 +545,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		return true;
 	}
 
-	public int getBuild() {
-		return build;
-	}
-
 	public static String getLogPrefix() {
 		return logPrefix;
 	}
@@ -589,10 +571,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public static void setRaidRunnableRunning(boolean raidRunnableRunning) {
 		NovaGuilds.raidRunnableRunning = raidRunnableRunning;
-	}
-
-	public RankManager getRankManager() {
-		return rankManager;
 	}
 
 	public static void runTaskLater(Runnable runnable, long delay, TimeUnit timeUnit) {

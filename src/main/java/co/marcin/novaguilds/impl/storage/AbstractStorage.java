@@ -89,7 +89,7 @@ public abstract class AbstractStorage implements Storage {
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			for(NovaRank rank : guild.getRanks()) {
-				if(rank.isChanged()) {
+				if(rank.isChanged() || rank.isNew()) {
 					count++;
 				}
 

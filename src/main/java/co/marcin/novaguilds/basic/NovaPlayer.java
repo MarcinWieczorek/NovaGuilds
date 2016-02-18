@@ -19,15 +19,15 @@
 package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.api.basic.NovaRaid;
-import co.marcin.novaguilds.api.basic.GUIInventory;
-import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -47,7 +47,7 @@ public class NovaPlayer {
 	private Player player;
 	private NovaGuild guild;
 	private String name;
-	private UUID uuid;
+	private final UUID uuid;
 	private int points;
 	private int kills;
 	private int deaths;
@@ -71,10 +71,13 @@ public class NovaPlayer {
 	private ChatMode chatMode = ChatMode.NORMAL;
 	private boolean spyMode = false;
 
+	public NovaPlayer(UUID uuid) {
+		this.uuid = uuid;
+	}
+
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
-			NovaPlayer nPlayer = new NovaPlayer();
-			nPlayer.setUUID(player.getUniqueId());
+			NovaPlayer nPlayer = new NovaPlayer(player.getUniqueId());
 			nPlayer.setName(player.getName());
 			nPlayer.setPlayer(player);
 			return nPlayer;
@@ -216,11 +219,6 @@ public class NovaPlayer {
 
 	public void setName(String n) {
 		name = n;
-		changed = true;
-	}
-	
-	public void setUUID(UUID id) {
-		uuid = id;
 		changed = true;
 	}
 
