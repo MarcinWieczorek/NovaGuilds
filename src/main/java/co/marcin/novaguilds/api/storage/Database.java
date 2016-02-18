@@ -21,6 +21,15 @@ package co.marcin.novaguilds.api.storage;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Thanks to these guys for publishing so great
+ * database classes that I've been using for 1 year!
+ * I added the code in the 2'nd commit and will
+ * remove it 984 commits later.
+ *
+ * @author -_Husky_-
+ * @author tips48
+ */
 public interface Database {
 	/**
 	 * Opens a connection with the database
