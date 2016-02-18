@@ -607,7 +607,7 @@ inventory:
     mob:
      attack: "Mobs_angreifen"
      ride: "Mobs_reiten"
-     leash: "Leashing horses"
+     leash: "Leashing_horses"
     interact: "Interacting_at_region"
     abandon: "Auflösungs_befehl"
     kick: "Entfernungs_befehl"
