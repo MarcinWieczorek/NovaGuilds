@@ -34,11 +34,10 @@ public interface Database {
 	/**
 	 * Opens a connection with the database
 	 *
-	 * @return Opened connection
 	 * @throws SQLException           if the connection can not be opened
 	 * @throws ClassNotFoundException if the driver cannot be found
 	 */
-	Connection openConnection() throws SQLException, ClassNotFoundException;
+	void openConnection() throws SQLException, ClassNotFoundException;
 
 	/**
 	 * Checks if a connection is open with the database
