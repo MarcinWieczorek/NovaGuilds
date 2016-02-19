@@ -29,6 +29,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_8Impl;
+import co.marcin.novaguilds.impl.storage.YamlStorageImpl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
 import co.marcin.novaguilds.listener.ChatListener;
@@ -262,6 +263,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 
 	public void setUpStorage() {
+		switch(getConfigManager().getDataStorageType()) {
+			case MYSQL:
+				break;
+			case SQLITE:
+				break;
+			case FLAT:
+				storage = new YamlStorageImpl(new File(getDataFolder(), "data/"));
+				break;
+		}
 	}
 	
 	public void onDisable() {
