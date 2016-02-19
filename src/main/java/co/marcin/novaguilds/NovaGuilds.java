@@ -29,6 +29,8 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_8Impl;
+import co.marcin.novaguilds.impl.storage.MySQLStorageImpl;
+import co.marcin.novaguilds.impl.storage.SQLiteStorageImpl;
 import co.marcin.novaguilds.impl.storage.YamlStorageImpl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
@@ -265,8 +267,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	public void setUpStorage() {
 		switch(getConfigManager().getDataStorageType()) {
 			case MYSQL:
+				storage = new MySQLStorageImpl(
+						Config.MYSQL_HOST.getString(),
+						Config.MYSQL_PORT.getString(),
+						Config.MYSQL_DATABASE.getString(),
+						Config.MYSQL_USERNAME.getString(),
+						Config.MYSQL_PASSWORD.getString()
+				);
 				break;
 			case SQLITE:
+				storage = new SQLiteStorageImpl(new File(getDataFolder(), "sqlite.db"));
 				break;
 			case FLAT:
 				storage = new YamlStorageImpl(new File(getDataFolder(), "data/"));
