@@ -801,10 +801,15 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 			getVaultLocation().getWorld().playEffect(getVaultLocation(), Effect.SMOKE, 1000);
 		}
 
-		if(getLeader().isOnline() && getLeader().getPlayer().getGameMode() != GameMode.CREATIVE) {
-			while(InventoryUtils.containsAtLeast(getLeader().getPlayer().getInventory(), Config.VAULT_ITEM.getItemStack(), 1)) {
-				getLeader().getPlayer().getInventory().removeItem(Config.VAULT_ITEM.getItemStack());
+		if(getLeader() != null) {
+			if(getLeader().isOnline() && getLeader().getPlayer().getGameMode() != GameMode.CREATIVE) {
+				while(InventoryUtils.containsAtLeast(getLeader().getPlayer().getInventory(), Config.VAULT_ITEM.getItemStack(), 1)) {
+					getLeader().getPlayer().getInventory().removeItem(Config.VAULT_ITEM.getItemStack());
+				}
 			}
+
+			//Give all the money to the leader
+			getLeader().addMoney(getMoney());
 		}
 
 		//Delete ranks
@@ -815,9 +820,6 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 
 		//Update tab
 		TabUtils.refresh(this);
-
-		//Give all the money to the leader
-		getLeader().addMoney(getMoney());
 	}
 
 	@Override
