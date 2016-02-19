@@ -62,7 +62,7 @@ public final class LoggerUtils {
 	public static void exception(Exception e) {
 		Throwable cause = e.getCause();
 		error("");
-		error("[NovaGuilds] Severe error:");
+		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName());
 		error("");
 		error("Server Information:");
 		error("  NovaGuilds: #" + plugin.getBuild());
