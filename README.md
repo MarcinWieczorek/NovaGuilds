@@ -157,7 +157,7 @@ mvn clean install
 
 <br/>
 <h2><b>Permissions</b></h2>
-<table>
+<table id="permissions-table">
     <thead>
         <tr>
             <td>Permission</td>
