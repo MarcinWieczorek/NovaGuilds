@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_8Impl;
 import co.marcin.novaguilds.impl.storage.MySQLStorageImpl;
@@ -72,7 +73,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -207,15 +207,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		else {
 			getServer().getPluginManager().registerEvents(new Listener() {
 				@EventHandler
-				public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-					co.marcin.novaguilds.event.PlayerInteractEntityEvent clickEvent = new co.marcin.novaguilds.event.PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
+				public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {
+					PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
 					getServer().getPluginManager().callEvent(clickEvent);
 					event.setCancelled(clickEvent.isCancelled());
 				}
 
 				@EventHandler
 				public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
-					co.marcin.novaguilds.event.PlayerInteractEntityEvent interactEntityEvent = new co.marcin.novaguilds.event.PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
+					PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
 					Bukkit.getPluginManager().callEvent(interactEntityEvent);
 					event.setCancelled(interactEntityEvent.isCancelled());
 				}

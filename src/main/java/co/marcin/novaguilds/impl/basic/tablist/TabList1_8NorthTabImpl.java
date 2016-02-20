@@ -18,10 +18,10 @@
 
 package co.marcin.novaguilds.impl.basic.tablist;
 
+import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import tk.northpl.tab.API;

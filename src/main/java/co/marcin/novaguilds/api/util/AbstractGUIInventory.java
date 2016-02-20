@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.api.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.bukkit.inventory.Inventory;
 
