@@ -98,8 +98,8 @@ public class GuildManager {
 		return guilds.values();
 	}
 	
-	public boolean exists(String guildname) {
-		return guilds.containsKey(guildname);
+	public boolean exists(String guildName) {
+		return guilds.containsKey(guildName);
 	}
 
 	public List<NovaGuild> nameListToGuildsList(List<String> namesList) {

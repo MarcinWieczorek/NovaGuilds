@@ -69,8 +69,8 @@ public class TimeStringConversionTest {
 
 	static {
 		MessageManager messageManager = new MessageManager();
-		File langsDir = new File(YamlParseTest.resourcesDirectory, "/lang");
-		File motherLangFile = new File(langsDir, "en-en.yml");
+		File langDir = new File(YamlParseTest.resourcesDirectory, "/lang");
+		File motherLangFile = new File(langDir, "en-en.yml");
 		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
 		messageManager.setMessages(motherConfiguration);
 	}

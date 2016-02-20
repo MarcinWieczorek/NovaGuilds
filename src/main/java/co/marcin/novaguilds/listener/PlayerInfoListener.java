@@ -33,7 +33,7 @@ public class PlayerInfoListener extends AbstractListener {
 		Player player = event.getPlayer();
 		if((event.getRightClicked() instanceof Player) && player.isSneaking()) {
 			if(Permission.NOVAGUILDS_PLAYERINFO.has(player)) {
-				NovaPlayer nCPlayer = PlayerManager.getPlayer((Player) event.getRightClicked());
+				NovaPlayer nCPlayer = PlayerManager.getPlayer(event.getRightClicked());
 				plugin.getPlayerManager().sendPlayerInfo(player, nCPlayer);
 			}
 		}

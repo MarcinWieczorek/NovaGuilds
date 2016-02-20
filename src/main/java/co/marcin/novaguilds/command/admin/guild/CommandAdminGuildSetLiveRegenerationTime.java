@@ -52,12 +52,10 @@ public class CommandAdminGuildSetLiveRegenerationTime implements Executor.Revers
 			timeString = args[0];
 		}
 
-		int iseconds = StringUtils.stringToSeconds(timeString);
-		long seconds = Long.parseLong(iseconds + "");
+		int seconds = StringUtils.stringToSeconds(timeString);
+		long lostLiveTime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());
 
-		long newregentime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());
-
-		guild.setLostLiveTime(newregentime);
+		guild.setLostLiveTime(lostLiveTime);
 		TabUtils.refresh(guild);
 
 		Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);

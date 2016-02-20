@@ -116,10 +116,10 @@ public class MessageManager {
 	 * Setups directories
 	 */
 	private void setupDirectories() {
-		File langsDir = new File(plugin.getDataFolder(), "lang/");
+		File langDir = new File(plugin.getDataFolder(), "lang/");
 
-		if(!langsDir.exists()) {
-			if(langsDir.mkdir()) {
+		if(!langDir.exists()) {
+			if(langDir.mkdir()) {
 				LoggerUtils.info("Language dir created");
 			}
 		}

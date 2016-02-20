@@ -18,13 +18,12 @@
 
 package co.marcin.novaguilds.manager;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableInactiveCleaner;
 import co.marcin.novaguilds.runnable.RunnableLiveRegeneration;
 import co.marcin.novaguilds.runnable.RunnableRefreshHolograms;
-import co.marcin.novaguilds.runnable.RunnableRefreshTablist;
+import co.marcin.novaguilds.runnable.RunnableRefreshTabList;
 import co.marcin.novaguilds.util.LoggerUtils;
 
 import java.util.HashMap;
@@ -35,7 +34,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class TaskManager {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private static final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	private final Map<Task, ScheduledFuture<?>> taskRunnableMap = new HashMap<>();
 
@@ -44,7 +42,7 @@ public class TaskManager {
 		CLEANUP(RunnableInactiveCleaner.class, Config.CLEANUP_STARTUPDELAY, Config.CLEANUP_INTERVAL),
 		HOLOGRAM_REFRESH(RunnableRefreshHolograms.class, Config.HOLOGRAPHICDISPLAYS_REFRESH),
 		AUTOSAVE(RunnableAutoSave.class, Config.SAVEINTERVAL),
-		TABLIST_REFRESH(RunnableRefreshTablist.class, Config.TABLIST_REFRESH);
+		TABLIST_REFRESH(RunnableRefreshTabList.class, Config.TABLIST_REFRESH);
 
 		private final Config start;
 		private final Config interval;

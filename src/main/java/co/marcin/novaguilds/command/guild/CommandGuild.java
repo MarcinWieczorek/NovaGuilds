@@ -76,13 +76,13 @@ public class CommandGuild implements CommandExecutor, Executor {
 	public void execute(CommandSender sender, String[] args) {
 		if(args.length > 0) {
 			Command command = commandsMap.get(args[0].toLowerCase());
-			String[] newargs = StringUtils.parseArgs(args, 1);
+			String[] newArgs = StringUtils.parseArgs(args, 1);
 
 			if(command == null) {
 				Message.CHAT_UNKNOWNCMD.send(sender);
 			}
 			else {
-				command.execute(sender, newargs);
+				command.execute(sender, newArgs);
 			}
 		}
 		else {

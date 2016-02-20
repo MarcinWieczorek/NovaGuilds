@@ -138,9 +138,9 @@ public class RegionInteractListener extends AbstractListener {
 	
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
-		List<String> denymobdamage = Config.REGION_DENYMOBDAMAGE.getStringList();
+		List<String> denyMobDamageList = Config.REGION_DENYMOBDAMAGE.getStringList();
 
-		if(denymobdamage.contains(event.getEntityType().name())) {
+		if(denyMobDamageList.contains(event.getEntityType().name())) {
 			boolean playerCaused = false;
 			Player player = null;
 			Arrow arrow = null;
@@ -205,18 +205,18 @@ public class RegionInteractListener extends AbstractListener {
 	@EventHandler
 	public void onExplosion(EntityExplodeEvent event) {
 		Location loc = event.getLocation();
-		NovaRegion rgatloc = plugin.getRegionManager().getRegion(loc);
+		NovaRegion region = plugin.getRegionManager().getRegion(loc);
 		
-		if(rgatloc != null) {
+		if(region != null) {
 			for(Block block : new ArrayList<>(event.blockList())) {
 				if(plugin.getGuildManager().isVaultBlock(block)) {
-					if(!rgatloc.getGuild().isRaid()) {
+					if(!region.getGuild().isRaid()) {
 						event.blockList().remove(block);
 					}
 				}
 			}
 
-			Message.CHAT_GUILD_EXPLOSIONATREGION.broadcast(rgatloc.getGuild());
+			Message.CHAT_GUILD_EXPLOSIONATREGION.broadcast(region.getGuild());
 		}
 	}
 

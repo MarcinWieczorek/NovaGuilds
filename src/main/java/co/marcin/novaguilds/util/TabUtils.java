@@ -84,11 +84,11 @@ public final class TabUtils {
 		//Time
 		Date date = Calendar.getInstance().getTime();
 		vars.put(VarKey.DATE_YEAR, String.valueOf(1900 + date.getYear()));
-		vars.put(VarKey.DATE_MONTH, String.valueOf((date.getMonth()<10?"0":"") + date.getMonth()));
-		vars.put(VarKey.DATE_DAY, String.valueOf((date.getDay()<10?"0":"") + date.getDay()));
-		vars.put(VarKey.DATE_HOURS, String.valueOf((date.getHours()<10?"0":"") + date.getHours()));
-		vars.put(VarKey.DATE_MINUTES, String.valueOf((date.getMinutes()<10?"0":"") + date.getMinutes()));
-		vars.put(VarKey.DATE_SECONDS, String.valueOf((date.getSeconds()<10?"0":"") + date.getSeconds()));
+		vars.put(VarKey.DATE_MONTH, String.valueOf((date.getMonth() < 10 ? "0" : "") + date.getMonth()));
+		vars.put(VarKey.DATE_DAY, String.valueOf((date.getDay() < 10 ? "0" : "") + date.getDay()));
+		vars.put(VarKey.DATE_HOURS, String.valueOf((date.getHours() < 10 ? "0" : "") + date.getHours()));
+		vars.put(VarKey.DATE_MINUTES, String.valueOf((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()));
+		vars.put(VarKey.DATE_SECONDS, String.valueOf((date.getSeconds() < 10 ? "0" : "") + date.getSeconds()));
 
 		//World vars
 		if(nPlayer.isOnline()) {
@@ -110,9 +110,9 @@ public final class TabUtils {
 		//Guild vars
 		NovaGuild guild = nPlayer.getGuild();
 		String guildName, guildTag, guildPlayersOnline, guildPlayersMax, guildLives, guildTimeRegen, guildRaidProgress, guildPvp, guildMoney, guildPoints, guildSlots = "";
-		String guildTimeRest, guildTimeCreated, guildHomeCoords, guildOpenInvitation, guildTimeProtection = "";
+		String guildTimeRest, guildTimeCreated, guildHomeCoordinates, guildOpenInvitation, guildTimeProtection = "";
 		guildName = guildTag = guildPlayersOnline = guildPlayersMax = guildLives = guildTimeRegen = guildRaidProgress = guildPvp = guildMoney = guildPoints = guildSlots;
-		guildTimeRest = guildTimeCreated = guildHomeCoords = guildOpenInvitation = guildTimeProtection;
+		guildTimeRest = guildTimeCreated = guildHomeCoordinates = guildOpenInvitation = guildTimeProtection;
 
 		if(nPlayer.hasGuild()) {
 			long liveRegenerationTime = Config.LIVEREGENERATION_REGENTIME.getSeconds() - (NumberUtils.systemSeconds() - guild.getLostLiveTime());
@@ -134,7 +134,7 @@ public final class TabUtils {
 			guildTimeRest = StringUtils.secondsToString(restTime, TimeUnit.HOURS);
 			guildTimeCreated = StringUtils.secondsToString(createdTime, TimeUnit.HOURS);
 			guildTimeProtection = StringUtils.secondsToString(timeProtection, TimeUnit.HOURS);
-			guildHomeCoords = Message.getCoords3D(guild.getHome()).get();
+			guildHomeCoordinates = Message.getCoords3D(guild.getHome()).get();
 			guildOpenInvitation = Message.getOnOff(guild.isOpenInvitation());
 		}
 
@@ -152,7 +152,7 @@ public final class TabUtils {
 		vars.put(VarKey.GUILD_TIME_REST, guildTimeRest);
 		vars.put(VarKey.GUILD_TIME_CREATED, guildTimeCreated);
 		vars.put(VarKey.GUILD_TIME_PROTECTION, guildTimeProtection);
-		vars.put(VarKey.GUILD_HOME, guildHomeCoords);
+		vars.put(VarKey.GUILD_HOME, guildHomeCoordinates);
 		vars.put(VarKey.GUILD_OPENINVITATION, guildOpenInvitation);
 
 		//Guild TOP

@@ -171,15 +171,6 @@ public class NovaRank implements Cloneable {
 		return NovaGuilds.getInstance().getRankManager().isGenericRank(this);
 	}
 
-	@Override
-	public NovaRank clone() {
-		NovaRank rank = new NovaRank(getId());
-		rank.setName(getName());
-		rank.setPermissions(getPermissions());
-		rank.getMembers().addAll(getMembers());
-		return rank;
-	}
-
 	public void delete() {
 		if(!isDefault()) {
 			for(NovaPlayer nPlayer : new ArrayList<>(getMembers())) {

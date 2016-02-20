@@ -91,8 +91,8 @@ public class NovaRegion {
 			int w = getWidth();
 			int h = getHeight();
 
-			int sumsq = (int) (Math.pow(w, 2) + Math.pow(h, 2));
-			size = Math.round((int) Math.sqrt(sumsq));
+			int sumSquare = (int) (Math.pow(w, 2) + Math.pow(h, 2));
+			size = Math.round((int) Math.sqrt(sumSquare));
 		}
 
 		return size;

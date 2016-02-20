@@ -48,9 +48,9 @@ public class CommandAdminGuildSetLeader implements Executor {
 			return;
 		}
 
-		String playername = args[0];
+		String playerName = args[0];
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer(playername);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(playerName);
 
 		if(nPlayer == null) { //invalid player
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);

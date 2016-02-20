@@ -101,8 +101,8 @@ public class NovaHologramImpl implements NovaHologram {
 
 		for(String line : lines) {
 			if(line.startsWith("[ITEM]")) {
-				String ISline = line.substring(6);
-				ItemStack is = ItemStackUtils.stringToItemStack(ISline);
+				String ItemStackLine = line.substring(6);
+				ItemStack is = ItemStackUtils.stringToItemStack(ItemStackLine);
 
 				if(is != null) {
 					hologram.appendItemLine(is);

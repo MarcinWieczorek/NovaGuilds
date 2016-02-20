@@ -122,16 +122,16 @@ public class RegionManager {
 		int z1 = l1.getBlockZ();
 		int z2 = l2.getBlockZ();
 		
-		int dif_x = Math.abs(x1 - x2) + 1;
-		int dif_z = Math.abs(z1 - z2) + 1;
+		int difX = Math.abs(x1 - x2) + 1;
+		int difZ = Math.abs(z1 - z2) + 1;
 		
-		int minsize = Config.REGION_MINSIZE.getInt();
-		int maxsize = Config.REGION_MAXSIZE.getInt();
+		int minSize = Config.REGION_MINSIZE.getInt();
+		int maxSize = Config.REGION_MAXSIZE.getInt();
 
-		if(dif_x < minsize || dif_z < minsize) {
+		if(difX < minSize || difZ < minSize) {
 			return RegionValidity.TOOSMALL;
 		}
-		else if(dif_x > maxsize || dif_z > maxsize) {
+		else if(difX > maxSize || difZ > maxSize) {
 			return RegionValidity.TOOBIG;
 		}
 		else if(!getRegionsInsideArea(l1, l2).isEmpty()) {

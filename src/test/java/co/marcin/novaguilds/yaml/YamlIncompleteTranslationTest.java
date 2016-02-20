@@ -30,11 +30,11 @@ import java.util.List;
 import java.util.Map;
 
 public class YamlIncompleteTranslationTest {
-	private static final File langsDir = new File(YamlParseTest.resourcesDirectory, "/lang");
+	private static final File langDir = new File(YamlParseTest.resourcesDirectory, "/lang");
 
 	@Test
 	public void testMessageEnum() throws Exception {
-		File motherLangFile = new File(langsDir, "en-en.yml");
+		File motherLangFile = new File(langDir, "en-en.yml");
 		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
 		int missingCount = 0;
 
@@ -56,7 +56,7 @@ public class YamlIncompleteTranslationTest {
 	@Test
 	public void testTranslations() throws Exception {
 		//Mother lang setup
-		File motherLangFile = new File(langsDir, "en-en.yml");
+		File motherLangFile = new File(langDir, "en-en.yml");
 		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
 		List<String> motherKeys = new ArrayList<>();
 		for(String key : motherConfiguration.getKeys(true)) {
@@ -67,8 +67,8 @@ public class YamlIncompleteTranslationTest {
 
 		//List all languages and configuration sections
 		Map<String, YamlConfiguration> configurationMap = new HashMap<>();
-		if(langsDir.isDirectory()) {
-			File[] list = langsDir.listFiles();
+		if(langDir.isDirectory()) {
+			File[] list = langDir.listFiles();
 
 			if(list != null) {
 				for(File langFile : list) {

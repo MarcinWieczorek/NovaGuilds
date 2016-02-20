@@ -18,14 +18,14 @@
 
 package co.marcin.novaguilds.util.tableanalyzer;
 
-public class Missmatch {
+public class MissMatch {
 	private int index;
 	private String table;
 	private String columnName;
 	private String columnType;
 	private final ModificationType modificationType;
 
-	public Missmatch(ModificationType modificationType) {
+	public MissMatch(ModificationType modificationType) {
 		this.modificationType = modificationType;
 	}
 

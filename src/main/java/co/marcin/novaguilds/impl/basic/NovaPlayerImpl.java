@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaPlayerImpl implements co.marcin.novaguilds.api.basic.NovaPlayer {
+public class NovaPlayerImpl implements NovaPlayer {
 	private int id;
 	private Player player;
 	private NovaGuild guild;

@@ -100,15 +100,15 @@ public final class IOUtils {
 	}
 
 	public static String toString(InputStream in, String encoding) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		byte[] buf = new byte[8192];
 		int len;
 
 		while((len = in.read(buf)) != -1) {
-			baos.write(buf, 0, len);
+			byteArrayOutputStream.write(buf, 0, len);
 		}
 
-		return new String(baos.toByteArray(), encoding);
+		return new String(byteArrayOutputStream.toByteArray(), encoding);
 	}
 
 	public static String read(File file) {

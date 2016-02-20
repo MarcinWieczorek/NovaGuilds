@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
+public class NovaGuildImpl implements NovaGuild {
 	private final UUID uuid;
 	private int id;
 	private String name;
@@ -77,8 +77,8 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 	private final List<NovaGuild> war = new ArrayList<>();
 	private final List<String> warNames = new ArrayList<>();
 
-	private final List<String> nowarInvitedNames = new ArrayList<>();
-	private final List<NovaGuild> nowarInvited = new ArrayList<>();
+	private final List<String> noWarInvitedNames = new ArrayList<>();
+	private final List<NovaGuild> noWarInvited = new ArrayList<>();
 
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
 	private final List<NovaRank> ranks = new ArrayList<>();
@@ -135,7 +135,7 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 
 	@Override
 	public List<NovaGuild> getNoWarInvitations() {
-		return nowarInvited;
+		return noWarInvited;
 	}
 
 	@Override
@@ -179,7 +179,7 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 
 	@Override
 	public List<String> getNoWarInvitationNames() {
-		return nowarInvitedNames;
+		return noWarInvitedNames;
 	}
 
 	@Override
@@ -419,8 +419,8 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 
 	@Override
 	public void setNoWarInvitations(List<String> list) {
-		nowarInvitedNames.clear();
-		nowarInvitedNames.addAll(list);
+		noWarInvitedNames.clear();
+		noWarInvitedNames.addAll(list);
 
 		changed();
 	}
@@ -519,7 +519,7 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 
 	@Override
 	public boolean isNoWarInvited(NovaGuild guild) {
-		return nowarInvited.contains(guild);
+		return noWarInvited.contains(guild);
 	}
 
 	@Override
@@ -592,7 +592,7 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 	@Override
 	public void addNoWarInvitation(NovaGuild guild) {
 		if(!isNoWarInvited(guild)) {
-			nowarInvited.add(guild);
+			noWarInvited.add(guild);
 			changed();
 		}
 	}
@@ -675,8 +675,8 @@ public class NovaGuildImpl implements co.marcin.novaguilds.api.basic.NovaGuild {
 
 	@Override
 	public void removeNoWarInvitation(NovaGuild guild) {
-		if(nowarInvited.contains(guild)) {
-			nowarInvited.remove(guild);
+		if(noWarInvited.contains(guild)) {
+			noWarInvited.remove(guild);
 			changed();
 		}
 	}

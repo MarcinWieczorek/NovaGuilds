@@ -72,10 +72,10 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		Player player = (Player) sender;
 
 		String tag = args[0];
-		String guildname = args[1];
+		String guildName = args[1];
 		
 		//remove colors
-		guildname = StringUtils.removeColors(guildname);
+		guildName = StringUtils.removeColors(guildName);
 		if(!Config.GUILD_SETTINGS_TAG_COLOR.getBoolean()) {
 			tag = StringUtils.removeColors(tag);
 		}
@@ -89,7 +89,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 
 		//Check name and tag validity
-		Message validName = validName(guildname);
+		Message validName = validName(guildName);
 		Message validTag = validTag(tag);
 
 		if(validName != null) {
@@ -124,10 +124,10 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		//items required
 		NovaGroup group = GroupManager.getGroup(sender);
 		List<ItemStack> items = group.getGuildCreateItems();
-		double requiredmoney = group.getGuildCreateMoney();
+		double requiredMoney = group.getGuildCreateMoney();
 
-		if(requiredmoney > 0 && !nPlayer.hasMoney(requiredmoney)) {
-			vars.put(VarKey.REQUIREDMONEY, String.valueOf(requiredmoney));
+		if(requiredMoney > 0 && !nPlayer.hasMoney(requiredMoney)) {
+			vars.put(VarKey.REQUIREDMONEY, String.valueOf(requiredMoney));
 			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 			return;
 		}
@@ -163,7 +163,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 			case VALID:
 				//Guild object
 				NovaGuild newGuild = new NovaGuildImpl(UUID.randomUUID());
-				newGuild.setName(guildname);
+				newGuild.setName(guildName);
 				newGuild.setTag(tag);
 				newGuild.setLeader(nPlayer);
 				newGuild.setSpawnPoint(player.getLocation());
@@ -184,7 +184,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					plugin.getGuildManager().add(newGuild);
 
 					//taking money away
-					nPlayer.takeMoney(requiredmoney);
+					nPlayer.takeMoney(requiredMoney);
 
 					//taking items away
 					InventoryUtils.removeItems(player, items);

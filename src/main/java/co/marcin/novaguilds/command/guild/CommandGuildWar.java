@@ -60,7 +60,7 @@ public class CommandGuildWar implements Executor {
 		if(args.length == 0) { //List wars
 			Message.CHAT_GUILD_WAR_LIST_WARSHEADER.send(sender);
 			String separator = Message.CHAT_GUILD_WAR_LIST_SEPARATOR.get();
-			String guildnameformat = Message.CHAT_GUILD_WAR_LIST_ITEM.get();
+			String guildNameFormat = Message.CHAT_GUILD_WAR_LIST_ITEM.get();
 
 			if(!guild.getWars().isEmpty()) {
 				List<String> warNames = new ArrayList<>();
@@ -68,8 +68,8 @@ public class CommandGuildWar implements Executor {
 					warNames.add(guildLoop.getName());
 				}
 
-				String warsstr = StringUtils.join(warNames, guildnameformat, separator, "GUILDNAME");
-				MessageManager.sendPrefixMessage(sender, warsstr);
+				String warString = StringUtils.join(warNames, guildNameFormat, separator, "GUILDNAME");
+				MessageManager.sendPrefixMessage(sender, warString);
 			}
 			else {
 				Message.CHAT_GUILD_WAR_LIST_NOWARS.send(sender);
@@ -83,17 +83,17 @@ public class CommandGuildWar implements Executor {
 					noWarInvitationNames.add(guildLoop.getName());
 				}
 
-				String nowarinvs = StringUtils.join(noWarInvitationNames, guildnameformat, separator, "GUILDNAME");
+				String noWarInvitationsString = StringUtils.join(noWarInvitationNames, guildNameFormat, separator, "GUILDNAME");
 
-				MessageManager.sendPrefixMessage(sender, nowarinvs);
+				MessageManager.sendPrefixMessage(sender, noWarInvitationsString);
 			}
 
 			return;
 		}
 
-		String guildname = args[0];
+		String guildName = args[0];
 
-		NovaGuild cmdGuild = GuildManager.getGuildFind(guildname);
+		NovaGuild cmdGuild = GuildManager.getGuildFind(guildName);
 
 		if(cmdGuild == null) {
 			Message.CHAT_GUILD_COULDNOTFIND.send(sender);

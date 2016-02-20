@@ -454,8 +454,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 		connect();
 
 		try {
-			String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
-			String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
+			String loc1 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(0));
+			String loc2 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(1));
 
 			if(region.getWorld() == null) {
 				region.setWorld(plugin.getServer().getWorlds().get(0));
@@ -656,8 +656,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 		try {
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.REGIONS_UPDATE);
 
-			String loc1 = StringUtils.parseDBLocationCoords2D(region.getCorner(0));
-			String loc2 = StringUtils.parseDBLocationCoords2D(region.getCorner(1));
+			String loc1 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(0));
+			String loc2 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(1));
 
 			preparedStatement.setString(1, loc1);
 			preparedStatement.setString(2, loc2);

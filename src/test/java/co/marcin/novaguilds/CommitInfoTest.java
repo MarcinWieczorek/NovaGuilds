@@ -33,8 +33,8 @@ public class CommitInfoTest {
 
 		if(commitInfoFile.createNewFile()) {
 			Runtime rt = Runtime.getRuntime();
-			Process proc = rt.exec("git rev-parse HEAD");
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			Process process = rt.exec("git rev-parse HEAD");
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			System.out.println("Latest commit:");
 			String commit = stdInput.readLine();
 			System.out.println(commit);

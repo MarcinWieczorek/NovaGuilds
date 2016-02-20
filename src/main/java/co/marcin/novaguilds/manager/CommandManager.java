@@ -260,7 +260,7 @@ public class CommandManager {
 		ConfigurationSection sectionGUI = plugin.getConfig().getConfigurationSection("gguicmd");
 
 		for(String key : sectionGUI.getKeys(false)) {
-			String gcmd = key.replaceAll("_", " ");
+			String guiCommand = key.replaceAll("_", " ");
 			ItemStack is = ItemStackUtils.stringToItemStack(sectionGUI.getString(key));
 
 			if(is != null) {
@@ -268,7 +268,7 @@ public class CommandManager {
 					topItem = is;
 				}
 				else {
-					guiCommands.put(is, gcmd);
+					guiCommands.put(is, guiCommand);
 				}
 			}
 		}

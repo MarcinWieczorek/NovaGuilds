@@ -52,7 +52,7 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 			return;
 		}
 
-		String playername = args[0];
+		String playerName = args[0];
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -65,7 +65,7 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 			return;
 		}
 
-		NovaPlayer invitePlayer = PlayerManager.getPlayer(playername);
+		NovaPlayer invitePlayer = PlayerManager.getPlayer(playerName);
 
 		if(invitePlayer == null) { //player exists
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);

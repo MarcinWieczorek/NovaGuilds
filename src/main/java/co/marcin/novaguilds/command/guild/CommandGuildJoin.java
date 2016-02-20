@@ -68,45 +68,45 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 			return;
 		}
 
-		String guildname;
+		String guildName;
 
 		//one or more guilds
 		if(invitedTo.size() == 1) {
 			if(args.length == 0) {
-				guildname = invitedTo.get(0).getName();
+				guildName = invitedTo.get(0).getName();
 			}
 			else {
-				guildname = args[0];
+				guildName = args[0];
 			}
 		}
 		else {
 			if(args.length == 0) {
 				Message.CHAT_PLAYER_INVITE_LIST_HEADER.send(sender);
 
-				String invitedlist = "";
+				String invitedListString = "";
 				int i = 0;
 				for(NovaGuild invitedGuild : invitedTo) {
-					String itemrow = Message.CHAT_PLAYER_INVITE_LIST_ITEM.get();
-					itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{GUILDNAME}", invitedGuild.getName());
-					itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{TAG}", invitedGuild.getTag());
+					String guildRow = Message.CHAT_PLAYER_INVITE_LIST_ITEM.get();
+					guildRow = org.apache.commons.lang.StringUtils.replace(guildRow, "{GUILDNAME}", invitedGuild.getName());
+					guildRow = org.apache.commons.lang.StringUtils.replace(guildRow, "{TAG}", invitedGuild.getTag());
 
-					invitedlist += itemrow;
+					invitedListString += guildRow;
 
 					if(i < invitedTo.size() - 1) {
-						invitedlist += Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR.get();
+						invitedListString += Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR.get();
 					}
 					i++;
 				}
 
-				sender.sendMessage(StringUtils.fixColors(invitedlist));
+				sender.sendMessage(StringUtils.fixColors(invitedListString));
 				return;
 			}
 			else {
-				guildname = args[0];
+				guildName = args[0];
 			}
 		}
 
-		NovaGuild guild = GuildManager.getGuildFind(guildname);
+		NovaGuild guild = GuildManager.getGuildFind(guildName);
 
 		if(guild == null) {
 			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);

@@ -47,11 +47,11 @@ public class YamlParseTest {
 	}
 
 	@Test
-	public void testLangs() throws NullPointerException, InvalidConfigurationException, IOException {
-		File langsDir = new File(resourcesDirectory, "/lang");
+	public void testTranslations() throws NullPointerException, InvalidConfigurationException, IOException {
+		File langDir = new File(resourcesDirectory, "/lang");
 
-		if(langsDir.isDirectory()) {
-			File[] list = langsDir.listFiles();
+		if(langDir.isDirectory()) {
+			File[] list = langDir.listFiles();
 
 			if(list != null) {
 				for(File lang : list) {

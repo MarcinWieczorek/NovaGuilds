@@ -49,12 +49,11 @@ public class CommandAdminGuildSetTimerest implements Executor.ReversedAdminGuild
 			timeString = StringUtils.join(args, " ");
 		}
 
-		int iseconds = StringUtils.stringToSeconds(timeString);
-		long seconds = Long.parseLong(iseconds + "");
+		int seconds = StringUtils.stringToSeconds(timeString);
 
-		long newtimerest = NumberUtils.systemSeconds() - (Config.RAID_TIMEREST.getSeconds() - seconds);
+		long newTimeRest = NumberUtils.systemSeconds() - (Config.RAID_TIMEREST.getSeconds() - seconds);
 
-		guild.setTimeRest(newtimerest);
+		guild.setTimeRest(newTimeRest);
 		TabUtils.refresh(guild);
 
 		Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);

@@ -57,20 +57,20 @@ public class CommandAdminGuildList implements Executor {
 			page = 1;
 		}
 
-		int perpage = 10;
+		int perPage = 10;
 		int size = plugin.getGuildManager().getGuilds().size();
-		int pages_number = size / perpage;
-		if(size % perpage > 0) {
+		int pages_number = size / perPage;
+		if(size % perPage > 0) {
 			pages_number++;
 		}
 
 		Message.CHAT_ADMIN_GUILD_LIST_HEADER.send(sender);
-		String rowformat = Message.CHAT_ADMIN_GUILD_LIST_ITEM.get();
+		String rowFormat = Message.CHAT_ADMIN_GUILD_LIST_ITEM.get();
 
 		int i = 0;
 		boolean display = false;
 
-		if(size > perpage) {
+		if(size > perPage) {
 			Map<VarKey, String> vars = new HashMap<>();
 			vars.put(VarKey.PAGE, String.valueOf(page));
 			vars.put(VarKey.NEXT, String.valueOf(page + 1));
@@ -85,7 +85,7 @@ public class CommandAdminGuildList implements Executor {
 		}
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			if((i + 1 > (page - 1) * perpage || page == 1) && !display) {
+			if((i + 1 > (page - 1) * perPage || page == 1) && !display) {
 				display = true;
 				i = 0;
 			}
@@ -100,10 +100,10 @@ public class CommandAdminGuildList implements Executor {
 				vars.put(VarKey.PLAYERSCOUNT, String.valueOf(guild.getPlayers().size()));
 				vars.put(VarKey.INACTIVE, inactiveString);
 
-				String rowMessage = MessageManager.replaceVarKeyMap(rowformat, vars);
+				String rowMessage = MessageManager.replaceVarKeyMap(rowFormat, vars);
 				MessageManager.sendMessage(sender, rowMessage);
 
-				if(i + 1 >= perpage) {
+				if(i + 1 >= perPage) {
 					break;
 				}
 			}

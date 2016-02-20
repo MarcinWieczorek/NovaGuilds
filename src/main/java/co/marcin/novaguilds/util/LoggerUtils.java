@@ -51,8 +51,8 @@ public final class LoggerUtils {
 		String line = ste[3].toString();
 		String[] split1 = org.apache.commons.lang.StringUtils.split(line, '(');
 		String[] split2 = split1[1].split(":");
-		String cname = split2[0].replace(".java", "");
-		return cname.equals("NovaGuilds") ? "" : "[" + cname + "]";
+		String className = split2[0].replace(".java", "");
+		return className.equals("NovaGuilds") ? "" : "[" + className + "]";
 	}
 
 	public static String space(String s) {

@@ -69,10 +69,6 @@ public class ChestGUIUtils {
 		return createInventory(size, title.get());
 	}
 
-	public static Inventory createInventory(int size) {
-		return createInventory(size, "");
-	}
-
 	public static void addBackItem(GUIInventory guiInventory) {
 		Inventory inventory = guiInventory.getInventory();
 		NovaPlayer nPlayer = guiInventory.getViewer();

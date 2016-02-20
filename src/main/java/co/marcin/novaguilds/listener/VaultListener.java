@@ -43,26 +43,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VaultListener extends AbstractListener {
-	private static final List<InventoryAction> dissalowedActions = new ArrayList<>();
+	private static final List<InventoryAction> disallowedActions = new ArrayList<>();
 	private static final BlockFace[] doubleChestFaces;
 
 	static {
 		//Add disallowed actions
-		dissalowedActions.add(InventoryAction.CLONE_STACK);
-		dissalowedActions.add(InventoryAction.COLLECT_TO_CURSOR);
-		dissalowedActions.add(InventoryAction.HOTBAR_MOVE_AND_READD);
-		dissalowedActions.add(InventoryAction.HOTBAR_SWAP);
-		dissalowedActions.add(InventoryAction.MOVE_TO_OTHER_INVENTORY);
-		dissalowedActions.add(InventoryAction.PICKUP_ALL);
-		dissalowedActions.add(InventoryAction.PICKUP_HALF);
-		dissalowedActions.add(InventoryAction.PICKUP_ONE);
-		dissalowedActions.add(InventoryAction.PICKUP_SOME);
-		dissalowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
-		dissalowedActions.add(InventoryAction.DROP_ALL_CURSOR);
-		dissalowedActions.add(InventoryAction.DROP_ALL_SLOT);
-		dissalowedActions.add(InventoryAction.DROP_ONE_CURSOR);
-		dissalowedActions.add(InventoryAction.DROP_ONE_SLOT);
-		dissalowedActions.add(InventoryAction.UNKNOWN);
+		disallowedActions.add(InventoryAction.CLONE_STACK);
+		disallowedActions.add(InventoryAction.COLLECT_TO_CURSOR);
+		disallowedActions.add(InventoryAction.HOTBAR_MOVE_AND_READD);
+		disallowedActions.add(InventoryAction.HOTBAR_SWAP);
+		disallowedActions.add(InventoryAction.MOVE_TO_OTHER_INVENTORY);
+		disallowedActions.add(InventoryAction.PICKUP_ALL);
+		disallowedActions.add(InventoryAction.PICKUP_HALF);
+		disallowedActions.add(InventoryAction.PICKUP_ONE);
+		disallowedActions.add(InventoryAction.PICKUP_SOME);
+		disallowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
+		disallowedActions.add(InventoryAction.DROP_ALL_CURSOR);
+		disallowedActions.add(InventoryAction.DROP_ALL_SLOT);
+		disallowedActions.add(InventoryAction.DROP_ONE_CURSOR);
+		disallowedActions.add(InventoryAction.DROP_ONE_SLOT);
+		disallowedActions.add(InventoryAction.UNKNOWN);
 
 		//double chest faces
 		doubleChestFaces = new BlockFace[]{
@@ -88,7 +88,7 @@ public class VaultListener extends AbstractListener {
 			return;
 		}
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer((Player) event.getWhoClicked());
+		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getWhoClicked());
 		String nameVault = Config.VAULT_ITEM.getItemStack().getItemMeta().getDisplayName();
 
 		if(event.getInventory().getTitle() == null || !event.getInventory().getTitle().equals(nameVault)) {
@@ -99,7 +99,7 @@ public class VaultListener extends AbstractListener {
 			return;
 		}
 
-		if(!dissalowedActions.contains(event.getAction()) && nPlayer.hasPermission(GuildPermission.VAULT_PUT)) {
+		if(!disallowedActions.contains(event.getAction()) && nPlayer.hasPermission(GuildPermission.VAULT_PUT)) {
 			return;
 		}
 

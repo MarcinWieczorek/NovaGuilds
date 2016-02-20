@@ -41,10 +41,10 @@ public class CommandAdminRegionList implements Executor {
 	public void execute(CommandSender sender, String[] args) {
 		Message.CHAT_REGION_LIST_HEADER.send(sender);
 
-		int perpage = 10;
+		int perPage = 10;
 		int size = plugin.getRegionManager().getRegions().size();
-		int pages_number = size / perpage;
-		if(size % perpage > 0) {
+		int pages_number = size / perPage;
+		if(size % perPage > 0) {
 			pages_number++;
 		}
 
@@ -60,12 +60,12 @@ public class CommandAdminRegionList implements Executor {
 			page = 1;
 		}
 
-		String rowformat = Message.CHAT_REGION_LIST_ITEM.get();
+		String rowFormat = Message.CHAT_REGION_LIST_ITEM.get();
 		int i = 0;
 		boolean display = false;
 		Map<VarKey, String> vars = new HashMap<>();
 
-		if(size > perpage) {
+		if(size > perPage) {
 			vars.put(VarKey.PAGE, String.valueOf(page));
 			vars.put(VarKey.NEXT, String.valueOf(page + 1));
 			vars.put(VarKey.PAGES, String.valueOf(pages_number));
@@ -81,7 +81,7 @@ public class CommandAdminRegionList implements Executor {
 		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
 			vars.clear();
 
-			if((i + 1 > (page - 1) * perpage || page == 1) && !display) {
+			if((i + 1 > (page - 1) * perPage || page == 1) && !display) {
 				display = true;
 				i = 0;
 			}
@@ -91,10 +91,10 @@ public class CommandAdminRegionList implements Executor {
 				vars.put(VarKey.X, String.valueOf(region.getCorner(0).getBlockX()));
 				vars.put(VarKey.Z, String.valueOf(region.getCorner(0).getBlockZ()));
 
-				String rowMessage = MessageManager.replaceVarKeyMap(rowformat, vars);
+				String rowMessage = MessageManager.replaceVarKeyMap(rowFormat, vars);
 				MessageManager.sendMessage(sender, rowMessage);
 
-				if(i + 1 >= perpage) {
+				if(i + 1 >= perPage) {
 					break;
 				}
 			}

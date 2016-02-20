@@ -66,14 +66,14 @@ public class CommandGuildHome implements Executor {
 				return;
 			}
 
-			NovaRegion rgatloc = plugin.getRegionManager().getRegion(player.getLocation());
+			NovaRegion region = plugin.getRegionManager().getRegion(player.getLocation());
 
-			if(rgatloc == null && nPlayer.getGuild().hasRegion()) {
+			if(region == null && nPlayer.getGuild().hasRegion()) {
 				Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);
 				return;
 			}
 
-			if(rgatloc != null && !rgatloc.getGuild().isMember(nPlayer)) {
+			if(region != null && !region.getGuild().isMember(nPlayer)) {
 				Message.CHAT_GUILD_SETHOME_OVERLAPS.send(sender);
 				return;
 			}

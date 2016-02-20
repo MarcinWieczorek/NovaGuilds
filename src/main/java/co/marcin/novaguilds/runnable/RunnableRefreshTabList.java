@@ -22,7 +22,7 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.Bukkit;
 
-public class RunnableRefreshTablist implements Runnable {
+public class RunnableRefreshTabList implements Runnable {
 	@Override
 	public void run() {
 		TabUtils.refresh();

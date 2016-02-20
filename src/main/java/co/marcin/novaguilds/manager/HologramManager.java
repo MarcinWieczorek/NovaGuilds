@@ -44,8 +44,8 @@ public class HologramManager {
 
 	public void load() {
 		try {
-			if(!file.exists()) {
-				file.createNewFile();
+			if(!file.exists() && !file.createNewFile()) {
+				throw new IOException("Failed creating new file");
 			}
 
 			configuration = YamlConfiguration.loadConfiguration(file);

@@ -178,10 +178,10 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 
 		//time created and protection
 		long createdAgo = NumberUtils.systemSeconds() - guild.getTimeCreated();
-		long protLeft = Config.GUILD_CREATEPROTECTION.getSeconds() - createdAgo;
+		long protectionLeft = Config.GUILD_CREATEPROTECTION.getSeconds() - createdAgo;
 
 		vars.put(VarKey.CREATEDAGO, StringUtils.secondsToString(createdAgo, TimeUnit.HOURS));
-		vars.put(VarKey.PROTLEFT, StringUtils.secondsToString(protLeft, TimeUnit.HOURS));
+		vars.put(VarKey.PROTLEFT, StringUtils.secondsToString(protectionLeft, TimeUnit.HOURS));
 
 		//spawnpoint location coords
 		Location sp = guild.getHome();
@@ -196,45 +196,45 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		vars.put(VarKey.WARS, wars);
 
 		for(i = 1; i < guildInfoMessages.size(); i++) {
-			boolean skipmsg = false;
-			String gmsg = guildInfoMessages.get(i);
+			boolean skip = false;
+			String guildInfoMessage = guildInfoMessages.get(i);
 
 			//lost live
-			if(liveRegenerationTime <= 0 && gmsg.contains("{LIVEREGENERATIONTIME}")) {
-				skipmsg = true;
+			if(liveRegenerationTime <= 0 && guildInfoMessage.contains("{LIVEREGENERATIONTIME}")) {
+				skip = true;
 			}
 
 			//Time rest
-			if(timeWait <= 0 && gmsg.contains("{TIMEREST}")) {
-				skipmsg = true;
+			if(timeWait <= 0 && guildInfoMessage.contains("{TIMEREST}")) {
+				skip = true;
 			}
 
 			//spawnpoint
-			if((gmsg.contains("{SP_X}") || gmsg.contains("{SP_Y}") || gmsg.contains("{SP_Z}")) && guild.getHome() == null) {
-				skipmsg = true;
+			if((guildInfoMessage.contains("{SP_X}") || guildInfoMessage.contains("{SP_Y}") || guildInfoMessage.contains("{SP_Z}")) && guild.getHome() == null) {
+				skip = true;
 			}
 
 			//allies
-			if(gmsg.contains("{ALLIES}") && allies.isEmpty()) {
-				skipmsg = true;
+			if(guildInfoMessage.contains("{ALLIES}") && allies.isEmpty()) {
+				skip = true;
 			}
 
 			//displaying wars
-			if(gmsg.contains("{WARS}") && wars.isEmpty()) {
-				skipmsg = true;
+			if(guildInfoMessage.contains("{WARS}") && wars.isEmpty()) {
+				skip = true;
 			}
 
-			if(gmsg.contains("{PROTLEFT}") && protLeft <= 0) {
-				skipmsg = true;
+			if(guildInfoMessage.contains("{PROTLEFT}") && protectionLeft <= 0) {
+				skip = true;
 			}
 
-			if(gmsg.contains("{CREATEDAGO}") && protLeft > 0) {
-				skipmsg = true;
+			if(guildInfoMessage.contains("{CREATEDAGO}") && protectionLeft > 0) {
+				skip = true;
 			}
 
-			if(!skipmsg) {
-				gmsg = MessageManager.replaceVarKeyMap(gmsg, vars);
-				MessageManager.sendMessage(sender, gmsg);
+			if(!skip) {
+				guildInfoMessage = MessageManager.replaceVarKeyMap(guildInfoMessage, vars);
+				MessageManager.sendMessage(sender, guildInfoMessage);
 			}
 		}
 	}
