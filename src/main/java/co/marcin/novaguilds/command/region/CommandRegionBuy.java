@@ -25,6 +25,7 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
@@ -59,12 +60,12 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 
 		NovaGuild guild = nPlayer.getGuild();
 
-		if(!nPlayer.hasPermission(nPlayer.isResizing() ? GuildPermission.REGION_RESIZE : GuildPermission.REGION_CREATE)) {
+		if(!nPlayer.hasPermission(nPlayer.getRegionMode() == RegionMode.RESIZE ? GuildPermission.REGION_RESIZE : GuildPermission.REGION_CREATE)) {
 			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
 
-		if(guild.hasRegion() && !nPlayer.isResizing()) {
+		if(guild.hasRegion() && nPlayer.getRegionMode() != RegionMode.RESIZE) {
 			Message.CHAT_GUILD_HASREGIONALREADY.send(sender);
 			return;
 		}
@@ -79,9 +80,9 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 
 		RegionValidity selectionValidity = plugin.getRegionManager().checkRegionSelect(sl0, sl1);
 
-		if(nPlayer.isResizing() && selectionValidity == RegionValidity.OVERLAPS) {
-			List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0, sl1);
-			if(regionsOverlaped.size() == 1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
+		if(nPlayer.getRegionMode() == RegionMode.RESIZE && selectionValidity == RegionValidity.OVERLAPS) {
+			List<NovaRegion> regionsOverlapped = plugin.getRegionManager().getRegionsInsideArea(sl0, sl1);
+			if(regionsOverlapped.size() == 1 && regionsOverlapped.get(0).equals(nPlayer.getGuild().getRegion())) {
 				selectionValidity = RegionValidity.VALID;
 			}
 		}
@@ -99,17 +100,17 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 			return;
 		}
 
-		int regionsize = RegionUtils.checkRegionSize(sl0, sl1);
+		int regionSize = RegionUtils.checkRegionSize(sl0, sl1);
 
 		//region's price
 		double price;
 		double ppb = GroupManager.getGroup(sender).getRegionPricePerBlock();
 
-		if(nPlayer.isResizing()) {
-			price = ppb * (regionsize - guild.getRegion().getSurface());
+		if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
+			price = ppb * (regionSize - guild.getRegion().getSurface());
 		}
 		else {
-			price = ppb * regionsize + GroupManager.getGroup(sender).getRegionCreateMoney();
+			price = ppb * regionSize + GroupManager.getGroup(sender).getRegionCreateMoney();
 		}
 
 		if(price > 0 && guild.getMoney() < price) {
@@ -117,7 +118,7 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 			return;
 		}
 
-		if(nPlayer.isResizing()) {
+		if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
 			NovaRegion region = guild.getRegion();
 			region.setCorner(nPlayer.getResizingCorner(), nPlayer.getResizingCorner() == 0 ? sl0 : sl1);
 			region.getCorner(nPlayer.getResizingCorner()).setY(0);

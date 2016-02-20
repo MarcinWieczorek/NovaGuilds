@@ -23,6 +23,7 @@ import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
+import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -141,9 +142,9 @@ public interface NovaPlayer {
 	/**
 	 * Gets region mode
 	 *
-	 * @return false-check, true-select
+	 * @return RegionMode enum
 	 */
-	boolean getRegionMode();
+	RegionMode getRegionMode();
 
 	/**
 	 * Gets the tablist
@@ -239,9 +240,9 @@ public interface NovaPlayer {
 	/**
 	 * Sets the region mode flag
 	 *
-	 * @param regionMode the flag
+	 * @param regionMode RegionMode enum
 	 */
-	void setRegionMode(boolean regionMode);
+	void setRegionMode(RegionMode regionMode);
 
 	/**
 	 * Sets the selected location
@@ -269,13 +270,6 @@ public interface NovaPlayer {
 	 * Sets the player as unchanged
 	 */
 	void setUnchanged();
-
-	/**
-	 * Sets whether the player is resizing atm
-	 *
-	 * @param resizing the flag
-	 */
-	void setResizing(boolean resizing);
 
 	/**
 	 * Sets the resizing corner
@@ -386,13 +380,6 @@ public interface NovaPlayer {
 	 * @return the flag
 	 */
 	boolean isOnline();
-
-	/**
-	 * Checks if the player is resizing
-	 *
-	 * @return the flag
-	 */
-	boolean isResizing();
 
 	/**
 	 * Checks if the player is changed

@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.manager.GroupManager;
@@ -68,23 +69,23 @@ public class ToolListener extends AbstractListener {
 			}
 
 			event.setCancelled(true);
-			nPlayer.setRegionMode(!nPlayer.getRegionMode());
+			nPlayer.setRegionMode(nPlayer.getRegionMode() == RegionMode.CHECK ? RegionMode.SELECT : RegionMode.CHECK);
 			nPlayer.cancelToolProgress();
 
 			//highlight corners for resizing
-			if(nPlayer.getRegionMode() && nPlayer.hasPermission(GuildPermission.REGION_RESIZE) && nPlayer.getGuild().hasRegion()) {
+			if(nPlayer.getRegionMode() == RegionMode.SELECT && nPlayer.hasPermission(GuildPermission.REGION_RESIZE) && nPlayer.getGuild().hasRegion()) {
 				RegionUtils.highlightRegion(player, region, Config.REGION_MATERIALS_RESIZE_CORNER.getMaterial());
 				nPlayer.setSelectedRegion(nPlayer.getGuild().getRegion());
 			}
 
-			Message mode = nPlayer.getRegionMode() ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
+			Message mode = nPlayer.getRegionMode() == RegionMode.SELECT ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
 
 			vars.put(VarKey.MODE, mode.get());
 			Message.CHAT_REGION_TOOL_TOGGLEDMODE.vars(vars).send(player);
 			return;
 		}
 
-		if(!nPlayer.getRegionMode() && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
+		if(nPlayer.getRegionMode() == RegionMode.CHECK && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
 			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player)) { //permissions check
 				return;
 			}
@@ -105,12 +106,12 @@ public class ToolListener extends AbstractListener {
 				Message.CHAT_REGION_NOREGIONHERE.send(player);
 			}
 		}
-		else if(event.getAction() != Action.PHYSICAL && nPlayer.getRegionMode()) { //CREATE MODE
+		else if(event.getAction() != Action.PHYSICAL && nPlayer.getRegionMode() != RegionMode.CHECK) { //CREATE MODE
 			Location pointedCornerLocation = pointedLocation.clone();
 			pointedCornerLocation.setY(0);
 			double[] cornerDistance = new double[]{region == null ? 1 : pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()), region == null ? 1 : pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation())};
 
-			if(region != null && !nPlayer.isResizing() && (cornerDistance[0] < 1 || cornerDistance[1] < 1)) { //resizing
+			if(region != null && nPlayer.getRegionMode() != RegionMode.RESIZE && (cornerDistance[0] < 1 || cornerDistance[1] < 1)) { //resizing
 				if(!Permission.NOVAGUILDS_REGION_RESIZE.has(player)) {
 					return;
 				}
@@ -122,7 +123,7 @@ public class ToolListener extends AbstractListener {
 						corner = 0;
 					}
 
-					nPlayer.setResizing(true);
+					nPlayer.setRegionMode(RegionMode.RESIZE);
 					nPlayer.setResizingCorner(corner);
 					Message.CHAT_REGION_RESIZE_START.send(player);
 					RegionUtils.sendRectangle(player, nPlayer.getSelectedLocation(0), nPlayer.getSelectedLocation(1), null);
@@ -142,7 +143,7 @@ public class ToolListener extends AbstractListener {
 
 				//Corner 0
 				if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
-					if(!nPlayer.isResizing()) {
+					if(nPlayer.getRegionMode() != RegionMode.RESIZE) {
 						if(sl1 != null && !pointedLocation.getWorld().equals(sl1.getWorld())) {
 							return;
 						}
@@ -163,7 +164,7 @@ public class ToolListener extends AbstractListener {
 
 				//Corner 1
 				if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-					if(nPlayer.isResizing()) {
+					if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
 						if(nPlayer.getSelectedLocation(nPlayer.getResizingCorner()) != null) {
 							RegionUtils.setCorner(player, nPlayer.getSelectedLocation(nPlayer.getResizingCorner()), null);
 
@@ -207,9 +208,9 @@ public class ToolListener extends AbstractListener {
 					Material rectangleMaterial = Config.REGION_MATERIALS_SELECTION_INVALID.getMaterial();
 
 					//When resizing if overlaps player's region
-					if(nPlayer.isResizing() && validSelect == RegionValidity.OVERLAPS) {
-						List<NovaRegion> regionsOverlaped = plugin.getRegionManager().getRegionsInsideArea(sl0, sl1);
-						if(regionsOverlaped.size() == 1 && regionsOverlaped.get(0).equals(nPlayer.getGuild().getRegion())) {
+					if(nPlayer.getRegionMode() == RegionMode.RESIZE && validSelect == RegionValidity.OVERLAPS) {
+						List<NovaRegion> regionsOverlapped = plugin.getRegionManager().getRegionsInsideArea(sl0, sl1);
+						if(regionsOverlapped.size() == 1 && regionsOverlapped.get(0).equals(nPlayer.getGuild().getRegion())) {
 							validSelect = RegionValidity.VALID;
 						}
 					}
@@ -225,22 +226,22 @@ public class ToolListener extends AbstractListener {
 					switch(validSelect) {
 						case VALID:  //valid
 							if(nPlayer.hasGuild()) {
-								int regionsize = RegionUtils.checkRegionSize(sl0, sl1);
+								int regionSize = RegionUtils.checkRegionSize(sl0, sl1);
 								double price;
 								double ppb = GroupManager.getGroup(player).getRegionPricePerBlock();
 
-								if(nPlayer.isResizing()) {
+								if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
 									rectangleData = Config.REGION_MATERIALS_RESIZE_RECTANGLE.getMaterialData();
 									rectangleMaterial = Config.REGION_MATERIALS_RESIZE_RECTANGLE.getMaterial();
-									price = ppb * (regionsize - nPlayer.getGuild().getRegion().getSurface());
+									price = ppb * (regionSize - nPlayer.getGuild().getRegion().getSurface());
 								}
 								else {
 									rectangleData = Config.REGION_MATERIALS_SELECTION_RECTANGLE.getMaterialData();
 									rectangleMaterial = Config.REGION_MATERIALS_SELECTION_RECTANGLE.getMaterial();
-									price = ppb * regionsize + GroupManager.getGroup(player).getRegionCreateMoney();
+									price = ppb * regionSize + GroupManager.getGroup(player).getRegionCreateMoney();
 								}
 
-								vars.put(VarKey.SIZE, String.valueOf(regionsize));
+								vars.put(VarKey.SIZE, String.valueOf(regionSize));
 								vars.put(VarKey.PRICE, String.valueOf(price));
 
 								Message.CHAT_REGION_SIZE.vars(vars).send(player);

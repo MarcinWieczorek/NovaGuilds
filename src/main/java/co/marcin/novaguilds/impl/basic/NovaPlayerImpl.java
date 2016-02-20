@@ -31,6 +31,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -54,13 +55,12 @@ public class NovaPlayerImpl implements co.marcin.novaguilds.api.basic.NovaPlayer
 	private int deaths;
 
 	private List<NovaGuild> invitedTo = new ArrayList<>();
-	private boolean regionMode = false;
+	private RegionMode regionMode = RegionMode.CHECK;
 	private boolean bypass = false;
 	private NovaRegion selectedRegion;
 	private NovaRegion atRegion;
 	private NovaRaid partRaid;
 	private boolean changed = false;
-	private boolean resizing = false;
 	private int resizingCorner = 0;
 	private boolean compassPointingGuild = false;
 	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
@@ -164,7 +164,7 @@ public class NovaPlayerImpl implements co.marcin.novaguilds.api.basic.NovaPlayer
 	}
 
 	@Override
-	public boolean getRegionMode() {
+	public RegionMode getRegionMode() {
 		return regionMode;
 	}
 
@@ -238,7 +238,7 @@ public class NovaPlayerImpl implements co.marcin.novaguilds.api.basic.NovaPlayer
 	}
 
 	@Override
-	public void setRegionMode(boolean regionMode) {
+	public void setRegionMode(RegionMode regionMode) {
 		this.regionMode = regionMode;
 	}
 
@@ -260,11 +260,6 @@ public class NovaPlayerImpl implements co.marcin.novaguilds.api.basic.NovaPlayer
 	@Override
 	public void setUnchanged() {
 		changed = false;
-	}
-
-	@Override
-	public void setResizing(boolean resizing) {
-		this.resizing = resizing;
 	}
 
 	@Override
@@ -368,11 +363,6 @@ public class NovaPlayerImpl implements co.marcin.novaguilds.api.basic.NovaPlayer
 	@Override
 	public boolean isOnline() {
 		return player != null;
-	}
-
-	@Override
-	public boolean isResizing() {
-		return resizing;
 	}
 
 	@Override
@@ -506,10 +496,13 @@ public class NovaPlayerImpl implements co.marcin.novaguilds.api.basic.NovaPlayer
 			RegionUtils.highlightRegion(getPlayer(), getSelectedRegion(), null);
 
 			setResizingCorner(0);
-			setResizing(false);
 			setSelectedRegion(null);
 			setSelectedLocation(0, null);
 			setSelectedLocation(1, null);
+
+			if(getRegionMode() == RegionMode.RESIZE) {
+				setRegionMode(RegionMode.CHECK);
+			}
 		}
 	}
 
