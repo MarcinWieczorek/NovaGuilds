@@ -7,7 +7,7 @@ chat:
  enterinteger: "Please enter a number."
  delayedteleport: "You will be teleported in &c{DELAY} seconds"
  delayedtpmoved: "You moved! Teleportation canceled!"
- erroroccured: "&cAn error occured. Contact server administrator."
+ erroroccured: "&cAn error occurred. Contact server administrator."
  update: "&4There is an update available! &6http://www.novaguilds.pl/"
  basic:
   negativenumber: "Please give a number greater or equal to zero."
@@ -335,7 +335,7 @@ chat:
   sethome:
    success: "Guild's home set!"
    outsideregion: "You cannot set home outside your guild's region"
-   overlaps: "You cannot set the spawnpoint at someone's guild location!"
+   overlaps: "You cannot set the home at someone's guild location!"
   set:
    name: "Guild's name has been set."
    tag: "Guild's tag has been set."
@@ -381,7 +381,7 @@ chat:
     success: "You took &2$&c{AMOUNT} from guild's bank."
     notenough: "There is not enough money in the bank."
   chatmode:
-   success: "Chat mode set successfuly to &c{MODE}."
+   success: "Chat mode set successfully to &c{MODE}."
    invalid: "Invalid mode. Try &cnormal&6/&cguild&6/&cally"
    names:
     normal: "normal"
@@ -424,7 +424,7 @@ chat:
 
  region:
   blockedcmd: "This command is blocked at regions."
-  deleted: "Region deleted successfuly"
+  deleted: "Region deleted successfully"
   deny:
    interact: "You cannot interact here"
    ridemob: "You cannot ride this mob, its protected!"
@@ -450,7 +450,7 @@ chat:
   exited: "You exited the region of guild &a{GUILDNAME}"
   resize:
    start: "Resizing the region... Set with a &cright-click"
-   success: "Region resized successfuly"
+   success: "Region resized successfully"
   notifyguild:
    entered: "Player &c{PLAYERNAME} entered your guild's region!"
   belongsto: "This region belongs to &a{GUILDNAME}"
