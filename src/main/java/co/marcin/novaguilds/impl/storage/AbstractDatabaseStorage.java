@@ -260,7 +260,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 				guild.setUnchanged();
 
 				if(guild.getRegion() != null) {
-					guild.getRegion().setUnChanged();
+					guild.getRegion().setUnchanged();
 				}
 
 				//Fix slots amount
@@ -320,7 +320,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 					region.setWorld(world);
 					region.setId(res.getInt("id"));
 					guild.setRegion(region);
-					region.setUnChanged();
+					region.setUnchanged();
 
 					list.add(region);
 				}
@@ -471,7 +471,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			int id = returnGeneratedKey(preparedStatement);
 
 			region.setId(id);
-			region.setUnChanged();
+			region.setUnchanged();
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
@@ -666,7 +666,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatement.setInt(5, region.getId());
 			preparedStatement.executeUpdate();
 
-			region.setUnChanged();
+			region.setUnchanged();
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);

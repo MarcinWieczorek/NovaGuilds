@@ -20,19 +20,19 @@ package co.marcin.novaguilds.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 
-public class NovaRegion {
+public class NovaRegion extends AbstractChangeable {
 	private final Location[] corners = new Location[2];
 
 	private int id;
 	private World world;
 	private NovaGuild guild;
-	private boolean changed = false;
 
 	private int width = 0;
 	private int height = 0;
@@ -105,24 +105,15 @@ public class NovaRegion {
 	public Location getCenter() {
 		return RegionUtils.getCenterLocation(getCorner(0), getCorner(1));
 	}
-	
-	//setters
-	public void setUnChanged() {
-		changed = false;
-	}
-
-	public void changed() {
-		changed = true;
-	}
 
 	public void setWorld(World world) {
 		this.world = world;
-		changed();
+		setChanged();
 	}
 
 	public void setId(int id) {
 		this.id = id;
-		changed();
+		setChanged();
 	}
 
 	public void setGuild(NovaGuild guild) {
@@ -131,11 +122,6 @@ public class NovaRegion {
 	
 	public void setCorner(int index, Location location) {
 		corners[index] = location;
-		changed();
-	}
-
-	//checkers
-	public boolean isChanged() {
-		return changed;
+		setChanged();
 	}
 }

@@ -25,6 +25,7 @@ import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaGuildImpl implements NovaGuild {
+public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	private final UUID uuid;
 	private int id;
 	private String name;
@@ -62,7 +63,6 @@ public class NovaGuildImpl implements NovaGuild {
 	private int lives;
 	private int slots;
 	private boolean openInvitation = false;
-	private boolean changed = false;
 	private boolean friendlyPvp = false;
 	private Location vaultLocation;
 	private Hologram vaultHologram;
@@ -300,19 +300,9 @@ public class NovaGuildImpl implements NovaGuild {
 	}
 
 	@Override
-	public void setUnchanged() {
-		changed = false;
-	}
-
-	@Override
-	public void changed() {
-		changed = true;
-	}
-
-	@Override
 	public void setName(String n) {
 		name = n;
-		changed();
+		setChanged();
 
 		//Force changed()
 		for(NovaPlayer nPlayer : getPlayers()) {
@@ -320,14 +310,14 @@ public class NovaGuildImpl implements NovaGuild {
 		}
 
 		if(hasRegion()) {
-			getRegion().changed();
+			getRegion().setChanged();
 		}
 	}
 
 	@Override
 	public void setTag(String t) {
 		tag = t;
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -347,7 +337,7 @@ public class NovaGuildImpl implements NovaGuild {
 	@Override
 	public void setVaultLocation(Location location) {
 		vaultLocation = location;
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -358,25 +348,25 @@ public class NovaGuildImpl implements NovaGuild {
 
 		leader = nPlayer;
 		leader.setGuildRank(RankManager.getLeaderRank());
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setSpawnPoint(Location location) {
 		homeLocation = location;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setId(int i) {
 		id = i;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setMoney(double m) {
 		money = m;
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -384,7 +374,7 @@ public class NovaGuildImpl implements NovaGuild {
 		allies.clear();
 		allies.addAll(list);
 
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -392,7 +382,7 @@ public class NovaGuildImpl implements NovaGuild {
 		alliesNames.clear();
 		alliesNames.addAll(list);
 
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -400,7 +390,7 @@ public class NovaGuildImpl implements NovaGuild {
 		allyInvitationNames.clear();
 		allyInvitationNames.addAll(list);
 
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -414,7 +404,7 @@ public class NovaGuildImpl implements NovaGuild {
 		warNames.clear();
 		warNames.addAll(list);
 
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -422,67 +412,67 @@ public class NovaGuildImpl implements NovaGuild {
 		noWarInvitedNames.clear();
 		noWarInvitedNames.addAll(list);
 
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setPoints(int points) {
 		this.points = points;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setOpenInvitation(boolean openInvitation) {
 		this.openInvitation = openInvitation;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void updateTimeRest() {
 		timeRest = NumberUtils.systemSeconds();
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void updateLostLive() {
 		lostLiveTime = NumberUtils.systemSeconds();
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void updateInactiveTime() {
 		inactiveTime = NumberUtils.systemSeconds();
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setLostLiveTime(long time) {
 		lostLiveTime = time;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setInactiveTime(long time) {
 		inactiveTime = time;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void resetLostLiveTime() {
 		lostLiveTime = 0;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setLives(int lives) {
 		this.lives = lives;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void setTimeRest(long time) {
 		this.timeRest = time;
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -543,11 +533,6 @@ public class NovaGuildImpl implements NovaGuild {
 	}
 
 	@Override
-	public boolean isChanged() {
-		return changed;
-	}
-
-	@Override
 	public boolean isFull() {
 		return getPlayers().size() >= slots;
 	}
@@ -568,7 +553,7 @@ public class NovaGuildImpl implements NovaGuild {
 		if(!isAlly(guild)) {
 			alliesNames.add(guild.getName().toLowerCase());
 			allies.add(guild);
-			changed();
+			setChanged();
 		}
 	}
 
@@ -576,7 +561,7 @@ public class NovaGuildImpl implements NovaGuild {
 	public void addAllyInvitation(NovaGuild guild) {
 		if(!isInvitedToAlly(guild)) {
 			allyInvitations.add(guild);
-			changed();
+			setChanged();
 		}
 	}
 
@@ -585,7 +570,7 @@ public class NovaGuildImpl implements NovaGuild {
 		if(!isWarWith(guild)) {
 			warNames.add(guild.getName().toLowerCase());
 			war.add(guild);
-			changed();
+			setChanged();
 		}
 	}
 
@@ -593,7 +578,7 @@ public class NovaGuildImpl implements NovaGuild {
 	public void addNoWarInvitation(NovaGuild guild) {
 		if(!isNoWarInvited(guild)) {
 			noWarInvited.add(guild);
-			changed();
+			setChanged();
 		}
 	}
 
@@ -622,13 +607,13 @@ public class NovaGuildImpl implements NovaGuild {
 	@Override
 	public void addMoney(double money) {
 		this.money += money;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void addPoints(int points) {
 		this.points += points;
-		changed();
+		setChanged();
 	}
 
 	@Override
@@ -660,7 +645,7 @@ public class NovaGuildImpl implements NovaGuild {
 		if(allies.contains(guild)) {
 			allies.remove(guild);
 			alliesNames.remove(guild.getName().toLowerCase());
-			changed();
+			setChanged();
 		}
 	}
 
@@ -669,7 +654,7 @@ public class NovaGuildImpl implements NovaGuild {
 		if(war.contains(guild)) {
 			war.remove(guild);
 			warNames.remove(guild.getName().toLowerCase());
-			changed();
+			setChanged();
 		}
 	}
 
@@ -677,7 +662,7 @@ public class NovaGuildImpl implements NovaGuild {
 	public void removeNoWarInvitation(NovaGuild guild) {
 		if(noWarInvited.contains(guild)) {
 			noWarInvited.remove(guild);
-			changed();
+			setChanged();
 		}
 	}
 
@@ -695,32 +680,32 @@ public class NovaGuildImpl implements NovaGuild {
 	@Override
 	public void takeMoney(double money) {
 		this.money -= money;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void takeLive() {
 		lives--;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void addLive() {
 		lives++;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void takePoints(int points) {
 		this.points -= points;
-		changed();
+		setChanged();
 	}
 
 	@Override
 	public void removeAllyInvitation(NovaGuild guild) {
 		if(isInvitedToAlly(guild)) {
 			allyInvitations.remove(guild);
-			changed();
+			setChanged();
 		}
 	}
 

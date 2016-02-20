@@ -32,6 +32,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
+import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -44,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaPlayerImpl implements NovaPlayer {
+public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	private int id;
 	private Player player;
 	private NovaGuild guild;
@@ -60,7 +61,6 @@ public class NovaPlayerImpl implements NovaPlayer {
 	private NovaRegion selectedRegion;
 	private NovaRegion atRegion;
 	private NovaRaid partRaid;
-	private boolean changed = false;
 	private int resizingCorner = 0;
 	private boolean compassPointingGuild = false;
 	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
@@ -217,7 +217,7 @@ public class NovaPlayerImpl implements NovaPlayer {
 	@Override
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
@@ -228,13 +228,13 @@ public class NovaPlayerImpl implements NovaPlayer {
 	@Override
 	public void setName(String name) {
 		this.name = name;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
 	public void setInvitedTo(List<NovaGuild> invitedTo) {
 		this.invitedTo = invitedTo;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
@@ -258,11 +258,6 @@ public class NovaPlayerImpl implements NovaPlayer {
 	}
 
 	@Override
-	public void setUnchanged() {
-		changed = false;
-	}
-
-	@Override
 	public void setResizingCorner(int index) {
 		resizingCorner = index;
 	}
@@ -270,7 +265,7 @@ public class NovaPlayerImpl implements NovaPlayer {
 	@Override
 	public void setPoints(int points) {
 		this.points = points;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
@@ -281,13 +276,13 @@ public class NovaPlayerImpl implements NovaPlayer {
 	@Override
 	public void setDeaths(int deaths) {
 		this.deaths = deaths;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
 	public void setKills(int kills) {
 		this.kills = kills;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
@@ -366,11 +361,6 @@ public class NovaPlayerImpl implements NovaPlayer {
 	}
 
 	@Override
-	public boolean isChanged() {
-		return changed;
-	}
-
-	@Override
 	public boolean isInvitedTo(NovaGuild guild) {
 		return invitedTo.contains(guild);
 	}
@@ -420,26 +410,26 @@ public class NovaPlayerImpl implements NovaPlayer {
 	public void addInvitation(NovaGuild guild) {
 		if(!isInvitedTo(guild)) {
 			invitedTo.add(guild);
-			changed = true;
+			setChanged();
 		}
 	}
 
 	@Override
 	public void addPoints(int points) {
 		this.points += points;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
 	public void addKill() {
 		kills++;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
 	public void addDeath() {
 		deaths++;
-		changed = true;
+		setChanged();
 	}
 
 	@Override
@@ -473,13 +463,13 @@ public class NovaPlayerImpl implements NovaPlayer {
 	@Override
 	public void deleteInvitation(NovaGuild guild) {
 		invitedTo.remove(guild);
-		changed = true;
+		setChanged();
 	}
 
 	@Override
 	public void takePoints(int points) {
 		this.points -= points;
-		changed = true;
+		setChanged();
 	}
 
 	@Override

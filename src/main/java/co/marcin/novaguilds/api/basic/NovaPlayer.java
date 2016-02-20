@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.api.basic;
 
+import co.marcin.novaguilds.api.util.Changeable;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.ChatMode;
@@ -32,7 +33,7 @@ import org.bukkit.entity.Vehicle;
 import java.util.List;
 import java.util.UUID;
 
-public interface NovaPlayer {
+public interface NovaPlayer extends Changeable {
 	/**
 	 * Gets the Player instance (if player is online)
 	 *
@@ -267,11 +268,6 @@ public interface NovaPlayer {
 	void setAtRegion(NovaRegion region);
 
 	/**
-	 * Sets the player as unchanged
-	 */
-	void setUnchanged();
-
-	/**
 	 * Sets the resizing corner
 	 *
 	 * @param index 0 or 1
@@ -380,13 +376,6 @@ public interface NovaPlayer {
 	 * @return the flag
 	 */
 	boolean isOnline();
-
-	/**
-	 * Checks if the player is changed
-	 *
-	 * @return the flag
-	 */
-	boolean isChanged();
 
 	/**
 	 * Checks if the player is invited to a guild

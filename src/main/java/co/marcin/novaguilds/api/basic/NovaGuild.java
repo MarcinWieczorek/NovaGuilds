@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.api.basic;
 
+import co.marcin.novaguilds.api.util.Changeable;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.basic.NovaRegion;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -27,7 +28,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
-public interface NovaGuild {
+public interface NovaGuild extends Changeable {
 	/**
 	 * Gets the UUID
 	 *
@@ -282,16 +283,6 @@ public interface NovaGuild {
 	void setVaultHologram(Hologram hologram);
 
 	/**
-	 * Marks the guild as unchanged
-	 */
-	void setUnchanged();
-
-	/**
-	 * Marks the guild as changed
-	 */
-	void changed();
-
-	/**
 	 * Sets the name
 	 *
 	 * @param name the name string
@@ -539,13 +530,6 @@ public interface NovaGuild {
 	 * @return boolean
 	 */
 	boolean isRaid();
-
-	/**
-	 * Checks if the guild is marked as changed
-	 *
-	 * @return boolean
-	 */
-	boolean isChanged();
 
 	/**
 	 * Checks if the guild is full (slot limit)

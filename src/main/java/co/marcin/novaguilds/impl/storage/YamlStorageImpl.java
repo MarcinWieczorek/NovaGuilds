@@ -189,7 +189,7 @@ public class YamlStorageImpl extends AbstractFileStorage {
 					region.setCorner(1, c2);
 					region.setWorld(world);
 					guild.setRegion(region);
-					region.setUnChanged();
+					region.setUnchanged();
 
 					list.add(region);
 				}
@@ -461,7 +461,7 @@ public class YamlStorageImpl extends AbstractFileStorage {
 
 				//save
 				regionData.save(getRegionFile(region));
-				region.setUnChanged();
+				region.setUnchanged();
 			}
 			catch(IOException e) {
 				LoggerUtils.exception(e);
@@ -474,7 +474,7 @@ public class YamlStorageImpl extends AbstractFileStorage {
 
 	@Override
 	public void save(NovaRank rank) {
-		rank.getGuild().changed();
+		rank.getGuild().setChanged();
 		save(rank.getGuild());
 	}
 
