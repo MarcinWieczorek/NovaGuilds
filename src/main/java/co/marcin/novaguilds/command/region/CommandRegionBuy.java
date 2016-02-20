@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.region;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
@@ -49,7 +50,7 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);

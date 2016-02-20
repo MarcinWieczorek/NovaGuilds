@@ -20,12 +20,14 @@ package co.marcin.novaguilds.command.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -53,7 +55,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		List<NovaGuild> invitedTo = nPlayer.getInvitedTo();
 		
 		if(nPlayer.hasGuild()) {
@@ -104,7 +106,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 			}
 		}
 
-		NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
+		NovaGuild guild = GuildManager.getGuildFind(guildname);
 
 		if(guild == null) {
 			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);

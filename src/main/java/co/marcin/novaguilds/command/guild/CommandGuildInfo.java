@@ -20,14 +20,16 @@ package co.marcin.novaguilds.command.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.MessageManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
@@ -55,11 +57,11 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 	
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		String guildname;
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		String guildName;
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		
 		if(args.length > 0) {
-			guildname = args[0];
+			guildName = args[0];
 		}
 		else {
 			if(!(sender instanceof Player)) {
@@ -68,7 +70,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 			}
 			
 			if(nPlayer.hasGuild()) {
-				guildname = nPlayer.getGuild().getName();
+				guildName = nPlayer.getGuild().getName();
 			}
 			else {
 				Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -77,7 +79,7 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		}
 
 		//searching by name
-		NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
+		NovaGuild guild = GuildManager.getGuildFind(guildName);
 		
 		if(guild == null) {
 			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
@@ -99,31 +101,31 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		MessageManager.sendPrefixMessage(sender, guildInfoMessages.get(0));
 
 		int i;
-		List<NovaPlayer> gplayers = guild.getPlayers();
+		List<NovaPlayer> playerList = guild.getPlayers();
 		String leader = guild.getLeader().getName();
 		String players = "";
-		String pcolor;
-		String leaderp; //String to insert to playername (leader prefix)
-		String leaderprefix = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
+		String playerColor;
+		String leaderPrefixString; //String to insert to playername (leader prefix)
+		String leaderPrefixFormat = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 
 		//players list
-		if(!gplayers.isEmpty()) {
+		if(!playerList.isEmpty()) {
 			for(NovaPlayer nPlayerList : guild.getPlayers()) {
 				if(nPlayerList.isOnline()) {
-					pcolor = Message.CHAT_GUILDINFO_PLAYERCOLOR_ONLINE.get();
+					playerColor = Message.CHAT_GUILDINFO_PLAYERCOLOR_ONLINE.get();
 				}
 				else {
-					pcolor = Message.CHAT_GUILDINFO_PLAYERCOLOR_OFFLINE.get();
+					playerColor = Message.CHAT_GUILDINFO_PLAYERCOLOR_OFFLINE.get();
 				}
 
-				leaderp = "";
+				leaderPrefixString = "";
 				if(nPlayerList.getName().equalsIgnoreCase(leader)) {
-					leaderp = leaderprefix;
+					leaderPrefixString = leaderPrefixFormat;
 				}
 
-				players += pcolor + leaderp + nPlayerList.getName();
+				players += playerColor + leaderPrefixString + nPlayerList.getName();
 
-				if(!nPlayerList.equals(gplayers.get(gplayers.size() - 1))) {
+				if(!nPlayerList.equals(playerList.get(playerList.size() - 1))) {
 					players += separator;
 				}
 			}
@@ -132,10 +134,10 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		//allies
 		String allies = "";
 		if(!guild.getAllies().isEmpty()) {
-			String allyformat = Message.CHAT_GUILDINFO_ALLY.get();
+			String allyFormat = Message.CHAT_GUILDINFO_ALLY.get();
 			for(NovaGuild allyGuild : guild.getAllies()) {
-				String guildName = org.apache.commons.lang.StringUtils.replace(allyformat, "{GUILDNAME}", allyGuild.getName());
-				allies = allies + guildName + separator;
+				String allyName = org.apache.commons.lang.StringUtils.replace(allyFormat, "{GUILDNAME}", allyGuild.getName());
+				allies = allies + allyName + separator;
 			}
 
 			allies = allies.substring(0, allies.length() - separator.length());
@@ -144,9 +146,9 @@ public class CommandGuildInfo implements CommandExecutor, Executor {
 		//wars
 		String wars = "";
 		if(!guild.getWars().isEmpty()) {
-			String warformat = Message.CHAT_GUILDINFO_WAR.get();
+			String warFormat = Message.CHAT_GUILDINFO_WAR.get();
 			for(NovaGuild war : guild.getWars()) {
-				String warName = org.apache.commons.lang.StringUtils.replace(warformat, "{GUILDNAME}", war.getName());
+				String warName = org.apache.commons.lang.StringUtils.replace(warFormat, "{GUILDNAME}", war.getName());
 				wars = wars + warName + separator;
 			}
 

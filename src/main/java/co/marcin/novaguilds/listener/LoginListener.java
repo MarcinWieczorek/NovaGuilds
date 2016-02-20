@@ -18,15 +18,16 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.api.util.AbstractListener;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.basic.tablist.TabList1_8NorthTabImpl;
 import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -48,7 +49,7 @@ public class LoginListener extends AbstractListener {
 		//adding player
 		plugin.getPlayerManager().addIfNotExists(player);
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		nPlayer.setPlayer(player);
 
@@ -115,7 +116,7 @@ public class LoginListener extends AbstractListener {
 	
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
 		nPlayer.setPlayer(null);
 
 		//remove player from raid

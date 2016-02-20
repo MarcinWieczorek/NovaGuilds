@@ -19,11 +19,12 @@
 package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.AbstractGUIInventory;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -75,6 +76,6 @@ public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 			return;
 		}
 
-		new GUIInventoryGuildPlayerSettings(slotPlayersMap.get(event.getRawSlot())).open(NovaPlayer.get(event.getWhoClicked()));
+		new GUIInventoryGuildPlayerSettings(slotPlayersMap.get(event.getRawSlot())).open(PlayerManager.getPlayer(event.getWhoClicked()));
 	}
 }

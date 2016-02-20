@@ -20,7 +20,7 @@ package co.marcin.novaguilds.util.guiinventory;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 
 import java.util.ArrayList;

@@ -20,11 +20,12 @@ package co.marcin.novaguilds.command.admin.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 			return;
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(args[0]);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
 		
 		if(nPlayer == null) { //noplayer
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);

@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
@@ -32,6 +32,7 @@ import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -79,7 +80,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 			tag = StringUtils.removeColors(tag);
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		Map<VarKey, String> vars = new HashMap<>();
 		
 		if(nPlayer.hasGuild()) { //has guild already

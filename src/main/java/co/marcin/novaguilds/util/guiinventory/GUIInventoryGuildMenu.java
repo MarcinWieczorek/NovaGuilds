@@ -18,8 +18,8 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.AbstractGUIInventory;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ItemStackUtils;

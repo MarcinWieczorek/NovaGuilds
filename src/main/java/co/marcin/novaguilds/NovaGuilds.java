@@ -316,7 +316,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 		
 		for(Player p : getServer().getOnlinePlayers()) {
-			getPlayerManager().getPlayer(p).cancelToolProgress();
+			PlayerManager.getPlayer(p).cancelToolProgress();
 		}
 
 		//getConfigManager().disable();

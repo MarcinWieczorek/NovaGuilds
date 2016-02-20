@@ -20,12 +20,13 @@ package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.AbstractGUIInventory;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -78,7 +79,7 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 
 	@Override
 	public void onClick(InventoryClickEvent event) {
-		NovaPlayer nPlayer = NovaPlayer.get(event.getWhoClicked());
+		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getWhoClicked());
 
 		if(!nPlayer.hasPermission(GuildPermission.RANK_EDIT)) {
 			return;

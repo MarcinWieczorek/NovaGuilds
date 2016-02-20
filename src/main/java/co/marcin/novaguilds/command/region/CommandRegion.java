@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.region;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class CommandRegion implements Executor {
 			subCommand.execute(sender, null);
 		}
 		else {
-			if(plugin.getPlayerManager().getPlayer(sender).isLeader()) {
+			if(PlayerManager.getPlayer(sender).isLeader()) {
 				Message.CHAT_COMMANDS_REGION_HEADER.send(sender);
 				Message.CHAT_COMMANDS_REGION_ITEMS.send(sender);
 			}

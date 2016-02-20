@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 

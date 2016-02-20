@@ -18,12 +18,13 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.AbstractListener;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -87,7 +88,7 @@ public class VaultListener extends AbstractListener {
 			return;
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
+		NovaPlayer nPlayer = PlayerManager.getPlayer((Player) event.getWhoClicked());
 		String nameVault = Config.VAULT_ITEM.getItemStack().getItemMeta().getDisplayName();
 
 		if(event.getInventory().getTitle() == null || !event.getInventory().getTitle().equals(nameVault)) {
@@ -112,7 +113,7 @@ public class VaultListener extends AbstractListener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
-		NovaPlayer nPlayer = NovaPlayer.get(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		if(plugin.getGuildManager().isVaultBlock(event.getBlock())) {
 			Chest chest = (Chest) event.getBlock().getState();
@@ -148,7 +149,7 @@ public class VaultListener extends AbstractListener {
 		Player player = event.getPlayer();
 
 		if(plugin.getRegionManager().canInteract(player, event.getBlock())) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 			Material itemType = player.getItemInHand().getType();
 
 			if(itemType == Config.VAULT_ITEM.getItemStack().getType()) {

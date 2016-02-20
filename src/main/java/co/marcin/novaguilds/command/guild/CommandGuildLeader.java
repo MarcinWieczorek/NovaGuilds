@@ -20,11 +20,12 @@ package co.marcin.novaguilds.command.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
@@ -46,8 +47,8 @@ public class CommandGuildLeader implements Executor {
 			return;
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-		NovaPlayer newLeader = plugin.getPlayerManager().getPlayer(args[0]);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+		NovaPlayer newLeader = PlayerManager.getPlayer(args[0]);
 
 		if(newLeader == null) {
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);

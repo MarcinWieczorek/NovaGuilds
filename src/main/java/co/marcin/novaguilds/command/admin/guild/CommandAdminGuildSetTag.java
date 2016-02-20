@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
@@ -50,7 +51,7 @@ public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 
 		String newTag = args[0];
 
-		if(plugin.getGuildManager().getGuildFind(newTag) != null) {
+		if(GuildManager.getGuildFind(newTag) != null) {
 			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
 			return;
 		}

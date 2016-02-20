@@ -20,11 +20,12 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.TabList;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -53,7 +54,7 @@ public final class TabUtils {
 	}
 
 	public static void refresh(Player player) {
-		refresh(NovaPlayer.get(player));
+		refresh(PlayerManager.getPlayer(player));
 	}
 
 	public static void refresh() {

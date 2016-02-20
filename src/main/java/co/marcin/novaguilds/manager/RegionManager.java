@@ -20,7 +20,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -188,7 +188,7 @@ public class RegionManager {
 
 	public boolean canInteract(Player player, Location location) {
 		NovaRegion region = getRegion(location);
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		return region == null || nPlayer.getBypass() || (nPlayer.hasGuild() && region.getGuild().isMember(nPlayer));
 	}
 
@@ -242,7 +242,7 @@ public class RegionManager {
 		}
 
 		NovaRegion region = getRegion(toLocation);
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		//border particles
 		if(Config.REGION_BORDERPARTICLES.getBoolean()) {
@@ -277,7 +277,7 @@ public class RegionManager {
 
 	public void playerExitedRegion(Player player) {
 		NovaRegion region = getRegion(player.getLocation());
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		if(region == null) {
 			return;
@@ -305,7 +305,7 @@ public class RegionManager {
 	}
 
 	public void checkRaidInit(Player player) {
-		NovaPlayer nPlayer = NovaPlayer.get(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		if(!Config.RAID_ENABLED.getBoolean() || !nPlayer.hasGuild() || !nPlayer.isAtRegion()) {
 			return;

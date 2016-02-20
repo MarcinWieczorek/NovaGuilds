@@ -18,12 +18,13 @@
 
 package co.marcin.novaguilds.command.admin.region;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class CommandAdminRegionBypass implements Executor {
 		Map<VarKey, String> vars = new HashMap<>();
 
 		if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 			nPlayer.toggleBypass();
 			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getBypass()));
@@ -58,7 +59,7 @@ public class CommandAdminRegionBypass implements Executor {
 				return;
 			}
 
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(args[0]);
+			NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
 
 			if(nPlayer == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);

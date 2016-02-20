@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;

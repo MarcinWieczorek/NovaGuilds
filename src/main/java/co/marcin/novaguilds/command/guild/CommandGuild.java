@@ -18,12 +18,13 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -85,7 +86,7 @@ public class CommandGuild implements CommandExecutor, Executor {
 			}
 		}
 		else {
-			NovaPlayer nPlayer = NovaPlayer.get(sender);
+			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 			if(nPlayer.hasGuild()) {
 				for(String message : Message.CHAT_COMMANDS_GUILD_HASGUILD.getList()) {
 					GuildPermission guildPermission = null;

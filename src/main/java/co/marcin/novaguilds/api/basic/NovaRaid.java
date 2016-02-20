@@ -18,8 +18,6 @@
 
 package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
-
 import java.util.List;
 
 public interface NovaRaid {

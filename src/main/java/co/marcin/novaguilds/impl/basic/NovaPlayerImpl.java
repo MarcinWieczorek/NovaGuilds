@@ -16,13 +16,16 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.basic;
+package co.marcin.novaguilds.impl.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.TabList;
+import co.marcin.novaguilds.basic.NovaRank;
+import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
@@ -32,17 +35,15 @@ import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaPlayer {
+public class NovaPlayerImpl implements co.marcin.novaguilds.api.basic.NovaPlayer {
 	private int id;
 	private Player player;
 	private NovaGuild guild;
@@ -70,14 +71,15 @@ public class NovaPlayer {
 	private NovaRank guildRank;
 	private ChatMode chatMode = ChatMode.NORMAL;
 	private boolean spyMode = false;
+	private final Location[] regionSelectedLocations = new Location[2];
 
-	public NovaPlayer(UUID uuid) {
+	public NovaPlayerImpl(UUID uuid) {
 		this.uuid = uuid;
 	}
 
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
-			NovaPlayer nPlayer = new NovaPlayer(player.getUniqueId());
+			NovaPlayer nPlayer = new NovaPlayerImpl(player.getUniqueId());
 			nPlayer.setName(player.getName());
 			nPlayer.setPlayer(player);
 			return nPlayer;
@@ -85,213 +87,230 @@ public class NovaPlayer {
 		return null;
 	}
 
-	public static NovaPlayer get(CommandSender sender) {
-		return NovaGuilds.getInstance().getPlayerManager().getPlayer(sender);
-	}
-
-	//Region selecting
-	private final Location[] regionSelectedLocations = new Location[2];
-	
 	//getters
+	@Override
 	public Player getPlayer() {
 		return player;
 	}
-	
+
+	@Override
 	public NovaGuild getGuild() {
 		return guild;
 	}
-	
+
+	@Override
 	public String getName() {
 		return name;
 	}
-	
-	public List<String> getInvitedToNames() {
-		List<String> invitedToNames = new ArrayList<>();
 
-		for(NovaGuild guild : invitedTo) {
-			invitedToNames.add(guild.getName());
-		}
-
-		return invitedToNames;
-	}
-
+	@Override
 	public List<NovaGuild> getInvitedTo() {
 		return invitedTo;
 	}
-	
+
+	@Override
 	public UUID getUUID() {
 		return uuid;
 	}
-	
+
+	@Override
 	public Location getSelectedLocation(int index) {
 		return regionSelectedLocations[index];
 	}
-	
+
+	@Override
 	public NovaRegion getSelectedRegion() {
 		return selectedRegion;
 	}
-	
+
+	@Override
 	public boolean getBypass() {
 		return bypass;
 	}
 
+	@Override
 	public NovaRegion getAtRegion() {
 		return atRegion;
 	}
 
+	@Override
 	public int getResizingCorner() {
 		return resizingCorner;
 	}
 
+	@Override
 	public int getPoints() {
 		return points;
 	}
 
+	@Override
 	public int getDeaths() {
 		return deaths;
 	}
 
+	@Override
 	public int getKills() {
 		return kills;
 	}
 
+	@Override
 	public double getKillDeathRate() {
 		return NumberUtils.roundOffTo2DecPlaces((double) getKills() / (getDeaths() == 0 ? 1 : (double) getDeaths()));
 	}
 
+	@Override
 	public double getMoney() {
 		return NovaGuilds.getInstance().econ.getBalance(name);
 	}
 
+	@Override
 	public boolean getRegionMode() {
 		return regionMode;
 	}
 
-	public Scoreboard getScoreBoard() {
-		return player.isOnline() ? player.getScoreboard() : null;
-	}
-
+	@Override
 	public TabList getTabList() {
 		return tabList;
 	}
 
+	@Override
 	public CommandExecutorHandler getCommandExecutorHandler() {
 		return commandExecutorHandler;
 	}
 
+	@Override
 	public NovaRaid getPartRaid() {
 		return partRaid;
 	}
 
+	@Override
 	public GUIInventory getGuiInventory() {
 		return guiInventoryHistory.isEmpty() ? null : guiInventoryHistory.get(guiInventoryHistory.size() - 1);
 	}
 
+	@Override
 	public List<GUIInventory> getGuiInventoryHistory() {
 		return guiInventoryHistory;
 	}
 
+	@Override
 	public NovaRank getGuildRank() {
 		return guildRank;
 	}
 
+	@Override
 	public ChatMode getChatMode() {
 		return chatMode;
 	}
 
+	@Override
 	public boolean getSpyMode() {
 		return spyMode;
 	}
 
+	@Override
 	public int getId() {
 		return id;
 	}
 
 	//setters
+	@Override
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
 		changed = true;
 	}
 
-	public void setPlayer(Player p) {
-		player = p;
+	@Override
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
-	public void setName(String n) {
-		name = n;
+	@Override
+	public void setName(String name) {
+		this.name = name;
 		changed = true;
 	}
 
-	public void setInvitedTo(List<NovaGuild> invto) {
-		invitedTo = invto;
+	@Override
+	public void setInvitedTo(List<NovaGuild> invitedTo) {
+		this.invitedTo = invitedTo;
 		changed = true;
 	}
-	
-	public void setRegionMode(boolean rm) {
-		regionMode = rm;
+
+	@Override
+	public void setRegionMode(boolean regionMode) {
+		this.regionMode = regionMode;
 	}
-	
-	public void setSelectedLocation(int index, Location l) {
-		regionSelectedLocations[index] = l;
+
+	@Override
+	public void setSelectedLocation(int index, Location location) {
+		regionSelectedLocations[index] = location;
 	}
-	
+
+	@Override
 	public void setSelectedRegion(NovaRegion region) {
 		selectedRegion = region;
 	}
 
+	@Override
 	public void setAtRegion(NovaRegion region) {
 		atRegion = region;
 	}
 
+	@Override
 	public void setUnchanged() {
 		changed = false;
 	}
 
-	public void setResizing(boolean b) {
-		resizing = b;
+	@Override
+	public void setResizing(boolean resizing) {
+		this.resizing = resizing;
 	}
 
+	@Override
 	public void setResizingCorner(int index) {
 		resizingCorner = index;
 	}
 
+	@Override
 	public void setPoints(int points) {
 		this.points = points;
 		changed = true;
 	}
 
+	@Override
 	public void setCompassPointingGuild(boolean compassPointingGuild) {
 		this.compassPointingGuild = compassPointingGuild;
 	}
 
+	@Override
 	public void setDeaths(int deaths) {
 		this.deaths = deaths;
 		changed = true;
 	}
 
+	@Override
 	public void setKills(int kills) {
 		this.kills = kills;
 		changed = true;
 	}
 
-	public void setScoreBoard(Scoreboard sb) {
-		if(isOnline()) {
-			player.setScoreboard(sb);
-		}
-	}
-
+	@Override
 	public void setTabList(TabList tabList) {
 		this.tabList = tabList;
 	}
 
+	@Override
 	public void toggleBypass() {
 		bypass = !bypass;
 	}
 
+	@Override
 	public void setPartRaid(NovaRaid partRaid) {
 		this.partRaid = partRaid;
 	}
 
+	@Override
 	public void setGuiInventory(GUIInventory guiInventory) {
 		if(guiInventory == null) {
 			removeLastGUIInventoryHistory();
@@ -303,6 +322,7 @@ public class NovaPlayer {
 		}
 	}
 
+	@Override
 	public void setGuildRank(NovaRank guildRank) {
 		if(this.guildRank != null) {
 			this.guildRank.removeMember(this);
@@ -319,72 +339,94 @@ public class NovaPlayer {
 		this.guildRank = guildRank;
 	}
 
+	@Override
 	public void setChatMode(ChatMode chatMode) {
 		this.chatMode = chatMode;
 	}
 
+	@Override
 	public void setSpyMode(boolean spyMode) {
 		this.spyMode = spyMode;
 	}
 
+	@Override
 	public void setId(int id) {
 		this.id = id;
 	}
 	
 	//check stuff
+	@Override
 	public boolean isCompassPointingGuild() {
 		return compassPointingGuild;
 	}
 
+	@Override
 	public boolean hasGuild() {
 		return getGuild() != null;
 	}
-	
+
+	@Override
 	public boolean isOnline() {
 		return player != null;
 	}
 
+	@Override
 	public boolean isResizing() {
 		return resizing;
 	}
 
+	@Override
 	public boolean isChanged() {
 		return changed;
 	}
-	
+
+	@Override
 	public boolean isInvitedTo(NovaGuild guild) {
 		return invitedTo.contains(guild);
 	}
 
+	@Override
 	public boolean isPartRaid() {
 		return !(partRaid == null);
 	}
 
+	@Override
 	public boolean isVehicleListed(Vehicle vehicle) {
 		return vehicles.contains(vehicle);
 	}
 
+	@Override
 	public boolean isLeader() {
 		return hasGuild() && getGuild().isLeader(this);
 	}
 
+	@Override
+	public boolean isAtRegion() {
+		return atRegion != null;
+	}
+
+	@Override
 	public boolean hasMoney(double money) {
 		return getMoney() >= money;
 	}
 
+	@Override
 	public boolean hasPermission(GuildPermission permission) {
 		return guildRank != null && guildRank.hasPermission(permission);
 	}
 
+	@Override
 	public boolean hasTabList() {
 		return tabList != null;
 	}
 
+	@Override
 	public boolean canGetKillPoints(Player player) {
 		return !killingHistory.containsKey(player.getUniqueId()) || NumberUtils.systemSeconds() - killingHistory.get(player.getUniqueId()) > Config.KILLING_COOLDOWN.getSeconds();
 	}
 	
 	//add stuff
+	@Override
 	public void addInvitation(NovaGuild guild) {
 		if(!isInvitedTo(guild)) {
 			invitedTo.add(guild);
@@ -392,25 +434,30 @@ public class NovaPlayer {
 		}
 	}
 
+	@Override
 	public void addPoints(int points) {
 		this.points += points;
 		changed = true;
 	}
 
+	@Override
 	public void addKill() {
 		kills++;
 		changed = true;
 	}
 
+	@Override
 	public void addDeath() {
 		deaths++;
 		changed = true;
 	}
 
+	@Override
 	public void addMoney(double money) {
 		NovaGuilds.getInstance().econ.depositPlayer(name, money);
 	}
 
+	@Override
 	public void addKillHistory(Player player) {
 		if(killingHistory.containsKey(player.getUniqueId())) {
 			killingHistory.remove(player.getUniqueId());
@@ -419,32 +466,38 @@ public class NovaPlayer {
 		killingHistory.put(player.getUniqueId(), NumberUtils.systemSeconds());
 	}
 
+	@Override
 	public void addVehicle(Vehicle vehicle) {
 		if(!isVehicleListed(vehicle)) {
 			vehicles.add(vehicle);
 		}
 	}
 
+	@Override
 	public void newCommandExecutorHandler(Command command, String[] args) {
 		commandExecutorHandler = new CommandExecutorHandler(command, getPlayer(), args);
 		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
 	}
 	
 	//delete stuff
+	@Override
 	public void deleteInvitation(NovaGuild guild) {
 		invitedTo.remove(guild);
 		changed = true;
 	}
 
+	@Override
 	public void takePoints(int points) {
 		this.points -= points;
 		changed = true;
 	}
 
+	@Override
 	public void takeMoney(double money) {
 		NovaGuilds.getInstance().econ.withdrawPlayer(name, money);
 	}
 
+	@Override
 	public void cancelToolProgress() {
 		if(isOnline()) {
 			RegionUtils.sendRectangle(getPlayer(), getSelectedLocation(0), getSelectedLocation(1), null, (byte) 0);
@@ -460,15 +513,13 @@ public class NovaPlayer {
 		}
 	}
 
+	@Override
 	public void removeCommandExecutorHandler() {
 		commandExecutorHandler = null;
 	}
 
+	@Override
 	public void removeLastGUIInventoryHistory() {
 		getGuiInventoryHistory().remove(getGuiInventoryHistory().size() - 1);
-	}
-
-	public boolean isAtRegion() {
-		return atRegion != null;
 	}
 }

@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -73,7 +74,7 @@ public class CommandAdminRegion implements Executor {
 		}
 
 		if(!noGuildCommands.contains(subCommand)) {
-			NovaGuild guild = plugin.getGuildManager().getGuildFind(args[0]);
+			NovaGuild guild = GuildManager.getGuildFind(args[0]);
 
 			if(guild == null) {
 				Message.CHAT_GUILD_COULDNOTFIND.send(sender);

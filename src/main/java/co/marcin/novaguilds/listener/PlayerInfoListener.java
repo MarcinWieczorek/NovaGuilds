@@ -18,9 +18,10 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.AbstractListener;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,7 +33,7 @@ public class PlayerInfoListener extends AbstractListener {
 		Player player = event.getPlayer();
 		if((event.getRightClicked() instanceof Player) && player.isSneaking()) {
 			if(Permission.NOVAGUILDS_PLAYERINFO.has(player)) {
-				NovaPlayer nCPlayer = plugin.getPlayerManager().getPlayer((Player) event.getRightClicked());
+				NovaPlayer nCPlayer = PlayerManager.getPlayer((Player) event.getRightClicked());
 				plugin.getPlayerManager().sendPlayerInfo(player, nCPlayer);
 			}
 		}

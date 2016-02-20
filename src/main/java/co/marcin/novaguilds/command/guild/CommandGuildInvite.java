@@ -20,12 +20,13 @@ package co.marcin.novaguilds.command.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -52,7 +53,7 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 		}
 
 		String playername = args[0];
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -64,7 +65,7 @@ public class CommandGuildInvite implements CommandExecutor, Executor {
 			return;
 		}
 
-		NovaPlayer invitePlayer = plugin.getPlayerManager().getPlayer(playername);
+		NovaPlayer invitePlayer = PlayerManager.getPlayer(playername);
 
 		if(invitePlayer == null) { //player exists
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);

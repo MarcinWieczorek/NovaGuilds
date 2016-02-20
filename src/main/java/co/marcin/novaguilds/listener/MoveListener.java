@@ -18,9 +18,10 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.AbstractListener;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,12 +42,12 @@ public class MoveListener extends AbstractListener {
 
 	@EventHandler
 	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
-		NovaPlayer.get(event.getPlayer()).cancelToolProgress();
+		PlayerManager.getPlayer(event.getPlayer()).cancelToolProgress();
 	}
 
 	private void execute(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		Location from = event.getFrom();
 		Location to = event.getTo();
 

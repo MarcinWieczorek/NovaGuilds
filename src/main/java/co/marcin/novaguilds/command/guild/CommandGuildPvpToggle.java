@@ -18,12 +18,13 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
@@ -36,7 +37,7 @@ public class CommandGuildPvpToggle implements Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);

@@ -20,9 +20,9 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.util.PreparedTag;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.impl.util.PreparedTagImpl;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
@@ -36,7 +36,7 @@ public final class TagUtils {
 		}
 
 		for(Player player : Bukkit.getOnlinePlayers()) {
-			PreparedTag tag = new PreparedTagImpl(NovaPlayer.get(player));
+			PreparedTag tag = new PreparedTagImpl(PlayerManager.getPlayer(player));
 
 			Scoreboard board = p.getScoreboard();
 			Team team = board.getPlayerTeam(player);

@@ -20,12 +20,13 @@ package co.marcin.novaguilds.command.admin.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -63,7 +64,7 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 			}
 
 			String playerName = args[0];
-			NovaPlayer nPlayerOther = plugin.getPlayerManager().getPlayer(playerName);
+			NovaPlayer nPlayerOther = PlayerManager.getPlayer(playerName);
 
 			if(nPlayerOther == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);

@@ -19,12 +19,13 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.api.basic.NovaGroup;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -100,7 +101,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				}
 
 				if(sender instanceof Player) {
-					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+					NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 					if(nPlayer.hasGuild()) {
 						((Player) sender).getInventory().addItem(Config.VAULT_ITEM.getItemStack());
 					}

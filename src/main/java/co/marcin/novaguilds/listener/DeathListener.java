@@ -19,14 +19,15 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.api.util.PreparedTag;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.PreparedTagImpl;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,8 +46,8 @@ public class DeathListener extends AbstractListener {
 		Player victim = event.getEntity();
 		Player attacker = event.getEntity().getKiller();
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(victim);
-		NovaPlayer nPlayerAttacker = plugin.getPlayerManager().getPlayer(attacker);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(victim);
+		NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
 
 		nPlayerAttacker.addKill();
 		nPlayer.addDeath();

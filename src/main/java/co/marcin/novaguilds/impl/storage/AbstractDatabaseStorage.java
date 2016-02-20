@@ -19,8 +19,8 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.storage.Database;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
@@ -28,7 +28,9 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
+import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -112,7 +114,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 				String playerName = res.getString("name");
 
 				UUID uuid = UUID.fromString(res.getString("uuid"));
-				NovaPlayer nPlayer = new NovaPlayer(uuid);
+				NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
 
 				Player player = Bukkit.getPlayer(uuid);
 				if(player != null && player.isOnline()) {
@@ -362,7 +364,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 				}
 
 				for(String playerName : StringUtils.jsonToList(res.getString("members"))) {
-					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playerName);
+					NovaPlayer nPlayer = PlayerManager.getPlayer(playerName);
 
 					if(nPlayer == null) {
 						LoggerUtils.error("Player " + playerName + " doesn't exist, cannot be added to rank '" + rank.getName() + "' of guild " + rank.getGuild().getName());
@@ -523,7 +525,12 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.PLAYERS_UPDATE);
 
 			//prepare data
-			String joined = StringUtils.join(nPlayer.getInvitedToNames(), ";");
+			List<String> invitedToNames = new ArrayList<>();
+			for(NovaGuild guild : nPlayer.getInvitedTo()) {
+				invitedToNames.add(guild.getName());
+			}
+
+			String joined = StringUtils.join(invitedToNames, ";");
 
 			//prepare and save
 			preparedStatement.setString(1, joined);

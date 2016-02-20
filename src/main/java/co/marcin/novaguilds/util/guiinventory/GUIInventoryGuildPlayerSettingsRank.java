@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import org.bukkit.event.inventory.InventoryClickEvent;

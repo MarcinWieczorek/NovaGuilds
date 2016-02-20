@@ -18,13 +18,14 @@
 
 package co.marcin.novaguilds.command.admin.region;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -64,7 +65,7 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 				return;
 			}
 
-			nPlayerOther = plugin.getPlayerManager().getPlayer(args[0]);
+			nPlayerOther = PlayerManager.getPlayer(args[0]);
 
 			if(nPlayerOther == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);

@@ -20,7 +20,7 @@ package co.marcin.novaguilds.api.util;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 
 public interface PreparedTag {

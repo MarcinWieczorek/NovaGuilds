@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.basic.NovaRegion;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;

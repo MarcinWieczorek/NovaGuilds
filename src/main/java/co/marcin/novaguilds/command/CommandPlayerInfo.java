@@ -18,10 +18,11 @@
 
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -47,10 +48,10 @@ public class CommandPlayerInfo implements CommandExecutor, Executor {
 				return;
 			}
 
-			nCPlayer = plugin.getPlayerManager().getPlayer(sender);
+			nCPlayer = PlayerManager.getPlayer(sender);
 		}
 		else {
-			nCPlayer = plugin.getPlayerManager().getPlayer(args[0]);
+			nCPlayer = PlayerManager.getPlayer(args[0]);
 
 			if(nCPlayer == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);

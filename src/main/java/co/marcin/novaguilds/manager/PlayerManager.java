@@ -19,10 +19,11 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import org.bukkit.Bukkit;
@@ -49,22 +50,16 @@ public class PlayerManager {
 	}
 
 	//new getters
-	public NovaPlayer getPlayer(String playerName) {
-		addIfNotExists(playerName);
+	public static NovaPlayer getPlayer(String playerName) {
+		plugin.getPlayerManager().addIfNotExists(playerName);
 
-		return players.get(playerName);
+		return plugin.getPlayerManager().players.get(playerName);
 	}
 
-	public NovaPlayer getPlayer(CommandSender sender) {
-		addIfNotExists(sender.getName());
+	public static NovaPlayer getPlayer(CommandSender sender) {
+		plugin.getPlayerManager().addIfNotExists(sender.getName());
 
-		return getPlayer(sender.getName());
-	}
-
-	public NovaPlayer getPlayer(Player player) {
-		addIfNotExists(player);
-
-		return getPlayer(player.getName());
+		return PlayerManager.getPlayer(sender.getName());
 	}
 
 	public Collection<NovaPlayer> getPlayers() {
@@ -75,7 +70,7 @@ public class PlayerManager {
 		Collection<NovaPlayer> collection = new HashSet<>();
 
 		for(Player player : Bukkit.getOnlinePlayers()) {
-			collection.add(NovaPlayer.get(player));
+			collection.add(getPlayer(player));
 		}
 
 		return collection;
@@ -111,7 +106,7 @@ public class PlayerManager {
 	}
 
 	private void add(Player player) {
-		NovaPlayer nPlayer = NovaPlayer.fromPlayer(player);
+		NovaPlayer nPlayer = NovaPlayerImpl.fromPlayer(player);
 		plugin.getStorage().add(nPlayer);
 		players.put(nPlayer.getName(), nPlayer);
 	}

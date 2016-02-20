@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.util.LoggerUtils;

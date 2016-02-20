@@ -18,9 +18,10 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildMenu;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,7 +40,7 @@ public class CommandGuildMenu implements CommandExecutor, Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = NovaPlayer.get(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		new GUIInventoryGuildMenu(nPlayer).open(nPlayer);
 	}
 

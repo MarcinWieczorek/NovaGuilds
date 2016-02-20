@@ -19,13 +19,15 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
+import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -55,7 +57,7 @@ public class YamlStorageImpl extends AbstractFileStorage {
 
 			if(configuration != null) {
 				UUID uuid = UUID.fromString(configuration.getString("uuid"));
-				NovaPlayer nPlayer = new NovaPlayer(uuid);
+				NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
 
 				Player player = plugin.getServer().getPlayer(uuid);
 
@@ -231,7 +233,7 @@ public class YamlStorageImpl extends AbstractFileStorage {
 				rank.setGuild(guild);
 
 				for(String playerName : rankConfiguration.getStringList("members")) {
-					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playerName);
+					NovaPlayer nPlayer = PlayerManager.getPlayer(playerName);
 
 					if(nPlayer == null) {
 						LoggerUtils.error("Player " + playerName + " doesn't exist, cannot be added to rank '" + rank.getName() + "' of guild " + rank.getGuild().getName());

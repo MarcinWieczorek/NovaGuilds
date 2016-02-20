@@ -20,9 +20,10 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.GUIInventory;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.AbstractListener;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class ChestGUIListener extends AbstractListener {
 		}
 
 		Player player = (Player) event.getWhoClicked();
-		NovaPlayer nPlayer = NovaPlayer.get(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		GUIInventory guiInventory = nPlayer.getGuiInventory();
 
 		if(guiInventory != null) {
@@ -59,7 +60,7 @@ public class ChestGUIListener extends AbstractListener {
 
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
-		final NovaPlayer nPlayer = NovaPlayer.get(event.getPlayer());
+		final NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
 		if(nPlayer.getGuiInventory() != null && !ChestGUIUtils.guiContinueList.contains(nPlayer)) {
 			if(nPlayer.getGuiInventoryHistory().size() == 1) {
 				nPlayer.setGuiInventory(null);
