@@ -322,7 +322,7 @@ public interface NovaGuild extends Changeable {
 	 *
 	 * @param location the Location instance
 	 */
-	void setSpawnPoint(Location location);
+	void setHome(Location location);
 
 	/**
 	 * Sets the leader

@@ -352,7 +352,7 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	}
 
 	@Override
-	public void setSpawnPoint(Location location) {
+	public void setHome(Location location) {
 		homeLocation = location;
 		setChanged();
 	}

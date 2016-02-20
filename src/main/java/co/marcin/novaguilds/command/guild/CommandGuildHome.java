@@ -78,7 +78,7 @@ public class CommandGuildHome implements Executor {
 				return;
 			}
 
-			nPlayer.getGuild().setSpawnPoint(player.getLocation());
+			nPlayer.getGuild().setHome(player.getLocation());
 			Message.CHAT_GUILD_SETHOME_SUCCESS.send(sender);
 			TabUtils.refresh(nPlayer.getGuild());
 		}

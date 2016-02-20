@@ -166,7 +166,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 				newGuild.setName(guildName);
 				newGuild.setTag(tag);
 				newGuild.setLeader(nPlayer);
-				newGuild.setSpawnPoint(player.getLocation());
+				newGuild.setHome(player.getLocation());
 				newGuild.addPlayer(nPlayer);
 				newGuild.updateInactiveTime();
 				newGuild.setLives(Config.GUILD_STARTLIVES.getInt());

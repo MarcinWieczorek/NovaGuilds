@@ -243,7 +243,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 				guild.setLives(res.getInt("lives"));
 				guild.setTimeRest(res.getLong("timerest"));
 				guild.setLostLiveTime(res.getLong("lostlive"));
-				guild.setSpawnPoint(homeLocation);
+				guild.setHome(homeLocation);
 				guild.setVaultLocation(vaultLocation);
 				guild.setSlots(res.getInt("slots"));
 

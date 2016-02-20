@@ -132,7 +132,7 @@ public class YamlStorageImpl extends AbstractFileStorage {
 					float yaw = (float) configuration.getDouble("home.yaw");
 					Location homeLocation = new Location(homeWorld, x, y, z);
 					homeLocation.setYaw(yaw);
-					guild.setSpawnPoint(homeLocation);
+					guild.setHome(homeLocation);
 				}
 
 				//bankloc
