@@ -21,10 +21,11 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRank;
+import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import com.google.common.collect.Lists;
 import org.bukkit.configuration.ConfigurationSection;
@@ -85,14 +86,14 @@ public class RankManager {
 
 	public void loadDefaultRanks() {
 		genericRanks.clear();
-		NovaRank leaderRank = new NovaRank(Message.INVENTORY_GUI_RANKS_LEADERNAME.get());
+		NovaRank leaderRank = new NovaRankImpl(Message.INVENTORY_GUI_RANKS_LEADERNAME.get());
 		leaderRank.setPermissions(Lists.newArrayList(GuildPermission.values()));
 		genericRanks.add(leaderRank);
 		int count = 1;
 
 		ConfigurationSection section = Config.GUILD_DEFAULTRANKS.getConfigurationSection();
 		for(String rankName : section.getKeys(false)) {
-			NovaRank rank = new NovaRank(rankName);
+			NovaRank rank = new NovaRankImpl(rankName);
 
 			for(String permName : section.getStringList(rankName)) {
 				rank.addPermission(GuildPermission.valueOf(permName.toUpperCase()));

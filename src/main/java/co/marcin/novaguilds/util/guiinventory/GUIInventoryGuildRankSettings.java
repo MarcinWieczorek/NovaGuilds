@@ -20,9 +20,10 @@ package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.util.AbstractGUIInventory;
-import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
@@ -140,7 +141,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			}
 		}
 
-		NovaRank clone = new NovaRank(cloneName);
+		NovaRank clone = new NovaRankImpl(cloneName);
 		clone.setClone(rank.isGeneric());
 		NovaGuild guild;
 

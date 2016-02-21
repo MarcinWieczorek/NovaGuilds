@@ -20,15 +20,16 @@ package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.storage.Database;
-import co.marcin.novaguilds.basic.NovaRank;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
+import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -348,7 +349,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			ResultSet res = statement.executeQuery();
 			while(res.next()) {
 				boolean fixPlayerList = false;
-				NovaRank rank = new NovaRank(res.getInt("id"));
+				NovaRank rank = new NovaRankImpl(res.getInt("id"));
 
 				NovaGuild guild = GuildManager.getGuildByName(res.getString("guild"));
 

@@ -21,7 +21,7 @@ package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRank;
+import co.marcin.novaguilds.api.basic.NovaRank;
 
 import java.util.ArrayList;
 import java.util.List;

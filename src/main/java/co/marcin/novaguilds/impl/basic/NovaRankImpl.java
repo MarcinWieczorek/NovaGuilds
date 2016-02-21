@@ -16,32 +16,33 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.basic;
+package co.marcin.novaguilds.impl.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
+import co.marcin.novaguilds.impl.util.AbstractChangeable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NovaRank implements Cloneable {
+public class NovaRankImpl extends AbstractChangeable implements NovaRank {
 	private int id;
 	private String name;
 	private NovaGuild guild;
-	private boolean changed;
 	private boolean def;
 	private boolean clone;
 	private final List<GuildPermission> permissions = new ArrayList<>();
 	private final List<NovaPlayer> members = new ArrayList<>();
 
-	public NovaRank(int id) {
+	public NovaRankImpl(int id) {
 		this.id = id;
 	}
 
 	//Not added rank (id=-1)
-	public NovaRank(String name) {
+	public NovaRankImpl(String name) {
 		id = -1;
 		this.name = name;
 	}
@@ -86,13 +87,13 @@ public class NovaRank implements Cloneable {
 
 	public void setName(String name) {
 		this.name = name;
-		changed();
+		setChanged();
 	}
 
 	public void setPermissions(List<GuildPermission> permissions) {
 		this.permissions.clear();
 		this.permissions.addAll(permissions);
-		changed();
+		setChanged();
 	}
 
 	public void setGuild(NovaGuild guild) {
@@ -101,32 +102,24 @@ public class NovaRank implements Cloneable {
 		}
 
 		this.guild = guild;
-		changed();
+		setChanged();
 	}
 
 	public void setClone(boolean clone) {
 		this.clone = clone;
-		changed();
+		setChanged();
 	}
 
 	public void setDefault(boolean def) {
 		this.def = def;
-		changed();
-	}
-
-	public void setUnchanged() {
-		changed = false;
-	}
-
-	public void changed() {
-		changed = true;
+		setChanged();
 	}
 
 	//adders
 	public void addPermission(GuildPermission permission) {
 		if(!permissions.contains(permission)) {
 			permissions.add(permission);
-			changed();
+			setChanged();
 		}
 	}
 
@@ -134,7 +127,7 @@ public class NovaRank implements Cloneable {
 		if(!members.contains(nPlayer)) {
 			members.add(nPlayer);
 			nPlayer.setGuildRank(this);
-			changed();
+			setChanged();
 		}
 	}
 
@@ -142,7 +135,7 @@ public class NovaRank implements Cloneable {
 	public void removePermission(GuildPermission permission) {
 		if(permissions.contains(permission)) {
 			permissions.remove(permission);
-			changed();
+			setChanged();
 		}
 	}
 
@@ -150,17 +143,13 @@ public class NovaRank implements Cloneable {
 		if(members.contains(nPlayer)) {
 			members.remove(nPlayer);
 			nPlayer.setGuildRank(null);
-			changed();
+			setChanged();
 		}
 	}
 
 	//checkers
 	public boolean hasPermission(GuildPermission permission) {
 		return permissions.contains(permission);
-	}
-
-	public boolean isChanged() {
-		return changed;
 	}
 
 	public boolean isNew() {
