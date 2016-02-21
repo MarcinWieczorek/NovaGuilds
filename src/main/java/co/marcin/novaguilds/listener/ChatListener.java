@@ -20,10 +20,10 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -31,6 +31,7 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.util.ChatMessageImpl;
 import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -165,7 +166,7 @@ public class ChatListener extends AbstractListener {
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
 		if(!nPlayer.getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
-			NovaRegion region = plugin.getRegionManager().getRegion(event.getPlayer().getLocation());
+			NovaRegion region = RegionManager.get(event.getPlayer());
 
 			if(region != null) {
 				if(nPlayer.hasGuild()) {

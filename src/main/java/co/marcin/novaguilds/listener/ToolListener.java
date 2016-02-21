@@ -20,8 +20,8 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.AbstractListener;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
@@ -31,6 +31,7 @@ import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -60,7 +61,7 @@ public class ToolListener extends AbstractListener {
 		Action action = event.getAction();
 
 		pointedLocation.setWorld(player.getWorld());
-		NovaRegion region = plugin.getRegionManager().getRegion(pointedLocation);
+		NovaRegion region = RegionManager.get(pointedLocation);
 
 		//Change RegionMode
 		if((action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) && player.isSneaking()) {

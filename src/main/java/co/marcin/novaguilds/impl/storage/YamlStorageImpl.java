@@ -20,12 +20,13 @@ package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.basic.NovaRank;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
+import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -180,7 +181,7 @@ public class YamlStorageImpl extends AbstractFileStorage {
 						continue;
 					}
 
-					NovaRegion region = new NovaRegion();
+					NovaRegion region = new NovaRegionImpl();
 
 					Location c1 = new Location(world, configuration.getInt("corner1.x"), 0, configuration.getInt("corner1.z"));
 					Location c2 = new Location(world, configuration.getInt("corner2.x"), 0, configuration.getInt("corner2.z"));

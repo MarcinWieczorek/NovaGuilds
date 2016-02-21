@@ -22,7 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.CommandConfirm;
 import co.marcin.novaguilds.command.CommandNovaGuilds;
 import co.marcin.novaguilds.command.CommandPlayerInfo;

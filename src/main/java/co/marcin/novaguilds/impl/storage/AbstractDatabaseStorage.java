@@ -20,15 +20,16 @@ package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.storage.Database;
 import co.marcin.novaguilds.basic.NovaRank;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
+import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.IOUtils;
@@ -304,7 +305,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 				}
 
 				if(world != null) {
-					NovaRegion region = new NovaRegion();
+					NovaRegion region = new NovaRegionImpl();
 
 					String loc1 = res.getString("loc_1");
 					String[] loc1_split = loc1.split(";");

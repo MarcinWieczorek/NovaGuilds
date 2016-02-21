@@ -21,6 +21,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import org.bukkit.event.EventHandler;
 import org.kitteh.vanish.event.VanishStatusChangeEvent;
 
@@ -34,7 +35,7 @@ public class VanishListener extends AbstractListener {
 				plugin.getRegionManager().playerExitedRegion(event.getPlayer());
 			}
 		}
-		else if(plugin.getRegionManager().getRegion(event.getPlayer().getLocation()) != null) {
+		else if(RegionManager.get(event.getPlayer()) != null) {
 			plugin.getRegionManager().playerEnteredRegion(event.getPlayer(), event.getPlayer().getLocation());
 		}
 	}

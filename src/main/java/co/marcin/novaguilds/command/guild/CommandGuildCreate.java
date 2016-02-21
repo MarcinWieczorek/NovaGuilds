@@ -21,7 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -29,10 +29,12 @@ import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
+import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -103,7 +105,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 
 
-		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
+		if(RegionManager.get(player) != null) {
 			Message.CHAT_CREATEGUILD_REGIONHERE.send(sender);
 			return;
 		}
@@ -150,7 +152,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
 			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
 
-			region = new NovaRegion();
+			region = new NovaRegionImpl();
 
 			region.setCorner(0, c1);
 			region.setCorner(1, c2);
@@ -202,7 +204,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 						plugin.getRegionManager().add(region);
 
 						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
-							if(region.equals(plugin.getRegionManager().getRegion(playerCheck.getLocation()))) {
+							if(region.equals(RegionManager.get(playerCheck))) {
 								plugin.getRegionManager().playerEnteredRegion(playerCheck, playerCheck.getLocation());
 							}
 						}

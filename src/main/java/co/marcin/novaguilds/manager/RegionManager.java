@@ -21,7 +21,7 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
@@ -50,12 +50,11 @@ public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	//getters
-	public NovaRegion getRegion(Location l) {
+	public static NovaRegion get(Location l) {
 		int x = l.getBlockX();
 		int z = l.getBlockZ();
 		
-		for(NovaRegion r : getRegions()) {
-			
+		for(NovaRegion r : plugin.getRegionManager().getRegions()) {
 			Location c1 = r.getCorner(0);
 			Location c2 = r.getCorner(1);
 			
@@ -67,6 +66,14 @@ public class RegionManager {
 		}
 		
 		return null;
+	}
+
+	public static NovaRegion get(Block block) {
+		return get(block.getLocation());
+	}
+
+	public static NovaRegion get(Entity entity) {
+		return get(entity.getLocation());
 	}
 	
 	public Collection<NovaRegion> getRegions() {
@@ -187,7 +194,7 @@ public class RegionManager {
 	}
 
 	public boolean canInteract(Player player, Location location) {
-		NovaRegion region = getRegion(location);
+		NovaRegion region = get(location);
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		return region == null || nPlayer.getBypass() || (nPlayer.hasGuild() && region.getGuild().isMember(nPlayer));
 	}
@@ -241,7 +248,7 @@ public class RegionManager {
 			}
 		}
 
-		NovaRegion region = getRegion(toLocation);
+		NovaRegion region = get(toLocation);
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		//border particles
@@ -276,7 +283,7 @@ public class RegionManager {
 	}
 
 	public void playerExitedRegion(Player player) {
-		NovaRegion region = getRegion(player.getLocation());
+		NovaRegion region = get(player);
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		if(region == null) {

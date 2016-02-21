@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

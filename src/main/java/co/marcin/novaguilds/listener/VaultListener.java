@@ -19,12 +19,13 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.AbstractListener;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -172,7 +173,7 @@ public class VaultListener extends AbstractListener {
 						}
 
 						if(nPlayer.getGuild().getVaultLocation() == null) {
-							NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
+							NovaRegion region = RegionManager.get(event.getBlockPlaced());
 							if(region != null && region.getGuild().isMember(nPlayer)) {
 								if(player.getGameMode() == GameMode.CREATIVE) {
 									player.getInventory().remove(event.getItemInHand());

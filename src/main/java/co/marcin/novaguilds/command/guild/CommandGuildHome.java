@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -66,7 +67,7 @@ public class CommandGuildHome implements Executor {
 				return;
 			}
 
-			NovaRegion region = plugin.getRegionManager().getRegion(player.getLocation());
+			NovaRegion region = RegionManager.get(player);
 
 			if(region == null && nPlayer.getGuild().hasRegion()) {
 				Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);

@@ -19,9 +19,10 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.AbstractListener;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -51,8 +52,8 @@ public class MoveListener extends AbstractListener {
 		Location from = event.getFrom();
 		Location to = event.getTo();
 
-		NovaRegion fromRegion = plugin.getRegionManager().getRegion(from);
-		NovaRegion toRegion = plugin.getRegionManager().getRegion(to);
+		NovaRegion fromRegion = RegionManager.get(from);
+		NovaRegion toRegion = RegionManager.get(to);
 
 		//entering
 		if((fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) || (fromRegion != null && toRegion != null && !fromRegion.equals(toRegion))) {

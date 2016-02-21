@@ -20,7 +20,6 @@ package co.marcin.novaguilds.api.basic;
 
 import co.marcin.novaguilds.api.util.Changeable;
 import co.marcin.novaguilds.basic.NovaRank;
-import co.marcin.novaguilds.basic.NovaRegion;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

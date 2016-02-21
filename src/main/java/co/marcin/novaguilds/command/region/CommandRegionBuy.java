@@ -21,12 +21,13 @@ package co.marcin.novaguilds.command.region;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -125,7 +126,7 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 			Message.CHAT_REGION_RESIZE_SUCCESS.send(sender);
 		}
 		else {
-			NovaRegion region = new NovaRegion();
+			NovaRegion region = new NovaRegionImpl();
 			region.setCorner(0, sl0);
 			region.setCorner(1, sl1);
 			region.setWorld(nPlayer.getPlayer().getWorld());

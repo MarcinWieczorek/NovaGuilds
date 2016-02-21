@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.basic.tablist.TabList1_8NorthTabImpl;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -63,7 +64,7 @@ public class LoginListener extends AbstractListener {
 			nPlayer.getGuild().showVaultHologram(player);
 		}
 
-		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
+		if(RegionManager.get(player) != null) {
 			plugin.getRegionManager().playerEnteredRegion(player, player.getLocation());
 		}
 

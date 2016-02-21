@@ -20,7 +20,6 @@ package co.marcin.novaguilds.api.basic;
 
 import co.marcin.novaguilds.api.util.Changeable;
 import co.marcin.novaguilds.basic.NovaRank;
-import co.marcin.novaguilds.basic.NovaRegion;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;

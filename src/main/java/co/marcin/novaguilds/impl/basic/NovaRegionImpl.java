@@ -16,44 +16,27 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.basic;
+package co.marcin.novaguilds.impl.basic;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 
-public class NovaRegion extends AbstractChangeable {
+public class NovaRegionImpl extends AbstractChangeable implements NovaRegion {
 	private final Location[] corners = new Location[2];
-
 	private int id;
 	private World world;
 	private NovaGuild guild;
 
-	private int width = 0;
-	private int height = 0;
-	private int size = 0;
-
-	public static NovaRegion get(Location location) {
-		return NovaGuilds.getInstance().getRegionManager().getRegion(location);
-	}
-
-	public static NovaRegion get(Block block) {
-		return get(block.getLocation());
-	}
-
-	public static NovaRegion get(Entity entity) {
-		return get(entity.getLocation());
-	}
-	
+	@Override
 	public World getWorld() {
 		return world;
 	}
 
+	@Override
 	public int getId() {
 		if(id <= 0) {
 			throw new UnsupportedOperationException("This rank might have been loaded from FLAT and has 0 (or negative) ID");
@@ -62,64 +45,62 @@ public class NovaRegion extends AbstractChangeable {
 		return id;
 	}
 
+	@Override
 	public NovaGuild getGuild() {
 		return guild;
 	}
 
+	@Override
 	public Location getCorner(int index) {
 		return corners[index];
 	}
 
+	@Override
 	public int getWidth() {
-		if(width == 0) {
-			width = Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX()) + 1;
-		}
-
-		return width;
+		return Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX()) + 1;
 	}
 
+	@Override
 	public int getHeight() {
-		if(height == 0) {
-			height = Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
-		}
-
-		return height;
+		return Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
 	}
 
+	@Override
 	public int getDiagonal() {
-		if(size == 0) {
-			int w = getWidth();
-			int h = getHeight();
-
-			int sumSquare = (int) (Math.pow(w, 2) + Math.pow(h, 2));
-			size = Math.round((int) Math.sqrt(sumSquare));
-		}
-
-		return size;
+		int w = getWidth();
+		int h = getHeight();
+		int sumSquare = (int) (Math.pow(w, 2) + Math.pow(h, 2));
+		return Math.round((int) Math.sqrt(sumSquare));
 	}
 
+	@Override
 	public int getSurface() {
 		return getHeight() * getWidth();
 	}
 
+	@Override
 	public Location getCenter() {
 		return RegionUtils.getCenterLocation(getCorner(0), getCorner(1));
 	}
 
+	@Override
 	public void setWorld(World world) {
 		this.world = world;
 		setChanged();
 	}
 
+	@Override
 	public void setId(int id) {
 		this.id = id;
 		setChanged();
 	}
 
+	@Override
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
 	}
-	
+
+	@Override
 	public void setCorner(int index, Location location) {
 		corners[index] = location;
 		setChanged();
