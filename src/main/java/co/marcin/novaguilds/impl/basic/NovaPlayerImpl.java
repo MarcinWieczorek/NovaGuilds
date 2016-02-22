@@ -46,32 +46,34 @@ import java.util.List;
 import java.util.UUID;
 
 public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
-	private int id;
+	private int id = 0;
+	private final UUID uuid;
+	private String name;
 	private Player player;
 	private NovaGuild guild;
-	private String name;
-	private final UUID uuid;
-	private int points;
-	private int kills;
-	private int deaths;
+	private int points = 0;
+	private int kills = 0;
+	private int deaths = 0;
+	private int resizingCorner = 0;
 
-	private List<NovaGuild> invitedTo = new ArrayList<>();
-	private RegionMode regionMode = RegionMode.CHECK;
+	private final List<Vehicle> vehicles = new ArrayList<>();
+	private final List<NovaGuild> invitedTo = new ArrayList<>();
+	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
+	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
+	private final Location[] regionSelectedLocations = new Location[2];
+
 	private boolean bypass = false;
+	private boolean compassPointingGuild = false;
+
+	private boolean spyMode = false;
+	private NovaRaid partRaid;
+	private NovaRank guildRank;
 	private NovaRegion selectedRegion;
 	private NovaRegion atRegion;
-	private NovaRaid partRaid;
-	private int resizingCorner = 0;
-	private boolean compassPointingGuild = false;
-	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
 	private TabList tabList;
 	private CommandExecutorHandler commandExecutorHandler;
-	private final List<Vehicle> vehicles = new ArrayList<>();
-	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
-	private NovaRank guildRank;
+	private RegionMode regionMode = RegionMode.CHECK;
 	private ChatMode chatMode = ChatMode.NORMAL;
-	private boolean spyMode = false;
-	private final Location[] regionSelectedLocations = new Location[2];
 
 	public NovaPlayerImpl(UUID uuid) {
 		this.uuid = uuid;
@@ -82,6 +84,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 			NovaPlayer nPlayer = new NovaPlayerImpl(player.getUniqueId());
 			nPlayer.setName(player.getName());
 			nPlayer.setPlayer(player);
+			nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
 			return nPlayer;
 		}
 		return null;
@@ -232,8 +235,9 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	}
 
 	@Override
-	public void setInvitedTo(List<NovaGuild> invitedTo) {
-		this.invitedTo = invitedTo;
+	public void setInvitedTo(List<NovaGuild> list) {
+		invitedTo.clear();
+		invitedTo.addAll(list);
 		setChanged();
 	}
 

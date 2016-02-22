@@ -402,14 +402,24 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 		try {
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.PLAYERS_INSERT);
 
+			List<String> invitedToNames = new ArrayList<>();
+			for(NovaGuild guild : nPlayer.getInvitedTo()) {
+				invitedToNames.add(guild.getName());
+			}
+
+			String invitedTo = StringUtils.join(invitedToNames, ";");
+
+			//Prepare and execute
 			preparedStatement.setString(1, nPlayer.getUUID().toString());
 			preparedStatement.setString(2, nPlayer.getName());
-			preparedStatement.setInt(3, Config.KILLING_STARTPOINTS.getInt());
+			preparedStatement.setString(3, nPlayer.hasGuild() ? nPlayer.getGuild().getName() : "");
+			preparedStatement.setString(4, invitedTo);
+			preparedStatement.setInt(5, nPlayer.getPoints());
+			preparedStatement.setInt(6, nPlayer.getKills());
+			preparedStatement.setInt(7, nPlayer.getDeaths());
 			preparedStatement.executeUpdate();
 
-			int id = returnGeneratedKey(preparedStatement);
-
-			nPlayer.setId(id);
+			nPlayer.setId(returnGeneratedKey(preparedStatement));
 			nPlayer.setUnchanged();
 		}
 		catch(SQLException e) {
@@ -816,7 +826,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 
 			//Players insert (id, uuid, name, guild, invitedto, points, kills, deaths)
-			String playersInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "players` VALUES(null,?,?,'','',?,0,0)";
+			String playersInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "players` VALUES(null,?,?,?,?,?,?,?)";
 			PreparedStatement playersInsert = getConnection().prepareStatement(playersInsertSQL, returnKeys);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_INSERT, playersInsert);
 
