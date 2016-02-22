@@ -19,20 +19,20 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandGuildSetTag implements Executor {
+public class CommandGuildSetTag extends AbstractCommandExecutor {
 	private static final Command command = Command.GUILD_SET_TAG;
 
 	public CommandGuildSetTag() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -67,10 +67,5 @@ public class CommandGuildSetTag implements Executor {
 		Message.CHAT_GUILD_SET_TAG.send(sender);
 		TabUtils.refresh(nPlayer.getGuild());
 		TagUtils.refresh(nPlayer.getGuild());
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

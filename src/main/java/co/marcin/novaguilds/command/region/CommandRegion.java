@@ -18,16 +18,16 @@
 
 package co.marcin.novaguilds.command.region;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandRegion implements Executor {
+public class CommandRegion extends AbstractCommandExecutor {
 	private static final Command command = Command.REGION_ACCESS;
 
 	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
@@ -39,7 +39,7 @@ public class CommandRegion implements Executor {
 	}};
 
 	public CommandRegion() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -60,10 +60,5 @@ public class CommandRegion implements Executor {
 				Message.CHAT_COMMANDS_REGION_ITEMS.send(sender);
 			}
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

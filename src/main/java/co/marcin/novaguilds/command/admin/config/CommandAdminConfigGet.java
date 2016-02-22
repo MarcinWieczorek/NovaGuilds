@@ -18,10 +18,10 @@
 
 package co.marcin.novaguilds.command.admin.config;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,11 +29,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminConfigGet implements Executor {
+public class CommandAdminConfigGet extends AbstractCommandExecutor {
 	private static final Command command = Command.ADMIN_CONFIG_GET;
 
 	public CommandAdminConfigGet() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -104,10 +104,5 @@ public class CommandAdminConfigGet implements Executor {
 		if(!value.isEmpty()) {
 			Message.CHAT_ADMIN_CONFIG_GET_SINGLE.vars(vars).send(sender);
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

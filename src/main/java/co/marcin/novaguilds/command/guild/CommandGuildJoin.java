@@ -21,10 +21,10 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -41,13 +41,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandGuildJoin implements CommandExecutor, Executor {
-	private final Command command = Command.GUILD_JOIN;
+public class CommandGuildJoin extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.GUILD_JOIN;
 	
 	public CommandGuildJoin() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
@@ -168,10 +169,5 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		vars.put(VarKey.PLAYER, sender.getName());
 		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.BROADCAST_GUILD_JOINED.vars(vars).broadcast();
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

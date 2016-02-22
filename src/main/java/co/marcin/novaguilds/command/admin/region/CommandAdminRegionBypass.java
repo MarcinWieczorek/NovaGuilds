@@ -19,29 +19,24 @@
 package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminRegionBypass implements Executor {
-	private final Command command = Command.ADMIN_REGION_BYPASS;
+public class CommandAdminRegionBypass extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_REGION_BYPASS;
 
 	public CommandAdminRegionBypass() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
-	/*
-	* Changing bypass
-	* no args - for sender
-	* args[0] - for specified player
-	* */
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		Map<VarKey, String> vars = new HashMap<>();
@@ -76,10 +71,5 @@ public class CommandAdminRegionBypass implements Executor {
 
 			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER.vars(vars).send(sender);
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

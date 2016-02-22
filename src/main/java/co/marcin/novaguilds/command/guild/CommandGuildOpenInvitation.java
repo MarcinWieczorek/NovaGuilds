@@ -19,20 +19,20 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandGuildOpenInvitation implements Executor {
-	private final Command command = Command.GUILD_OPENINVITATION;
+public class CommandGuildOpenInvitation extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_OPENINVITATION;
 
 	public CommandGuildOpenInvitation() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -55,10 +55,5 @@ public class CommandGuildOpenInvitation implements Executor {
 		Message.CHAT_GUILD_OPENINVITATION.setVar(VarKey.STATUS, Message.getOnOff(status)).send(sender);
 
 		TabUtils.refresh(nPlayer.getGuild());
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

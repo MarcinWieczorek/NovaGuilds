@@ -21,10 +21,10 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -34,13 +34,14 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandGuildLeave implements CommandExecutor, Executor {
-	private final Command command = Command.GUILD_LEAVE;
+public class CommandGuildLeave extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.GUILD_LEAVE;
 	
 	public CommandGuildLeave() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
@@ -78,10 +79,5 @@ public class CommandGuildLeave implements CommandExecutor, Executor {
 
 		TagUtils.refresh();
 		TabUtils.refresh();
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

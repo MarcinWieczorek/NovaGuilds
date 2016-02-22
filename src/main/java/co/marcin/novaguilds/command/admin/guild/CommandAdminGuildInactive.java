@@ -20,11 +20,11 @@ package co.marcin.novaguilds.command.admin.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -35,11 +35,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class CommandAdminGuildInactive implements Executor {
-	private final Command command = Command.ADMIN_GUILD_INACTIVE;
+public class CommandAdminGuildInactive extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_GUILD_INACTIVE;
 
 	public CommandAdminGuildInactive() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -152,10 +152,5 @@ public class CommandAdminGuildInactive implements Executor {
 
 			i++;
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

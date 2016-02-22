@@ -19,11 +19,10 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 
-import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
@@ -31,17 +30,11 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_BANK_PAY;
+public class CommandAdminGuildBankPay extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_BANK_PAY;
 
 	public CommandAdminGuildBankPay() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
@@ -74,10 +67,5 @@ public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
 		vars.put(VarKey.MONEY, moneyString);
 		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.CHAT_ADMIN_GUILD_BANK_PAID.vars(vars).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

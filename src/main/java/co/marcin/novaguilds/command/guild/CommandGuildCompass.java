@@ -19,18 +19,18 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandGuildCompass implements Executor {
-	private final Command command = Command.GUILD_COMPASS;
+public class CommandGuildCompass extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_COMPASS;
 
 	public CommandGuildCompass() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -53,10 +53,5 @@ public class CommandGuildCompass implements Executor {
 			player.setCompassTarget(nPlayer.getGuild().getHome());
 			Message.CHAT_GUILD_COMPASSTARGET_ON.send(sender);
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

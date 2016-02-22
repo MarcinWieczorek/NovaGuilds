@@ -19,20 +19,20 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandGuildPvpToggle implements Executor {
-	private final Command command = Command.GUILD_PVPTOGGLE;
+public class CommandGuildPvpToggle extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_PVPTOGGLE;
 
 	public CommandGuildPvpToggle() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -53,10 +53,5 @@ public class CommandGuildPvpToggle implements Executor {
 		TabUtils.refresh(nPlayer.getGuild());
 
 		Message.CHAT_GUILD_FPVPTOGGLED.setVar(VarKey.FPVP, Message.getOnOff(nPlayer.getGuild().getFriendlyPvp())).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

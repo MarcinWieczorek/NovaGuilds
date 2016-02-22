@@ -20,10 +20,10 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
@@ -36,13 +36,14 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandNovaGuilds implements CommandExecutor, Executor {
-	private final Command command = Command.NOVAGUILDS;
+public class CommandNovaGuilds extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.NOVAGUILDS;
 
 	public CommandNovaGuilds() {
-		plugin.getCommandManager().registerExecutor(Command.NOVAGUILDS, this);
+		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
@@ -145,10 +146,5 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				Message.CHAT_UNKNOWNCMD.send(sender);
 				break;
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

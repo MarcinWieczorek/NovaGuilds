@@ -19,13 +19,12 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 
-import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -34,17 +33,11 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_TELEPORT;
+public class CommandAdminGuildTeleport extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_TELEPORT;
 
 	public CommandAdminGuildTeleport() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
@@ -89,10 +82,5 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 		}
 
 		player.teleport(home);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

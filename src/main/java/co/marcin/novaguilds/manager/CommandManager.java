@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -100,11 +101,9 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
@@ -120,7 +119,7 @@ public class CommandManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, String> aliases = new HashMap<>();
 	private final Map<ItemStack, String> guiCommands = new HashMap<>();
-	private final Map<Command, Executor> executors = new HashMap<>();
+	private final Map<Command, CommandExecutor> executors = new HashMap<>();
 	private ItemStack topItem;
 
 	public CommandManager() {
@@ -274,17 +273,17 @@ public class CommandManager {
 		}
 	}
 
-	public void registerExecutor(Command command, Executor executor) {
+	public void registerExecutor(Command command, CommandExecutor executor) {
 		if(!executors.containsKey(command)) {
 			executors.put(command, executor);
 
 			if(command.hasGenericCommand()) {
-				if(!(executor instanceof CommandExecutor)) {
+				if(!(executor instanceof org.bukkit.command.CommandExecutor)) {
 					throw new IllegalArgumentException("An executor has to implement CommandExecutor to allow having generic command.");
 				}
 
 				PluginCommand genericCommand = plugin.getCommand(command.getGenericCommand());
-				genericCommand.setExecutor((CommandExecutor) executor);
+				genericCommand.setExecutor((org.bukkit.command.CommandExecutor) executor);
 
 				if(command.hasTabCompleter()) {
 					genericCommand.setTabCompleter(command.getTabCompleter());
@@ -294,7 +293,7 @@ public class CommandManager {
 	}
 
 	public void execute(Command command, CommandSender sender, String[] args) {
-		Executor executor = getExecutor(command);
+		CommandExecutor executor = getExecutor(command);
 
 		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
@@ -313,21 +312,21 @@ public class CommandManager {
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}
 		else {
-			if(executor instanceof Executor.ReversedAdminGuild) {
-				((Executor.ReversedAdminGuild) executor).guild((NovaGuild) command.getExecutorVariable());
+			if(executor instanceof CommandExecutor.ReversedAdminGuild) {
+				((CommandExecutor.ReversedAdminGuild) executor).guild((NovaGuild) command.getExecutorVariable());
 			}
-			else if(executor instanceof Executor.ReversedAdminRegion) {
-				((Executor.ReversedAdminRegion) executor).region((NovaRegion) command.getExecutorVariable());
+			else if(executor instanceof CommandExecutor.ReversedAdminRegion) {
+				((CommandExecutor.ReversedAdminRegion) executor).region((NovaRegion) command.getExecutorVariable());
 			}
-			else if(executor instanceof Executor.ReversedAdminHologram) {
-				((Executor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
+			else if(executor instanceof CommandExecutor.ReversedAdminHologram) {
+				((CommandExecutor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
 			}
 
 			executor.execute(sender, args);
 		}
 	}
 
-	public Executor getExecutor(Command command) {
+	public CommandExecutor getExecutor(Command command) {
 		return executors.get(command);
 	}
 }

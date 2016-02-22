@@ -16,31 +16,25 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.interfaces;
+package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaHologram;
-import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 import org.bukkit.command.CommandSender;
 
-public interface Executor {
-	NovaGuilds plugin = NovaGuilds.getInstance();
-
+public interface CommandExecutor {
 	void execute(CommandSender sender, String[] args);
 
 	Command getCommand();
 
-	interface ReversedAdminGuild extends Executor {
+	interface ReversedAdminGuild extends CommandExecutor {
 		void guild(NovaGuild guild);
 	}
 
-	interface ReversedAdminRegion extends Executor {
-		void region(NovaRegion guild);
+	interface ReversedAdminRegion extends CommandExecutor {
+		void region(NovaRegion region);
 	}
 
-	interface ReversedAdminHologram extends Executor {
-		void hologram(NovaHologram guild);
+	interface ReversedAdminHologram extends CommandExecutor {
+		void hologram(NovaHologram hologram);
 	}
 }

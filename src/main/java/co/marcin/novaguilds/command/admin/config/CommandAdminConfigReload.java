@@ -18,26 +18,21 @@
 
 package co.marcin.novaguilds.command.admin.config;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminConfigReload implements Executor {
+public class CommandAdminConfigReload extends AbstractCommandExecutor {
 	private static final Command command = Command.ADMIN_CONFIG_RELOAD;
 
 	public CommandAdminConfigReload() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		plugin.getConfigManager().reload();
 		Message.CHAT_ADMIN_CONFIG_RELOADED.send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

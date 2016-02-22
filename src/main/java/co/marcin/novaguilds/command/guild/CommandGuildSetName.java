@@ -19,19 +19,19 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandGuildSetName implements Executor {
+public class CommandGuildSetName extends AbstractCommandExecutor {
 	private static final Command command = Command.GUILD_SET_NAME;
 
 	public CommandGuildSetName() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -65,10 +65,5 @@ public class CommandGuildSetName implements Executor {
 		plugin.getGuildManager().changeName(nPlayer.getGuild(), newName);
 		Message.CHAT_GUILD_SET_NAME.send(sender);
 		TabUtils.refresh(nPlayer.getGuild());
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

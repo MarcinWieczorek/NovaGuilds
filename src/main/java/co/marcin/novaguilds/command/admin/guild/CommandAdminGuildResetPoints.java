@@ -20,11 +20,11 @@ package co.marcin.novaguilds.command.admin.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.apache.commons.lang.StringUtils;
@@ -33,7 +33,7 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildResetPoints implements Executor {
+public class CommandAdminGuildResetPoints extends AbstractCommandExecutor {
 	private static final Command command = Command.ADMIN_GUILD_RESET_POINTS;
 
 	private enum ConditionType {
@@ -44,7 +44,7 @@ public class CommandAdminGuildResetPoints implements Executor {
 	}
 
 	public CommandAdminGuildResetPoints() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -147,10 +147,5 @@ public class CommandAdminGuildResetPoints implements Executor {
 		vars.put(VarKey.COUNT, String.valueOf(count));
 
 		Message.CHAT_ADMIN_GUILD_RESET_POINTS_SUCCESS.vars(vars).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

@@ -19,22 +19,22 @@
 package co.marcin.novaguilds.command.admin;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminChatSpy implements Executor {
-	private final Command command = Command.ADMIN_CHATSPY;
+public class CommandAdminChatSpy extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_CHATSPY;
 
 	public CommandAdminChatSpy() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -73,10 +73,5 @@ public class CommandAdminChatSpy implements Executor {
 		}
 
 		Message.CHAT_ADMIN_SPYMODE_SUCCESS_SELF.vars(vars).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

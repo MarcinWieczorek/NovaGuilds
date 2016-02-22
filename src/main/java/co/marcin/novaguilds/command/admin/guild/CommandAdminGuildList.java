@@ -20,10 +20,10 @@ package co.marcin.novaguilds.command.admin.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -32,11 +32,11 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildList implements Executor {
-	private final Command command = Command.ADMIN_GUILD_LIST;
+public class CommandAdminGuildList extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_GUILD_LIST;
 
 	public CommandAdminGuildList() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -110,10 +110,5 @@ public class CommandAdminGuildList implements Executor {
 
 			i++;
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

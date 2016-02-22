@@ -19,10 +19,10 @@
 package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
@@ -30,11 +30,11 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminRegionList implements Executor {
-	private final Command command = Command.ADMIN_REGION_LIST;
+public class CommandAdminRegionList extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_REGION_LIST;
 
 	public CommandAdminRegionList() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -101,10 +101,5 @@ public class CommandAdminRegionList implements Executor {
 
 			i++;
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

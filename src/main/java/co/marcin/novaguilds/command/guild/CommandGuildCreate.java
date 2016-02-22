@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -30,7 +31,6 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -51,11 +51,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class CommandGuildCreate implements CommandExecutor, Executor {
-	private final Command command = Command.GUILD_CREATE;
+public class CommandGuildCreate extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.GUILD_CREATE;
 	
 	public CommandGuildCreate() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -235,11 +235,6 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 				Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(sender);
 				break;
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 
 	public static Message validTag(String tag) {

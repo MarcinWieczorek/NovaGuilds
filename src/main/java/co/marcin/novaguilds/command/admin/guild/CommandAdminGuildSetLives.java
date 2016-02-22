@@ -19,25 +19,18 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 
-import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminGuildSetLives implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_SET_LIVES;
+public class CommandAdminGuildSetLives extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_SET_LIVES;
 
 	public CommandAdminGuildSetLives() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
@@ -62,10 +55,5 @@ public class CommandAdminGuildSetLives implements Executor.ReversedAdminGuild {
 		guild.setLives(lives);
 		Message.CHAT_ADMIN_GUILD_SET_LIVES.send(sender);
 		TabUtils.refresh(guild);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

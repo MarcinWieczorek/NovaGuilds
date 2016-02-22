@@ -18,9 +18,9 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,11 +29,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class CommandGuildRequiredItems implements Executor {
-	private final Command command = Command.GUILD_REQUIREDITEMS;
+public class CommandGuildRequiredItems extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_REQUIREDITEMS;
 
 	public CommandGuildRequiredItems() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -53,10 +53,5 @@ public class CommandGuildRequiredItems implements Executor {
 		}
 
 		player.openInventory(inventory);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

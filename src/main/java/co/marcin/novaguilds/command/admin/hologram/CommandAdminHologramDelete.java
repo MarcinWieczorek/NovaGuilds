@@ -18,35 +18,23 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
-import co.marcin.novaguilds.api.basic.NovaHologram;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminHologramDelete implements Executor.ReversedAdminHologram {
-	private final Command command = Command.ADMIN_HOLOGRAM_DELETE;
-	private NovaHologram hologram;
+public class CommandAdminHologramDelete extends AbstractCommandExecutor.ReversedAdminHologram {
+	private static final Command command = Command.ADMIN_HOLOGRAM_DELETE;
 
 	public CommandAdminHologramDelete() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		hologram.delete();
 		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.setVar(VarKey.NAME, hologram.getName()).send(sender);
-	}
-
-	@Override
-	public void hologram(NovaHologram hologram) {
-		this.hologram = hologram;
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }
 

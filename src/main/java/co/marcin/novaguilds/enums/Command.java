@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterAdmin;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterGuild;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
@@ -193,7 +193,7 @@ public enum Command {
 		return usageMessage;
 	}
 
-	private Executor getExecutor() {
+	private CommandExecutor getExecutor() {
 		return NovaGuilds.getInstance().getCommandManager().getExecutor(this);
 	}
 

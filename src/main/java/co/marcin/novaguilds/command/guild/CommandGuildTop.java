@@ -20,21 +20,21 @@ package co.marcin.novaguilds.command.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandGuildTop implements Executor {
-	private final Command command = Command.GUILD_TOP;
+public class CommandGuildTop extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_TOP;
 
 	public CommandGuildTop() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -60,10 +60,5 @@ public class CommandGuildTop implements Executor {
 			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).send(sender);
 			i++;
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

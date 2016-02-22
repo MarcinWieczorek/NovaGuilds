@@ -21,10 +21,10 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -34,11 +34,11 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildSetLeader implements Executor {
-	private final Command command = Command.ADMIN_GUILD_SET_LEADER;
+public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_GUILD_SET_LEADER;
 
 	public CommandAdminGuildSetLeader() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -96,10 +96,5 @@ public class CommandAdminGuildSetLeader implements Executor {
 
 		Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.vars(vars).send(sender);
 		Message.BROADCAST_GUILD_NEWLEADER.vars(vars).broadcast();
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

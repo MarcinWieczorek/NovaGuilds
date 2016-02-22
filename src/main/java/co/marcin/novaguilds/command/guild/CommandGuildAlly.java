@@ -21,11 +21,11 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -39,11 +39,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandGuildAlly implements Executor {
-	private final Command command = Command.GUILD_ALLY;
+public class CommandGuildAlly extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_ALLY;
 
 	public CommandGuildAlly() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -167,10 +167,5 @@ public class CommandGuildAlly implements Executor {
 
 			MessageManager.sendMessage(sender, StringUtils.join(allyInvitationNames, guildNameFormat, separator, "GUILDNAME"));
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

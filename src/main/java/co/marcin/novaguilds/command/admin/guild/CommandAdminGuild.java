@@ -20,9 +20,9 @@ package co.marcin.novaguilds.command.admin.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -32,8 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandAdminGuild implements Executor {
-	private final Command command = Command.ADMIN_GUILD_ACCESS;
+public class CommandAdminGuild extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_GUILD_ACCESS;
 
 	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("tp", Command.ADMIN_GUILD_TELEPORT);
@@ -79,7 +79,7 @@ public class CommandAdminGuild implements Executor {
 	}};
 
 	public CommandAdminGuild() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -111,10 +111,5 @@ public class CommandAdminGuild implements Executor {
 		}
 
 		subCommand.execute(sender, StringUtils.parseArgs(args, noGuildCommands.contains(subCommand) ? 1 : 2));
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

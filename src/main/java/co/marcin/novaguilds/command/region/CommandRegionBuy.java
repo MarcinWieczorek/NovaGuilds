@@ -22,13 +22,13 @@ package co.marcin.novaguilds.command.region;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -38,11 +38,11 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class CommandRegionBuy implements CommandExecutor, Executor {
-	private final Command command = Command.REGION_BUY;
+public class CommandRegionBuy extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.REGION_BUY;
 
 	public CommandRegionBuy() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 	
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
@@ -140,10 +140,5 @@ public class CommandRegionBuy implements CommandExecutor, Executor {
 		}
 
 		nPlayer.cancelToolProgress();
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

@@ -19,20 +19,20 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandGuildChatMode implements Executor {
-	private final Command command = Command.GUILD_CHATMODE;
+public class CommandGuildChatMode extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_CHATMODE;
 
 	public CommandGuildChatMode() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -61,10 +61,5 @@ public class CommandGuildChatMode implements Executor {
 
 		Message.CHAT_GUILD_CHATMODE_SUCCESS.setVar(VarKey.MODE, Message.getChatModeName(chatMode).get()).send(sender);
 		TabUtils.refresh(nPlayer);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

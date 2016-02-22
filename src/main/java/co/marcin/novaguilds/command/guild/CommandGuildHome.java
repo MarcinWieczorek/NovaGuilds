@@ -20,12 +20,12 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
@@ -38,11 +38,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class CommandGuildHome implements Executor {
-	private final Command command = Command.GUILD_HOME;
+public class CommandGuildHome extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_HOME;
 
 	public CommandGuildHome() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -116,10 +116,5 @@ public class CommandGuildHome implements Executor {
 			InventoryUtils.removeItems(player, homeItems);
 			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getHome(), Message.CHAT_GUILD_HOME);
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

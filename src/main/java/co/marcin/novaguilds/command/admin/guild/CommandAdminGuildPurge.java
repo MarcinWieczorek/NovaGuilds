@@ -20,23 +20,23 @@ package co.marcin.novaguilds.command.admin.guild;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildPurge implements Executor {
-	private final Command command = Command.ADMIN_GUILD_PURGE;
+public class CommandAdminGuildPurge extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_GUILD_PURGE;
 
 	public CommandAdminGuildPurge() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -62,10 +62,5 @@ public class CommandAdminGuildPurge implements Executor {
 				Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast();
 			}
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }
