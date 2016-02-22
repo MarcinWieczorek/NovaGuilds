@@ -19,12 +19,16 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
@@ -35,12 +39,12 @@ public final class TagUtils {
 			return;
 		}
 
+		Scoreboard board = p.getScoreboard();
 		for(Player player : Bukkit.getOnlinePlayers()) {
-			PreparedTag tag = new PreparedTagImpl(PlayerManager.getPlayer(player));
-
-			Scoreboard board = p.getScoreboard();
+			NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
 			Team team = board.getPlayerTeam(player);
 
+			//Add a team if doesn't exist
 			if(team == null) {
 				String tName = "ng_" + player.getName();
 				if(tName.length() > 16) {
@@ -51,6 +55,24 @@ public final class TagUtils {
 				team.addPlayer(player);
 			}
 
+			//Points
+			Objective pointsObjective = board.getObjective("points");
+			if(Config.POINTSBELOWNAME.getBoolean()) {
+				if(pointsObjective == null) {
+					pointsObjective = board.registerNewObjective("points", "dummy");
+					pointsObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+					pointsObjective.setDisplayName("points");
+				}
+
+				Score score = pointsObjective.getScore(player);
+				score.setScore(nPlayerLoop.getPoints());
+			}
+			else if(pointsObjective != null) {
+				pointsObjective.unregister();
+			}
+
+			//set tag
+			PreparedTag tag = new PreparedTagImpl(PlayerManager.getPlayer(player));
 			team.setPrefix(tag.get());
 		}
 	}

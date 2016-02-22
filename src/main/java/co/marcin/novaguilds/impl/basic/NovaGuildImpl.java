@@ -730,9 +730,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 			nPlayer.setGuildRank(null);
 
 			if(nPlayer.isOnline()) {
-				//update tags
-				TagUtils.refresh(nPlayer.getPlayer());
-
 				//Close GUI
 				if(nPlayer.getGuiInventory() != null) {
 					nPlayer.getGuiInventoryHistory().clear();
@@ -805,6 +802,7 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 		//Update tab
 		TabUtils.refresh(this);
+		TagUtils.refresh(this);
 	}
 
 	@Override

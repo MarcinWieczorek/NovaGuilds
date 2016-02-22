@@ -57,6 +57,9 @@ tagapi:
  enabled: true
  rankprefix: false
 
+#Points below player's name
+pointsbelowname: true
+
 holographicdisplays:
  enabled: true
  refresh: 15m

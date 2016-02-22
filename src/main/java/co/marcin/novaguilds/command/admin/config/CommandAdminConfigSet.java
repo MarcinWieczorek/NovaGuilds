@@ -25,6 +25,8 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -51,10 +53,10 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 		String valueString = StringUtils.join(StringUtils.parseArgs(args, 1), " ");
 		Object value = valueString;
 
-		if(valueString.toLowerCase().equals("true")) {
+		if(valueString.equalsIgnoreCase("true")) {
 			value = true;
 		}
-		else if(valueString.toLowerCase().equals("false")) {
+		else if(valueString.equalsIgnoreCase("false")) {
 			value = false;
 		}
 		else if(NumberUtils.isNumeric(valueString)) {
@@ -73,6 +75,8 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 		}
 
 		plugin.getConfigManager().set(config, value);
+		TagUtils.refresh();
+		TabUtils.refresh();
 
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.KEY, config.name());

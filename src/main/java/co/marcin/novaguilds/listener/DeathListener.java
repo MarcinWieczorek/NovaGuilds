@@ -29,6 +29,7 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.PreparedTagImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -133,5 +134,7 @@ public class DeathListener extends AbstractListener {
 		event.setDeathMessage(null);
 		TabUtils.refresh(attacker);
 		TabUtils.refresh(victim);
+		TagUtils.refresh(attacker);
+		TagUtils.refresh(victim);
 	}
 }
