@@ -73,7 +73,7 @@ public final class StringUtils {
 	}
 	
 	public static String parseDBLocation(Location l) {
-		return l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ() + ";" + Math.round(l.getYaw());
+		return l == null ? "" : l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ() + ";" + Math.round(l.getYaw());
 	}
 	
 	public static String parseDBLocationCoordinates2D(Location l) {

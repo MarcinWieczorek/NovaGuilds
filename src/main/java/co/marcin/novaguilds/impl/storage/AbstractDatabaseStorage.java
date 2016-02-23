@@ -432,27 +432,32 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 		connect();
 
 		try {
-			String homeCoordinates = "";
-			if(guild.getHome() != null) {
-				homeCoordinates = StringUtils.parseDBLocation(guild.getHome());
-			}
+			String homeLocationString = StringUtils.parseDBLocation(guild.getHome());
+			String vaultLocationString = StringUtils.parseDBLocation(guild.getVaultLocation());
 
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.GUILDS_INSERT);
 			preparedStatement.setString(1, guild.getTag()); //tag
 			preparedStatement.setString(2, guild.getName()); //name
 			preparedStatement.setString(3, guild.getLeader().getName()); //leader
-			preparedStatement.setString(4, homeCoordinates); //home
-			preparedStatement.setDouble(5, guild.getMoney()); //money
-			preparedStatement.setInt(6, guild.getPoints()); //points
-			preparedStatement.setInt(7, guild.getLives()); //lives
-			preparedStatement.setLong(8, guild.getTimeCreated()); //created
-			preparedStatement.setInt(9, guild.getSlots()); //slots
+			preparedStatement.setString(4, homeLocationString); //home
+			preparedStatement.setString(5, serializeNovaGuildList(guild.getAllies()));
+			preparedStatement.setString(6, serializeNovaGuildList(guild.getAllyInvitations()));
+			preparedStatement.setString(7, serializeNovaGuildList(guild.getWars()));
+			preparedStatement.setString(8, serializeNovaGuildList(guild.getNoWarInvitations()));
+			preparedStatement.setDouble(9, guild.getMoney()); //money
+			preparedStatement.setInt(10, guild.getPoints()); //points
+			preparedStatement.setInt(11, guild.getLives()); //lives
+			preparedStatement.setLong(12, guild.getTimeRest()); //timerest
+			preparedStatement.setLong(13, guild.getLostLiveTime()); //lostlive
+			preparedStatement.setLong(14, guild.getInactiveTime()); //active
+			preparedStatement.setLong(15, guild.getTimeCreated()); //created
+			preparedStatement.setString(16, vaultLocationString); //vault location
+			preparedStatement.setInt(17, guild.getSlots()); //slots
+			preparedStatement.setBoolean(18, guild.isOpenInvitation()); //openinv
 
 			preparedStatement.execute();
 
-			int id = returnGeneratedKey(preparedStatement);
-
-			guild.setId(id);
+			guild.setId(returnGeneratedKey(preparedStatement));
 			guild.setUnchanged();
 		}
 		catch(SQLException e) {
@@ -480,9 +485,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatement.setString(4, region.getWorld().getName());
 			preparedStatement.executeUpdate();
 
-			int id = returnGeneratedKey(preparedStatement);
-
-			region.setId(id);
+			region.setId(returnGeneratedKey(preparedStatement));
 			region.setUnchanged();
 		}
 		catch(SQLException e) {
@@ -514,9 +517,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatement.setBoolean(6, rank.isClone());
 			preparedStatement.execute();
 
-			int id = returnGeneratedKey(preparedStatement);
-
-			rank.setId(id);
+			rank.setId(returnGeneratedKey(preparedStatement));
 			rank.setUnchanged();
 		}
 		catch(SQLException e) {
@@ -568,74 +569,19 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 		connect();
 
 		try {
+			String homeCoordinates = StringUtils.parseDBLocation(guild.getHome());
+			String vaultLocationString = StringUtils.parseDBLocation(guild.getVaultLocation());
+
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.GUILDS_UPDATE);
-
-			String homeCoordinates = "";
-			if(guild.getHome() != null) {
-				homeCoordinates = StringUtils.parseDBLocation(guild.getHome());
-			}
-
-			//ALLIES
-			String allies = "";
-			String allyInvitationsString = "";
-
-			if(!guild.getAllies().isEmpty()) {
-				for(NovaGuild ally : guild.getAllies()) {
-					if(!allies.equals("")) {
-						allies += ";";
-					}
-
-					allies += ally.getName();
-				}
-			}
-
-			if(!guild.getAllyInvitations().isEmpty()) {
-				for(NovaGuild guildLoop : guild.getAllyInvitations()) {
-					if(!allyInvitationsString.equals("")) {
-						allyInvitationsString += ";";
-					}
-
-					allyInvitationsString = allyInvitationsString + guildLoop.getName();
-				}
-			}
-
-			//WARS
-			String wars = "";
-			String noWarInvitationString = "";
-
-			if(!guild.getWars().isEmpty()) {
-				for(NovaGuild war : guild.getWars()) {
-					if(!wars.equals("")) {
-						wars += ";";
-					}
-
-					wars += war.getName();
-				}
-			}
-
-			if(!guild.getNoWarInvitations().isEmpty()) {
-				for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
-					if(!noWarInvitationString.equals("")) {
-						noWarInvitationString += ";";
-					}
-
-					noWarInvitationString = noWarInvitationString + guildLoop.getName();
-				}
-			}
-
-			String vaultLocationString = "";
-			if(guild.getVaultLocation() != null) {
-				vaultLocationString = StringUtils.parseDBLocation(guild.getVaultLocation());
-			}
 
 			preparedStatement.setString(1, guild.getTag());
 			preparedStatement.setString(2, guild.getName());
 			preparedStatement.setString(3, guild.getLeader().getName());
 			preparedStatement.setString(4, homeCoordinates);
-			preparedStatement.setString(5, allies);
-			preparedStatement.setString(6, allyInvitationsString);
-			preparedStatement.setString(7, wars);
-			preparedStatement.setString(8, noWarInvitationString);
+			preparedStatement.setString(5, serializeNovaGuildList(guild.getAllies()));
+			preparedStatement.setString(6, serializeNovaGuildList(guild.getAllyInvitations()));
+			preparedStatement.setString(7, serializeNovaGuildList(guild.getWars()));
+			preparedStatement.setString(8, serializeNovaGuildList(guild.getNoWarInvitations()));
 			preparedStatement.setDouble(9, guild.getMoney());
 			preparedStatement.setInt(10, guild.getPoints());
 			preparedStatement.setInt(11, guild.getLives());
@@ -805,7 +751,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			int returnKeys = isStatementReturnGeneratedKeysSupported() ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS;
 
 			//Guilds insert (id, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, created, bankloc, slots, openinv)
-			String guildsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "guilds` VALUES(null,?,?,?,?,'','','','',?,?,?,0,0,0,?,'',?,0);";
+			String guildsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "guilds` VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement guildsInsert = getConnection().prepareStatement(guildsInsertSQL, returnKeys);
 			preparedStatementMap.put(PreparedStatements.GUILDS_INSERT, guildsInsert);
 
@@ -994,5 +940,27 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 		sqlString = org.apache.commons.lang.StringUtils.replace(sqlString, "{SQLPREFIX}", Config.MYSQL_PREFIX.getString());
 		return sqlString.split("--");
+	}
+
+	/**
+	 * Serialize a list of guilds to a string of names separated by semicolons.
+	 * name1;name2;name3 etc.
+	 * @param list the list
+	 * @return the string
+	 */
+	protected String serializeNovaGuildList(List<NovaGuild> list) {
+		String string = "";
+
+		if(!list.isEmpty()) {
+			for(NovaGuild guild : list) {
+				if(!string.equals("")) {
+					string += ";";
+				}
+
+				string += guild.getName();
+			}
+		}
+
+		return string;
 	}
 }

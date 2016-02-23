@@ -306,7 +306,7 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 		//Force changed()
 		for(NovaPlayer nPlayer : getPlayers()) {
-			nPlayer.setGuild(this);
+			nPlayer.setChanged();
 		}
 
 		if(hasRegion()) {
