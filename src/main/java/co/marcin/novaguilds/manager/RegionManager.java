@@ -50,17 +50,21 @@ public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	//getters
-	public static NovaRegion get(Location l) {
-		int x = l.getBlockX();
-		int z = l.getBlockZ();
+	public static NovaRegion get(Location location) {
+		int x = location.getBlockX();
+		int z = location.getBlockZ();
 		
-		for(NovaRegion r : plugin.getRegionManager().getRegions()) {
-			Location c1 = r.getCorner(0);
-			Location c2 = r.getCorner(1);
+		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
+			if(!location.getWorld().equals(region.getWorld())) {
+				continue;
+			}
+
+			Location c1 = region.getCorner(0);
+			Location c2 = region.getCorner(1);
 			
 			if((x >= c1.getBlockX() && x <= c2.getBlockX()) || (x <= c1.getBlockX() && x >= c2.getBlockX())) {
 				if((z >= c1.getBlockZ() && z <= c2.getBlockZ()) || (z <= c1.getBlockZ() && z >= c2.getBlockZ())) {
-					return r;
+					return region;
 				}
 			}
 		}
