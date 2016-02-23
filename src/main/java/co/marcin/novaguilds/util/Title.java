@@ -37,17 +37,22 @@ import java.util.Map;
 public class Title {
 	/* Title packet */
 	private Class<?> packetTitle;
+
 	/* Title packet actions ENUM */
 	private Class<?> packetActions;
+
 	/* Chat serializer */
 	private Class<?> nmsChatSerializer;
 	private Class<?> chatBaseComponent;
+
 	/* Title text and color */
 	private String title = "";
 	private ChatColor titleColor = ChatColor.WHITE;
+
 	/* Subtitle text and color */
 	private String subtitle = "";
 	private ChatColor subtitleColor = ChatColor.WHITE;
+
 	/* Title timings */
 	private int fadeInTime = -1;
 	private int stayTime = -1;
@@ -106,8 +111,7 @@ public class Title {
 	 * @param stayTime    Stay on screen time
 	 * @param fadeOutTime Fade out time
 	 */
-	public Title(String title, String subtitle, int fadeInTime, int stayTime,
-	             int fadeOutTime) {
+	public Title(String title, String subtitle, int fadeInTime, int stayTime, int fadeOutTime) {
 		this.title = title;
 		this.subtitle = subtitle;
 		this.fadeInTime = fadeInTime;
@@ -228,46 +232,41 @@ public class Title {
 	 */
 	public void send(Player player) {
 		if(packetTitle != null) {
-			// First reset previous settings
 			resetTitle(player);
+
 			try {
 				// Send timings first
 				Object handle = getHandle(player);
 				Object connection = getField(handle.getClass(), "playerConnection").get(handle);
 				Object[] actions = packetActions.getEnumConstants();
-				Method sendPacket = getMethod(connection.getClass(),
-						"sendPacket");
+				Method sendPacket = getMethod(connection.getClass(), "sendPacket");
+
 				Object packet = packetTitle.getConstructor(packetActions,
 						chatBaseComponent, Integer.TYPE, Integer.TYPE,
 						Integer.TYPE).newInstance(actions[2], null,
 						fadeInTime * (ticks ? 1 : 20),
 						stayTime * (ticks ? 1 : 20),
 						fadeOutTime * (ticks ? 1 : 20));
-				// Send if set
+
 				if(fadeInTime != -1 && fadeOutTime != -1 && stayTime != -1) {
 					sendPacket.invoke(connection, packet);
 				}
 
-				// Send title
+
 				Object serialized = getMethod(nmsChatSerializer, "a", String.class).invoke(null, "{text:\""
-						+ ChatColor.translateAlternateColorCodes('&',
-						title) + "\",color:"
+						+ StringUtils.fixColors(title) + "\",color:"
 						+ titleColor.name().toLowerCase() + "}");
 				packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[0], serialized);
 				sendPacket.invoke(connection, packet);
-				//if(subtitle != "") {
+
 				if(!subtitle.isEmpty()) {
-					// Send subtitle if present
 					serialized = getMethod(nmsChatSerializer, "a", String.class).invoke(null, "{text:\""
-							+ ChatColor
-							.translateAlternateColorCodes(
-									'&', subtitle)
+							+ StringUtils.fixColors(subtitle)
 							+ "\",color:"
 							+ subtitleColor.name()
 							.toLowerCase() + "}");
-					packet = packetTitle.getConstructor(packetActions,
-							chatBaseComponent).newInstance(actions[1],
-							serialized);
+
+					packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[1], serialized);
 					sendPacket.invoke(connection, packet);
 				}
 			}
@@ -327,16 +326,17 @@ public class Title {
 	}
 
 	private Class<?> getPrimitiveType(Class<?> clazz) {
-		return CORRESPONDING_TYPES.containsKey(clazz) ? CORRESPONDING_TYPES
-				.get(clazz) : clazz;
+		return CORRESPONDING_TYPES.containsKey(clazz) ? CORRESPONDING_TYPES.get(clazz) : clazz;
 	}
 
 	private Class<?>[] toPrimitiveTypeArray(Class<?>[] classes) {
 		int a = classes != null ? classes.length : 0;
 		Class<?>[] types = new Class<?>[a];
+
 		for(int i = 0; i < a; i++) {
 			types[i] = getPrimitiveType(classes[i]);
 		}
+
 		return types;
 	}
 
@@ -344,11 +344,13 @@ public class Title {
 		if(a.length != o.length) {
 			return false;
 		}
+
 		for(int i = 0; i < a.length; i++) {
 			if(!a[i].equals(o[i]) && !a[i].isAssignableFrom(o[i])) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -362,15 +364,16 @@ public class Title {
 		}
 	}
 
-	private Method getMethod(String name, Class<?> clazz,
-	                         Class<?>... paramTypes) {
+	private Method getMethod(String name, Class<?> clazz, Class<?>... paramTypes) {
 		Class<?>[] t = toPrimitiveTypeArray(paramTypes);
+
 		for(Method m : clazz.getMethods()) {
 			Class<?>[] types = toPrimitiveTypeArray(m.getParameterTypes());
 			if(m.getName().equals(name) && equalsTypeArray(types, t)) {
 				return m;
 			}
 		}
+
 		return null;
 	}
 
@@ -382,12 +385,14 @@ public class Title {
 	private Class<?> getNMSClass(String className) {
 		String fullName = "net.minecraft.server." + getVersion() + className;
 		Class<?> clazz = null;
+
 		try {
 			clazz = Class.forName(fullName);
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
 		}
+
 		return clazz;
 	}
 
@@ -405,9 +410,7 @@ public class Title {
 
 	private Method getMethod(Class<?> clazz, String name, Class<?>... args) {
 		for(Method m : clazz.getMethods()) {
-			if(m.getName().equals(name)
-					&& (args.length == 0 || ClassListEqual(args,
-					m.getParameterTypes()))) {
+			if(m.getName().equals(name) && (args.length == 0 || ClassListEqual(args, m.getParameterTypes()))) {
 				m.setAccessible(true);
 				return m;
 			}
@@ -417,6 +420,7 @@ public class Title {
 
 	private boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
 		boolean equal = true;
+
 		if(l1.length != l2.length) {
 			return false;
 		}
@@ -427,6 +431,7 @@ public class Title {
 				break;
 			}
 		}
+
 		return equal;
 	}
 }
