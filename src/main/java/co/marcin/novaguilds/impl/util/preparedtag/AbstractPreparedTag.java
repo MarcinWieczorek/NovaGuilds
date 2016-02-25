@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util;
+package co.marcin.novaguilds.impl.util.preparedtag;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -29,20 +29,17 @@ import co.marcin.novaguilds.util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PreparedTagImpl implements PreparedTag {
+public abstract class AbstractPreparedTag implements PreparedTag {
 	private final NovaGuild guild;
+	private final Config pattern;
 	private boolean leaderPrefix = false;
 	private boolean hidden = false;
 	private Color color = Color.NEUTRAL;
 
 	//Constructors
-	public PreparedTagImpl(NovaGuild guild) {
+	public AbstractPreparedTag(Config pattern, NovaGuild guild) {
+		this.pattern = pattern;
 		this.guild = guild;
-	}
-
-	public PreparedTagImpl(NovaPlayer nPlayer) {
-		this.guild = nPlayer.getGuild();
-		setUpFor(nPlayer);
 	}
 
 	//Getters
@@ -98,7 +95,7 @@ public class PreparedTagImpl implements PreparedTag {
 			return "";
 		}
 
-		String tag = Config.CHAT_TAG.getString();
+		String tag = pattern.getString();
 
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.RANK, isLeaderPrefix() ? Config.CHAT_LEADERPREFIX.getString() : "");

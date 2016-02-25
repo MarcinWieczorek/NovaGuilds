@@ -150,7 +150,9 @@ gguicmd:
 chat:
 
 # tag pattern                                     #
- tag: "&a{RANK}&{COLOR}{TAG} &r"
+ tag:
+  chat: "&7[&a{RANK}&{COLOR}{TAG}&7] &r"
+  scoreboard: "&a{RANK}&{COLOR}{TAG} &r"
 
 # leader prefix character                         #
  leaderprefix: "*"

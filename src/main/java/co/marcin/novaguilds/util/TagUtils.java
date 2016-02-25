@@ -22,7 +22,7 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.impl.util.PreparedTagImpl;
+import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagScoreboardImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -72,7 +72,7 @@ public final class TagUtils {
 			}
 
 			//set tag
-			PreparedTag tag = new PreparedTagImpl(PlayerManager.getPlayer(player));
+			PreparedTag tag = new PreparedTagScoreboardImpl(PlayerManager.getPlayer(player));
 			team.setPrefix(tag.get());
 		}
 	}

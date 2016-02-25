@@ -26,7 +26,7 @@ import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.impl.util.PreparedTagImpl;
+import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagChatImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -64,8 +64,8 @@ public class DeathListener extends AbstractListener {
 			}
 		}
 
-		PreparedTag preparedTag1 = new PreparedTagImpl(nPlayer);
-		PreparedTag preparedTag2 = new PreparedTagImpl(nPlayerAttacker);
+		PreparedTag preparedTag1 = new PreparedTagChatImpl(nPlayer);
+		PreparedTag preparedTag2 = new PreparedTagChatImpl(nPlayerAttacker);
 		preparedTag1.setLeaderPrefix(false);
 		preparedTag2.setLeaderPrefix(false);
 

@@ -29,7 +29,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.util.ChatMessageImpl;
-import co.marcin.novaguilds.impl.util.PreparedTagImpl;
+import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagChatImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.StringUtils;
@@ -49,7 +49,7 @@ public class ChatListener extends AbstractListener {
 		String tagString = "";
 		String rank = "";
 
-		PreparedTag preparedTag = new PreparedTagImpl(nPlayer);
+		PreparedTag preparedTag = new PreparedTagChatImpl(nPlayer);
 
 		String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
 		String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
@@ -133,15 +133,15 @@ public class ChatListener extends AbstractListener {
 
 		if(nPlayer.hasGuild() && !Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
 			for(NovaPlayer onlineNovaPlayer : plugin.getPlayerManager().getOnlinePlayers()) {
-				PreparedTagImpl.Color color = PreparedTagImpl.Color.NEUTRAL;
+				PreparedTag.Color color = PreparedTag.Color.NEUTRAL;
 				if(onlineNovaPlayer.hasGuild()) {
 					NovaGuild onlineNovaPlayerGuild = onlineNovaPlayer.getGuild();
 
 					if(onlineNovaPlayerGuild.isAlly(guild)) {
-						color = PreparedTagImpl.Color.ALLY;
+						color = PreparedTag.Color.ALLY;
 					}
 					else if(onlineNovaPlayerGuild.isWarWith(guild)) {
-						color = PreparedTagImpl.Color.WAR;
+						color = PreparedTag.Color.WAR;
 					}
 				}
 
