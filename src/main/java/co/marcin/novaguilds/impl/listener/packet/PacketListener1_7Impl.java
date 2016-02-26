@@ -18,10 +18,10 @@
 
 package co.marcin.novaguilds.impl.listener.packet;
 
-import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
+import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import net.minecraft.server.v1_7_R4.PacketPlayInUseEntity;
 import org.bukkit.entity.Entity;

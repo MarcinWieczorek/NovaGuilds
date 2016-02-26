@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.util.AbstractGUIInventory;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;

@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.api.util;
+package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import org.bukkit.event.Listener;

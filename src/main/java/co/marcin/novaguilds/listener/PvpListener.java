@@ -19,8 +19,8 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.util.AbstractListener;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;

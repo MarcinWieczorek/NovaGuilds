@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.impl.listener.packet;
 
-import co.marcin.novaguilds.api.util.AbstractListener;
+import co.marcin.novaguilds.impl.util.AbstractListener;
 
 public class PacketListener1_8Impl extends AbstractListener {
 

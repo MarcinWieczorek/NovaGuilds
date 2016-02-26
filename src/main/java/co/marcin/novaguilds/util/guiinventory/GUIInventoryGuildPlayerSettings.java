@@ -19,11 +19,11 @@
 package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.util.AbstractGUIInventory;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.apache.commons.lang.StringUtils;
