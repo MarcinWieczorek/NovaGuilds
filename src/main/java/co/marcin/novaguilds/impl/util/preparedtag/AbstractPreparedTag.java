@@ -32,8 +32,8 @@ import java.util.Map;
 public abstract class AbstractPreparedTag implements PreparedTag {
 	private final NovaGuild guild;
 	private final Config pattern;
-	private boolean leaderPrefix = false;
-	private boolean hidden = false;
+	private boolean leaderPrefix;
+	private boolean hidden;
 	private Color color = Color.NEUTRAL;
 
 	//Constructors
@@ -86,7 +86,7 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 		}
 
 		setHidden(Permission.NOVAGUILDS_CHAT_NOTAG.has(nPlayer.getPlayer()));
-		setLeaderPrefix(nPlayer.isLeader() && Config.TABAPI_RANKPREFIX.getBoolean());
+		setLeaderPrefix(nPlayer.isLeader() && Config.CHAT_GUILD_LEADERPREFIX.getBoolean());
 	}
 
 	@Override

@@ -65,12 +65,8 @@ barapi:
  enabled: true
  raidbar: true
 
-tabapi:
- rankprefix: false
-
 tagapi:
  enabled: true
- rankprefix: false
 
 ###################################################
 # Points below player's name                      #

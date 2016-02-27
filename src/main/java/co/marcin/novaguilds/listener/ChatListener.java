@@ -46,8 +46,6 @@ public class ChatListener extends AbstractListener {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		event.setCancelled(true);
 		NovaGuild guild = nPlayer.getGuild();
-		String tagString = "";
-		String rank = "";
 
 		PreparedTag preparedTag = new PreparedTagChatImpl(nPlayer);
 
@@ -60,18 +58,9 @@ public class ChatListener extends AbstractListener {
 
 		if(!isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
 			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
-				if(!Config.CHAT_ALLY_COLORTAGS.getBoolean()) {
-					tagString = StringUtils.removeColors(tagString);
-				}
-
-				if(!Config.CHAT_ALLY_LEADERPREFIX.getBoolean()) {
-					rank = "";
-				}
-
-				tagString = org.apache.commons.lang.StringUtils.replace(tagString, "{RANK}", rank);
-
+				preparedTag.setColor(PreparedTag.Color.NEUTRAL);
 				String cFormat = Config.CHAT_ALLY_FORMAT.getString();
-				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", tagString);
+				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", preparedTag.get());
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
 				cFormat = StringUtils.fixColors(cFormat);
 
@@ -96,9 +85,7 @@ public class ChatListener extends AbstractListener {
 		}
 		else if(isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD) { //guild chat
 			if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
-				if(!Config.CHAT_GUILD_LEADERPREFIX.getBoolean()) {
-					rank = "";
-				}
+				String rank = Config.CHAT_GUILD_LEADERPREFIX.getBoolean() ? Config.CHAT_LEADERPREFIX.getString() : "";
 
 				String cFormat = Config.CHAT_GUILD_FORMAT.getString();
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{LEADERPREFIX}", rank);
