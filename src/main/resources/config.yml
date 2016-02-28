@@ -172,7 +172,6 @@ chat:
  ally:
   prefix: "!!"
   enabled: true
-  colortags: true
   leaderprefix: true
   format: "&6[&5Ally&6] &a{TAG}&8{PLAYERNAME}&6:&r "
 

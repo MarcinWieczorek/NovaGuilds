@@ -72,7 +72,6 @@ public class VaultListener extends AbstractListener {
 				BlockFace.SOUTH,
 				BlockFace.WEST
 		};
-
 	}
 
 	@EventHandler

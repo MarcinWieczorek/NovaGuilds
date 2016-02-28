@@ -44,7 +44,7 @@ public class CommandGuildSetTag extends AbstractCommandExecutor {
 			return;
 		}
 
-		if(!nPlayer.hasPermission(GuildPermission.SET_NAME)) {
+		if(!nPlayer.hasPermission(GuildPermission.SET_TAG)) {
 			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}

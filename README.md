@@ -426,10 +426,6 @@ mvn clean install
             <td>/g kick <player></td>
         </tr>
         <tr>
-            <td>novaguilds.guild.gui</td>
-            <td>/gg</td>
-        </tr>
-        <tr>
             <td>novaguilds.guild.pvptoggle</td>
             <td>/g pvp</td>
         </tr>
