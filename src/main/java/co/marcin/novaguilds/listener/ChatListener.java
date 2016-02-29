@@ -58,6 +58,8 @@ public class ChatListener extends AbstractListener {
 
 		if(!isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
 			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
+				preparedTag.setLeaderPrefix(preparedTag.isLeaderPrefix() && Config.CHAT_ALLY_LEADERPREFIX.getBoolean());
+
 				preparedTag.setColor(PreparedTag.Color.NEUTRAL);
 				String cFormat = Config.CHAT_ALLY_FORMAT.getString();
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", preparedTag.get());
@@ -79,7 +81,6 @@ public class ChatListener extends AbstractListener {
 					}
 				}
 
-				event.setCancelled(true);
 				return;
 			}
 		}
@@ -107,7 +108,6 @@ public class ChatListener extends AbstractListener {
 					}
 				}
 
-				event.setCancelled(true);
 				return;
 			}
 		}
