@@ -192,6 +192,10 @@ public class VaultListener extends AbstractListener {
 							event.setCancelled(true);
 						}
 					}
+					else {
+						player.getInventory().remove(event.getItemInHand());
+						event.setCancelled(true);
+					}
 				}
 			}
 			else {
