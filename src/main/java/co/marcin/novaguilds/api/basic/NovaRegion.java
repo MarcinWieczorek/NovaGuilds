@@ -23,29 +23,96 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public interface NovaRegion extends Changeable {
+	/**
+	 * Gets the world
+	 *
+	 * @return the world
+	 */
 	World getWorld();
 
+	/**
+	 * Gets the ID
+	 *
+	 * @return the ID
+	 */
 	int getId();
 
+	/**
+	 * Gets the guild
+	 *
+	 * @return the guild
+	 */
 	NovaGuild getGuild();
 
+	/**
+	 * Gets the location of one of the corners
+	 *
+	 * @param index corner index (0/1)
+	 * @return the location
+	 */
 	Location getCorner(int index);
 
+	/**
+	 * Gets region's width
+	 *
+	 * @return size in blocks
+	 */
 	int getWidth();
 
+	/**
+	 * Gets region's height
+	 *
+	 * @return size in blocks
+	 */
 	int getHeight();
 
+	/**
+	 * Gets region's diagonal
+	 *
+	 * @return size in blocks
+	 */
 	int getDiagonal();
 
+	/**
+	 * Gets region's surface
+	 *
+	 * @return size in blocks
+	 */
 	int getSurface();
 
+	/**
+	 * Gets center location
+	 *
+	 * @return the location
+	 */
 	Location getCenter();
 
+	/**
+	 * Sets the world
+	 *
+	 * @param world the world
+	 */
 	void setWorld(World world);
 
+	/**
+	 * Sets the ID
+	 *
+	 * @param id the ID
+	 */
 	void setId(int id);
 
+	/**
+	 * Sets the guild
+	 *
+	 * @param guild the guild
+	 */
 	void setGuild(NovaGuild guild);
 
+	/**
+	 * Sets corner location
+	 *
+	 * @param index corner index (0/1)
+	 * @param location the location
+	 */
 	void setCorner(int index, Location location);
 }

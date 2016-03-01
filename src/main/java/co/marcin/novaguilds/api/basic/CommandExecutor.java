@@ -24,17 +24,37 @@ import org.bukkit.command.CommandSender;
 public interface CommandExecutor {
 	void execute(CommandSender sender, String[] args);
 
+	/**
+	 * Gets the command
+	 *
+	 * @return the command
+	 */
 	Command getCommand();
 
 	interface ReversedAdminGuild extends CommandExecutor {
+		/**
+		 * Sets the parameter
+		 *
+		 * @param guild the parameter
+		 */
 		void guild(NovaGuild guild);
 	}
 
 	interface ReversedAdminRegion extends CommandExecutor {
+		/**
+		 * Sets the parameter
+		 *
+		 * @param region the parameter
+		 */
 		void region(NovaRegion region);
 	}
 
 	interface ReversedAdminHologram extends CommandExecutor {
+		/**
+		 * Sets the parameter
+		 *
+		 * @param hologram the parameter
+		 */
 		void hologram(NovaHologram hologram);
 	}
 }
