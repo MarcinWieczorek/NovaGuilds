@@ -59,6 +59,7 @@ public class MessageManager {
 
 	/**
 	 * Detects the language basing on Essentials and config
+	 *
 	 * @return false if detecting/creating new file failed
 	 */
 	public boolean detectLanguage() {
@@ -149,6 +150,7 @@ public class MessageManager {
 
 	/**
 	 * Gets message string from configuration
+	 *
 	 * @param message Message enum
 	 * @return message string
 	 */
@@ -160,6 +162,7 @@ public class MessageManager {
 
 	/**
 	 * Gets messages FileConfiguration
+	 *
 	 * @return Messages' FileConfiguration
 	 */
 	public static FileConfiguration getMessages() {
@@ -168,6 +171,7 @@ public class MessageManager {
 
 	/**
 	 * Sends prefixed message to a player
+	 *
 	 * @param sender receiver
 	 * @param msg message string
 	 */
@@ -179,6 +183,7 @@ public class MessageManager {
 
 	/**
 	 * Sends a message without prefix to a player
+	 *
 	 * @param sender receiver
 	 * @param msg message string
 	 */
@@ -190,6 +195,7 @@ public class MessageManager {
 
 	/**
 	 * Sends a list of messages to a player
+	 *
 	 * @param sender receiver
 	 * @param message Message enum
 	 */
@@ -216,6 +222,7 @@ public class MessageManager {
 
 	/**
 	 * Sends a message to a player
+	 *
 	 * @param sender receiver
 	 * @param message Message enum
 	 */
@@ -239,6 +246,7 @@ public class MessageManager {
 
 	/**
 	 * Send a Title to the player
+	 *
 	 * @param player Player instance
 	 * @param msg message string
 	 */
@@ -251,6 +259,7 @@ public class MessageManager {
 
 	/**
 	 * Broadcasts Message to players
+	 *
 	 * @param playerList List of Players
 	 * @param message Message enum
 	 * @param permission Permission enum (null for none)
@@ -265,6 +274,7 @@ public class MessageManager {
 
 	/**
 	 * Broadcasts message from file to all players with permission
+	 *
 	 * @param message Message enum
 	 * @param permission Permission enum
 	 */
@@ -274,6 +284,7 @@ public class MessageManager {
 
 	/**
 	 * Broadcasts message to all players
+	 *
 	 * @param message Message enum
 	 */
 	public static void broadcast(Message message) {
@@ -282,6 +293,7 @@ public class MessageManager {
 
 	/**
 	 * Broadcasts message to guild members
+	 *
 	 * @param guild Guild instance
 	 * @param message Message enum
 	 */
@@ -291,6 +303,7 @@ public class MessageManager {
 
 	/**
 	 * Replaces a map of vars preserving the prefix color
+	 *
 	 * @param msg message string
 	 * @param vars Map<String, String> of variables
 	 * @return String

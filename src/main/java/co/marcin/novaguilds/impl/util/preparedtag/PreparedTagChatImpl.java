@@ -33,4 +33,9 @@ public class PreparedTagChatImpl extends AbstractPreparedTag {
 		super(pattern, nPlayer.getGuild());
 		setUpFor(nPlayer);
 	}
+
+	public PreparedTagChatImpl(NovaPlayer nPlayer, boolean leaderPrefixEnabled) {
+		super(pattern, nPlayer.getGuild(), leaderPrefixEnabled);
+		setUpFor(nPlayer);
+	}
 }

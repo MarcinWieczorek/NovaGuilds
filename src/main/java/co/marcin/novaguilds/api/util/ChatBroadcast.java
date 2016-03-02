@@ -16,26 +16,36 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util.preparedtag;
+package co.marcin.novaguilds.api.util;
 
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Message;
 
-public class PreparedTagScoreboardImpl extends AbstractPreparedTag {
-	private static final Config pattern = Config.CHAT_TAG_SCOREBOARD;
+public interface ChatBroadcast {
+	/**
+	 * Broadcasts the message
+	 */
+	void send();
 
-	public PreparedTagScoreboardImpl(NovaGuild guild) {
-		super(pattern, guild);
-	}
+	/**
+	 * Sets the tag
+	 *
+	 * @param index index
+	 * @param preparedTag tag instance
+	 */
+	void setTag(Integer index, PreparedTag preparedTag);
 
-	public PreparedTagScoreboardImpl(NovaPlayer nPlayer) {
-		super(pattern, nPlayer.getGuild());
-		setUpFor(nPlayer);
-	}
+	/**
+	 * Gets a tag
+	 *
+	 * @param index index
+	 * @return the tag
+	 */
+	PreparedTag getTag(Integer index);
 
-	public PreparedTagScoreboardImpl(NovaPlayer nPlayer, boolean leaderPrefixEnabled) {
-		super(pattern, nPlayer.getGuild(), leaderPrefixEnabled);
-		setUpFor(nPlayer);
-	}
+	/**
+	 * Gets the message
+	 *
+	 * @return the enum
+	 */
+	Message getMessage();
 }

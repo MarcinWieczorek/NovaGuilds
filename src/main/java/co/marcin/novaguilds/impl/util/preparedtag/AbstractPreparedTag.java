@@ -32,6 +32,7 @@ import java.util.Map;
 public abstract class AbstractPreparedTag implements PreparedTag {
 	private final NovaGuild guild;
 	private final Config pattern;
+	private boolean leaderPrefixEnabled;
 	private boolean leaderPrefix;
 	private boolean hidden;
 	private Color color = Color.NEUTRAL;
@@ -40,6 +41,12 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 	public AbstractPreparedTag(Config pattern, NovaGuild guild) {
 		this.pattern = pattern;
 		this.guild = guild;
+	}
+
+	public AbstractPreparedTag(Config pattern, NovaGuild guild, boolean leaderPrefixEnabled) {
+		this.pattern = pattern;
+		this.guild = guild;
+		this.leaderPrefixEnabled = leaderPrefixEnabled;
 	}
 
 	//Getters
@@ -86,7 +93,7 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 		}
 
 		setHidden(Permission.NOVAGUILDS_CHAT_NOTAG.has(nPlayer.getPlayer()));
-		setLeaderPrefix(nPlayer.isLeader() && Config.CHAT_GUILD_LEADERPREFIX.getBoolean());
+		setLeaderPrefix(leaderPrefixEnabled && nPlayer.isLeader() && Config.CHAT_GUILD_LEADERPREFIX.getBoolean());
 	}
 
 	@Override

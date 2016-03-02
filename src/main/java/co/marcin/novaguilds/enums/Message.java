@@ -21,6 +21,8 @@ package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.util.ChatBroadcast;
+import co.marcin.novaguilds.impl.util.ChatBroadcastImpl;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.apache.commons.lang.StringUtils;
@@ -751,5 +753,9 @@ public enum Message {
 		message.vars(vars);
 
 		return message;
+	}
+
+	public ChatBroadcast newChatBroadcast() {
+		return new ChatBroadcastImpl(this);
 	}
 }

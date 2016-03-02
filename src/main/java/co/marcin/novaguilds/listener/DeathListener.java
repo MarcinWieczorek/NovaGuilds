@@ -21,6 +21,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.util.ChatBroadcast;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -64,17 +65,16 @@ public class DeathListener extends AbstractListener {
 			}
 		}
 
-		PreparedTag preparedTag1 = new PreparedTagChatImpl(nPlayer);
-		PreparedTag preparedTag2 = new PreparedTagChatImpl(nPlayerAttacker);
-		preparedTag1.setLeaderPrefix(false);
-		preparedTag2.setLeaderPrefix(false);
+		PreparedTag preparedTag1 = new PreparedTagChatImpl(nPlayer, false);
+		PreparedTag preparedTag2 = new PreparedTagChatImpl(nPlayerAttacker, false);
 
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYER1, victim.getName());
 		vars.put(VarKey.PLAYER2, attacker.getName());
-		vars.put(VarKey.TAG1, preparedTag1.get());
-		vars.put(VarKey.TAG2, preparedTag2.get());
-		Message.BROADCAST_PVP_KILLED.vars(vars).broadcast();
+		ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.vars(vars).newChatBroadcast();
+		chatBroadcast.setTag(1, preparedTag1);
+		chatBroadcast.setTag(2, preparedTag2);
+		chatBroadcast.send();
 
 		//guildpoints and money
 		if(nPlayerAttacker.canGetKillPoints(victim)) {
