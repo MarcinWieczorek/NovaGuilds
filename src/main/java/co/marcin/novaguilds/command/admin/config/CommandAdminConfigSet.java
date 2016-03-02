@@ -73,6 +73,11 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 
 			value  = new ArrayList<>(Arrays.asList(split));
 		}
+		else if(valueString.startsWith("\"") && valueString.endsWith("\"")) {
+			valueString = valueString.substring(1);
+			valueString = valueString.substring(0, valueString.length() - 1);
+			value = String.valueOf(valueString);
+		}
 
 		plugin.getConfigManager().set(config, value);
 		TagUtils.refresh();
