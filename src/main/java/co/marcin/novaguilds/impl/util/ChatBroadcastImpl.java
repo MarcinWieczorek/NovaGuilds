@@ -45,20 +45,7 @@ public class ChatBroadcastImpl implements ChatBroadcast {
 				NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 				PreparedTag tag = entry.getValue();
 
-				PreparedTag.Color color;
-				if(nPlayer.hasGuild()) {
-					if(nPlayer.getGuild().isWarWith(tag.getGuild())) {
-						color = PreparedTag.Color.WAR;
-					}
-					else {
-						color = nPlayer.getGuild().isAlly(tag.getGuild()) ? PreparedTag.Color.ALLY : PreparedTag.Color.NEUTRAL;
-					}
-				}
-				else {
-					color = PreparedTag.Color.NEUTRAL;
-				}
-
-				tag.setColor(color);
+				tag.setTagColorFor(nPlayer);
 				message.setVar(VarKey.valueOf("TAG" + entry.getKey()), tag.get());
 			}
 

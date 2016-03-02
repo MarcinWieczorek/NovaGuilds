@@ -167,6 +167,7 @@ chat:
   neutral: "a"
   ally: "5"
   war: "c"
+  guild: "b"
 
 # ally chat settings
  ally:

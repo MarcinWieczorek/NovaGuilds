@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.TagColor;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.StringUtils;
 
@@ -35,7 +36,7 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 	private boolean leaderPrefixEnabled;
 	private boolean leaderPrefix;
 	private boolean hidden;
-	private Color color = Color.NEUTRAL;
+	private TagColor color = TagColor.NEUTRAL;
 
 	//Constructors
 	public AbstractPreparedTag(Config pattern, NovaGuild guild) {
@@ -56,7 +57,7 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 	}
 
 	@Override
-	public Color getColor() {
+	public TagColor getColor() {
 		return color;
 	}
 
@@ -82,7 +83,7 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 	}
 
 	@Override
-	public void setColor(Color color) {
+	public void setColor(TagColor color) {
 		this.color = color;
 	}
 
@@ -94,6 +95,26 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 
 		setHidden(Permission.NOVAGUILDS_CHAT_NOTAG.has(nPlayer.getPlayer()));
 		setLeaderPrefix(leaderPrefixEnabled && nPlayer.isLeader() && Config.CHAT_GUILD_LEADERPREFIX.getBoolean());
+	}
+
+	@Override
+	public void setTagColorFor(NovaPlayer nPlayer) {
+		TagColor color = TagColor.NEUTRAL;
+		if(nPlayer.hasGuild() && getGuild() != null) {
+			NovaGuild onlineNovaPlayerGuild = nPlayer.getGuild();
+
+			if(onlineNovaPlayerGuild.isAlly(guild)) {
+				color = TagColor.ALLY;
+			}
+			else if(onlineNovaPlayerGuild.isWarWith(guild)) {
+				color = TagColor.WAR;
+			}
+			else if(getGuild().isMember(nPlayer)) {
+				color = TagColor.GUILD;
+			}
+		}
+
+		setColor(color);
 	}
 
 	@Override

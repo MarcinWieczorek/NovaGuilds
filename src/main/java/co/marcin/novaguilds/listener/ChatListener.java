@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.TagColor;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.ChatMessageImpl;
 import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagChatImpl;
@@ -60,7 +61,7 @@ public class ChatListener extends AbstractListener {
 			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
 				preparedTag.setLeaderPrefix(preparedTag.isLeaderPrefix() && Config.CHAT_ALLY_LEADERPREFIX.getBoolean());
 
-				preparedTag.setColor(PreparedTag.Color.NEUTRAL);
+				preparedTag.setColor(TagColor.NEUTRAL);
 				String cFormat = Config.CHAT_ALLY_FORMAT.getString();
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", preparedTag.get());
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
@@ -118,28 +119,12 @@ public class ChatListener extends AbstractListener {
 		chatMessage.setFormat(event.getFormat());
 		chatMessage.setMessage(event.getMessage());
 
-		if(nPlayer.hasGuild() && !Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
-			for(NovaPlayer onlineNovaPlayer : plugin.getPlayerManager().getOnlinePlayers()) {
-				PreparedTag.Color color = PreparedTag.Color.NEUTRAL;
-				if(onlineNovaPlayer.hasGuild()) {
-					NovaGuild onlineNovaPlayerGuild = onlineNovaPlayer.getGuild();
+		for(NovaPlayer onlineNovaPlayer : plugin.getPlayerManager().getOnlinePlayers()) {
+			preparedTag.setTagColorFor(onlineNovaPlayer);
+			preparedTag.setHidden(Permission.NOVAGUILDS_CHAT_NOTAG.has(player));
 
-					if(onlineNovaPlayerGuild.isAlly(guild)) {
-						color = PreparedTag.Color.ALLY;
-					}
-					else if(onlineNovaPlayerGuild.isWarWith(guild)) {
-						color = PreparedTag.Color.WAR;
-					}
-				}
-
-				preparedTag.setColor(color);
-				chatMessage.send(onlineNovaPlayer);
-			}
-
-			return;
+			chatMessage.send(onlineNovaPlayer);
 		}
-
-		chatMessage.send();
 	}
 
 	@EventHandler

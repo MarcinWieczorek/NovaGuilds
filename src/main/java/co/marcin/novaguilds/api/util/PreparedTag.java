@@ -21,25 +21,9 @@ package co.marcin.novaguilds.api.util;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.TagColor;
 
 public interface PreparedTag {
-	enum Color {
-		NEUTRAL(Config.CHAT_TAGCOLORS_NEUTRAL),
-		ALLY(Config.CHAT_TAGCOLORS_ALLY),
-		WAR(Config.CHAT_TAGCOLORS_WAR);
-
-		private final Config config;
-
-		Color(Config config) {
-			this.config = config;
-		}
-
-		public Config getConfig() {
-			return config;
-		}
-	}
-
 	/**
 	 * Gets the guild
 	 *
@@ -52,7 +36,7 @@ public interface PreparedTag {
 	 *
 	 * @return the color enum
 	 */
-	Color getColor();
+	TagColor getColor();
 
 	/**
 	 * Returns if the leader prefix is being displayed
@@ -87,7 +71,7 @@ public interface PreparedTag {
 	 *
 	 * @param color the color enum
 	 */
-	void setColor(Color color);
+	void setColor(TagColor color);
 
 	/**
 	 * Sets the tag up for a specific player
@@ -95,6 +79,13 @@ public interface PreparedTag {
 	 * @param nPlayer the owner of the tag
 	 */
 	void setUpFor(NovaPlayer nPlayer);
+
+	/**
+	 * Sets tag color for a player
+	 *
+	 * @param nPlayer player which will receive the message
+	 */
+	void setTagColorFor(NovaPlayer nPlayer);
 
 	/**
 	 * Gets the tag
