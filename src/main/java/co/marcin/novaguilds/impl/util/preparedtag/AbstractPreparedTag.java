@@ -33,7 +33,7 @@ import java.util.Map;
 public abstract class AbstractPreparedTag implements PreparedTag {
 	private final NovaGuild guild;
 	private final Config pattern;
-	private boolean leaderPrefixEnabled;
+	private boolean leaderPrefixEnabled = true;
 	private boolean leaderPrefix;
 	private boolean hidden;
 	private TagColor color = TagColor.NEUTRAL;

@@ -77,7 +77,7 @@ public class ChatListener extends AbstractListener {
 				}
 
 				for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-					if(nPlayerLoop.equals(nPlayer) || nPlayerLoop.getSpyMode() || (nPlayerLoop.hasGuild() && nPlayerLoop.getGuild().isAlly(guild))) {
+					if(nPlayerLoop.getSpyMode() || (nPlayerLoop.hasGuild() && (nPlayerLoop.getGuild().isAlly(guild) || guild.isMember(nPlayerLoop)))) {
 						nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
 					}
 				}
