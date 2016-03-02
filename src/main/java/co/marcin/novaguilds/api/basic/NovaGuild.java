@@ -56,20 +56,6 @@ public interface NovaGuild extends Changeable {
 	List<NovaGuild> getAllies();
 
 	/**
-	 * Gets the names of allies
-	 *
-	 * @return the list of allies
-	 */
-	List<String> getAlliesNames();
-
-	/**
-	 * Gets the names of ally-invitations
-	 *
-	 * @return the list
-	 */
-	List<String> getAllyInvitationNames();
-
-	/**
 	 * Gets the ally invitations
 	 *
 	 * @return the list of ally invitations
@@ -77,25 +63,11 @@ public interface NovaGuild extends Changeable {
 	List<NovaGuild> getAllyInvitations();
 
 	/**
-	 * Gets the wars (names)
-	 *
-	 * @return the list of wars
-	 */
-	List<String> getWarsNames();
-
-	/**
 	 * Gets the wars
 	 *
 	 * @return the list of wars
 	 */
 	List<NovaGuild> getWars();
-
-	/**
-	 * Gets the no-war invitations (names)
-	 *
-	 * @return the list of names
-	 */
-	List<String> getNoWarInvitationNames();
 
 	/**
 	 * Gets the no-war invitations
@@ -721,4 +693,6 @@ public interface NovaGuild extends Changeable {
 	 * Removes the raid bar from all members of the guild
 	 */
 	void removeRaidBar();
+
+	void postSetUp();
 }

@@ -178,26 +178,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	}
 
 	@Override
-	public List<String> getNoWarInvitationNames() {
-		return noWarInvitedNames;
-	}
-
-	@Override
-	public List<String> getAlliesNames() {
-		return alliesNames;
-	}
-
-	@Override
-	public List<String> getAllyInvitationNames() {
-		return allyInvitationNames;
-	}
-
-	@Override
-	public List<String> getWarsNames() {
-		return warNames;
-	}
-
-	@Override
 	public Location getVaultLocation() {
 		return vaultLocation;
 	}
@@ -550,8 +530,7 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	//add/remove
 	@Override
 	public void addAlly(NovaGuild guild) {
-		if(!isAlly(guild)) {
-			alliesNames.add(guild.getName().toLowerCase());
+		if(guild != null && !isAlly(guild)) {
 			allies.add(guild);
 			setChanged();
 		}
@@ -559,7 +538,7 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 	@Override
 	public void addAllyInvitation(NovaGuild guild) {
-		if(!isInvitedToAlly(guild)) {
+		if(guild != null && !isInvitedToAlly(guild)) {
 			allyInvitations.add(guild);
 			setChanged();
 		}
@@ -567,8 +546,7 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 	@Override
 	public void addWar(NovaGuild guild) {
-		if(!isWarWith(guild)) {
-			warNames.add(guild.getName().toLowerCase());
+		if(guild != null && !isWarWith(guild)) {
 			war.add(guild);
 			setChanged();
 		}
@@ -576,7 +554,7 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 	@Override
 	public void addNoWarInvitation(NovaGuild guild) {
-		if(!isNoWarInvited(guild)) {
+		if(guild != null && !isNoWarInvited(guild)) {
 			noWarInvited.add(guild);
 			setChanged();
 		}
@@ -644,7 +622,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	public void removeAlly(NovaGuild guild) {
 		if(allies.contains(guild)) {
 			allies.remove(guild);
-			alliesNames.remove(guild.getName().toLowerCase());
 			setChanged();
 		}
 	}
@@ -653,7 +630,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	public void removeWar(NovaGuild guild) {
 		if(war.contains(guild)) {
 			war.remove(guild);
-			warNames.remove(guild.getName().toLowerCase());
 			setChanged();
 		}
 	}
@@ -826,5 +802,32 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 				BarAPI.removeBar(player);
 			}
 		}
+	}
+
+	@Override
+	public void postSetUp() {
+		for(String allyName : alliesNames) {
+			NovaGuild allyGuild = GuildManager.getGuildByName(allyName);
+			addAlly(allyGuild);
+		}
+
+		//Wars
+		for(String warName : warNames) {
+			NovaGuild warGuild = GuildManager.getGuildByName(warName);
+			addWar(warGuild);
+		}
+
+		//No-war invitations
+		for(String guildName : noWarInvitedNames) {
+			addNoWarInvitation(GuildManager.getGuildByName(guildName));
+		}
+
+		//Ally invitations
+		for(String guildName : allyInvitationNames) {
+			addAllyInvitation(GuildManager.getGuildByName(guildName));
+		}
+		setAllyInvitationNames(new ArrayList<String>());
+
+		setUnchanged();
 	}
 }

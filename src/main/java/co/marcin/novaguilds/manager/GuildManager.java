@@ -230,40 +230,7 @@ public class GuildManager {
 				i++;
 			}
 			else { //Add allies, wars etc
-				//Allies
-				List<NovaGuild> allies = new ArrayList<>();
-				for(String allyName : guild.getAlliesNames()) {
-					NovaGuild allyGuild = getGuildByName(allyName);
-
-					if(allyGuild != null) {
-						allies.add(allyGuild);
-					}
-				}
-				guild.setAllies(allies);
-
-				//Wars
-				List<NovaGuild> wars = new ArrayList<>();
-				for(String warName : guild.getWarsNames()) {
-					NovaGuild warGuild = getGuildByName(warName);
-
-					if(warGuild != null) {
-						wars.add(warGuild);
-					}
-				}
-				guild.setWars(wars);
-
-				//No-war invitations
-				for(String guildName : guild.getNoWarInvitationNames()) {
-					guild.addNoWarInvitation(getGuildByName(guildName));
-				}
-
-				//Ally invitations
-				for(String guildName : guild.getAllyInvitationNames()) {
-					guild.addAllyInvitation(getGuildByName(guildName));
-				}
-				guild.setAllyInvitationNames(new ArrayList<String>());
-
-				guild.setUnchanged();
+				guild.postSetUp();
 			}
 		}
 
