@@ -157,6 +157,9 @@ public class ConfigManager {
 			LoggerUtils.error("Save interval can't be shorter than 60 seconds.");
 			Config.SAVEINTERVAL.set("60s");
 		}
+
+		//Run tasks
+		plugin.getTaskManager().runTasks();
 	}
 
 	//getters

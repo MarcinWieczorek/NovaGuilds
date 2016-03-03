@@ -38,42 +38,94 @@ public class TaskManager {
 	private final Map<Task, ScheduledFuture<?>> taskRunnableMap = new HashMap<>();
 
 	public enum Task {
-		LIVEREGENERATION(RunnableLiveRegeneration.class, Config.LIVEREGENERATION_TASKINTERVAL),
-		CLEANUP(RunnableInactiveCleaner.class, Config.CLEANUP_STARTUPDELAY, Config.CLEANUP_INTERVAL),
-		HOLOGRAM_REFRESH(RunnableRefreshHolograms.class, Config.HOLOGRAPHICDISPLAYS_REFRESH),
-		AUTOSAVE(RunnableAutoSave.class, Config.SAVEINTERVAL),
-		TABLIST_REFRESH(RunnableRefreshTabList.class, Config.TABLIST_REFRESH);
+		AUTOSAVE(null, RunnableAutoSave.class, Config.SAVEINTERVAL),
+		LIVEREGENERATION(null, RunnableLiveRegeneration.class, Config.LIVEREGENERATION_TASKINTERVAL),
+		CLEANUP(Config.CLEANUP_ENABLED, RunnableInactiveCleaner.class, Config.CLEANUP_STARTUPDELAY, Config.CLEANUP_INTERVAL),
+		HOLOGRAM_REFRESH(Config.HOLOGRAPHICDISPLAYS_ENABLED, RunnableRefreshHolograms.class, Config.HOLOGRAPHICDISPLAYS_REFRESH),
+		TABLIST_REFRESH(Config.TABLIST_ENABLED, RunnableRefreshTabList.class, Config.TABLIST_REFRESH);
 
 		private final Config start;
 		private final Config interval;
-		final Class clazz;
+		private final Config condition;
+		private final Class clazz;
 
-		Task(Class<? extends Runnable> clazz, Config both) {
+		/**
+		 * Task enum constructor
+		 *
+		 * @param condition condition Config enum (boolean)
+		 * @param clazz Runnable class
+		 * @param both both time interval and start delay
+		 */
+		Task(Config condition, Class<? extends Runnable> clazz, Config both) {
 			this.clazz = clazz;
-			start = both;
-			interval = both;
+			this.start = both;
+			this.interval = both;
+			this.condition = condition;
 		}
 
-		Task(Class<? extends Runnable> clazz, Config start, Config interval) {
+		/**
+		 * Task enum constructor
+		 *
+		 * @param condition condition Config enum (boolean)
+		 * @param clazz Runnable class
+		 * @param start delay after running the task for the first time
+		 * @param interval time interval
+		 */
+		Task(Config condition, Class<? extends Runnable> clazz, Config start, Config interval) {
 			this.clazz = clazz;
 			this.start = start;
 			this.interval = interval;
+			this.condition = condition;
 		}
 
+		/**
+		 * Gets Runnable class
+		 *
+		 * @return the Class
+		 */
 		public Class getClazz() {
 			return clazz;
 		}
 
+		/**
+		 * Gets start delay
+		 *
+		 * @return seconds
+		 */
 		public long getStart() {
 			return start.getSeconds();
 		}
 
+		/**
+		 * Gets the interval
+		 *
+		 * @return seconds
+		 */
 		public long getInterval() {
 			return interval.getSeconds();
 		}
+
+		/**
+		 * Checks Task's condition
+		 *
+		 * @return boolean
+		 */
+		public boolean checkCondition() {
+			return condition == null || condition.getBoolean();
+		}
 	}
 
+	/**
+	 * Starts a task
+	 *
+	 * @param task the task
+	 */
 	public void startTask(Task task) {
+		if(isStarted(task)) {
+			LoggerUtils.info("Task " + task.name() + " has been already started");
+			return;
+		}
+
 		try {
 			Runnable taskInstance = (Runnable) task.getClazz().newInstance();
 			ScheduledFuture<?> future = worker.scheduleAtFixedRate(taskInstance, task.getStart(), task.getInterval(), TimeUnit.SECONDS);
@@ -84,7 +136,43 @@ public class TaskManager {
 		}
 	}
 
+	/**
+	 * Stops a task
+	 *
+	 * @param task the task
+	 */
 	public void stopTask(Task task) {
-		taskRunnableMap.get(task).cancel(true);
+		if(isStarted(task)) {
+			taskRunnableMap.get(task).cancel(true);
+		}
+	}
+
+	/**
+	 * Checks if a task is running
+	 *
+	 * @param task the task
+	 * @return boolean
+	 */
+	public boolean isStarted(Task task) {
+		return taskRunnableMap.containsKey(task) && !taskRunnableMap.get(task).isCancelled();
+	}
+
+	/**
+	 * Runs all task depending on the config
+	 */
+	public void runTasks() {
+
+		for(Task task : Task.values()) {
+			boolean condition = task.checkCondition();
+
+			if(condition && !isStarted(task)) {
+				startTask(task);
+				LoggerUtils.info("Task " + task.name() + " has been started");
+			}
+			else if(isStarted(task) && !condition) {
+				stopTask(task);
+				LoggerUtils.info("Task " + task.name() + " has been stopped");
+			}
+		}
 	}
 }

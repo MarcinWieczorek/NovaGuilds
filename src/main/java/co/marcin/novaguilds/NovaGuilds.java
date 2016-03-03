@@ -129,6 +129,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		inst = this;
 
 		//managers
+		taskManager = new TaskManager();
 		configManager = new ConfigManager();
 		messageManager = new MessageManager();
 
@@ -145,7 +146,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		regionManager = new RegionManager();
 		groupManager = new GroupManager();
 		rankManager = new RankManager();
-		taskManager = new TaskManager();
 
 		if(!checkDependencies()) {
 			getServer().getPluginManager().disablePlugin(this);
@@ -233,30 +233,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//Tablist/tag update
 		TagUtils.refresh();
 		TabUtils.refresh();
-
-		//save scheduler
-		taskManager.startTask(TaskManager.Task.AUTOSAVE);
-		LoggerUtils.info("Save scheduler is running");
-
-		//live regeneration task
-		taskManager.startTask(TaskManager.Task.LIVEREGENERATION);
-		LoggerUtils.info("Live regeneration task is running");
-
-		//Hologram refresh task
-		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			taskManager.startTask(TaskManager.Task.HOLOGRAM_REFRESH);
-		}
-
-		//Inactive cleaner task
-		if(Config.CLEANUP_ENABLED.getBoolean()) {
-			taskManager.startTask(TaskManager.Task.CLEANUP);
-			LoggerUtils.info("Cleanup task started.");
-		}
-
-		if(Config.TABLIST_ENABLED.getBoolean()) {
-			taskManager.startTask(TaskManager.Task.TABLIST_REFRESH);
-			LoggerUtils.info("Tablist refresh task started");
-		}
 
 		//metrics
 		setupMetrics();
