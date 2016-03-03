@@ -562,6 +562,9 @@ holographicdisplays:
 barapi:
  warprogress: "&6Gilde &a{DEFENDER} wird angegrifen!"
 
+misc:
+ pointsbelowname: "points"
+
 inventory:
  requireditems:
   name: benötigte Gegenstände

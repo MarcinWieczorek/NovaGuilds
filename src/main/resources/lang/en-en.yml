@@ -562,6 +562,9 @@ holographicdisplays:
 barapi:
  warprogress: "&6Guild &a{DEFENDER} &6is under attack!"
 
+misc:
+ pointsbelowname: "points"
+
 inventory:
  requireditems:
   name: Required Items

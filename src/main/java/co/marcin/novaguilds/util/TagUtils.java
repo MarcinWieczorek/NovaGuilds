@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagScoreboardImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Bukkit;
@@ -61,7 +62,7 @@ public final class TagUtils {
 				if(pointsObjective == null) {
 					pointsObjective = board.registerNewObjective("points", "dummy");
 					pointsObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
-					pointsObjective.setDisplayName("points");
+					pointsObjective.setDisplayName(Message.MISC_POINTSBELOWNAME.get());
 				}
 
 				Score score = pointsObjective.getScore(player);

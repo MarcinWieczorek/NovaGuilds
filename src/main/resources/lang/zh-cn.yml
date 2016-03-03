@@ -562,6 +562,9 @@ holographicdisplays:
 barapi:
  warprogress: "&6&a{DEFENDER}公会正遭受攻击！"
 
+misc:
+ pointsbelowname: "points"
+
 inventory:
  requireditems:
   name: "需要的物品"

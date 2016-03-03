@@ -562,6 +562,9 @@ holographicdisplays:
 barapi:
  warprogress: "&6Gildia &a{DEFENDER} jest atakowana!"
 
+misc:
+ pointsbelowname: "punktów"
+
 inventory:
  requireditems:
   name: Wymagane przedmioty
