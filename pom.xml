@@ -6,7 +6,7 @@
 
     <groupId>co.marcin</groupId>
     <artifactId>NovaGuilds</artifactId>
-    <version>32</version>
+    <version>33</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
