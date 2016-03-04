@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRank;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import org.bukkit.event.inventory.InventoryClickEvent;
 

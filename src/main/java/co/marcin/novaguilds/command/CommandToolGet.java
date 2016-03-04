@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,26 +18,21 @@
 
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandToolGet implements Executor {
-	private final Command command = Command.TOOL_GET;
+public class CommandToolGet extends AbstractCommandExecutor {
+	private static final Command command = Command.TOOL_GET;
 
 	public CommandToolGet() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		((Player) sender).getInventory().addItem(Config.REGION_TOOL.getItemStack());
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

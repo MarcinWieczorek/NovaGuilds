@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,32 +18,20 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
-import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandAdminHologramTeleportHere implements Executor.ReversedAdminHologram {
-	private final Command command = Command.ADMIN_HOLOGRAM_TELEPORT_HERE;
-	private NovaHologram hologram;
+public class CommandAdminHologramTeleportHere extends AbstractCommandExecutor.ReversedAdminHologram {
+	private static final Command command = Command.ADMIN_HOLOGRAM_TELEPORT_HERE;
 
 	public CommandAdminHologramTeleportHere() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		hologram.teleport(((Player) sender).getLocation());
-	}
-
-	@Override
-	public void hologram(NovaHologram hologram) {
-		this.hologram = hologram;
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

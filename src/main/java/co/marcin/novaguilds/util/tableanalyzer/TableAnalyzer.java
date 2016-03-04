@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ public class TableAnalyzer {
 	private final Map<String, String> sqlStructure = new HashMap<>();
 	private final Map<Integer, String> sqlNames = new HashMap<>();
 	private final Map<String, String> tableStructure = new HashMap<>();
-	private final List<Missmatch> missmatches = new ArrayList<>();
+	private final List<MissMatch> missMatches = new ArrayList<>();
 
 	public TableAnalyzer(Connection connection) {
 		this.connection = connection;
@@ -49,7 +49,7 @@ public class TableAnalyzer {
 			addTable(sql);
 		}
 
-		missmatches.clear();
+		missMatches.clear();
 		getSqlStructure(sql);
 		getTableStructure(table);
 
@@ -61,16 +61,16 @@ public class TableAnalyzer {
 			int newindex = tableStructure.size();
 
 			for(int i = newindex; i < sqlStructure.size(); i++) {
-				Missmatch missmatch = new Missmatch(ModificationType.ADD);
-				missmatch.setTable(table);
+				MissMatch missMatch = new MissMatch(ModificationType.ADD);
+				missMatch.setTable(table);
 				String name = sqlKeys.get(i);
 
 				if(!tableStructure.keySet().contains(name)) {
-					missmatch.setColumnName(name);
-					missmatch.setColumnType(sqlStructure.get(name));
-					missmatch.setIndex(i);
+					missMatch.setColumnName(name);
+					missMatch.setColumnType(sqlStructure.get(name));
+					missMatch.setIndex(i);
 
-					missmatches.add(missmatch);
+					missMatches.add(missMatch);
 				}
 			}
 		}
@@ -78,22 +78,22 @@ public class TableAnalyzer {
 
 	public void update() {
 		sort();
-		for(Missmatch missmatch : missmatches) {
-			LoggerUtils.debug(missmatch.getModificationType().name() + ": " + missmatch.getIndex() + " " + missmatch.getColumnName() + " " + missmatch.getColumnType());
-			switch(missmatch.getModificationType()) {
+		for(MissMatch missMatch : missMatches) {
+			LoggerUtils.debug(missMatch.getModificationType().name() + ": " + missMatch.getIndex() + " " + missMatch.getColumnName() + " " + missMatch.getColumnType());
+			switch(missMatch.getModificationType()) {
 				case ADD:
-					addColumn(missmatch);
+					addColumn(missMatch);
 					break;
 			}
 		}
 	}
 
-	private void addColumn(Missmatch missmatch) {
+	private void addColumn(MissMatch missMatch) {
 		try {
-			String sql = "ALTER TABLE `" + missmatch.getTable() + "` ADD COLUMN `" + missmatch.getColumnName() + "` " + missmatch.getColumnType() + " NOT NULL;";
+			String sql = "ALTER TABLE `" + missMatch.getTable() + "` ADD COLUMN `" + missMatch.getColumnName() + "` " + missMatch.getColumnType() + " NOT NULL;";
 			Statement statement = connection.createStatement();
 			statement.execute(sql);
-			LoggerUtils.info("Added new column " + missmatch.getColumnName() + " to table " + missmatch.getTable());
+			LoggerUtils.info("Added new column " + missMatch.getColumnName() + " to table " + missMatch.getTable());
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
@@ -112,8 +112,8 @@ public class TableAnalyzer {
 	}
 
 	private void sort() {
-		Collections.sort(missmatches, new Comparator<Missmatch>() {
-			public int compare(Missmatch o1, Missmatch o2) {
+		Collections.sort(missMatches, new Comparator<MissMatch>() {
+			public int compare(MissMatch o1, MissMatch o2) {
 				return o1.getIndex() - o2.getIndex();
 			}
 		});

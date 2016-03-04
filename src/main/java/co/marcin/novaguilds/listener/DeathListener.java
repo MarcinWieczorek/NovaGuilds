@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,29 +18,27 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.util.ChatBroadcast;
+import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import org.apache.commons.lang.StringUtils;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagChatImpl;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.TabUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeathListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public DeathListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class DeathListener extends AbstractListener {
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		if(event.getEntity().getKiller() == null) {
@@ -50,8 +48,8 @@ public class DeathListener implements Listener {
 		Player victim = event.getEntity();
 		Player attacker = event.getEntity().getKiller();
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(victim);
-		NovaPlayer nPlayerAttacker = plugin.getPlayerManager().getPlayer(attacker);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(victim);
+		NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
 
 		nPlayerAttacker.addKill();
 		nPlayer.addDeath();
@@ -67,25 +65,16 @@ public class DeathListener implements Listener {
 			}
 		}
 
-		String tag1 = "";
-		String tag2 = "";
-		String tagscheme = Config.GUILD_TAG.getString();
-		tagscheme = StringUtils.replace(tagscheme, "{RANK}", "");
+		PreparedTag preparedTag1 = new PreparedTagChatImpl(nPlayer, false);
+		PreparedTag preparedTag2 = new PreparedTagChatImpl(nPlayerAttacker, false);
 
-		if(nPlayer.hasGuild()) {
-			tag1 = StringUtils.replace(tagscheme, "{TAG}", nPlayer.getGuild().getTag());
-		}
-
-		if(nPlayerAttacker.hasGuild()) {
-			tag2 = StringUtils.replace(tagscheme, "{TAG}", nPlayerAttacker.getGuild().getTag());
-		}
-
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYER1", victim.getName());
-		vars.put("PLAYER2", attacker.getName());
-		vars.put("TAG1", tag1);
-		vars.put("TAG2", tag2);
-		Message.BROADCAST_PVP_KILLED.vars(vars).broadcast();
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYER1, victim.getName());
+		vars.put(VarKey.PLAYER2, attacker.getName());
+		ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.vars(vars).newChatBroadcast();
+		chatBroadcast.setTag(1, preparedTag1);
+		chatBroadcast.setTag(2, preparedTag2);
+		chatBroadcast.send();
 
 		//guildpoints and money
 		if(nPlayerAttacker.canGetKillPoints(victim)) {
@@ -116,13 +105,13 @@ public class DeathListener implements Listener {
 
 			//money
 			vars.clear();
-			vars.put("PLAYERNAME", victim.getName());
+			vars.put(VarKey.PLAYERNAME, victim.getName());
 			double money;
 			if(nPlayer.canGetKillPoints(attacker)) {
 				money = (Config.KILLING_MONEYFORKILL.getPercent() + bonusPercentMoney) * nPlayer.getMoney();
 
 				if(money > 0) {
-					vars.put("MONEY", String.valueOf(money));
+					vars.put(VarKey.MONEY, String.valueOf(money));
 					Message.CHAT_PLAYER_PVPMONEY_KILL.vars(vars).send(attacker);
 				}
 			}
@@ -130,7 +119,7 @@ public class DeathListener implements Listener {
 				money = (Config.KILLING_MONEYFORREVENGE.getPercent() + bonusPercentMoney) * nPlayer.getMoney();
 
 				if(money > 0) {
-					vars.put("MONEY", String.valueOf(money));
+					vars.put(VarKey.MONEY, String.valueOf(money));
 					Message.CHAT_PLAYER_PVPMONEY_REVENGE.vars(vars).send(attacker);
 				}
 			}
@@ -143,5 +132,9 @@ public class DeathListener implements Listener {
 
 		//disable death message
 		event.setDeathMessage(null);
+		TabUtils.refresh(attacker);
+		TabUtils.refresh(victim);
+		TagUtils.refresh(attacker);
+		TagUtils.refresh(victim);
 	}
 }

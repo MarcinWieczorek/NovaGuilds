@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,28 +18,32 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandGuildKick implements Executor {
-	private final Command command = Command.GUILD_KICK;
+public class CommandGuildKick extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_KICK;
 
 	public CommandGuildKick() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -58,7 +62,7 @@ public class CommandGuildKick implements Executor {
 			return;
 		}
 		
-		NovaPlayer nPlayerKick = plugin.getPlayerManager().getPlayer(args[0]);
+		NovaPlayer nPlayerKick = PlayerManager.getPlayer(args[0]);
 		
 		if(nPlayerKick == null) {
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
@@ -88,17 +92,13 @@ public class CommandGuildKick implements Executor {
 			guild.hideVaultHologram(nPlayerKick.getPlayer());
 		}
 		
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", nPlayerKick.getName());
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, nPlayerKick.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
 		
 		//tab/tag
-		TagUtils.refreshAll();
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
+		TagUtils.refresh();
+		TabUtils.refresh();
 	}
 }

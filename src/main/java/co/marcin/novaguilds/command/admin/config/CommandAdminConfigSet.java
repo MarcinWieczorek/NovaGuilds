@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,27 +18,31 @@
 
 package co.marcin.novaguilds.command.admin.config;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminConfigSet implements Executor {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CommandAdminConfigSet extends AbstractCommandExecutor {
 	private static final Command command = Command.ADMIN_CONFIG_SET;
 
 	public CommandAdminConfigSet() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(args.length != 2) {
-			command.getUsageMessage().send(sender);
-			return;
-		}
-
 		Config config = Config.fromPath(args[0]);
 
 		if(config == null) {
@@ -46,25 +50,42 @@ public class CommandAdminConfigSet implements Executor {
 			return;
 		}
 
-		String valueString = args[1];
+		String valueString = StringUtils.join(StringUtils.parseArgs(args, 1), " ");
 		Object value = valueString;
 
-		if(valueString.toLowerCase().equals("true")) {
+		if(valueString.equalsIgnoreCase("true")) {
 			value = true;
 		}
-		else if(valueString.toLowerCase().equals("false")) {
+		else if(valueString.equalsIgnoreCase("false")) {
 			value = false;
 		}
 		else if(NumberUtils.isNumeric(valueString)) {
 			value = Integer.parseInt(valueString);
 		}
+		else if(valueString.startsWith("{") && valueString.endsWith("}")) {
+			valueString = valueString.substring(1);
+			valueString = valueString.substring(0, valueString.length() - 1);
+
+			String[] split = { valueString };
+			if(org.apache.commons.lang.StringUtils.contains(valueString, ";")) {
+				split = org.apache.commons.lang.StringUtils.split(valueString, ";");
+			}
+
+			value  = new ArrayList<>(Arrays.asList(split));
+		}
+		else if(valueString.startsWith("\"") && valueString.endsWith("\"")) {
+			valueString = valueString.substring(1);
+			valueString = valueString.substring(0, valueString.length() - 1);
+			value = String.valueOf(valueString);
+		}
 
 		plugin.getConfigManager().set(config, value);
-		Message.CHAT_ADMIN_CONFIG_SET.send(sender);
-	}
+		TagUtils.refresh();
+		TabUtils.refresh();
 
-	@Override
-	public Command getCommand() {
-		return command;
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.KEY, config.name());
+		vars.put(VarKey.VALUE, valueString);
+		Message.CHAT_ADMIN_CONFIG_SET.vars(vars).send(sender);
 	}
 }

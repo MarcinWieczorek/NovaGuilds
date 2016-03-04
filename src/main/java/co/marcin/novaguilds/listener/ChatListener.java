@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,83 +18,52 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.util.ChatMessage;
+import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.TagColor;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.impl.util.ChatMessageImpl;
+import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagChatImpl;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.StringUtils;
-import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-public class ChatListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public ChatListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
+public class ChatListener extends AbstractListener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		String msg = event.getMessage();
-		
 		Player player = event.getPlayer();
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
-
-		if(!nPlayer.hasGuild()) {
-			return;
-		}
-
-		String format = event.getFormat();
-		String tag = Config.GUILD_TAG.getString();
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+		event.setCancelled(true);
 		NovaGuild guild = nPlayer.getGuild();
 
-		String rank = "";
-		if(nPlayer.isLeader()) {
-			rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
-		}
-
-		tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", nPlayer.getGuild().getTag());
-		tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
-
-		if(Permission.NOVAGUILDS_CHAT_NOTAG.has(player)) {
-			tag = "";
-		}
-		else if(Config.CHAT_DISPLAYNAMETAGS.getBoolean()) {
-			format = TagUtils.getTag(player) + format;
-		}
-
-		format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", tag);
-		event.setFormat(StringUtils.fixColors(format));
+		PreparedTag preparedTag = new PreparedTagChatImpl(nPlayer);
 
 		String prefixChatGuild = Config.CHAT_GUILD_PREFIX.getString();
 		String prefixChatAlly = Config.CHAT_ALLY_PREFIX.getString();
 
+		String msg = event.getMessage();
 		boolean isAllyPrefix = msg.startsWith(prefixChatAlly);
 		boolean isGuildPrefix = msg.startsWith(prefixChatGuild) && !isAllyPrefix;
 
 		if(!isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
 			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
-				if(!Config.CHAT_ALLY_COLORTAGS.getBoolean()) {
-					tag = StringUtils.removeColors(tag);
-				}
+				preparedTag.setLeaderPrefix(preparedTag.isLeaderPrefix() && Config.CHAT_ALLY_LEADERPREFIX.getBoolean());
 
-				if(!Config.CHAT_ALLY_LEADERPREFIX.getBoolean()) {
-					rank = "";
-				}
-
-				tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
-
+				preparedTag.setColor(TagColor.NEUTRAL);
 				String cFormat = Config.CHAT_ALLY_FORMAT.getString();
-				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", tag);
+				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", preparedTag.get());
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
 				cFormat = StringUtils.fixColors(cFormat);
 
@@ -108,19 +77,17 @@ public class ChatListener implements Listener {
 				}
 
 				for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-					if(nPlayerLoop.equals(nPlayer) || nPlayerLoop.getSpyMode() || (nPlayerLoop.hasGuild() && nPlayerLoop.getGuild().isAlly(guild))) {
+					if(nPlayerLoop.getSpyMode() || (nPlayerLoop.hasGuild() && (nPlayerLoop.getGuild().isAlly(guild) || guild.isMember(nPlayerLoop)))) {
 						nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
 					}
 				}
 
-				event.setCancelled(true);
+				return;
 			}
 		}
 		else if(isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD) { //guild chat
 			if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
-				if(!Config.CHAT_GUILD_LEADERPREFIX.getBoolean()) {
-					rank = "";
-				}
+				String rank = Config.CHAT_GUILD_LEADERPREFIX.getBoolean() ? Config.CHAT_LEADERPREFIX.getString() : "";
 
 				String cFormat = Config.CHAT_GUILD_FORMAT.getString();
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{LEADERPREFIX}", rank);
@@ -142,8 +109,21 @@ public class ChatListener implements Listener {
 					}
 				}
 
-				event.setCancelled(true);
+				return;
 			}
+		}
+
+		//Message with a tag
+		ChatMessage chatMessage = new ChatMessageImpl(player);
+		chatMessage.setTag(preparedTag);
+		chatMessage.setFormat(event.getFormat());
+		chatMessage.setMessage(event.getMessage());
+
+		for(NovaPlayer onlineNovaPlayer : plugin.getPlayerManager().getOnlinePlayers()) {
+			preparedTag.setTagColorFor(onlineNovaPlayer);
+			preparedTag.setHidden(Permission.NOVAGUILDS_CHAT_NOTAG.has(player));
+
+			chatMessage.send(onlineNovaPlayer);
 		}
 	}
 
@@ -156,9 +136,9 @@ public class ChatListener implements Listener {
 			cmd = split[0];
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
 		if(!nPlayer.getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
-			NovaRegion region = plugin.getRegionManager().getRegion(event.getPlayer().getLocation());
+			NovaRegion region = RegionManager.get(event.getPlayer());
 
 			if(region != null) {
 				if(nPlayer.hasGuild()) {

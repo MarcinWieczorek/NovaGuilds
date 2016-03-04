@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,27 +18,23 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_BANK_PAY;
+public class CommandAdminGuildBankPay extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_BANK_PAY;
 
 	public CommandAdminGuildBankPay() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
@@ -48,14 +44,14 @@ public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
 			return;
 		}
 
-		String money_str = args[0];
+		String moneyString = args[0];
 
-		if(!NumberUtils.isNumeric(money_str)) {
+		if(!NumberUtils.isNumeric(moneyString)) {
 			Message.CHAT_ENTERINTEGER.send(sender);
 			return;
 		}
 
-		double money = Double.parseDouble(money_str);
+		double money = Double.parseDouble(moneyString);
 
 		if(money < 0) {
 			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
@@ -65,15 +61,11 @@ public class CommandAdminGuildBankPay implements Executor.ReversedAdminGuild {
 		money = NumberUtils.roundOffTo2DecPlaces(money);
 
 		guild.addMoney(money);
+		TabUtils.refresh(guild);
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("MONEY", money_str);
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.MONEY, moneyString);
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.CHAT_ADMIN_GUILD_BANK_PAID.vars(vars).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

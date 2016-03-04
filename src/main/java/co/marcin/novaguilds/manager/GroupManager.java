@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,7 +19,8 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGroup;
+import co.marcin.novaguilds.api.basic.NovaGroup;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,11 +44,12 @@ public class GroupManager {
 		groupsNames.add("admin");
 
 		for(String groupName : groupsNames) {
-			groups.put(groupName, new NovaGroup(plugin, groupName));
+			groups.put(groupName, new NovaGroupImpl(plugin, groupName));
 		}
 	}
 
-	public NovaGroup getGroup(Player player) {
+	public static NovaGroup getGroup(Player player) {
+		Map<String, NovaGroup> groups = plugin.getGroupManager().getGroups();
 		String groupName = "default";
 
 		if(player == null) {
@@ -68,7 +70,7 @@ public class GroupManager {
 		return getGroup(groupName);
 	}
 
-	public NovaGroup getGroup(CommandSender sender) {
+	public static NovaGroup getGroup(CommandSender sender) {
 		if(sender instanceof Player) {
 			return getGroup((Player) sender);
 		}
@@ -77,10 +79,16 @@ public class GroupManager {
 		}
 	}
 
-	public NovaGroup getGroup(String groupName) {
+	public static NovaGroup getGroup(String groupName) {
+		Map<String, NovaGroup> groups = plugin.getGroupManager().getGroups();
+
 		if(groups.containsKey(groupName)) {
 			return groups.get(groupName);
 		}
 		return null;
+	}
+
+	public Map<String, NovaGroup> getGroups() {
+		return groups;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,14 +18,16 @@
 
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.basic.NovaGroup;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.Tablist;
+import co.marcin.novaguilds.api.basic.NovaGroup;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,13 +36,14 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandNovaGuilds implements CommandExecutor, Executor {
-	private final Command command = Command.NOVAGUILDS;
+public class CommandNovaGuilds extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.NOVAGUILDS;
 
 	public CommandNovaGuilds() {
-		plugin.getCommandManager().registerExecutor(Command.NOVAGUILDS, this);
+		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
@@ -56,7 +59,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 					Message.CHAT_PREFIX.get() + "NovaGuilds 公会插件信息",
 					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent + " &4(&e" + commit + "&4)",
 					"&2作者: &6Marcin (CTRL) Wieczorek",
-					"&22015 &4波&f兰",
+					"&22016 &4波&f兰",
 					"&6网址: &bhttp://novaguilds.pl/",
 					"&2最新插件构建: &6#&c" + VersionUtils.buildLatest
 			});
@@ -65,7 +68,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 					Message.CHAT_PREFIX.get() + "NovaGuilds Information",
 					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent + " &4(&e" + commit + "&4)",
 					"&2Author: &6Marcin (CTRL) Wieczorek",
-					"&22015 &4Pol&fand",
+					"&22016 &4Pol&fand",
 					"&bhttp://novaguilds.pl/",
 					"&2Latest plugin build: &6#&c" + VersionUtils.buildLatest
 			});
@@ -74,7 +77,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 					Message.CHAT_PREFIX.get() + "NovaGuilds Informacje",
 					"&2NovaGuilds &6#&c" + VersionUtils.buildCurrent + " &4(&e" + commit + "&4)",
 					"&2Autor: &6Marcin (CTRL) Wieczorek",
-					"&22015 &4Pol&fska",
+					"&22016 &4Pol&fska",
 					"&bhttp://novaguilds.pl/",
 					"&2Najnowsza wersja pluginu: &6#&c" + VersionUtils.buildLatest
 			});
@@ -99,7 +102,7 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				}
 
 				if(sender instanceof Player) {
-					NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+					NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 					if(nPlayer.hasGuild()) {
 						((Player) sender).getInventory().addItem(Config.VAULT_ITEM.getItemStack());
 					}
@@ -109,10 +112,10 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				Command.ADMIN_ACCESS.execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "group":
-				NovaGroup group = plugin.getGroupManager().getGroup(sender);
+				NovaGroup group = GroupManager.getGroup(sender);
 
 				if(args.length > 1) {
-					group = plugin.getGroupManager().getGroup(args[1]);
+					group = GroupManager.getGroup(args[1]);
 					if(group == null) {
 						sender.sendMessage("Invalid group");
 						return;
@@ -137,20 +140,11 @@ public class CommandNovaGuilds implements CommandExecutor, Executor {
 				Command.GUILD_ACCESS.execute(sender, StringUtils.parseArgs(args, 1));
 				break;
 			case "tr":
-				Tablist.patch();
-
-				for(Player player : plugin.getServer().getOnlinePlayers()) {
-					NovaPlayer.get(player).getTablist().send();
-				}
+				TabUtils.refresh();
 				break;
 			default:
 				Message.CHAT_UNKNOWNCMD.send(sender);
 				break;
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

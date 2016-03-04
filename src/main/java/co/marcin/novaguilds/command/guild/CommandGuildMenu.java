@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,20 +18,22 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildMenu;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CommandGuildMenu implements CommandExecutor, Executor {
-	private final Command command = Command.GUILD_MENU;
+public class CommandGuildMenu extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.GUILD_MENU;
 
 	public CommandGuildMenu() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
@@ -39,12 +41,7 @@ public class CommandGuildMenu implements CommandExecutor, Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = NovaPlayer.get(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		new GUIInventoryGuildMenu(nPlayer).open(nPlayer);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

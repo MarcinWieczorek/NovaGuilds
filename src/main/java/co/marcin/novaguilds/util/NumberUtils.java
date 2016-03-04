@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -21,14 +21,6 @@ package co.marcin.novaguilds.util;
 import java.util.Random;
 
 public final class NumberUtils {
-	public static int negativeIsPlusOne(int i) {
-		return i < 0 ? i + 1 : i;
-	}
-
-	public static double negativeIsPlusOne(double i) {
-		return i < 0 ? i + 1 : i;
-	}
-
 	public static boolean isNumeric(String str) {
 		return str.matches("[+-]?\\d*(\\.\\d+)?");
 	}

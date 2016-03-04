@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,31 +18,30 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRaid;
-import co.marcin.novaguilds.basic.Tablist;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.impl.basic.tablist.TabList1_8NorthTabImpl;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
-import co.marcin.novaguilds.util.reflect.PacketExtension;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import protocolsupport.api.ProtocolSupportAPI;
+import protocolsupport.api.ProtocolVersion;
 
-public class LoginListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public LoginListener(NovaGuilds plugin) {
-		this.plugin = plugin;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class LoginListener extends AbstractListener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
@@ -51,10 +50,9 @@ public class LoginListener implements Listener {
 		//adding player
 		plugin.getPlayerManager().addIfNotExists(player);
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		nPlayer.setPlayer(player);
-		plugin.getPlayerManager().updateUUID(nPlayer);
 
 		//Send version message if there's an update
 		if(VersionUtils.updateAvailable && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
@@ -66,7 +64,7 @@ public class LoginListener implements Listener {
 			nPlayer.getGuild().showVaultHologram(player);
 		}
 
-		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
+		if(RegionManager.get(player) != null) {
 			plugin.getRegionManager().playerEnteredRegion(player, player.getLocation());
 		}
 
@@ -76,24 +74,50 @@ public class LoginListener implements Listener {
 				player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			}
 
-			TagUtils.updatePrefix(player);
+			TagUtils.refresh(player);
 		}
 
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
-			Tablist.patch();
-			nPlayer.getTablist().send();
+			TabList tabList;
+
+			//ProtocolSupport
+			if(plugin.isProtocolSupportEnabled()) {
+				ProtocolVersion protocolVersion = ProtocolSupportAPI.getProtocolVersion(player);
+				switch(protocolVersion) {
+					case MINECRAFT_1_8:
+						LoggerUtils.debug("Detected 1.8: " + player.getName());
+						tabList = new TabList1_8NorthTabImpl(nPlayer);
+						break;
+					default:
+						LoggerUtils.debug("Detected " + protocolVersion.name() + ": " + player.getName());
+						tabList = null;
+						break;
+				}
+			}
+			else {
+				if(ConfigManager.isBukkit18()) {
+					tabList = new TabList1_8NorthTabImpl(nPlayer);
+				}
+				else {
+					tabList = null;
+				}
+			}
+
+			nPlayer.setTabList(tabList);
+
+			TabUtils.refresh();
 		}
 
 		//PacketExtension
 		if(Config.PACKETS_ENABLED.getBoolean()) {
-			PacketExtension.registerPlayer(player);
+			plugin.getPacketExtension().registerPlayer(player);
 		}
 	}
 	
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(event.getPlayer());
+		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
 		nPlayer.setPlayer(null);
 
 		//remove player from raid

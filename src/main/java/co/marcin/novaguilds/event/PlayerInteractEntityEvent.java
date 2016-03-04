@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ import org.bukkit.event.player.PlayerEvent;
 
 public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
-	protected Entity clickedEntity;
-	private EntityUseAction action;
+	protected final Entity clickedEntity;
+	private final EntityUseAction action;
 	private boolean cancelled = false;
 
 	public PlayerInteractEntityEvent(final Player who, final Entity clickedEntity, EntityUseAction action) {

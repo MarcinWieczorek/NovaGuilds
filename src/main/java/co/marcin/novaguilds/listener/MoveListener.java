@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,25 +18,19 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-public class MoveListener implements Listener {
-	private final NovaGuilds plugin;
-
-	public MoveListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class MoveListener extends AbstractListener {
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) {
 		execute(event);
@@ -49,17 +43,17 @@ public class MoveListener implements Listener {
 
 	@EventHandler
 	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
-		NovaPlayer.get(event.getPlayer()).cancelToolProgress();
+		PlayerManager.getPlayer(event.getPlayer()).cancelToolProgress();
 	}
 
 	private void execute(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		Location from = event.getFrom();
 		Location to = event.getTo();
 
-		NovaRegion fromRegion = plugin.getRegionManager().getRegion(from);
-		NovaRegion toRegion = plugin.getRegionManager().getRegion(to);
+		NovaRegion fromRegion = RegionManager.get(from);
+		NovaRegion toRegion = RegionManager.get(to);
 
 		//entering
 		if((fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) || (fromRegion != null && toRegion != null && !fromRegion.equals(toRegion))) {

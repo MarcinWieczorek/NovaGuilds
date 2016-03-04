@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,19 +19,20 @@
 package co.marcin.novaguilds.util.guiinventory;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRank;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.GUIInventory;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.NovaRankImpl;
+import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -39,16 +40,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GUIInventoryGuildRankList implements GUIInventory {
-	private final Inventory inventory;
+public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 	private final NovaGuild guild;
-	protected Map<Integer, NovaRank> slotRanksMap = new HashMap<>();
+	protected final Map<Integer, NovaRank> slotRanksMap = new HashMap<>();
 	protected ItemStack addRankItem;
-	private NovaPlayer viewer;
 
 	public GUIInventoryGuildRankList(NovaGuild guild) {
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE);
 		this.guild = guild;
-		inventory = Bukkit.createInventory(null, ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE.get());
 	}
 
 	@Override
@@ -57,7 +56,6 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 		slotRanksMap.clear();
 
 		int slot = 0;
-		Map<String, String> vars = new HashMap<>();
 		List<NovaRank> ranks = new ArrayList<>();
 		ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
 		ranks.addAll(guild.getRanks());
@@ -69,9 +67,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 				continue;
 			}
 
-			vars.clear();
-			vars.put("RANKNAME", StringUtils.replace(rank.getName(), " ", "_"));
-			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANKS_ROWITEM.vars(vars).get());
+			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).get());
 
 			inventory.setItem(slot, itemStack);
 			slotRanksMap.put(slot, rank);
@@ -84,7 +80,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 
 	@Override
 	public void onClick(InventoryClickEvent event) {
-		NovaPlayer nPlayer = NovaPlayer.get(event.getWhoClicked());
+		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getWhoClicked());
 
 		if(!nPlayer.hasPermission(GuildPermission.RANK_EDIT)) {
 			return;
@@ -100,7 +96,7 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 				}
 			}
 
-			NovaRank rank = new NovaRank(rankName);
+			NovaRank rank = new NovaRankImpl(rankName);
 			guild.addRank(rank);
 			generateContent();
 			ChestGUIUtils.addBackItem(this);
@@ -114,31 +110,6 @@ public class GUIInventoryGuildRankList implements GUIInventory {
 				guiInventory.open(nPlayer);
 			}
 		}
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void open(NovaPlayer nPlayer) {
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
-	}
-
-	@Override
-	public NovaPlayer getViewer() {
-		return viewer;
-	}
-
-	@Override
-	public void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
-
-	@Override
-	public void close() {
-		getViewer().getPlayer().closeInventory();
 	}
 
 	public NovaGuild getGuild() {

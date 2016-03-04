@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -100,15 +100,15 @@ public final class IOUtils {
 	}
 
 	public static String toString(InputStream in, String encoding) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		byte[] buf = new byte[8192];
 		int len;
 
 		while((len = in.read(buf)) != -1) {
-			baos.write(buf, 0, len);
+			byteArrayOutputStream.write(buf, 0, len);
 		}
 
-		return new String(baos.toByteArray(), encoding);
+		return new String(byteArrayOutputStream.toByteArray(), encoding);
 	}
 
 	public static String read(File file) {

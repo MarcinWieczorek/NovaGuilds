@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,88 +18,59 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.GUIInventory;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GUIInventoryGuildPlayerSettings implements GUIInventory {
-	private final Inventory inventory;
+public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 	private final NovaPlayer nPlayer;
-	private NovaPlayer viewer;
 	private ItemStack kickItem;
 	private ItemStack rankItem;
 
 	public GUIInventoryGuildPlayerSettings(NovaPlayer nPlayer) {
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.setVar(VarKey.PLAYERNAME, nPlayer.getName()));
 		this.nPlayer = nPlayer;
-
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", nPlayer.getName());
-		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.vars(vars));
 	}
 
 	@Override
 	public void onClick(InventoryClickEvent event) {
 		if(event.getCurrentItem().equals(rankItem)) {
-			if(NovaPlayer.get(event.getWhoClicked()).hasPermission(GuildPermission.RANK_SET)) {
-				new GUIInventoryGuildPlayerSettingsRank(nPlayer).open(viewer);
+			if(PlayerManager.getPlayer(event.getWhoClicked()).hasPermission(GuildPermission.RANK_SET)) {
+				new GUIInventoryGuildPlayerSettingsRank(nPlayer).open(getViewer());
 			}
 		}
 		else if(event.getCurrentItem().equals(kickItem)) {
-			viewer.getPlayer().performCommand("g kick " + nPlayer.getName());
+			getViewer().getPlayer().performCommand("g kick " + nPlayer.getName());
 		}
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void open(NovaPlayer nPlayer) {
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
 	}
 
 	@Override
 	public void generateContent() {
 		inventory.clear();
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("RANKNAME", nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.RANKNAME, nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
 
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();
 
-		if(kickItem != null && (!nPlayer.equals(viewer) || Config.DEBUG.getBoolean())) {
+		if(kickItem != null && (!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean())) {
 			inventory.addItem(kickItem);
 		}
 
-		if(rankItem != null && (!nPlayer.equals(viewer) || Config.DEBUG.getBoolean())) {
+		if(rankItem != null && (!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean())) {
 			inventory.addItem(rankItem);
 		}
-	}
-
-	@Override
-	public NovaPlayer getViewer() {
-		return viewer;
-	}
-
-	@Override
-	public void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
-
-	@Override
-	public void close() {
-		getViewer().getPlayer().closeInventory();
 	}
 }

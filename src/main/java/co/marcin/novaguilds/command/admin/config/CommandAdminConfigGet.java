@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,9 +18,10 @@
 
 package co.marcin.novaguilds.command.admin.config;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,11 +29,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminConfigGet implements Executor {
+public class CommandAdminConfigGet extends AbstractCommandExecutor {
 	private static final Command command = Command.ADMIN_CONFIG_GET;
 
 	public CommandAdminConfigGet() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -44,7 +45,7 @@ public class CommandAdminConfigGet implements Executor {
 
 		String path = args[0];
 		String value = "";
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 		FileConfiguration config = plugin.getConfigManager().getConfig();
 
 		if(!config.contains(path)) {
@@ -56,8 +57,8 @@ public class CommandAdminConfigGet implements Executor {
 			int depth = 1;
 			String lastSection = null;
 
-			vars.put("DEPTH", "");
-			vars.put("KEY", path);
+			vars.put(VarKey.DEPTH, "");
+			vars.put(VarKey.KEY, path);
 			Message.CHAT_ADMIN_CONFIG_GET_LIST_SECTION.vars(vars).send(sender);
 
 			for(String string : config.getConfigurationSection(path).getKeys(true)) {
@@ -73,17 +74,17 @@ public class CommandAdminConfigGet implements Executor {
 				for(int i=0;i<depth;i++) {
 					space += " ";
 				}
-				vars.put("DEPTH", space);
+				vars.put(VarKey.DEPTH, space);
 
 				if(config.isConfigurationSection(path + "." + string)) {
 					depth++;
 					lastSection = string;
 
-					vars.put("KEY", prefixSplit[prefixSplit.length - 1]);
+					vars.put(VarKey.KEY, prefixSplit[prefixSplit.length - 1]);
 					Message.CHAT_ADMIN_CONFIG_GET_LIST_SECTION.vars(vars).send(sender);
 				}
 				else { //key
-					vars.put("KEY", StringUtils.removeStart(string, prefix + "."));
+					vars.put(VarKey.KEY, StringUtils.removeStart(string, prefix + "."));
 					Message.CHAT_ADMIN_CONFIG_GET_LIST_KEY.vars(vars).send(sender);
 				}
 			}
@@ -97,16 +98,11 @@ public class CommandAdminConfigGet implements Executor {
 			}
 		}
 
-		vars.put("KEY", path);
-		vars.put("VALUE", value);
+		vars.put(VarKey.KEY, path);
+		vars.put(VarKey.VALUE, value);
 
 		if(!value.isEmpty()) {
 			Message.CHAT_ADMIN_CONFIG_GET_SINGLE.vars(vars).send(sender);
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

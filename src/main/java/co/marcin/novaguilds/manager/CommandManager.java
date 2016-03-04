@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,10 +19,11 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaHologram;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.CommandExecutor;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaHologram;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.CommandConfirm;
 import co.marcin.novaguilds.command.CommandNovaGuilds;
 import co.marcin.novaguilds.command.CommandPlayerInfo;
@@ -46,6 +47,7 @@ import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildInvite;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildKick;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildList;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildPurge;
+import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildResetPoints;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildSetLeader;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildSetLiveRegenerationTime;
 import co.marcin.novaguilds.command.admin.guild.CommandAdminGuildSetLives;
@@ -99,11 +101,9 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
@@ -119,7 +119,7 @@ public class CommandManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, String> aliases = new HashMap<>();
 	private final Map<ItemStack, String> guiCommands = new HashMap<>();
-	private final Map<Command, Executor> executors = new HashMap<>();
+	private final Map<Command, CommandExecutor> executors = new HashMap<>();
 	private ItemStack topItem;
 
 	public CommandManager() {
@@ -206,7 +206,7 @@ public class CommandManager {
 		new CommandAdminRegionTeleport();
 		new CommandAdminRegionBypass();
 
-		//AdminGuilds
+		//AdminGuild
 		new CommandAdminGuild();
 		new CommandAdminGuildList();
 		new CommandAdminGuildAbandon();
@@ -225,6 +225,7 @@ public class CommandManager {
 		new CommandAdminGuildSetTag();
 		new CommandAdminGuildSetTimerest();
 		new CommandAdminGuildTeleport();
+		new CommandAdminGuildResetPoints();
 
 		//AdminHologram
 		new CommandAdminHologram();
@@ -258,7 +259,7 @@ public class CommandManager {
 		ConfigurationSection sectionGUI = plugin.getConfig().getConfigurationSection("gguicmd");
 
 		for(String key : sectionGUI.getKeys(false)) {
-			String gcmd = key.replaceAll("_", " ");
+			String guiCommand = key.replaceAll("_", " ");
 			ItemStack is = ItemStackUtils.stringToItemStack(sectionGUI.getString(key));
 
 			if(is != null) {
@@ -266,23 +267,23 @@ public class CommandManager {
 					topItem = is;
 				}
 				else {
-					guiCommands.put(is, gcmd);
+					guiCommands.put(is, guiCommand);
 				}
 			}
 		}
 	}
 
-	public void registerExecutor(Command command, Executor executor) {
+	public void registerExecutor(Command command, CommandExecutor executor) {
 		if(!executors.containsKey(command)) {
 			executors.put(command, executor);
 
 			if(command.hasGenericCommand()) {
-				if(!(executor instanceof CommandExecutor)) {
+				if(!(executor instanceof org.bukkit.command.CommandExecutor)) {
 					throw new IllegalArgumentException("An executor has to implement CommandExecutor to allow having generic command.");
 				}
 
 				PluginCommand genericCommand = plugin.getCommand(command.getGenericCommand());
-				genericCommand.setExecutor((CommandExecutor) executor);
+				genericCommand.setExecutor((org.bukkit.command.CommandExecutor) executor);
 
 				if(command.hasTabCompleter()) {
 					genericCommand.setTabCompleter(command.getTabCompleter());
@@ -292,7 +293,7 @@ public class CommandManager {
 	}
 
 	public void execute(Command command, CommandSender sender, String[] args) {
-		Executor executor = getExecutor(command);
+		CommandExecutor executor = getExecutor(command);
 
 		if(!command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
@@ -304,28 +305,28 @@ public class CommandManager {
 			return;
 		}
 
-		NovaPlayer nPlayer = NovaPlayer.get(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if((sender instanceof Player) && (command.isNeedConfirm() && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED))) {
 			nPlayer.newCommandExecutorHandler(command, args);
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}
 		else {
-			if(executor instanceof Executor.ReversedAdminGuild) {
-				((Executor.ReversedAdminGuild) executor).guild((NovaGuild) command.getExecutorVariable());
+			if(executor instanceof CommandExecutor.ReversedAdminGuild) {
+				((CommandExecutor.ReversedAdminGuild) executor).guild((NovaGuild) command.getExecutorVariable());
 			}
-			else if(executor instanceof Executor.ReversedAdminRegion) {
-				((Executor.ReversedAdminRegion) executor).region((NovaRegion) command.getExecutorVariable());
+			else if(executor instanceof CommandExecutor.ReversedAdminRegion) {
+				((CommandExecutor.ReversedAdminRegion) executor).region((NovaRegion) command.getExecutorVariable());
 			}
-			else if(executor instanceof Executor.ReversedAdminHologram) {
-				((Executor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
+			else if(executor instanceof CommandExecutor.ReversedAdminHologram) {
+				((CommandExecutor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
 			}
 
 			executor.execute(sender, args);
 		}
 	}
 
-	public Executor getExecutor(Command command) {
+	public CommandExecutor getExecutor(Command command) {
 		return executors.get(command);
 	}
 }

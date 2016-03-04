@@ -1,34 +1,43 @@
-# =-=-=-=-=-=-=-=-=-=-=-=-=#
-# NovaGuilds Configuration #
-#                          #
-#         Support          #
-#   http://novaguilds.pl   #
-#                          #
-# =-=-=-=-=-=-=-=-=-=-=-=-=#
-#      Time format:        #
-#     1y 1d 1h 1m 1s       #
-#           =              #
-#  One year, one day, one  #
-#     hour, one minute     #
-#     and one second       #
-# =-=-=-=-=-=-=-=-=-=-=-=-=#
+           ############################
+           # NovaGuilds Configuration #
+           #                          #
+           #         Support          #
+           #   http://novaguilds.pl   #
+           #                          #
+           ############################
+           #      Time format:        #
+           #     1y 1d 1h 1m 1s       #
+           #           =              #
+           #  One year, one day, one  #
+           #     hour, one minute     #
+           #     and one second       #
+           ############################
 
-#Data storage type
-# mysql - MySQL database
-# sqlite - Local database
-# flat - file based
+###################################################
+# Data storage type                               #
+# mysql - MySQL database                          #
+# sqlite - Local database                         #
+# flat - file based                               #
 datastorage:
  primary: mysql
  secondary: flat
-mysql:
- host:
- port: 3306
- database:
- username:
- password:
- prefix: novaguilds_
 
+###################################################
+# MySQL settings                                  #
+mysql:
+ host: ""
+ port: 3306
+ database: ""
+ username: ""
+ password: ""
+ prefix: "novaguilds_"
+
+###################################################
+# Debug mode                                      #
 debug: false
+
+###################################################
+# Delete invalid guilds/players/regions etc.      #
 deleteinvalid: false
 
 # =-=-= # =-=-=-= #
@@ -41,54 +50,76 @@ deleteinvalid: false
 # =-=-= # =-=-=-= #
 lang:
  name: en-en
- #Use Essentials' locale by default
+
+###################################################
+# Override Essentials' language settings          #
+# true  - use language set above                  #
+# false - use Essentials' language                #
  overrideessentials: false
 
+###################################################
+# Use 1.8 titles                                  #
 usetitles: false
 
 barapi:
  enabled: true
  raidbar: true
 
-tabapi:
- colortags: true
- rankprefix: false
-
 tagapi:
  enabled: true
- colortags: true
- rankprefix: false
- allycolor:
-  enabled: true
-  color: "&5"
- guildcolor:
-  enabled: true
-  color: "&a"
- warcolor:
-  enabled: true
-  color: "&c"
 
+###################################################
+# Points below player's name                      #
+pointsbelowname: true
+
+###################################################
+# HolographicDisplays settings                    #
 holographicdisplays:
+
+# enabled or not                                  #
  enabled: true
+
+# Refreshing holograms                            #
  refresh: 15m
 
+###################################################
+# That's some Cauldron magic (mod support etc)    #
 packets:
  enabled: false
 
-#Save interval
+###################################################
+# Save interval                                   #
 saveinterval: 30m
 
-#after the raid is over and this time the guild will get +1 live
+###################################################
+# after the raid is over and this time            #
+# the guild will get +1 live                      #
 liveregeneration:
+
+# live regeneration time                          #
  regentime: 48h
+
+# checking for new lives - interval               #
  taskinterval: 30m
 
+###################################################
+# Guilds cleanup                                  #
 cleanup:
+
+# enabled or not                                  #
  enabled: true
+
+# time after which a guild is removed             #
  inactivetime: 7d
+
+# checking interval                               #
  interval: 1d
+
+# checking delay after startup                    #
  startupdelay: 30s
 
+###################################################
+# Command aliases                                 #
 aliases:
  guild:
   - g
@@ -104,101 +135,181 @@ aliases:
  leave:
   - opusc
 
+###################################################
+# Guild menu items                                #
 gguicmd:
  g_home: ENDER_PEARL 1 name:Home
  TOP: Sign 1
 
+###################################################
+# Chat settings                                   #
 chat:
+
+# tag pattern                                     #
+ tag:
+  chat: "&7[&a{RANK}&{COLOR}{TAG}&7] &r"
+  scoreboard: "&a{RANK}&{COLOR}{TAG} &r"
+
+# leader prefix character                         #
+ leaderprefix: "*"
+
+# displaying tags using Essentials (or whatever)  #
+# or just tag+name                                #
+# false requires adding {TAG} to chat format      #
+# in Essentials' config!                          #
  displaynametags: false
+
+# /confirm timeout
  confirmtimeout: 20s
+
+# tag colors depending on ally/war etc            #
+ tagcolors:
+  neutral: "a"
+  ally: "5"
+  war: "c"
+  guild: "b"
+
+# ally chat settings
  ally:
   prefix: "!!"
   enabled: true
-  colortags: true
   leaderprefix: true
   format: "&6[&5Ally&6] &a{TAG}&8{PLAYERNAME}&6:&r "
-  msgprefix: "&6"
+
+# guild chat settings
  guild:
   prefix: "!"
   enabled: true
   leaderprefix: true
   format: "&6[&7Guild&6] &a{LEADERPREFIX}&8{PLAYERNAME}&6:&r "
-  msgprefix: "&6"
 
+###################################################
+# Raid settings                                   #
 raid:
  enabled: true
+
+# minimum players online to start a raid          #
  minonline: 1
+
+# how many points tare being taken when defeated  #
  pointstake: 100
- #progress of raid every second (1.00 = 100s to take life)
+
+# progress of raid every second                   #
+# (1.00 = 100s to take life)                      #
  multipler: 1.00
 
- #time guild has to rest in seconds (24h)
+# time guild has to rest in seconds (24h)         #
  timerest: 24h
 
- #Inactive time after which the raid is over. seconds.
+# inactive time after which the raid is over      #
  timeinactive: 30s
 
- #+5% points/money for pvp kill during raid
+# +5% points/money for pvp kill during raid       #
  pvp:
   bonuspercent:
    money: 5
    points: 5
 
+###################################################
+# PVP settings                                    #
 killing:
+
+# percent of victim's money                       #
  moneyforkill: 5
  moneyforrevenge: 10
+
+# That's probably some mysterious math.           #
+# play with it                                    #
  rankpercent: 1
+
+# starting amount of points                       #
  startpoints: 1000
+
+# cooldown until points/money can be gained again #
  cooldown: 10m
 
+###################################################
+# Guild settings                                  #
 guild:
+
+# disabled worlds                                 #
  disabledworlds:
   - world_nether
   - world_the_end
 
- #New guilds protection
+# new guilds protection                           #
  createprotection: 24h
 
- tag: "&a{RANK}{TAG} &r"
+# home floor (3x3 floor under home)               #
  homefloor:
   enabled: true
   material: obsidian
+
+# starting points                                 #
  startpoints: 1000
+
+# starting money                                  #
  startmoney: 0
+
+# starting lives                                  #
  startlives: 2
 
+# slots amount; start and maximum amount          #
  slots:
   start: 10
   max: 50
 
- #distance from spawn
+# minimal distance from spawn                     #
  fromspawn: 100
+
+# allowed strings                                 #
  stringcheck:
+# checking enabled                                #
   enabled: true
+
+# use regex or allowed characters                 #
   regex: false
+
+# allowed characters patter                       #
   pattern: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&"
+
+# regex pattern                                   #
   regexpattern: "[A-Za-z0-9&]*"
+
+# settings for tag and name strings               #
  settings:
+
   tag:
-   #colored tags
+# allow colored tags                              #
    color: true
-   #length
+
+# length                                          #
    min: 2
    max: 6
+
   name:
+# length                                          #
    min: 4
    max: 10
 
+# guild points taken and given on death           #
  killpoints: 5
  deathpoints: 5
 
- #/g effect
+# /g effect                                       #
  effect:
+
+# duration of the effect                          #
   duration: 2000
+
+# available effects                               #
   list:
    - JUMP
    - INCREASE_DAMAGE
    - HEAL
+
+# default guild ranks                             #
+# leader rank is generated by the plugin          #
  defaultranks:
   member:
    - BLOCK_BREAK
@@ -230,90 +341,260 @@ guild:
    - BUYSLOT
    - BUYLIFE
 
-#permissions: novaguilds.group.GROUP
-#there's no need for admin group. novaguilds.group.admin for all stuff free
+###################################################
+# Groups                                          #
+# permissions: novaguilds.group.GROUP             #
+# eg: novaguilds.group.vip                        #
+# there's no need for admin group.                #
+# novaguilds.group.admin for all stuff free       #
 groups:
- default: #this is default
+# THIS IS A DEFAULT GROUP! #
+
+# the name goes here                              #
+ default:
   guild:
+# teleporting to guild's home                     #
    home:
+
+# teleport delay                                  #
     tpdelay: 5
+
+# money required                                  #
     money: 0
+
+# items required                                  #
     items: []
+
+# join a guild                                    #
    join:
     money: 0
     items: []
+
+# creating a guild                                #
    create:
     money: 0
     items:
      - dirt 1
+
+# buying a life                                   #
    buylife:
     money: 10
     items:
      - GOLD_BLOCK 1
+
+# buying a slot                                   #
    buyslot:
     money: 10
     items:
      - GOLD_BLOCK 1
+
+# buying an effect                                #
    effect:
     money: 100
     items: []
 
   region:
-   #size (radius) of auto created region (5 = 10x10)
+# size (radius) of auto created region (5=10x10)  #
    autoregionsize: 5
-   #create price
+# create price                                    #
    createmoney: 100
-   #price per block
+# price per block                                 #
    ppb: 1
 
+###################################################
+# Guild's vault                                   #
 vault:
  enabled: true
+
+# vault item #
  item: CHEST 1 name:&6Guild's_Vault
+
+# deny placing items from the list next           #
+# to the vault                                    #
  denyrelative:
   - HOPPER
+
+# vault hologram #
  hologram:
   enabled: true
+
+# Adding item holograms:                          #
+# [ITEM]NAMEORID AMOUNT                           #
   lines:
    - "[ITEM]GOLD_INGOT 1"
    - "&6Guild's Vault"
 
+###################################################
+# The Tablist                                     #
+# It is available only for 1.8 versions           #
+# and requires NorthTab plugin as a dependency    #
+# That plugin can be found in local               #
+# or remote maven repositories.                   #
+# http://repo.novaguilds.pl/tk/northpl/NorthTab/1.1-INDEV/NorthTab-1.1-INDEV.jar
+# It can be also found in                         #
+# ~/.m2/repository/tk/northpl/NorthTab/           #
+# if you've compiled the plugin yourself          #
+# All vars and info is available on the website   #
+# which is given on the top                       #
+#                                                 #
+# Players top:                                    #
+# By points: {PLAYER_TOP_POINTS_Nx}               #
+# By KDR (kills/deaths): {PLAYER_TOP_KDR_Nx}      #
+# Replace 'x' with numbers 1-20 and place lines   #
+# in the scheme. The plugin will do the rest      #
 tablist:
+# enabled?                                        #
  enabled: false
- scheme:
-  - "{PLAYER}"
-  - "{GUILD}"
-  - "{TAG}"
-  - "{ONLINE}/{MAX}"
-  - "{BALANCE}$"
 
+# refresh interval                                #
+ refresh: 30s
+
+# top patterns                                    #
+ toprow:
+  players:
+   points: "&6[&2{N}&6] &a{PLAYERNAME} &c{POINTS}"
+   kdr: "&6[&2{N}&6] &a{PLAYERNAME} &c{KDR}"
+  guilds: "&6[&2{N}&6] &a{GUILDNAME} &c{POINTS}"
+ scheme:
+  - "{PLAYER_NAME}"
+  - "Money: &2{PLAYER_BALANCE}$"
+  - "Kills: {PLAYER_KILLS}"
+  - "Deaths: {PLAYER_DEATHS}"
+  - "KDR: {PLAYER_KDR}"
+  - "ChatMode: {PLAYER_CHATMODE}"
+  - "SpyMode: {PLAYER_SPYMODE}"
+  - "Bypass: {PLAYER_BYPASS}"
+  - ""
+  - "{SERVER_ONLINE}/{SERVER_MAX}"
+  - "{WORLD_NAME}"
+  - "{WORLD_SPAWN}"
+  - ""
+  - "{DATE_DAY}-{DATE_MONTH}-{DATE_YEAR}"
+  - "{DATE_HOURS}:{DATE_MINUTES}:{DATE_SECONDS}"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "Name: {GUILD_NAME}"
+  - "Tag: {GUILD_TAG}"
+  - "{GUILD_PLAYERS_ONLINE}/{GUILD_PLAYERS_MAX}"
+  - "Lives: {GUILD_LIVES}"
+  - "Progress: {GUILD_RAIDPROGRESS}"
+  - "PVP: {GUILD_PVP}"
+  - "Money: {GUILD_MONEY}"
+  - "Points: {GUILD_POINTS}"
+  - "Slots: {GUILD_SLOTS}"
+  - "OpenInv: {GUILD_OPENINVITATION}"
+  - "{GUILD_TIME_REGEN}"
+  - "{GUILD_TIME_REST}"
+  - "{GUILD_TIME_CREATED}"
+  - "{GUILD_TIME_PROTECTION}"
+  - "{GUILD_HOME}"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "Guild top"
+  - ""
+  - "{GUILD_TOP_N1}"
+  - "{GUILD_TOP_N2}"
+  - "{GUILD_TOP_N3}"
+  - "{GUILD_TOP_N4}"
+  - "{GUILD_TOP_N5}"
+  - "{GUILD_TOP_N6}"
+  - "{GUILD_TOP_N7}"
+  - "{GUILD_TOP_N8}"
+  - "{GUILD_TOP_N9}"
+  - "{GUILD_TOP_N10}"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "Players TOP (kdr)"
+  - "{PLAYER_TOP_KDR_N1}"
+  - "{PLAYER_TOP_KDR_N2}"
+  - "{PLAYER_TOP_KDR_N3}"
+  - "{PLAYER_TOP_KDR_N4}"
+  - "{PLAYER_TOP_KDR_N5}"
+  - "{PLAYER_TOP_KDR_N6}"
+  - "{PLAYER_TOP_KDR_N7}"
+  - "{PLAYER_TOP_KDR_N8}"
+  - "{PLAYER_TOP_KDR_N9}"
+  - "{PLAYER_TOP_KDR_N10}"
+
+###################################################
+# Region settings                                 #
 region:
+
+# materials used with selection                   #
  materials:
   check:
+# highlighting a region                           #
    highlight: DIAMOND_BLOCK
+
+# creating regions                                #
   selection:
+
+# corner block                                    #
    corner: EMERALD_BLOCK
+
+# a valid rectangle                               #
    rectangle: WOOL:14
+
+# an invalid rectangle                            #
    invalid: WOOL:15
+
+# resizing                                        #
   resize:
+
+# corner block                                    #
    corner: GOLD_BLOCK
+
+# a valid rectangle                               #
    rectangle: WOOL:6
+
+# auto creating regions (when creating a guild)   #
  autoregion: true
+
+# minimal region size                             #
  minsize: 10
+
+# maximum region size                             #
  maxsize: 100
+
+# automatic region's size for admins              #
  adminautosize: 10
+
+# particles when entering a region                #
  borderparticles: true
+
+# water flow at regions                           #
  waterflow: true
+
+# minimal distance from another guild or region   #
  mindistance: 20
+
+# allow allies interact                           #
  allyinteract: false
+
+# tool item                                       #
  tool: "STICK 1 name:&5NovaGuilds_&6Tool lore:&cLeft_Click_+_SHIFT|&6To_toggle_the_mode|&e****&2Check_Mode&e****|&6Right_click_to_check|&e****&2Select_Mode&e***|&cLeft/Right|&6click_to_select|&6Right_click_a_corner|&6to_resize"
 
- #commands blocked at region when player is not member and not ally
- # ! cmds have to be lowercase !
+# commands blocked at region                      #
+# when player is not member and not ally          #
+# ! commands have to be lowercase !               #
  blockedcmds:
   - sethome
   - home
   - back
 
+# deny interact (right click etc) at region       #
  denyinteract:
   - WOODEN_DOOR
   - LEVER
@@ -345,8 +626,13 @@ region:
   - BEACON
   - ITEM_FRAME
   - BREWING_STAND
+
+# deny using                                      #
  denyuse:
   - ITEM_FRAME
+  - ARMOR_STAND
+
+# deny hitting mobs                               #
  denymobdamage:
   - PIG
   - COW
@@ -354,5 +640,8 @@ region:
   - HORSE
   - WOLF
   - OCELOT
+  - ARMOR_STAND
+
+# deny riding mobs                                #
  denyriding:
   - HORSE

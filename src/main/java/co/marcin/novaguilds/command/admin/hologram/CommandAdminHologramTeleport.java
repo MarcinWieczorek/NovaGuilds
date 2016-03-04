@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
-import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,12 +29,11 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminHologramTeleport implements Executor.ReversedAdminHologram {
-	private final Command command = Command.ADMIN_HOLOGRAM_TELEPORT;
-	private NovaHologram hologram;
+public class CommandAdminHologramTeleport extends AbstractCommandExecutor.ReversedAdminHologram {
+	private static final Command command = Command.ADMIN_HOLOGRAM_TELEPORT;
 
 	public CommandAdminHologramTeleport() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -48,9 +47,9 @@ public class CommandAdminHologramTeleport implements Executor.ReversedAdminHolog
 
 		player.teleport(hologram.getLocation());
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", player.getName());
-		vars.put("NAME", hologram.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, player.getName());
+		vars.put(VarKey.NAME, hologram.getName());
 
 		if(sender.equals(player)) {
 			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_SELF.vars(vars).send(sender);
@@ -59,15 +58,5 @@ public class CommandAdminHologramTeleport implements Executor.ReversedAdminHolog
 			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_OTHER.vars(vars).send(sender);
 			Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.vars(vars).send(player);
 		}
-	}
-
-	@Override
-	public void hologram(NovaHologram hologram) {
-		this.hologram = hologram;
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

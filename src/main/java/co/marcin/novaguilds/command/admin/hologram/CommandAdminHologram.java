@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
-import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.api.basic.NovaHologram;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -31,8 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandAdminHologram implements Executor {
-	private final Command command = Command.ADMIN_HOLOGRAM_ACCESS;
+public class CommandAdminHologram extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_HOLOGRAM_ACCESS;
 
 	private static final List<Command> noHologramCommands = new ArrayList<Command>() {{
 		add(Command.ADMIN_HOLOGRAM_LIST);
@@ -59,7 +59,7 @@ public class CommandAdminHologram implements Executor {
 	}};
 
 	public CommandAdminHologram() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -96,10 +96,5 @@ public class CommandAdminHologram implements Executor {
 		}
 
 		subCommand.execute(sender, StringUtils.parseArgs(args, isNoHologramCommand ? 1 : 2));
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

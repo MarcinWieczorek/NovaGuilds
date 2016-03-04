@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,15 +19,15 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.Title;
-import com.earth2me.essentials.Essentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -47,7 +47,7 @@ public class MessageManager {
 	private FileConfiguration messages = null;
 	public String prefix;
 	public ChatColor prefixColor = ChatColor.WHITE;
-	public static MessageManager instance;
+	private static MessageManager instance;
 	private File messagesFile;
 
 	/**
@@ -59,6 +59,7 @@ public class MessageManager {
 
 	/**
 	 * Detects the language basing on Essentials and config
+	 *
 	 * @return false if detecting/creating new file failed
 	 */
 	public boolean detectLanguage() {
@@ -116,10 +117,10 @@ public class MessageManager {
 	 * Setups directories
 	 */
 	private void setupDirectories() {
-		File langsDir = new File(plugin.getDataFolder(), "lang/");
+		File langDir = new File(plugin.getDataFolder(), "lang/");
 
-		if(!langsDir.exists()) {
-			if(langsDir.mkdir()) {
+		if(!langDir.exists()) {
+			if(langDir.mkdir()) {
 				LoggerUtils.info("Language dir created");
 			}
 		}
@@ -129,14 +130,12 @@ public class MessageManager {
 	 * Detects Essentials' Locale
 	 */
 	public static void detectEssentialsLocale() {
-		Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-
-		if(essentials != null && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
-			if(essentials.getSettings() == null) {
+		if(plugin.isEssentialsEnabled() && !Config.LANG_OVERRIDEESSENTIALS.getBoolean()) {
+			if(plugin.getEssentials().getSettings() == null) {
 				return;
 			}
 
-			String locale = essentials.getSettings().getLocale();
+			String locale = plugin.getEssentials().getSettings().getLocale();
 			if(locale.isEmpty()) {
 				locale = "en";
 			}
@@ -151,6 +150,7 @@ public class MessageManager {
 
 	/**
 	 * Gets message string from configuration
+	 *
 	 * @param message Message enum
 	 * @return message string
 	 */
@@ -162,6 +162,7 @@ public class MessageManager {
 
 	/**
 	 * Gets messages FileConfiguration
+	 *
 	 * @return Messages' FileConfiguration
 	 */
 	public static FileConfiguration getMessages() {
@@ -170,6 +171,7 @@ public class MessageManager {
 
 	/**
 	 * Sends prefixed message to a player
+	 *
 	 * @param sender receiver
 	 * @param msg message string
 	 */
@@ -181,6 +183,7 @@ public class MessageManager {
 
 	/**
 	 * Sends a message without prefix to a player
+	 *
 	 * @param sender receiver
 	 * @param msg message string
 	 */
@@ -192,18 +195,19 @@ public class MessageManager {
 
 	/**
 	 * Sends a list of messages to a player
+	 *
 	 * @param sender receiver
 	 * @param message Message enum
 	 */
 	public static void sendMessagesList(CommandSender sender, Message message) {
 		List<String> list = getMessages().getStringList(message.getPath());
-		Map<String, String> vars = message.getVars();
+		Map<VarKey, String> vars = message.getVars();
 		boolean prefix = message.isPrefix();
 
 		if(list != null) {
 			for(String msg : list) {
 				if(vars != null) {
-					msg = replaceMap(msg, vars);
+					msg = replaceVarKeyMap(msg, vars);
 				}
 
 				if(prefix) {
@@ -218,12 +222,13 @@ public class MessageManager {
 
 	/**
 	 * Sends a message to a player
+	 *
 	 * @param sender receiver
 	 * @param message Message enum
 	 */
 	public static void sendMessagesMsg(CommandSender sender, Message message) {
 		String msg = getMessagesString(message);
-		msg = replaceMap(msg, message.getVars());
+		msg = replaceVarKeyMap(msg, message.getVars());
 		boolean title = message.getTitle();
 
 		if(Config.USETITLES.getBoolean() && title && sender instanceof Player) {
@@ -241,6 +246,7 @@ public class MessageManager {
 
 	/**
 	 * Send a Title to the player
+	 *
 	 * @param player Player instance
 	 * @param msg message string
 	 */
@@ -253,6 +259,7 @@ public class MessageManager {
 
 	/**
 	 * Broadcasts Message to players
+	 *
 	 * @param playerList List of Players
 	 * @param message Message enum
 	 * @param permission Permission enum (null for none)
@@ -267,6 +274,7 @@ public class MessageManager {
 
 	/**
 	 * Broadcasts message from file to all players with permission
+	 *
 	 * @param message Message enum
 	 * @param permission Permission enum
 	 */
@@ -276,6 +284,7 @@ public class MessageManager {
 
 	/**
 	 * Broadcasts message to all players
+	 *
 	 * @param message Message enum
 	 */
 	public static void broadcast(Message message) {
@@ -284,6 +293,7 @@ public class MessageManager {
 
 	/**
 	 * Broadcasts message to guild members
+	 *
 	 * @param guild Guild instance
 	 * @param message Message enum
 	 */
@@ -293,16 +303,17 @@ public class MessageManager {
 
 	/**
 	 * Replaces a map of vars preserving the prefix color
+	 *
 	 * @param msg message string
 	 * @param vars Map<String, String> of variables
 	 * @return String
 	 */
-	public static String replaceMap(String msg, Map<String, String> vars) {
-		for(Map.Entry<String, String> entry : vars.entrySet()) {
+	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars) {
+		for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
 			vars.put(entry.getKey(), entry.getValue() + plugin.getMessageManager().prefixColor);
 		}
 
-		return StringUtils.replaceMap(msg, vars);
+		return StringUtils.replaceVarKeyMap(msg, vars);
 	}
 
 	public void setMessages(YamlConfiguration messages) {

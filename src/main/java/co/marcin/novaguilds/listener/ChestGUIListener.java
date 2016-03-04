@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,27 +19,22 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.GUIInventory;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.GUIInventory;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.concurrent.TimeUnit;
 
-public class ChestGUIListener implements Listener {
-	private final NovaGuilds plugin = NovaGuilds.getInstance();
-
-	public ChestGUIListener() {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class ChestGUIListener extends AbstractListener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 		Inventory inventory = InventoryUtils.getClickedInventory(event);
@@ -48,7 +43,7 @@ public class ChestGUIListener implements Listener {
 		}
 
 		Player player = (Player) event.getWhoClicked();
-		NovaPlayer nPlayer = NovaPlayer.get(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		GUIInventory guiInventory = nPlayer.getGuiInventory();
 
 		if(guiInventory != null) {
@@ -65,7 +60,7 @@ public class ChestGUIListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
-		final NovaPlayer nPlayer = NovaPlayer.get(event.getPlayer());
+		final NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
 		if(nPlayer.getGuiInventory() != null && !ChestGUIUtils.guiContinueList.contains(nPlayer)) {
 			if(nPlayer.getGuiInventoryHistory().size() == 1) {
 				nPlayer.setGuiInventory(null);

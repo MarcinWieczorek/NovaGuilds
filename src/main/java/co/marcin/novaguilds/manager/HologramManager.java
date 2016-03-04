@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,8 +19,9 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.basic.NovaHologramImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -35,7 +36,7 @@ import java.util.List;
 public class HologramManager {
 	private final File file;
 	private YamlConfiguration configuration;
-	private List<NovaHologram> holograms = new ArrayList<>();
+	private final List<NovaHologram> holograms = new ArrayList<>();
 
 	public HologramManager(File file) {
 		this.file = file;
@@ -43,15 +44,15 @@ public class HologramManager {
 
 	public void load() {
 		try {
-			if(!file.exists()) {
-				file.createNewFile();
+			if(!file.exists() && !file.createNewFile()) {
+				throw new IOException("Failed creating new file");
 			}
 
 			configuration = YamlConfiguration.loadConfiguration(file);
 			int count = 0;
 
 			for(String name : configuration.getKeys(false)) {
-				NovaHologram nHologram = new NovaHologram();
+				NovaHologram nHologram = new NovaHologramImpl();
 				Location location = RegionUtils.sectionToLocation(configuration.getConfigurationSection(name + ".location"));
 
 				nHologram.setName(name);
@@ -119,16 +120,17 @@ public class HologramManager {
 	}
 
 	public NovaHologram addTopHologram(Location location) {
-		NovaHologram nHologram = new NovaHologram();
-		nHologram.setLocation(location);
-		nHologram.addLine(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
-		nHologram.addLine(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
-		nHologram.setName("topX" + NumberUtils.randInt(1, 999));
-		nHologram.create();
-		nHologram.setTop(true);
-		holograms.add(nHologram);
+		NovaHologram hologram = new NovaHologramImpl();
+		hologram.setLocation(location);
+		hologram.addLine(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
+		hologram.addLine(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
+		hologram.setName("topX" + NumberUtils.randInt(1, 999));
+		hologram.create();
+		hologram.setTop(true);
+		
+		holograms.add(hologram);
 
-		return nHologram;
+		return hologram;
 	}
 
 	public void refreshTopHolograms() {

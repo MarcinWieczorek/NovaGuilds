@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,31 +18,26 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class CommandGuildChatMode implements Executor {
-	private final Command command = Command.GUILD_CHATMODE;
-	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>(){{
-		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
-		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
-		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
-	}};
+public class CommandGuildChatMode extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_CHATMODE;
 
 	public CommandGuildChatMode() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		final NovaPlayer nPlayer = NovaPlayer.get(sender);
+		final NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -64,13 +59,7 @@ public class CommandGuildChatMode implements Executor {
 
 		nPlayer.setChatMode(chatMode);
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("MODE", chatModeMessages.get(chatMode).get());
-		Message.CHAT_GUILD_CHATMODE_SUCCESS.vars(vars).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
+		Message.CHAT_GUILD_CHATMODE_SUCCESS.setVar(VarKey.MODE, Message.getChatModeName(chatMode).get()).send(sender);
+		TabUtils.refresh(nPlayer);
 	}
 }

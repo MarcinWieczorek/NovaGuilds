@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,21 +18,20 @@
 
 package co.marcin.novaguilds.command.admin;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.LoggerUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminReload implements Executor {
-	private final Command command = Command.ADMIN_RELOAD;
+public class CommandAdminReload extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_RELOAD;
 
 	public CommandAdminReload() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -51,16 +50,7 @@ public class CommandAdminReload implements Executor {
 		Message.CHAT_RELOAD_CONFIG.send(sender);
 
 		//Connecting to database
-		if(!plugin.getDatabaseManager().isConnected()) {
-			if(plugin.getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
-				plugin.getDatabaseManager().connectToMysql();
-			}
-			else if(plugin.getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
-				plugin.getDatabaseManager().connectToSQLite();
-			}
-		}
-
-		plugin.getDatabaseManager().mysqlReload();
+		plugin.setUpStorage();
 		Message.CHAT_RELOAD_MYSQL.send(sender);
 
 		//messages
@@ -71,13 +61,13 @@ public class CommandAdminReload implements Executor {
 		plugin.getMessageManager().load();
 		Message.CHAT_RELOAD_MESSAGES.send(sender);
 
-		//regions
-		plugin.getRegionManager().load();
-		Message.CHAT_RELOAD_REGIONS.send(sender);
-
 		//guilds
 		plugin.getGuildManager().load();
 		Message.CHAT_RELOAD_GUILDS.send(sender);
+
+		//regions
+		plugin.getRegionManager().load();
+		Message.CHAT_RELOAD_REGIONS.send(sender);
 
 		//players
 		plugin.getPlayerManager().load();
@@ -93,14 +83,8 @@ public class CommandAdminReload implements Executor {
 
 		LoggerUtils.info("Post checks running");
 		plugin.getGuildManager().postCheck();
-		plugin.getRegionManager().postCheck();
 
 		//all done
 		Message.CHAT_RELOAD_RELOADED.send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

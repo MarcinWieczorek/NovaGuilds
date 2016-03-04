@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.GUIInventory;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.GUIInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -67,10 +67,6 @@ public class ChestGUIUtils {
 
 	public static Inventory createInventory(int size, Message title) {
 		return createInventory(size, title.get());
-	}
-
-	public static Inventory createInventory(int size) {
-		return createInventory(size, "");
 	}
 
 	public static void addBackItem(GUIInventory guiInventory) {

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterAdmin;
 import co.marcin.novaguilds.command.tabcompleter.TabCompleterGuild;
-import co.marcin.novaguilds.interfaces.Executor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
@@ -57,6 +57,7 @@ public enum Command {
 	ADMIN_GUILD_SET_TIMEREST(Permission.NOVAGUILDS_ADMIN_GUILD_SET_TIMEREST),
 	ADMIN_GUILD_SET_SLOTS(Permission.NOVAGUILDS_ADMIN_GUILD_SET_SLOTS),
 	ADMIN_GUILD_TELEPORT(Permission.NOVAGUILDS_ADMIN_GUILD_TELEPORT_SELF, true, Message.CHAT_USAGE_NGA_GUILD_TP),
+	ADMIN_GUILD_RESET_POINTS(Permission.NOVAGUILDS_ADMIN_GUILD_RESET_POINTS, null, Message.CHAT_USAGE_NGA_GUILD_RESET_POINTS, CommandFlag.CONFIRM),
 
 	ADMIN_REGION_ACCESS(Permission.NOVAGUILDS_ADMIN_REGION_ACCESS, true, Message.CHAT_USAGE_NGA_REGION_ACCESS),
 	ADMIN_REGION_BYPASS(Permission.NOVAGUILDS_ADMIN_REGION_BYPASS_SELF, true, Message.CHAT_USAGE_NGA_REGION_BYPASS),
@@ -116,7 +117,7 @@ public enum Command {
 
 	private Message usageMessage;
 	private boolean allowConsole = true;
-	private Permission permission;
+	private final Permission permission;
 	private String genericCommand;
 	private TabCompleter tabCompleter;
 	private boolean needConfirm = false;
@@ -192,7 +193,7 @@ public enum Command {
 		return usageMessage;
 	}
 
-	private Executor getExecutor() {
+	private CommandExecutor getExecutor() {
 		return NovaGuilds.getInstance().getCommandManager().getExecutor(this);
 	}
 

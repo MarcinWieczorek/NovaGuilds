@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,13 @@
 
 package co.marcin.novaguilds.command.admin.region;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,17 +32,11 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion {
-	private final Command command = Command.ADMIN_REGION_TELEPORT;
-	private NovaRegion region;
+public class CommandAdminRegionTeleport extends AbstractCommandExecutor.ReversedAdminRegion {
+	private static final Command command = Command.ADMIN_REGION_TELEPORT;
 
 	public CommandAdminRegionTeleport() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void region(NovaRegion region) {
-		this.region = region;
+		super(command);
 	}
 
 	@Override
@@ -49,13 +44,21 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 		NovaPlayer nPlayerOther;
 		Player player;
 
-		if(args.length > 1) { //other
+		if(args.length == 0) {
+			if(!(sender instanceof Player)) {
+				Message.CHAT_CMDFROMCONSOLE.send(sender);
+				return;
+			}
+
+			player = (Player) sender;
+		}
+		else { //other
 			if(!Permission.NOVAGUILDS_ADMIN_REGION_TELEPORT_OTHER.has(sender)) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
 				return;
 			}
 
-			nPlayerOther = plugin.getPlayerManager().getPlayer(args[1]);
+			nPlayerOther = PlayerManager.getPlayer(args[0]);
 
 			if(nPlayerOther == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
@@ -69,12 +72,10 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 
 			player = nPlayerOther.getPlayer();
 		}
-		else {
-			player = (Player) sender;
-		}
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", region.getGuild().getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+		vars.put(VarKey.PLAYERNAME, player.getName());
 
 		Location location = region.getCenter().clone();
 		location.setY(location.getWorld().getHighestBlockYAt(location));
@@ -88,10 +89,5 @@ public class CommandAdminRegionTeleport implements Executor.ReversedAdminRegion 
 		}
 
 		player.teleport(location);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

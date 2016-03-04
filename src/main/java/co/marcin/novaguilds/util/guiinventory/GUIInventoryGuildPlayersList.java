@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,15 +18,16 @@
 
 package co.marcin.novaguilds.util.guiinventory;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.GUIInventory;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -34,16 +35,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GUIInventoryGuildPlayersList implements GUIInventory {
-	private final Inventory inventory;
+public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 	private final Map<Integer, NovaPlayer> slotPlayersMap = new HashMap<>();
 	protected final NovaGuild guild;
-	private NovaPlayer viewer;
 
 	public GUIInventoryGuildPlayersList(NovaGuild guild) {
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSLIST_TITLE);
 		this.guild = guild;
-
-		inventory = ChestGUIUtils.createInventory(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSLIST_TITLE);
 	}
 
 	@Override
@@ -56,10 +54,7 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 		int slot = 0;
 		slotPlayersMap.clear();
 		for(NovaPlayer nPlayer : playerList) {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("PLAYERNAME", nPlayer.getName());
-
-			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.vars(vars).get());
+			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.setVar(VarKey.PLAYERNAME, nPlayer.getName()).get());
 
 			if(itemStack == null) {
 				continue;
@@ -81,31 +76,6 @@ public class GUIInventoryGuildPlayersList implements GUIInventory {
 			return;
 		}
 
-		new GUIInventoryGuildPlayerSettings(slotPlayersMap.get(event.getRawSlot())).open(NovaPlayer.get(event.getWhoClicked()));
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void open(NovaPlayer nPlayer) {
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
-	}
-
-	@Override
-	public NovaPlayer getViewer() {
-		return viewer;
-	}
-
-	@Override
-	public void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
-
-	@Override
-	public void close() {
-		getViewer().getPlayer().closeInventory();
+		new GUIInventoryGuildPlayerSettings(slotPlayersMap.get(event.getRawSlot())).open(PlayerManager.getPlayer(event.getWhoClicked()));
 	}
 }

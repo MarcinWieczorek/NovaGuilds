@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,21 +18,23 @@
 
 package co.marcin.novaguilds.command;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandPlayerInfo implements CommandExecutor, Executor {
-	private final Command command = Command.PLAYERINFO;
+public class CommandPlayerInfo extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.PLAYERINFO;
 
 	public CommandPlayerInfo() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
@@ -47,10 +49,10 @@ public class CommandPlayerInfo implements CommandExecutor, Executor {
 				return;
 			}
 
-			nCPlayer = plugin.getPlayerManager().getPlayer(sender);
+			nCPlayer = PlayerManager.getPlayer(sender);
 		}
 		else {
-			nCPlayer = plugin.getPlayerManager().getPlayer(args[0]);
+			nCPlayer = PlayerManager.getPlayer(args[0]);
 
 			if(nCPlayer == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
@@ -59,10 +61,5 @@ public class CommandPlayerInfo implements CommandExecutor, Executor {
 		}
 
 		plugin.getPlayerManager().sendPlayerInfo(sender, nCPlayer);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }
