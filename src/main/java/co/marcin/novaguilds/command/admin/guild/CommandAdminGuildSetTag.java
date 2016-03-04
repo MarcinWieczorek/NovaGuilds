@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,26 +18,21 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-
-public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_SET_TAG;
+public class CommandAdminGuildSetTag extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_SET_TAG;
 
 	public CommandAdminGuildSetTag() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
@@ -47,25 +42,19 @@ public class CommandAdminGuildSetTag implements Executor.ReversedAdminGuild {
 			return;
 		}
 
-		final String newtag = args[0];
+		String newTag = args[0];
 
-		if(plugin.getGuildManager().getGuildFind(newtag) != null) {
+		if(GuildManager.getGuildFind(newTag) != null) {
 			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
 			return;
 		}
 
 		//all passed
-		guild.setTag(newtag);
+		guild.setTag(newTag);
 
-		TagUtils.refreshAll();
+		TagUtils.refresh();
+		TabUtils.refresh();
 
-		Message.CHAT_ADMIN_GUILD_SET_TAG.vars(new HashMap<String, String>() {{
-			put("TAG", newtag);
-		}}).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
+		Message.CHAT_ADMIN_GUILD_SET_TAG.setVar(VarKey.TAG, newTag).send(sender);
 	}
 }

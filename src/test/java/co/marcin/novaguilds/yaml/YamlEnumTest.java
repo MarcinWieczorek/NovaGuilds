@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -45,8 +45,7 @@ public class YamlEnumTest {
 	public void testConfig() throws Exception {
 		System.out.println();
 		System.out.println("Testing config enums...");
-		File configFile = new File(YamlParseTest.resourcesDirectory, "config.yml");
-		YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+		YamlConfiguration config = getConfig();
 		List<String> configEnumNames = new ArrayList<>();
 		for(Config v : Config.values()) {
 			configEnumNames.add(v.name());
@@ -84,6 +83,29 @@ public class YamlEnumTest {
 	}
 
 	@Test
+	public void testEmptyEnums() throws Exception {
+		System.out.println("Testing empty Config enums");
+
+		YamlConfiguration config = getConfig();
+		int missingCount = 0;
+		for(Config c : Config.values()) {
+			if(!config.contains(c.getPath())) {
+				System.out.println("Empty enum: " + c.name());
+				missingCount++;
+			}
+		}
+
+		if(missingCount == 0) {
+			System.out.println("All values are fine in the Config enum");
+		}
+		else {
+			throw new Exception("Found " + missingCount + " empty Config enums");
+		}
+
+		System.out.println();
+	}
+
+	@Test
 	public void testMessages() throws Exception {
 		System.out.println();
 		System.out.println("Testing message enums...");
@@ -115,5 +137,14 @@ public class YamlEnumTest {
 		else {
 			throw new Exception("Found " + missingCount + " missing Message enums");
 		}
+	}
+
+	/**
+	 * Gets the config
+	 * @return config.yml YamlConfiguration
+	 */
+	private YamlConfiguration getConfig() {
+		File configFile = new File(YamlParseTest.resourcesDirectory, "config.yml");
+		return YamlConfiguration.loadConfiguration(configFile);
 	}
 }

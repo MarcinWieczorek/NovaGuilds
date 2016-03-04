@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,24 +18,17 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class PvpListener implements Listener {
-	private final NovaGuilds plugin;
-	
-	public PvpListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class PvpListener extends AbstractListener {
 	@EventHandler
 	public void onPlayerAttack(EntityDamageByEntityEvent event) {
 		if(event.getEntity() instanceof Player) {
@@ -54,8 +47,8 @@ public class PvpListener implements Listener {
 			}
 			
 			if(attacker != null) {
-				NovaPlayer novaPlayer = plugin.getPlayerManager().getPlayer(player);
-				NovaPlayer novaPlayerAttacker = plugin.getPlayerManager().getPlayer(attacker);
+				NovaPlayer novaPlayer = PlayerManager.getPlayer(player);
+				NovaPlayer novaPlayerAttacker = PlayerManager.getPlayer(attacker);
 				//teampvp
 				if(!novaPlayerAttacker.getName().equals(novaPlayer.getName())) {
 					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,60 +18,34 @@
 
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagScoreboardImpl;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public final class TagUtils {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-
-	public static String getTag(Player namedplayer) { //TODO deleted second arg Player player
-		String tag = Config.GUILD_TAG.getString();
-		String guildTag;
-		String rank = "";
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(namedplayer);
-
-		if(Permission.NOVAGUILDS_CHAT_NOTAG.has(namedplayer) || !nPlayer.hasGuild()) {
-			return "";
-		}
-
-		guildTag = nPlayer.getGuild().getTag();
-
-		if(!Config.TAGAPI_COLORTAGS.getBoolean()) {
-			guildTag = StringUtils.removeColors(guildTag);
-		}
-
-		tag = org.apache.commons.lang.StringUtils.replace(tag, "{TAG}", guildTag);
-
-		if(Config.TABAPI_RANKPREFIX.getBoolean()) {
-			if(nPlayer.isLeader()) {
-				rank = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
-			}
-		}
-
-		tag = org.apache.commons.lang.StringUtils.replace(tag, "{RANK}", rank);
-
-		return StringUtils.fixColors(tag);
-	}
-
 	@SuppressWarnings("deprecation")
-	public static void updatePrefix(Player p) {
+	public static void refresh(Player p) {
 		if(!Config.TAGAPI_ENABLED.getBoolean()) {
 			return;
 		}
 
+		Scoreboard board = p.getScoreboard();
 		for(Player player : Bukkit.getOnlinePlayers()) {
-			String tag = getTag(player);
-			Scoreboard board = p.getScoreboard();
+			NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
 			Team team = board.getPlayerTeam(player);
 
+			//Add a team if doesn't exist
 			if(team == null) {
 				String tName = "ng_" + player.getName();
 				if(tName.length() > 16) {
@@ -82,20 +56,38 @@ public final class TagUtils {
 				team.addPlayer(player);
 			}
 
-			team.setPrefix(StringUtils.fixColors(tag));
+			//Points
+			Objective pointsObjective = board.getObjective("points");
+			if(Config.POINTSBELOWNAME.getBoolean()) {
+				if(pointsObjective == null) {
+					pointsObjective = board.registerNewObjective("points", "dummy");
+					pointsObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+					pointsObjective.setDisplayName(Message.MISC_POINTSBELOWNAME.get());
+				}
+
+				Score score = pointsObjective.getScore(player);
+				score.setScore(nPlayerLoop.getPoints());
+			}
+			else if(pointsObjective != null) {
+				pointsObjective.unregister();
+			}
+
+			//set tag
+			PreparedTag tag = new PreparedTagScoreboardImpl(PlayerManager.getPlayer(player));
+			team.setPrefix(tag.get());
 		}
 	}
 
-	public static void refreshAll() {
+	public static void refresh() {
 		for(Player player : Bukkit.getOnlinePlayers()) {
-			updatePrefix(player);
+			refresh(player);
 		}
 	}
 
-	public static void refreshGuild(NovaGuild guild) {
+	public static void refresh(NovaGuild guild) {
 		if(guild != null) {
 			for(Player player : guild.getOnlinePlayers()) {
-				updatePrefix(player);
+				refresh(player);
 			}
 		}
 	}

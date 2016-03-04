@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,14 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -32,7 +34,6 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryAction;
@@ -42,31 +43,27 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VaultListener implements Listener {
-	private final NovaGuilds plugin;
-	private final List<InventoryAction> dissalowedActions = new ArrayList<>();
-	private final BlockFace[] doubleChestFaces;
+public class VaultListener extends AbstractListener {
+	private static final List<InventoryAction> disallowedActions = new ArrayList<>();
+	private static final BlockFace[] doubleChestFaces;
 
-	public VaultListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
+	static {
 		//Add disallowed actions
-		dissalowedActions.add(InventoryAction.CLONE_STACK);
-		dissalowedActions.add(InventoryAction.COLLECT_TO_CURSOR);
-		dissalowedActions.add(InventoryAction.HOTBAR_MOVE_AND_READD);
-		dissalowedActions.add(InventoryAction.HOTBAR_SWAP);
-		dissalowedActions.add(InventoryAction.MOVE_TO_OTHER_INVENTORY);
-		dissalowedActions.add(InventoryAction.PICKUP_ALL);
-		dissalowedActions.add(InventoryAction.PICKUP_HALF);
-		dissalowedActions.add(InventoryAction.PICKUP_ONE);
-		dissalowedActions.add(InventoryAction.PICKUP_SOME);
-		dissalowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
-		dissalowedActions.add(InventoryAction.DROP_ALL_CURSOR);
-		dissalowedActions.add(InventoryAction.DROP_ALL_SLOT);
-		dissalowedActions.add(InventoryAction.DROP_ONE_CURSOR);
-		dissalowedActions.add(InventoryAction.DROP_ONE_SLOT);
-		dissalowedActions.add(InventoryAction.UNKNOWN);
+		disallowedActions.add(InventoryAction.CLONE_STACK);
+		disallowedActions.add(InventoryAction.COLLECT_TO_CURSOR);
+		disallowedActions.add(InventoryAction.HOTBAR_MOVE_AND_READD);
+		disallowedActions.add(InventoryAction.HOTBAR_SWAP);
+		disallowedActions.add(InventoryAction.MOVE_TO_OTHER_INVENTORY);
+		disallowedActions.add(InventoryAction.PICKUP_ALL);
+		disallowedActions.add(InventoryAction.PICKUP_HALF);
+		disallowedActions.add(InventoryAction.PICKUP_ONE);
+		disallowedActions.add(InventoryAction.PICKUP_SOME);
+		disallowedActions.add(InventoryAction.SWAP_WITH_CURSOR);
+		disallowedActions.add(InventoryAction.DROP_ALL_CURSOR);
+		disallowedActions.add(InventoryAction.DROP_ALL_SLOT);
+		disallowedActions.add(InventoryAction.DROP_ONE_CURSOR);
+		disallowedActions.add(InventoryAction.DROP_ONE_SLOT);
+		disallowedActions.add(InventoryAction.UNKNOWN);
 
 		//double chest faces
 		doubleChestFaces = new BlockFace[]{
@@ -75,7 +72,6 @@ public class VaultListener implements Listener {
 				BlockFace.SOUTH,
 				BlockFace.WEST
 		};
-
 	}
 
 	@EventHandler
@@ -92,7 +88,7 @@ public class VaultListener implements Listener {
 			return;
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer((Player) event.getWhoClicked());
+		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getWhoClicked());
 		String nameVault = Config.VAULT_ITEM.getItemStack().getItemMeta().getDisplayName();
 
 		if(event.getInventory().getTitle() == null || !event.getInventory().getTitle().equals(nameVault)) {
@@ -103,7 +99,7 @@ public class VaultListener implements Listener {
 			return;
 		}
 
-		if(!dissalowedActions.contains(event.getAction()) && nPlayer.hasPermission(GuildPermission.VAULT_PUT)) {
+		if(!disallowedActions.contains(event.getAction()) && nPlayer.hasPermission(GuildPermission.VAULT_PUT)) {
 			return;
 		}
 
@@ -117,7 +113,7 @@ public class VaultListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
-		NovaPlayer nPlayer = NovaPlayer.get(player);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		if(plugin.getGuildManager().isVaultBlock(event.getBlock())) {
 			Chest chest = (Chest) event.getBlock().getState();
@@ -153,7 +149,7 @@ public class VaultListener implements Listener {
 		Player player = event.getPlayer();
 
 		if(plugin.getRegionManager().canInteract(player, event.getBlock())) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(player);
+			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 			Material itemType = player.getItemInHand().getType();
 
 			if(itemType == Config.VAULT_ITEM.getItemStack().getType()) {
@@ -176,7 +172,7 @@ public class VaultListener implements Listener {
 						}
 
 						if(nPlayer.getGuild().getVaultLocation() == null) {
-							NovaRegion region = plugin.getRegionManager().getRegion(event.getBlockPlaced().getLocation());
+							NovaRegion region = RegionManager.get(event.getBlockPlaced());
 							if(region != null && region.getGuild().isMember(nPlayer)) {
 								if(player.getGameMode() == GameMode.CREATIVE) {
 									player.getInventory().remove(event.getItemInHand());
@@ -195,6 +191,10 @@ public class VaultListener implements Listener {
 							Message.CHAT_GUILD_VAULT_PLACE_EXISTS.send(player);
 							event.setCancelled(true);
 						}
+					}
+					else {
+						player.getInventory().remove(event.getItemInHand());
+						event.setCancelled(true);
 					}
 				}
 			}

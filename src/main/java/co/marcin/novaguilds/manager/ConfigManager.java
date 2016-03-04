@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -48,6 +49,7 @@ public class ConfigManager {
 	private DataStorageType dataStorageType;
 
 	private boolean useVanishNoPacket = true;
+	private static final boolean bukkit18 = Bukkit.getBukkitVersion().startsWith("1.8");
 
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 
@@ -77,11 +79,18 @@ public class ConfigManager {
 		plugin.reloadConfig();
 		config = plugin.getConfig();
 
+		LoggerUtils.info("This server is using Bukkit: " + Bukkit.getBukkitVersion());
+
 		if(Config.USETITLES.getBoolean()) {
-			if(!plugin.getServer().getBukkitVersion().startsWith("1.8")) {
+			if(!isBukkit18()) {
 				Config.USETITLES.set(false);
 				LoggerUtils.error("You can't use Titles with Bukkit older than 1.8");
 			}
+		}
+
+		if(Config.TABLIST_ENABLED.getBoolean() && !isBukkit18()) {
+			Config.TABLIST_ENABLED.set(false);
+			LoggerUtils.error("TabList is not currently implemented for servers older than 1.8");
 		}
 
 		String primaryDataStorageTypeString = Config.DATASTORAGE_PRIMARY.getString().toUpperCase();
@@ -148,6 +157,9 @@ public class ConfigManager {
 			LoggerUtils.error("Save interval can't be shorter than 60 seconds.");
 			Config.SAVEINTERVAL.set("60s");
 		}
+
+		//Run tasks
+		plugin.getTaskManager().runTasks();
 	}
 
 	//getters
@@ -293,5 +305,13 @@ public class ConfigManager {
 		catch(IOException e) {
 			LoggerUtils.exception(e);
 		}
+	}
+
+	/**
+	 * Gets detected server version
+	 * @return true if it's bukkit 1.8
+	 */
+	public static boolean isBukkit18() {
+		return bukkit18;
 	}
 }

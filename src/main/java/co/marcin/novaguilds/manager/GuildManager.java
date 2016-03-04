@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,35 +19,29 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGroup;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.enums.PreparedStatements;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
-import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,12 +56,12 @@ public class GuildManager {
 	private final Map<String, NovaGuild> guilds = new CaseInsensitiveMap<>();
 	
 	//getters
-	public NovaGuild getGuildByName(String name) {
-		return guilds.get(name);
+	public static NovaGuild getGuildByName(String name) {
+		return plugin.getGuildManager().guilds.get(name);
 	}
 	
-	public NovaGuild getGuildByTag(String tag) {
-		for(NovaGuild guild : getGuilds()) {
+	public static NovaGuild getGuildByTag(String tag) {
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			if(StringUtils.removeColors(guild.getTag()).equalsIgnoreCase(tag)) {
 				return guild;
 			}
@@ -80,7 +74,7 @@ public class GuildManager {
 	 * @param mixed mixed string
 	 * @return guild instance
 	 */
-	public NovaGuild getGuildFind(String mixed) {
+	public static NovaGuild getGuildFind(String mixed) {
 		NovaGuild guild = getGuildByTag(mixed);
 
 		if(guild == null) {
@@ -88,7 +82,7 @@ public class GuildManager {
 		}
 		
 		if(guild == null) {
-			NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(mixed);
+			NovaPlayer nPlayer = PlayerManager.getPlayer(mixed);
 			
 			if(nPlayer == null) {
 				return null;
@@ -104,8 +98,8 @@ public class GuildManager {
 		return guilds.values();
 	}
 	
-	public boolean exists(String guildname) {
-		return guilds.containsKey(guildname);
+	public boolean exists(String guildName) {
+		return guilds.containsKey(guildName);
 	}
 
 	public List<NovaGuild> nameListToGuildsList(List<String> namesList) {
@@ -123,153 +117,17 @@ public class GuildManager {
 
 	public void load() {
 		guilds.clear();
-
-		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-			for(String guildName : plugin.getFlatDataManager().getGuildList()) {
-				FileConfiguration guildData = plugin.getFlatDataManager().getGuildData(guildName);
-				NovaGuild guild = guildFromFlat(guildData);
-
-				if(guild != null) {
-					guilds.put(guildName, guild);
+		for(NovaGuild guild : plugin.getStorage().loadGuilds()) {
+			if(guilds.containsKey(guild.getName())) {
+				if(Config.DELETEINVALID.getBoolean()) {
+					plugin.getStorage().remove(guild);
 				}
-				else {
-					LoggerUtils.info("Loaded guild is null. name: " + guildName);
-				}
-			}
-		}
-		else {
-			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("Connection is not estabilished, stopping current action");
-				return;
+
+				LoggerUtils.error("Removed guild with doubled name (" + guild.getName() + ")");
+				continue;
 			}
 
-			plugin.getDatabaseManager().mysqlReload();
-
-			try {
-				PreparedStatement statement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_SELECT);
-				ResultSet res = statement.executeQuery();
-				//ResultSet res = statement.executeQuery("SELECT * FROM `" + plugin.getConfigManager().getDatabasePrefix() + "guilds`");
-				while(res.next()) {
-					String spawnpointCoords = res.getString("spawn");
-
-					Location spawnpoint = null;
-					if(!spawnpointCoords.isEmpty()) {
-						String[] spawnpointSplit = spawnpointCoords.split(";");
-						if(spawnpointSplit.length == 5) { //LENGTH
-							String worldname = spawnpointSplit[0];
-
-							if(plugin.getServer().getWorld(worldname) != null) {
-								int x = Integer.parseInt(spawnpointSplit[1]);
-								int y = Integer.parseInt(spawnpointSplit[2]);
-								int z = Integer.parseInt(spawnpointSplit[3]);
-								float yaw = Float.parseFloat(spawnpointSplit[4]);
-								spawnpoint = new Location(plugin.getServer().getWorld(worldname), x, y, z);
-								spawnpoint.setYaw(yaw);
-							}
-						}
-					}
-
-					String vaultLocationString = res.getString("bankloc");
-					Location vaultLocation = null;
-					if(!vaultLocationString.isEmpty()) {
-						String[] vaultLocationSplit = vaultLocationString.split(";");
-						if(vaultLocationSplit.length == 5) { //LENGTH
-							String worldname = vaultLocationSplit[0];
-
-							if(plugin.getServer().getWorld(worldname) != null) {
-								int x = Integer.parseInt(vaultLocationSplit[1]);
-								int y = Integer.parseInt(vaultLocationSplit[2]);
-								int z = Integer.parseInt(vaultLocationSplit[3]);
-								vaultLocation = new Location(plugin.getServer().getWorld(worldname), x, y, z);
-							}
-						}
-					}
-
-					//load guild only if there is a spawnpoint.
-					//error protection if a world has been deleted
-					if(spawnpoint != null) {
-						List<String> allies = new ArrayList<>();
-						List<String> alliesinv = new ArrayList<>();
-						List<String> wars = new ArrayList<>();
-						List<String> nowarinv = new ArrayList<>();
-
-						if(!res.getString("allies").isEmpty()) {
-							allies = StringUtils.semicolonToList(res.getString("allies"));
-						}
-
-						if(!res.getString("alliesinv").isEmpty()) {
-							alliesinv = StringUtils.semicolonToList(res.getString("alliesinv"));
-						}
-
-						if(!res.getString("war").isEmpty()) {
-							wars = StringUtils.semicolonToList(res.getString("war"));
-						}
-
-						if(!res.getString("nowarinv").isEmpty()) {
-							nowarinv = StringUtils.semicolonToList(res.getString("nowarinv"));
-						}
-
-						NovaGuild novaGuild = new NovaGuild();
-						novaGuild.setId(res.getInt("id"));
-						novaGuild.setMoney(res.getDouble("money"));
-						novaGuild.setPoints(res.getInt("points"));
-						novaGuild.setName(res.getString("name"));
-						novaGuild.setTag(res.getString("tag"));
-						novaGuild.setLeaderName(res.getString("leader"));
-						novaGuild.setLives(res.getInt("lives"));
-						novaGuild.setTimeRest(res.getLong("timerest"));
-						novaGuild.setLostLiveTime(res.getLong("lostlive"));
-						novaGuild.setSpawnPoint(spawnpoint);
-						novaGuild.setRegion(plugin.getRegionManager().getRegion(novaGuild));
-						novaGuild.setVaultLocation(vaultLocation);
-						novaGuild.setSlots(res.getInt("slots"));
-
-						novaGuild.setAlliesNames(allies);
-						novaGuild.setAllyInvitationNames(alliesinv);
-
-						novaGuild.setWarsNames(wars);
-						novaGuild.setNoWarInvitations(nowarinv);
-						novaGuild.setInactiveTime(res.getLong("activity"));
-						novaGuild.setTimeCreated(res.getLong("created"));
-						novaGuild.setOpenInvitation(res.getBoolean("openinv"));
-
-						//set unchanged
-						novaGuild.setUnchanged();
-
-						if(novaGuild.getRegion() != null) {
-							novaGuild.getRegion().setUnChanged();
-						}
-
-						//Fix slots amount
-						if(novaGuild.getSlots() <= 0) {
-							novaGuild.setSlots(Config.GUILD_SLOTS_START.getInt());
-						}
-
-						if(novaGuild.getId() > 0) {
-							if(guilds.containsKey(res.getString("name"))) {
-								if(Config.DELETEINVALID.getBoolean()) {
-									delete(novaGuild);
-								}
-
-								LoggerUtils.error("Removed guild with doubled name (" + res.getString("name") + ")");
-								continue;
-							}
-
-							guilds.put(res.getString("name"), novaGuild);
-						}
-						else {
-							LoggerUtils.info("Failed to load guild " + res.getString("name") + ". Invalid ID");
-						}
-					}
-					else {
-						LoggerUtils.info("Failed loading guild " + res.getString("name") + ", world does not exist");
-					}
-				}
-			}
-			catch(SQLException e) {
-				LoggerUtils.info("An error occured while loading guilds!");
-				LoggerUtils.exception(e);
-			}
+			guilds.put(guild.getName(), guild);
 		}
 
 		LoggerUtils.info("Loaded " + guilds.size() + " guilds.");
@@ -279,200 +137,24 @@ public class GuildManager {
 	}
 	
 	public void add(NovaGuild guild) {
-		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-			plugin.getFlatDataManager().add(guild);
-			guilds.put(guild.getName(), guild);
-		}
-		else {
-			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("Connection is not estabilished, stopping current action");
-				return;
-			}
-
-			plugin.getDatabaseManager().mysqlReload();
-
-			try {
-				String spawnpointcoords = "";
-				if(guild.getSpawnPoint() != null) {
-					spawnpointcoords = StringUtils.parseDBLocation(guild.getSpawnPoint());
-				}
-
-				//adding to MySQL
-				//id,tag,name,leader,home,allies,alliesinv,wars,nowarinv,money,points,lives,timerest,lostlive,bankloc
-				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_INSERT);
-				preparedStatement.setString(1, guild.getTag()); //tag
-				preparedStatement.setString(2, guild.getName()); //name
-				preparedStatement.setString(3, guild.getLeader().getName()); //leader
-				preparedStatement.setString(4, spawnpointcoords); //home
-				preparedStatement.setDouble(5, guild.getMoney()); //money
-				preparedStatement.setInt(6, guild.getPoints()); //points
-				preparedStatement.setInt(7, guild.getLives()); //lives
-				preparedStatement.setLong(8, guild.getTimeCreated()); //created
-				preparedStatement.setInt(9, guild.getSlots()); //created
-
-				preparedStatement.execute();
-				ResultSet keys = preparedStatement.getGeneratedKeys();
-				int id = 0;
-				if(keys.next()) {
-					id = keys.getInt(1);
-				}
-
-				if(id > 0) {
-					guild.setId(id);
-					guilds.put(guild.getName(), guild);
-					guild.setUnchanged();
-				}
-			}
-			catch(SQLException e) {
-				LoggerUtils.info("SQLException while adding a guild!");
-				LoggerUtils.exception(e);
-			}
-		}
+		plugin.getStorage().add(guild);
+		guilds.put(guild.getName(), guild);
 	}
 	
 	public void save(NovaGuild guild) {
-		if(guild.isChanged()) {
-			if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-				plugin.getFlatDataManager().save(guild);
-			}
-			else {
-				if(!plugin.getDatabaseManager().isConnected()) {
-					LoggerUtils.info("Connection is not estabilished, stopping current action");
-					return;
-				}
-
-				plugin.getDatabaseManager().mysqlReload();
-
-				try {
-					PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_UPDATE);
-
-					String spawnpointcoords = "";
-					if(guild.getSpawnPoint() != null) {
-						spawnpointcoords = StringUtils.parseDBLocation(guild.getSpawnPoint());
-					}
-
-					//ALLIES
-					String allies = "";
-					String allyInvitationsString = "";
-
-					if(!guild.getAllies().isEmpty()) {
-						for(NovaGuild ally : guild.getAllies()) {
-							if(!allies.equals("")) {
-								allies += ";";
-							}
-
-							allies += ally.getName();
-						}
-					}
-
-					if(!guild.getAllyInvitations().isEmpty()) {
-						for(NovaGuild guildLoop : guild.getAllyInvitations()) {
-							if(!allyInvitationsString.equals("")) {
-								allyInvitationsString += ";";
-							}
-
-							allyInvitationsString = allyInvitationsString + guildLoop.getName();
-						}
-					}
-
-					//WARS
-					String wars = "";
-					String noWarInvitationString = "";
-
-					if(!guild.getWars().isEmpty()) {
-						for(NovaGuild war : guild.getWars()) {
-							if(!wars.equals("")) {
-								wars += ";";
-							}
-
-							wars += war.getName();
-						}
-					}
-
-					if(!guild.getNoWarInvitations().isEmpty()) {
-						for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
-							if(!noWarInvitationString.equals("")) {
-								noWarInvitationString += ";";
-							}
-
-							noWarInvitationString = noWarInvitationString + guildLoop.getName();
-						}
-					}
-
-					String vaultLocationString = "";
-					if(guild.getVaultLocation() != null) {
-						vaultLocationString = StringUtils.parseDBLocation(guild.getVaultLocation());
-					}
-
-					preparedStatement.setString(1, guild.getTag());
-					preparedStatement.setString(2, guild.getName());
-					preparedStatement.setString(3, guild.getLeader().getName());
-					preparedStatement.setString(4, spawnpointcoords);
-					preparedStatement.setString(5, allies);
-					preparedStatement.setString(6, allyInvitationsString);
-					preparedStatement.setString(7, wars);
-					preparedStatement.setString(8, noWarInvitationString);
-					preparedStatement.setDouble(9, guild.getMoney());
-					preparedStatement.setInt(10, guild.getPoints());
-					preparedStatement.setInt(11, guild.getLives());
-					preparedStatement.setLong(12, guild.getTimeRest());
-					preparedStatement.setLong(13, guild.getLostLiveTime());
-					preparedStatement.setLong(14, guild.getInactiveTime());
-					preparedStatement.setString(15, vaultLocationString);
-					preparedStatement.setInt(16, guild.getSlots());
-					preparedStatement.setBoolean(17, guild.isOpenInvitation());
-
-					preparedStatement.setInt(18, guild.getId());
-
-					preparedStatement.executeUpdate();
-					guild.setUnchanged();
-				}
-				catch(SQLException e) {
-					LoggerUtils.info("SQLException while saving a guild.");
-					LoggerUtils.exception(e);
-				}
-			}
-		}
+		plugin.getStorage().save(guild);
 	}
 	
 	public void save() {
 		long startTime = System.nanoTime();
-		int count = 0;
 
-		for(NovaGuild guild : getGuilds()) {
-			if(guild.isChanged()) {
-				count++;
-			}
-
-			save(guild);
-		}
+		int count = plugin.getStorage().saveGuilds();
 
 		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 	}
 
 	public void delete(NovaGuild guild) {
-		if(plugin.getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-			plugin.getFlatDataManager().delete(guild);
-		}
-		else {
-			if(!plugin.getDatabaseManager().isConnected()) {
-				LoggerUtils.info("Connection is not estabilished, stopping current action");
-				return;
-			}
-
-			plugin.getDatabaseManager().mysqlReload();
-
-			try {
-				//delete from database
-				PreparedStatement preparedStatement = plugin.getDatabaseManager().getPreparedStatement(PreparedStatements.GUILDS_DELETE);
-				preparedStatement.setInt(1, guild.getId());
-				preparedStatement.executeUpdate();
-			}
-			catch(SQLException e) {
-				LoggerUtils.info("SQLException while deleting a guild.");
-				LoggerUtils.exception(e);
-			}
-		}
+		plugin.getStorage().remove(guild);
 
 		//remove region
 		if(guild.hasRegion()) {
@@ -519,7 +201,7 @@ public class GuildManager {
 					remove = true;
 				}
 
-				if(guild.getSpawnPoint() == null) {
+				if(guild.getHome() == null) {
 					LoggerUtils.info("(" + guild.getName() + ") Spawnpoint is null");
 					remove = true;
 				}
@@ -548,40 +230,7 @@ public class GuildManager {
 				i++;
 			}
 			else { //Add allies, wars etc
-				//Allies
-				List<NovaGuild> allies = new ArrayList<>();
-				for(String allyName : guild.getAlliesNames()) {
-					NovaGuild allyGuild = getGuildByName(allyName);
-
-					if(allyGuild != null) {
-						allies.add(allyGuild);
-					}
-				}
-				guild.setAllies(allies);
-
-				//Wars
-				List<NovaGuild> wars = new ArrayList<>();
-				for(String warName : guild.getWarsNames()) {
-					NovaGuild warGuild = getGuildByName(warName);
-
-					if(warGuild != null) {
-						wars.add(warGuild);
-					}
-				}
-				guild.setWars(wars);
-
-				//No-war invitations
-				for(String guildName : guild.getNoWarInvitationNames()) {
-					guild.addNoWarInvitation(getGuildByName(guildName));
-				}
-
-				//Ally invitations
-				for(String guildName : guild.getAllyInvitationNames()) {
-					guild.addAllyInvitation(getGuildByName(guildName));
-				}
-				guild.setAllyInvitationNames(new ArrayList<String>());
-
-				guild.setUnchanged();
+				guild.postSetUp();
 			}
 		}
 
@@ -590,7 +239,7 @@ public class GuildManager {
 
 	public static void createHomeFloor(NovaGuild guild) {
 		if(Config.GUILD_HOMEFLOOR_ENABLED.getBoolean()) {
-			Location sp = guild.getSpawnPoint();
+			Location sp = guild.getHome();
 			Material material = Config.GUILD_HOMEFLOOR_MATERIAL.getMaterial();
 
 			if(material != null) {
@@ -646,70 +295,6 @@ public class GuildManager {
 		return guildsByInactive;
 	}
 
-	private NovaGuild guildFromFlat(FileConfiguration guildData) {
-		NovaGuild guild = null;
-
-		if(guildData != null) {
-			guild = new NovaGuild();
-			guild.setId(guildData.getInt("id"));
-			guild.setName(guildData.getString("name"));
-			guild.setTag(guildData.getString("tag"));
-			guild.setLeaderName(guildData.getString("leader"));
-
-			guild.setAlliesNames(guildData.getStringList("allies"));
-			guild.setWarsNames(guildData.getStringList("wars"));
-			guild.setNoWarInvitations(guildData.getStringList("nowar"));
-			guild.setAllyInvitationNames(guildData.getStringList("alliesinv"));
-
-			guild.setMoney(guildData.getDouble("money"));
-			guild.setPoints(guildData.getInt("points"));
-			guild.setLives(guildData.getInt("lives"));
-			guild.setSlots(guildData.getInt("slots"));
-
-			guild.setTimeRest(guildData.getLong("timerest"));
-			guild.setLostLiveTime(guildData.getLong("lostlive"));
-			guild.setInactiveTime(guildData.getLong("activity"));
-			guild.setTimeCreated(guildData.getLong("created"));
-			guild.setOpenInvitation(guildData.getBoolean("openinv"));
-
-			//home
-			World homeWorld = plugin.getServer().getWorld(guildData.getString("home.world"));
-			if(homeWorld != null) {
-				int x = guildData.getInt("home.x");
-				int y = guildData.getInt("home.y");
-				int z = guildData.getInt("home.z");
-				float yaw = (float) guildData.getDouble("home.yaw");
-				Location spawnpoint = new Location(homeWorld, x, y, z);
-				spawnpoint.setYaw(yaw);
-				guild.setSpawnPoint(spawnpoint);
-			}
-
-			//bankloc
-			if(guildData.isConfigurationSection("bankloc")) {
-				World vaultWorld = plugin.getServer().getWorld(guildData.getString("bankloc.world"));
-				if(vaultWorld != null) {
-					int x = guildData.getInt("bankloc.x");
-					int y = guildData.getInt("bankloc.y");
-					int z = guildData.getInt("bankloc.z");
-					Location vaultLocation = new Location(vaultWorld, x, y, z);
-					guild.setVaultLocation(vaultLocation);
-				}
-			}
-
-			//region
-			guild.setRegion(plugin.getRegionManager().getRegion(guild));
-
-			guild.setUnchanged();
-
-			//Fix slots amount
-			if(guild.getSlots() <= 0) {
-				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
-			}
-		}
-
-		return guild;
-	}
-
 	private void loadVaultHolograms() {
 		for(NovaGuild guild : getGuilds()) {
 			if(guild.getVaultLocation() != null) {
@@ -719,7 +304,7 @@ public class GuildManager {
 	}
 
 	public boolean isVaultItemStack(ItemStack itemStack) {
-		return itemStack.equals(Config.VAULT_ITEM.getItemStack());
+		return ItemStackUtils.isSimilar(itemStack, Config.VAULT_ITEM.getItemStack());
 	}
 
 	public void appendVaultHologram(NovaGuild guild) {
@@ -788,11 +373,11 @@ public class GuildManager {
 
 	public void delayedTeleport(Player player, Location location, Message message) {
 		Runnable task = new RunnableTeleportRequest(player, location, message);
-		int delay = NovaGroup.get(player) == null ? 0 : NovaGroup.get(player).getGuildTeleportDelay();
+		int delay = GroupManager.getGroup(player) == null ? 0 : GroupManager.getGroup(player).getGuildTeleportDelay();
 
 		if(delay > 0) {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("DELAY", plugin.getGroupManager().getGroup(player).getGuildTeleportDelay() + "");
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.DELAY, String.valueOf(GroupManager.getGroup(player).getGuildTeleportDelay()));
 			NovaGuilds.runTaskLater(task, delay, TimeUnit.SECONDS);
 			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
 		}
@@ -806,13 +391,13 @@ public class GuildManager {
 		int i = 1;
 
 		List<String> list = new ArrayList<>();
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
 			vars.clear();
-			vars.put("GUILDNAME", guild.getName());
-			vars.put("N", String.valueOf(i));
-			vars.put("POINTS", String.valueOf(guild.getPoints()));
+			vars.put(VarKey.GUILDNAME, guild.getName());
+			vars.put(VarKey.N, String.valueOf(i));
+			vars.put(VarKey.POINTS, String.valueOf(guild.getPoints()));
 			list.add(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).get());
 			i++;
 		}
@@ -832,10 +417,9 @@ public class GuildManager {
 			GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.INACTIVE);
 			plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
 
-			//if event is not cancelled
 			if(!guildAbandonEvent.isCancelled()) {
-				Map<String, String> vars = new HashMap<>();
-				vars.put("GUILDNAME", guild.getName());
+				Map<VarKey, String> vars = new HashMap<>();
+				vars.put(VarKey.GUILDNAME, guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_CLEANUP.vars(vars).broadcast();
 				LoggerUtils.debug("Abandoned guild " + guild.getName() + " due to inactivity.");
 				count++;

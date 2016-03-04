@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -69,8 +69,8 @@ public class TimeStringConversionTest {
 
 	static {
 		MessageManager messageManager = new MessageManager();
-		File langsDir = new File(YamlParseTest.resourcesDirectory, "/lang");
-		File motherLangFile = new File(langsDir, "en-en.yml");
+		File langDir = new File(YamlParseTest.resourcesDirectory, "/lang");
+		File motherLangFile = new File(langDir, "en-en.yml");
 		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
 		messageManager.setMessages(motherConfiguration);
 	}

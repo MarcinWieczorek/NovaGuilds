@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,26 +18,26 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class CommandGuildPvpToggle implements Executor {
-	private final Command command = Command.GUILD_PVPTOGGLE;
+public class CommandGuildPvpToggle extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_PVPTOGGLE;
 
 	public CommandGuildPvpToggle() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -49,14 +49,9 @@ public class CommandGuildPvpToggle implements Executor {
 			return;
 		}
 
-		Map<String, String> vars = new HashMap<>();
 		nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
-		vars.put("FPVP", Message.getOnOff(nPlayer.getGuild().getFriendlyPvp()));
-		Message.CHAT_GUILD_FPVPTOGGLED.vars(vars).send(sender);
-	}
+		TabUtils.refresh(nPlayer.getGuild());
 
-	@Override
-	public Command getCommand() {
-		return command;
+		Message.CHAT_GUILD_FPVPTOGGLED.setVar(VarKey.FPVP, Message.getOnOff(nPlayer.getGuild().getFriendlyPvp())).send(sender);
 	}
 }

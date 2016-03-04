@@ -6,7 +6,7 @@
 
     <groupId>co.marcin</groupId>
     <artifactId>NovaGuilds</artifactId>
-    <version>31</version>
+    <version>32</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -126,6 +126,24 @@
             <artifactId>metrics</artifactId>
             <version>R7</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>tk.northpl</groupId>
+            <artifactId>NorthTab</artifactId>
+            <version>1.1-INDEV</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.shevchik</groupId>
+            <artifactId>protocolsupport</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

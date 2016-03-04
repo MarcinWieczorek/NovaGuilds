@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,11 +18,15 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,11 +34,11 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildSetLeader implements Executor {
-	private final Command command = Command.ADMIN_GUILD_SET_LEADER;
+public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_GUILD_SET_LEADER;
 
 	public CommandAdminGuildSetLeader() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -44,17 +48,17 @@ public class CommandAdminGuildSetLeader implements Executor {
 			return;
 		}
 
-		String playername = args[0];
+		String playerName = args[0];
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(playername);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(playerName);
 
 		if(nPlayer == null) { //invalid player
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return;
 		}
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", nPlayer.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, nPlayer.getName());
 
 		if(!nPlayer.hasGuild()) { //has no guild
 			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
@@ -62,7 +66,7 @@ public class CommandAdminGuildSetLeader implements Executor {
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
-		vars.put("GUILDNAME", guild.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 
 		if(!guild.isMember(nPlayer)) { //is not member
 			Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.vars(vars).send(sender);
@@ -81,19 +85,16 @@ public class CommandAdminGuildSetLeader implements Executor {
 		guild.setLeader(nPlayer);
 
 		if(oldLeader != null) {
-			TagUtils.updatePrefix(oldLeader);
+			TagUtils.refresh(oldLeader);
+			TabUtils.refresh(oldLeader);
 		}
 
 		if(nPlayer.isOnline()) {
-			TagUtils.updatePrefix(nPlayer.getPlayer());
+			TagUtils.refresh(nPlayer.getPlayer());
+			TabUtils.refresh(nPlayer);
 		}
 
 		Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.vars(vars).send(sender);
 		Message.BROADCAST_GUILD_NEWLEADER.vars(vars).broadcast();
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

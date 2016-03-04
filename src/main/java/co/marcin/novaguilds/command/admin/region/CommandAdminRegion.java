@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,10 +18,12 @@
 
 package co.marcin.novaguilds.command.admin.region;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -30,8 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandAdminRegion implements Executor {
-	private final Command command = Command.ADMIN_REGION_ACCESS;
+public class CommandAdminRegion extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_REGION_ACCESS;
 
 	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("bypass", Command.ADMIN_REGION_BYPASS);
@@ -52,7 +54,7 @@ public class CommandAdminRegion implements Executor {
 	}};
 
 	public CommandAdminRegion() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class CommandAdminRegion implements Executor {
 		}
 
 		if(!noGuildCommands.contains(subCommand)) {
-			NovaGuild guild = plugin.getGuildManager().getGuildFind(args[0]);
+			NovaGuild guild = GuildManager.getGuildFind(args[0]);
 
 			if(guild == null) {
 				Message.CHAT_GUILD_COULDNOTFIND.send(sender);
@@ -88,10 +90,5 @@ public class CommandAdminRegion implements Executor {
 		}
 
 		subCommand.execute(sender, StringUtils.parseArgs(args, noGuildCommands.contains(subCommand) ? 1 : 2));
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

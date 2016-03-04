@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,26 +18,21 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminGuildSetLiveRegenerationTime implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_SET_LIVEREGENERATIONTIME;
+public class CommandAdminGuildSetLiveRegenerationTime extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_SET_LIVEREGENERATIONTIME;
 
 	public CommandAdminGuildSetLiveRegenerationTime() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
@@ -50,17 +45,12 @@ public class CommandAdminGuildSetLiveRegenerationTime implements Executor.Revers
 			timeString = args[0];
 		}
 
-		int iseconds = StringUtils.stringToSeconds(timeString);
-		long seconds = Long.parseLong(iseconds + "");
+		int seconds = StringUtils.stringToSeconds(timeString);
+		long lostLiveTime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());
 
-		long newregentime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());
+		guild.setLostLiveTime(lostLiveTime);
+		TabUtils.refresh(guild);
 
-		guild.setLostLiveTime(newregentime);
 		Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

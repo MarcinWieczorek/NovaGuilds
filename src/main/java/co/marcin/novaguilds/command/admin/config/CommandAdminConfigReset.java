@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,19 +18,19 @@
 
 package co.marcin.novaguilds.command.admin.config;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
 
-public class CommandAdminConfigReset implements Executor {
+public class CommandAdminConfigReset extends AbstractCommandExecutor {
 	private static final Command command = Command.ADMIN_CONFIG_RESET;
 
 	public CommandAdminConfigReset() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -51,10 +51,5 @@ public class CommandAdminConfigReset implements Executor {
 		}
 
 		Message.CHAT_ADMIN_CONFIG_RESET.send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

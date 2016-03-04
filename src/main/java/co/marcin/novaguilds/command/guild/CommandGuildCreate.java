@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,20 +18,27 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaGroup;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaGroup;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildCreateEvent;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
+import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
+import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
@@ -42,12 +49,13 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-public class CommandGuildCreate implements CommandExecutor, Executor {
-	private final Command command = Command.GUILD_CREATE;
+public class CommandGuildCreate extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.GUILD_CREATE;
 	
 	public CommandGuildCreate() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -66,16 +74,16 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		Player player = (Player) sender;
 
 		String tag = args[0];
-		String guildname = args[1];
+		String guildName = args[1];
 		
 		//remove colors
-		guildname = StringUtils.removeColors(guildname);
+		guildName = StringUtils.removeColors(guildName);
 		if(!Config.GUILD_SETTINGS_TAG_COLOR.getBoolean()) {
 			tag = StringUtils.removeColors(tag);
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
-		Map<String, String> vars = new HashMap<>();
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+		Map<VarKey, String> vars = new HashMap<>();
 		
 		if(nPlayer.hasGuild()) { //has guild already
 			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
@@ -83,7 +91,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 
 		//Check name and tag validity
-		Message validName = validName(guildname);
+		Message validName = validName(guildName);
 		Message validTag = validTag(tag);
 
 		if(validName != null) {
@@ -97,14 +105,14 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 
 
-		if(plugin.getRegionManager().getRegion(player.getLocation()) != null) {
+		if(RegionManager.get(player) != null) {
 			Message.CHAT_CREATEGUILD_REGIONHERE.send(sender);
 			return;
 		}
 
 		//distance from spawn
 		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < Config.GUILD_FROMSPAWN.getInt()) {
-			vars.put("DISTANCE", String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
+			vars.put(VarKey.DISTANCE, String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
 			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.vars(vars).send(sender);
 			return;
 		}
@@ -116,12 +124,12 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 
 		//items required
-		NovaGroup group = plugin.getGroupManager().getGroup(sender);
+		NovaGroup group = GroupManager.getGroup(sender);
 		List<ItemStack> items = group.getGuildCreateItems();
-		double requiredmoney = group.getGuildCreateMoney();
+		double requiredMoney = group.getGuildCreateMoney();
 
-		if(requiredmoney > 0 && !nPlayer.hasMoney(requiredmoney)) {
-			vars.put("REQUIREDMONEY", String.valueOf(requiredmoney));
+		if(requiredMoney > 0 && !nPlayer.hasMoney(requiredMoney)) {
+			vars.put(VarKey.REQUIREDMONEY, String.valueOf(requiredMoney));
 			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 			return;
 		}
@@ -144,7 +152,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
 			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
 
-			region = new NovaRegion();
+			region = new NovaRegionImpl();
 
 			region.setCorner(0, c1);
 			region.setCorner(1, c2);
@@ -156,11 +164,11 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		switch(regionValid) {
 			case VALID:
 				//Guild object
-				NovaGuild newGuild = new NovaGuild();
-				newGuild.setName(guildname);
+				NovaGuild newGuild = new NovaGuildImpl(UUID.randomUUID());
+				newGuild.setName(guildName);
 				newGuild.setTag(tag);
 				newGuild.setLeader(nPlayer);
-				newGuild.setSpawnPoint(player.getLocation());
+				newGuild.setHome(player.getLocation());
 				newGuild.addPlayer(nPlayer);
 				newGuild.updateInactiveTime();
 				newGuild.setLives(Config.GUILD_STARTLIVES.getInt());
@@ -178,24 +186,25 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					plugin.getGuildManager().add(newGuild);
 
 					//taking money away
-					nPlayer.takeMoney(requiredmoney);
+					nPlayer.takeMoney(requiredMoney);
 
 					//taking items away
 					InventoryUtils.removeItems(player, items);
 
 					//update tag and tabs
-					TagUtils.updatePrefix((Player) sender);
+					TagUtils.refresh((Player) sender);
+					TabUtils.refresh(nPlayer);
 
 					//Update holograms
 					plugin.getHologramManager().refreshTopHolograms();
 
 					//autoregion
 					if(region != null) {
-						region.setGuild(nPlayer.getGuild());
-						plugin.getRegionManager().add(region, nPlayer.getGuild());
+						nPlayer.getGuild().setRegion(region);
+						plugin.getRegionManager().add(region);
 
 						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
-							if(region.equals(plugin.getRegionManager().getRegion(playerCheck.getLocation()))) {
+							if(region.equals(RegionManager.get(playerCheck))) {
 								plugin.getRegionManager().playerEnteredRegion(playerCheck, playerCheck.getLocation());
 							}
 						}
@@ -214,8 +223,8 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 					//messages
 					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);
 
-					vars.put("GUILDNAME", newGuild.getName());
-					vars.put("PLAYER", sender.getName());
+					vars.put(VarKey.GUILDNAME, newGuild.getName());
+					vars.put(VarKey.PLAYER, sender.getName());
 					Message.BROADCAST_GUILD_CREATED.vars(vars).broadcast();
 				}
 				break;
@@ -228,13 +237,8 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 		}
 	}
 
-	@Override
-	public Command getCommand() {
-		return command;
-	}
-
 	public static Message validTag(String tag) {
-		if(plugin.getGuildManager().getGuildByTag(tag) != null) { //Check for an existing guild
+		if(GuildManager.getGuildByTag(tag) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_TAGEXISTS;
 		}
 
@@ -254,7 +258,7 @@ public class CommandGuildCreate implements CommandExecutor, Executor {
 	}
 
 	public static Message validName(String name) {
-		if(plugin.getGuildManager().getGuildByName(name) != null) { //Check for an existing guild
+		if(GuildManager.getGuildByName(name) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_NAMEEXISTS;
 		}
 

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ public enum PreparedStatements {
 	PLAYERS_SELECT,
 	PLAYERS_INSERT,
 	PLAYERS_UPDATE,
+	PLAYERS_DELETE,
 
 	REGIONS_SELECT,
 	REGIONS_INSERT,

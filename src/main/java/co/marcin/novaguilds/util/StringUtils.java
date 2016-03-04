@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import com.google.gson.Gson;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -63,22 +64,19 @@ public final class StringUtils {
 	}
 	
 	public static String getContent(String s) throws IOException {
-		String body = null;
 		URL url = new URL(s);
 		URLConnection con = url.openConnection();
 		InputStream in = con.getInputStream();
 		String encoding = con.getContentEncoding();
 		encoding = encoding == null ? "UTF-8" : encoding;
-		body = IOUtils.toString(in, encoding);
-
-		return body;
+		return IOUtils.toString(in, encoding);
 	}
 	
 	public static String parseDBLocation(Location l) {
-		return l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ() + ";" + Math.round(l.getYaw());
+		return l == null ? "" : l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ() + ";" + Math.round(l.getYaw());
 	}
 	
-	public static String parseDBLocationCoords2D(Location l) {
+	public static String parseDBLocationCoordinates2D(Location l) {
 		return l.getBlockX() + ";" + l.getBlockZ();
 	}
 	
@@ -87,17 +85,17 @@ public final class StringUtils {
 			return args;
 		}
 		
-		String[] newargs = new String[args.length - cut];
+		String[] newArgs = new String[args.length - cut];
 		
 		int index = 0;
 		for(int i = 0; i < args.length; i++) {
 			if(i >= cut) {
-				newargs[index] = args[i];
+				newArgs[index] = args[i];
 				index++;
 			}
 		}
 		
-		return newargs;
+		return newArgs;
 	}
 	
 	public static List<String> semicolonToList(String str) {
@@ -152,6 +150,16 @@ public final class StringUtils {
 		return joined;
 	}
 
+	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars) {
+		if(vars != null) {
+			for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
+				msg = org.apache.commons.lang.StringUtils.replace(msg, "{" + entry.getKey().name() + "}", entry.getValue());
+			}
+		}
+
+		return msg;
+	}
+
 	public static String replaceMap(String msg, Map<String, String> vars) {
 		if(vars != null) {
 			for(Map.Entry<String, String> entry : vars.entrySet()) {
@@ -162,8 +170,8 @@ public final class StringUtils {
 		return msg;
 	}
 
-	public static String secondsToString(long lseconds) {
-		return secondsToString(lseconds, TimeUnit.SECONDS);
+	public static String secondsToString(long seconds) {
+		return secondsToString(seconds, TimeUnit.SECONDS);
 	}
 
 	public static String secondsToString(long seconds, TimeUnit unit) {
@@ -252,10 +260,10 @@ public final class StringUtils {
 	}
 
 	public static int stringToSeconds(String str) {
-		String[] spacexp = str.split(" ");
+		String[] spaceSplit = str.split(" ");
 		int seconds = 0;
 
-		for(String word : spacexp) {
+		for(String word : spaceSplit) {
 			if(word.endsWith("s")) {
 				word = word.substring(0, word.length() - 1);
 				if(NumberUtils.isNumeric(word)) {
@@ -328,22 +336,22 @@ public final class StringUtils {
 	}
 
 	public static String getItemList(List<ItemStack> items) {
-		String itemlist = "";
+		String itemListString = "";
 		int i = 0;
 		for(ItemStack missingItemStack : items) {
-			String itemrow = Message.CHAT_CREATEGUILD_ITEMLIST.get();
-			itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{ITEMNAME}", missingItemStack.getType().name());
-			itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{AMOUNT}", missingItemStack.getAmount() + "");
+			String row = Message.CHAT_CREATEGUILD_ITEMLIST.get();
+			row = org.apache.commons.lang.StringUtils.replace(row, "{ITEMNAME}", missingItemStack.getType().name());
+			row = org.apache.commons.lang.StringUtils.replace(row, "{AMOUNT}", missingItemStack.getAmount() + "");
 
-			itemlist += itemrow;
+			itemListString += row;
 
 			if(i < items.size() - 1) {
-				itemlist += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
+				itemListString += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
 			}
 			i++;
 		}
 
-		return fixColors(itemlist);
+		return fixColors(itemListString);
 	}
 
 	public static List<String> jsonToList(String json) {

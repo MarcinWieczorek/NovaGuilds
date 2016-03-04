@@ -53,7 +53,7 @@ mvn clean install
 <br/>
 <h2><b>Features</b></h2>
 <ul>
-    <li>MySQL and SQLlite support</li>
+    <li>MySQL and SQLite support</li>
     <li>Money required to create a guild (Vault)(Configurable)</li>
     <li>Items required to create a guild (Configurable)</li>
     <li>Configurable region interact (you can allow others to use stuff in guilds)</li>
@@ -157,7 +157,7 @@ mvn clean install
 
 <br/>
 <h2><b>Permissions</b></h2>
-<table>
+<table id="permissions-table">
     <thead>
         <tr>
             <td>Permission</td>
@@ -168,6 +168,30 @@ mvn clean install
         <tr>
             <td>novaguilds.admin.access</td>
             <td>Access to /nga</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.config.access</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.config.get</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.config.reload</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.config.reset</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.config.save</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.config.set</td>
+            <td></td>
         </tr>
         <tr>
             <td>novaguilds.admin.guild.access</td>
@@ -246,7 +270,7 @@ mvn clean install
             <td>/nga g purge/td>
         </tr>
         <tr>
-            <td>novaguilds.admin.guild.teleport</td>
+            <td>novaguilds.admin.guild.teleport.self</td>
             <td>/nga g <guild> tp</td>
         </tr>
         <tr>
@@ -254,24 +278,12 @@ mvn clean install
             <td>/nga g <guild> tp <player></td>
         </tr>
         <tr>
-            <td>novaguilds.admin.region.bypass</td>
-            <td>/nga rg bypass</td>
+            <td>novaguilds.admin.guild.fullinfo</td>
+            <td>Display full guild's info</td>
         </tr>
         <tr>
-            <td>novaguilds.admin.region.bypass.other</td>
-            <td>/nga rg bypass <player></td>
-        </tr>
-        <tr>
-            <td>novaguilds.admin.region.delete</td>
-            <td>/nga rg delete <guild></td>
-        </tr>
-        <tr>
-            <td>novaguilds.admin.region.list</td>
-            <td>/nga rg list</td>
-        </tr>
-        <tr>
-            <td>novaguilds.admin.region.teleport</td>
-            <td>/nga rg tp <guild></td>
+            <td>novaguilds.admin.guild.reset.points</td>
+            <td>Reset guild's points</td>
         </tr>
         <tr>
             <td>novaguilds.admin.hologram.access</td>
@@ -302,6 +314,34 @@ mvn clean install
             <td>/nga h</td>
         </tr>
         <tr>
+            <td>novaguilds.admin.region.access</td>
+            <td>/nga rg bypass</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.bypass.self</td>
+            <td>/nga rg bypass</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.bypass.other</td>
+            <td>/nga rg bypass <player></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.delete</td>
+            <td>/nga rg delete <guild></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.list</td>
+            <td>/nga rg list</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.teleport.self</td>
+            <td>/nga rg tp <guild></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.teleport.other</td>
+            <td>/nga rg tp <guild></td>
+        </tr>
+        <tr>
             <td>novaguilds.admin.reload</td>
             <td>/nga reload</td>
         </tr>
@@ -316,6 +356,18 @@ mvn clean install
         <tr>
             <td>novaguilds.admin.updateavailable</td>
             <td>Update notify message</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.chatspy.self</td>
+            <td>Toggle your chat spy mode</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.chatspy.other</td>
+            <td>Toggle somebodies chat spy mode</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.noconfirm</td>
+            <td>Execute commands without /confirm</td>
         </tr>
         <tr>
             <td>novaguilds.guild.access</td>
@@ -374,10 +426,6 @@ mvn clean install
             <td>/g kick <player></td>
         </tr>
         <tr>
-            <td>novaguilds.guild.gui</td>
-            <td>/gg</td>
-        </tr>
-        <tr>
             <td>novaguilds.guild.pvptoggle</td>
             <td>/g pvp</td>
         </tr>
@@ -402,6 +450,10 @@ mvn clean install
             <td>/g buyslot</td>
         </tr>
         <tr>
+            <td>novaguilds.guild.chatmode</td>
+            <td>Change chat mode</td>
+        </tr>
+        <tr>
             <td>novaguilds.guild.info</td>
             <td>/gi [guild]</td>
         </tr>
@@ -410,12 +462,24 @@ mvn clean install
             <td>/g leader <player></td>
         </tr>
         <tr>
+            <td>novaguilds.guild.menu</td>
+            <td>Guild's menu</td>
+        </tr>
+        <tr>
             <td>novaguilds.guild.boss</td>
             <td>Soon.</td>
         </tr>
         <tr>
             <td>novaguilds.guild.openinvitation</td>
             <td>/g </td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.set.name</td>
+            <td>Set guild's name</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.set.tag</td>
+            <td>Set guild's tag</td>
         </tr>
         <tr>
             <td>novaguilds.region.access</td>
@@ -452,6 +516,10 @@ mvn clean install
         <tr>
             <td>novaguilds.error</td>
             <td>Receive errors (for admins)</td>
+        </tr>
+        <tr>
+            <td>novaguilds.novaguilds</td>
+            <td>/novaguilds</td>
         </tr>
         <tr>
             <td>novaguilds.confirm</td>

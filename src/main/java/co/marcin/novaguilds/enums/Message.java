@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,11 +18,15 @@
 
 package co.marcin.novaguilds.enums;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.util.ChatBroadcast;
+import co.marcin.novaguilds.impl.util.ChatBroadcastImpl;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -47,6 +51,7 @@ public enum Message {
 	CHAT_BASIC_NEGATIVENUMBER,
 	CHAT_BASIC_ON,
 	CHAT_BASIC_OFF,
+	CHAT_BASIC_COORDS3D,
 
 	CHAT_CONFIRM_NULLHANDLER,
 	CHAT_CONFIRM_NEEDCONFIRM,
@@ -90,6 +95,9 @@ public enum Message {
 	CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD,
 	CHAT_ADMIN_GUILD_SET_LEADER_ALREADYLEADER,
 	CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS,
+	CHAT_ADMIN_GUILD_RESET_POINTS_INVALIDCONDITIONTYPE,
+	CHAT_ADMIN_GUILD_RESET_POINTS_NOVALUE,
+	CHAT_ADMIN_GUILD_RESET_POINTS_SUCCESS,
 
 	CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF,
 	CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER,
@@ -278,7 +286,7 @@ public enum Message {
 	CHAT_REGION_BLOCKEDCMD,
 	CHAT_REGION_DELETED,
 
-	CHAT_USAGE_NGA_CONFIG_ACCESS,
+	CHAT_USAGE_NGA_CONFIG_ACCESS(MessageFlag.NOPREFIX),
 	CHAT_USAGE_NGA_CONFIG_GET,
 	CHAT_USAGE_NGA_CONFIG_RELOAD,
 	CHAT_USAGE_NGA_CONFIG_RESET,
@@ -293,6 +301,7 @@ public enum Message {
 	CHAT_USAGE_NGA_GUILD_BANK_WITHDRAW,
 	CHAT_USAGE_NGA_GUILD_PURGE,
 	CHAT_USAGE_NGA_GUILD_TP,
+	CHAT_USAGE_NGA_GUILD_RESET_POINTS,
 
 	CHAT_USAGE_NGA_REGION_ACCESS,
 	CHAT_USAGE_NGA_REGION_BYPASS,
@@ -396,9 +405,11 @@ public enum Message {
 
 	HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS,
 	HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER,
-	HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW,
+	HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW(MessageFlag.NOPREFIX),
 
 	BARAPI_WARPROGRESS,
+
+	MISC_POINTSBELOWNAME,
 
 	INVENTORY_REQUIREDITEMS_NAME,
 	INVENTORY_GGUI_NAME,
@@ -482,9 +493,15 @@ public enum Message {
 
 	private boolean title = false;
 	private String path = null;
-	private Map<String, String> vars = new HashMap<>();
+	private Map<VarKey, String> vars = new HashMap<>();
 	private boolean prefix = true;
 	private boolean list = false;
+
+	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>(){{
+		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
+		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
+		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
+	}};
 
 	private enum MessageFlag {
 		NOPREFIX,
@@ -506,6 +523,7 @@ public enum Message {
 			}
 			else if(flag == MessageFlag.LIST) {
 				list = true;
+				prefix = false;
 			}
 		}
 	}
@@ -542,7 +560,7 @@ public enum Message {
 	 * Gets the map of variables
 	 * @return The Map
 	 */
-	public Map<String, String> getVars() {
+	public Map<VarKey, String> getVars() {
 		return vars;
 	}
 
@@ -574,9 +592,22 @@ public enum Message {
 	 * @param vars Map of variables
 	 * @return Message instance
 	 */
-	public Message vars(Map<String, String> vars) {
+	public Message vars(Map<VarKey, String> vars) {
 		this.vars = vars;
 		return this;
+	}
+
+	public Message setVar(VarKey varKey, String string) {
+		vars.put(varKey, string);
+		return this;
+	}
+
+	public Message setVar(VarKey varKey, Integer integer) {
+		return setVar(varKey, String.valueOf(integer));
+	}
+
+	public Message setVar(VarKey varKey, Double value) {
+		return setVar(varKey, String.valueOf(value));
 	}
 
 	/**
@@ -617,7 +648,7 @@ public enum Message {
 	 * @return message string
 	 */
 	public String get() {
-		return MessageManager.replaceMap(MessageManager.getMessagesString(this), vars);
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars);
 	}
 
 	/**
@@ -664,7 +695,7 @@ public enum Message {
 			key = parentPath + "." + key;
 
 			if(!key.equals(getPath())) {
-				list.add(Message.fromPath(key));
+				list.add(Message.fromPath(key).prefix(isPrefix()));
 			}
 		}
 
@@ -698,5 +729,35 @@ public enum Message {
 	 */
 	public static Message fromPath(String path) {
 		return Message.valueOf(StringUtils.replace(path, ".", "_").toUpperCase());
+	}
+
+	/**
+	 * Gets a name of chat mode
+	 * @param chatMode chat mode enum
+	 * @return the name
+	 */
+	public static Message getChatModeName(ChatMode chatMode) {
+		return chatModeMessages.get(chatMode);
+	}
+
+	/**
+	 * Gets a message with filled coordinated
+	 * @param location location instance
+	 * @return the message
+	 */
+	public static Message getCoords3D(Location location) {
+		Message message = Message.CHAT_BASIC_COORDS3D;
+
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.X, String.valueOf(location.getBlockX()));
+		vars.put(VarKey.Y, String.valueOf(location.getBlockY()));
+		vars.put(VarKey.Z, String.valueOf(location.getBlockZ()));
+		message.vars(vars);
+
+		return message;
+	}
+
+	public ChatBroadcast newChatBroadcast() {
+		return new ChatBroadcastImpl(this);
 	}
 }

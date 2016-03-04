@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,14 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,28 +33,22 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_TELEPORT;
+public class CommandAdminGuildTeleport extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_TELEPORT;
 
 	public CommandAdminGuildTeleport() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		Location home = guild.getSpawnPoint();
+		Location home = guild.getHome();
 
 		Player player = (Player) sender;
 		boolean other = false;
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.GUILDNAME, guild.getName());
 
 		if(args.length == 1) {
 			if(!Permission.NOVAGUILDS_ADMIN_GUILD_TELEPORT_OTHER.has(sender)) {
@@ -61,7 +57,7 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 			}
 
 			String playerName = args[0];
-			NovaPlayer nPlayerOther = plugin.getPlayerManager().getPlayer(playerName);
+			NovaPlayer nPlayerOther = PlayerManager.getPlayer(playerName);
 
 			if(nPlayerOther == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
@@ -78,7 +74,7 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 		}
 
 		if(other) {
-			vars.put("PLAYERNAME", player.getName());
+			vars.put(VarKey.PLAYERNAME, player.getName());
 			Message.CHAT_ADMIN_GUILD_TELEPORTED_OTHER.vars(vars).send(sender);
 		}
 		else {
@@ -86,10 +82,5 @@ public class CommandAdminGuildTeleport implements Executor.ReversedAdminGuild {
 		}
 
 		player.teleport(home);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

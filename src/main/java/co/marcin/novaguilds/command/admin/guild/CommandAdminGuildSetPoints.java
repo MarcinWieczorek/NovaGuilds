@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,24 +18,19 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminGuildSetPoints implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_SET_POINTS;
+public class CommandAdminGuildSetPoints extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_SET_POINTS;
 
 	public CommandAdminGuildSetPoints() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
@@ -60,12 +55,8 @@ public class CommandAdminGuildSetPoints implements Executor.ReversedAdminGuild {
 		}
 
 		guild.setPoints(pointsInteger);
+		TabUtils.refresh(guild);
 
 		Message.CHAT_ADMIN_GUILD_SET_POINTS.send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

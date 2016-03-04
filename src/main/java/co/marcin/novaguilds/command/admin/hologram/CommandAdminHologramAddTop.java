@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,35 +18,24 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
-import co.marcin.novaguilds.basic.NovaHologram;
+import co.marcin.novaguilds.api.basic.NovaHologram;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class CommandAdminHologramAddTop implements Executor {
-	private final Command command = Command.ADMIN_HOLOGRAM_ADDTOP;
+public class CommandAdminHologramAddTop extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_HOLOGRAM_ADDTOP;
 
 	public CommandAdminHologramAddTop() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		NovaHologram hologram = plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());
-
-		Map<String, String> vars = new HashMap<>();
-		vars.put("NAME", hologram.getName());
-
-		Message.CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS.vars(vars).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
+		Message.CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS.setVar(VarKey.NAME, hologram.getName()).send(sender);
 	}
 }

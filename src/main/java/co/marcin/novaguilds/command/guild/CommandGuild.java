@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,12 +18,13 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.manager.MessageManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,8 +32,8 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandGuild implements CommandExecutor, Executor {
-	private final Command command = Command.GUILD_ACCESS;
+public class CommandGuild extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.GUILD_ACCESS;
 
 	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("pay", Command.GUILD_BANK_PAY);
@@ -68,24 +69,24 @@ public class CommandGuild implements CommandExecutor, Executor {
 	}};
 
 	public CommandGuild() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		if(args.length > 0) {
 			Command command = commandsMap.get(args[0].toLowerCase());
-			String[] newargs = StringUtils.parseArgs(args, 1);
+			String[] newArgs = StringUtils.parseArgs(args, 1);
 
 			if(command == null) {
 				Message.CHAT_UNKNOWNCMD.send(sender);
 			}
 			else {
-				command.execute(sender, newargs);
+				command.execute(sender, newArgs);
 			}
 		}
 		else {
-			NovaPlayer nPlayer = NovaPlayer.get(sender);
+			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 			if(nPlayer.hasGuild()) {
 				for(String message : Message.CHAT_COMMANDS_GUILD_HASGUILD.getList()) {
 					GuildPermission guildPermission = null;
@@ -114,13 +115,9 @@ public class CommandGuild implements CommandExecutor, Executor {
 		}
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

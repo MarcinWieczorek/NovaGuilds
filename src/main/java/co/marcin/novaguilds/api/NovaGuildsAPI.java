@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,9 +18,10 @@
 
 package co.marcin.novaguilds.api;
 
+import co.marcin.novaguilds.api.storage.Storage;
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
-import co.marcin.novaguilds.manager.FlatDataManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
@@ -86,13 +87,6 @@ public interface NovaGuildsAPI {
 	GroupManager getGroupManager();
 
 	/**
-	 * Returns the instance of FlatDataManager
-	 *
-	 * @return FlatDataManager
-	 */
-	FlatDataManager getFlatDataManager();
-
-	/**
 	 * Returns the instance of HologramManager
 	 *
 	 * @return HologramManager
@@ -119,4 +113,17 @@ public interface NovaGuildsAPI {
 	 * @return current plugin version
 	 */
 	int getBuild();
+
+	/**
+	 * Returns the PacketExtension
+	 *
+	 * @return the PacketExtension
+	 */
+	PacketExtension getPacketExtension();
+
+	/**
+	 * Returns the storage
+	 * @return the storage
+	 */
+	Storage getStorage();
 }

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,29 +18,22 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
-public class PlayerInfoListener implements Listener {
-	private final NovaGuilds plugin;
-
-	public PlayerInfoListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
-
+public class PlayerInfoListener extends AbstractListener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerClickPlayer(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		if((event.getRightClicked() instanceof Player) && player.isSneaking()) {
 			if(Permission.NOVAGUILDS_PLAYERINFO.has(player)) {
-				NovaPlayer nCPlayer = plugin.getPlayerManager().getPlayer((Player) event.getRightClicked());
+				NovaPlayer nCPlayer = PlayerManager.getPlayer(event.getRightClicked());
 				plugin.getPlayerManager().sendPlayerInfo(player, nCPlayer);
 			}
 		}

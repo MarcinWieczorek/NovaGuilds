@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,25 +18,28 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class CommandAdminGuildInactive implements Executor {
-	private final Command command = Command.ADMIN_GUILD_INACTIVE;
+public class CommandAdminGuildInactive extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_GUILD_INACTIVE;
 
 	public CommandAdminGuildInactive() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -57,8 +60,11 @@ public class CommandAdminGuildInactive implements Executor {
 					guild.updateInactiveTime();
 					count++;
 				}
-				Map<String, String> vars = new HashMap<>();
-				vars.put("COUNT", count + "");
+
+				TabUtils.refresh();
+
+				Map<VarKey, String> vars = new HashMap<>();
+				vars.put(VarKey.COUNT, String.valueOf(count));
 				Message.CHAT_ADMIN_GUILD_INACTIVE_UPDATED.vars(vars).send(sender);
 				return;
 			}
@@ -83,24 +89,24 @@ public class CommandAdminGuildInactive implements Executor {
 			page = 1;
 		}
 
-		int perpage = 10;
+		int perPage = 10;
 		int size = plugin.getGuildManager().getGuilds().size();
-		int pages_number = size / perpage;
-		if(size % perpage > 0) {
+		int pages_number = size / perPage;
+		if(size % perPage > 0) {
 			pages_number++;
 		}
 
 		Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_HEADER.send(sender);
-		String rowformat = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_ITEM.get();
+		String rowFormat = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_ITEM.get();
 
 		int i = 0;
 		boolean display = false;
 
-		if(size > perpage) {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("PAGE", String.valueOf(page));
-			vars.put("NEXT", String.valueOf(page + 1));
-			vars.put("PAGES", String.valueOf(pages_number));
+		if(size > perPage) {
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.PAGE, String.valueOf(page));
+			vars.put(VarKey.NEXT, String.valueOf(page + 1));
+			vars.put(VarKey.PAGES, String.valueOf(pages_number));
 
 			if(pages_number > page) {
 				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.vars(vars).send(sender);
@@ -111,7 +117,7 @@ public class CommandAdminGuildInactive implements Executor {
 		}
 
 		for(NovaGuild guild : plugin.getGuildManager().getMostInactiveGuilds()) {
-			if((i + 1 > (page - 1) * perpage || page == 1) && !display) {
+			if((i + 1 > (page - 1) * perPage || page == 1) && !display) {
 				display = true;
 				i = 0;
 			}
@@ -123,33 +129,28 @@ public class CommandAdminGuildInactive implements Executor {
 			if(display) {
 				String inactiveString = StringUtils.secondsToString(NumberUtils.systemSeconds() - guild.getInactiveTime(), TimeUnit.SECONDS);
 
-				String agonow = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_AGO.get();
+				String agoNowString = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_AGO.get();
 				if(inactiveString.isEmpty()) {
-					agonow = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_NOW.get();
+					agoNowString = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_NOW.get();
 				}
 
-				Map<String, String> vars = new HashMap<>();
-				vars.put("GUILDNAME", guild.getName());
-				vars.put("PLAYERNAME", guild.getLeader().getName());
-				vars.put("TAG", guild.getTag());
-				vars.put("PLAYERSCOUNT", guild.getPlayers().size() + "");
-				vars.put("AGONOW", agonow);
-				vars.put("INACTIVE", inactiveString);
+				Map<VarKey, String> vars = new HashMap<>();
+				vars.put(VarKey.GUILDNAME, guild.getName());
+				vars.put(VarKey.PLAYERNAME, guild.getLeader().getName());
+				vars.put(VarKey.TAG, guild.getTag());
+				vars.put(VarKey.PLAYERSCOUNT, String.valueOf(guild.getPlayers().size()));
+				vars.put(VarKey.AGONOW, agoNowString);
+				vars.put(VarKey.INACTIVE, inactiveString);
 
-				String rowmsg = MessageManager.replaceMap(rowformat, vars);
-				MessageManager.sendMessage(sender, rowmsg);
+				String rowMessage = MessageManager.replaceVarKeyMap(rowFormat, vars);
+				MessageManager.sendMessage(sender, rowMessage);
 
-				if(i + 1 >= perpage) {
+				if(i + 1 >= perPage) {
 					break;
 				}
 			}
 
 			i++;
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

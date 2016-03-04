@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,14 +18,18 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,15 +37,16 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandGuildAbandon implements CommandExecutor, Executor {
-	private static Command command = Command.GUILD_ABANDON;
+public class CommandGuildAbandon extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.GUILD_ABANDON;
 	
 	public CommandGuildAbandon() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		NovaPlayer nPlayer = NovaPlayer.get(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -58,7 +63,7 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 	}
 	
 	public void execute(CommandSender sender, String args[]) {
-		NovaPlayer nPlayer = NovaPlayer.get(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -82,16 +87,12 @@ public class CommandGuildAbandon implements CommandExecutor, Executor {
 
 			Message.CHAT_GUILD_ABANDONED.send(sender);
 
-			Map<String, String> vars = new HashMap<>();
-			vars.put("PLAYER", sender.getName());
-			vars.put("GUILDNAME", guild.getName());
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.PLAYER, sender.getName());
+			vars.put(VarKey.GUILDNAME, guild.getName());
 			Message.BROADCAST_GUILD_ABANDONED.vars(vars).broadcast();
-			TagUtils.refreshAll();
+			TagUtils.refresh();
+			TabUtils.refresh();
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

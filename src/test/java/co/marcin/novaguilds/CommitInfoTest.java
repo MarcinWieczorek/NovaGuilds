@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -33,8 +33,8 @@ public class CommitInfoTest {
 
 		if(commitInfoFile.createNewFile()) {
 			Runtime rt = Runtime.getRuntime();
-			Process proc = rt.exec("git rev-parse HEAD");
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			Process process = rt.exec("git rev-parse HEAD");
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			System.out.println("Latest commit:");
 			String commit = stdInput.readLine();
 			System.out.println(commit);

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,23 +18,24 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class CommandGuildBankWithdraw implements Executor {
-	private final Command command = Command.GUILD_BANK_WITHDRAW;
+public class CommandGuildBankWithdraw extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_BANK_WITHDRAW;
 
 	public CommandGuildBankWithdraw() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class CommandGuildBankWithdraw implements Executor {
 		}
 
 		String moneyString = args[0];
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -79,13 +80,7 @@ public class CommandGuildBankWithdraw implements Executor {
 
 		guild.takeMoney(money);
 		nPlayer.addMoney(money);
-		Map<String, String> vars = new HashMap<>();
-		vars.put("AMOUNT", money + "");
-		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.vars(vars).send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
+		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.setVar(VarKey.AMOUNT, money).send(sender);
+		TabUtils.refresh(nPlayer.getGuild());
 	}
 }

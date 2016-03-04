@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -109,8 +109,8 @@ public final class RegionUtils {
 
 		int t;
 
-		int dif_x = Math.abs(x1 - x2) + 1;
-		int dif_z = Math.abs(z1 - z2) + 1;
+		int difX = Math.abs(x1 - x2) + 1;
+		int difZ = Math.abs(z1 - z2) + 1;
 
 		if(l1.getBlockX() < l2.getBlockX()) {
 			xs = l1.getBlockX();
@@ -126,7 +126,7 @@ public final class RegionUtils {
 			zs = l2.getBlockZ();
 		}
 
-		for(t = 0; t < dif_x; t++) {
+		for(t = 0; t < difX; t++) {
 			x = xs + t;
 
 			Block highestBlock1 = world.getHighestBlockAt(x, z1);
@@ -139,7 +139,7 @@ public final class RegionUtils {
 		}
 
 
-		for(t = 0; t < dif_z; t++) {
+		for(t = 0; t < difZ; t++) {
 			z = zs + t;
 
 			Block highestBlock1 = world.getHighestBlockAt(x1, z);
@@ -185,10 +185,10 @@ public final class RegionUtils {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX());
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ());
 
-		int newx = l1.getBlockX() + (l1.getBlockX() < l2.getBlockX() ? width : -width) / 2;
-		int newz = l1.getBlockZ() + (l1.getBlockZ() < l2.getBlockZ() ? height : -height) / 2;
+		int newX = l1.getBlockX() + (l1.getBlockX() < l2.getBlockX() ? width : -width) / 2;
+		int newZ = l1.getBlockZ() + (l1.getBlockZ() < l2.getBlockZ() ? height : -height) / 2;
 
-		return new Location(l1.getWorld(), newx, l1.getBlockY(), newz);
+		return new Location(l1.getWorld(), newX, l1.getBlockY(), newZ);
 	}
 
 	public static int checkRegionSize(Location l1, Location l2) {
@@ -197,10 +197,10 @@ public final class RegionUtils {
 		int z1 = l1.getBlockZ();
 		int z2 = l2.getBlockZ();
 
-		int dif_x = Math.abs(x1 - x2) + 1;
-		int dif_z = Math.abs(z1 - z2) + 1;
+		int difX = Math.abs(x1 - x2) + 1;
+		int difZ = Math.abs(z1 - z2) + 1;
 
-		return dif_x * dif_z;
+		return difX * difZ;
 	}
 
 	public static Location sectionToLocation(ConfigurationSection section) {

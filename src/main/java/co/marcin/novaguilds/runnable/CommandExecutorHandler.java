@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@
 package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.concurrent.ScheduledFuture;
@@ -48,14 +48,14 @@ public class CommandExecutorHandler implements Runnable {
 	public void execute() {
 		if(!scheduledFuture.isCancelled() && !scheduledFuture.isDone()) {
 			command.executorVariable(executorVariable).execute(sender, args);
-			NovaPlayer.get(sender).removeCommandExecutorHandler();
+			PlayerManager.getPlayer(sender).removeCommandExecutorHandler();
 		}
 	}
 
 	public void cancel() {
 		state = CommandExecutorHandlerState.CANCELED;
 		scheduledFuture.cancel(false);
-		NovaPlayer.get(sender).removeCommandExecutorHandler();
+		PlayerManager.getPlayer(sender).removeCommandExecutorHandler();
 	}
 
 	public void confirm() {

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,11 +19,12 @@
 package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -51,9 +52,9 @@ public class RunnableRaid implements Runnable {
 			}
 
 			//vars hashmap
-			Map<String, String> vars = new HashMap<>();
-			vars.put("ATTACKER", raid.getGuildAttacker().getName());
-			vars.put("DEFENDER", guildDefender.getName());
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.ATTACKER, raid.getGuildAttacker().getName());
+			vars.put(VarKey.DEFENDER, guildDefender.getName());
 
 			//players raiding, update inactive time
 			if(raid.getPlayersOccupyingCount() > 0) {
@@ -80,7 +81,7 @@ public class RunnableRaid implements Runnable {
 				guild.takeLive();
 				guild.updateTimeRest();
 				guild.updateLostLive();
-				guild.isNotRaid();
+				guild.removeRaid();
 				plugin.guildRaids.remove(guild);
 
 				int pointsTake = Config.RAID_POINTSTAKE.getInt();
@@ -96,7 +97,7 @@ public class RunnableRaid implements Runnable {
 
 					//if event is not cancelled
 					if(!guildAbandonEvent.isCancelled()) {
-						vars.put("GUILDNAME", guildDefender.getName());
+						vars.put(VarKey.GUILDNAME, guildDefender.getName());
 						Message.BROADCAST_GUILD_DESTROYED.vars(vars).broadcast();
 						plugin.getGuildManager().delete(guildDefender);
 					}

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,33 +18,36 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
-import co.marcin.novaguilds.basic.NovaRegion;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class CommandGuildHome implements Executor {
-	private final Command command = Command.GUILD_HOME;
+public class CommandGuildHome extends AbstractCommandExecutor {
+	private static final Command command = Command.GUILD_HOME;
 
 	public CommandGuildHome() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
@@ -64,20 +67,21 @@ public class CommandGuildHome implements Executor {
 				return;
 			}
 
-			NovaRegion rgatloc = plugin.getRegionManager().getRegion(player.getLocation());
+			NovaRegion region = RegionManager.get(player);
 
-			if(rgatloc == null && nPlayer.getGuild().hasRegion()) {
+			if(region == null && nPlayer.getGuild().hasRegion()) {
 				Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);
 				return;
 			}
 
-			if(rgatloc != null && !rgatloc.getGuild().isMember(nPlayer)) {
+			if(region != null && !region.getGuild().isMember(nPlayer)) {
 				Message.CHAT_GUILD_SETHOME_OVERLAPS.send(sender);
 				return;
 			}
 
-			nPlayer.getGuild().setSpawnPoint(player.getLocation());
+			nPlayer.getGuild().setHome(player.getLocation());
 			Message.CHAT_GUILD_SETHOME_SUCCESS.send(sender);
+			TabUtils.refresh(nPlayer.getGuild());
 		}
 		else {
 			if(!nPlayer.hasPermission(GuildPermission.HOME_TELEPORT)) {
@@ -86,7 +90,7 @@ public class CommandGuildHome implements Executor {
 			}
 
 			//items
-			List<ItemStack> homeItems = plugin.getGroupManager().getGroup(sender).getGuildHomeItems();
+			List<ItemStack> homeItems = GroupManager.getGroup(sender).getGuildHomeItems();
 
 			if(!homeItems.isEmpty()) {
 				List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
@@ -100,24 +104,17 @@ public class CommandGuildHome implements Executor {
 			}
 
 			//money
-			double homeMoney = plugin.getGroupManager().getGroup(sender).getGuildHomeMoney();
+			double homeMoney = GroupManager.getGroup(sender).getGuildHomeMoney();
 			if(homeMoney > 0) {
 				if(!nPlayer.hasMoney(homeMoney)) {
-					Map<String, String> vars = new HashMap<>();
-					vars.put("REQUIREDMONEY", String.valueOf(homeMoney));
-					Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
+					Message.CHAT_GUILD_NOTENOUGHMONEY.setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
 					return;
 				}
 			}
 
 			nPlayer.takeMoney(homeMoney);
 			InventoryUtils.removeItems(player, homeItems);
-			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getSpawnPoint(), Message.CHAT_GUILD_HOME);
+			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getHome(), Message.CHAT_GUILD_HOME);
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

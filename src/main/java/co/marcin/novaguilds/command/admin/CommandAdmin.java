@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 
 package co.marcin.novaguilds.command.admin;
 
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,8 +28,8 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdmin implements CommandExecutor, Executor {
-	private final Command command = Command.ADMIN_ACCESS;
+public class CommandAdmin extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.ADMIN_ACCESS;
 
 	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("guild", Command.ADMIN_GUILD_ACCESS);
@@ -51,7 +51,7 @@ public class CommandAdmin implements CommandExecutor, Executor {
 	}};
 
 	public CommandAdmin() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
@@ -76,10 +76,5 @@ public class CommandAdmin implements CommandExecutor, Executor {
 		}
 
 		subCommand.execute(sender, StringUtils.parseArgs(args, 1));
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -19,19 +19,28 @@
 package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.api.NovaGuildsAPI;
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.storage.Storage;
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
+import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
+import co.marcin.novaguilds.impl.listener.packet.PacketListener1_8Impl;
+import co.marcin.novaguilds.impl.storage.MySQLStorageImpl;
+import co.marcin.novaguilds.impl.storage.SQLiteStorageImpl;
+import co.marcin.novaguilds.impl.storage.YamlStorageImpl;
+import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
+import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
 import co.marcin.novaguilds.listener.ChatListener;
 import co.marcin.novaguilds.listener.ChestGUIListener;
 import co.marcin.novaguilds.listener.DeathListener;
 import co.marcin.novaguilds.listener.InventoryListener;
 import co.marcin.novaguilds.listener.LoginListener;
 import co.marcin.novaguilds.listener.MoveListener;
-import co.marcin.novaguilds.listener.PacketListener;
 import co.marcin.novaguilds.listener.PlayerInfoListener;
 import co.marcin.novaguilds.listener.PvpListener;
 import co.marcin.novaguilds.listener.RegionInteractListener;
@@ -40,8 +49,6 @@ import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
-import co.marcin.novaguilds.manager.DatabaseManager;
-import co.marcin.novaguilds.manager.FlatDataManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
@@ -52,9 +59,10 @@ import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.manager.TaskManager;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
-import co.marcin.novaguilds.util.reflect.PacketExtension;
+import com.earth2me.essentials.Essentials;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import me.confuser.barapi.BarAPI;
@@ -64,7 +72,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -74,9 +82,7 @@ import org.mcstats.Metrics;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -95,6 +101,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	//Vault
 	public Economy econ = null;
+	private Essentials essentials;
+	private boolean protocolSupportEnabled;
 
 	private GuildManager guildManager;
 	private RegionManager regionManager;
@@ -103,25 +111,25 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private CommandManager commandManager;
 	private ConfigManager configManager;
 	private GroupManager groupManager;
-	private FlatDataManager flatDataManager;
 	private static final String logPrefix = "[NovaGuilds]";
 	private final String commit = getResource("commit.yml")==null ? "invalid" : IOUtils.inputStreamToString(getResource("commit.yml"));
 
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	public final List<NovaGuild> guildRaids = new ArrayList<>();
 	private static boolean raidRunnableRunning = false;
+	private co.marcin.novaguilds.api.util.packet.PacketExtension packetExtension;
 
-	//Database
-	private DatabaseManager databaseManager;
 	private VanishPlugin vanishNoPacket;
-	private HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
+	private final HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
 	private RankManager rankManager;
 	private TaskManager taskManager;
+	private Storage storage;
 
 	public void onEnable() {
 		inst = this;
 
 		//managers
+		taskManager = new TaskManager();
 		configManager = new ConfigManager();
 		messageManager = new MessageManager();
 
@@ -138,8 +146,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		regionManager = new RegionManager();
 		groupManager = new GroupManager();
 		rankManager = new RankManager();
-		databaseManager = new DatabaseManager();
-		taskManager = new TaskManager();
 
 		if(!checkDependencies()) {
 			getServer().getPluginManager().disablePlugin(this);
@@ -149,48 +155,19 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//Version check
 		VersionUtils.checkVersion();
 
-		int attempts = 0;
-		while(!databaseManager.isConnected()) {
-			if(attempts == 2) {
-				LoggerUtils.error("Tried to connect twice but failed.");
-				break;
-			}
-
-			LoggerUtils.info("Connecting to " + getConfigManager().getDataStorageType().name() + " storage");
-			attempts++;
-
-			if(getConfigManager().getDataStorageType() == DataStorageType.MYSQL) {
-				databaseManager.connectToMysql();
-			}
-
-			if(getConfigManager().getDataStorageType() == DataStorageType.SQLITE) {
-				databaseManager.connectToSQLite();
-			}
-
-			if(getConfigManager().getDataStorageType() == DataStorageType.FLAT) {
-				flatDataManager = new FlatDataManager(this);
-				if(flatDataManager.isConnected()) {
-					LoggerUtils.info("Connected to FLAT storage.");
-					break;
-				}
-				else {
-					getConfigManager().setToSecondaryDataStorageType();
-				}
-			}
-		}
+		setUpStorage();
 
 		//Data loading
-		getRegionManager().load();
-		LoggerUtils.info("Regions data loaded");
 		getGuildManager().load();
 		LoggerUtils.info("Guilds data loaded");
+		getRegionManager().load();
+		LoggerUtils.info("Regions data loaded");
 		getRankManager().loadDefaultRanks();
 		getPlayerManager().load();
 		LoggerUtils.info("Players data loaded");
 
 		LoggerUtils.info("Post checks running");
 		getGuildManager().postCheck();
-		getRegionManager().postCheck();
 
 		getRankManager().load();
 		LoggerUtils.info("Ranks data loaded");
@@ -201,73 +178,86 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//Listeners
-		new LoginListener(this);
-		new ToolListener(this);
-		new RegionInteractListener(this);
-		new MoveListener(this);
-		new ChatListener(this);
-		new PvpListener(this);
-		new DeathListener(this);
-		new InventoryListener(this);
-		new PlayerInfoListener(this);
+		new LoginListener();
+		new ToolListener();
+		new RegionInteractListener();
+		new MoveListener();
+		new ChatListener();
+		new PvpListener();
+		new DeathListener();
+		new InventoryListener();
+		new PlayerInfoListener();
 		new ChestGUIListener();
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
-			new PacketListener(this);
+			if(ConfigManager.isBukkit18()) {
+				new PacketListener1_8Impl();
+				packetExtension = new PacketExtension1_8Impl();
+			}
+			else {
+				new PacketListener1_7Impl();
+				packetExtension = new PacketExtension1_7Impl();
+			}
 
 			//Register players (for reload)
 			for(Player p : Bukkit.getOnlinePlayers()) {
-				PacketExtension.registerPlayer(p);
+				getPacketExtension().registerPlayer(p);
 			}
 		}
 		else {
-			if(Config.TABLIST_ENABLED.getBoolean()) {
-				Config.TABLIST_ENABLED.set(false);
-			}
-
 			getServer().getPluginManager().registerEvents(new Listener() {
 				@EventHandler
-				public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-					co.marcin.novaguilds.event.PlayerInteractEntityEvent clickEvent = new co.marcin.novaguilds.event.PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
+				public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {
+					PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
 					getServer().getPluginManager().callEvent(clickEvent);
+					event.setCancelled(clickEvent.isCancelled());
+				}
+
+				@EventHandler
+				public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+					PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
+					Bukkit.getPluginManager().callEvent(interactEntityEvent);
+					event.setCancelled(interactEntityEvent.isCancelled());
 				}
 			}, this);
 		}
 
 		if(Config.VAULT_ENABLED.getBoolean()) {
-			new VaultListener(this);
+			new VaultListener();
 		}
 
 		if(getConfigManager().useVanishNoPacket()) {
-			new VanishListener(this);
+			new VanishListener();
 		}
 
 		//Tablist/tag update
-		TagUtils.refreshAll();
-
-		//save scheduler
-		taskManager.startTask(TaskManager.Task.AUTOSAVE);
-		LoggerUtils.info("Save scheduler is running");
-
-		//live regeneration task
-		taskManager.startTask(TaskManager.Task.LIVEREGENERATION);
-		LoggerUtils.info("Live regeneration task is running");
-
-		//Hologram refresh task
-		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			taskManager.startTask(TaskManager.Task.HOLOGRAM_REFRESH);
-		}
-
-		//Inactive cleaner task
-		if(Config.CLEANUP_ENABLED.getBoolean()) {
-			taskManager.startTask(TaskManager.Task.CLEANUP);
-			LoggerUtils.info("Cleanup task started.");
-		}
+		TagUtils.refresh();
+		TabUtils.refresh();
 
 		//metrics
 		setupMetrics();
 
 		LoggerUtils.info("#" + VersionUtils.buildCurrent + " (" + getCommit() + ") Enabled");
+	}
+
+	public void setUpStorage() {
+		switch(getConfigManager().getDataStorageType()) {
+			case MYSQL:
+				storage = new MySQLStorageImpl(
+						Config.MYSQL_HOST.getString(),
+						Config.MYSQL_PORT.getString(),
+						Config.MYSQL_DATABASE.getString(),
+						Config.MYSQL_USERNAME.getString(),
+						Config.MYSQL_PASSWORD.getString()
+				);
+				break;
+			case SQLITE:
+				storage = new SQLiteStorageImpl(new File(getDataFolder(), "sqlite.db"));
+				break;
+			case FLAT:
+				storage = new YamlStorageImpl(new File(getDataFolder(), "data/"));
+				break;
+		}
 	}
 	
 	public void onDisable() {
@@ -281,7 +271,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		getHologramManager().save();
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
-			PacketExtension.unregisterNovaGuildsChannel();
+			getPacketExtension().unregisterChannel();
 		}
 
 		//Stop schedulers
@@ -302,7 +292,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 		
 		for(Player p : getServer().getOnlinePlayers()) {
-			getPlayerManager().getPlayer(p).cancelToolProgress();
+			PlayerManager.getPlayer(p).cancelToolProgress();
 		}
 
 		//getConfigManager().disable();
@@ -314,48 +304,69 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 	
 	//Managers
+	@Override
 	public GuildManager getGuildManager() {
 		return guildManager;
 	}
 
+	@Override
 	public RegionManager getRegionManager() {
 		return regionManager;
 	}
 
+	@Override
 	public PlayerManager getPlayerManager() {
 		return playerManager;
 	}
 
+	@Override
 	public CommandManager getCommandManager() {
 		return commandManager;
 	}
 
+	@Override
 	public MessageManager getMessageManager() {
 		return messageManager;
 	}
 
+	@Override
 	public HologramManager getHologramManager() {
 		return hologramManager;
 	}
 
+	@Override
 	public ConfigManager getConfigManager() {
 		return configManager;
 	}
 
+	@Override
 	public GroupManager getGroupManager() {
 		return groupManager;
 	}
 
-	public FlatDataManager getFlatDataManager() {
-		return flatDataManager;
-	}
-
-	public DatabaseManager getDatabaseManager() {
-		return databaseManager;
-	}
-
+	@Override
 	public TaskManager getTaskManager() {
 		return taskManager;
+	}
+
+	@Override
+	public Storage getStorage() {
+		return storage;
+	}
+
+	@Override
+	public int getBuild() {
+		return build;
+	}
+
+	@Override
+	public RankManager getRankManager() {
+		return rankManager;
+	}
+
+	@Override
+	public PacketExtension getPacketExtension() {
+		return packetExtension;
 	}
 
 	//Vault economy
@@ -414,14 +425,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			raid.getGuildDefender().removeRaidBar();
 		}
 		else {
-			Map<String, String> vars = new HashMap<>();
-			vars.put("DEFENDER", raid.getGuildDefender().getName());
 			List<Player> players = raid.getGuildAttacker().getOnlinePlayers();
 			players.addAll(raid.getGuildDefender().getOnlinePlayers());
 
 			for(Player player : players) {
 				if(Config.BARAPI_ENABLED.getBoolean()) {
-					BarAPI.setMessage(player, Message.BARAPI_WARPROGRESS.vars(vars).get(), raid.getProgress());
+					BarAPI.setMessage(player, Message.BARAPI_WARPROGRESS.setVar(VarKey.DEFENDER, raid.getGuildDefender().getName()).get(), raid.getProgress());
 				}
 				else {
 					//TODO
@@ -507,11 +516,29 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			getConfigManager().disableVanishNoPacket();
 		}
 
-		return true;
-	}
+		//NorthTab
+		if(Config.TABLIST_ENABLED.getBoolean()) {
+			if(ConfigManager.isBukkit18()) {
+				if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
+					LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
+					Config.TABLIST_ENABLED.set(false);
+				}
+				else {
+					LoggerUtils.info("NorthTab hooked");
+				}
+			}
+		}
 
-	public int getBuild() {
-		return build;
+		//ProtocolSupport
+		protocolSupportEnabled = getServer().getPluginManager().getPlugin("ProtocolSupport") != null;
+		if(isProtocolSupportEnabled()) {
+			LoggerUtils.info("Found ProtocolSupport plugin!");
+		}
+
+		//Essentials
+		essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+
+		return true;
 	}
 
 	public static String getLogPrefix() {
@@ -542,15 +569,23 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		NovaGuilds.raidRunnableRunning = raidRunnableRunning;
 	}
 
-	public RankManager getRankManager() {
-		return rankManager;
-	}
-
 	public static void runTaskLater(Runnable runnable, long delay, TimeUnit timeUnit) {
 		Bukkit.getScheduler().runTaskLater(inst, runnable, timeUnit.toSeconds(delay) * 20);
 	}
 
 	public String getCommit() {
 		return StringUtils.substring(commit, 0, 7);
+	}
+
+	public Essentials getEssentials() {
+		return essentials;
+	}
+
+	public boolean isEssentialsEnabled() {
+		return essentials != null;
+	}
+
+	public boolean isProtocolSupportEnabled() {
+		return protocolSupportEnabled;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,27 +18,23 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
-	private NovaGuild guild;
-	private final Command command = Command.ADMIN_GUILD_INVITE;
+public class CommandAdminGuildInvite extends AbstractCommandExecutor.ReversedAdminGuild {
+	private static final Command command = Command.ADMIN_GUILD_INVITE;
 
 	public CommandAdminGuildInvite() {
-		plugin.getCommandManager().registerExecutor(command, this);
-	}
-
-	@Override
-	public void guild(NovaGuild guild) {
-		this.guild = guild;
+		super(command);
 	}
 
 	@Override
@@ -48,7 +44,7 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 			return;
 		}
 
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(args[0]);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
 		
 		if(nPlayer == null) { //noplayer
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
@@ -68,18 +64,13 @@ public class CommandAdminGuildInvite implements Executor.ReversedAdminGuild {
 		//all passed
 		nPlayer.addInvitation(guild);
 
-		Map<String, String> vars = new HashMap<>();
-		vars.put("PLAYERNAME", nPlayer.getName());
-		vars.put("GUILDNAME", guild.getName());
+		Map<VarKey, String> vars = new HashMap<>();
+		vars.put(VarKey.PLAYERNAME, nPlayer.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.CHAT_ADMIN_GUILD_INVITED.vars(vars).send(sender);
 
 		if(nPlayer.getPlayer() != null) {
 			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(sender);
 		}
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }

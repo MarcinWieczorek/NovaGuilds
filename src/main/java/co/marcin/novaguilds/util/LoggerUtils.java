@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -51,8 +51,8 @@ public final class LoggerUtils {
 		String line = ste[3].toString();
 		String[] split1 = org.apache.commons.lang.StringUtils.split(line, '(');
 		String[] split2 = split1[1].split(":");
-		String cname = split2[0].replace(".java", "");
-		return cname.equals("NovaGuilds") ? "" : "[" + cname + "]";
+		String className = split2[0].replace(".java", "");
+		return className.equals("NovaGuilds") ? "" : "[" + className + "]";
 	}
 
 	public static String space(String s) {
@@ -62,7 +62,7 @@ public final class LoggerUtils {
 	public static void exception(Exception e) {
 		Throwable cause = e.getCause();
 		error("");
-		error("[NovaGuilds] Severe error:");
+		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName());
 		error("");
 		error("Server Information:");
 		error("  NovaGuilds: #" + plugin.getBuild());

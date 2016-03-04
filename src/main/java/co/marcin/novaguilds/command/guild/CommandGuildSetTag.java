@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,30 +18,33 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.TabUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandGuildSetTag implements Executor {
+public class CommandGuildSetTag extends AbstractCommandExecutor {
 	private static final Command command = Command.GUILD_SET_TAG;
 
 	public CommandGuildSetTag() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = NovaPlayer.get(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return;
 		}
 
-		if(!nPlayer.hasPermission(GuildPermission.SET_NAME)) {
+		if(!nPlayer.hasPermission(GuildPermission.SET_TAG)) {
 			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
@@ -62,10 +65,7 @@ public class CommandGuildSetTag implements Executor {
 
 		nPlayer.getGuild().setTag(newTag);
 		Message.CHAT_GUILD_SET_TAG.send(sender);
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
+		TabUtils.refresh(nPlayer.getGuild());
+		TagUtils.refresh(nPlayer.getGuild());
 	}
 }

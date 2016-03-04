@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2015 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -18,13 +18,19 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.basic.NovaGuild;
-import co.marcin.novaguilds.basic.NovaPlayer;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.interfaces.Executor;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,13 +41,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandGuildJoin implements CommandExecutor, Executor {
-	private final Command command = Command.GUILD_JOIN;
+public class CommandGuildJoin extends AbstractCommandExecutor implements CommandExecutor {
+	private static final Command command = Command.GUILD_JOIN;
 	
 	public CommandGuildJoin() {
-		plugin.getCommandManager().registerExecutor(command, this);
+		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
@@ -49,7 +56,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		NovaPlayer nPlayer = plugin.getPlayerManager().getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		List<NovaGuild> invitedTo = nPlayer.getInvitedTo();
 		
 		if(nPlayer.hasGuild()) {
@@ -62,45 +69,45 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 			return;
 		}
 
-		String guildname;
+		String guildName;
 
 		//one or more guilds
 		if(invitedTo.size() == 1) {
 			if(args.length == 0) {
-				guildname = invitedTo.get(0).getName();
+				guildName = invitedTo.get(0).getName();
 			}
 			else {
-				guildname = args[0];
+				guildName = args[0];
 			}
 		}
 		else {
 			if(args.length == 0) {
 				Message.CHAT_PLAYER_INVITE_LIST_HEADER.send(sender);
 
-				String invitedlist = "";
+				String invitedListString = "";
 				int i = 0;
 				for(NovaGuild invitedGuild : invitedTo) {
-					String itemrow = Message.CHAT_PLAYER_INVITE_LIST_ITEM.get();
-					itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{GUILDNAME}", invitedGuild.getName());
-					itemrow = org.apache.commons.lang.StringUtils.replace(itemrow, "{TAG}", invitedGuild.getTag());
+					String guildRow = Message.CHAT_PLAYER_INVITE_LIST_ITEM.get();
+					guildRow = org.apache.commons.lang.StringUtils.replace(guildRow, "{GUILDNAME}", invitedGuild.getName());
+					guildRow = org.apache.commons.lang.StringUtils.replace(guildRow, "{TAG}", invitedGuild.getTag());
 
-					invitedlist += itemrow;
+					invitedListString += guildRow;
 
 					if(i < invitedTo.size() - 1) {
-						invitedlist += Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR.get();
+						invitedListString += Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR.get();
 					}
 					i++;
 				}
 
-				sender.sendMessage(StringUtils.fixColors(invitedlist));
+				sender.sendMessage(StringUtils.fixColors(invitedListString));
 				return;
 			}
 			else {
-				guildname = args[0];
+				guildName = args[0];
 			}
 		}
 
-		NovaGuild guild = plugin.getGuildManager().getGuildFind(guildname);
+		NovaGuild guild = GuildManager.getGuildFind(guildName);
 
 		if(guild == null) {
 			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
@@ -113,7 +120,7 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 		}
 
 		//items
-		List<ItemStack> joinItems = plugin.getGroupManager().getGroup(sender).getGuildJoinItems();
+		List<ItemStack> joinItems = GroupManager.getGroup(sender).getGuildJoinItems();
 
 		if(!joinItems.isEmpty()) {
 			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), joinItems);
@@ -126,13 +133,13 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 			}
 		}
 
-		Map<String, String> vars = new HashMap<>();
+		Map<VarKey, String> vars = new HashMap<>();
 
 		//money
-		double joinMoney = plugin.getGroupManager().getGroup(sender).getGuildJoinMoney();
+		double joinMoney = GroupManager.getGroup(sender).getGuildJoinMoney();
 		if(joinMoney > 0) {
 			if(!nPlayer.hasMoney(joinMoney)) {
-				vars.put("{REQUIREDMONEY}", joinMoney + "");
+				vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
 				Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
 				return;
 			}
@@ -153,18 +160,14 @@ public class CommandGuildJoin implements CommandExecutor, Executor {
 
 		guild.addPlayer(nPlayer);
 		nPlayer.deleteInvitation(guild);
-		TagUtils.refreshAll();
+		TagUtils.refresh();
+		TabUtils.refresh();
 		Message.CHAT_GUILD_JOINED.send(sender);
 		guild.showVaultHologram(nPlayer.getPlayer());
 
 		vars.clear();
-		vars.put("PLAYER", sender.getName());
-		vars.put("GUILDNAME", guild.getName());
+		vars.put(VarKey.PLAYER, sender.getName());
+		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.BROADCAST_GUILD_JOINED.vars(vars).broadcast();
-	}
-
-	@Override
-	public Command getCommand() {
-		return command;
 	}
 }
