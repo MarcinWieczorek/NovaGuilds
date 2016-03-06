@@ -20,6 +20,7 @@ package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
@@ -293,6 +294,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		
 		for(Player p : getServer().getOnlinePlayers()) {
 			PlayerManager.getPlayer(p).cancelToolProgress();
+		}
+
+		for(NovaPlayer nPlayer : getPlayerManager().getPlayers()) {
+			if(nPlayer.getActiveSelection() != null) {
+				nPlayer.getActiveSelection().reset();
+			}
 		}
 
 		//getConfigManager().disable();

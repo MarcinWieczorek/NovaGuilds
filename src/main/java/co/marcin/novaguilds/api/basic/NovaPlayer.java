@@ -19,12 +19,12 @@
 package co.marcin.novaguilds.api.basic;
 
 import co.marcin.novaguilds.api.util.Changeable;
+import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
@@ -68,19 +68,11 @@ public interface NovaPlayer extends Changeable {
 	UUID getUUID();
 
 	/**
-	 * Gets selected location
+	 * Gets active region selection
 	 *
-	 * @param index 0 or 1
-	 * @return the location
+	 * @return the selection
 	 */
-	Location getSelectedLocation(int index);
-
-	/**
-	 * Gets selected region
-	 *
-	 * @return the region
-	 */
-	NovaRegion getSelectedRegion();
+	RegionSelection getActiveSelection();
 
 	/**
 	 * Gets player's region bypass
@@ -90,18 +82,18 @@ public interface NovaPlayer extends Changeable {
 	boolean getBypass();
 
 	/**
+	 * Gets player's region spectate
+	 *
+	 * @return the flag
+	 */
+	boolean getRegionSpectate();
+
+	/**
 	 * Gets a region that the player is at
 	 *
 	 * @return the region
 	 */
 	NovaRegion getAtRegion();
-
-	/**
-	 * Gets the corner that the player is resizing
-	 *
-	 * @return 0 or 1
-	 */
-	int getResizingCorner();
 
 	/**
 	 * Gets the points
@@ -244,19 +236,11 @@ public interface NovaPlayer extends Changeable {
 	void setRegionMode(RegionMode regionMode);
 
 	/**
-	 * Sets the selected location
+	 * Setting active selection
 	 *
-	 * @param index 0 or 1
-	 * @param location the location
+	 * @param selection RegionSelection
 	 */
-	void setSelectedLocation(int index, Location location);
-
-	/**
-	 * Sets the selected region
-	 *
-	 * @param region the region
-	 */
-	void setSelectedRegion(NovaRegion region);
+	void setActiveSelection(RegionSelection selection);
 
 	/**
 	 * Sets the region player is at
@@ -264,13 +248,6 @@ public interface NovaPlayer extends Changeable {
 	 * @param region the region
 	 */
 	void setAtRegion(NovaRegion region);
-
-	/**
-	 * Sets the resizing corner
-	 *
-	 * @param index 0 or 1
-	 */
-	void setResizingCorner(int index);
 
 	/**
 	 * Sets the points
@@ -311,6 +288,11 @@ public interface NovaPlayer extends Changeable {
 	 * Toggles bypass
 	 */
 	void toggleBypass();
+
+	/**
+	 * Toggles player's region spectate
+	 */
+	void toggleRegionSpectate();
 
 	/**
 	 * Sets the raid the player is taking part in

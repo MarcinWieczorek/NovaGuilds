@@ -80,6 +80,11 @@ chat:
      self: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
      other: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER}. Aktualnie: &c{BYPASS}"
     notifyother: "Twoj tryb ignorowania regionow zostal zmieniony. Aktualnie: &c{BYPASS}"
+   spectate:
+    toggled:
+     self: "Zmieniono tryb podglądu zaznaczenia. Aktualnie: &c{FLAG}"
+     other: "Zmieniono tryb podglądu zaznaczenia graczowi &c{PLAYER}. Aktualnie: &c{FLAG}"
+    notifyother: "Twoj tryb podglądu zaznaczenia zostal zmieniony. Aktualnie: &c{FLAG}"
    delete:
     success: "Pomyslnie usunieto region"
    teleport:
@@ -152,6 +157,7 @@ chat:
     delete: "&4&l> &7/nga &crg &6<&cgildia&6> &cdel &2- &6Usuń region"
     teleport: "&4&l> &7/nga &crg &6<&cgildia&6> &ctp &2- &6Teleport do regionu"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cgracz&6] &2- &6Zmiana trybu ignorowania regionów"
+    spectate: "&4&l> &7/nga &crg &6spectate &6[&cgracz&6] &2- &6Zmiana trybu podglądu zaznaczenia"
   guild:
    abandon: "&4&l> &7/rozwiaz &2- &6Porzuć gildię"
    ally: "&4&l> &7/g &cally &6<&cgildia&6> &2- &6Zaproś do sojuszu"

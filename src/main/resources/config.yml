@@ -534,30 +534,35 @@ region:
 
 # materials used with selection                   #
  materials:
-  check:
+
 # highlighting a region                           #
-   highlight: DIAMOND_BLOCK
+  highlight:
+   region:
+    corner: DIAMOND_BLOCK
+    border: "null"
+
+# Ready to resize                                 #
+   resize:
+    corner: GOLD_BLOCK
+    border: "null"
 
 # creating regions                                #
   selection:
 
-# corner block                                    #
-   corner: EMERALD_BLOCK
-
 # a valid rectangle                               #
-   rectangle: WOOL:14
+   valid:
+    corner: EMERALD_BLOCK
+    border: WOOL:14
 
 # an invalid rectangle                            #
-   invalid: WOOL:15
+   invalid:
+    corner: EMERALD_BLOCK
+    border: WOOL:15
 
 # resizing                                        #
   resize:
-
-# corner block                                    #
    corner: GOLD_BLOCK
-
-# a valid rectangle                               #
-   rectangle: WOOL:6
+   border: WOOL:6
 
 # auto creating regions (when creating a guild)   #
  autoregion: true

@@ -326,6 +326,14 @@ mvn clean install
             <td>/nga rg bypass <player></td>
         </tr>
         <tr>
+            <td>novaguilds.admin.region.change.spectate.self</td>
+            <td>/nga rg spectate</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.change.spectate.other</td>
+            <td>/nga rg spectate <player></td>
+        </tr>
+        <tr>
             <td>novaguilds.admin.region.delete</td>
             <td>/nga rg delete <guild></td>
         </tr>
@@ -340,6 +348,10 @@ mvn clean install
         <tr>
             <td>novaguilds.admin.region.teleport.other</td>
             <td>/nga rg tp <guild></td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.region.spectate</td>
+            <td>Spectate others' area selection</td>
         </tr>
         <tr>
             <td>novaguilds.admin.reload</td>

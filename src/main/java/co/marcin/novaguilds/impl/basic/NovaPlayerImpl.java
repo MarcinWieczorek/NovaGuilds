@@ -26,6 +26,7 @@ import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.basic.TabList;
+import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
@@ -35,8 +36,6 @@ import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
-import co.marcin.novaguilds.util.RegionUtils;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
@@ -54,13 +53,11 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	private int points = 0;
 	private int kills = 0;
 	private int deaths = 0;
-	private int resizingCorner = 0;
 
 	private final List<Vehicle> vehicles = new ArrayList<>();
 	private final List<NovaGuild> invitedTo = new ArrayList<>();
 	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
 	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
-	private final Location[] regionSelectedLocations = new Location[2];
 
 	private boolean bypass = false;
 	private boolean compassPointingGuild = false;
@@ -68,12 +65,13 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	private boolean spyMode = false;
 	private NovaRaid partRaid;
 	private NovaRank guildRank;
-	private NovaRegion selectedRegion;
 	private NovaRegion atRegion;
 	private TabList tabList;
 	private CommandExecutorHandler commandExecutorHandler;
 	private RegionMode regionMode = RegionMode.CHECK;
 	private ChatMode chatMode = ChatMode.NORMAL;
+	private RegionSelection activeSelection;
+	private boolean regionSpectate;
 
 	public NovaPlayerImpl(UUID uuid) {
 		this.uuid = uuid;
@@ -117,13 +115,8 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	}
 
 	@Override
-	public Location getSelectedLocation(int index) {
-		return regionSelectedLocations[index];
-	}
-
-	@Override
-	public NovaRegion getSelectedRegion() {
-		return selectedRegion;
+	public RegionSelection getActiveSelection() {
+		return activeSelection;
 	}
 
 	@Override
@@ -132,13 +125,13 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	}
 
 	@Override
-	public NovaRegion getAtRegion() {
-		return atRegion;
+	public boolean getRegionSpectate() {
+		return regionSpectate;
 	}
 
 	@Override
-	public int getResizingCorner() {
-		return resizingCorner;
+	public NovaRegion getAtRegion() {
+		return atRegion;
 	}
 
 	@Override
@@ -247,23 +240,13 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	}
 
 	@Override
-	public void setSelectedLocation(int index, Location location) {
-		regionSelectedLocations[index] = location;
-	}
-
-	@Override
-	public void setSelectedRegion(NovaRegion region) {
-		selectedRegion = region;
+	public void setActiveSelection(RegionSelection selection) {
+		activeSelection = selection;
 	}
 
 	@Override
 	public void setAtRegion(NovaRegion region) {
 		atRegion = region;
-	}
-
-	@Override
-	public void setResizingCorner(int index) {
-		resizingCorner = index;
 	}
 
 	@Override
@@ -297,6 +280,11 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	@Override
 	public void toggleBypass() {
 		bypass = !bypass;
+	}
+
+	@Override
+	public void toggleRegionSpectate() {
+		regionSpectate = !regionSpectate;
 	}
 
 	@Override
@@ -484,15 +472,9 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	@Override
 	public void cancelToolProgress() {
 		if(isOnline()) {
-			RegionUtils.sendRectangle(getPlayer(), getSelectedLocation(0), getSelectedLocation(1), null, (byte) 0);
-			RegionUtils.setCorner(getPlayer(), getSelectedLocation(0), null, (byte) 0);
-			RegionUtils.setCorner(getPlayer(), getSelectedLocation(1), null, (byte) 0);
-			RegionUtils.highlightRegion(getPlayer(), getSelectedRegion(), null);
-
-			setResizingCorner(0);
-			setSelectedRegion(null);
-			setSelectedLocation(0, null);
-			setSelectedLocation(1, null);
+			if(getActiveSelection() != null) {
+				getActiveSelection().reset();
+			}
 
 			if(getRegionMode() == RegionMode.RESIZE) {
 				setRegionMode(RegionMode.CHECK);
