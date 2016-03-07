@@ -43,6 +43,10 @@ public class ChatListener extends AbstractListener {
 	
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
+		if(event.isCancelled()) {
+			return;
+		}
+
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		event.setCancelled(true);
