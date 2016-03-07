@@ -114,7 +114,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			inventory.addItem(deleteItem);
 		}
 
-		if(memberListItem != null && GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).size() > 0) {
+		if(memberListItem != null && !GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
 			inventory.addItem(memberListItem);
 		}
 
