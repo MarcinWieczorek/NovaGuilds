@@ -80,6 +80,11 @@ chat:
      self: "Region bypass toggled. Currently: &c{BYPASS}"
      other: "Region bypass toggled for player &c{PLAYER}. Currently: &c{BYPASS}"
     notifyother: "Your region bypass has been toggled. Currently: &c{BYPASS}"
+   spectate:
+    toggled:
+     self: "Region spectate toggled. Currently: &c{FLAG}"
+     other: "Region spectate toggled for player &c{PLAYER}. Currently: &c{FLAG}"
+    notifyother: "Your region spectate has been toggled. Currently: &c{FLAG}"
    delete:
     success: "Successfully deleted guild's region."
    teleport:
@@ -151,7 +156,8 @@ chat:
     list: "&4&l> &7/nga &crg &6list &2- &6Region list"
     delete: "&4&l> &7/nga &crg &6<&cguild&6> &cdel &2- &6Delete region"
     teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &2- &6Teleport to region"
-    bypass: "&4&l> &7/nga &crg &6bypass &6<&cplayer&6> &2- &6Change bypass mode"
+    bypass: "&4&l> &7/nga &crg &6bypass &6[&cplayer&6] &2- &6Change bypass mode"
+    spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
   guild:
    abandon: "&4&l> &7/abandon &2- &6abandon your guild"
    ally: "&4&l> &7/g &cally &6<&cguild&6> &2- &6Invite to an ally"

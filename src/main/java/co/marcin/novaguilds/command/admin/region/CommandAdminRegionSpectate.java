@@ -31,10 +31,10 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminRegionBypass extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_REGION_BYPASS;
+public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
+	private static final Command command = Command.ADMIN_REGION_SPECTATE;
 
-	public CommandAdminRegionBypass() {
+	public CommandAdminRegionSpectate() {
 		super(command);
 	}
 
@@ -50,12 +50,12 @@ public class CommandAdminRegionBypass extends AbstractCommandExecutor {
 
 			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-			nPlayer.toggleBypass();
-			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getBypass()));
-			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF.vars(vars).send(sender);
+			nPlayer.toggleRegionSpectate();
+			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getRegionSpectate()));
+			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_SELF.vars(vars).send(sender);
 		}
 		else { //for other
-			if(!Permission.NOVAGUILDS_ADMIN_REGION_BYPASS_OTHER.has(sender)) {
+			if(!Permission.NOVAGUILDS_ADMIN_REGION_CHANGE_SPECTATE_OTHER.has(sender)) {
 				Message.CHAT_NOPERMISSIONS.send(sender);
 				return;
 			}
@@ -67,15 +67,15 @@ public class CommandAdminRegionBypass extends AbstractCommandExecutor {
 				return;
 			}
 
-			nPlayer.toggleBypass();
+			nPlayer.toggleRegionSpectate();
 			vars.put(VarKey.PLAYER, nPlayer.getName());
-			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getBypass()));
+			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getRegionSpectate()));
 
 			if(nPlayer.isOnline()) {
-				Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.vars(vars).send(sender);
+				Message.CHAT_ADMIN_REGION_SPECTATE_NOTIFYOTHER.vars(vars).send(sender);
 			}
 
-			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER.vars(vars).send(sender);
+			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_OTHER.vars(vars).send(sender);
 		}
 	}
 }

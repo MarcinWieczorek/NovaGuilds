@@ -16,8 +16,11 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util;
+package co.marcin.novaguilds.impl.util;
 
+import co.marcin.novaguilds.api.util.Title;
+import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -27,14 +30,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Minecraft 1.8 Title
- *
- * @author Maxim Van de Wynckel
- * @version 1.0.4
- */
 @SuppressWarnings({"unused", "ConstantConditions"})
-public class Title {
+public class TitleImpl implements Title {
 	/* Title packet */
 	private Class<?> packetTitle;
 
@@ -67,7 +64,7 @@ public class Title {
 	 *
 	 * @param title Title
 	 */
-	public Title(String title) {
+	public TitleImpl(String title) {
 		this.title = title;
 		loadClasses();
 	}
@@ -78,7 +75,7 @@ public class Title {
 	 * @param title    Title text
 	 * @param subtitle Subtitle text
 	 */
-	public Title(String title, String subtitle) {
+	public TitleImpl(String title, String subtitle) {
 		this.title = title;
 		this.subtitle = subtitle;
 		loadClasses();
@@ -89,16 +86,16 @@ public class Title {
 	 *
 	 * @param title Title
 	 */
-	public Title(Title title) {
+	public TitleImpl(Title title) {
 		// Copy title
-		this.title = title.title;
-		subtitle = title.subtitle;
-		titleColor = title.titleColor;
-		subtitleColor = title.subtitleColor;
-		fadeInTime = title.fadeInTime;
-		fadeOutTime = title.fadeOutTime;
-		stayTime = title.stayTime;
-		ticks = title.ticks;
+		this.title = title.getTitle();
+		subtitle = title.getSubtitle();
+		titleColor = title.getTitleColor();
+		subtitleColor = title.getSubtitleColor();
+		fadeInTime = title.getFadeInTime();
+		fadeOutTime = title.getFadeOutTime();
+		stayTime = title.getStayTime();
+		ticks = title.getTicks();
 		loadClasses();
 	}
 
@@ -111,7 +108,7 @@ public class Title {
 	 * @param stayTime    Stay on screen time
 	 * @param fadeOutTime Fade out time
 	 */
-	public Title(String title, String subtitle, int fadeInTime, int stayTime, int fadeOutTime) {
+	public TitleImpl(String title, String subtitle, int fadeInTime, int stayTime, int fadeOutTime) {
 		this.title = title;
 		this.subtitle = subtitle;
 		this.fadeInTime = fadeInTime;
@@ -120,9 +117,6 @@ public class Title {
 		loadClasses();
 	}
 
-	/**
-	 * Load spigot and NMS classes
-	 */
 	private void loadClasses() {
 		packetTitle = getNMSClass("PacketPlayOutTitle");
 		packetActions = getNMSClass("PacketPlayOutTitle$EnumTitleAction");
@@ -130,106 +124,92 @@ public class Title {
 		nmsChatSerializer = getNMSClass("IChatBaseComponent$ChatSerializer");
 	}
 
-	/**
-	 * Set title text
-	 *
-	 * @param title Title
-	 */
+	@Override
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	/**
-	 * Get title text
-	 *
-	 * @return Title text
-	 */
+	@Override
 	public String getTitle() {
 		return title;
 	}
 
-	/**
-	 * Set subtitle text
-	 *
-	 * @param subtitle Subtitle text
-	 */
+	@Override
 	public void setSubtitle(String subtitle) {
 		this.subtitle = subtitle;
 	}
 
-	/**
-	 * Get subtitle text
-	 *
-	 * @return Subtitle text
-	 */
+	@Override
 	public String getSubtitle() {
 		return subtitle;
 	}
 
-	/**
-	 * Set the title color
-	 *
-	 * @param color Chat color
-	 */
+	@Override
+	public ChatColor getTitleColor() {
+		return titleColor;
+	}
+
+	@Override
+	public ChatColor getSubtitleColor() {
+		return subtitleColor;
+	}
+
+	@Override
+	public int getFadeInTime() {
+		return fadeInTime;
+	}
+
+	@Override
+	public int getFadeOutTime() {
+		return fadeOutTime;
+	}
+
+	@Override
+	public int getStayTime() {
+		return stayTime;
+	}
+
+	@Override
+	public boolean getTicks() {
+		return ticks;
+	}
+
+	@Override
 	public void setTitleColor(ChatColor color) {
 		titleColor = color;
 	}
 
-	/**
-	 * Set the subtitle color
-	 *
-	 * @param color Chat color
-	 */
+	@Override
 	public void setSubtitleColor(ChatColor color) {
 		subtitleColor = color;
 	}
 
-	/**
-	 * Set title fade in time
-	 *
-	 * @param time Time
-	 */
+	@Override
 	public void setFadeInTime(int time) {
 		fadeInTime = time;
 	}
 
-	/**
-	 * Set title fade out time
-	 *
-	 * @param time Time
-	 */
+	@Override
 	public void setFadeOutTime(int time) {
 		fadeOutTime = time;
 	}
 
-	/**
-	 * Set title stay time
-	 *
-	 * @param time Time
-	 */
+	@Override
 	public void setStayTime(int time) {
 		stayTime = time;
 	}
 
-	/**
-	 * Set timings to ticks
-	 */
+	@Override
 	public void setTimingsToTicks() {
 		ticks = true;
 	}
 
-	/**
-	 * Set timings to seconds
-	 */
+	@Override
 	public void setTimingsToSeconds() {
 		ticks = false;
 	}
 
-	/**
-	 * Send the title to a player
-	 *
-	 * @param player Player
-	 */
+	@Override
 	public void send(Player player) {
 		if(packetTitle != null) {
 			resetTitle(player);
@@ -276,20 +256,14 @@ public class Title {
 		}
 	}
 
-	/**
-	 * Broadcast the title to all players
-	 */
+	@Override
 	public void broadcast() {
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			send(p);
 		}
 	}
 
-	/**
-	 * Clear the title
-	 *
-	 * @param player Player
-	 */
+	@Override
 	public void clearTitle(Player player) {
 		try {
 			// Send timings first
@@ -305,11 +279,7 @@ public class Title {
 		}
 	}
 
-	/**
-	 * Reset the title settings
-	 *
-	 * @param player Player
-	 */
+	@Override
 	public void resetTitle(Player player) {
 		try {
 			// Send timings first

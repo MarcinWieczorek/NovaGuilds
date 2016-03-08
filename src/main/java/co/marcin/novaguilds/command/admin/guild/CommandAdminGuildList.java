@@ -47,10 +47,8 @@ public class CommandAdminGuildList extends AbstractCommandExecutor {
 		}
 
 		int page = 1;
-		if(args.length == 1) {
-			if(NumberUtils.isNumeric(args[0])) {
-				page = Integer.parseInt(args[0]);
-			}
+		if(args.length == 1 && NumberUtils.isNumeric(args[0])) {
+			page = Integer.parseInt(args[0]);
 		}
 
 		if(page < 1) {

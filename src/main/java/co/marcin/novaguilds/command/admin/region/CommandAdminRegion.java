@@ -27,7 +27,7 @@ import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +39,8 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 		put("bypass", Command.ADMIN_REGION_BYPASS);
 		put("bp", Command.ADMIN_REGION_BYPASS);
 
+		put("spectate", Command.ADMIN_REGION_SPECTATE);
+
 		put("delete", Command.ADMIN_REGION_DELETE);
 		put("del", Command.ADMIN_REGION_DELETE);
 
@@ -48,10 +50,11 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 		put("tp", Command.ADMIN_REGION_TELEPORT);
 	}};
 
-	private static final List<Command> noGuildCommands = new ArrayList<Command>() {{
-		add(Command.ADMIN_REGION_BYPASS);
-		add(Command.ADMIN_REGION_LIST);
-	}};
+	private static final List<Command> noGuildCommands = Arrays.asList(
+			Command.ADMIN_REGION_BYPASS,
+			Command.ADMIN_REGION_LIST,
+			Command.ADMIN_REGION_SPECTATE
+	);
 
 	public CommandAdminRegion() {
 		super(command);

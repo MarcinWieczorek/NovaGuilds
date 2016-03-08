@@ -20,6 +20,7 @@ package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
@@ -295,6 +296,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			PlayerManager.getPlayer(p).cancelToolProgress();
 		}
 
+		for(NovaPlayer nPlayer : getPlayerManager().getPlayers()) {
+			if(nPlayer.getActiveSelection() != null) {
+				nPlayer.getActiveSelection().reset();
+			}
+		}
+
 		//getConfigManager().disable();
 		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Disabled");
 	}
@@ -517,15 +524,13 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//NorthTab
-		if(Config.TABLIST_ENABLED.getBoolean()) {
-			if(ConfigManager.isBukkit18()) {
-				if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
-					LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
-					Config.TABLIST_ENABLED.set(false);
-				}
-				else {
-					LoggerUtils.info("NorthTab hooked");
-				}
+		if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.isBukkit18()) {
+			if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
+				LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
+				Config.TABLIST_ENABLED.set(false);
+			}
+			else {
+				LoggerUtils.info("NorthTab hooked");
 			}
 		}
 

@@ -117,10 +117,8 @@ public class PlayerManager {
 	}
 
 	public void addIfNotExists(Player player) {
-		if(player != null) {
-			if(!players.containsKey(player.getName())) {
-				add(player);
-			}
+		if(player != null && !players.containsKey(player.getName())) {
+			add(player);
 		}
 	}
 

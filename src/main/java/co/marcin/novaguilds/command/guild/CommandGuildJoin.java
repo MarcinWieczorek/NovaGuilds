@@ -137,12 +137,10 @@ public class CommandGuildJoin extends AbstractCommandExecutor implements Command
 
 		//money
 		double joinMoney = GroupManager.getGroup(sender).getGuildJoinMoney();
-		if(joinMoney > 0) {
-			if(!nPlayer.hasMoney(joinMoney)) {
-				vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
-				Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
-				return;
-			}
+		if(joinMoney > 0 && !nPlayer.hasMoney(joinMoney)) {
+			vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
+			Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
+			return;
 		}
 
 		if(joinItems.size() > 0) {

@@ -32,6 +32,7 @@ public enum VarKey {
 	GUILD2,
 	FPVP,
 	BYPASS,
+	FLAG,
 	REQUIREDMONEY,
 	EFFECTTYPE,
 	PERMNAME,

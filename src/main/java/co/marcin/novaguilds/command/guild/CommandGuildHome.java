@@ -105,11 +105,9 @@ public class CommandGuildHome extends AbstractCommandExecutor {
 
 			//money
 			double homeMoney = GroupManager.getGroup(sender).getGuildHomeMoney();
-			if(homeMoney > 0) {
-				if(!nPlayer.hasMoney(homeMoney)) {
-					Message.CHAT_GUILD_NOTENOUGHMONEY.setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
-					return;
-				}
+			if(homeMoney > 0 && !nPlayer.hasMoney(homeMoney)) {
+				Message.CHAT_GUILD_NOTENOUGHMONEY.setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
+				return;
 			}
 
 			nPlayer.takeMoney(homeMoney);
