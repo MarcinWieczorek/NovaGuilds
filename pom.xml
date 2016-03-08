@@ -6,7 +6,7 @@
 
     <groupId>co.marcin</groupId>
     <artifactId>NovaGuilds</artifactId>
-    <version>33</version>
+    <version>34-SNAPSHOT</version>
 
     <repositories>
         <repository>
