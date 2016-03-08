@@ -67,6 +67,7 @@ import co.marcin.novaguilds.command.admin.region.CommandAdminRegion;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionBypass;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionDelete;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionList;
+import co.marcin.novaguilds.command.admin.region.CommandAdminRegionSpectate;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionTeleport;
 import co.marcin.novaguilds.command.guild.CommandGuild;
 import co.marcin.novaguilds.command.guild.CommandGuildAbandon;
@@ -205,6 +206,7 @@ public class CommandManager {
 		new CommandAdminRegionList();
 		new CommandAdminRegionTeleport();
 		new CommandAdminRegionBypass();
+		new CommandAdminRegionSpectate();
 
 		//AdminGuild
 		new CommandAdminGuild();

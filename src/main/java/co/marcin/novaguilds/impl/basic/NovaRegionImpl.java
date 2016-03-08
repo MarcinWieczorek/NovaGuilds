@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.basic;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
@@ -30,6 +31,16 @@ public class NovaRegionImpl extends AbstractChangeable implements NovaRegion {
 	private int id;
 	private World world;
 	private NovaGuild guild;
+
+	public NovaRegionImpl() {
+
+	}
+
+	public NovaRegionImpl(RegionSelection selection) {
+		setCorner(0, selection.getCorner(0));
+		setCorner(1, selection.getCorner(1));
+		setWorld(selection.getCorner(0).getWorld());
+	}
 
 	@Override
 	public World getWorld() {

@@ -20,14 +20,15 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.util.Title;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.util.TitleImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import co.marcin.novaguilds.util.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -119,10 +120,8 @@ public class MessageManager {
 	private void setupDirectories() {
 		File langDir = new File(plugin.getDataFolder(), "lang/");
 
-		if(!langDir.exists()) {
-			if(langDir.mkdir()) {
-				LoggerUtils.info("Language dir created");
-			}
+		if(!langDir.exists() && langDir.mkdir()) {
+			LoggerUtils.info("Language dir created");
 		}
 	}
 
@@ -251,7 +250,7 @@ public class MessageManager {
 	 * @param msg message string
 	 */
 	public static void sendTitle(Player player, String msg) {
-		Title title = new Title("");
+		Title title = new TitleImpl("");
 		title.setSubtitleColor(instance.prefixColor);
 		title.setSubtitle(StringUtils.fixColors(msg));
 		title.send(player);

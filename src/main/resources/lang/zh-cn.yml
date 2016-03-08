@@ -80,6 +80,11 @@ chat:
      self: "您在该领地的通行权限已被修改,现在的状态为：&c{BYPASS}"
      other: "玩家 &c{PLAYER}在该领地的通行权限已被修改,现在的状态为：&c{BYPASS}"
     notifyother: "您的领地通行权限已被修改,现在的状态为：&c{BYPASS}"
+   spectate:
+    toggled:
+     self: "Region spectate toggled. Currently: &c{FLAG}"
+     other: "Region spectate toggled for player &c{PLAYER}. Currently: &c{FLAG}"
+    notifyother: "Your region spectate has been toggled. Currently: &c{FLAG}"
    delete:
     success: "成功删除公会领地."
    teleport:
@@ -152,6 +157,7 @@ chat:
     delete: "&4&l> &7/nga &crg &6del &6<&c公会名&6> &2- &6删除指定领地"
     teleport: "&4&l> &7/nga &crg &6tp &6<&c公会名&6> &2- &6传送至指定领地"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&c玩家&6] &2- &6更改通行权限"
+    spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
   guild:
    abandon: "&4&l> &7/abandon &2- &6abandon your guild"
    ally: "&4&l> &7/g &cally &6<&c公会名&6> &2- &6申请与指定公会结盟."

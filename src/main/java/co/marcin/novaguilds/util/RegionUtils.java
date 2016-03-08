@@ -31,61 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class RegionUtils {
-	@SuppressWarnings("deprecation")
-	public static void setCorner(Player player, Location location, Material material, byte data) {
-		if(player == null || location == null) {
-			return;
-		}
 
-		if(material == null) {
-			material = location.getBlock().getType();
-			data = location.getBlock().getData();
-		}
-
-		player.sendBlockChange(location, material, data);
-	}
-
-	public static void setCorner(Player player, Location location, Material material) {
-		setCorner(player, location, material, (byte) 0);
-	}
-
-	@SuppressWarnings("deprecation")
-	public static void highlightRegion(Player player, NovaRegion region, Material material) {
-		if(player == null || region == null) {
-			return;
-		}
-
-		Location loc1 = region.getCorner(0).clone();
-		Location loc2 = region.getCorner(1).clone();
-
-		Block highest1 = player.getWorld().getHighestBlockAt(loc1.getBlockX(), loc1.getBlockZ());
-		Block highest2 = player.getWorld().getHighestBlockAt(loc2.getBlockX(), loc2.getBlockZ());
-
-		loc1.setY(highest1.getY() - (highest1.getType() == Material.SNOW ? 0 : 1));
-		loc2.setY(highest2.getY() - (highest2.getType() == Material.SNOW ? 0 : 1));
-
-		Material material1;
-		Material material2;
-
-		byte data1 = 0;
-		byte data2 = 0;
-
-		if(material != null) {
-			material1 = material2 = material;
-		}
-		else {
-			material1 = loc1.getBlock().getType();
-			material2 = loc2.getBlock().getType();
-
-			data1 = loc1.getBlock().getData();
-			data2 = loc2.getBlock().getData();
-		}
-
-		setCorner(player, loc1, material1, data1);
-		setCorner(player, loc2, material2, data2);
-	}
-
-	@SuppressWarnings("deprecation")
 	public static List<Block> getBorderBlocks(NovaRegion region) {
 		return getBorderBlocks(region.getCorner(0), region.getCorner(1));
 	}
@@ -155,30 +101,11 @@ public final class RegionUtils {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void sendRectangle(Player player, Location l1, Location l2, Material material, byte data) {
-		if(player == null || l1 == null || l2 == null) {
-			return;
-		}
+	public static void resetBlock(Player player, Block block) {
+		Material material = block.getWorld().getBlockAt(block.getLocation()).getType();
+		byte data = block.getWorld().getBlockAt(block.getLocation()).getData();
 
-		Material useMaterial;
-		byte useData;
-
-		for(Block block : getBorderBlocks(l1, l2)) {
-			if(material == null) {
-				useMaterial = player.getWorld().getBlockAt(block.getLocation()).getType();
-				useData = player.getWorld().getBlockAt(block.getLocation()).getData();
-			}
-			else {
-				useMaterial = material;
-				useData = data;
-			}
-
-			player.sendBlockChange(block.getLocation(), useMaterial, useData);
-		}
-	}
-
-	public static void sendRectangle(Player player, Location l1, Location l2, Material material) {
-		sendRectangle(player, l1, l2, material, (byte) 0);
+		player.sendBlockChange(block.getLocation(), material, data);
 	}
 
 	public static Location getCenterLocation(Location l1, Location l2) {

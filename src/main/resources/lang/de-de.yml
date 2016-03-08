@@ -80,6 +80,11 @@ chat:
      self: "Umgehung des Bereiches gewechselt. Aktuell: &c{BYPASS}"
      other: "Umgehung des Bereiches gewechselt für den Spieler: &c{PLAYER}. Aktuell: &c{BYPASS}"
     notifyother: "Deine Bereichsumgehung wurde gewechselt. Aktuell: &c{BYPASS}"
+   spectate:
+    toggled:
+     self: "Region spectate toggled. Currently: &c{FLAG}"
+     other: "Region spectate toggled for player &c{PLAYER}. Currently: &c{FLAG}"
+    notifyother: "Your region spectate has been toggled. Currently: &c{FLAG}"
    delete:
     success: "Gildenbereich erfolgreich gelöscht."
    teleport:
@@ -152,6 +157,7 @@ chat:
     delete: "&4&l> &7/nga &crg &6<&cGilde&6> &cdel &2- &6Löscht ein Gebiet"
     teleport: "&4&l> &7/nga &crg &6<&cGilde&6> &ctp &2- &6Teleportiert zum Gildengebiet"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cSpieler&6] &2- &6ändert den Umgehungsmodus"
+    spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
   guild:
    abandon: "&4&l> &7/abandon &2- &6Löse deine Gilde auf"
    ally: "&4&l> &7/g &cally &6<&cGilde&6> &2- &6Lade sie als Verbündete ein"

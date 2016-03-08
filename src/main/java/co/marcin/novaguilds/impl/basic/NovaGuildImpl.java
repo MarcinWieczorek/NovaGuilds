@@ -262,10 +262,8 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	public NovaRank getCloneOfGenericRank(NovaRank genericRank) {
 		if(genericRank != null && genericRank.isGeneric()) {
 			for(NovaRank rank : getRanks()) {
-				if(rank.isClone()) {
-					if(genericRank.getName().equals(rank.getName())) {
-						return rank;
-					}
+				if(rank.isClone() && genericRank.getName().equals(rank.getName())) {
+					return rank;
 				}
 			}
 		}
