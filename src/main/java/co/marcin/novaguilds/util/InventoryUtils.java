@@ -63,10 +63,8 @@ public final class InventoryUtils {
 		int amount = 0;
 
 		for(ItemStack item : inventory.getContents()) {
-			if(item != null && item.getType() != Material.AIR) {
-				if(ItemStackUtils.isSimilar(itemStack, item)) {
-					amount += item.getAmount();
-				}
+			if(item != null && item.getType() != Material.AIR && ItemStackUtils.isSimilar(itemStack, item)) {
+				amount += item.getAmount();
 			}
 		}
 

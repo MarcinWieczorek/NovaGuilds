@@ -120,10 +120,8 @@ public class MessageManager {
 	private void setupDirectories() {
 		File langDir = new File(plugin.getDataFolder(), "lang/");
 
-		if(!langDir.exists()) {
-			if(langDir.mkdir()) {
-				LoggerUtils.info("Language dir created");
-			}
+		if(!langDir.exists() && langDir.mkdir()) {
+			LoggerUtils.info("Language dir created");
 		}
 	}
 
