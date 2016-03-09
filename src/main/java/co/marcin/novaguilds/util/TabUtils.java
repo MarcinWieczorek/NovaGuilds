@@ -41,6 +41,9 @@ import java.util.concurrent.TimeUnit;
 public final class TabUtils {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
+	private TabUtils() {
+	}
+
 	public static void refresh(NovaPlayer nPlayer) {
 		if(!Config.TABLIST_ENABLED.getBoolean()) {
 			return;

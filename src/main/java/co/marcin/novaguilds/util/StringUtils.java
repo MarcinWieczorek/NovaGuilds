@@ -37,6 +37,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public final class StringUtils {
+	private StringUtils() {
+	}
+
 	public static String fixColors(String msg) {
 		if(msg == null) {
 			return null;

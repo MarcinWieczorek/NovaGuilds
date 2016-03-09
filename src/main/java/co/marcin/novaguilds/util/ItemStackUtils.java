@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Map;
 
 public final class ItemStackUtils {
+	private ItemStackUtils() {
+	}
+
 	@SuppressWarnings("deprecation")
 	public static ItemStack stringToItemStack(String str) {
 		if(!str.isEmpty()) {

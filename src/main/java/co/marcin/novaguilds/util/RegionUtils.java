@@ -32,6 +32,9 @@ import java.util.List;
 
 public final class RegionUtils {
 
+	private RegionUtils() {
+	}
+
 	public static List<Block> getBorderBlocks(NovaRegion region) {
 		return getBorderBlocks(region.getCorner(0), region.getCorner(1));
 	}
