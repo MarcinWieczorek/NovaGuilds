@@ -84,6 +84,7 @@ public class MessageManager {
 
 	/**
 	 * Checks if the messages file exists
+	 *
 	 * @return true if the file exists
 	 */
 	public boolean existsFile() {
@@ -92,6 +93,7 @@ public class MessageManager {
 
 	/**
 	 * Loads messages
+	 *
 	 * @return true if success
 	 */
 	public boolean load() {
@@ -172,7 +174,7 @@ public class MessageManager {
 	 * Sends prefixed message to a player
 	 *
 	 * @param sender receiver
-	 * @param msg message string
+	 * @param msg    message string
 	 */
 	public static void sendPrefixMessage(CommandSender sender, String msg) {
 		if(!msg.equals("none")) {
@@ -184,7 +186,7 @@ public class MessageManager {
 	 * Sends a message without prefix to a player
 	 *
 	 * @param sender receiver
-	 * @param msg message string
+	 * @param msg    message string
 	 */
 	public static void sendMessage(CommandSender sender, String msg) {
 		if(!msg.equals("none")) {
@@ -195,7 +197,7 @@ public class MessageManager {
 	/**
 	 * Sends a list of messages to a player
 	 *
-	 * @param sender receiver
+	 * @param sender  receiver
 	 * @param message Message enum
 	 */
 	public static void sendMessagesList(CommandSender sender, Message message) {
@@ -222,7 +224,7 @@ public class MessageManager {
 	/**
 	 * Sends a message to a player
 	 *
-	 * @param sender receiver
+	 * @param sender  receiver
 	 * @param message Message enum
 	 */
 	public static void sendMessagesMsg(CommandSender sender, Message message) {
@@ -247,7 +249,7 @@ public class MessageManager {
 	 * Send a Title to the player
 	 *
 	 * @param player Player instance
-	 * @param msg message string
+	 * @param msg    message string
 	 */
 	public static void sendTitle(Player player, String msg) {
 		Title title = new TitleImpl("");
@@ -260,7 +262,7 @@ public class MessageManager {
 	 * Broadcasts Message to players
 	 *
 	 * @param playerList List of Players
-	 * @param message Message enum
+	 * @param message    Message enum
 	 * @param permission Permission enum (null for none)
 	 */
 	public static void broadcast(List<Player> playerList, Message message, Permission permission) {
@@ -274,7 +276,7 @@ public class MessageManager {
 	/**
 	 * Broadcasts message from file to all players with permission
 	 *
-	 * @param message Message enum
+	 * @param message    Message enum
 	 * @param permission Permission enum
 	 */
 	public static void broadcast(Message message, Permission permission) {
@@ -293,7 +295,7 @@ public class MessageManager {
 	/**
 	 * Broadcasts message to guild members
 	 *
-	 * @param guild Guild instance
+	 * @param guild   Guild instance
 	 * @param message Message enum
 	 */
 	public static void broadcast(NovaGuild guild, Message message) {
@@ -303,7 +305,7 @@ public class MessageManager {
 	/**
 	 * Replaces a map of vars preserving the prefix color
 	 *
-	 * @param msg message string
+	 * @param msg  message string
 	 * @param vars Map<String, String> of variables
 	 * @return String
 	 */

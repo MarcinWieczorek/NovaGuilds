@@ -502,7 +502,7 @@ public enum Message {
 	private boolean prefix = true;
 	private boolean list = false;
 
-	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>(){{
+	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>() {{
 		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
 		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
 		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
@@ -535,6 +535,7 @@ public enum Message {
 
 	/**
 	 * Tells if the message is suitable for Title
+	 *
 	 * @return true/false
 	 */
 	public boolean getTitle() {
@@ -543,6 +544,7 @@ public enum Message {
 
 	/**
 	 * Gets message's yaml path
+	 *
 	 * @return the path
 	 */
 	public String getPath() {
@@ -555,6 +557,7 @@ public enum Message {
 
 	/**
 	 * Tells if the prefix is turned on
+	 *
 	 * @return prefix status true/false
 	 */
 	public boolean isPrefix() {
@@ -563,6 +566,7 @@ public enum Message {
 
 	/**
 	 * Gets the map of variables
+	 *
 	 * @return The Map
 	 */
 	public Map<VarKey, String> getVars() {
@@ -571,6 +575,7 @@ public enum Message {
 
 	/**
 	 * Sends the Message to a player
+	 *
 	 * @param sender receiver
 	 */
 	public void send(CommandSender sender) {
@@ -584,6 +589,7 @@ public enum Message {
 
 	/**
 	 * Send the message to a player using NovaPlayer instance
+	 *
 	 * @param nPlayer receiver NovaPlayer
 	 */
 	public void send(NovaPlayer nPlayer) {
@@ -594,6 +600,7 @@ public enum Message {
 
 	/**
 	 * Adds a map of vars;
+	 *
 	 * @param vars Map of variables
 	 * @return Message instance
 	 */
@@ -617,6 +624,7 @@ public enum Message {
 
 	/**
 	 * Sets whether the prefix should be displayed
+	 *
 	 * @param prefix prefix status
 	 * @return Message instance
 	 */
@@ -627,6 +635,7 @@ public enum Message {
 
 	/**
 	 * Broadcasts the message to all players of a guild
+	 *
 	 * @param guild the guild
 	 */
 	public void broadcast(NovaGuild guild) {
@@ -642,6 +651,7 @@ public enum Message {
 
 	/**
 	 * Broadcasts the message to all players with a certain permission
+	 *
 	 * @param permission the permission enum
 	 */
 	public void broadcast(Permission permission) {
@@ -650,6 +660,7 @@ public enum Message {
 
 	/**
 	 * Gets the message string
+	 *
 	 * @return message string
 	 */
 	public String get() {
@@ -658,6 +669,7 @@ public enum Message {
 
 	/**
 	 * Gets an ItemStacks from the Message
+	 *
 	 * @return ItemStack instance
 	 */
 	public ItemStack getItemStack() {
@@ -666,6 +678,7 @@ public enum Message {
 
 	/**
 	 * Gets a list
+	 *
 	 * @return the list
 	 */
 	public List<String> getList() {
@@ -674,6 +687,7 @@ public enum Message {
 
 	/**
 	 * Gets a message depending on the boolean, it can be either ON or OFF message
+	 *
 	 * @param b boolean
 	 * @return string of ON or OFF message
 	 */
@@ -683,6 +697,7 @@ public enum Message {
 
 	/**
 	 * Gets a ConfigurationSection
+	 *
 	 * @return the ConfigurationSection
 	 */
 	public ConfigurationSection getConfigurationSection() {
@@ -691,6 +706,7 @@ public enum Message {
 
 	/**
 	 * Gets Message's neighbours (excluding itslef)
+	 *
 	 * @return a list of Messages in one ConfigurationSection
 	 */
 	public List<Message> getNeighbours() {
@@ -709,7 +725,8 @@ public enum Message {
 
 	/**
 	 * Sends a list of messages
-	 * @param list the list
+	 *
+	 * @param list   the list
 	 * @param sender the receiver
 	 */
 	public static void send(List<Message> list, CommandSender sender) {
@@ -720,15 +737,17 @@ public enum Message {
 
 	/**
 	 * Gets the path of ConfigurationSection the Message's in
+	 *
 	 * @return the path
 	 */
 	private String getParentPath() {
 		String[] split = StringUtils.split(getPath(), ".");
-		return StringUtils.removeEnd(getPath(), "." + split[split.length-1]);
+		return StringUtils.removeEnd(getPath(), "." + split[split.length - 1]);
 	}
 
 	/**
 	 * Gets a message from path
+	 *
 	 * @param path path string
 	 * @return message enum
 	 */
@@ -738,6 +757,7 @@ public enum Message {
 
 	/**
 	 * Gets a name of chat mode
+	 *
 	 * @param chatMode chat mode enum
 	 * @return the name
 	 */
@@ -747,6 +767,7 @@ public enum Message {
 
 	/**
 	 * Gets a message with filled coordinated
+	 *
 	 * @param location location instance
 	 * @return the message
 	 */

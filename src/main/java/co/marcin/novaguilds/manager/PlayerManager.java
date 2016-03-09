@@ -165,6 +165,7 @@ public class PlayerManager {
 
 	/**
 	 * Gets a limited list of top players by points
+	 *
 	 * @param count limit
 	 * @return list of players
 	 */
@@ -174,6 +175,7 @@ public class PlayerManager {
 
 	/**
 	 * Gets top players by points
+	 *
 	 * @return list of players
 	 */
 	public List<NovaPlayer> getTopPlayersByPoints() {
@@ -193,8 +195,8 @@ public class PlayerManager {
 
 		Collections.sort(playerList, new Comparator<NovaPlayer>() {
 			public int compare(NovaPlayer p1, NovaPlayer p2) {
-				if (p1.getKillDeathRate() > p2.getKillDeathRate()) return -1;
-				if (p1.getKillDeathRate() < p2.getKillDeathRate()) return 1;
+				if(p1.getKillDeathRate() > p2.getKillDeathRate()) return -1;
+				if(p1.getKillDeathRate() < p2.getKillDeathRate()) return 1;
 				return 0;
 			}
 		});

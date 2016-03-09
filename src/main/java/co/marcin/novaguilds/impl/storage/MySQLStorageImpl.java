@@ -108,7 +108,7 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 			keys.next();
 			int id = keys.getInt(1);
 
-			if(id==0) {
+			if(id == 0) {
 				throw new RuntimeException("Could not get generated keys");
 			}
 

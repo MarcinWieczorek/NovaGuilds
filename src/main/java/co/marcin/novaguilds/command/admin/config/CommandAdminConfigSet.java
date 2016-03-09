@@ -71,7 +71,7 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 				split = org.apache.commons.lang.StringUtils.split(valueString, ";");
 			}
 
-			value  = new ArrayList<>(Arrays.asList(split));
+			value = new ArrayList<>(Arrays.asList(split));
 		}
 		else if(valueString.startsWith("\"") && valueString.endsWith("\"")) {
 			valueString = valueString.substring(1);

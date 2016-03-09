@@ -111,7 +111,7 @@ public interface NovaRegion extends Changeable {
 	/**
 	 * Sets corner location
 	 *
-	 * @param index corner index (0/1)
+	 * @param index    corner index (0/1)
 	 * @param location the location
 	 */
 	void setCorner(int index, Location location);

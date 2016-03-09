@@ -71,6 +71,7 @@ public class GuildManager {
 
 	/**
 	 * Find by player/tag/guildname
+	 *
 	 * @param mixed mixed string
 	 * @return guild instance
 	 */

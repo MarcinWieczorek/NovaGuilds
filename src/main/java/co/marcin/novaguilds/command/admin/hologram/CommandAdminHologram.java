@@ -77,7 +77,7 @@ public class CommandAdminHologram extends AbstractCommandExecutor {
 			return;
 		}
 
-		Command subCommand = commandsMap.get(args[isNoHologramCommand || args.length==1 ? 0 : 1].toLowerCase());
+		Command subCommand = commandsMap.get(args[isNoHologramCommand || args.length == 1 ? 0 : 1].toLowerCase());
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);

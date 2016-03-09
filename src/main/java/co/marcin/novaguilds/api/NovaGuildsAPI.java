@@ -123,6 +123,7 @@ public interface NovaGuildsAPI {
 
 	/**
 	 * Returns the storage
+	 *
 	 * @return the storage
 	 */
 	Storage getStorage();

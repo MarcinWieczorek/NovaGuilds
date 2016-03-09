@@ -113,7 +113,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private ConfigManager configManager;
 	private GroupManager groupManager;
 	private static final String logPrefix = "[NovaGuilds]";
-	private final String commit = getResource("commit.yml")==null ? "invalid" : IOUtils.inputStreamToString(getResource("commit.yml"));
+	private final String commit = getResource("commit.yml") == null ? "invalid" : IOUtils.inputStreamToString(getResource("commit.yml"));
 
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
 	public final List<NovaGuild> guildRaids = new ArrayList<>();

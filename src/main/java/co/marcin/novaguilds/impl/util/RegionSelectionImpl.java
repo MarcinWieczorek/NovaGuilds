@@ -50,7 +50,7 @@ public class RegionSelectionImpl implements RegionSelection {
 	 * Constructor for filling with corner locations
 	 *
 	 * @param nPlayer the player
-	 * @param type selection type
+	 * @param type    selection type
 	 */
 	public RegionSelectionImpl(NovaPlayer nPlayer, Type type) {
 		addSpectator(nPlayer);

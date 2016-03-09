@@ -85,6 +85,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 	/**
 	 * Reconnects
+	 *
 	 * @return true if success
 	 */
 	public abstract boolean connect();
@@ -871,6 +872,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	//Analyze tools
 	/**
 	 * Checks if tables exist in the database
+	 *
 	 * @return boolean
 	 */
 	protected boolean checkTables() {
@@ -927,6 +929,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 	/**
 	 * Gets an array of SQL create table codes
+	 *
 	 * @return the array of strings
 	 */
 	private String[] getSqlActions() {
@@ -945,6 +948,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	/**
 	 * Serialize a list of guilds to a string of names separated by semicolons.
 	 * name1;name2;name3 etc.
+	 *
 	 * @param list the list
 	 * @return the string
 	 */

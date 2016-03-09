@@ -307,6 +307,7 @@ public class ConfigManager {
 
 	/**
 	 * Gets detected server version
+	 *
 	 * @return true if it's bukkit 1.8
 	 */
 	public static boolean isBukkit18() {

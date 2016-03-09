@@ -47,7 +47,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 			networkManager = Reflections.getField(Reflections.getCraftClass("PlayerConnection"), "networkManager");
 			handleMethod = Reflections.getMethod(Reflections.getBukkitClass("entity.CraftEntity"), "getHandle");
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -57,7 +57,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 			Object eP = handleMethod.invoke(p);
 			return clientChannel.get(networkManager.get(playerConnection.get(eP)));
 		}
-		catch (Exception e){
+		catch(Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -90,7 +90,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 						}
 						super.channelRead(ctx, event.getPacket());
 					}
-					catch (Exception e) {
+					catch(Exception e) {
 						super.channelRead(ctx, msg);
 					}
 				}
@@ -105,7 +105,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 				}
 			}
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -114,7 +114,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 
 	}
 	
-	private static <E extends Event> E callEvent(E event){
+	private static <E extends Event> E callEvent(E event) {
 		Bukkit.getPluginManager().callEvent(event);
 		return event;
 	}

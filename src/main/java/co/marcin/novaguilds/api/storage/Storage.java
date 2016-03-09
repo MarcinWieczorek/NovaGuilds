@@ -28,6 +28,7 @@ import java.util.List;
 public interface Storage {
 	/**
 	 * Set up the directories, connect to database etc.
+	 *
 	 * @return true if successful
 	 */
 	boolean setUp();
@@ -67,24 +68,28 @@ public interface Storage {
 
 	/**
 	 * Saves all players
+	 *
 	 * @return The amount of saved items
 	 */
 	Integer savePlayers();
 
 	/**
 	 * Saves all guilds
+	 *
 	 * @return The amount of saved items
 	 */
 	Integer saveGuilds();
 
 	/**
 	 * Saves all regions
+	 *
 	 * @return The amount of saved items
 	 */
 	Integer saveRegions();
 
 	/**
 	 * Saves all ranks
+	 *
 	 * @return The amount of saved items
 	 */
 	Integer saveRanks();

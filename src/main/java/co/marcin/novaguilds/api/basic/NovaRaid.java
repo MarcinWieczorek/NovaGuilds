@@ -23,72 +23,84 @@ import java.util.List;
 public interface NovaRaid {
 	/**
 	 * Gets the attacking guild
+	 *
 	 * @return the guild
 	 */
 	NovaGuild getGuildAttacker();
 
 	/**
 	 * Gets the defender guild
+	 *
 	 * @return the guild
 	 */
 	NovaGuild getGuildDefender();
 
 	/**
 	 * Gets the time when the raid started (unixtime)
+	 *
 	 * @return unixtime
 	 */
 	long getStartTime();
 
 	/**
 	 * Gets the amount of kills by attackers
+	 *
 	 * @return the amount
 	 */
 	int getKillsAttacker();
 
 	/**
 	 * Gets the amount of kills by defenders
+	 *
 	 * @return the amount
 	 */
 	int getKillsDefender();
 
 	/**
 	 * Gets the progress
+	 *
 	 * @return the amount
 	 */
 	float getProgress();
 
 	/**
 	 * Gets the list of attackers on defenders region
+	 *
 	 * @return the list
 	 */
 	List<NovaPlayer> getPlayersOccupying();
 
 	/**
 	 * Gets the amount of attackers of defenders region
+	 *
 	 * @return the amount
 	 */
 	int getPlayersOccupyingCount();
 
 	/**
 	 * Returns whether the raid is finished or not
+	 *
 	 * @return boolean
 	 */
 	boolean getFinished();
 
 	/**
 	 * Gets the unixtime of last activity on defenders region
+	 *
 	 * @return unixtime
 	 */
 	long getInactiveTime();
 
 	/**
 	 * Sets the attacker guild
+	 *
 	 * @param guild the guild
 	 */
 	void setGuildAttacker(NovaGuild guild);
 
 	/**
 	 * Sets the defender guild
+	 *
 	 * @param guild the guild
 	 */
 	void setGuildDefender(NovaGuild guild);
@@ -110,6 +122,7 @@ public interface NovaRaid {
 
 	/**
 	 * Returns whether the progress is 100%
+	 *
 	 * @return boolean
 	 */
 	boolean isProgressFinished();
@@ -121,6 +134,7 @@ public interface NovaRaid {
 
 	/**
 	 * Sets 'finished' flag
+	 *
 	 * @param finished boolean
 	 */
 	void setFinished(boolean finished);
@@ -137,12 +151,14 @@ public interface NovaRaid {
 
 	/**
 	 * Adds a player to occupying list
+	 *
 	 * @param nPlayer the player
 	 */
 	void addPlayerOccupying(NovaPlayer nPlayer);
 
 	/**
 	 * removes a player from occupying list
+	 *
 	 * @param nPlayer the player
 	 */
 	void removePlayerOccupying(NovaPlayer nPlayer);

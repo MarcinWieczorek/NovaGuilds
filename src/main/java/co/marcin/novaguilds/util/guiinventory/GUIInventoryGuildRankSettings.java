@@ -136,8 +136,8 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		if(StringUtils.contains(cloneName, ' ')) {
 			String[] split = StringUtils.split(cloneName, ' ');
 
-			if(NumberUtils.isNumeric(split[split.length-1])) {
-				cloneName = cloneName.substring(0, cloneName.length() - split[split.length-1].length() - 1);
+			if(NumberUtils.isNumeric(split[split.length - 1])) {
+				cloneName = cloneName.substring(0, cloneName.length() - split[split.length - 1].length() - 1);
 			}
 		}
 

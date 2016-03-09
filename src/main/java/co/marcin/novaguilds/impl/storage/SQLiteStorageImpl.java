@@ -96,7 +96,7 @@ public class SQLiteStorageImpl extends AbstractDatabaseStorage implements Databa
 			generatedKeys.next();
 			int id = generatedKeys.getInt(1);
 
-			if(id==0) {
+			if(id == 0) {
 				throw new RuntimeException("Could not get generated keys");
 			}
 

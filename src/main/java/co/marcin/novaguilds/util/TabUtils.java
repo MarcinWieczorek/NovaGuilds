@@ -157,7 +157,7 @@ public final class TabUtils {
 
 		//Guild TOP
 		List<NovaGuild> topGuildsList = plugin.getGuildManager().getTopGuildsByPoints(20);
-		for(int i=1; i<=20; i++) {
+		for(int i = 1; i <= 20; i++) {
 			if(i <= topGuildsList.size()) {
 				NovaGuild guildTop = topGuildsList.get(i - 1);
 				String row = Config.TABLIST_TOPROW_GUILDS.getString();

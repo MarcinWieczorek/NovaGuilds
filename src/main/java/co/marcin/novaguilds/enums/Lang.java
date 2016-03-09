@@ -61,10 +61,10 @@ public enum Lang {
 			return Lang.valueOf(langName);
 		}
 		catch(Exception e) {
-			try (BufferedReader brTest = new BufferedReader(new FileReader(file))) {
+			try(BufferedReader brTest = new BufferedReader(new FileReader(file))) {
 				String line = brTest.readLine();
 
-				if (line.startsWith("#")) {
+				if(line.startsWith("#")) {
 					line = line.substring(1);
 					LoggerUtils.info("Detected custom enconding for file " + file.getName() + ": " + line);
 					Lang lang = Lang.CUSTOM;

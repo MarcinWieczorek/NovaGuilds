@@ -474,7 +474,7 @@ public interface NovaPlayer extends Changeable {
 	 * Creates a new command executor handler
 	 *
 	 * @param command the command
-	 * @param args array of arguments
+	 * @param args    array of arguments
 	 */
 	void newCommandExecutorHandler(Command command, String[] args);
 
