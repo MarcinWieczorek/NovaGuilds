@@ -34,6 +34,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public final class TagUtils {
+	private TagUtils() {
+	}
+
 	@SuppressWarnings("deprecation")
 	public static void refresh(Player p) {
 		if(!Config.TAGAPI_ENABLED.getBoolean()) {

@@ -32,6 +32,9 @@ import java.util.List;
 public class ChestGUIUtils {
 	public static final List<NovaPlayer> guiContinueList = new ArrayList<>();
 
+	private ChestGUIUtils() {
+	}
+
 	public static int getChestSize(int count) {
 		return (count / 9) * 9 + (count % 9 == 0 ? 0 : 9);
 	}

@@ -30,6 +30,9 @@ public final class LoggerUtils {
 	private static final Logger logger = Logger.getLogger("Minecraft");
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
+	private LoggerUtils() {
+	}
+
 	public static void error(String error) {
 		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + classPrefix() + space(error) + error));
 	}

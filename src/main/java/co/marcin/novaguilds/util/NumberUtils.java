@@ -21,6 +21,9 @@ package co.marcin.novaguilds.util;
 import java.util.Random;
 
 public final class NumberUtils {
+	private NumberUtils() {
+	}
+
 	public static boolean isNumeric(String str) {
 		return str.matches("[+-]?\\d*(\\.\\d+)?");
 	}
