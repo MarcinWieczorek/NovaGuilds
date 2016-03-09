@@ -98,7 +98,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	* */
 
 	private static NovaGuilds inst;
-	private final int build = Integer.parseInt(getDescription().getVersion());
+	private final int build = Integer.parseInt(StringUtils.replace(getDescription().getVersion(), "-SNAPSHOT", ""));
 
 	//Vault
 	public Economy econ = null;

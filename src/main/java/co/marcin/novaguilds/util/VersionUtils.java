@@ -42,14 +42,21 @@ public class VersionUtils {
 		init = true;
 		NovaGuildsAPI ng = NovaGuilds.getInstance();
 
-		buildCurrent = ng == null ? YamlConfiguration.loadConfiguration(new File("./src/main/resources/plugin.yml")).getInt("version") : ng.getBuild();
+		if(ng == null) {
+			String currentString = YamlConfiguration.loadConfiguration(new File("./src/main/resources/plugin.yml")).getString("version");
+			currentString = org.apache.commons.lang.StringUtils.replace(currentString, "-SNAPSHOT", "");
+			buildCurrent = Integer.parseInt(currentString);
+		}
+		else {
+			buildCurrent = ng.getBuild();
+		}
 
 		try {
 			String latestString = StringUtils.getContent("http://novaguilds.pl/latest.info");
 			String devString = StringUtils.getContent("http://novaguilds.pl/dev.info");
 
-			buildLatest = Integer.parseInt(latestString);
-			buildDev = Integer.parseInt(devString);
+			buildLatest = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(latestString, "-SNAPSHOT", ""));
+			buildDev = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(devString, "-SNAPSHOT", ""));
 		}
 		catch(IOException e) {
 			LoggerUtils.error("Failed to fetch versions");
