@@ -27,7 +27,7 @@ public class RunnableRefreshTabList implements Runnable {
 	public void run() {
 		TabUtils.refresh();
 
-		if(Bukkit.getOnlinePlayers().size() > 0) {
+		if(!Bukkit.getOnlinePlayers().isEmpty()) {
 			LoggerUtils.info("TabList refreshed (" + Bukkit.getOnlinePlayers().size() + " players)");
 		}
 	}
