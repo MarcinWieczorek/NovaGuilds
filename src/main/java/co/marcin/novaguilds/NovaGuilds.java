@@ -30,7 +30,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
-import co.marcin.novaguilds.impl.listener.packet.PacketListener1_8Impl;
 import co.marcin.novaguilds.impl.storage.MySQLStorageImpl;
 import co.marcin.novaguilds.impl.storage.SQLiteStorageImpl;
 import co.marcin.novaguilds.impl.storage.YamlStorageImpl;
@@ -191,13 +190,17 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		new ChestGUIListener();
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
-			if(ConfigManager.isBukkit18()) {
-				new PacketListener1_8Impl();
-				packetExtension = new PacketExtension1_8Impl();
-			}
-			else {
-				new PacketListener1_7Impl();
-				packetExtension = new PacketExtension1_7Impl();
+			switch(ConfigManager.getServerVersion()) {
+				case MINECRAFT_1_7:
+					new PacketListener1_7Impl();
+					packetExtension = new PacketExtension1_7Impl();
+					break;
+				case MINECRAFT_1_8:
+					packetExtension = new PacketExtension1_8Impl();
+					break;
+				case MINECRAFT_1_9:
+					packetExtension = new PacketExtension1_8Impl();
+					break;
 			}
 
 			//Register players (for reload)
@@ -524,7 +527,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//NorthTab
-		if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.isBukkit18()) {
+		if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
 			if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
 				LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
 				Config.TABLIST_ENABLED.set(false);

@@ -79,7 +79,7 @@ public class LoginListener extends AbstractListener {
 
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
-			TabList tabList;
+			TabList tabList = null;
 
 			//ProtocolSupport
 			if(plugin.isProtocolSupportEnabled()) {
@@ -91,16 +91,12 @@ public class LoginListener extends AbstractListener {
 						break;
 					default:
 						LoggerUtils.debug("Detected " + protocolVersion.name() + ": " + player.getName());
-						tabList = null;
 						break;
 				}
 			}
 			else {
-				if(ConfigManager.isBukkit18()) {
+				if(ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
 					tabList = new TabList1_8NorthTabImpl(nPlayer);
-				}
-				else {
-					tabList = null;
 				}
 			}
 

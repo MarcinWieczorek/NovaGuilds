@@ -49,11 +49,35 @@ public class ConfigManager {
 	private DataStorageType dataStorageType;
 
 	private boolean useVanishNoPacket = true;
-	private static final boolean bukkit18 = Bukkit.getBukkitVersion().startsWith("1.8");
 
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 
 	private final Map<Config, Object> cache = new HashMap<>();
+	private static final ServerVersion serverVersion = ServerVersion.detect();
+
+	public static ServerVersion getServerVersion() {
+		return serverVersion;
+	}
+
+	public enum ServerVersion {
+		MINECRAFT_1_7,
+		MINECRAFT_1_8,
+		MINECRAFT_1_9;
+
+		public static ServerVersion detect() {
+			for(ServerVersion version : values()) {
+				String string = version.name();
+				string = org.apache.commons.lang.StringUtils.replace(string, "MINECRAFT_", "");
+				string = org.apache.commons.lang.StringUtils.replace(string, "_", ".");
+
+				if(Bukkit.getBukkitVersion().startsWith(string)) {
+					return version;
+				}
+			}
+
+			throw new UnsupportedOperationException("Version " + Bukkit.getBukkitVersion() + " is not supported by NovaGuilds");
+		}
+	}
 
 	public static final Map<String, String> essentialsLocale = new HashMap<String, String>() {{
 		put("en", "en-en");
@@ -81,14 +105,14 @@ public class ConfigManager {
 
 		LoggerUtils.info("This server is using Bukkit: " + Bukkit.getBukkitVersion());
 
-		if(Config.USETITLES.getBoolean() && !isBukkit18()) {
+		if(Config.USETITLES.getBoolean() && ConfigManager.getServerVersion() == ServerVersion.MINECRAFT_1_7) {
 			Config.USETITLES.set(false);
 			LoggerUtils.error("You can't use Titles with Bukkit older than 1.8");
 		}
 
-		if(Config.TABLIST_ENABLED.getBoolean() && !isBukkit18()) {
+		if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.getServerVersion() != ServerVersion.MINECRAFT_1_8) {
 			Config.TABLIST_ENABLED.set(false);
-			LoggerUtils.error("TabList is not currently implemented for servers older than 1.8");
+			LoggerUtils.error("TabList is not currently implemented for server version other than 1.8");
 		}
 
 		String primaryDataStorageTypeString = Config.DATASTORAGE_PRIMARY.getString().toUpperCase();
@@ -132,6 +156,7 @@ public class ConfigManager {
 		LoggerUtils.info("Data storage: Primary: " + primaryDataStorageType.name() + ", Secondary: " + secondaryDataStorageType.name());
 
 		//Effects
+		guildEffects.clear();
 		List<String> guildEffectsString = Config.GUILD_EFFECT_LIST.getStringList();
 		for(String effect : guildEffectsString) {
 			PotionEffectType effectType = PotionEffectType.getByName(effect);
@@ -303,14 +328,5 @@ public class ConfigManager {
 		catch(IOException e) {
 			LoggerUtils.exception(e);
 		}
-	}
-
-	/**
-	 * Gets detected server version
-	 *
-	 * @return true if it's bukkit 1.8
-	 */
-	public static boolean isBukkit18() {
-		return bukkit18;
 	}
 }
