@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.storage.Storage;
+import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.EntityUseAction;
@@ -35,6 +36,7 @@ import co.marcin.novaguilds.impl.storage.SQLiteStorageImpl;
 import co.marcin.novaguilds.impl.storage.YamlStorageImpl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
+import co.marcin.novaguilds.impl.util.signgui.SignGUI1_9Impl;
 import co.marcin.novaguilds.listener.ChatListener;
 import co.marcin.novaguilds.listener.ChestGUIListener;
 import co.marcin.novaguilds.listener.DeathListener;
@@ -101,6 +103,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	//Vault
 	public Economy econ = null;
+	private SignGUI signGUI;
 	private Essentials essentials;
 	private boolean protocolSupportEnabled;
 
@@ -200,6 +203,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					break;
 				case MINECRAFT_1_9:
 					packetExtension = new PacketExtension1_8Impl();
+					signGUI = new SignGUI1_9Impl();
 					break;
 			}
 
@@ -224,6 +228,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					event.setCancelled(interactEntityEvent.isCancelled());
 				}
 			}, this);
+		}
+
+		if(signGUI == null) {
+			Config.SIGNGUI_ENABLED.set(false);
 		}
 
 		if(Config.VAULT_ENABLED.getBoolean()) {
@@ -276,6 +284,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
 			getPacketExtension().unregisterChannel();
+		}
+
+		if(getSignGUI() != null) {
+			getSignGUI().destroy();
 		}
 
 		//Stop schedulers
@@ -595,5 +607,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public boolean isProtocolSupportEnabled() {
 		return protocolSupportEnabled;
+	}
+
+	public SignGUI getSignGUI() {
+		return signGUI;
 	}
 }

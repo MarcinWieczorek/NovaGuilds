@@ -596,6 +596,7 @@ inventory:
    leadername: "Lider"
   rank:
    settings:
+    title: "&l{RANKNAME} &rustawienia"
     cloneprefix: "Kopia "
     item:
      editpermissions: "BOOK_AND_QUILL 1 name:&6Edytuj_uprawnienia"

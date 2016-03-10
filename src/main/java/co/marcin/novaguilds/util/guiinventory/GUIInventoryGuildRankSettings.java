@@ -21,7 +21,10 @@ package co.marcin.novaguilds.util.guiinventory;
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaRank;
+import co.marcin.novaguilds.api.util.SignGUI;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.manager.RankManager;
@@ -29,8 +32,11 @@ import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private final NovaRank rank;
@@ -44,7 +50,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private ItemStack memberListItem;
 
 	public GUIInventoryGuildRankSettings(NovaRank rank) {
-		super(9, Message.INVENTORY_GUI_RANKS_TITLE);
+		super(9, Message.INVENTORY_GUI_RANK_SETTINGS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
 	}
 
@@ -72,7 +78,34 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			cloneRank();
 		}
 		else if(clickedItemStack.equals(renameItem)) {
-			//TODO renaming
+			if(Config.SIGNGUI_ENABLED.getBoolean()) {
+				List<String> linesList = Config.SIGNGUI_LINES.getStringList();
+				String[] lines = new String[4];
+
+				int index = 0;
+				int inputIndex = 0;
+				for(String line : linesList) {
+					if(StringUtils.contains(line, "{RANK_NAME}")) {
+						line = StringUtils.replace(line, "{RANK_NAME}", rank.getName());
+						inputIndex = index;
+					}
+
+					lines[index] = line;
+					index++;
+				}
+
+				final int finalInputIndex = inputIndex;
+				plugin.getSignGUI().open(getViewer().getPlayer(), lines, new SignGUI.SignGUIListener() {
+					@Override
+					public void onSignDone(Player player, String[] lines) {
+						rank.setName(lines[finalInputIndex]);
+						close();
+						GUIInventoryGuildRankSettings gui = new GUIInventoryGuildRankSettings(rank);
+						gui.setGuild(getGuild());
+						gui.open(getViewer());
+					}
+				});
+			}
 		}
 		else if(clickedItemStack.equals(deleteItem)) {
 			rank.delete();
