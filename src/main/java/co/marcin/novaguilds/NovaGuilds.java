@@ -37,6 +37,7 @@ import co.marcin.novaguilds.impl.storage.YamlStorageImpl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_7Impl;
+import co.marcin.novaguilds.impl.util.signgui.SignGUI1_8Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_9Impl;
 import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
@@ -183,6 +184,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					break;
 				case MINECRAFT_1_8:
 					packetExtension = new PacketExtension1_8Impl();
+					signGUI = new SignGUI1_8Impl();
 					break;
 				case MINECRAFT_1_9:
 					packetExtension = new PacketExtension1_8Impl();
