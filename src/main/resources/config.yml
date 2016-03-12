@@ -93,7 +93,7 @@ holographicdisplays:
 ###################################################
 # That's some Cauldron magic (mod support etc)    #
 packets:
- enabled: false
+ enabled: true
 
 ###################################################
 # Save interval                                   #

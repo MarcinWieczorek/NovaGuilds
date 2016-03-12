@@ -36,6 +36,7 @@ import co.marcin.novaguilds.impl.storage.SQLiteStorageImpl;
 import co.marcin.novaguilds.impl.storage.YamlStorageImpl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
+import co.marcin.novaguilds.impl.util.signgui.SignGUI1_7Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_9Impl;
 import co.marcin.novaguilds.listener.ChatListener;
 import co.marcin.novaguilds.listener.ChestGUIListener;
@@ -197,6 +198,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				case MINECRAFT_1_7:
 					new PacketListener1_7Impl();
 					packetExtension = new PacketExtension1_7Impl();
+					signGUI = new SignGUI1_7Impl();
 					break;
 				case MINECRAFT_1_8:
 					packetExtension = new PacketExtension1_8Impl();
@@ -282,7 +284,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		//Save Holograms
 		getHologramManager().save();
 
-		if(Config.PACKETS_ENABLED.getBoolean()) {
+		if(Config.PACKETS_ENABLED.getBoolean() && getPacketExtension() != null) {
 			getPacketExtension().unregisterChannel();
 		}
 

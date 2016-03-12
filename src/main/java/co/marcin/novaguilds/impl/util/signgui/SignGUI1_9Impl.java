@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.impl.util.signgui;
 
-import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -37,14 +36,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("ConstantConditions")
-public class SignGUI1_9Impl implements SignGUI {
-	private final Map<UUID, SignGUIListener> listeners = new ConcurrentHashMap<>();
-	private final Map<UUID, Location> signLocations = new ConcurrentHashMap<>();
+public class SignGUI1_9Impl extends AbstractSignGui {
 
 	protected final Class<?> packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
 	protected final Class<?> packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
@@ -63,16 +57,11 @@ public class SignGUI1_9Impl implements SignGUI {
 				if(event.getPacketName().equals("PacketPlayInUpdateSign")) {
 					Object packet = event.getPacket();
 
-					Field blockPositionField = Reflections.getField(packetInUpdateSignClass, "a");
+					Field blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
 					Reflections.FieldAccessor<String[]> linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
-					Field xField = Reflections.getField(baseBlockPositionClass, "a");
-					Field yField = Reflections.getField(baseBlockPositionClass, "c");
-					Field zField = Reflections.getField(baseBlockPositionClass, "d");
-
-					blockPositionField.setAccessible(true);
-					xField.setAccessible(true);
-					yField.setAccessible(true);
-					zField.setAccessible(true);
+					Field xField = Reflections.getPrivateField(baseBlockPositionClass, "a");
+					Field yField = Reflections.getPrivateField(baseBlockPositionClass, "c");
+					Field zField = Reflections.getPrivateField(baseBlockPositionClass, "d");
 
 					final Player player = event.getPlayer();
 					Location v = plugin.getSignGUI().getSignLocations().remove(player.getUniqueId());
@@ -134,22 +123,6 @@ public class SignGUI1_9Impl implements SignGUI {
 		catch(NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 			LoggerUtils.exception(e);
 		}
-	}
-
-	@Override
-	public void destroy() {
-		listeners.clear();
-		signLocations.clear();
-	}
-
-	@Override
-	public Map<UUID, SignGUIListener> getListeners() {
-		return listeners;
-	}
-
-	@Override
-	public Map<UUID, Location> getSignLocations() {
-		return signLocations;
 	}
 
 	protected Object getData(Material material, int data) {
