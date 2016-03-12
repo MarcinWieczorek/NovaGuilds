@@ -8,6 +8,14 @@
     <artifactId>NovaGuilds</artifactId>
     <version>34-SNAPSHOT</version>
 
+    <distributionManagement>
+        <repository>
+            <id>novaguilds-repo</id>
+            <name>NovaGuilds repository</name>
+            <url>ftp://repo.novaguilds.pl/</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>ess-repo</id>
@@ -169,5 +177,13 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
     </build>
 </project>
