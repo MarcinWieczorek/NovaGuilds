@@ -130,8 +130,15 @@ public class DeathListener extends AbstractListener {
 			}
 		}
 
+		//Exit from region
+		if(nPlayer.isAtRegion()) {
+			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
+		}
+
 		//disable death message
 		event.setDeathMessage(null);
+
+		//Refresh tab and tag
 		TabUtils.refresh(attacker);
 		TabUtils.refresh(victim);
 		TagUtils.refresh(attacker);
