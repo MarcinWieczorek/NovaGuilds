@@ -21,10 +21,11 @@ package co.marcin.novaguilds.util;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import com.google.gson.Gson;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -358,6 +359,16 @@ public final class StringUtils {
 	}
 
 	public static List<String> jsonToList(String json) {
-		return new Gson().fromJson(json, List.class);
+		json = "{array:" + json + "}";
+		JSONObject obj = new JSONObject(json);
+		JSONArray arr = obj.optJSONArray("array");
+
+		List<String> list = new ArrayList<>();
+
+		for(int i = 0; i < arr.length(); i++) {
+			list.add(arr.getString(i));
+		}
+
+		return list;
 	}
 }

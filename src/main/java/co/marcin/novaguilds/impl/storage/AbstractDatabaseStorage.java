@@ -41,7 +41,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.json.simple.JSONArray;
+import org.json.JSONArray;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -512,8 +512,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.RANKS_INSERT);
 			preparedStatement.setString(1, rank.getName());
 			preparedStatement.setString(2, rank.getGuild().getName());
-			preparedStatement.setString(3, JSONArray.toJSONString(permissionNamesList));
-			preparedStatement.setString(4, JSONArray.toJSONString(memberNamesList));
+			preparedStatement.setString(3, new JSONArray(permissionNamesList).toString());
+			preparedStatement.setString(4, new JSONArray(memberNamesList).toString());
 			preparedStatement.setBoolean(5, rank.isDefault());
 			preparedStatement.setBoolean(6, rank.isClone());
 			preparedStatement.execute();
@@ -663,8 +663,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.RANKS_UPDATE);
 			preparedStatement.setString(1, rank.getName());
 			preparedStatement.setString(2, rank.getGuild().getName());
-			preparedStatement.setString(3, JSONArray.toJSONString(permissionNamesList));
-			preparedStatement.setString(4, JSONArray.toJSONString(memberNamesList));
+			preparedStatement.setString(3, new JSONArray(permissionNamesList).toString());
+			preparedStatement.setString(4, new JSONArray(memberNamesList).toString());
 			preparedStatement.setBoolean(5, rank.isDefault());
 			preparedStatement.setBoolean(6, rank.isClone());
 

@@ -95,8 +95,8 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 
 			return true;
 		}
-		catch(SQLException | ClassNotFoundException e1) {
-			LoggerUtils.exception(e1);
+		catch(SQLException | ClassNotFoundException e) {
+			LoggerUtils.exception(e);
 			return false;
 		}
 	}
