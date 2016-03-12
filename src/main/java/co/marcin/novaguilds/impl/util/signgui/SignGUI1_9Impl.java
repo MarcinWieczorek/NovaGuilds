@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.impl.util.signgui;
 
 import co.marcin.novaguilds.event.PacketReceiveEvent;
-import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -27,7 +27,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -51,48 +50,7 @@ public class SignGUI1_9Impl extends AbstractSignGui {
 	protected final Class<?> craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
 
 	public SignGUI1_9Impl() {
-		new AbstractListener() {
-			@EventHandler
-			public void onPacketReceive(PacketReceiveEvent event) throws IllegalAccessException {
-				if(event.getPacketName().equals("PacketPlayInUpdateSign")) {
-					Object packet = event.getPacket();
-
-					Field blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
-					Reflections.FieldAccessor<String[]> linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
-					Field xField = Reflections.getPrivateField(baseBlockPositionClass, "a");
-					Field yField = Reflections.getPrivateField(baseBlockPositionClass, "c");
-					Field zField = Reflections.getPrivateField(baseBlockPositionClass, "d");
-
-					final Player player = event.getPlayer();
-					Location v = plugin.getSignGUI().getSignLocations().remove(player.getUniqueId());
-
-					if(v == null) {
-						return;
-					}
-
-					Object blockPosition = blockPositionField.get(packet);
-					int x = xField.getInt(blockPosition);
-					int y = yField.getInt(blockPosition);
-					int z = zField.getInt(blockPosition);
-
-					if(x != v.getBlockX() || y != v.getBlockY() || z != v.getBlockZ()) {
-						return;
-					}
-
-					final String[] lines = linesField.get(packet);
-					final SignGUIListener response = plugin.getSignGUI().getListeners().remove(event.getPlayer().getUniqueId());
-
-					if(response != null) {
-						event.setCancelled(true);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-							public void run() {
-								response.onSignDone(player, lines);
-							}
-						});
-					}
-				}
-			}
-		};
+		registerUpdateHandling();
 	}
 
 	@Override
@@ -123,6 +81,56 @@ public class SignGUI1_9Impl extends AbstractSignGui {
 		catch(NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 			LoggerUtils.exception(e);
 		}
+	}
+
+	protected void registerUpdateHandling() {
+		new AbstractPacketHandler("PacketPlayInUpdateSign") {
+			@Override
+			public void handle(PacketReceiveEvent event) {
+				try {
+					if(event.getPacketName().equals("PacketPlayInUpdateSign")) {
+						Object packet = event.getPacket();
+
+						Field blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
+						Reflections.FieldAccessor<String[]> linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
+						Field xField = Reflections.getPrivateField(baseBlockPositionClass, "a");
+						Field yField = Reflections.getPrivateField(baseBlockPositionClass, "c");
+						Field zField = Reflections.getPrivateField(baseBlockPositionClass, "d");
+
+						final Player player = event.getPlayer();
+						Location v = plugin.getSignGUI().getSignLocations().remove(player.getUniqueId());
+
+						if(v == null) {
+							return;
+						}
+
+						Object blockPosition = blockPositionField.get(packet);
+						int x = xField.getInt(blockPosition);
+						int y = yField.getInt(blockPosition);
+						int z = zField.getInt(blockPosition);
+
+						if(x != v.getBlockX() || y != v.getBlockY() || z != v.getBlockZ()) {
+							return;
+						}
+
+						final String[] lines = linesField.get(packet);
+						final SignGUIListener response = plugin.getSignGUI().getListeners().remove(event.getPlayer().getUniqueId());
+
+						if(response != null) {
+							event.setCancelled(true);
+							Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+								public void run() {
+									response.onSignDone(player, lines);
+								}
+							});
+						}
+					}
+				}
+				catch(IllegalAccessException e) {
+					LoggerUtils.exception(e);
+				}
+			}
+		};
 	}
 
 	protected Object getData(Material material, int data) {

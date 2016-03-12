@@ -18,43 +18,12 @@
 
 package co.marcin.novaguilds.api.util.packet;
 
-import co.marcin.novaguilds.event.PacketReceiveEvent;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventPriority;
 
-public interface PacketExtension {
-	/**
-	 * Registers a player
-	 *
-	 * @param player the player
-	 */
-	void registerPlayer(final Player player);
+public interface IPacketReceiveEvent {
+	Object getPacket();
 
-	/**
-	 * Unregisters the channel
-	 */
-	void unregisterChannel();
+	Player getPlayer();
 
-	interface PacketHandler {
-		/**
-		 * Gets packet name
-		 *
-		 * @return packet name
-		 */
-		String getPacketName();
-
-		/**
-		 * Gets hanndler priority
-		 *
-		 * @return the priority
-		 */
-		EventPriority getPriority();
-
-		/**
-		 * Handles packet event
-		 *
-		 * @param event the event
-		 */
-		void handle(PacketReceiveEvent event);
-	}
+	String getPacketName();
 }

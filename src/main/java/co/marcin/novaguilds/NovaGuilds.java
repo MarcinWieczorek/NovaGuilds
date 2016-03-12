@@ -38,16 +38,6 @@ import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
 import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_7Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_9Impl;
-import co.marcin.novaguilds.listener.ChatListener;
-import co.marcin.novaguilds.listener.ChestGUIListener;
-import co.marcin.novaguilds.listener.DeathListener;
-import co.marcin.novaguilds.listener.InventoryListener;
-import co.marcin.novaguilds.listener.LoginListener;
-import co.marcin.novaguilds.listener.MoveListener;
-import co.marcin.novaguilds.listener.PlayerInfoListener;
-import co.marcin.novaguilds.listener.PvpListener;
-import co.marcin.novaguilds.listener.RegionInteractListener;
-import co.marcin.novaguilds.listener.ToolListener;
 import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
@@ -55,6 +45,7 @@ import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RankManager;
@@ -115,6 +106,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private CommandManager commandManager;
 	private ConfigManager configManager;
 	private GroupManager groupManager;
+	private ListenerManager listenerManager;
 	private static final String logPrefix = "[NovaGuilds]";
 	private final String commit = getResource("commit.yml") == null ? "invalid" : IOUtils.inputStreamToString(getResource("commit.yml"));
 
@@ -150,6 +142,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		regionManager = new RegionManager();
 		groupManager = new GroupManager();
 		rankManager = new RankManager();
+		listenerManager = new ListenerManager();
 
 		if(!checkDependencies()) {
 			getServer().getPluginManager().disablePlugin(this);
@@ -180,18 +173,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
 			hologramManager.load();
 		}
-
-		//Listeners
-		new LoginListener();
-		new ToolListener();
-		new RegionInteractListener();
-		new MoveListener();
-		new ChatListener();
-		new PvpListener();
-		new DeathListener();
-		new InventoryListener();
-		new PlayerInfoListener();
-		new ChestGUIListener();
 
 		if(Config.PACKETS_ENABLED.getBoolean()) {
 			switch(ConfigManager.getServerVersion()) {
@@ -371,6 +352,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	@Override
 	public TaskManager getTaskManager() {
 		return taskManager;
+	}
+
+	@Override
+	public ListenerManager getListenerManager() {
+		return listenerManager;
 	}
 
 	@Override

@@ -22,16 +22,16 @@ import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import net.minecraft.server.v1_7_R4.PacketPlayInUseEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.EventHandler;
 
 public class PacketListener1_7Impl extends AbstractListener {
-	@EventHandler
-	public void onPacketReceive(PacketReceiveEvent event) {
-		switch(event.getPacketName()) {
-			case "PacketPlayInUseEntity":
+	public PacketListener1_7Impl() {
+		new AbstractPacketHandler("PacketPlayInUseEntity") {
+			@Override
+			public void handle(PacketReceiveEvent event) {
 				PacketPlayInUseEntity packetPlayInUseEntity = (PacketPlayInUseEntity) event.getPacket();
 				EntityUseAction action = EntityUseAction.valueOf(packetPlayInUseEntity.c().name());
 				Class<?> useEntityClass = Reflections.getCraftClass("PacketPlayInUseEntity");
@@ -51,7 +51,7 @@ public class PacketListener1_7Impl extends AbstractListener {
 
 				PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), entity, action);
 				plugin.getServer().getPluginManager().callEvent(clickEvent);
-				break;
-		}
+			}
+		};
 	}
 }

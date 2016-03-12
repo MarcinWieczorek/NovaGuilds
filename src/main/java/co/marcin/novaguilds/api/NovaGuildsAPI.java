@@ -25,6 +25,7 @@ import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RankManager;
@@ -120,6 +121,8 @@ public interface NovaGuildsAPI {
 	 * @return the PacketExtension
 	 */
 	PacketExtension getPacketExtension();
+
+	ListenerManager getListenerManager();
 
 	/**
 	 * Returns the storage

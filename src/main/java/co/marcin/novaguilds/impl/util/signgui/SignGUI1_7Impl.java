@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.impl.util.signgui;
 
 import co.marcin.novaguilds.event.PacketReceiveEvent;
-import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -27,8 +27,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -46,13 +44,13 @@ public class SignGUI1_7Impl extends AbstractSignGui {
 	protected final Class<?> worldClass = Reflections.getCraftClass("World");
 
 	public SignGUI1_7Impl() {
-		new AbstractListener() {
-			@EventHandler(priority = EventPriority.HIGHEST)
-			public void onPacketReceive(PacketReceiveEvent event) {
-				if(!event.getPacketName().equals("PacketPlayInUpdateSign")) {
-					return;
-				}
+		registerUpdateHandling();
+	}
 
+	protected void registerUpdateHandling() {
+		new AbstractPacketHandler("PacketPlayInUpdateSign") {
+			@Override
+			public void handle(PacketReceiveEvent event) {
 				Object packet = event.getPacket();
 
 				Reflections.FieldAccessor<String[]> linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
