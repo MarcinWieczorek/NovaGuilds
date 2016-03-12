@@ -33,7 +33,6 @@ import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
@@ -49,11 +48,12 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<String, NovaGuild> guilds = new CaseInsensitiveMap<>();
+	private final Map<String, NovaGuild> guilds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 	
 	//getters
 	public static NovaGuild getGuildByName(String name) {

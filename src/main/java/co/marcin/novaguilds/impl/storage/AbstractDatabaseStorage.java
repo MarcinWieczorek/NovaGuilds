@@ -37,7 +37,6 @@ import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
-import org.apache.commons.codec.Charsets;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -45,6 +44,7 @@ import org.bukkit.entity.Player;
 import org.json.simple.JSONArray;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -235,7 +235,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 					noWarInvitationList = StringUtils.semicolonToList(res.getString("nowarinv"));
 				}
 
-				UUID stringUUID = UUID.nameUUIDFromBytes(("Guild: " + res.getString("name")).getBytes(Charsets.UTF_8)); //TODO uuid field
+				UUID stringUUID = UUID.nameUUIDFromBytes(("Guild: " + res.getString("name")).getBytes(Charset.forName("UTF-8"))); //TODO uuid field
 				NovaGuild guild = new NovaGuildImpl(stringUUID);
 				guild.setId(res.getInt("id"));
 				guild.setMoney(res.getDouble("money"));

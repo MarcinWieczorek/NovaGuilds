@@ -25,7 +25,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,13 +37,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("deprecation")
 public class PlayerManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<String, NovaPlayer> players = new CaseInsensitiveMap<>();
-	
+	private final Map<String, NovaPlayer> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
 	public boolean exists(String playerName) {
 		return players.containsKey(playerName);
 	}

@@ -46,15 +46,15 @@ public final class TagUtils {
 		Scoreboard board = p.getScoreboard();
 		for(Player player : Bukkit.getOnlinePlayers()) {
 			NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
-			Team team = board.getPlayerTeam(player);
 
-			//Add a team if doesn't exist
+			String tName = "ng_" + player.getName();
+			if(tName.length() > 16) {
+				tName = tName.substring(0, 16);
+			}
+
+			Team team = board.getTeam(tName);
+
 			if(team == null) {
-				String tName = "ng_" + player.getName();
-				if(tName.length() > 16) {
-					tName = tName.substring(0, 16);
-				}
-
 				team = board.registerNewTeam(tName);
 				team.addPlayer(player);
 			}
