@@ -29,7 +29,6 @@ import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -77,6 +76,11 @@ public class LoginListener extends AbstractListener {
 			TagUtils.refresh(player);
 		}
 
+		//PacketExtension
+		if(Config.PACKETS_ENABLED.getBoolean()) {
+			plugin.getPacketExtension().registerPlayer(player);
+		}
+
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
 			TabList tabList = null;
@@ -86,11 +90,7 @@ public class LoginListener extends AbstractListener {
 				ProtocolVersion protocolVersion = ProtocolSupportAPI.getProtocolVersion(player);
 				switch(protocolVersion) {
 					case MINECRAFT_1_8:
-						LoggerUtils.debug("Detected 1.8: " + player.getName());
 						tabList = new TabList1_8NorthTabImpl(nPlayer);
-						break;
-					default:
-						LoggerUtils.debug("Detected " + protocolVersion.name() + ": " + player.getName());
 						break;
 				}
 			}
@@ -103,11 +103,6 @@ public class LoginListener extends AbstractListener {
 			nPlayer.setTabList(tabList);
 
 			TabUtils.refresh();
-		}
-
-		//PacketExtension
-		if(Config.PACKETS_ENABLED.getBoolean()) {
-			plugin.getPacketExtension().registerPlayer(player);
 		}
 	}
 	
