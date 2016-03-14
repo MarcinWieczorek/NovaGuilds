@@ -95,6 +95,9 @@ holographicdisplays:
 packets:
  enabled: true
 
+# Custom entities (Flan's mod tanks etc.)         #
+ advancedentityuse: false
+
 ###################################################
 # Save interval                                   #
 saveinterval: 30m

@@ -183,9 +183,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		if(Config.PACKETS_ENABLED.getBoolean()) {
 			switch(ConfigManager.getServerVersion()) {
 				case MINECRAFT_1_7:
-					new PacketListener1_7Impl();
 					packetExtension = new PacketExtension1_7Impl();
 					signGUI = new SignGUI1_7Impl();
+
+					if(Config.PACKETS_ADVANCEDENTITYUSE.getBoolean()) {
+						new PacketListener1_7Impl();
+					}
 					break;
 				case MINECRAFT_1_8:
 					packetExtension = new PacketExtension1_8Impl();
