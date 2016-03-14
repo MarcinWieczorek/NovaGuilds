@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.util;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.event.PacketSendEvent;
@@ -95,7 +96,7 @@ public class PacketExtension1_7Impl implements PacketExtension {
 	}
 
 	public void unregisterChannel() {
-		for(Player player : Bukkit.getOnlinePlayers()) {
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			getChannel(player).pipeline().remove("NovaGuilds");
 		}
 	}

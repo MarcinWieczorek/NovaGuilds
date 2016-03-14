@@ -64,6 +64,7 @@ import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -76,7 +77,11 @@ import org.mcstats.Metrics;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -193,7 +198,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 
 			//Register players (for reload)
-			for(Player p : Bukkit.getOnlinePlayers()) {
+			for(Player p : NovaGuilds.getOnlinePlayers()) {
 				getPacketExtension().registerPlayer(p);
 			}
 		}
@@ -280,7 +285,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//reset barapi
 		if(Config.BARAPI_ENABLED.getBoolean()) {
-			for(Player player : getServer().getOnlinePlayers()) {
+			for(Player player : NovaGuilds.getOnlinePlayers()) {
 				BarAPI.removeBar(player);
 			}
 		}
@@ -292,7 +297,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 		}
 		
-		for(Player p : getServer().getOnlinePlayers()) {
+		for(Player p : NovaGuilds.getOnlinePlayers()) {
 			PlayerManager.getPlayer(p).cancelToolProgress();
 		}
 
@@ -601,5 +606,27 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 	public SignGUI getSignGUI() {
 		return signGUI;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Collection<Player> getOnlinePlayers() {
+		Collection<Player> collection = new HashSet<>();
+
+		try {
+			Method getOnlinePlayersMethod = Server.class.getMethod("getOnlinePlayers");
+
+			if(getOnlinePlayersMethod.getReturnType().equals(Collection.class)) {
+				collection = ((Collection)getOnlinePlayersMethod.invoke(Bukkit.getServer()));
+			}
+			else {
+				Player[] array = ((Player[]) getOnlinePlayersMethod.invoke(Bukkit.getServer()));
+				Collections.addAll(collection, array);
+			}
+		}
+		catch (Exception e) {
+			LoggerUtils.exception(e);
+		}
+
+		return collection;
 	}
 }

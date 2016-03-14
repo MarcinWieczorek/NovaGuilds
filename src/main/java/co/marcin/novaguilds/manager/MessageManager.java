@@ -280,7 +280,7 @@ public class MessageManager {
 	 * @param permission Permission enum
 	 */
 	public static void broadcast(Message message, Permission permission) {
-		broadcast(new ArrayList<>(Bukkit.getOnlinePlayers()), message, permission);
+		broadcast(new ArrayList<>(NovaGuilds.getOnlinePlayers()), message, permission);
 	}
 
 	/**

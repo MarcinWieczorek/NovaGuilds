@@ -69,7 +69,7 @@ public class PlayerManager {
 	public Collection<NovaPlayer> getOnlinePlayers() {
 		Collection<NovaPlayer> collection = new HashSet<>();
 
-		for(Player player : Bukkit.getOnlinePlayers()) {
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			collection.add(getPlayer(player));
 		}
 

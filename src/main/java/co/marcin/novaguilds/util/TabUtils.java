@@ -81,7 +81,7 @@ public final class TabUtils {
 		tabList.clear();
 
 		//Server vars
-		vars.put(VarKey.SERVER_ONLINE, String.valueOf(Bukkit.getOnlinePlayers().size()));
+		vars.put(VarKey.SERVER_ONLINE, String.valueOf(NovaGuilds.getOnlinePlayers().size()));
 		vars.put(VarKey.SERVER_MAX, String.valueOf(Bukkit.getMaxPlayers()));
 
 		//Time
