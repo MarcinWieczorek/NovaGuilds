@@ -494,71 +494,75 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				throw new Exception("Could not set up Economy");
 			}
 			LoggerUtils.info("Vault's Economy hooked");
-
-			//HolographicDisplays
-			if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-				//Try to find the API
-				boolean apiFound;
-				try {
-					Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
-					apiFound = true;
-				}
-				catch(ClassNotFoundException e) {
-					apiFound = false;
-				}
-
-				if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null || !apiFound) {
-					LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
-					Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
-				}
-				else {
-					LoggerUtils.info("HolographicDisplays hooked");
-				}
-			}
-
-			//BarAPI
-			if(Config.BARAPI_ENABLED.getBoolean()) {
-				if(getServer().getPluginManager().getPlugin("BarAPI") == null) {
-					LoggerUtils.error("Couldn't find BarAPI plugin, disabling this feature.");
-					Config.BARAPI_ENABLED.set(false);
-				}
-				else {
-					LoggerUtils.info("BarAPI hooked");
-				}
-			}
-
-			//VanishNoPacket
-			if(checkVanishNoPacket()) {
-				LoggerUtils.info("VanishNoPacket hooked");
-			}
-			else {
-				LoggerUtils.info("VanishNoPacket not found, support disabled");
-				getConfigManager().disableVanishNoPacket();
-			}
-
-			//NorthTab
-			if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
-				if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
-					LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
-					Config.TABLIST_ENABLED.set(false);
-				}
-				else {
-					LoggerUtils.info("NorthTab hooked");
-				}
-			}
-
-			//ProtocolSupport
-			protocolSupportEnabled = getServer().getPluginManager().getPlugin("ProtocolSupport") != null;
-			if(isProtocolSupportEnabled()) {
-				LoggerUtils.info("Found ProtocolSupport plugin!");
-			}
-
-			//Essentials
-			essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 		}
 		catch(Exception e) {
 			throw new FatalNovaGuildsException("Failed to satisfy dependencies", e);
 		}
+
+		checkSoftDependencies();
+	}
+
+	public void checkSoftDependencies() {
+		//HolographicDisplays
+		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
+			//Try to find the API
+			boolean apiFound;
+			try {
+				Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
+				apiFound = true;
+			}
+			catch(ClassNotFoundException e) {
+				apiFound = false;
+			}
+
+			if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null || !apiFound) {
+				LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
+				Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
+			}
+			else {
+				LoggerUtils.info("HolographicDisplays hooked");
+			}
+		}
+
+		//BarAPI
+		if(Config.BARAPI_ENABLED.getBoolean()) {
+			if(getServer().getPluginManager().getPlugin("BarAPI") == null) {
+				LoggerUtils.error("Couldn't find BarAPI plugin, disabling this feature.");
+				Config.BARAPI_ENABLED.set(false);
+			}
+			else {
+				LoggerUtils.info("BarAPI hooked");
+			}
+		}
+
+		//VanishNoPacket
+		if(checkVanishNoPacket()) {
+			LoggerUtils.info("VanishNoPacket hooked");
+		}
+		else {
+			LoggerUtils.info("VanishNoPacket not found, support disabled");
+			getConfigManager().disableVanishNoPacket();
+		}
+
+		//NorthTab
+		if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
+			if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
+				LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
+				Config.TABLIST_ENABLED.set(false);
+			}
+			else {
+				LoggerUtils.info("NorthTab hooked");
+			}
+		}
+
+		//ProtocolSupport
+		protocolSupportEnabled = getServer().getPluginManager().getPlugin("ProtocolSupport") != null;
+		if(isProtocolSupportEnabled()) {
+			LoggerUtils.info("Found ProtocolSupport plugin!");
+		}
+
+		//Essentials
+		essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 	}
 
 	public static String getLogPrefix() {

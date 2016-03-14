@@ -49,6 +49,7 @@ public class CommandAdminReload extends AbstractCommandExecutor {
 		//plugin's vars from config
 		plugin.getConfigManager().reload();
 		Message.CHAT_RELOAD_CONFIG.send(sender);
+		plugin.checkSoftDependencies();
 
 		//Connecting to database
 		plugin.setUpStorage();
