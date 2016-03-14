@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
@@ -48,7 +49,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 			handleMethod = Reflections.getMethod(Reflections.getBukkitClass("entity.CraftEntity"), "getHandle");
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggerUtils.exception(e);
 		}
 	}
 
@@ -58,7 +59,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 			return clientChannel.get(networkManager.get(playerConnection.get(eP)));
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggerUtils.exception(e);
 			return null;
 		}
 	}
@@ -106,7 +107,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			LoggerUtils.exception(e);
 		}
 	}
 

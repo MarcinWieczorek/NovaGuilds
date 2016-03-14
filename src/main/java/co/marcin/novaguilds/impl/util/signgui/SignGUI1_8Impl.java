@@ -179,7 +179,7 @@ public class SignGUI1_8Impl extends AbstractSignGui {
 			return packet;
 		}
 		catch(InstantiationException | IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
+			LoggerUtils.exception(e);
 			return null;
 		}
 	}

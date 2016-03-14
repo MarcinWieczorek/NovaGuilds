@@ -18,36 +18,15 @@
 
 package co.marcin.novaguilds.exception;
 
-import co.marcin.novaguilds.NovaGuilds;
-import org.bukkit.Bukkit;
-
-import java.util.concurrent.TimeUnit;
-
-public class FatalNovaGuildsException extends Exception {
-	public static boolean fatal;
-
-	public FatalNovaGuildsException() {
-		disable();
+public class UnknownDependencyException extends Exception {
+	public UnknownDependencyException() {
 	}
 
-	public FatalNovaGuildsException(String message) {
+	public UnknownDependencyException(String message) {
 		super(message);
-		disable();
 	}
 
-	public FatalNovaGuildsException(String message, Throwable cause) {
+	public UnknownDependencyException(String message, Throwable cause) {
 		super(message, cause);
-		disable();
-	}
-
-	private void disable() {
-		fatal = true;
-
-		NovaGuilds.runTaskLater(new Runnable() {
-			@Override
-			public void run() {
-				Bukkit.getPluginManager().disablePlugin(NovaGuilds.getInstance());
-			}
-		}, 1, TimeUnit.MILLISECONDS);
 	}
 }

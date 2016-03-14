@@ -31,6 +31,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
+import co.marcin.novaguilds.exception.UnknownDependencyException;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
 import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
@@ -134,8 +135,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		configManager = new ConfigManager();
 		messageManager = new MessageManager();
 
-		if(!getMessageManager().load()) {
-			getServer().getPluginManager().disablePlugin(this);
+		try {
+			getMessageManager().load();
+		}
+		catch(FatalNovaGuildsException e) {
+			LoggerUtils.exception(e);
 			return;
 		}
 
@@ -149,8 +153,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		rankManager = new RankManager();
 		listenerManager = new ListenerManager();
 
-		if(!checkDependencies()) {
-			getServer().getPluginManager().disablePlugin(this);
+		try {
+			checkDependencies();
+		}
+		catch(FatalNovaGuildsException e) {
+			LoggerUtils.exception(e);
 			return;
 		}
 
@@ -253,12 +260,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 		catch(FatalNovaGuildsException e) {
 			LoggerUtils.exception(e);
-			getServer().getPluginManager().disablePlugin(this);
 			return false;
 		}
 	}
 	
 	public void onDisable() {
+		if(FatalNovaGuildsException.fatal) {
+			LoggerUtils.info("#" + VersionUtils.buildCurrent + " (FATAL) Disabled");
+			return;
+		}
+
 		getGuildManager().save();
 		getRegionManager().save();
 		getPlayerManager().save();
@@ -303,7 +314,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 		}
 
-		//getConfigManager().disable();
 		LoggerUtils.info("#" + VersionUtils.buildCurrent + " Disabled");
 	}
 
@@ -470,86 +480,85 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 	}
 
-	private boolean checkDependencies() {
-		//Vault Economy
-		if(getServer().getPluginManager().getPlugin("Vault") == null) {
-			LoggerUtils.error("Disabled due to no Vault dependency found!");
-			Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
-			Config.BARAPI_ENABLED.set(false);
-			return false;
-		}
-		LoggerUtils.info("Vault hooked");
-
-		if(!setupEconomy()) {
-			LoggerUtils.error("Could not setup Vault's economy, disabling");
-			Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
-			Config.BARAPI_ENABLED.set(false);
-			return false;
-		}
-		LoggerUtils.info("Vault's Economy hooked");
-
-		//HolographicDisplays
-		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			//Try to find the API
-			boolean apiFound;
-			try {
-				Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
-				apiFound = true;
+	private void checkDependencies() throws FatalNovaGuildsException {
+		try {
+			//Vault
+			if(getServer().getPluginManager().getPlugin("Vault") == null) {
+				throw new UnknownDependencyException("Could not satisfy dependency: Vault");
 			}
-			catch(ClassNotFoundException e) {
-				apiFound = false;
+			LoggerUtils.info("Vault hooked");
+
+			//Economy
+			if(!setupEconomy()) {
+				LoggerUtils.error("Could not setup Vault's economy, disabling");
+				throw new Exception("Could not set up Economy");
+			}
+			LoggerUtils.info("Vault's Economy hooked");
+
+			//HolographicDisplays
+			if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
+				//Try to find the API
+				boolean apiFound;
+				try {
+					Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
+					apiFound = true;
+				}
+				catch(ClassNotFoundException e) {
+					apiFound = false;
+				}
+
+				if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null || !apiFound) {
+					LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
+					Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
+				}
+				else {
+					LoggerUtils.info("HolographicDisplays hooked");
+				}
 			}
 
-			if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null || !apiFound) {
-				LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
-				Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
+			//BarAPI
+			if(Config.BARAPI_ENABLED.getBoolean()) {
+				if(getServer().getPluginManager().getPlugin("BarAPI") == null) {
+					LoggerUtils.error("Couldn't find BarAPI plugin, disabling this feature.");
+					Config.BARAPI_ENABLED.set(false);
+				}
+				else {
+					LoggerUtils.info("BarAPI hooked");
+				}
 			}
-			else {
-				LoggerUtils.info("HolographicDisplays hooked");
-			}
-		}
 
-		//BarAPI
-		if(Config.BARAPI_ENABLED.getBoolean()) {
-			if(getServer().getPluginManager().getPlugin("BarAPI") == null) {
-				LoggerUtils.error("Couldn't find BarAPI plugin, disabling this feature.");
-				Config.BARAPI_ENABLED.set(false);
-			}
-			else {
-				LoggerUtils.info("BarAPI hooked");
-			}
-		}
-
-		//VanishNoPacket
-		if(checkVanishNoPacket()) {
-			LoggerUtils.info("VanishNoPacket hooked");
-		}
-		else {
-			LoggerUtils.info("VanishNoPacket not found, support disabled");
-			getConfigManager().disableVanishNoPacket();
-		}
-
-		//NorthTab
-		if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
-			if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
-				LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
-				Config.TABLIST_ENABLED.set(false);
+			//VanishNoPacket
+			if(checkVanishNoPacket()) {
+				LoggerUtils.info("VanishNoPacket hooked");
 			}
 			else {
-				LoggerUtils.info("NorthTab hooked");
+				LoggerUtils.info("VanishNoPacket not found, support disabled");
+				getConfigManager().disableVanishNoPacket();
 			}
+
+			//NorthTab
+			if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
+				if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
+					LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
+					Config.TABLIST_ENABLED.set(false);
+				}
+				else {
+					LoggerUtils.info("NorthTab hooked");
+				}
+			}
+
+			//ProtocolSupport
+			protocolSupportEnabled = getServer().getPluginManager().getPlugin("ProtocolSupport") != null;
+			if(isProtocolSupportEnabled()) {
+				LoggerUtils.info("Found ProtocolSupport plugin!");
+			}
+
+			//Essentials
+			essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 		}
-
-		//ProtocolSupport
-		protocolSupportEnabled = getServer().getPluginManager().getPlugin("ProtocolSupport") != null;
-		if(isProtocolSupportEnabled()) {
-			LoggerUtils.info("Found ProtocolSupport plugin!");
+		catch(Exception e) {
+			throw new FatalNovaGuildsException("Failed to satisfy dependencies", e);
 		}
-
-		//Essentials
-		essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-
-		return true;
 	}
 
 	public static String getLogPrefix() {

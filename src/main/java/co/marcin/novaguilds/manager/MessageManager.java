@@ -26,10 +26,10 @@ import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.impl.util.TitleImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -38,6 +38,7 @@ import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +61,8 @@ public class MessageManager {
 
 	/**
 	 * Detects the language basing on Essentials and config
-	 *
-	 * @return false if detecting/creating new file failed
 	 */
-	public boolean detectLanguage() {
+	public void detectLanguage() throws FileNotFoundException {
 		detectEssentialsLocale();
 		String lang = Config.LANG_NAME.getString();
 		messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
@@ -74,12 +73,9 @@ public class MessageManager {
 				LoggerUtils.info("New messages file created: " + lang + ".yml");
 			}
 			else {
-				LoggerUtils.info("Couldn't find language file: " + lang + ".yml");
-				return false;
+				throw new FileNotFoundException("Couldn't find language file: " + lang + ".yml");
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -96,18 +92,15 @@ public class MessageManager {
 	 *
 	 * @return true if success
 	 */
-	public boolean load() {
+	public boolean load() throws FatalNovaGuildsException {
 		setupDirectories();
-		
-		if(!detectLanguage()) {
-			return false;
-		}
 
 		try {
+			detectLanguage();
 			messages = Lang.loadConfiguration(messagesFile);
 		}
 		catch(ScannerException | IOException e) {
-			LoggerUtils.exception(e);
+			throw new FatalNovaGuildsException("Failed to load messages", e);
 		}
 
 		prefix = Message.CHAT_PREFIX.get();
