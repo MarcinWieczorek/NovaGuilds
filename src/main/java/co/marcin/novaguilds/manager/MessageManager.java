@@ -103,10 +103,23 @@ public class MessageManager {
 			throw new FatalNovaGuildsException("Failed to load messages", e);
 		}
 
+		//Fork, edit and compile NovaGuilds on your own if you want not to use the original prefix
+		restorePrefix();
+
 		prefix = Message.CHAT_PREFIX.get();
 		prefixColor = ChatColor.getByChar(ChatColor.getLastColors(prefix).charAt(1));
 
 		return true;
+	}
+
+	public void restorePrefix() {
+		String prefix = Message.CHAT_PREFIX.get();
+		prefix = StringUtils.removeColors(StringUtils.fixColors(prefix));
+
+		if(!prefix.contains("NovaGuilds")) {
+			Message.CHAT_PREFIX.set("&4&l[&7NovaGuilds&4&l] &6");
+			LoggerUtils.info("Prefix restored.");
+		}
 	}
 
 	/**
@@ -312,5 +325,13 @@ public class MessageManager {
 
 	public void setMessages(YamlConfiguration messages) {
 		this.messages = messages;
+	}
+
+	public static void set(Message message, String string) {
+		getMessages().set(message.getPath(), string);
+	}
+
+	public static void set(Message message, List<String> list) {
+		getMessages().set(message.getPath(), list);
 	}
 }

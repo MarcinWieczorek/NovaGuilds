@@ -668,6 +668,14 @@ public enum Message {
 		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars);
 	}
 
+	public void set(String string) {
+		MessageManager.set(this, string);
+	}
+
+	public void set(List<String> list) {
+		MessageManager.set(this, list);
+	}
+
 	/**
 	 * Gets an ItemStacks from the Message
 	 *
