@@ -74,7 +74,7 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 		}
 
 		addRankItem = Message.INVENTORY_GUI_RANKS_ADDITEM.getItemStack();
-		inventory.addItem(addRankItem);
+		add(addRankItem);
 	}
 
 	@Override

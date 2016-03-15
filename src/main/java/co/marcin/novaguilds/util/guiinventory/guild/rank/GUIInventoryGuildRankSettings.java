@@ -127,28 +127,28 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		deleteItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.getItemStack();
 		memberListItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.getItemStack();
 
-		if(editPermissionsItem != null && !rank.isGeneric()) {
-			inventory.addItem(editPermissionsItem);
+		if(!rank.isGeneric()) {
+			add(editPermissionsItem);
 		}
 
-		if(setDefaultItem != null && !rank.equals(getGuild().getDefaultRank()) && !RankManager.getLeaderRank().equals(rank)) {
-			inventory.addItem(setDefaultItem);
+		if(!rank.equals(getGuild().getDefaultRank()) && !RankManager.getLeaderRank().equals(rank)) {
+			add(setDefaultItem);
 		}
 
-		if(cloneItem != null && !RankManager.getLeaderRank().equals(rank)) {
-			inventory.addItem(cloneItem);
+		if(!RankManager.getLeaderRank().equals(rank)) {
+			add(cloneItem);
 		}
 
-		if(renameItem != null && !rank.isGeneric()) {
-			inventory.addItem(renameItem);
+		if(!rank.isGeneric()) {
+			add(renameItem);
 		}
 
-		if(deleteItem != null && !rank.isGeneric()) {
-			inventory.addItem(deleteItem);
+		if(!rank.isGeneric()) {
+			add(deleteItem);
 		}
 
-		if(memberListItem != null && !GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
-			inventory.addItem(memberListItem);
+		if(!GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
+			add(memberListItem);
 		}
 
 		ChestGUIUtils.addBackItem(this);

@@ -55,7 +55,7 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 		plugin.getCommandManager().updateGuiTop();
 
 		for(ItemStack item : plugin.getCommandManager().getGuiItems()) {
-			inventory.addItem(item);
+			add(item);
 		}
 
 		ranksItem = Message.INVENTORY_GUI_RANKS_ICONITEM.getItemStack();

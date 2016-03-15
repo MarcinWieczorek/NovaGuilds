@@ -63,7 +63,7 @@ public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 			meta.setDisplayName(nPlayer.getName());
 
 			itemStack.setItemMeta(meta);
-			inventory.addItem(itemStack);
+			add(itemStack);
 			slotPlayersMap.put(slot, nPlayer);
 			slot++;
 		}

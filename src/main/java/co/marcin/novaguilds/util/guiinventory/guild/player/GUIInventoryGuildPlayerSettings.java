@@ -65,12 +65,12 @@ public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();
 
-		if(kickItem != null && (!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean())) {
-			inventory.addItem(kickItem);
+		if(!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean()) {
+			add(kickItem);
 		}
 
-		if(rankItem != null && (!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean())) {
-			inventory.addItem(rankItem);
+		if(!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean()) {
+			add(rankItem);
 		}
 	}
 }

@@ -79,7 +79,7 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.vars(vars).getItemStack();
 			}
 
-			inventory.addItem(itemStack);
+			add(itemStack);
 			slotPermissionsMap.put(slot, perm);
 			slot++;
 		}
