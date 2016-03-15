@@ -96,6 +96,17 @@ public class NovaGroupImpl implements NovaGroup {
 
 		guildBuySlotItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.buyslot.items")));
 		guildBuySlotMoney = section.getDouble("guild.buyslot.money");
+
+		int autoRegionWidth = regionAutoSize * 2 + 1;
+		if(autoRegionWidth > Config.REGION_MAXSIZE.getInt()) {
+			regionAutoSize = Config.REGION_MAXSIZE.getInt() / 2 - 1;
+			LoggerUtils.error("Group " + name + " has too big autoregion. Reset to " + regionAutoSize);
+		}
+
+		if(autoRegionWidth < Config.REGION_MINSIZE.getInt()) {
+			regionAutoSize = Config.REGION_MINSIZE.getInt() / 2;
+			LoggerUtils.error("Group " + name + " has too small autoregion. Reset to " + regionAutoSize);
+		}
 	}
 
 	public String getName() {

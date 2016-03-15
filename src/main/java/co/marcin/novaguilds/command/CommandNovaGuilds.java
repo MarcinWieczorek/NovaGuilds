@@ -134,6 +134,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor implements Comman
 				sender.sendMessage("guildTeleportDelay = " + group.getGuildTeleportDelay() + "s");
 				sender.sendMessage("regionCreateMoney = " + group.getRegionCreateMoney());
 				sender.sendMessage("regionPricePerBlock = " + group.getRegionPricePerBlock());
+				sender.sendMessage("regionAutoSize = " + group.getRegionAutoSize());
 				break;
 			case "g":
 			case "guild":
