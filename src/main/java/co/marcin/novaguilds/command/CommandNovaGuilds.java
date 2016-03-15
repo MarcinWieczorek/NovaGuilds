@@ -127,6 +127,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor implements Comman
 				sender.sendMessage("guildHomeMoney = " + group.getGuildHomeMoney());
 				sender.sendMessage("guildJoinMoney = " + group.getGuildJoinMoney());
 				sender.sendMessage("guildCreateItems = " + group.getGuildCreateItems().toString());
+				sender.sendMessage("guildCreateSchematic = " + (group.getCreateSchematic() == null ? "no schematic" : group.getCreateSchematic().getName()));
 				sender.sendMessage("guildHomeItems = " + group.getGuildHomeItems().toString());
 				sender.sendMessage("guildJoinItems = " + group.getGuildJoinItems().toString());
 				sender.sendMessage("guildEffectItems = " + group.getGuildEffectItems().toString());

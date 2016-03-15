@@ -251,11 +251,6 @@ guild:
 # new guilds protection                           #
  createprotection: 24h
 
-# home floor (3x3 floor under home)               #
- homefloor:
-  enabled: true
-  material: obsidian
-
 # starting points                                 #
  startpoints: 1000
 
@@ -387,6 +382,13 @@ groups:
     items:
      - dirt 1
 
+# schematic that gets pasted when creating guild  #
+# This is WorldEdit compatible                    #
+# Save schematic with                             #
+# //schem save schematic <name>                   #
+# And move to plugins/NovaGuilds/schematic/       #
+    schematic: ""
+
 # buying a life                                   #
    buylife:
     money: 10
@@ -411,6 +413,15 @@ groups:
    createmoney: 100
 # price per block                                 #
    ppb: 1
+
+# Admin group (missing values are 0/empty (free)  #
+ admin:
+  guild:
+   create:
+    schematic: ""
+  region:
+   autoregionsize: 10
+
 
 ###################################################
 # Guild's vault                                   #
@@ -583,9 +594,6 @@ region:
 
 # maximum region size                             #
  maxsize: 100
-
-# automatic region's size for admins              #
- adminautosize: 10
 
 # particles when entering a region                #
  borderparticles: true

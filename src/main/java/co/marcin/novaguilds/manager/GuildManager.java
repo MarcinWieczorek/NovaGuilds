@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.util.Schematic;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
@@ -239,25 +240,8 @@ public class GuildManager {
 	}
 
 	public static void createHomeFloor(NovaGuild guild) {
-		if(Config.GUILD_HOMEFLOOR_ENABLED.getBoolean()) {
-			Location sp = guild.getHome();
-			Material material = Config.GUILD_HOMEFLOOR_MATERIAL.getMaterial();
-
-			if(material != null) {
-				sp.clone().add(1, -1, 0).getBlock().setType(material);
-				sp.clone().add(0, -1, 0).getBlock().setType(material);
-				sp.clone().add(1, -1, 1).getBlock().setType(material);
-				sp.clone().add(0, -1, 1).getBlock().setType(material);
-				sp.clone().add(-1, -1, -1).getBlock().setType(material);
-				sp.clone().add(-1, -1, 0).getBlock().setType(material);
-				sp.clone().add(0, -1, -1).getBlock().setType(material);
-				sp.clone().add(1, -1, -1).getBlock().setType(material);
-				sp.clone().add(-1, -1, 1).getBlock().setType(material);
-			}
-			else {
-				LoggerUtils.error("Failed creating homefloor, invalid material.");
-			}
-		}
+		Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
+		schematic.paste(guild.getHome());
 	}
 
 	public List<NovaGuild> getTopGuildsByPoints(int count) {

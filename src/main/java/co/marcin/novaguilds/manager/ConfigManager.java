@@ -100,6 +100,11 @@ public class ConfigManager {
 			plugin.saveDefaultConfig();
 		}
 
+		File schematicDirectory = new File(NovaGuilds.getInstance().getDataFolder(), "/schematic/");
+		if(!schematicDirectory.exists() && schematicDirectory.mkdirs()) {
+			LoggerUtils.info("Created schematic/ directory");
+		}
+
 		plugin.reloadConfig();
 		config = plugin.getConfig();
 
