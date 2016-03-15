@@ -316,11 +316,26 @@ public class MessageManager {
 	 * @return String
 	 */
 	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars) {
+		return replaceVarKeyMap(msg, vars, true);
+	}
+
+	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars, boolean usePrefixColor) {
 		for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
-			vars.put(entry.getKey(), entry.getValue() + plugin.getMessageManager().prefixColor);
+			vars.put(entry.getKey(), entry.getValue() + (usePrefixColor ? plugin.getMessageManager().prefixColor : ""));
 		}
 
 		return StringUtils.replaceVarKeyMap(msg, vars);
+	}
+
+	public static List<String> replaceVarKeyMap(List<String> list, Map<VarKey, String> vars, boolean usePrefixColor) {
+		List<String> newList = new ArrayList<>();
+
+		for(String string : list) {
+			string = replaceVarKeyMap(string, vars, usePrefixColor);
+			newList.add(string);
+		}
+
+		return newList;
 	}
 
 	public void setMessages(YamlConfiguration messages) {

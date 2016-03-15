@@ -32,6 +32,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -497,11 +498,9 @@ public enum Message {
 	TIMEUNIT_YEAR_SINGULAR,
 	TIMEUNIT_YEAR_PLURAL;
 
-	private boolean title = false;
 	private String path = null;
 	private Map<VarKey, String> vars = new HashMap<>();
-	private boolean prefix = true;
-	private boolean list = false;
+	private final List<MessageFlag> flags = new ArrayList<>();
 
 	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>() {{
 		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
@@ -513,6 +512,7 @@ public enum Message {
 		NOPREFIX,
 		TITLE,
 		LIST,
+		NOAFTERVARCOLOR
 	}
 
 	Message() {
@@ -521,17 +521,16 @@ public enum Message {
 
 	Message(MessageFlag... flags) {
 		for(MessageFlag flag : flags) {
-			if(flag == MessageFlag.NOPREFIX) {
-				prefix = false;
-			}
-			else if(flag == MessageFlag.TITLE) {
-				title = true;
-			}
-			else if(flag == MessageFlag.LIST) {
-				list = true;
-				prefix = false;
+			if(flag == MessageFlag.LIST) {
+				this.flags.add(MessageFlag.NOPREFIX);
 			}
 		}
+
+		Collections.addAll(this.flags, flags);
+	}
+
+	public boolean hasFlag(MessageFlag flag) {
+		return flags.contains(flag);
 	}
 
 	/**
@@ -540,7 +539,7 @@ public enum Message {
 	 * @return true/false
 	 */
 	public boolean getTitle() {
-		return title;
+		return hasFlag(MessageFlag.TITLE);
 	}
 
 	/**
@@ -562,7 +561,7 @@ public enum Message {
 	 * @return prefix status true/false
 	 */
 	public boolean isPrefix() {
-		return prefix;
+		return !hasFlag(MessageFlag.NOPREFIX);
 	}
 
 	/**
@@ -580,7 +579,7 @@ public enum Message {
 	 * @param sender receiver
 	 */
 	public void send(CommandSender sender) {
-		if(list) {
+		if(hasFlag(MessageFlag.LIST)) {
 			MessageManager.sendMessagesList(sender, this);
 		}
 		else {
@@ -630,7 +629,15 @@ public enum Message {
 	 * @return Message instance
 	 */
 	public Message prefix(boolean prefix) {
-		this.prefix = prefix;
+		if(prefix) {
+			if(flags.contains(MessageFlag.NOPREFIX)) {
+				flags.remove(MessageFlag.NOPREFIX);
+			}
+		}
+		else {
+			flags.add(MessageFlag.NOPREFIX);
+		}
+
 		return this;
 	}
 
@@ -665,7 +672,7 @@ public enum Message {
 	 * @return message string
 	 */
 	public String get() {
-		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars);
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars, hasFlag(MessageFlag.NOAFTERVARCOLOR));
 	}
 
 	public void set(String string) {
@@ -691,7 +698,7 @@ public enum Message {
 	 * @return the list
 	 */
 	public List<String> getList() {
-		return MessageManager.getMessages().getStringList(getPath());
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessages().getStringList(getPath()), vars, hasFlag(MessageFlag.NOAFTERVARCOLOR));
 	}
 
 	/**
