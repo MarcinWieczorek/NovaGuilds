@@ -66,4 +66,12 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 			getInventory().addItem(itemStack);
 		}
 	}
+
+	/**
+	 * Reopen the GUI
+	 */
+	protected void reopen() {
+		close();
+		open(getViewer());
+	}
 }

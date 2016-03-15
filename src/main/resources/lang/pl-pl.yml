@@ -577,6 +577,20 @@ inventory:
  ggui:
   name: Menu Gildii
  gui:
+  settings:
+   title: "Guild settings"
+   item:
+    icon: "WORKBENCH 1 name:&4Ustawienia"
+    set:
+     name: "SIGN 1 name:&6Zmień_nazwę_gildii"
+     tag: "SIGN 1 name:&6Zmień_tag_gildii"
+     home: "EYE_OF_ENDER 1 name:&6Zmień_dom_gildii"
+    togglepvp:
+     'on': "GOLD_SWORD 1 name:&2Wyłącz_gildyjne_PVP"
+     'off': "WOOD_SWORD 1 name:&4Włącz_gildyjne_PVP"
+    openinvitation: "FENCE_GATE 1 name:&6Przełącz_otwarte_zaproszenie lore:Obecnie_{FLAG}"
+    buylife: "APPLE 1 name:&6Kup_życie"
+    buyslot: "MINECART 1 name:&6Kup_slot"
   back: "REDSTONE_TORCH_ON 1 name:&cPowrót"
   playerslist:
    title: "Lista członków"
@@ -660,6 +674,21 @@ inventory:
     rank:
      set: "Ustawianie_rang_graczom"
      edit: "Edycja_rang"
+
+signgui:
+ guild:
+  settings:
+   set:
+    name:
+     - "Nowa nazwa"
+     - "{INPUT}"
+     - ""
+     - ""
+    tag:
+     - "Nowy tag"
+     - "{INPUT}"
+     - ""
+     - ""
 
 timeunit:
  second:

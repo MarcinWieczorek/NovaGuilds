@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
 import co.marcin.novaguilds.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
+import co.marcin.novaguilds.util.guiinventory.guild.settings.GUIInventoryGuildSettings;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,6 +32,7 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 	private final NovaPlayer nPlayer;
 	private ItemStack ranksItem;
 	private ItemStack playersItem;
+	private ItemStack settingsItem;
 
 	public GUIInventoryGuildMenu(NovaPlayer nPlayer) {
 		super(9, Message.INVENTORY_GGUI_NAME);
@@ -47,6 +49,9 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 		else if(clickedItemStack.equals(playersItem)) {
 			new GUIInventoryGuildPlayersList(nPlayer.getGuild()).open(nPlayer);
 		}
+		else if(clickedItemStack.equals(settingsItem)) {
+			new GUIInventoryGuildSettings().open(nPlayer);
+		}
 	}
 
 	@Override
@@ -60,6 +65,7 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 
 		ranksItem = Message.INVENTORY_GUI_RANKS_ICONITEM.getItemStack();
 		playersItem = Message.INVENTORY_GUI_PLAYERSLIST_ICONITEM.getItemStack();
+		settingsItem = Message.INVENTORY_GUI_SETTINGS_ITEM_ICON.getItemStack();
 
 		if(nPlayer.hasGuild()) {
 			add(playersItem);
@@ -67,6 +73,8 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 			if(nPlayer.hasPermission(GuildPermission.RANK_EDIT)) {
 				add(ranksItem);
 			}
+
+			add(settingsItem);
 		}
 	}
 }
