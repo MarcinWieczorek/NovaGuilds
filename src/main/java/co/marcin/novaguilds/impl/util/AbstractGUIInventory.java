@@ -24,6 +24,7 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class AbstractGUIInventory implements GUIInventory {
 	protected final Inventory inventory;
@@ -51,11 +52,18 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 
 	@Override
 	public final void open(NovaPlayer nPlayer) {
+		setViewer(nPlayer);
 		ChestGUIUtils.openGUIInventory(nPlayer, this);
 	}
 
 	@Override
 	public final void close() {
 		getViewer().getPlayer().closeInventory();
+	}
+
+	protected void add(ItemStack itemStack) {
+		if(itemStack != null) {
+			getInventory().addItem(itemStack);
+		}
 	}
 }

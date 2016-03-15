@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.util.signgui;
 
 import co.marcin.novaguilds.api.util.SignGUI;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.Map;
 import java.util.UUID;
@@ -43,5 +44,10 @@ public abstract class AbstractSignGui implements SignGUI {
 	@Override
 	public Map<UUID, Location> getSignLocations() {
 		return signLocations;
+	}
+
+	@Override
+	public void open(Player player, SignGUIPattern signGUIPattern, SignGUIListener response) {
+		open(player, signGUIPattern.get(), response);
 	}
 }

@@ -133,6 +133,7 @@ public enum VarKey {
 	DATE_MINUTES,
 	DATE_HOURS,
 	DATE_DAY,
+	INPUT,
 
 	//Tablist top: Guilds by points
 	GUILD_TOP_N1,

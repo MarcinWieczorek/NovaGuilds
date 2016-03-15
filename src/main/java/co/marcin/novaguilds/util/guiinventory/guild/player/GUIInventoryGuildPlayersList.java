@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory;
+package co.marcin.novaguilds.util.guiinventory.guild.player;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -26,7 +26,6 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -54,7 +53,7 @@ public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 		int slot = 0;
 		slotPlayersMap.clear();
 		for(NovaPlayer nPlayer : playerList) {
-			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.setVar(VarKey.PLAYERNAME, nPlayer.getName()).get());
+			ItemStack itemStack = Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.setVar(VarKey.PLAYERNAME, nPlayer.getName()).getItemStack();
 
 			if(itemStack == null) {
 				continue;

@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory;
+package co.marcin.novaguilds.util.guiinventory.guild.rank;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
@@ -29,7 +29,6 @@ import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -67,14 +66,14 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 				continue;
 			}
 
-			ItemStack itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).get());
+			ItemStack itemStack = Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).getItemStack();
 
 			inventory.setItem(slot, itemStack);
 			slotRanksMap.put(slot, rank);
 			slot++;
 		}
 
-		addRankItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANKS_ADDITEM.get());
+		addRankItem = Message.INVENTORY_GUI_RANKS_ADDITEM.getItemStack();
 		inventory.addItem(addRankItem);
 	}
 

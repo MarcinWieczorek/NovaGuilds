@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory;
+package co.marcin.novaguilds.util.guiinventory.guild.rank;
 
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
@@ -29,8 +29,8 @@ import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildPermissionSelect;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -120,12 +120,12 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	public void generateContent() {
 		inventory.clear();
 
-		editPermissionsItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_EDITPERMISSIONS.get());
-		setDefaultItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_SETDEFAULT.get());
-		cloneItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_CLONE.get());
-		renameItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME.get());
-		deleteItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.get());
-		memberListItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.get());
+		editPermissionsItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_EDITPERMISSIONS.getItemStack();
+		setDefaultItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_SETDEFAULT.getItemStack();
+		cloneItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_CLONE.getItemStack();
+		renameItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME.getItemStack();
+		deleteItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.getItemStack();
+		memberListItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.getItemStack();
 
 		if(editPermissionsItem != null && !rank.isGeneric()) {
 			inventory.addItem(editPermissionsItem);
