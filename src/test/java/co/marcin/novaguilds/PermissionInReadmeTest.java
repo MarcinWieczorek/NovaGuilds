@@ -19,14 +19,12 @@
 package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

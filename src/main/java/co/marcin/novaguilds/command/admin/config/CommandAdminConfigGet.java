@@ -71,7 +71,7 @@ public class CommandAdminConfigGet extends AbstractCommandExecutor {
 				}
 
 				String space = "";
-				for(int i=0;i<depth;i++) {
+				for(int i = 0; i < depth; i++) {
 					space += " ";
 				}
 				vars.put(VarKey.DEPTH, space);

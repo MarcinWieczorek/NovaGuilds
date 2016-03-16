@@ -24,7 +24,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import co.marcin.novaguilds.util.ItemStackUtils;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -74,13 +73,13 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 			vars.put(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
 
 			if(rank.hasPermission(perm)) {
-				itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).get());
+				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).getItemStack();
 			}
 			else {
-				itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.vars(vars).get());
+				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.vars(vars).getItemStack();
 			}
 
-			inventory.addItem(itemStack);
+			add(itemStack);
 			slotPermissionsMap.put(slot, perm);
 			slot++;
 		}
@@ -98,10 +97,10 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 		vars.put(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
 
 		if(rank.hasPermission(perm)) {
-			itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).get());
+			itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).getItemStack();
 		}
 		else {
-			itemStack = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.vars(vars).get());
+			itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.vars(vars).getItemStack();
 		}
 
 		inventory.setItem(slot, itemStack);

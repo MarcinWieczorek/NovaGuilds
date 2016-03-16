@@ -253,6 +253,11 @@ public class RegionManager {
 		}
 
 		NovaRegion region = get(toLocation);
+
+		if(region == null) {
+			return;
+		}
+
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		//border particles
@@ -287,8 +292,8 @@ public class RegionManager {
 	}
 
 	public void playerExitedRegion(Player player) {
-		NovaRegion region = get(player);
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+		NovaRegion region = nPlayer.getAtRegion();
 
 		if(region == null) {
 			return;

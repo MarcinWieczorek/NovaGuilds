@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.util;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.ChatMessage;
@@ -25,7 +26,6 @@ import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class ChatMessageImpl implements ChatMessage {
 
 	@Override
 	public void send() {
-		sendToPlayers(new ArrayList<>(Bukkit.getOnlinePlayers()));
+		sendToPlayers(new ArrayList<>(NovaGuilds.getOnlinePlayers()));
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class CommandAdminConfig extends AbstractCommandExecutor {
 		super(command);
 	}
 
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>(){{
+	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
 		put("get", Command.ADMIN_CONFIG_GET);
 		put("reload", Command.ADMIN_CONFIG_RELOAD);
 		put("reset", Command.ADMIN_CONFIG_RESET);

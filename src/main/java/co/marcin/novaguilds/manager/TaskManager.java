@@ -53,8 +53,8 @@ public class TaskManager {
 		 * Task enum constructor
 		 *
 		 * @param condition condition Config enum (boolean)
-		 * @param clazz Runnable class
-		 * @param both both time interval and start delay
+		 * @param clazz     Runnable class
+		 * @param both      both time interval and start delay
 		 */
 		Task(Config condition, Class<? extends Runnable> clazz, Config both) {
 			this.clazz = clazz;
@@ -67,9 +67,9 @@ public class TaskManager {
 		 * Task enum constructor
 		 *
 		 * @param condition condition Config enum (boolean)
-		 * @param clazz Runnable class
-		 * @param start delay after running the task for the first time
-		 * @param interval time interval
+		 * @param clazz     Runnable class
+		 * @param start     delay after running the task for the first time
+		 * @param interval  time interval
 		 */
 		Task(Config condition, Class<? extends Runnable> clazz, Config start, Config interval) {
 			this.clazz = clazz;

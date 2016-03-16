@@ -22,7 +22,9 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
-import co.marcin.novaguilds.util.ItemStackUtils;
+import co.marcin.novaguilds.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
+import co.marcin.novaguilds.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
+import co.marcin.novaguilds.util.guiinventory.guild.settings.GUIInventoryGuildSettings;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,6 +32,7 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 	private final NovaPlayer nPlayer;
 	private ItemStack ranksItem;
 	private ItemStack playersItem;
+	private ItemStack settingsItem;
 
 	public GUIInventoryGuildMenu(NovaPlayer nPlayer) {
 		super(9, Message.INVENTORY_GGUI_NAME);
@@ -46,6 +49,9 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 		else if(clickedItemStack.equals(playersItem)) {
 			new GUIInventoryGuildPlayersList(nPlayer.getGuild()).open(nPlayer);
 		}
+		else if(clickedItemStack.equals(settingsItem)) {
+			new GUIInventoryGuildSettings().open(nPlayer);
+		}
 	}
 
 	@Override
@@ -54,20 +60,21 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 		plugin.getCommandManager().updateGuiTop();
 
 		for(ItemStack item : plugin.getCommandManager().getGuiItems()) {
-			inventory.addItem(item);
+			add(item);
 		}
 
-		ranksItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANKS_ICONITEM.get());
-		playersItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_PLAYERSLIST_ICONITEM.get());
+		ranksItem = Message.INVENTORY_GUI_RANKS_ICONITEM.getItemStack();
+		playersItem = Message.INVENTORY_GUI_PLAYERSLIST_ICONITEM.getItemStack();
+		settingsItem = Message.INVENTORY_GUI_SETTINGS_ITEM_ICON.getItemStack();
 
 		if(nPlayer.hasGuild()) {
-			if(playersItem != null) {
-				inventory.addItem(playersItem);
+			add(playersItem);
+
+			if(nPlayer.hasPermission(GuildPermission.RANK_EDIT)) {
+				add(ranksItem);
 			}
 
-			if(ranksItem != null && nPlayer.hasPermission(GuildPermission.RANK_EDIT)) {
-				inventory.addItem(ranksItem);
-			}
+			add(settingsItem);
 		}
 	}
 }

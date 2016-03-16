@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.storage.Database;
-import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,14 +30,20 @@ import java.sql.Statement;
 
 public class SQLiteStorageImpl extends AbstractDatabaseStorage implements Database {
 	private final File databaseFile;
+	private Throwable failureCause;
 
 	/**
 	 * Creates a new SQLite instance
 	 *
 	 * @param databaseFile The database file (Must end in .db)
+	 * @throws StorageConnectionFailedException
 	 */
-	public SQLiteStorageImpl(File databaseFile) {
+	public SQLiteStorageImpl(File databaseFile) throws StorageConnectionFailedException {
 		this.databaseFile = databaseFile;
+
+		if(!setUp() || failureCause != null) {
+			throw new StorageConnectionFailedException("Failed while connecting to SQLite database", failureCause);
+		}
 	}
 
 	@Override
@@ -59,7 +65,7 @@ public class SQLiteStorageImpl extends AbstractDatabaseStorage implements Databa
 				}
 			}
 			catch(IOException e) {
-				LoggerUtils.exception(e);
+				failureCause = e;
 			}
 		}
 
@@ -82,7 +88,7 @@ public class SQLiteStorageImpl extends AbstractDatabaseStorage implements Databa
 				firstConnect = false;
 			}
 			catch(SQLException | ClassNotFoundException e) {
-				LoggerUtils.exception(e);
+				failureCause = e;
 			}
 		}
 		return true;
@@ -96,7 +102,7 @@ public class SQLiteStorageImpl extends AbstractDatabaseStorage implements Databa
 			generatedKeys.next();
 			int id = generatedKeys.getInt(1);
 
-			if(id==0) {
+			if(id == 0) {
 				throw new RuntimeException("Could not get generated keys");
 			}
 

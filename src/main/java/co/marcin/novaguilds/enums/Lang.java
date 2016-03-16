@@ -61,20 +61,21 @@ public enum Lang {
 			return Lang.valueOf(langName);
 		}
 		catch(Exception e) {
-			BufferedReader brTest = new BufferedReader(new FileReader(file));
-			String line = brTest.readLine();
+			try(BufferedReader brTest = new BufferedReader(new FileReader(file))) {
+				String line = brTest.readLine();
 
-			if(line.startsWith("#")) {
-				line = line.substring(1);
-				LoggerUtils.info("Detected custom enconding for file " + file.getName() + ": " + line);
-				Lang lang = Lang.CUSTOM;
-				lang.setCharset(Charset.forName(line));
-				return lang;
+				if(line.startsWith("#")) {
+					line = line.substring(1);
+					LoggerUtils.info("Detected custom enconding for file " + file.getName() + ": " + line);
+					Lang lang = Lang.CUSTOM;
+					lang.setCharset(Charset.forName(line));
+					return lang;
+				}
+
+				LoggerUtils.info("Found custom translation, applying default translation UTF-8");
+				LoggerUtils.info("Add #ENCODING to the first line of your language file");
+				LoggerUtils.info("Please consider sharing your translation with the community");
 			}
-
-			LoggerUtils.info("Found custom translation, applying default translation UTF-8");
-			LoggerUtils.info("Add #ENCODING to the first line of your language file");
-			LoggerUtils.info("Please consider sharing your translation with the community");
 			return Lang.CUSTOM;
 		}
 	}

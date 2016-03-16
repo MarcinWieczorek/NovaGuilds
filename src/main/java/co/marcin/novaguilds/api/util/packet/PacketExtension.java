@@ -18,7 +18,9 @@
 
 package co.marcin.novaguilds.api.util.packet;
 
+import co.marcin.novaguilds.event.PacketReceiveEvent;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 
 public interface PacketExtension {
 	/**
@@ -32,4 +34,27 @@ public interface PacketExtension {
 	 * Unregisters the channel
 	 */
 	void unregisterChannel();
+
+	interface PacketHandler {
+		/**
+		 * Gets packet name
+		 *
+		 * @return packet name
+		 */
+		String getPacketName();
+
+		/**
+		 * Gets hanndler priority
+		 *
+		 * @return the priority
+		 */
+		EventPriority getPriority();
+
+		/**
+		 * Handles packet event
+		 *
+		 * @param event the event
+		 */
+		void handle(PacketReceiveEvent event);
+	}
 }

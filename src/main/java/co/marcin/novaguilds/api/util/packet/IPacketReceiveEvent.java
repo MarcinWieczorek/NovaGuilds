@@ -16,27 +16,14 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory;
+package co.marcin.novaguilds.api.util.packet;
 
-import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRank;
-import co.marcin.novaguilds.enums.GuildPermission;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.entity.Player;
 
-public class GUIInventoryGuildPlayerSettingsRank extends GUIInventoryGuildRankList {
-	private final NovaPlayer nPlayer;
+public interface IPacketReceiveEvent {
+	Object getPacket();
 
-	public GUIInventoryGuildPlayerSettingsRank(NovaPlayer nPlayer) {
-		super(nPlayer.getGuild());
-		this.nPlayer = nPlayer;
-		getInventory().remove(addRankItem);
-	}
+	Player getPlayer();
 
-	@Override
-	public void onClick(InventoryClickEvent event) {
-		if(getViewer().hasPermission(GuildPermission.RANK_SET)) {
-			NovaRank rank = slotRanksMap.get(event.getRawSlot());
-			nPlayer.setGuildRank(rank);
-		}
-	}
+	String getPacketName();
 }

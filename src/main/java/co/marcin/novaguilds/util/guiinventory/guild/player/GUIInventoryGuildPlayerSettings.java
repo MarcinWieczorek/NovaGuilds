@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory;
+package co.marcin.novaguilds.util.guiinventory.guild.player;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
@@ -65,12 +65,12 @@ public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();
 
-		if(kickItem != null && (!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean())) {
-			inventory.addItem(kickItem);
+		if(!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean()) {
+			add(kickItem);
 		}
 
-		if(rankItem != null && (!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean())) {
-			inventory.addItem(rankItem);
+		if(!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean()) {
+			add(rankItem);
 		}
 	}
 }

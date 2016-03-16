@@ -44,7 +44,7 @@ public class RankManager {
 	}
 
 	public void load() {
-		int	count = plugin.getStorage().loadRanks().size();
+		int count = plugin.getStorage().loadRanks().size();
 
 		LoggerUtils.info("Loaded " + count + " ranks.");
 

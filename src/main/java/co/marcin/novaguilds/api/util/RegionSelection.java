@@ -107,7 +107,7 @@ public interface RegionSelection {
 	/**
 	 * Sets a corner
 	 *
-	 * @param index index (0/1)
+	 * @param index    index (0/1)
 	 * @param location the location
 	 */
 	void setCorner(Integer index, Location location);
@@ -124,7 +124,7 @@ public interface RegionSelection {
 	 *
 	 * @param nPlayer the player
 	 */
-	 void addSpectator(NovaPlayer nPlayer);
+	void addSpectator(NovaPlayer nPlayer);
 
 	/**
 	 * Removes a spectator

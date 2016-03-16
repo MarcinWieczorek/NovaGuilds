@@ -35,7 +35,7 @@ public class RunnableAutoSave implements Runnable {
 		LoggerUtils.info("Saved data.");
 
 		//send message to admins
-		for(Player player : plugin.getServer().getOnlinePlayers()) {
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			if(Permission.NOVAGUILDS_ADMIN_SAVE_NOTIFY.has(player)) {
 				Message.CHAT_ADMIN_SAVE_AUTOSAVE.send(player);
 			}

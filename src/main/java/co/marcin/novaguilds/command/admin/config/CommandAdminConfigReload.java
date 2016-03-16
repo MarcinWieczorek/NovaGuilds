@@ -33,6 +33,7 @@ public class CommandAdminConfigReload extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		plugin.getConfigManager().reload();
+		plugin.checkSoftDependencies();
 		Message.CHAT_ADMIN_CONFIG_RELOADED.send(sender);
 	}
 }

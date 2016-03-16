@@ -120,8 +120,10 @@ public class Reflections {
 			}
 		}
 
-		if(target.getSuperclass() != null)
+		if(target.getSuperclass() != null) {
 			return getField(target.getSuperclass(), name, fieldType, index);
+		}
+
 		throw new IllegalArgumentException("Cannot find field with type " + fieldType);
 	}
 

@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.util.Schematic;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
@@ -33,7 +34,6 @@ import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import co.marcin.novaguilds.util.caseinsensitivemap.CaseInsensitiveMap;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Location;
@@ -49,11 +49,12 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<String, NovaGuild> guilds = new CaseInsensitiveMap<>();
+	private final Map<String, NovaGuild> guilds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 	
 	//getters
 	public static NovaGuild getGuildByName(String name) {
@@ -71,6 +72,7 @@ public class GuildManager {
 
 	/**
 	 * Find by player/tag/guildname
+	 *
 	 * @param mixed mixed string
 	 * @return guild instance
 	 */
@@ -238,25 +240,8 @@ public class GuildManager {
 	}
 
 	public static void createHomeFloor(NovaGuild guild) {
-		if(Config.GUILD_HOMEFLOOR_ENABLED.getBoolean()) {
-			Location sp = guild.getHome();
-			Material material = Config.GUILD_HOMEFLOOR_MATERIAL.getMaterial();
-
-			if(material != null) {
-				sp.clone().add(1, -1, 0).getBlock().setType(material);
-				sp.clone().add(0, -1, 0).getBlock().setType(material);
-				sp.clone().add(1, -1, 1).getBlock().setType(material);
-				sp.clone().add(0, -1, 1).getBlock().setType(material);
-				sp.clone().add(-1, -1, -1).getBlock().setType(material);
-				sp.clone().add(-1, -1, 0).getBlock().setType(material);
-				sp.clone().add(0, -1, -1).getBlock().setType(material);
-				sp.clone().add(1, -1, -1).getBlock().setType(material);
-				sp.clone().add(-1, -1, 1).getBlock().setType(material);
-			}
-			else {
-				LoggerUtils.error("Failed creating homefloor, invalid material.");
-			}
-		}
+		Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
+		schematic.paste(guild.getHome());
 	}
 
 	public List<NovaGuild> getTopGuildsByPoints(int count) {

@@ -20,12 +20,15 @@ package co.marcin.novaguilds.impl.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGroup;
+import co.marcin.novaguilds.api.util.Schematic;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.SchematicImpl;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,16 +63,12 @@ public class NovaGroupImpl implements NovaGroup {
 	private double regionPricePerBlock = 0;
 	private double regionCreateMoney = 0;
 	private int regionAutoSize = 0;
+	private Schematic schematic;
 
 	@SuppressWarnings("deprecation")
 	public NovaGroupImpl(NovaGuilds plugin, String group) {
 		name = group;
 		LoggerUtils.info("Loading group '" + name + "'...");
-
-		if(name.equalsIgnoreCase("admin")) {
-			regionAutoSize = Config.REGION_ADMINAUTOSIZE.getInt();
-			return;
-		}
 
 		//setting all values
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups." + group);
@@ -96,6 +95,28 @@ public class NovaGroupImpl implements NovaGroup {
 
 		guildBuySlotItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.buyslot.items")));
 		guildBuySlotMoney = section.getDouble("guild.buyslot.money");
+
+		//Schematic
+		String schematicName = section.getString("guild.create.schematic");
+		if(schematicName != null && !schematicName.isEmpty()) {
+			try {
+				schematic = new SchematicImpl(schematicName);
+			}
+			catch(FileNotFoundException e) {
+				LoggerUtils.error("Schematic not found: schematic/" + schematicName);
+			}
+		}
+
+		int autoRegionWidth = regionAutoSize * 2 + 1;
+		if(autoRegionWidth > Config.REGION_MAXSIZE.getInt()) {
+			regionAutoSize = Config.REGION_MAXSIZE.getInt() / 2 - 1;
+			LoggerUtils.error("Group " + name + " has too big autoregion. Reset to " + regionAutoSize);
+		}
+
+		if(autoRegionWidth < Config.REGION_MINSIZE.getInt()) {
+			regionAutoSize = Config.REGION_MINSIZE.getInt() / 2;
+			LoggerUtils.error("Group " + name + " has too small autoregion. Reset to " + regionAutoSize);
+		}
 	}
 
 	public String getName() {
@@ -120,6 +141,10 @@ public class NovaGroupImpl implements NovaGroup {
 
 	public double getRegionCreateMoney() {
 		return regionCreateMoney;
+	}
+
+	public Schematic getCreateSchematic() {
+		return schematic;
 	}
 
 	public List<ItemStack> getGuildCreateItems() {

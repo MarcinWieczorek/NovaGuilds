@@ -143,7 +143,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor implements Command
 			return;
 		}
 
-		if(joinItems.size() > 0) {
+		if(!joinItems.isEmpty()) {
 			InventoryUtils.removeItems((Player) sender, joinItems);
 		}
 

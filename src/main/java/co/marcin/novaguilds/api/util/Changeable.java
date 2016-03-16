@@ -31,6 +31,7 @@ public interface Changeable {
 
 	/**
 	 * Returns if the has been changed
+	 *
 	 * @return true if changed
 	 */
 	boolean isChanged();

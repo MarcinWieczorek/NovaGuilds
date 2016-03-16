@@ -124,7 +124,7 @@ public class ToolListener extends AbstractListener {
 		else if(event.getAction() != Action.PHYSICAL && nPlayer.getRegionMode() != RegionMode.CHECK) { //CREATE MODE
 			Location pointedCornerLocation = pointedLocation.clone();
 			pointedCornerLocation.setY(0);
-			double[] cornerDistance = new double[] {
+			double[] cornerDistance = new double[]{
 					region == null ? 1 : pointedCornerLocation.distance(region.getCorner(0).getBlock().getLocation()),
 					region == null ? 1 : pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation())
 			};

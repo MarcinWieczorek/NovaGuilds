@@ -16,47 +16,28 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory;
+package co.marcin.novaguilds.util.guiinventory.guild.player;
 
-
-import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
+import co.marcin.novaguilds.enums.GuildPermission;
+import co.marcin.novaguilds.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+public class GUIInventoryGuildPlayerSettingsRank extends GUIInventoryGuildRankList {
+	private final NovaPlayer nPlayer;
 
-public class GUIInventoryGuildRankMembers extends GUIInventoryGuildPlayersList {
-	private final NovaRank rank;
-
-	public GUIInventoryGuildRankMembers(NovaGuild guild, NovaRank rank) {
-		super(guild);
-		this.rank = rank;
+	public GUIInventoryGuildPlayerSettingsRank(NovaPlayer nPlayer) {
+		super(nPlayer.getGuild());
+		this.nPlayer = nPlayer;
+		getInventory().remove(addRankItem);
 	}
 
 	@Override
-	public void generateContent() {
-		List<NovaPlayer> list = new ArrayList<>();
-
-		if(rank.isGeneric()) {
-			list.addAll(getMembers(guild, rank));
+	public void onClick(InventoryClickEvent event) {
+		if(getViewer().hasPermission(GuildPermission.RANK_SET)) {
+			NovaRank rank = slotRanksMap.get(event.getRawSlot());
+			nPlayer.setGuildRank(rank);
 		}
-		else {
-			list.addAll(rank.getMembers());
-		}
-
-		generateContent(list);
-	}
-
-	public static List<NovaPlayer> getMembers(NovaGuild guild, NovaRank rank) {
-		List<NovaPlayer> list = new ArrayList<>();
-
-		for(NovaPlayer nPlayer : rank.getMembers()) {
-			if(guild.isMember(nPlayer)) {
-				list.add(nPlayer);
-			}
-		}
-
-		return list;
 	}
 }

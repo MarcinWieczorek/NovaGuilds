@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.util;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.PreparedTag;
@@ -25,7 +26,6 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagScoreboardImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -34,6 +34,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public final class TagUtils {
+	private TagUtils() {
+	}
+
 	@SuppressWarnings("deprecation")
 	public static void refresh(Player p) {
 		if(!Config.TAGAPI_ENABLED.getBoolean()) {
@@ -41,17 +44,17 @@ public final class TagUtils {
 		}
 
 		Scoreboard board = p.getScoreboard();
-		for(Player player : Bukkit.getOnlinePlayers()) {
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
-			Team team = board.getPlayerTeam(player);
 
-			//Add a team if doesn't exist
+			String tName = "ng_" + player.getName();
+			if(tName.length() > 16) {
+				tName = tName.substring(0, 16);
+			}
+
+			Team team = board.getTeam(tName);
+
 			if(team == null) {
-				String tName = "ng_" + player.getName();
-				if(tName.length() > 16) {
-					tName = tName.substring(0, 16);
-				}
-
 				team = board.registerNewTeam(tName);
 				team.addPlayer(player);
 			}
@@ -79,7 +82,7 @@ public final class TagUtils {
 	}
 
 	public static void refresh() {
-		for(Player player : Bukkit.getOnlinePlayers()) {
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			refresh(player);
 		}
 	}

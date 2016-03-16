@@ -577,6 +577,20 @@ inventory:
  ggui:
   name: Gilden Menü
  gui:
+  settings:
+   title: "Guild settings"
+   item:
+    icon: "WORKBENCH 1 name:&4Settings"
+    set:
+     name: "SIGN 1 name:&6Set_guild's_name"
+     tag: "SIGN 1 name:&6Set_guild's_tag"
+     home: "EYE_OF_ENDER 1 name:&6Set_guild's_home"
+    togglepvp:
+     'on': "GOLD_SWORD 1 name:&2Turn_guild_PVP_OFF"
+     'off': "WOOD_SWORD 1 name:&4Turn_guild_PVP_ON"
+    openinvitation: "FENCE_GATE 1 name:&6Toggle_open_invitation lore:Currently_{FLAG}"
+    buylife: "APPLE 1 name:&6Buy_a_life"
+    buyslot: "MINECART 1 name:&6Buy_a_slot"
   back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "Spieker Liste"
@@ -596,6 +610,7 @@ inventory:
    leadername: "Leader"
   rank:
    settings:
+    title: "&l{RANKNAME} &rsettings"
     cloneprefix: "Clone of "
     item:
      editpermissions: "BOOK_AND_QUILL 1 name:&6Edit_Permissions"
@@ -659,6 +674,21 @@ inventory:
     rank:
      set: "Rang_vergeben"
      edit: "Rang_bearbeiten"
+
+signgui:
+ guild:
+  settings:
+   set:
+    name:
+     - "Enter new name"
+     - "{INPUT}"
+     - ""
+     - ""
+    tag:
+     - "Enter new tag"
+     - "{INPUT}"
+     - ""
+     - ""
 
 timeunit:
  second:

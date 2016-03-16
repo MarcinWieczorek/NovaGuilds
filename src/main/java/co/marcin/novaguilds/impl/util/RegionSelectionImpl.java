@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.util;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.Config;
@@ -25,7 +26,6 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.RegionUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,7 +50,7 @@ public class RegionSelectionImpl implements RegionSelection {
 	 * Constructor for filling with corner locations
 	 *
 	 * @param nPlayer the player
-	 * @param type selection type
+	 * @param type    selection type
 	 */
 	public RegionSelectionImpl(NovaPlayer nPlayer, Type type) {
 		addSpectator(nPlayer);
@@ -61,7 +61,7 @@ public class RegionSelectionImpl implements RegionSelection {
 
 	@Override
 	public void send() {
-		for(Player player : Bukkit.getOnlinePlayers()) {
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			if(!Permission.NOVAGUILDS_ADMIN_REGION_SPECTATE.has(player)) {
 				continue;
 			}
