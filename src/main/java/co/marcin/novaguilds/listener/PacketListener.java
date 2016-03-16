@@ -18,46 +18,55 @@
 
 package co.marcin.novaguilds.listener;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.enums.EntityUseAction;
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
-import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
-import co.marcin.novaguilds.util.reflect.Reflections;
-import net.minecraft.server.v1_7_R4.PacketPlayInUseEntity;
-import org.bukkit.entity.Entity;
+import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
-public class PacketListener implements Listener {
-	private final NovaGuilds plugin;
+import java.util.HashMap;
+import java.util.Map;
 
-	public PacketListener(NovaGuilds novaGuilds) {
-		plugin = novaGuilds;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+public class PacketListener extends AbstractListener {
+	private static final Map<String, PacketExtension.PacketHandler> packetHandlers = new HashMap<>();
+
+	public static void register(PacketExtension.PacketHandler packetHandler) {
+		if(!Config.PACKETS_ENABLED.getBoolean()) {
+			LoggerUtils.info("Could not register " + packetHandler.getPacketName() + " handler. Packets are disabled.");
+			return;
+		}
+
+		PacketExtension.PacketHandler existingHandler = getHandler(packetHandler.getPacketName());
+		if(existingHandler != null && existingHandler.getPriority().getSlot() >= packetHandler.getPriority().getSlot()) {
+			return;
+		}
+
+		packetHandlers.put(packetHandler.getPacketName(), packetHandler);
+	}
+
+	public static void unregister(PacketExtension.PacketHandler packetHandler) {
+		if(packetHandlers.containsKey(packetHandler.getPacketName())) {
+			packetHandlers.remove(packetHandler.getPacketName());
+		}
+	}
+
+	public static PacketExtension.PacketHandler getHandler(String packetName) {
+		return packetHandlers.get(packetName);
 	}
 
 	@EventHandler
 	public void onPacketReceive(PacketReceiveEvent event) {
-		if(event.getPacketName().equals("PacketPlayInUseEntity")) {
-			PacketPlayInUseEntity packetPlayInUseEntity = (PacketPlayInUseEntity) event.getPacket();
-			EntityUseAction action = EntityUseAction.valueOf(packetPlayInUseEntity.c().name());
-			Class<?> useEntityClass = Reflections.getCraftClass("PacketPlayInUseEntity");
-			Reflections.FieldAccessor<Integer> useEntityA = Reflections.getField(useEntityClass, int.class, 0);
-			int id = useEntityA.get(packetPlayInUseEntity);
+		PacketExtension.PacketHandler packetHandler = getHandler(event.getPacketName());
 
-			Entity entity = null;
-			for(Entity e : event.getPlayer().getNearbyEntities(5, 5, 5)) {
-				if(e.getEntityId() == id) {
-					entity = e;
-				}
-			}
-
-			if(entity == null) {
-				return;
-			}
-
-			PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), entity, action);
-			plugin.getServer().getPluginManager().callEvent(clickEvent);
+		if(packetHandler == null) {
+			return;
 		}
+
+		packetHandler.handle(event);
+	}
+
+	public Map<String, PacketExtension.PacketHandler> getPacketHandlers() {
+		return packetHandlers;
 	}
 }

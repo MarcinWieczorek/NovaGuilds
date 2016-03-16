@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.util;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Title;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -258,8 +259,8 @@ public class TitleImpl implements Title {
 
 	@Override
 	public void broadcast() {
-		for(Player p : Bukkit.getOnlinePlayers()) {
-			send(p);
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
+			send(player);
 		}
 	}
 

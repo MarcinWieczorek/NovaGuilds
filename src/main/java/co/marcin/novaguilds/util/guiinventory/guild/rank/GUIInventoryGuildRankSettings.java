@@ -16,21 +16,27 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory;
+package co.marcin.novaguilds.util.guiinventory.guild.rank;
 
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaRank;
+import co.marcin.novaguilds.api.util.SignGUI;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildPermissionSelect;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private final NovaRank rank;
@@ -44,7 +50,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private ItemStack memberListItem;
 
 	public GUIInventoryGuildRankSettings(NovaRank rank) {
-		super(9, Message.INVENTORY_GUI_RANKS_TITLE);
+		super(9, Message.INVENTORY_GUI_RANK_SETTINGS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
 	}
 
@@ -72,7 +78,34 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			cloneRank();
 		}
 		else if(clickedItemStack.equals(renameItem)) {
-			//TODO renaming
+			if(Config.SIGNGUI_ENABLED.getBoolean()) {
+				List<String> linesList = Config.SIGNGUI_LINES.getStringList();
+				String[] lines = new String[4];
+
+				int index = 0;
+				int inputIndex = 0;
+				for(String line : linesList) {
+					if(StringUtils.contains(line, "{RANK_NAME}")) {
+						line = StringUtils.replace(line, "{RANK_NAME}", rank.getName());
+						inputIndex = index;
+					}
+
+					lines[index] = line;
+					index++;
+				}
+
+				final int finalInputIndex = inputIndex;
+				plugin.getSignGUI().open(getViewer().getPlayer(), lines, new SignGUI.SignGUIListener() {
+					@Override
+					public void onSignDone(Player player, String[] lines) {
+						rank.setName(lines[finalInputIndex]);
+						close();
+						GUIInventoryGuildRankSettings gui = new GUIInventoryGuildRankSettings(rank);
+						gui.setGuild(getGuild());
+						gui.open(getViewer());
+					}
+				});
+			}
 		}
 		else if(clickedItemStack.equals(deleteItem)) {
 			rank.delete();
@@ -87,35 +120,35 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	public void generateContent() {
 		inventory.clear();
 
-		editPermissionsItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_EDITPERMISSIONS.get());
-		setDefaultItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_SETDEFAULT.get());
-		cloneItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_CLONE.get());
-		renameItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME.get());
-		deleteItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.get());
-		memberListItem = ItemStackUtils.stringToItemStack(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.get());
+		editPermissionsItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_EDITPERMISSIONS.getItemStack();
+		setDefaultItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_SETDEFAULT.getItemStack();
+		cloneItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_CLONE.getItemStack();
+		renameItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME.getItemStack();
+		deleteItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.getItemStack();
+		memberListItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.getItemStack();
 
-		if(editPermissionsItem != null && !rank.isGeneric()) {
-			inventory.addItem(editPermissionsItem);
+		if(!rank.isGeneric()) {
+			add(editPermissionsItem);
 		}
 
-		if(setDefaultItem != null && !rank.equals(getGuild().getDefaultRank()) && !RankManager.getLeaderRank().equals(rank)) {
-			inventory.addItem(setDefaultItem);
+		if(!rank.equals(getGuild().getDefaultRank()) && !RankManager.getLeaderRank().equals(rank)) {
+			add(setDefaultItem);
 		}
 
-		if(cloneItem != null && !RankManager.getLeaderRank().equals(rank)) {
-			inventory.addItem(cloneItem);
+		if(!RankManager.getLeaderRank().equals(rank)) {
+			add(cloneItem);
 		}
 
-		if(renameItem != null && !rank.isGeneric()) {
-			inventory.addItem(renameItem);
+		if(!rank.isGeneric()) {
+			add(renameItem);
 		}
 
-		if(deleteItem != null && !rank.isGeneric()) {
-			inventory.addItem(deleteItem);
+		if(!rank.isGeneric()) {
+			add(deleteItem);
 		}
 
-		if(memberListItem != null && GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).size() > 0) {
-			inventory.addItem(memberListItem);
+		if(!GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
+			add(memberListItem);
 		}
 
 		ChestGUIUtils.addBackItem(this);
@@ -136,8 +169,8 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		if(StringUtils.contains(cloneName, ' ')) {
 			String[] split = StringUtils.split(cloneName, ' ');
 
-			if(NumberUtils.isNumeric(split[split.length-1])) {
-				cloneName = cloneName.substring(0, cloneName.length() - split[split.length-1].length() - 1);
+			if(NumberUtils.isNumeric(split[split.length - 1])) {
+				cloneName = cloneName.substring(0, cloneName.length() - split[split.length - 1].length() - 1);
 			}
 		}
 

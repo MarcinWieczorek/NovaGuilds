@@ -37,14 +37,14 @@ import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
-import org.apache.commons.codec.Charsets;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.json.simple.JSONArray;
+import org.json.JSONArray;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -85,6 +85,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 	/**
 	 * Reconnects
+	 *
 	 * @return true if success
 	 */
 	public abstract boolean connect();
@@ -234,7 +235,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 					noWarInvitationList = StringUtils.semicolonToList(res.getString("nowarinv"));
 				}
 
-				UUID stringUUID = UUID.nameUUIDFromBytes(("Guild: " + res.getString("name")).getBytes(Charsets.UTF_8)); //TODO uuid field
+				UUID stringUUID = UUID.nameUUIDFromBytes(("Guild: " + res.getString("name")).getBytes(Charset.forName("UTF-8"))); //TODO uuid field
 				NovaGuild guild = new NovaGuildImpl(stringUUID);
 				guild.setId(res.getInt("id"));
 				guild.setMoney(res.getDouble("money"));
@@ -511,8 +512,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.RANKS_INSERT);
 			preparedStatement.setString(1, rank.getName());
 			preparedStatement.setString(2, rank.getGuild().getName());
-			preparedStatement.setString(3, JSONArray.toJSONString(permissionNamesList));
-			preparedStatement.setString(4, JSONArray.toJSONString(memberNamesList));
+			preparedStatement.setString(3, new JSONArray(permissionNamesList).toString());
+			preparedStatement.setString(4, new JSONArray(memberNamesList).toString());
 			preparedStatement.setBoolean(5, rank.isDefault());
 			preparedStatement.setBoolean(6, rank.isClone());
 			preparedStatement.execute();
@@ -662,8 +663,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			PreparedStatement preparedStatement = getPreparedStatement(PreparedStatements.RANKS_UPDATE);
 			preparedStatement.setString(1, rank.getName());
 			preparedStatement.setString(2, rank.getGuild().getName());
-			preparedStatement.setString(3, JSONArray.toJSONString(permissionNamesList));
-			preparedStatement.setString(4, JSONArray.toJSONString(memberNamesList));
+			preparedStatement.setString(3, new JSONArray(permissionNamesList).toString());
+			preparedStatement.setString(4, new JSONArray(memberNamesList).toString());
 			preparedStatement.setBoolean(5, rank.isDefault());
 			preparedStatement.setBoolean(6, rank.isClone());
 
@@ -871,6 +872,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	//Analyze tools
 	/**
 	 * Checks if tables exist in the database
+	 *
 	 * @return boolean
 	 */
 	protected boolean checkTables() {
@@ -927,6 +929,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 	/**
 	 * Gets an array of SQL create table codes
+	 *
 	 * @return the array of strings
 	 */
 	private String[] getSqlActions() {
@@ -945,6 +948,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	/**
 	 * Serialize a list of guilds to a string of names separated by semicolons.
 	 * name1;name2;name3 etc.
+	 *
 	 * @param list the list
 	 * @return the string
 	 */

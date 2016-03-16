@@ -21,7 +21,6 @@ package co.marcin.novaguilds.util.reflect.packet;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import com.google.common.base.Charsets;
-import net.minecraft.util.com.mojang.authlib.GameProfile;
 
 import java.util.UUID;
 
@@ -29,7 +28,12 @@ import java.util.UUID;
 public class PacketPlayOutPlayerInfo {
 
 	private static final Class<?> packetClass = Reflections.getCraftClass("PacketPlayOutPlayerInfo");
-	private static final Class<?>[] typesClass = new Class<?>[]{String.class, boolean.class, int.class};
+	private static Class<?> gameProfileClass;
+	private static final Class<?>[] typesClass = new Class<?>[]{
+			String.class,
+			boolean.class,
+			int.class
+	};
 	private static int type = 0;
 
 	static {
@@ -38,6 +42,13 @@ public class PacketPlayOutPlayerInfo {
 		}
 		catch(Exception e) {
 			type = 1;
+		}
+
+		try {
+			gameProfileClass = Class.forName("net.minecraft.util.com.mojang.authlib.GameProfile");
+		}
+		catch(ClassNotFoundException e) {
+			LoggerUtils.exception(e);
 		}
 	}
 
@@ -48,22 +59,24 @@ public class PacketPlayOutPlayerInfo {
 			}
 			else if(type == 1) {
 				UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + s).getBytes(Charsets.UTF_8));
-				GameProfile profile = null;
+				Object profile = null;
 
 				try {
-					if(type == 2)
-						profile = GameProfile.class.getConstructor(new Class<?>[]{
+					if(type == 2) {
+						profile = gameProfileClass.getConstructor(new Class<?>[]{
 								String.class,
 								String.class
 						}).newInstance(uuid.toString(), s);
-					else if(type == 1)
-						profile = GameProfile.class.getConstructor(new Class<?>[]{
+					}
+					else if(type == 1) {
+						profile = gameProfileClass.getConstructor(new Class<?>[]{
 								UUID.class,
 								String.class
 						}).newInstance(uuid, s);
+					}
 				}
 				catch(Exception e) {
-					e.printStackTrace();
+					LoggerUtils.exception(e);
 				}
 
 				Class<?> clazz = Reflections.getCraftClass("PacketPlayOutPlayerInfo");

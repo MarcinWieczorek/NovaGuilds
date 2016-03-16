@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class InventoryUtils {
+	private InventoryUtils() {
+	}
+
 	public static void removeItems(Player player, List<ItemStack> items) {
 		if(player.getGameMode() != GameMode.CREATIVE) {
 			for(ItemStack item : items) {

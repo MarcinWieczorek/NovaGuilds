@@ -32,6 +32,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -432,6 +433,7 @@ public enum Message {
 	INVENTORY_GUI_RANKS_ADDITEM,
 	INVENTORY_GUI_RANKS_DEFAULTNAME,
 	INVENTORY_GUI_RANKS_LEADERNAME,
+	INVENTORY_GUI_RANK_SETTINGS_TITLE,
 	INVENTORY_GUI_RANK_SETTINGS_CLONEPREFIX,
 	INVENTORY_GUI_RANK_SETTINGS_ITEM_EDITPERMISSIONS,
 	INVENTORY_GUI_RANK_SETTINGS_ITEM_SETDEFAULT,
@@ -439,6 +441,16 @@ public enum Message {
 	INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME,
 	INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE,
 	INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST,
+	INVENTORY_GUI_SETTINGS_TITLE,
+	INVENTORY_GUI_SETTINGS_ITEM_ICON,
+	INVENTORY_GUI_SETTINGS_ITEM_SET_NAME,
+	INVENTORY_GUI_SETTINGS_ITEM_SET_TAG,
+	INVENTORY_GUI_SETTINGS_ITEM_SET_HOME,
+	INVENTORY_GUI_SETTINGS_ITEM_TOGGLEPVP_ON,
+	INVENTORY_GUI_SETTINGS_ITEM_TOGGLEPVP_OFF,
+	INVENTORY_GUI_SETTINGS_ITEM_OPENINVITATION,
+	INVENTORY_GUI_SETTINGS_ITEM_BUYLIFE,
+	INVENTORY_GUI_SETTINGS_ITEM_BUYSLOT,
 	INVENTORY_GUI_PERMISSIONS_TITLE,
 	INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED,
 	INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED,
@@ -481,6 +493,9 @@ public enum Message {
 	INVENTORY_GUI_PERMISSIONS_NAMES_RANK_SET,
 	INVENTORY_GUI_PERMISSIONS_NAMES_RANK_EDIT,
 
+	SIGNGUI_GUILD_SETTINGS_SET_NAME,
+	SIGNGUI_GUILD_SETTINGS_SET_TAG,
+
 	TIMEUNIT_SECOND_SINGULAR,
 	TIMEUNIT_SECOND_PLURAL,
 	TIMEUNIT_MINUTE_SINGULAR,
@@ -496,13 +511,11 @@ public enum Message {
 	TIMEUNIT_YEAR_SINGULAR,
 	TIMEUNIT_YEAR_PLURAL;
 
-	private boolean title = false;
 	private String path = null;
 	private Map<VarKey, String> vars = new HashMap<>();
-	private boolean prefix = true;
-	private boolean list = false;
+	private final List<MessageFlag> flags = new ArrayList<>();
 
-	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>(){{
+	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>() {{
 		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
 		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
 		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
@@ -512,6 +525,7 @@ public enum Message {
 		NOPREFIX,
 		TITLE,
 		LIST,
+		NOAFTERVARCOLOR
 	}
 
 	Message() {
@@ -520,29 +534,30 @@ public enum Message {
 
 	Message(MessageFlag... flags) {
 		for(MessageFlag flag : flags) {
-			if(flag == MessageFlag.NOPREFIX) {
-				prefix = false;
-			}
-			else if(flag == MessageFlag.TITLE) {
-				title = true;
-			}
-			else if(flag == MessageFlag.LIST) {
-				list = true;
-				prefix = false;
+			if(flag == MessageFlag.LIST) {
+				this.flags.add(MessageFlag.NOPREFIX);
 			}
 		}
+
+		Collections.addAll(this.flags, flags);
+	}
+
+	public boolean hasFlag(MessageFlag flag) {
+		return flags.contains(flag);
 	}
 
 	/**
 	 * Tells if the message is suitable for Title
+	 *
 	 * @return true/false
 	 */
 	public boolean getTitle() {
-		return title;
+		return hasFlag(MessageFlag.TITLE);
 	}
 
 	/**
 	 * Gets message's yaml path
+	 *
 	 * @return the path
 	 */
 	public String getPath() {
@@ -555,14 +570,16 @@ public enum Message {
 
 	/**
 	 * Tells if the prefix is turned on
+	 *
 	 * @return prefix status true/false
 	 */
 	public boolean isPrefix() {
-		return prefix;
+		return !hasFlag(MessageFlag.NOPREFIX);
 	}
 
 	/**
 	 * Gets the map of variables
+	 *
 	 * @return The Map
 	 */
 	public Map<VarKey, String> getVars() {
@@ -571,10 +588,11 @@ public enum Message {
 
 	/**
 	 * Sends the Message to a player
+	 *
 	 * @param sender receiver
 	 */
 	public void send(CommandSender sender) {
-		if(list) {
+		if(hasFlag(MessageFlag.LIST)) {
 			MessageManager.sendMessagesList(sender, this);
 		}
 		else {
@@ -584,6 +602,7 @@ public enum Message {
 
 	/**
 	 * Send the message to a player using NovaPlayer instance
+	 *
 	 * @param nPlayer receiver NovaPlayer
 	 */
 	public void send(NovaPlayer nPlayer) {
@@ -594,6 +613,7 @@ public enum Message {
 
 	/**
 	 * Adds a map of vars;
+	 *
 	 * @param vars Map of variables
 	 * @return Message instance
 	 */
@@ -617,16 +637,26 @@ public enum Message {
 
 	/**
 	 * Sets whether the prefix should be displayed
+	 *
 	 * @param prefix prefix status
 	 * @return Message instance
 	 */
 	public Message prefix(boolean prefix) {
-		this.prefix = prefix;
+		if(prefix) {
+			if(flags.contains(MessageFlag.NOPREFIX)) {
+				flags.remove(MessageFlag.NOPREFIX);
+			}
+		}
+		else {
+			flags.add(MessageFlag.NOPREFIX);
+		}
+
 		return this;
 	}
 
 	/**
 	 * Broadcasts the message to all players of a guild
+	 *
 	 * @param guild the guild
 	 */
 	public void broadcast(NovaGuild guild) {
@@ -642,6 +672,7 @@ public enum Message {
 
 	/**
 	 * Broadcasts the message to all players with a certain permission
+	 *
 	 * @param permission the permission enum
 	 */
 	public void broadcast(Permission permission) {
@@ -650,14 +681,24 @@ public enum Message {
 
 	/**
 	 * Gets the message string
+	 *
 	 * @return message string
 	 */
 	public String get() {
-		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars);
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars, hasFlag(MessageFlag.NOAFTERVARCOLOR));
+	}
+
+	public void set(String string) {
+		MessageManager.set(this, string);
+	}
+
+	public void set(List<String> list) {
+		MessageManager.set(this, list);
 	}
 
 	/**
 	 * Gets an ItemStacks from the Message
+	 *
 	 * @return ItemStack instance
 	 */
 	public ItemStack getItemStack() {
@@ -666,14 +707,16 @@ public enum Message {
 
 	/**
 	 * Gets a list
+	 *
 	 * @return the list
 	 */
 	public List<String> getList() {
-		return MessageManager.getMessages().getStringList(getPath());
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessages().getStringList(getPath()), vars, hasFlag(MessageFlag.NOAFTERVARCOLOR));
 	}
 
 	/**
 	 * Gets a message depending on the boolean, it can be either ON or OFF message
+	 *
 	 * @param b boolean
 	 * @return string of ON or OFF message
 	 */
@@ -683,6 +726,7 @@ public enum Message {
 
 	/**
 	 * Gets a ConfigurationSection
+	 *
 	 * @return the ConfigurationSection
 	 */
 	public ConfigurationSection getConfigurationSection() {
@@ -691,6 +735,7 @@ public enum Message {
 
 	/**
 	 * Gets Message's neighbours (excluding itslef)
+	 *
 	 * @return a list of Messages in one ConfigurationSection
 	 */
 	public List<Message> getNeighbours() {
@@ -709,7 +754,8 @@ public enum Message {
 
 	/**
 	 * Sends a list of messages
-	 * @param list the list
+	 *
+	 * @param list   the list
 	 * @param sender the receiver
 	 */
 	public static void send(List<Message> list, CommandSender sender) {
@@ -720,15 +766,17 @@ public enum Message {
 
 	/**
 	 * Gets the path of ConfigurationSection the Message's in
+	 *
 	 * @return the path
 	 */
 	private String getParentPath() {
 		String[] split = StringUtils.split(getPath(), ".");
-		return StringUtils.removeEnd(getPath(), "." + split[split.length-1]);
+		return StringUtils.removeEnd(getPath(), "." + split[split.length - 1]);
 	}
 
 	/**
 	 * Gets a message from path
+	 *
 	 * @param path path string
 	 * @return message enum
 	 */
@@ -738,6 +786,7 @@ public enum Message {
 
 	/**
 	 * Gets a name of chat mode
+	 *
 	 * @param chatMode chat mode enum
 	 * @return the name
 	 */
@@ -747,6 +796,7 @@ public enum Message {
 
 	/**
 	 * Gets a message with filled coordinated
+	 *
 	 * @param location location instance
 	 * @return the message
 	 */

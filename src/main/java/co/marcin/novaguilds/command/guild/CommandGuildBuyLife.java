@@ -61,7 +61,7 @@ public class CommandGuildBuyLife extends AbstractCommandExecutor {
 
 		List<ItemStack> missingItems = InventoryUtils.getMissingItems(nPlayer.getPlayer().getInventory(), items);
 
-		if(items.size() > 0 && missingItems.size() > 0) {
+		if(!items.isEmpty() && !missingItems.isEmpty()) {
 			Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 			return;
 		}

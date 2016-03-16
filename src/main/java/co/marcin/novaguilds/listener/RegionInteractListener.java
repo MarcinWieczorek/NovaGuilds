@@ -306,6 +306,7 @@ public class RegionInteractListener extends AbstractListener {
 
 	/**
 	 * Handles breaking pantings, item frames, leashes
+	 *
 	 * @param event The event
 	 */
 	@EventHandler
@@ -326,6 +327,7 @@ public class RegionInteractListener extends AbstractListener {
 
 	/**
 	 * Handles placing paintings, item frames, leashes
+	 *
 	 * @param event The event
 	 */
 	@EventHandler
@@ -342,6 +344,7 @@ public class RegionInteractListener extends AbstractListener {
 
 	/**
 	 * Handles editing items on an ArmorStand
+	 *
 	 * @param event The event
 	 */
 	@EventHandler

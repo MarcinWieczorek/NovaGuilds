@@ -61,7 +61,7 @@ public class ChatListener extends AbstractListener {
 		boolean isAllyPrefix = msg.startsWith(prefixChatAlly);
 		boolean isGuildPrefix = msg.startsWith(prefixChatGuild) && !isAllyPrefix;
 
-		if(!isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
+		if(nPlayer.hasGuild() && !isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
 			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
 				preparedTag.setLeaderPrefix(preparedTag.isLeaderPrefix() && Config.CHAT_ALLY_LEADERPREFIX.getBoolean());
 
@@ -89,9 +89,9 @@ public class ChatListener extends AbstractListener {
 				return;
 			}
 		}
-		else if(isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD) { //guild chat
+		else if(nPlayer.hasGuild() && (isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD)) { //guild chat
 			if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
-				String rank = Config.CHAT_GUILD_LEADERPREFIX.getBoolean() ? Config.CHAT_LEADERPREFIX.getString() : "";
+				String rank = Config.CHAT_GUILD_LEADERPREFIX.getBoolean() && nPlayer.isLeader() ? Config.CHAT_LEADERPREFIX.getString() : "";
 
 				String cFormat = Config.CHAT_GUILD_FORMAT.getString();
 				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{LEADERPREFIX}", rank);

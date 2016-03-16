@@ -30,25 +30,40 @@ public final class LoggerUtils {
 	private static final Logger logger = Logger.getLogger("Minecraft");
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
+	private LoggerUtils() {
+	}
+
+	public static void error(String error, boolean classPrefix) {
+		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix?classPrefix():"") + space(error) + error));
+	}
+
 	public static void error(String error) {
-		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + classPrefix() + space(error) + error));
+		error(error, true);
 	}
 
 	public static void info(String msg) {
-		logger.info(StringUtils.fixColors(NovaGuilds.getLogPrefix() + classPrefix() + space(msg) + msg));
+		info(msg, true);
+	}
+
+	public static void info(String msg, boolean classPrefix) {
+		logger.info(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix?classPrefix():"") + space(msg) + msg));
 	}
 
 	public static void debug(String msg) {
+		debug(msg, true);
+	}
+
+	public static void debug(String msg, boolean classPrefix) {
 		if(plugin != null && plugin.getConfigManager() != null) {
 			if(Config.DEBUG.getBoolean()) {
-				info("[DEBUG] " + classPrefix() + msg);
+				info("[DEBUG] " + (classPrefix?classPrefix():"") + msg);
 			}
 		}
 	}
 
 	public static String classPrefix() {
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-		String line = ste[3].toString();
+		String line = ste[4].toString();
 		String[] split1 = org.apache.commons.lang.StringUtils.split(line, '(');
 		String[] split2 = split1[1].split(":");
 		String className = split2[0].replace(".java", "");
@@ -61,43 +76,42 @@ public final class LoggerUtils {
 
 	public static void exception(Exception e) {
 		Throwable cause = e.getCause();
-		error("");
-		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName());
-		error("");
-		error("Server Information:");
-		error("  NovaGuilds: #" + plugin.getBuild());
-		error("  Storage Type: " + plugin.getConfigManager().getDataStorageType().name());
-		error("  Bukkit: " + Bukkit.getBukkitVersion());
-		error("  Java: " + System.getProperty("java.version"));
-		error("  Thread: " + Thread.currentThread());
-		error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"));
-		error("  Exception Message: ");
-		error("   " + e.getMessage());
-		error("");
+		error("", false);
+		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName(), false);
+		error("", false);
+		error("Server Information:", false);
+		error("  NovaGuilds: #" + plugin.getBuild() + " (" + plugin.getCommit() + ")", false);
+		error("  Storage Type: " + plugin.getConfigManager().getDataStorageType().name(), false);
+		error("  Bukkit: " + Bukkit.getBukkitVersion(), false);
+		error("  Java: " + System.getProperty("java.version"), false);
+		error("  Thread: " + Thread.currentThread(), false);
+		error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"), false);
+		error("  Exception Message: ", false);
+		error("   " + e.getMessage(), false);
+		error("", false);
 
-		StackTraceElement[] ste = cause == null ? e.getStackTrace() : cause.getStackTrace();
+		error("Stack trace: ", false);
+		printStackTrace(e.getStackTrace());
+		error("", false);
 
-		if(ste != null && ste.length > 0) {
-			error("Stack trace: ");
-			error(cause == null ? "Invalid Cause!" : "Caused by: " + cause);
-			for(StackTraceElement st : ste) {
-				error("	at " + st.toString());
-			}
+		if(cause != null) {
+			error("Caused by: " + cause.getClass().getName(), false);
+			error("  " + cause.getMessage(), false);
 
-		}
-		else {
-			error("Null or empty stacktrace. Printing current:");
-			error("Stack trace: ");
-			for(StackTraceElement st : Thread.currentThread().getStackTrace()) {
-				error("	at " + st.toString());
-			}
+			printStackTrace(cause.getStackTrace());
 		}
 
-		error("");
-		error("End of Error.");
-		error("");
+		error("", false);
+		error("End of Error.", false);
+		error("", false);
 
 		//notify all permitted players
 		Message.CHAT_ERROROCCURED.broadcast(Permission.NOVAGUILDS_ERROR);
+	}
+
+	private static void printStackTrace(StackTraceElement[] stackTraceElements) {
+		for(StackTraceElement st : stackTraceElements) {
+			error("	at " + st.toString(), false);
+		}
 	}
 }

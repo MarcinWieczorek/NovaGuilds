@@ -24,6 +24,7 @@ import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
+import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.impl.basic.NovaRankImpl;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class YamlStorageImpl extends AbstractFileStorage {
-	public YamlStorageImpl(File dataDirectory) {
+	public YamlStorageImpl(File dataDirectory) throws StorageConnectionFailedException {
 		super(dataDirectory);
 		setExtension("yml");
 	}

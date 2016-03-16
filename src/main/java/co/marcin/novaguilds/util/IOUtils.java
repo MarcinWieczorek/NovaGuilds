@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class IOUtils {
+	private IOUtils() {
+	}
+
 	public static String inputStreamToString(InputStream inputStream) {
 		try {
 			return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));

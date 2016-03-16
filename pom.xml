@@ -5,8 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>co.marcin</groupId>
-    <artifactId>NovaGuilds</artifactId>
-    <version>33</version>
+    <artifactId>novaguilds</artifactId>
+    <version>34</version>
+
+    <distributionManagement>
+        <repository>
+            <id>novaguilds-repo</id>
+            <name>NovaGuilds repository</name>
+            <url>ftp://repo.novaguilds.pl/</url>
+        </repository>
+    </distributionManagement>
 
     <repositories>
         <repository>
@@ -69,9 +77,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.3.1</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -169,5 +177,13 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-beta-6</version>
+            </extension>
+        </extensions>
     </build>
 </project>

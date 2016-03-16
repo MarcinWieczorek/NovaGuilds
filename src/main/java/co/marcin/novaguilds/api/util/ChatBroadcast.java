@@ -29,7 +29,7 @@ public interface ChatBroadcast {
 	/**
 	 * Sets the tag
 	 *
-	 * @param index index
+	 * @param index       index
 	 * @param preparedTag tag instance
 	 */
 	void setTag(Integer index, PreparedTag preparedTag);

@@ -70,10 +70,10 @@ public class CommandGuildBuySlot extends AbstractCommandExecutor {
 			return;
 		}
 
-		if(items.size() > 0) {
+		if(!items.isEmpty()) {
 			List<ItemStack> missing = InventoryUtils.getMissingItems(nPlayer.getPlayer().getInventory(), items);
 
-			if(missing.size() > 0) {
+			if(!missing.isEmpty()) {
 				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 				sender.sendMessage(StringUtils.getItemList(missing));
 				return;

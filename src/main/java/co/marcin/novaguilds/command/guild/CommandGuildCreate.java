@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -203,7 +204,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 						nPlayer.getGuild().setRegion(region);
 						plugin.getRegionManager().add(region);
 
-						for(Player playerCheck : plugin.getServer().getOnlinePlayers()) {
+						for(Player playerCheck : NovaGuilds.getOnlinePlayers()) {
 							if(region.equals(RegionManager.get(playerCheck))) {
 								plugin.getRegionManager().playerEnteredRegion(playerCheck, playerCheck.getLocation());
 							}

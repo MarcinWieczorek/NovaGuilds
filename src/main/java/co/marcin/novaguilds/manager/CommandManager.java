@@ -309,7 +309,7 @@ public class CommandManager {
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if((sender instanceof Player) && (command.isNeedConfirm() && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED))) {
+		if((sender instanceof Player) && (command.hasFlag(Command.Flag.CONFIRM) && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED))) {
 			nPlayer.newCommandExecutorHandler(command, args);
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}

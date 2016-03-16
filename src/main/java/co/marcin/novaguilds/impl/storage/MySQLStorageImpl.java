@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.storage;
 
+import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 import co.marcin.novaguilds.util.LoggerUtils;
 
 import java.sql.DriverManager;
@@ -32,6 +33,7 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 	private final String password;
 	private final String port;
 	private final String hostname;
+	private Throwable failureCause;
 
 	/**
 	 * Creates a new MySQL instance
@@ -41,15 +43,18 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 	 * @param database Database name
 	 * @param username Username
 	 * @param password Password
+	 * @throws StorageConnectionFailedException
 	 */
-	public MySQLStorageImpl(String hostname, String port, String database, String username, String password) {
+	public MySQLStorageImpl(String hostname, String port, String database, String username, String password) throws StorageConnectionFailedException {
 		this.hostname = hostname;
 		this.port = port;
 		this.database = database;
 		this.username = username;
 		this.password = password;
 
-		setUp();
+		if(!setUp()) {
+			throw new StorageConnectionFailedException("Failed while connecting to MySQL database", failureCause);
+		}
 	}
 
 	@Override
@@ -95,8 +100,8 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 
 			return true;
 		}
-		catch(SQLException | ClassNotFoundException e1) {
-			LoggerUtils.exception(e1);
+		catch(SQLException | ClassNotFoundException e) {
+			failureCause = e;
 			return false;
 		}
 	}
@@ -108,7 +113,7 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 			keys.next();
 			int id = keys.getInt(1);
 
-			if(id==0) {
+			if(id == 0) {
 				throw new RuntimeException("Could not get generated keys");
 			}
 

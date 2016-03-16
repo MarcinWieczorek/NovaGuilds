@@ -41,6 +41,9 @@ import java.util.concurrent.TimeUnit;
 public final class TabUtils {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
+	private TabUtils() {
+	}
+
 	public static void refresh(NovaPlayer nPlayer) {
 		if(!Config.TABLIST_ENABLED.getBoolean()) {
 			return;
@@ -78,7 +81,7 @@ public final class TabUtils {
 		tabList.clear();
 
 		//Server vars
-		vars.put(VarKey.SERVER_ONLINE, String.valueOf(Bukkit.getOnlinePlayers().size()));
+		vars.put(VarKey.SERVER_ONLINE, String.valueOf(NovaGuilds.getOnlinePlayers().size()));
 		vars.put(VarKey.SERVER_MAX, String.valueOf(Bukkit.getMaxPlayers()));
 
 		//Time
@@ -157,7 +160,7 @@ public final class TabUtils {
 
 		//Guild TOP
 		List<NovaGuild> topGuildsList = plugin.getGuildManager().getTopGuildsByPoints(20);
-		for(int i=1; i<=20; i++) {
+		for(int i = 1; i <= 20; i++) {
 			if(i <= topGuildsList.size()) {
 				NovaGuild guildTop = topGuildsList.get(i - 1);
 				String row = Config.TABLIST_TOPROW_GUILDS.getString();

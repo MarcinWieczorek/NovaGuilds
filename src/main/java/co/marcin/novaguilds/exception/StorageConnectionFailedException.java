@@ -16,10 +16,18 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.listener.packet;
+package co.marcin.novaguilds.exception;
 
-import co.marcin.novaguilds.impl.util.AbstractListener;
+public class StorageConnectionFailedException extends Exception {
+	public StorageConnectionFailedException() {
 
-public class PacketListener1_8Impl extends AbstractListener {
+	}
 
+	public StorageConnectionFailedException(String message) {
+		super(message);
+	}
+
+	public StorageConnectionFailedException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

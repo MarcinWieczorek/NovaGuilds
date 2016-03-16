@@ -665,8 +665,8 @@ public interface NovaGuild extends Changeable {
 
 	/**
 	 * Creates a raid
-	 * @param attacker the guild
 	 *
+	 * @param attacker the guild
 	 */
 	void createRaid(NovaGuild attacker);
 

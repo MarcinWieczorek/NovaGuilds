@@ -22,6 +22,7 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.util.LoggerUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -48,6 +49,7 @@ public class CommandAdminReload extends AbstractCommandExecutor {
 		//plugin's vars from config
 		plugin.getConfigManager().reload();
 		Message.CHAT_RELOAD_CONFIG.send(sender);
+		plugin.checkSoftDependencies();
 
 		//Connecting to database
 		plugin.setUpStorage();
@@ -58,7 +60,13 @@ public class CommandAdminReload extends AbstractCommandExecutor {
 			Message.CHAT_RELOAD_NEWMSGFILE.send(sender);
 		}
 
-		plugin.getMessageManager().load();
+		try {
+			plugin.getMessageManager().load();
+		}
+		catch(FatalNovaGuildsException e) {
+			LoggerUtils.exception(e);
+			return;
+		}
 		Message.CHAT_RELOAD_MESSAGES.send(sender);
 
 		//guilds

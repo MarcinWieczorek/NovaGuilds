@@ -221,7 +221,7 @@ chat:
      - "&4&l> &7/nga &cg &6<&cgildia&6> &cabandon &2- &6Rozwiaz gildie"
      - "&4&l> &7/nga &cg &6<&cgildia&6> &csetname &6<&cnazwa&6> &2- &6Zmien nazwe"
      - "&4&l> &7/nga &cg &6<&cgildia&6> &csettag &6<&ctag&6> &2- &6Zmien tag"
-     - "&4&l> &7/nga /n&cg &6<&cgildia&6> &csetpoints &6<&cpunkty&6> &2- &6Zmien punkty"
+     - "&4&l> &7/nga &cg &6<&cgildia&6> &csetpoints &6<&cpunkty&6> &2- &6Zmien punkty"
      - "&4&l> &7/nga &cg &6<&cgildia&6> &cinvite &6<&cgracz&6> &2- &6Zapros gracza do gildii"
      - "&4&l> &7/nga &cg &6<&cgildia&6> &cpay &6<&cilość&6> &2- &6Wplac pieniadze do banku gildii"
      - "&4&l> &7/nga &cg &6<&cgildia&6> &cwithdraw &6<&cilość&6> &2- &6Zabierz pieniadze z banku gildii"
@@ -577,6 +577,20 @@ inventory:
  ggui:
   name: Menu Gildii
  gui:
+  settings:
+   title: "Guild settings"
+   item:
+    icon: "WORKBENCH 1 name:&4Ustawienia"
+    set:
+     name: "SIGN 1 name:&6Zmień_nazwę_gildii"
+     tag: "SIGN 1 name:&6Zmień_tag_gildii"
+     home: "EYE_OF_ENDER 1 name:&6Zmień_dom_gildii"
+    togglepvp:
+     'on': "GOLD_SWORD 1 name:&2Wyłącz_gildyjne_PVP"
+     'off': "WOOD_SWORD 1 name:&4Włącz_gildyjne_PVP"
+    openinvitation: "FENCE_GATE 1 name:&6Przełącz_otwarte_zaproszenie lore:Obecnie_{FLAG}"
+    buylife: "APPLE 1 name:&6Kup_życie"
+    buyslot: "MINECART 1 name:&6Kup_slot"
   back: "REDSTONE_TORCH_ON 1 name:&cPowrót"
   playerslist:
    title: "Lista członków"
@@ -596,6 +610,7 @@ inventory:
    leadername: "Lider"
   rank:
    settings:
+    title: "&l{RANKNAME} &rustawienia"
     cloneprefix: "Kopia "
     item:
      editpermissions: "BOOK_AND_QUILL 1 name:&6Edytuj_uprawnienia"
@@ -659,6 +674,21 @@ inventory:
     rank:
      set: "Ustawianie_rang_graczom"
      edit: "Edycja_rang"
+
+signgui:
+ guild:
+  settings:
+   set:
+    name:
+     - "Nowa nazwa"
+     - "{INPUT}"
+     - ""
+     - ""
+    tag:
+     - "Nowy tag"
+     - "{INPUT}"
+     - ""
+     - ""
 
 timeunit:
  second:

@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.api.basic;
 
+import co.marcin.novaguilds.api.util.Schematic;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -65,6 +66,14 @@ public interface NovaGroup {
 	 * @return money
 	 */
 	double getRegionCreateMoney();
+
+	/**
+	 * Gets the schematic that gets pasted
+	 * when a player creates a guild
+	 *
+	 * @return the schematic
+	 */
+	Schematic getCreateSchematic();
 
 	/**
 	 * Get the list of items required to create a guild

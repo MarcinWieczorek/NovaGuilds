@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -38,14 +39,22 @@ public abstract class AbstractFileStorage extends AbstractStorage {
 	private final File regionsDirectory;
 	private final File ranksDirectory;
 
-	public AbstractFileStorage(File dataDirectory) {
+	/**
+	 * AbstractFileStorage constructor
+	 *
+	 * @param dataDirectory data directory
+	 * @throws StorageConnectionFailedException
+	 */
+	public AbstractFileStorage(File dataDirectory) throws StorageConnectionFailedException {
 		this.dataDirectory = dataDirectory;
 		playersDirectory = new File(dataDirectory, "player/");
 		guildsDirectory = new File(dataDirectory, "guild/");
 		regionsDirectory = new File(dataDirectory, "region/");
 		ranksDirectory = new File(dataDirectory, "rank/");
 
-		setUp();
+		if(!setUp()) {
+			throw new StorageConnectionFailedException("Failed creating directories");
+		}
 	}
 
 	@Override

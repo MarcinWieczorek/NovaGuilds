@@ -26,10 +26,10 @@ import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.impl.util.TitleImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -38,6 +38,7 @@ import org.bukkit.entity.Player;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +61,8 @@ public class MessageManager {
 
 	/**
 	 * Detects the language basing on Essentials and config
-	 *
-	 * @return false if detecting/creating new file failed
 	 */
-	public boolean detectLanguage() {
+	public void detectLanguage() throws FileNotFoundException {
 		detectEssentialsLocale();
 		String lang = Config.LANG_NAME.getString();
 		messagesFile = new File(plugin.getDataFolder() + "/lang", lang + ".yml");
@@ -74,16 +73,14 @@ public class MessageManager {
 				LoggerUtils.info("New messages file created: " + lang + ".yml");
 			}
 			else {
-				LoggerUtils.info("Couldn't find language file: " + lang + ".yml");
-				return false;
+				throw new FileNotFoundException("Couldn't find language file: " + lang + ".yml");
 			}
 		}
-
-		return true;
 	}
 
 	/**
 	 * Checks if the messages file exists
+	 *
 	 * @return true if the file exists
 	 */
 	public boolean existsFile() {
@@ -92,26 +89,37 @@ public class MessageManager {
 
 	/**
 	 * Loads messages
+	 *
 	 * @return true if success
 	 */
-	public boolean load() {
+	public boolean load() throws FatalNovaGuildsException {
 		setupDirectories();
-		
-		if(!detectLanguage()) {
-			return false;
-		}
 
 		try {
+			detectLanguage();
 			messages = Lang.loadConfiguration(messagesFile);
 		}
 		catch(ScannerException | IOException e) {
-			LoggerUtils.exception(e);
+			throw new FatalNovaGuildsException("Failed to load messages", e);
 		}
+
+		//Fork, edit and compile NovaGuilds on your own if you want not to use the original prefix
+		restorePrefix();
 
 		prefix = Message.CHAT_PREFIX.get();
 		prefixColor = ChatColor.getByChar(ChatColor.getLastColors(prefix).charAt(1));
 
 		return true;
+	}
+
+	public void restorePrefix() {
+		String prefix = Message.CHAT_PREFIX.get();
+		prefix = StringUtils.removeColors(StringUtils.fixColors(prefix));
+
+		if(!prefix.contains("NovaGuilds")) {
+			Message.CHAT_PREFIX.set("&4&l[&7NovaGuilds&4&l] &6");
+			LoggerUtils.info("Prefix restored.");
+		}
 	}
 
 	/**
@@ -172,7 +180,7 @@ public class MessageManager {
 	 * Sends prefixed message to a player
 	 *
 	 * @param sender receiver
-	 * @param msg message string
+	 * @param msg    message string
 	 */
 	public static void sendPrefixMessage(CommandSender sender, String msg) {
 		if(!msg.equals("none")) {
@@ -184,7 +192,7 @@ public class MessageManager {
 	 * Sends a message without prefix to a player
 	 *
 	 * @param sender receiver
-	 * @param msg message string
+	 * @param msg    message string
 	 */
 	public static void sendMessage(CommandSender sender, String msg) {
 		if(!msg.equals("none")) {
@@ -195,7 +203,7 @@ public class MessageManager {
 	/**
 	 * Sends a list of messages to a player
 	 *
-	 * @param sender receiver
+	 * @param sender  receiver
 	 * @param message Message enum
 	 */
 	public static void sendMessagesList(CommandSender sender, Message message) {
@@ -222,7 +230,7 @@ public class MessageManager {
 	/**
 	 * Sends a message to a player
 	 *
-	 * @param sender receiver
+	 * @param sender  receiver
 	 * @param message Message enum
 	 */
 	public static void sendMessagesMsg(CommandSender sender, Message message) {
@@ -247,7 +255,7 @@ public class MessageManager {
 	 * Send a Title to the player
 	 *
 	 * @param player Player instance
-	 * @param msg message string
+	 * @param msg    message string
 	 */
 	public static void sendTitle(Player player, String msg) {
 		Title title = new TitleImpl("");
@@ -260,7 +268,7 @@ public class MessageManager {
 	 * Broadcasts Message to players
 	 *
 	 * @param playerList List of Players
-	 * @param message Message enum
+	 * @param message    Message enum
 	 * @param permission Permission enum (null for none)
 	 */
 	public static void broadcast(List<Player> playerList, Message message, Permission permission) {
@@ -274,11 +282,11 @@ public class MessageManager {
 	/**
 	 * Broadcasts message from file to all players with permission
 	 *
-	 * @param message Message enum
+	 * @param message    Message enum
 	 * @param permission Permission enum
 	 */
 	public static void broadcast(Message message, Permission permission) {
-		broadcast(new ArrayList<>(Bukkit.getOnlinePlayers()), message, permission);
+		broadcast(new ArrayList<>(NovaGuilds.getOnlinePlayers()), message, permission);
 	}
 
 	/**
@@ -293,7 +301,7 @@ public class MessageManager {
 	/**
 	 * Broadcasts message to guild members
 	 *
-	 * @param guild Guild instance
+	 * @param guild   Guild instance
 	 * @param message Message enum
 	 */
 	public static void broadcast(NovaGuild guild, Message message) {
@@ -303,19 +311,42 @@ public class MessageManager {
 	/**
 	 * Replaces a map of vars preserving the prefix color
 	 *
-	 * @param msg message string
+	 * @param msg  message string
 	 * @param vars Map<String, String> of variables
 	 * @return String
 	 */
 	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars) {
+		return replaceVarKeyMap(msg, vars, true);
+	}
+
+	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars, boolean usePrefixColor) {
 		for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
-			vars.put(entry.getKey(), entry.getValue() + plugin.getMessageManager().prefixColor);
+			vars.put(entry.getKey(), entry.getValue() + (usePrefixColor ? plugin.getMessageManager().prefixColor : ""));
 		}
 
 		return StringUtils.replaceVarKeyMap(msg, vars);
 	}
 
+	public static List<String> replaceVarKeyMap(List<String> list, Map<VarKey, String> vars, boolean usePrefixColor) {
+		List<String> newList = new ArrayList<>();
+
+		for(String string : list) {
+			string = replaceVarKeyMap(string, vars, usePrefixColor);
+			newList.add(string);
+		}
+
+		return newList;
+	}
+
 	public void setMessages(YamlConfiguration messages) {
 		this.messages = messages;
+	}
+
+	public static void set(Message message, String string) {
+		getMessages().set(message.getPath(), string);
+	}
+
+	public static void set(Message message, List<String> list) {
+		getMessages().set(message.getPath(), list);
 	}
 }
