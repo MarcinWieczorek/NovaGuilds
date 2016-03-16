@@ -44,6 +44,7 @@ public class CommandAdminConfigReset extends AbstractCommandExecutor {
 
 		if(plugin.getConfigManager().getConfigFile().delete()) {
 			plugin.getConfigManager().reload();
+			plugin.checkSoftDependencies();
 		}
 		else {
 			Message.CHAT_ERROROCCURED.send(sender);
