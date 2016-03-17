@@ -241,7 +241,10 @@ public class GuildManager {
 
 	public static void createHomeFloor(NovaGuild guild) {
 		Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
-		schematic.paste(guild.getHome());
+
+		if(schematic != null) {
+			schematic.paste(guild.getHome());
+		}
 	}
 
 	public List<NovaGuild> getTopGuildsByPoints(int count) {
