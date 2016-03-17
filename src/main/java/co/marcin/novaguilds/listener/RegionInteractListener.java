@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import org.bukkit.Bukkit;
@@ -61,6 +62,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegionInteractListener extends AbstractListener {
+	public RegionInteractListener() {
+		super();
+
+		if(ConfigManager.getServerVersion() != ConfigManager.ServerVersion.MINECRAFT_1_7) {
+			new Non1_7Events();
+		}
+	}
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
@@ -342,20 +351,22 @@ public class RegionInteractListener extends AbstractListener {
 		}
 	}
 
-	/**
-	 * Handles editing items on an ArmorStand
-	 *
-	 * @param event The event
-	 */
-	@EventHandler
-	public void onPlayerManipulateArmorStand(PlayerArmorStandManipulateEvent event) {
-		Player player = event.getPlayer();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-		Location location = event.getRightClicked().getLocation();
+	class Non1_7Events extends AbstractListener {
+		/**
+		 * Handles editing items on an ArmorStand
+		 *
+		 * @param event The event
+		 */
+		@EventHandler
+		public void onPlayerManipulateArmorStand(PlayerArmorStandManipulateEvent event) {
+			Player player = event.getPlayer();
+			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+			Location location = event.getRightClicked().getLocation();
 
-		if(RegionManager.get(location) != null && (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.INTERACT)))) {
-			event.setCancelled(true);
-			Message.CHAT_REGION_DENY_INTERACT.send(player);
+			if(RegionManager.get(location) != null && (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.INTERACT)))) {
+				event.setCancelled(true);
+				Message.CHAT_REGION_DENY_INTERACT.send(player);
+			}
 		}
 	}
 }
