@@ -70,11 +70,6 @@ tagapi:
 
 signgui:
  enabled: true
- lines:
-  - "Edit name:"
-  - "---------------"
-  - "{RANK_NAME}"
-  - "---------------"
 
 ###################################################
 # Points below player's name                      #

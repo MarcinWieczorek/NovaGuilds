@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
+import co.marcin.novaguilds.impl.util.signgui.SignGUIPatternImpl;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -35,8 +36,6 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.List;
 
 public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private final NovaRank rank;
@@ -79,26 +78,11 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		}
 		else if(clickedItemStack.equals(renameItem)) {
 			if(Config.SIGNGUI_ENABLED.getBoolean()) {
-				List<String> linesList = Config.SIGNGUI_LINES.getStringList();
-				String[] lines = new String[4];
-
-				int index = 0;
-				int inputIndex = 0;
-				for(String line : linesList) {
-					if(StringUtils.contains(line, "{RANK_NAME}")) {
-						line = StringUtils.replace(line, "{RANK_NAME}", rank.getName());
-						inputIndex = index;
-					}
-
-					lines[index] = line;
-					index++;
-				}
-
-				final int finalInputIndex = inputIndex;
-				plugin.getSignGUI().open(getViewer().getPlayer(), lines, new SignGUI.SignGUIListener() {
+				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_RANKS_SET_NAME.setVar(VarKey.INPUT, rank.getName()));
+				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
 					@Override
 					public void onSignDone(Player player, String[] lines) {
-						rank.setName(lines[finalInputIndex]);
+						rank.setName(lines[pattern.getInputLine()]);
 						close();
 						GUIInventoryGuildRankSettings gui = new GUIInventoryGuildRankSettings(rank);
 						gui.setGuild(getGuild());
