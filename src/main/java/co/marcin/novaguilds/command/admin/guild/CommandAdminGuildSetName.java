@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
@@ -26,7 +27,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminGuildSetName extends AbstractCommandExecutor.ReversedAdminGuild {
+public class CommandAdminGuildSetName extends AbstractCommandExecutor.Reversed<NovaGuild> {
 	private static final Command command = Command.ADMIN_GUILD_SET_NAME;
 
 	public CommandAdminGuildSetName() {
@@ -35,6 +36,8 @@ public class CommandAdminGuildSetName extends AbstractCommandExecutor.ReversedAd
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
+		NovaGuild guild = getParameter();
+
 		if(args.length == 0) { //no new name
 			Message.CHAT_ADMIN_GUILD_SET_NAME_ENTERNEWNAME.send(sender);
 			return;

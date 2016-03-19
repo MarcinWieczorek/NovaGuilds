@@ -21,9 +21,24 @@ package co.marcin.novaguilds.api.util.packet;
 import org.bukkit.entity.Player;
 
 public interface IPacketReceiveEvent {
+	/**
+	 * Gets packet object
+	 *
+	 * @return the packet
+	 */
 	Object getPacket();
 
+	/**
+	 * Gets the sender
+	 *
+	 * @return the player
+	 */
 	Player getPlayer();
 
+	/**
+	 * Gets packet name
+	 *
+	 * @return string
+	 */
 	String getPacketName();
 }

@@ -26,7 +26,7 @@ public interface CommandExecutor {
 	 * Execute the command
 	 *
 	 * @param sender sender
-	 * @param args arguments
+	 * @param args   arguments
 	 * @throws Exception bugs occur sometimes...
 	 */
 	void execute(CommandSender sender, String[] args) throws Exception;
@@ -38,30 +38,19 @@ public interface CommandExecutor {
 	 */
 	Command getCommand();
 
-	interface ReversedAdminGuild extends CommandExecutor {
+	interface Reversed<T> extends CommandExecutor {
 		/**
 		 * Sets the parameter
 		 *
-		 * @param guild the parameter
+		 * @param parameter the parameter
 		 */
-		void guild(NovaGuild guild);
-	}
+		void set(Object parameter);
 
-	interface ReversedAdminRegion extends CommandExecutor {
 		/**
-		 * Sets the parameter
+		 * Gets the parameter
 		 *
-		 * @param region the parameter
+		 * @return the parameter
 		 */
-		void region(NovaRegion region);
-	}
-
-	interface ReversedAdminHologram extends CommandExecutor {
-		/**
-		 * Sets the parameter
-		 *
-		 * @param hologram the parameter
-		 */
-		void hologram(NovaHologram hologram);
+		T getParameter();
 	}
 }

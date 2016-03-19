@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
@@ -26,7 +27,7 @@ import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminGuildSetSlots extends AbstractCommandExecutor.ReversedAdminGuild {
+public class CommandAdminGuildSetSlots extends AbstractCommandExecutor.Reversed<NovaGuild> {
 	private static final Command command = Command.ADMIN_GUILD_SET_SLOTS;
 
 	public CommandAdminGuildSetSlots() {
@@ -35,6 +36,8 @@ public class CommandAdminGuildSetSlots extends AbstractCommandExecutor.ReversedA
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
+		NovaGuild guild = getParameter();
+
 		if(args.length != 1) {
 			Message.CHAT_USAGE_NGA_GUILD_SET_SLOTS.send(sender);
 			return;

@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
@@ -30,7 +31,7 @@ import org.bukkit.command.CommandSender;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminGuildInvite extends AbstractCommandExecutor.ReversedAdminGuild {
+public class CommandAdminGuildInvite extends AbstractCommandExecutor.Reversed<NovaGuild> {
 	private static final Command command = Command.ADMIN_GUILD_INVITE;
 
 	public CommandAdminGuildInvite() {
@@ -39,6 +40,8 @@ public class CommandAdminGuildInvite extends AbstractCommandExecutor.ReversedAdm
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
+		NovaGuild guild = getParameter();
+
 		if(args.length == 0) {
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;

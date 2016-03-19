@@ -26,6 +26,7 @@ import org.bukkit.entity.Entity;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+@SuppressWarnings("ConstantConditions")
 public class Reflections {
 	public static Class<?> getCraftClass(String name) {
 		String className = "net.minecraft.server." + getVersion() + name;

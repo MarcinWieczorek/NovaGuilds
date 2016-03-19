@@ -20,9 +20,6 @@ package co.marcin.novaguilds.command.abstractexecutor;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaHologram;
-import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Command;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
@@ -38,42 +35,22 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 		return command;
 	}
 
-	public static abstract class ReversedAdminGuild extends AbstractCommandExecutor implements CommandExecutor.ReversedAdminGuild {
-		protected NovaGuild guild;
+	public static abstract class Reversed<T> extends AbstractCommandExecutor implements CommandExecutor.Reversed<T> {
+		protected T parameter;
 
-		protected ReversedAdminGuild(Command command) {
+		protected Reversed(Command command) {
 			super(command);
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
-		public final void guild(NovaGuild guild) {
-			this.guild = guild;
-		}
-	}
-
-	public static abstract class ReversedAdminRegion extends AbstractCommandExecutor implements CommandExecutor.ReversedAdminRegion {
-		protected NovaRegion region;
-
-		protected ReversedAdminRegion(Command command) {
-			super(command);
+		public final void set(Object parameter) {
+			this.parameter = (T) parameter;
 		}
 
 		@Override
-		public final void region(NovaRegion region) {
-			this.region = region;
-		}
-	}
-
-	public static abstract class ReversedAdminHologram extends AbstractCommandExecutor implements CommandExecutor.ReversedAdminHologram {
-		protected NovaHologram hologram;
-
-		protected ReversedAdminHologram(Command command) {
-			super(command);
-		}
-
-		@Override
-		public final void hologram(NovaHologram hologram) {
-			this.hologram = hologram;
+		public T getParameter() {
+			return parameter;
 		}
 	}
 }

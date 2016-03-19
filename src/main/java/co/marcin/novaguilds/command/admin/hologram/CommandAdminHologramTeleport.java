@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
+import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
@@ -29,7 +30,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminHologramTeleport extends AbstractCommandExecutor.ReversedAdminHologram {
+public class CommandAdminHologramTeleport extends AbstractCommandExecutor.Reversed<NovaHologram> {
 	private static final Command command = Command.ADMIN_HOLOGRAM_TELEPORT;
 
 	public CommandAdminHologramTeleport() {
@@ -38,6 +39,8 @@ public class CommandAdminHologramTeleport extends AbstractCommandExecutor.Revers
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
+		NovaHologram hologram = getParameter();
+
 		Player player = args.length == 0 ? (Player) sender : Bukkit.getPlayer(args[0]);
 
 		if(player == null) {

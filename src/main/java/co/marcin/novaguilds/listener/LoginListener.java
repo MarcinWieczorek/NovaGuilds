@@ -41,7 +41,6 @@ import protocolsupport.api.ProtocolSupportAPI;
 import protocolsupport.api.ProtocolVersion;
 
 public class LoginListener extends AbstractListener {
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();

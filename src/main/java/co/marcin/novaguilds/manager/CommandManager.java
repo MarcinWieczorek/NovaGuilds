@@ -20,10 +20,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.CommandConfirm;
 import co.marcin.novaguilds.command.CommandNovaGuilds;
 import co.marcin.novaguilds.command.CommandPlayerInfo;
@@ -316,14 +313,8 @@ public class CommandManager {
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}
 		else {
-			if(executor instanceof CommandExecutor.ReversedAdminGuild) {
-				((CommandExecutor.ReversedAdminGuild) executor).guild((NovaGuild) command.getExecutorVariable());
-			}
-			else if(executor instanceof CommandExecutor.ReversedAdminRegion) {
-				((CommandExecutor.ReversedAdminRegion) executor).region((NovaRegion) command.getExecutorVariable());
-			}
-			else if(executor instanceof CommandExecutor.ReversedAdminHologram) {
-				((CommandExecutor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
+			if(executor instanceof CommandExecutor.Reversed) {
+				((CommandExecutor.Reversed) executor).set(command.getExecutorVariable());
 			}
 
 			try {

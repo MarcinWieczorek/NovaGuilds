@@ -65,7 +65,6 @@ public class NovaGroupImpl implements NovaGroup {
 	private int regionAutoSize = 0;
 	private Schematic schematic;
 
-	@SuppressWarnings("deprecation")
 	public NovaGroupImpl(NovaGuilds plugin, String group) {
 		name = group;
 		LoggerUtils.info("Loading group '" + name + "'...");

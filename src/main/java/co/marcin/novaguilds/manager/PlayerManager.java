@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("deprecation")
 public class PlayerManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaPlayer> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
