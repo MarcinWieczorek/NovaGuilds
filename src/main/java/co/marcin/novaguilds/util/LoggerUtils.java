@@ -74,7 +74,7 @@ public final class LoggerUtils {
 		return s.contains("Manager]") ? "" : " ";
 	}
 
-	public static void exception(Exception e) {
+	public static void exception(Throwable e) {
 		Throwable cause = e.getCause();
 		error("", false);
 		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName(), false);

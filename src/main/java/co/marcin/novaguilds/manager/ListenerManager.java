@@ -18,6 +18,8 @@
 
 package co.marcin.novaguilds.manager;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.impl.util.logging.LoggedPluginManager;
 import co.marcin.novaguilds.listener.ChatListener;
 import co.marcin.novaguilds.listener.ChestGUIListener;
 import co.marcin.novaguilds.listener.DeathListener;
@@ -29,9 +31,21 @@ import co.marcin.novaguilds.listener.PlayerInfoListener;
 import co.marcin.novaguilds.listener.PvpListener;
 import co.marcin.novaguilds.listener.RegionInteractListener;
 import co.marcin.novaguilds.listener.ToolListener;
+import co.marcin.novaguilds.util.LoggerUtils;
+import org.bukkit.event.Event;
 
 public class ListenerManager {
 	private PacketListener packetListener;
+	private static final LoggedPluginManager loggedPluginManager;
+
+	static {
+		loggedPluginManager = new LoggedPluginManager(NovaGuilds.getInstance()) {
+			@Override
+			protected void customHandler(Event event, Throwable e) {
+				LoggerUtils.exception(e);
+			}
+		};
+	}
 
 	public ListenerManager() {
 		registerListeners();
@@ -53,5 +67,9 @@ public class ListenerManager {
 		new PlayerInfoListener();
 		new ChestGUIListener();
 		packetListener = new PacketListener();
+	}
+
+	public static LoggedPluginManager getLoggedPluginManager() {
+		return loggedPluginManager;
 	}
 }
