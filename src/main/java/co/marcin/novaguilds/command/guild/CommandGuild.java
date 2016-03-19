@@ -73,7 +73,7 @@ public class CommandGuild extends AbstractCommandExecutor implements CommandExec
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length > 0) {
 			Command command = commandsMap.get(args[0].toLowerCase());
 			String[] newArgs = StringUtils.parseArgs(args, 1);

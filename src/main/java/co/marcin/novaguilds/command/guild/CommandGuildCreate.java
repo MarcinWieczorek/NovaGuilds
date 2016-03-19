@@ -66,7 +66,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 2) {
 			Message.CHAT_USAGE_GUILD_CREATE.send(sender);
 			return;

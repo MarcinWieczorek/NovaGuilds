@@ -61,7 +61,7 @@ public class CommandAdmin extends AbstractCommandExecutor implements CommandExec
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_MAIN_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_MAIN_ITEMS.send(sender);

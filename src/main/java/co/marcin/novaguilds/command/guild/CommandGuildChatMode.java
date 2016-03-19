@@ -36,7 +36,7 @@ public class CommandGuildChatMode extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		final NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {

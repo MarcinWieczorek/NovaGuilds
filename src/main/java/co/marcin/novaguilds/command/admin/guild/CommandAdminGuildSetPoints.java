@@ -34,7 +34,7 @@ public class CommandAdminGuildSetPoints extends AbstractCommandExecutor.Reversed
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 1) { //no new name
 			Message.CHAT_USAGE_NGA_GUILD_SET_POINTS.send(sender);
 			return;

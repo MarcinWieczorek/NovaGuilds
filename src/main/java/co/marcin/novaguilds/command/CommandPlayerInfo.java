@@ -41,7 +41,7 @@ public class CommandPlayerInfo extends AbstractCommandExecutor implements Comman
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nCPlayer;
 		if(args.length == 0) {
 			if(!(sender instanceof Player)) {

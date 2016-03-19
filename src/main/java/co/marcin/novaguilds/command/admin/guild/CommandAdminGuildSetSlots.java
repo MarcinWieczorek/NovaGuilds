@@ -34,7 +34,7 @@ public class CommandAdminGuildSetSlots extends AbstractCommandExecutor.ReversedA
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 1) {
 			Message.CHAT_USAGE_NGA_GUILD_SET_SLOTS.send(sender);
 			return;

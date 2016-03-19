@@ -46,7 +46,7 @@ public class CommandGuildEffect extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		Player player = (Player) sender;
 

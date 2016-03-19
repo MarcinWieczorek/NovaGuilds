@@ -36,7 +36,7 @@ public class CommandAdminGuildSetTimerest extends AbstractCommandExecutor.Revers
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		String timeString = "";
 		if(args.length > 0) {
 			timeString = StringUtils.join(args, " ");

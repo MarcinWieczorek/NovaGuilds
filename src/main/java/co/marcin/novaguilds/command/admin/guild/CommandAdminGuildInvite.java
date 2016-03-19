@@ -38,7 +38,7 @@ public class CommandAdminGuildInvite extends AbstractCommandExecutor.ReversedAdm
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;

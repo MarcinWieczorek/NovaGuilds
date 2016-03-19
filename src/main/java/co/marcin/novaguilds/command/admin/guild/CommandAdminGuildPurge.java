@@ -40,7 +40,7 @@ public class CommandAdminGuildPurge extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(plugin.getGuildManager().getGuilds().isEmpty()) {
 			Message.CHAT_GUILD_NOGUILDS.send(sender);
 			return;

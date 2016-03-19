@@ -38,7 +38,7 @@ public class CommandAdminGuildBankPay extends AbstractCommandExecutor.ReversedAd
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 1) {
 			Message.CHAT_USAGE_NGA_GUILD_BANK_PAY.send(sender);
 			return;

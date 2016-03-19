@@ -42,7 +42,7 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Config config = Config.fromPath(args[0]);
 
 		if(config == null) {

@@ -22,7 +22,14 @@ import co.marcin.novaguilds.enums.Command;
 import org.bukkit.command.CommandSender;
 
 public interface CommandExecutor {
-	void execute(CommandSender sender, String[] args);
+	/**
+	 * Execute the command
+	 *
+	 * @param sender sender
+	 * @param args arguments
+	 * @throws Exception bugs occur sometimes...
+	 */
+	void execute(CommandSender sender, String[] args) throws Exception;
 
 	/**
 	 * Gets the command

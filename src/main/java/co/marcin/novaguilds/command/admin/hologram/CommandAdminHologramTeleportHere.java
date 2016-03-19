@@ -31,7 +31,7 @@ public class CommandAdminHologramTeleportHere extends AbstractCommandExecutor.Re
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		hologram.teleport(((Player) sender).getLocation());
 	}
 }

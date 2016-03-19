@@ -43,7 +43,7 @@ public class CommandRegion extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length > 0) {
 			Command subCommand = commandsMap.get(args[0].toLowerCase());
 

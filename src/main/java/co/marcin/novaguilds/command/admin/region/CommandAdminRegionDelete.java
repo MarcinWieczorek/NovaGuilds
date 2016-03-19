@@ -31,7 +31,7 @@ public class CommandAdminRegionDelete extends AbstractCommandExecutor.ReversedAd
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		plugin.getRegionManager().remove(region);
 		Message.CHAT_ADMIN_REGION_DELETE_SUCCESS.send(sender);
 	}

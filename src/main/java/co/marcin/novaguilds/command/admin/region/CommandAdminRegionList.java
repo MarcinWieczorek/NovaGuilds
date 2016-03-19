@@ -38,7 +38,7 @@ public class CommandAdminRegionList extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Message.CHAT_REGION_LIST_HEADER.send(sender);
 
 		int perPage = 10;

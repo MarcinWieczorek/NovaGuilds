@@ -40,7 +40,7 @@ public class CommandAdminGuildAbandon extends AbstractCommandExecutor.ReversedAd
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		//fire event
 		GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.ADMIN);
 		plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);

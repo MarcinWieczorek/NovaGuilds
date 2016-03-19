@@ -40,7 +40,7 @@ public class CommandAdminRegionTeleport extends AbstractCommandExecutor.Reversed
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayerOther;
 		Player player;
 

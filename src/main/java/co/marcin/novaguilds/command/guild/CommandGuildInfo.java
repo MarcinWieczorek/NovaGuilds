@@ -56,7 +56,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor implements Command
 	}
 	
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		String guildName;
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		

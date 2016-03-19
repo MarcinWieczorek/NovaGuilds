@@ -38,7 +38,7 @@ public class CommandAdminGuildBankWithdraw extends AbstractCommandExecutor.Rever
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 1) { //invalid arguments
 			Message.CHAT_USAGE_NGA_GUILD_BANK_WITHDRAW.send(sender);
 			return;

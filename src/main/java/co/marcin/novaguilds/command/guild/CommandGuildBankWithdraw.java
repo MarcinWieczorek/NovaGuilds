@@ -39,7 +39,7 @@ public class CommandGuildBankWithdraw extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 1) {
 			Message.CHAT_GUILD_BANK_ENTERAMOUNT.send(sender);
 			return;

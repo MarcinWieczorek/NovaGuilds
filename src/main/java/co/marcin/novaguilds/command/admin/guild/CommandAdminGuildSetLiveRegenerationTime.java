@@ -36,7 +36,7 @@ public class CommandAdminGuildSetLiveRegenerationTime extends AbstractCommandExe
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		String timeString;
 		if(args.length > 1) {
 			timeString = StringUtils.join(args, " ");

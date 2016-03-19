@@ -37,7 +37,7 @@ public class CommandGuildRequiredItems extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Player player = (Player) sender;
 
 		List<ItemStack> requiredItems = GroupManager.getGroup(sender).getGuildCreateItems();

@@ -32,7 +32,7 @@ public class CommandAdminHologramDelete extends AbstractCommandExecutor.Reversed
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		hologram.delete();
 		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.setVar(VarKey.NAME, hologram.getName()).send(sender);
 	}

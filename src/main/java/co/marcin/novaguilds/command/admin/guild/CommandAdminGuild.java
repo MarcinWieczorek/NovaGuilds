@@ -83,7 +83,7 @@ public class CommandAdminGuild extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		//command list
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_GUILD_HEADER.send(sender);

@@ -34,7 +34,7 @@ public class CommandAdminGuildSetName extends AbstractCommandExecutor.ReversedAd
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) { //no new name
 			Message.CHAT_ADMIN_GUILD_SET_NAME_ENTERNEWNAME.send(sender);
 			return;

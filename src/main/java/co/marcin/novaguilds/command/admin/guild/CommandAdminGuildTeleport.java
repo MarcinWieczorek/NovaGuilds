@@ -41,7 +41,7 @@ public class CommandAdminGuildTeleport extends AbstractCommandExecutor.ReversedA
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Location home = guild.getHome();
 
 		Player player = (Player) sender;

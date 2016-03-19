@@ -34,7 +34,7 @@ public class CommandGuildCompass extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Player player = (Player) sender;
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 

@@ -36,7 +36,7 @@ public class CommandAdminReload extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Message.CHAT_RELOAD_RELOADING.send(sender);
 
 		//Remove holograms

@@ -50,7 +50,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor implements Comman
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
 			Map<String, String[]> langInfo = new HashMap<>();
 			String commit = plugin.getCommit();

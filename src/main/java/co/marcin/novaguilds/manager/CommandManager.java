@@ -105,6 +105,7 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
@@ -281,7 +282,8 @@ public class CommandManager {
 
 			if(command.hasGenericCommand()) {
 				if(!(executor instanceof org.bukkit.command.CommandExecutor)) {
-					throw new IllegalArgumentException("An executor has to implement CommandExecutor to allow having generic command.");
+					LoggerUtils.exception(new IllegalArgumentException("An executor has to implement CommandExecutor to allow having generic command."));
+					return;
 				}
 
 				PluginCommand genericCommand = plugin.getCommand(command.getGenericCommand());
@@ -324,7 +326,12 @@ public class CommandManager {
 				((CommandExecutor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
 			}
 
-			executor.execute(sender, args);
+			try {
+				executor.execute(sender, args);
+			}
+			catch(Exception e) {
+				LoggerUtils.exception(new CommandException("Unhandled exception executing command '" + command.name() + "' in plugin NovaGuilds", e));
+			}
 		}
 	}
 

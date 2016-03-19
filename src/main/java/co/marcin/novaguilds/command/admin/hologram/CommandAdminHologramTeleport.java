@@ -37,7 +37,7 @@ public class CommandAdminHologramTeleport extends AbstractCommandExecutor.Revers
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Player player = args.length == 0 ? (Player) sender : Bukkit.getPlayer(args[0]);
 
 		if(player == null) {
