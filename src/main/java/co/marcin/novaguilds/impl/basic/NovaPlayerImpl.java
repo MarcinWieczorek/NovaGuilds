@@ -156,7 +156,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 
 	@Override
 	public double getMoney() {
-		return NovaGuilds.getInstance().econ.getBalance(name);
+		return NovaGuilds.getEconomy().getBalance(name);
 	}
 
 	@Override
@@ -426,7 +426,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 
 	@Override
 	public void addMoney(double money) {
-		NovaGuilds.getInstance().econ.depositPlayer(name, money);
+		NovaGuilds.getEconomy().depositPlayer(name, money);
 	}
 
 	@Override
@@ -466,7 +466,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 
 	@Override
 	public void takeMoney(double money) {
-		NovaGuilds.getInstance().econ.withdrawPlayer(name, money);
+		NovaGuilds.getEconomy().withdrawPlayer(name, money);
 	}
 
 	@Override

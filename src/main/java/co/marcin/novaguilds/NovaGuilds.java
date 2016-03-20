@@ -100,7 +100,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private final int build = Integer.parseInt(StringUtils.replace(getDescription().getVersion(), "-SNAPSHOT", ""));
 
 	//Vault
-	public Economy econ = null;
+	private static Economy economy;
 	private SignGUI signGUI;
 	private Essentials essentials;
 	private boolean protocolSupportEnabled;
@@ -382,6 +382,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		return build;
 	}
 
+	public static Economy getEconomy() {
+		return economy;
+	}
+
 	@Override
 	public RankManager getRankManager() {
 		return rankManager;
@@ -400,8 +404,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			return false;
 		}
 
-		econ = rsp.getProvider();
-		return econ != null;
+		economy = rsp.getProvider();
+		return economy != null;
 	}
 
 	//VanishNoPacket
