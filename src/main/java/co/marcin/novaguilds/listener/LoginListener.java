@@ -53,7 +53,7 @@ public class LoginListener extends AbstractListener {
 		nPlayer.setPlayer(player);
 
 		//Send version message if there's an update
-		if(VersionUtils.updateAvailable && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
+		if(VersionUtils.isUpdateAvailable() && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
 			Message.CHAT_UPDATE.send(player);
 		}
 

@@ -80,7 +80,7 @@ public final class LoggerUtils {
 		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName(), false);
 		error("", false);
 		error("Server Information:", false);
-		error("  NovaGuilds: #" + plugin.getBuild() + " (" + plugin.getCommit() + ")", false);
+		error("  NovaGuilds: #" + plugin.getBuild() + " (" + VersionUtils.getCommit() + ")", false);
 		error("  Storage Type: " + plugin.getConfigManager().getDataStorageType().name(), false);
 		error("  Bukkit: " + Bukkit.getBukkitVersion(), false);
 		error("  Java: " + System.getProperty("java.version"), false);
