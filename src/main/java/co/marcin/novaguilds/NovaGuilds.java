@@ -52,7 +52,6 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.manager.TaskManager;
-import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;

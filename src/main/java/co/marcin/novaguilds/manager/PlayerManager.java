@@ -57,7 +57,7 @@ public class PlayerManager {
 	public static NovaPlayer getPlayer(CommandSender sender) {
 		plugin.getPlayerManager().addIfNotExists(sender.getName());
 
-		return PlayerManager.getPlayer(sender.getName());
+		return getPlayer(sender.getName());
 	}
 
 	public Collection<NovaPlayer> getPlayers() {

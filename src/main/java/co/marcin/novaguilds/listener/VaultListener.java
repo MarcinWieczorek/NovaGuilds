@@ -150,7 +150,7 @@ public class VaultListener extends AbstractListener {
 
 		if(plugin.getRegionManager().canInteract(player, event.getBlock())) {
 			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-			Material itemType = player.getItemInHand().getType();
+			Material itemType = InventoryUtils.getItemInHand(player).getType();
 
 			if(itemType == Config.VAULT_ITEM.getItemStack().getType()) {
 				for(BlockFace face : doubleChestFaces) {
