@@ -67,6 +67,13 @@ public class StorageConnector {
 
 		switch(storageType) {
 			case MYSQL:
+				if(Config.MYSQL_HOST.getString().isEmpty()) {
+					plugin.getConfigManager().setToSecondaryDataStorageType();
+					isSecondary = true;
+					storageConnectionAttempt = 1;
+					throw new StorageConnectionFailedException("MySQL credentials not specified in the config");
+				}
+
 				storage = new MySQLStorageImpl(
 						Config.MYSQL_HOST.getString(),
 						Config.MYSQL_PORT.getString(),
