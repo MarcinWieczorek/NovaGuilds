@@ -22,7 +22,6 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
-import co.marcin.novaguilds.api.util.Schematic;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
@@ -237,14 +236,6 @@ public class GuildManager {
 		}
 
 		LoggerUtils.info("Postcheck finished. Found " + i + " invalid guilds");
-	}
-
-	public static void createHomeFloor(NovaGuild guild) {
-		Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
-
-		if(schematic != null) {
-			schematic.paste(guild.getHome());
-		}
 	}
 
 	public List<NovaGuild> getTopGuildsByPoints(int count) {
