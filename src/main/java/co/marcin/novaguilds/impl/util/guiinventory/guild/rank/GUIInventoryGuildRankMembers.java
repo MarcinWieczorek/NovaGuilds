@@ -16,13 +16,13 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory.guild.rank;
+package co.marcin.novaguilds.impl.util.guiinventory.guild.rank;
 
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
-import co.marcin.novaguilds.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
+import co.marcin.novaguilds.impl.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
 
 import java.util.ArrayList;
 import java.util.List;

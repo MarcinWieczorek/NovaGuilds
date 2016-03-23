@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory.guild.rank;
+package co.marcin.novaguilds.impl.util.guiinventory.guild.rank;
 
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
@@ -31,7 +31,7 @@ import co.marcin.novaguilds.impl.util.signgui.SignGUIPatternImpl;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.NumberUtils;
-import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildPermissionSelect;
+import co.marcin.novaguilds.impl.util.guiinventory.GUIInventoryGuildPermissionSelect;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

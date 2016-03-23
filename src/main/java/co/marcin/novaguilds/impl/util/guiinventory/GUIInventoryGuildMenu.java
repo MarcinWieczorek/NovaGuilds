@@ -16,15 +16,15 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory;
+package co.marcin.novaguilds.impl.util.guiinventory;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
-import co.marcin.novaguilds.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
-import co.marcin.novaguilds.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
-import co.marcin.novaguilds.util.guiinventory.guild.settings.GUIInventoryGuildSettings;
+import co.marcin.novaguilds.impl.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
+import co.marcin.novaguilds.impl.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
+import co.marcin.novaguilds.impl.util.guiinventory.guild.settings.GUIInventoryGuildSettings;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 

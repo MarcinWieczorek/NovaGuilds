@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util;
+package co.marcin.novaguilds.impl.util.packet;
 
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.event.PacketReceiveEvent;

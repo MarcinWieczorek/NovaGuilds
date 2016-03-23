@@ -22,7 +22,7 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.manager.PlayerManager;
-import co.marcin.novaguilds.util.guiinventory.GUIInventoryGuildMenu;
+import co.marcin.novaguilds.impl.util.guiinventory.GUIInventoryGuildMenu;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 

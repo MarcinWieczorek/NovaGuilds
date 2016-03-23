@@ -31,11 +31,11 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
-import co.marcin.novaguilds.exception.UnknownDependencyException;
+import co.marcin.novaguilds.exception.MissingDependencyException;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
-import co.marcin.novaguilds.impl.util.PacketExtension1_7Impl;
-import co.marcin.novaguilds.impl.util.PacketExtension1_8Impl;
+import co.marcin.novaguilds.impl.util.packet.PacketExtension1_7Impl;
+import co.marcin.novaguilds.impl.util.packet.PacketExtension1_8Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_7Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_8Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_9Impl;
@@ -486,7 +486,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		try {
 			//Vault
 			if(getServer().getPluginManager().getPlugin("Vault") == null) {
-				throw new UnknownDependencyException("Could not satisfy dependency: Vault");
+				throw new MissingDependencyException("Could not satisfy dependency: Vault");
 			}
 			LoggerUtils.info("Vault hooked");
 

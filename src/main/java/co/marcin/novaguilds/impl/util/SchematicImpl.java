@@ -16,10 +16,12 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util;
+package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Schematic;
+import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.Meta;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.Location;
 import org.bukkit.Material;

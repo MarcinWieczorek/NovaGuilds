@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.util.guiinventory.guild.settings;
+package co.marcin.novaguilds.impl.util.guiinventory.guild.settings;
 
 import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.enums.GuildPermission;

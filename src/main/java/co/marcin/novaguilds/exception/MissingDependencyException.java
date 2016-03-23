@@ -18,15 +18,15 @@
 
 package co.marcin.novaguilds.exception;
 
-public class UnknownDependencyException extends Exception {
-	public UnknownDependencyException() {
+public class MissingDependencyException extends Exception {
+	public MissingDependencyException() {
 	}
 
-	public UnknownDependencyException(String message) {
+	public MissingDependencyException(String message) {
 		super(message);
 	}
 
-	public UnknownDependencyException(String message, Throwable cause) {
+	public MissingDependencyException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }
