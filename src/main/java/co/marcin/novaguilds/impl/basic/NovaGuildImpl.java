@@ -187,7 +187,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 		return leader;
 	}
 
-	@Override
 	public String getLeaderName() {
 		return leaderName;
 	}

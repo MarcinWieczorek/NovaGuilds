@@ -28,6 +28,7 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
+import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -188,7 +189,7 @@ public class GuildManager {
 		for(NovaGuild guild : new ArrayList<>(getGuilds())) {
 			boolean remove = false;
 			if(guild != null) {
-				if(guild.getLeaderName() != null) {
+				if(((NovaGuildImpl) guild).getLeaderName() != null) {
 					LoggerUtils.info("(" + guild.getName() + ") Leader's name is set. Probably leader is null");
 				}
 

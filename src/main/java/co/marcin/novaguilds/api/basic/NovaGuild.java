@@ -154,13 +154,6 @@ public interface NovaGuild extends Changeable {
 	NovaPlayer getLeader();
 
 	/**
-	 * Gets the name of the leader
-	 *
-	 * @return the name of the leader
-	 */
-	String getLeaderName();
-
-	/**
 	 * Gets the ID
 	 *
 	 * @return the ID
