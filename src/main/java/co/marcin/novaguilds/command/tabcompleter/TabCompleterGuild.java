@@ -45,8 +45,8 @@ public class TabCompleterGuild implements TabCompleter {
 				case "c":
 				case "chat":
 				case "chatmode":
-					for(ChatMode chatMode : ChatMode.values()) {
-						list.add(chatMode.name().toLowerCase());
+					for(ChatMode chatMode : ChatMode.valuesEnabled()) {
+						keys.add(chatMode.name().toLowerCase());
 					}
 					break;
 			}

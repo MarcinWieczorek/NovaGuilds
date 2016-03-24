@@ -25,7 +25,7 @@ public final class NumberUtils {
 	}
 
 	public static boolean isNumeric(String str) {
-		return str.matches("[+-]?\\d*(\\.\\d+)?");
+		return !str.isEmpty() && str.matches("[+-]?\\d*(\\.\\d+)?");
 	}
 
 	public static int randInt(int min, int max) {

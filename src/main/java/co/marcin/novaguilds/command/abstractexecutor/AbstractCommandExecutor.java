@@ -28,6 +28,7 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 
 	protected AbstractCommandExecutor(Command command) {
 		plugin.getCommandManager().registerExecutor(command, this);
+		this.command = command;
 	}
 
 	@Override

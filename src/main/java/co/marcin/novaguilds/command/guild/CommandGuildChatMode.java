@@ -37,14 +37,14 @@ public class CommandGuildChatMode extends AbstractCommandExecutor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
-		final NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return;
 		}
 
-		final ChatMode chatMode;
+		ChatMode chatMode;
 		if(args.length == 0) {
 			chatMode = nPlayer.getChatMode().next();
 		}
@@ -57,9 +57,14 @@ public class CommandGuildChatMode extends AbstractCommandExecutor {
 			return;
 		}
 
+		if(ChatMode.NORMAL.next() == ChatMode.NORMAL || !chatMode.isEnabled()) {
+			Message.CHAT_NOPERMISSIONS.send(sender);
+			return;
+		}
+
 		nPlayer.setChatMode(chatMode);
 
-		Message.CHAT_GUILD_CHATMODE_SUCCESS.setVar(VarKey.MODE, Message.getChatModeName(chatMode).get()).send(sender);
+		Message.CHAT_GUILD_CHATMODE_SUCCESS.setVar(VarKey.MODE, chatMode.getName().get()).send(sender);
 		TabUtils.refresh(nPlayer);
 	}
 }

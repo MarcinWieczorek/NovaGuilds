@@ -56,12 +56,10 @@ public class TabCompleterAdmin implements TabCompleter {
 					break;
 
 				case "config":
-					if(args.length > 2) {
-						if(args[1].equalsIgnoreCase("get") || args[1].equalsIgnoreCase("set")) {
-							keys = NovaGuilds.getInstance().getConfigManager().getConfig().getKeys(true);
-						}
+					if(args.length == 3 && (args[1].equalsIgnoreCase("get") || args[1].equalsIgnoreCase("set"))) {
+						keys = NovaGuilds.getInstance().getConfigManager().getConfig().getKeys(true);
 					}
-					else {
+					else if(args.length == 2) {
 						keys = CommandAdminConfig.commandsMap.keySet();
 					}
 					break;
