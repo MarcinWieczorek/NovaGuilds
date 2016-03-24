@@ -34,10 +34,20 @@ public class StorageConnector {
 	private Storage storage;
 	private boolean isSecondary;
 
+	/**
+	 * The constructor
+	 *
+	 * @throws FatalNovaGuildsException
+	 */
 	public StorageConnector() throws FatalNovaGuildsException {
 		handle();
 	}
 
+	/**
+	 * Handles storage connecting
+	 *
+	 * @throws FatalNovaGuildsException
+	 */
 	public void handle() throws FatalNovaGuildsException {
 		try {
 			connect();
@@ -61,6 +71,11 @@ public class StorageConnector {
 		}
 	}
 
+	/**
+	 * Creates the storage
+	 *
+	 * @throws StorageConnectionFailedException
+	 */
 	public void connect() throws StorageConnectionFailedException {
 		DataStorageType storageType = plugin.getConfigManager().getDataStorageType();
 		LoggerUtils.info("Connecting to " + storageType.name() + " storage (attempt: " + storageConnectionAttempt + ")");
@@ -90,9 +105,15 @@ public class StorageConnector {
 				break;
 		}
 
+		storage.registerManagers();
 		LoggerUtils.info("Successfuly connected to the storage");
 	}
 
+	/**
+	 * Gets the storage
+	 *
+	 * @return the storage
+	 */
 	public Storage getStorage() {
 		return storage;
 	}

@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
@@ -54,6 +55,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final ResourceManager<NovaGuild> resourceManager = plugin.getStorage().getResourceManager(NovaGuild.class);
 	private final Map<String, NovaGuild> guilds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 	
 	//getters
@@ -119,10 +121,10 @@ public class GuildManager {
 
 	public void load() {
 		guilds.clear();
-		for(NovaGuild guild : plugin.getStorage().loadGuilds()) {
+		for(NovaGuild guild : resourceManager.load()) {
 			if(guilds.containsKey(guild.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					plugin.getStorage().remove(guild);
+					resourceManager.remove(guild);
 				}
 
 				LoggerUtils.error("Removed guild with doubled name (" + guild.getName() + ")");
@@ -139,24 +141,24 @@ public class GuildManager {
 	}
 	
 	public void add(NovaGuild guild) {
-		plugin.getStorage().add(guild);
+		resourceManager.add(guild);
 		guilds.put(guild.getName(), guild);
 	}
 	
 	public void save(NovaGuild guild) {
-		plugin.getStorage().save(guild);
+		resourceManager.save(guild);
 	}
-	
+
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = plugin.getStorage().saveGuilds();
+		int count = resourceManager.save(getGuilds());
 
 		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 	}
 
 	public void delete(NovaGuild guild) {
-		plugin.getStorage().remove(guild);
+		resourceManager.remove(guild);
 
 		//remove region
 		if(guild.hasRegion()) {

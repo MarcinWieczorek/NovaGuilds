@@ -18,21 +18,12 @@
 
 package co.marcin.novaguilds.impl.storage;
 
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRank;
-import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 import co.marcin.novaguilds.util.LoggerUtils;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class AbstractFileStorage extends AbstractStorage {
-	protected String extension;
 	private final File dataDirectory;
 	private final File playersDirectory;
 	private final File guildsDirectory;
@@ -99,74 +90,12 @@ public abstract class AbstractFileStorage extends AbstractStorage {
 		return true;
 	}
 
-	protected File getPlayerFile(NovaPlayer nPlayer) {
-		return new File(playersDirectory, nPlayer.getUUID().toString() + "." + extension);
-	}
-
-	protected File getGuildFile(NovaGuild guild) {
-		return new File(guildsDirectory, guild.getUUID().toString() + "." + extension);
-	}
-
-	protected File getRegionFile(NovaRegion region) {
-		return new File(regionsDirectory, region.getGuild().getName() + "." + extension);
-	}
-
-	protected File getRankFile(NovaRank rank) {
-		return new File(ranksDirectory, rank.getGuild().getName() + "." + StringUtils.replace(rank.getName(), " ", "_") + "." + extension);
-	}
-
-	protected final File getDataDirectory() {
+	/**
+	 * Gets data directory
+	 *
+	 * @return the directory
+	 */
+	public final File getDirectory() {
 		return dataDirectory;
-	}
-
-	protected final File getPlayersDirectory() {
-		return playersDirectory;
-	}
-
-	protected final File getGuildsDirectory() {
-		return guildsDirectory;
-	}
-
-	protected final File getRegionsDirectory() {
-		return regionsDirectory;
-	}
-
-	protected final File getRanksDirectory() {
-		return ranksDirectory;
-	}
-
-	protected List<File> getPlayerFiles() {
-		return getFileList(getPlayersDirectory());
-	}
-
-	protected List<File> getGuildFiles() {
-		return getFileList(getGuildsDirectory());
-	}
-
-	protected List<File> getRegionFiles() {
-		return getFileList(getRegionsDirectory());
-	}
-
-	protected List<File> getRankFiles() {
-		return getFileList(getRanksDirectory());
-	}
-
-	protected final List<File> getFileList(File directory) {
-		File[] files = directory.listFiles();
-		List<File> list = new ArrayList<>();
-
-		if(files != null) {
-			list.addAll(Arrays.asList(files));
-		}
-
-		return list;
-	}
-
-	protected final String trimExtension(File file) {
-		return StringUtils.substring(file.getName(), 0, StringUtils.lastIndexOf(file.getName(), '.'));
-	}
-
-	protected final void setExtension(String extension) {
-		this.extension = extension;
 	}
 }

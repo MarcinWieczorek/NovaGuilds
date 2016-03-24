@@ -19,112 +19,31 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRank;
-import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.api.storage.Storage;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractStorage implements Storage {
 	protected static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Map<Class, ResourceManager> resourceManagers = new HashMap<>();
 
 	@Override
 	public void save() {
-		saveGuilds();
-		saveRanks();
-		saveRegions();
-		savePlayers();
+		plugin.getGuildManager().save();
+		plugin.getRankManager().save();
+		plugin.getRegionManager().save();
+		plugin.getPlayerManager().save();
 	}
 
 	@Override
-	public Integer savePlayers() {
-		int count = 0;
-
-		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
-			if(nPlayer.isChanged()) {
-				count++;
-			}
-
-			save(nPlayer);
-		}
-
-		return count;
+	public <T> ResourceManager<T> getResourceManager(Class<T> clazz) {
+		return (ResourceManager<T>) resourceManagers.get(clazz);
 	}
 
 	@Override
-	public Integer saveGuilds() {
-		int count = 0;
-
-		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			if(guild.isChanged()) {
-				count++;
-			}
-
-			save(guild);
-		}
-
-		return count;
-	}
-
-	@Override
-	public Integer saveRegions() {
-		int count = 0;
-
-		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
-			if(region.isChanged()) {
-				count++;
-			}
-
-			save(region);
-		}
-
-		return count;
-	}
-
-	@Override
-	public Integer saveRanks() {
-		int count = 0;
-
-		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			for(NovaRank rank : guild.getRanks()) {
-				if(rank.isChanged() || rank.isNew()) {
-					count++;
-				}
-
-				save(rank);
-			}
-		}
-
-		return count;
-	}
-
-	@Override
-	public void removePlayers(List<NovaPlayer> list) {
-		for(NovaPlayer nPlayer : list) {
-			remove(nPlayer);
-		}
-	}
-
-	@Override
-	public void removeGuilds(List<NovaGuild> list) {
-		for(NovaGuild guild : list) {
-			remove(guild);
-		}
-	}
-
-	@Override
-	public void removeRegions(List<NovaRegion> list) {
-		for(NovaRegion region : list) {
-			remove(region);
-		}
-	}
-
-	@Override
-	public void removeRanks(List<NovaRank> list) {
-		for(NovaRank rank : list) {
-			remove(rank);
-		}
+	public <T> void registerResourceManager(Class clazz, ResourceManager<T> resourceManager) {
+		resourceManagers.put(clazz, resourceManager);
 	}
 }

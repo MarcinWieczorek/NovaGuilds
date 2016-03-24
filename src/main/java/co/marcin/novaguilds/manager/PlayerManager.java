@@ -20,6 +20,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PlayerManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final ResourceManager<NovaPlayer> resourceManager = plugin.getStorage().getResourceManager(NovaPlayer.class);
 	private final Map<String, NovaPlayer> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 	public boolean exists(String playerName) {
@@ -77,17 +79,17 @@ public class PlayerManager {
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = plugin.getStorage().savePlayers();
+		int count = resourceManager.save(getPlayers());
 
 		LoggerUtils.info("Players data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 	}
 
 	public void load() {
 		players.clear();
-		for(NovaPlayer nPlayer : plugin.getStorage().loadPlayers()) {
+		for(NovaPlayer nPlayer : resourceManager.load()) {
 			if(players.containsKey(nPlayer.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					plugin.getStorage().remove(nPlayer);
+					resourceManager.remove(nPlayer);
 					LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
 				}
 				else {
@@ -105,7 +107,7 @@ public class PlayerManager {
 
 	private void add(Player player) {
 		NovaPlayer nPlayer = NovaPlayerImpl.fromPlayer(player);
-		plugin.getStorage().add(nPlayer);
+		resourceManager.add(nPlayer);
 		players.put(nPlayer.getName(), nPlayer);
 	}
 

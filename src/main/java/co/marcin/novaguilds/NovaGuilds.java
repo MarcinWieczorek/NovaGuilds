@@ -144,11 +144,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		LoggerUtils.info("Messages loaded: " + Config.LANG_NAME.getString());
 
 		commandManager = new CommandManager();
-		guildManager = new GuildManager();
-		playerManager = new PlayerManager();
-		regionManager = new RegionManager();
 		groupManager = new GroupManager();
-		rankManager = new RankManager();
 		listenerManager = new ListenerManager();
 
 		try {
@@ -165,6 +161,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		if(!setUpStorage()) {
 			return;
 		}
+
+		guildManager = new GuildManager();
+		playerManager = new PlayerManager();
+		rankManager = new RankManager();
+		regionManager = new RegionManager();
 
 		//Data loading
 		getGuildManager().load();

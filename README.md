@@ -1,4 +1,4 @@
-<a href="http://novaguilds.pl/"><img src="http://novaguilds.marcin.co/img/newlogo.png" /></a><br/><br/>
+<a href="http://novaguilds.pl/"><img src="http://novaguilds.pl/img/newlogo.png" /></a><br/><br/>
 
 NovaGuilds is my own guilds plugin, still in development, but I want to hear your opinions and ideas.<br/>
 Please leave feedback!<br/><br/>
@@ -34,7 +34,7 @@ mvn clean install
 <a href="https://github.com/Mondanzo">@Mondanzo</a> for German translation
 
 <h2>Screenshots</h2>
-<img src="http://novaguilds.marcin.co/img/ss/ngss1.jpg" alt="ss" />
+<img src="http://novaguilds.pl/img/ss/ngss1.jpg" alt="ss" />
 <br/><br/><br/>
 
 <h2><b>Setup</b></h2>

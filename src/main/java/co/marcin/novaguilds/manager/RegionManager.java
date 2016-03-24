@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
@@ -48,6 +49,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final ResourceManager<NovaRegion> resourceManager = plugin.getStorage().getResourceManager(NovaRegion.class);
 
 	//getters
 	public static NovaRegion get(Location location) {
@@ -97,30 +99,30 @@ public class RegionManager {
 			guild.setRegion(null);
 		}
 
-		plugin.getStorage().loadRegions();
+		resourceManager.load();
 
 		LoggerUtils.info("Loaded " + getRegions().size() + " regions.");
 	}
 	
 	public void add(NovaRegion region) {
-		plugin.getStorage().add(region);
+		resourceManager.add(region);
 	}
 	
 	public void save(NovaRegion region) {
-		plugin.getStorage().save(region);
+		resourceManager.save(region);
 	}
 	
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = plugin.getStorage().saveRegions();
+		int count = resourceManager.save(getRegions());
 
 		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
 	
 	//delete region
 	public void remove(NovaRegion region) {
-		plugin.getStorage().remove(region);
+		resourceManager.remove(region);
 
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);
