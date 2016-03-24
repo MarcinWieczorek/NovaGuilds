@@ -42,6 +42,6 @@ public class CommandGuildMenu extends AbstractCommandExecutor implements Command
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		new GUIInventoryGuildMenu(nPlayer).open(nPlayer);
+		new GUIInventoryGuildMenu().open(nPlayer);
 	}
 }
