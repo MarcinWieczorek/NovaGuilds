@@ -18,8 +18,6 @@
 
 package co.marcin.novaguilds.enums;
 
-import co.marcin.novaguilds.util.LoggerUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +77,6 @@ public enum ChatMode {
 	public ChatMode next() {
 		boolean n = false;
 		for(ChatMode mode : values()) {
-			LoggerUtils.debug(mode.name() + " " + mode.isEnabled() + " " + n);
 			if(!mode.isEnabled()) {
 				continue;
 			}

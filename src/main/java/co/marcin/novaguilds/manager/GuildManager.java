@@ -401,13 +401,13 @@ public class GuildManager {
 				Map<VarKey, String> vars = new HashMap<>();
 				vars.put(VarKey.GUILDNAME, guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_CLEANUP.vars(vars).broadcast();
-				LoggerUtils.debug("Abandoned guild " + guild.getName() + " due to inactivity.");
+				LoggerUtils.info("Abandoned guild " + guild.getName() + " due to inactivity.");
 				count++;
 
 				plugin.getGuildManager().delete(guild);
 			}
 		}
 
-		LoggerUtils.debug("Guilds cleanup finished, removed " + count + " guilds.");
+		LoggerUtils.info("Guilds cleanup finished, removed " + count + " guilds.");
 	}
 }

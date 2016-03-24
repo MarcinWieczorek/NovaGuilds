@@ -420,13 +420,11 @@ public class YamlStorageImpl extends AbstractFileStorage {
 					ranksConfigurationSection.set(rank.getName() + ".permissions", permissionNamesList);
 					ranksConfigurationSection.set(rank.getName() + ".def", rank.isDefault());
 					ranksConfigurationSection.set(rank.getName() + ".clone", rank.isClone());
-					LoggerUtils.debug("Saved rank: " + rank.getName());
 
 					rank.setUnchanged();
 				}
 
 				for(String rankName : rankList) {
-					LoggerUtils.debug("clearing rank " + rankName);
 					ranksConfigurationSection.set(rankName, null);
 				}
 
