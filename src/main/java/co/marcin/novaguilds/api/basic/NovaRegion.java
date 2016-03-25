@@ -18,11 +18,12 @@
 
 package co.marcin.novaguilds.api.basic;
 
+import co.marcin.novaguilds.api.util.Addable;
 import co.marcin.novaguilds.api.util.Changeable;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public interface NovaRegion extends Changeable {
+public interface NovaRegion extends Changeable, Addable {
 	/**
 	 * Gets the world
 	 *

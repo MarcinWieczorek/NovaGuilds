@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.api.basic;
 
+import co.marcin.novaguilds.api.util.Addable;
 import co.marcin.novaguilds.api.util.Changeable;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Location;
@@ -26,7 +27,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
-public interface NovaGuild extends Changeable {
+public interface NovaGuild extends Changeable, Addable {
 	/**
 	 * Gets the UUID
 	 *

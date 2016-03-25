@@ -33,7 +33,6 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
-import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.entity.Player;
@@ -44,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
+public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	private int id = 0;
 	private final UUID uuid;
 	private String name;

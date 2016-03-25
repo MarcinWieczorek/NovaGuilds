@@ -21,12 +21,11 @@ package co.marcin.novaguilds.impl.basic;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.RegionSelection;
-import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public class NovaRegionImpl extends AbstractChangeable implements NovaRegion {
+public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	private final Location[] corners = new Location[2];
 	private int id;
 	private World world;

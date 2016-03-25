@@ -87,13 +87,13 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 
 	@Override
 	public boolean save(NovaRank rank) {
-		if(rank.isNew()) {
-			add(rank);
-			return true;
-		}
-
 		if(!rank.isChanged()) {
 			return false;
+		}
+
+		if(!rank.isAdded()) {
+			add(rank);
+			return true;
 		}
 
 		getStorage().connect();
@@ -170,7 +170,7 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 		getStorage().connect();
 
 		try {
-			if(!rank.isNew()) {
+			if(rank.isAdded()) {
 				PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.RANKS_DELETE);
 				preparedStatement.setInt(1, rank.getId());
 				preparedStatement.execute();

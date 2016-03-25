@@ -23,12 +23,11 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
-import co.marcin.novaguilds.impl.util.AbstractChangeable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NovaRankImpl extends AbstractChangeable implements NovaRank {
+public class NovaRankImpl extends AbstractResource implements NovaRank {
 	private int id;
 	private String name;
 	private NovaGuild guild;
@@ -37,17 +36,27 @@ public class NovaRankImpl extends AbstractChangeable implements NovaRank {
 	private final List<GuildPermission> permissions = new ArrayList<>();
 	private final List<NovaPlayer> members = new ArrayList<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param id rank's id
+	 */
 	public NovaRankImpl(int id) {
 		this.id = id;
 	}
 
-	//Not added rank (id=-1)
+	/**
+	 * The constructor
+	 * Not added rank's id = -1
+	 *
+	 * @param name rank's name
+	 */
 	public NovaRankImpl(String name) {
 		id = -1;
 		this.name = name;
 	}
 
-	//getters
+	@Override
 	public int getId() {
 		if(id <= 0) {
 			throw new UnsupportedOperationException("This rank might have been loaded from FLAT and has 0 (or negative) ID");
@@ -56,46 +65,55 @@ public class NovaRankImpl extends AbstractChangeable implements NovaRank {
 		return id;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public List<NovaPlayer> getMembers() {
 		return members;
 	}
 
+	@Override
 	public List<GuildPermission> getPermissions() {
 		return permissions;
 	}
 
+	@Override
 	public NovaGuild getGuild() {
 		return guild;
 	}
 
+	@Override
 	public boolean isClone() {
 		return clone;
 	}
 
+	@Override
 	public boolean isDefault() {
 		return def;
 	}
 
-	//setters
+	@Override
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 		setChanged();
 	}
 
+	@Override
 	public void setPermissions(List<GuildPermission> permissions) {
 		this.permissions.clear();
 		this.permissions.addAll(permissions);
 		setChanged();
 	}
 
+	@Override
 	public void setGuild(NovaGuild guild) {
 		if(guild != null) {
 			guild.addRank(this);
@@ -105,17 +123,19 @@ public class NovaRankImpl extends AbstractChangeable implements NovaRank {
 		setChanged();
 	}
 
+	@Override
 	public void setClone(boolean clone) {
 		this.clone = clone;
 		setChanged();
 	}
 
+	@Override
 	public void setDefault(boolean def) {
 		this.def = def;
 		setChanged();
 	}
 
-	//adders
+	@Override
 	public void addPermission(GuildPermission permission) {
 		if(!permissions.contains(permission)) {
 			permissions.add(permission);
@@ -123,6 +143,7 @@ public class NovaRankImpl extends AbstractChangeable implements NovaRank {
 		}
 	}
 
+	@Override
 	public void addMember(NovaPlayer nPlayer) {
 		if(!members.contains(nPlayer)) {
 			members.add(nPlayer);
@@ -131,7 +152,7 @@ public class NovaRankImpl extends AbstractChangeable implements NovaRank {
 		}
 	}
 
-	//removers
+	@Override
 	public void removePermission(GuildPermission permission) {
 		if(permissions.contains(permission)) {
 			permissions.remove(permission);
@@ -139,6 +160,7 @@ public class NovaRankImpl extends AbstractChangeable implements NovaRank {
 		}
 	}
 
+	@Override
 	public void removeMember(NovaPlayer nPlayer) {
 		if(members.contains(nPlayer)) {
 			members.remove(nPlayer);
@@ -147,19 +169,17 @@ public class NovaRankImpl extends AbstractChangeable implements NovaRank {
 		}
 	}
 
-	//checkers
+	@Override
 	public boolean hasPermission(GuildPermission permission) {
 		return permissions.contains(permission);
 	}
 
-	public boolean isNew() {
-		return id == -1;
-	}
-
+	@Override
 	public boolean isGeneric() {
 		return NovaGuilds.getInstance().getRankManager().isGenericRank(this);
 	}
 
+	@Override
 	public void delete() {
 		if(!isDefault()) {
 			for(NovaPlayer nPlayer : new ArrayList<>(getMembers())) {

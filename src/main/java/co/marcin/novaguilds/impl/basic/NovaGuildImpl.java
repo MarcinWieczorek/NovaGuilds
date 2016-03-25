@@ -25,7 +25,6 @@ import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -44,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
+public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	private final UUID uuid;
 	private int id;
 	private String name;
