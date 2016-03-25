@@ -18,8 +18,7 @@
 
 package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.api.util.Addable;
-import co.marcin.novaguilds.api.util.Changeable;
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Command;
@@ -32,7 +31,7 @@ import org.bukkit.entity.Vehicle;
 import java.util.List;
 import java.util.UUID;
 
-public interface NovaPlayer extends Changeable, Addable {
+public interface NovaPlayer extends Resource {
 	/**
 	 * Gets the Player instance (if player is online)
 	 *

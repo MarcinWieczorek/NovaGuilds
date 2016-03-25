@@ -1,9 +1,8 @@
 package co.marcin.novaguilds.impl.basic;
 
-import co.marcin.novaguilds.api.util.Addable;
-import co.marcin.novaguilds.api.util.Changeable;
+import co.marcin.novaguilds.api.storage.Resource;
 
-public abstract class AbstractResource implements Changeable, Addable {
+public abstract class AbstractResource implements Resource {
 	private boolean added;
 	private boolean changed;
 	

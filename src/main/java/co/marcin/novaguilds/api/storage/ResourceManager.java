@@ -3,7 +3,7 @@ package co.marcin.novaguilds.api.storage;
 import java.util.Collection;
 import java.util.List;
 
-public interface ResourceManager<T> {
+public interface ResourceManager<T extends Resource> {
 	/**
 	 * Loads data
 	 *

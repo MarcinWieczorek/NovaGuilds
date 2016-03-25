@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.impl.storage.managers.file;
 
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.impl.storage.AbstractFileStorage;
 import co.marcin.novaguilds.impl.storage.managers.AbstractResourceManager;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractFileResourceManager<T> extends AbstractResourceManager<T> {
+public abstract class AbstractFileResourceManager<T extends Resource> extends AbstractResourceManager<T> {
 	private final File directory;
 
 	/**

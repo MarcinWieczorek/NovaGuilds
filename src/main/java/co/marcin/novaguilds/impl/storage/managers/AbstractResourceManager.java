@@ -1,13 +1,14 @@
 package co.marcin.novaguilds.impl.storage.managers;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.api.storage.Storage;
 
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractResourceManager<T> implements ResourceManager<T> {
+public abstract class AbstractResourceManager<T extends Resource> implements ResourceManager<T> {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Storage storage;
 

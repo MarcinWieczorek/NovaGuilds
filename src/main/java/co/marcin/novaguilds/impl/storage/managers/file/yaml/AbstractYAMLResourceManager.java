@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.impl.storage.managers.file.yaml;
 
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.impl.storage.managers.file.AbstractFileResourceManager;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -7,7 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public abstract class AbstractYAMLResourceManager<T> extends AbstractFileResourceManager<T> {
+public abstract class AbstractYAMLResourceManager<T extends Resource> extends AbstractFileResourceManager<T> {
 	/**
 	 * The constructor
 	 *

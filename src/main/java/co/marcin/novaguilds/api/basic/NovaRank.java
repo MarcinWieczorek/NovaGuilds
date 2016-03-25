@@ -18,13 +18,12 @@
 
 package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.api.util.Addable;
-import co.marcin.novaguilds.api.util.Changeable;
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.enums.GuildPermission;
 
 import java.util.List;
 
-public interface NovaRank extends Changeable, Addable {
+public interface NovaRank extends Resource {
 	/**
 	 * Gets the ID
 	 *

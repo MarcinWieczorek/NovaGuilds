@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.api.storage.Storage;
 
@@ -38,12 +39,12 @@ public abstract class AbstractStorage implements Storage {
 	}
 
 	@Override
-	public <T> ResourceManager<T> getResourceManager(Class<T> clazz) {
+	public <T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz) {
 		return (ResourceManager<T>) resourceManagers.get(clazz);
 	}
 
 	@Override
-	public <T> void registerResourceManager(Class clazz, ResourceManager<T> resourceManager) {
+	public <T extends Resource> void registerResourceManager(Class clazz, ResourceManager<T> resourceManager) {
 		resourceManagers.put(clazz, resourceManager);
 	}
 }
