@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -45,19 +46,17 @@ public class PlayerManager {
 	private final ResourceManager<NovaPlayer> resourceManager = plugin.getStorage().getResourceManager(NovaPlayer.class);
 	private final Map<String, NovaPlayer> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-	public boolean exists(String playerName) {
-		return players.containsKey(playerName);
-	}
-
 	//new getters
 	public static NovaPlayer getPlayer(String playerName) {
-		plugin.getPlayerManager().addIfNotExists(playerName);
+		plugin.getPlayerManager().addIfNotExists(Bukkit.getPlayerExact(playerName));
 
 		return plugin.getPlayerManager().players.get(playerName);
 	}
 
 	public static NovaPlayer getPlayer(CommandSender sender) {
-		plugin.getPlayerManager().addIfNotExists(sender.getName());
+		if(sender instanceof Player) {
+			plugin.getPlayerManager().addIfNotExists((Player) sender);
+		}
 
 		return getPlayer(sender.getName());
 	}
@@ -107,13 +106,7 @@ public class PlayerManager {
 
 	private void add(Player player) {
 		NovaPlayer nPlayer = NovaPlayerImpl.fromPlayer(player);
-		resourceManager.add(nPlayer);
 		players.put(nPlayer.getName(), nPlayer);
-	}
-
-	private void addIfNotExists(String playerName) {
-		Player player = plugin.getServer().getPlayerExact(playerName);
-		addIfNotExists(player);
 	}
 
 	public void addIfNotExists(Player player) {

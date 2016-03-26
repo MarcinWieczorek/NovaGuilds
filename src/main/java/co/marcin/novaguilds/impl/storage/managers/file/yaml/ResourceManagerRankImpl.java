@@ -49,6 +49,7 @@ public class ResourceManagerRankImpl extends AbstractYAMLResourceManager<NovaRan
 				ConfigurationSection rankConfiguration = ranksConfigurationSection.getConfigurationSection(rankName);
 
 				NovaRank rank = new NovaRankImpl(0);
+				rank.setAdded();
 				rank.setName(rankName);
 
 				List<String> permissionsStringList = rankConfiguration.getStringList("permissions");

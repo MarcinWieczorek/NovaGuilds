@@ -35,6 +35,7 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 			if(configuration != null) {
 				UUID uuid = UUID.fromString(configuration.getString("uuid"));
 				NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
+				nPlayer.setAdded();
 
 				Player player = plugin.getServer().getPlayer(uuid);
 
@@ -74,6 +75,10 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 	public boolean save(NovaPlayer nPlayer) {
 		if(!nPlayer.isChanged()) {
 			return false;
+		}
+
+		if(!nPlayer.isAdded()) {
+			add(nPlayer);
 		}
 
 		FileConfiguration playerData = getData(nPlayer);

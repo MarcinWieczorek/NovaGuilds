@@ -36,7 +36,7 @@ public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<N
 	@Override
 	public List<NovaRegion> load() {
 		getStorage().connect();
-		List<co.marcin.novaguilds.api.basic.NovaRegion> list = new ArrayList<>();
+		List<NovaRegion> list = new ArrayList<>();
 
 		try {
 			PreparedStatement statement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_SELECT);
@@ -53,7 +53,8 @@ public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<N
 				}
 
 				if(world != null) {
-					co.marcin.novaguilds.api.basic.NovaRegion region = new NovaRegionImpl();
+					NovaRegion region = new NovaRegionImpl();
+					region.setAdded();
 
 					String loc1 = res.getString("loc_1");
 					String[] loc1_split = loc1.split(";");
@@ -89,6 +90,11 @@ public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<N
 	public boolean save(NovaRegion region) {
 		if(!region.isChanged()) {
 			return false;
+		}
+
+		if(!region.isAdded()) {
+			add(region);
+			return true;
 		}
 
 		getStorage().connect();
@@ -136,6 +142,7 @@ public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<N
 
 			region.setId(getStorage().returnGeneratedKey(preparedStatement));
 			region.setUnchanged();
+			region.setAdded();
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);

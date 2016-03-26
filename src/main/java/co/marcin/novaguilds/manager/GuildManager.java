@@ -141,7 +141,6 @@ public class GuildManager {
 	}
 	
 	public void add(NovaGuild guild) {
-		resourceManager.add(guild);
 		guilds.put(guild.getName(), guild);
 	}
 	

@@ -104,6 +104,7 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 
 				UUID stringUUID = UUID.nameUUIDFromBytes(("Guild: " + res.getString("name")).getBytes(Charset.forName("UTF-8"))); //TODO uuid field
 				NovaGuild guild = new NovaGuildImpl(stringUUID);
+				guild.setAdded();
 				guild.setId(res.getInt("id"));
 				guild.setMoney(res.getDouble("money"));
 				guild.setPoints(res.getInt("points"));
@@ -158,6 +159,11 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 	public boolean save(NovaGuild guild) {
 		if(!guild.isChanged()) {
 			return false;
+		}
+
+		if(!guild.isAdded()) {
+			add(guild);
+			return true;
 		}
 
 		getStorage().connect();
@@ -231,6 +237,7 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 
 			guild.setId(getStorage().returnGeneratedKey(preparedStatement));
 			guild.setUnchanged();
+			guild.setAdded();
 		}
 		catch(SQLException e) {
 			LoggerUtils.info("SQLException while adding a guild!");

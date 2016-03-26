@@ -203,7 +203,6 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 					//autoregion
 					if(region != null) {
 						nPlayer.getGuild().setRegion(region);
-						plugin.getRegionManager().add(region);
 
 						for(Player playerCheck : NovaGuilds.getOnlinePlayers()) {
 							if(region.equals(RegionManager.get(playerCheck))) {

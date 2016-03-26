@@ -38,6 +38,7 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 
 			if(configuration != null) {
 				NovaGuild guild = new NovaGuildImpl(UUID.fromString(trimExtension(guildFile)));
+				guild.setAdded();
 				guild.setId(configuration.getInt("id"));
 				guild.setName(configuration.getString("name"));
 				guild.setTag(configuration.getString("tag"));
@@ -60,24 +61,33 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 				guild.setOpenInvitation(configuration.getBoolean("openinv"));
 
 				//home
-				World homeWorld = plugin.getServer().getWorld(configuration.getString("home.world"));
-				if(homeWorld != null) {
-					int x = configuration.getInt("home.x");
-					int y = configuration.getInt("home.y");
-					int z = configuration.getInt("home.z");
-					float yaw = (float) configuration.getDouble("home.yaw");
-					Location homeLocation = new Location(homeWorld, x, y, z);
-					homeLocation.setYaw(yaw);
-					guild.setHome(homeLocation);
+				String homeWorldName = configuration.getString("home.world");
+				if(homeWorldName == null || homeWorldName.isEmpty()) {
+					LoggerUtils.error("Found null or empty world (guild: " + guild.getName() + ")");
+					continue;
 				}
+
+				World homeWorld = plugin.getServer().getWorld(homeWorldName);
+				if(homeWorld == null) {
+					LoggerUtils.error("Found invalid world: " + homeWorldName + " (guild: " + guild.getName() + ")");
+					continue;
+				}
+
+				int x = configuration.getInt("home.x");
+				int y = configuration.getInt("home.y");
+				int z = configuration.getInt("home.z");
+				float yaw = (float) configuration.getDouble("home.yaw");
+				Location homeLocation = new Location(homeWorld, x, y, z);
+				homeLocation.setYaw(yaw);
+				guild.setHome(homeLocation);
 
 				//bankloc
 				if(configuration.isConfigurationSection("bankloc")) {
 					World vaultWorld = plugin.getServer().getWorld(configuration.getString("bankloc.world"));
 					if(vaultWorld != null) {
-						int x = configuration.getInt("bankloc.x");
-						int y = configuration.getInt("bankloc.y");
-						int z = configuration.getInt("bankloc.z");
+						x = configuration.getInt("bankloc.x");
+						y = configuration.getInt("bankloc.y");
+						z = configuration.getInt("bankloc.z");
 						Location vaultLocation = new Location(vaultWorld, x, y, z);
 						guild.setVaultLocation(vaultLocation);
 					}
@@ -101,6 +111,10 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 	public boolean save(NovaGuild guild) {
 		if(!guild.isChanged()) {
 			return false;
+		}
+
+		if(!guild.isAdded()) {
+			add(guild);
 		}
 
 		FileConfiguration guildData = getData(guild);

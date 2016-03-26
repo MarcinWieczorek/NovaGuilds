@@ -39,9 +39,8 @@ public abstract class AbstractFileResourceManager<T extends Resource> extends Ab
 
 	@Override
 	public void add(T t) {
-		if(createFileIfNotExists(getFile(t))) {
-			save(t);
-		}
+		createFileIfNotExists(getFile(t));
+		t.setAdded();
 	}
 
 	/**

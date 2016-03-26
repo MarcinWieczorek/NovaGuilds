@@ -104,10 +104,6 @@ public class RegionManager {
 		LoggerUtils.info("Loaded " + getRegions().size() + " regions.");
 	}
 	
-	public void add(NovaRegion region) {
-		resourceManager.add(region);
-	}
-	
 	public void save(NovaRegion region) {
 		resourceManager.save(region);
 	}

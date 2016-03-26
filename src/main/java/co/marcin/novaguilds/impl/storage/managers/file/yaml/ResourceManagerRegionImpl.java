@@ -32,7 +32,7 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 		for(File regionFile : getFiles()) {
 			FileConfiguration configuration = loadConfiguration(regionFile);
 
-			if(configuration != null) {
+			if(configuration != null && configuration.getKeys(true).size() > 0) {
 				World world = plugin.getServer().getWorld(configuration.getString("world"));
 
 				if(world != null) {
@@ -45,6 +45,7 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 					}
 
 					NovaRegion region = new NovaRegionImpl();
+					region.setAdded();
 
 					Location c1 = new Location(world, configuration.getInt("corner1.x"), 0, configuration.getInt("corner1.z"));
 					Location c2 = new Location(world, configuration.getInt("corner2.x"), 0, configuration.getInt("corner2.z"));
@@ -67,6 +68,10 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 	public boolean save(NovaRegion region) {
 		if(!region.isChanged()) {
 			return false;
+		}
+
+		if(!region.isAdded()) {
+			add(region);
 		}
 
 		FileConfiguration regionData = getData(region);

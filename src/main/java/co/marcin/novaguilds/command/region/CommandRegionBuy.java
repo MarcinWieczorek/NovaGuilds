@@ -138,7 +138,6 @@ public class CommandRegionBuy extends AbstractCommandExecutor implements Command
 			NovaRegion region = new NovaRegionImpl(nPlayer.getActiveSelection());
 
 			nPlayer.getGuild().setRegion(region);
-			plugin.getRegionManager().add(region);
 			Message.CHAT_REGION_CREATED.send(sender);
 		}
 

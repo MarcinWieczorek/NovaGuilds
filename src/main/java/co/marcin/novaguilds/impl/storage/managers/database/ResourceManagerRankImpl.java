@@ -41,6 +41,7 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 			while(res.next()) {
 				boolean fixPlayerList = false;
 				NovaRank rank = new NovaRankImpl(res.getInt("id"));
+				rank.setAdded();
 
 				NovaGuild guild = GuildManager.getGuildByName(res.getString("guild"));
 
@@ -159,6 +160,7 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 
 			rank.setId(getStorage().returnGeneratedKey(preparedStatement));
 			rank.setUnchanged();
+			rank.setAdded();
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);

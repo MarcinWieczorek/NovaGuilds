@@ -41,6 +41,7 @@ public class ResourceManagerPlayerImpl extends AbstractDatabaseResourceManager<N
 
 				UUID uuid = UUID.fromString(res.getString("uuid"));
 				NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
+				nPlayer.setAdded();
 
 				Player player = Bukkit.getPlayer(uuid);
 				if(player != null && player.isOnline()) {
@@ -88,6 +89,11 @@ public class ResourceManagerPlayerImpl extends AbstractDatabaseResourceManager<N
 	public boolean save(NovaPlayer nPlayer) {
 		if(!nPlayer.isChanged()) {
 			return false;
+		}
+
+		if(!nPlayer.isAdded()) {
+			add(nPlayer);
+			return true;
 		}
 
 		getStorage().connect();
@@ -146,6 +152,7 @@ public class ResourceManagerPlayerImpl extends AbstractDatabaseResourceManager<N
 
 			nPlayer.setId(getStorage().returnGeneratedKey(preparedStatement));
 			nPlayer.setUnchanged();
+			nPlayer.setAdded();
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
