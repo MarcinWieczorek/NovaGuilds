@@ -28,6 +28,7 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,36 +37,36 @@ public class CommandGuild extends AbstractCommandExecutor implements CommandExec
 	private static final Command command = Command.GUILD_ACCESS;
 
 	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
-		put("pay", Command.GUILD_BANK_PAY);
+		put("pay",      Command.GUILD_BANK_PAY);
 		put("withdraw", Command.GUILD_BANK_WITHDRAW);
-		put("leader", Command.GUILD_LEADER);
-		put("info", Command.GUILD_INFO);
-		put("leave", Command.GUILD_LEAVE);
-		put("home", Command.GUILD_HOME);
-		put("region", Command.REGION_ACCESS);
-		put("rg", Command.REGION_ACCESS);
-		put("ally", Command.GUILD_ALLY);
-		put("kick", Command.GUILD_KICK);
-		put("abandon", Command.GUILD_ABANDON);
-		put("invite", Command.GUILD_INVITE);
-		put("join", Command.GUILD_JOIN);
-		put("create", Command.GUILD_CREATE);
-		put("war", Command.GUILD_WAR);
-		put("compass", Command.GUILD_COMPASS);
-		put("effect", Command.GUILD_EFFECT);
-		put("top", Command.GUILD_TOP);
-		put("items", Command.GUILD_REQUIREDITEMS);
-		put("pvp", Command.GUILD_PVPTOGGLE);
-		put("buylife", Command.GUILD_BUYLIFE);
-		put("buyslot", Command.GUILD_BUYSLOT);
-		put("c", Command.GUILD_CHATMODE);
-		put("chat", Command.GUILD_CHATMODE);
+		put("leader",   Command.GUILD_LEADER);
+		put("info",     Command.GUILD_INFO);
+		put("leave",    Command.GUILD_LEAVE);
+		put("home",     Command.GUILD_HOME);
+		put("region",   Command.REGION_ACCESS);
+		put("rg",       Command.REGION_ACCESS);
+		put("ally",     Command.GUILD_ALLY);
+		put("kick",     Command.GUILD_KICK);
+		put("abandon",  Command.GUILD_ABANDON);
+		put("invite",   Command.GUILD_INVITE);
+		put("join",     Command.GUILD_JOIN);
+		put("create",   Command.GUILD_CREATE);
+		put("war",      Command.GUILD_WAR);
+		put("compass",  Command.GUILD_COMPASS);
+		put("effect",   Command.GUILD_EFFECT);
+		put("top",      Command.GUILD_TOP);
+		put("items",    Command.GUILD_REQUIREDITEMS);
+		put("pvp",      Command.GUILD_PVPTOGGLE);
+		put("buylife",  Command.GUILD_BUYLIFE);
+		put("buyslot",  Command.GUILD_BUYSLOT);
+		put("c",        Command.GUILD_CHATMODE);
+		put("chat",     Command.GUILD_CHATMODE);
 		put("chatmode", Command.GUILD_CHATMODE);
-		put("openinv", Command.GUILD_OPENINVITATION);
-		put("setname", Command.GUILD_SET_NAME);
-		put("name", Command.GUILD_SET_NAME);
-		put("settag", Command.GUILD_SET_TAG);
-		put("tag", Command.GUILD_SET_TAG);
+		put("openinv",  Command.GUILD_OPENINVITATION);
+		put("setname",  Command.GUILD_SET_NAME);
+		put("name",     Command.GUILD_SET_NAME);
+		put("settag",   Command.GUILD_SET_TAG);
+		put("tag",      Command.GUILD_SET_TAG);
 	}};
 
 	public CommandGuild() {
@@ -86,6 +87,11 @@ public class CommandGuild extends AbstractCommandExecutor implements CommandExec
 			}
 		}
 		else {
+			if(!(sender instanceof Player)) {
+				Message.CHAT_CMDFROMCONSOLE.send(sender);
+				return;
+			}
+
 			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 			if(nPlayer.hasGuild()) {
 				for(String message : Message.CHAT_COMMANDS_GUILD_HASGUILD.getList()) {
