@@ -20,7 +20,7 @@ package co.marcin.novaguilds.api.util.packet;
 
 import org.bukkit.entity.Player;
 
-public interface IPacketReceiveEvent {
+public interface PacketEvent {
 	/**
 	 * Gets packet object
 	 *

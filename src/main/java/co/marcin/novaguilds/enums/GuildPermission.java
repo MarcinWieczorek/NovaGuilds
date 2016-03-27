@@ -64,6 +64,12 @@ public enum GuildPermission {
 	RANK_SET,
 	RANK_EDIT;
 
+	/**
+	 * Gets permission from a string
+	 *
+	 * @param name enum name
+	 * @return the permission
+	 */
 	public static GuildPermission fromString(String name) {
 		try {
 			return valueOf(name.toUpperCase());

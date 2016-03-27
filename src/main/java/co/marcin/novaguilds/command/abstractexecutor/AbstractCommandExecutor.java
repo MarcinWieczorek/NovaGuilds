@@ -26,6 +26,11 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
 	protected Command command;
 
+	/**
+	 * The constructor
+	 *
+	 * @param command the command
+	 */
 	protected AbstractCommandExecutor(Command command) {
 		plugin.getCommandManager().registerExecutor(command, this);
 		this.command = command;
@@ -39,6 +44,11 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 	public static abstract class Reversed<T> extends AbstractCommandExecutor implements CommandExecutor.Reversed<T> {
 		protected T parameter;
 
+		/**
+		 * The constructor
+		 *
+		 * @param command the command
+		 */
 		protected Reversed(Command command) {
 			super(command);
 		}

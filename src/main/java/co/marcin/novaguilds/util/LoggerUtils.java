@@ -34,7 +34,7 @@ public final class LoggerUtils {
 	}
 
 	public static void error(String error, boolean classPrefix) {
-		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix?classPrefix():"") + space(error) + error));
+		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix ? classPrefix() : "") + space(error) + error));
 	}
 
 	public static void error(String error) {
@@ -46,7 +46,7 @@ public final class LoggerUtils {
 	}
 
 	public static void info(String msg, boolean classPrefix) {
-		logger.info(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix?classPrefix():"") + space(msg) + msg));
+		logger.info(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix ? classPrefix() : "") + space(msg) + msg));
 	}
 
 	public static void debug(String msg) {
@@ -56,7 +56,7 @@ public final class LoggerUtils {
 	public static void debug(String msg, boolean classPrefix) {
 		if(plugin != null && plugin.getConfigManager() != null) {
 			if(Config.DEBUG.getBoolean()) {
-				info("[DEBUG] " + (classPrefix?classPrefix():"") + msg);
+				info("[DEBUG] " + (classPrefix ? classPrefix() : "") + msg);
 			}
 		}
 	}

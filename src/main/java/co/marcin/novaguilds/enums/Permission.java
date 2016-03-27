@@ -119,14 +119,31 @@ public enum Permission {
 	NOVAGUILDS_NOVAGUILDS,
 	NOVAGUILDS_CONFIRM;
 
+	/**
+	 * Checks if a player has required permission
+	 *
+	 * @param sender command sender (the player)
+	 * @return boolean
+	 */
 	public boolean has(CommandSender sender) {
 		return sender.hasPermission(getPath()) || sender.isOp();
 	}
 
+	/**
+	 * Gets the path
+	 *
+	 * @return the path string
+	 */
 	public String getPath() {
 		return name().replaceAll("_", ".").toLowerCase();
 	}
 
+	/**
+	 * Gets permission from string
+	 *
+	 * @param path path
+	 * @return the permission
+	 */
 	public static Permission fromPath(String path) {
 		try {
 			return Permission.valueOf(StringUtils.replace(path, ".", "_").toUpperCase());

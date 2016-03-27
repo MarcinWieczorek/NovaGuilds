@@ -624,14 +624,14 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			Method getOnlinePlayersMethod = Server.class.getMethod("getOnlinePlayers");
 
 			if(getOnlinePlayersMethod.getReturnType().equals(Collection.class)) {
-				collection = ((Collection)getOnlinePlayersMethod.invoke(Bukkit.getServer()));
+				collection = ((Collection) getOnlinePlayersMethod.invoke(Bukkit.getServer()));
 			}
 			else {
 				Player[] array = ((Player[]) getOnlinePlayersMethod.invoke(Bukkit.getServer()));
 				Collections.addAll(collection, array);
 			}
 		}
-		catch (Exception e) {
+		catch(Exception e) {
 			LoggerUtils.exception(e);
 		}
 

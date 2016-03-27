@@ -35,7 +35,9 @@ public class VersionUtils {
 	private static boolean init;
 
 	static {
-		if(!init) new VersionUtils();
+		if(!init) {
+			new VersionUtils();
+		}
 	}
 
 	private VersionUtils() {

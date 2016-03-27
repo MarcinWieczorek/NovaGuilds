@@ -28,14 +28,14 @@ public class PermissionEnumTest {
 	public void testPermissionEnum() throws Exception {
 		boolean passed = true;
 		for(Command command : Command.values()) {
-			Permission permission = Permission.fromPath(command.getPermission());
+			Permission permission = command.getPermission();
 
 			if(permission == null) {
 				if(passed) {
 					System.out.println("Missing enums:");
 				}
 
-				System.out.println(StringUtils.replace(command.getPermission().toUpperCase(), ".", "_"));
+				System.out.println(StringUtils.replace(command.getPermission().getPath().toUpperCase(), ".", "_"));
 				passed = false;
 			}
 		}

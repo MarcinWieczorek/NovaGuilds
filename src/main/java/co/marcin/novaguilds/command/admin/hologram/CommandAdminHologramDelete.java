@@ -40,4 +40,3 @@ public class CommandAdminHologramDelete extends AbstractCommandExecutor.Reversed
 		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.setVar(VarKey.NAME, hologram.getName()).send(sender);
 	}
 }
-

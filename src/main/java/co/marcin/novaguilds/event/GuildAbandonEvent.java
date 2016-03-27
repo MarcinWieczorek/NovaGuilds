@@ -31,35 +31,64 @@ public class GuildAbandonEvent extends Event implements Cancellable {
 	private boolean cancelled;
 	private AbandonCause cause;
 
+	/**
+	 * The constructor
+	 *
+	 * @param guild the guild
+	 * @param cause abandon cause
+	 */
 	public GuildAbandonEvent(NovaGuild guild, AbandonCause cause) {
 		this.guild = guild;
 		this.cause = cause;
 	}
 
-	public NovaGuild getGuild() {
-		return guild;
-	}
-
+	@Override
 	public boolean isCancelled() {
 		return cancelled;
 	}
 
+	@Override
 	public void setCancelled(boolean cancel) {
 		cancelled = cancel;
 	}
 
-	public void setCause(AbandonCause cause) {
-		this.cause = cause;
-	}
-
-	public AbandonCause getCause() {
-		return cause;
-	}
-
+	@Override
 	public HandlerList getHandlers() {
 		return handlers;
 	}
 
+	/**
+	 * Gets the guild
+	 *
+	 * @return the guild
+	 */
+	public NovaGuild getGuild() {
+		return guild;
+	}
+
+	/**
+	 * Sets the cause
+	 *
+	 * @param cause the cause
+	 */
+	public void setCause(AbandonCause cause) {
+		this.cause = cause;
+	}
+
+	/**
+	 * Gets the cause
+	 *
+	 * @return the cause
+	 */
+	public AbandonCause getCause() {
+		return cause;
+	}
+
+	/**
+	 * Gets handler list
+	 *
+	 * @return the handler list
+	 */
 	public static HandlerList getHandlerList() {
 		return handlers;
 	}

@@ -188,8 +188,12 @@ public class PlayerManager {
 
 		Collections.sort(playerList, new Comparator<NovaPlayer>() {
 			public int compare(NovaPlayer p1, NovaPlayer p2) {
-				if(p1.getKillDeathRate() > p2.getKillDeathRate()) return -1;
-				if(p1.getKillDeathRate() < p2.getKillDeathRate()) return 1;
+				if(p1.getKillDeathRate() > p2.getKillDeathRate()) {
+					return -1;
+				}
+				if(p1.getKillDeathRate() < p2.getKillDeathRate()) {
+					return 1;
+				}
 				return 0;
 			}
 		});

@@ -687,5 +687,8 @@ public interface NovaGuild extends Resource {
 	 */
 	void removeRaidBar();
 
+	/**
+	 * Run post setup
+	 */
 	void postSetUp();
 }

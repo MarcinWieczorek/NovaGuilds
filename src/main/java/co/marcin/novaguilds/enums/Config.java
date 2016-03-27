@@ -172,98 +172,178 @@ public enum Config {
 	private static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
 	private final String path;
 
+	/**
+	 * The constructor
+	 */
 	Config() {
 		path = StringUtils.replace(name(), "_", ".").toLowerCase();
 	}
 
+	/**
+	 * Gets the path
+	 *
+	 * @return the path
+	 */
 	public String getPath() {
 		return path;
 	}
 
+	/**
+	 * Gets a string
+	 *
+	 * @return the string
+	 */
 	public String getString() {
 		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets string list
+	 *
+	 * @return the list
+	 */
 	public List<String> getStringList() {
 		List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets ItemStack list
+	 *
+	 * @return the list
+	 */
 	public List<ItemStack> getItemStackList() {
 		List<ItemStack> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets material list
+	 *
+	 * @return the list
+	 */
 	public List<Material> getMaterialList() {
 		List<Material> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets a long
+	 *
+	 * @return long
+	 */
 	public long getLong() {
 		long r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Long ? (long) cM.getEnumConfig(this) : cM.getLong(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets a double
+	 *
+	 * @return double
+	 */
 	public double getDouble() {
 		double r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Double ? (double) cM.getEnumConfig(this) : cM.getDouble(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets an int
+	 *
+	 * @return int
+	 */
 	public int getInt() {
 		int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getInt(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets a boolean
+	 *
+	 * @return boolean
+	 */
 	public boolean getBoolean() {
 		boolean r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Boolean ? (boolean) cM.getEnumConfig(this) : cM.getBoolean(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets time in seconds
+	 *
+	 * @return seconds
+	 */
 	public int getSeconds() {
 		int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getSeconds(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets an ItemStack
+	 *
+	 * @return itemstack
+	 */
 	public ItemStack getItemStack() {
 		ItemStack r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof ItemStack ? (ItemStack) cM.getEnumConfig(this) : cM.getItemStack(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets a material
+	 *
+	 * @return material
+	 */
 	public Material getMaterial() {
 		Material r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Material ? (Material) cM.getEnumConfig(this) : cM.getMaterial(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets material data (durability)
+	 *
+	 * @return byte
+	 */
 	public byte getMaterialData() {
 		byte r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Byte ? (byte) cM.getEnumConfig(this) : cM.getMaterialData(path);
 		cM.putInCache(this, r);
 		return r;
 	}
 
+	/**
+	 * Gets percents
+	 *
+	 * @return double value (%)
+	 */
+	public double getPercent() {
+		return getDouble() / 100;
+	}
+
+	/**
+	 * Gets configuration section
+	 *
+	 * @return the section
+	 */
 	public ConfigurationSection getConfigurationSection() {
 		return cM.getConfig().getConfigurationSection(path);
 	}
 
-	public static ConfigManager getManager() {
-		return cM;
-	}
-
-	public void set(Object obj) {
-		cM.set(this, obj);
-	}
-
+	/**
+	 * Gets config from path
+	 *
+	 * @param path the path
+	 * @return the enum
+	 */
 	public static Config fromPath(String path) {
 		try {
 			return Config.valueOf(StringUtils.replace(path, ".", "_").toUpperCase());
@@ -273,7 +353,12 @@ public enum Config {
 		}
 	}
 
-	public double getPercent() {
-		return getDouble() / 100;
+	/**
+	 * Sets a value
+	 *
+	 * @param obj the value
+	 */
+	public void set(Object obj) {
+		cM.set(this, obj);
 	}
 }

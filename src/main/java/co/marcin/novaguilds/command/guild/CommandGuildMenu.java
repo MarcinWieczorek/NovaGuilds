@@ -21,8 +21,8 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
-import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.impl.util.guiinventory.GUIInventoryGuildMenu;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 

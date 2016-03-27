@@ -18,23 +18,27 @@
 
 package co.marcin.novaguilds.event;
 
-import co.marcin.novaguilds.api.util.packet.IPacketReceiveEvent;
+import co.marcin.novaguilds.api.util.packet.PacketEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PacketReceiveEvent extends Event implements Cancellable, IPacketReceiveEvent {
-
+public class PacketReceiveEvent extends Event implements Cancellable, PacketEvent {
 	private static final HandlerList handlers = new HandlerList();
 	private final Player player;
 	private Object packet;
 	private boolean cancelled;
 
+	/**
+	 * The constructor
+	 *
+	 * @param packet the packet
+	 * @param player the receiver
+	 */
 	public PacketReceiveEvent(Object packet, Player player) {
 		this.packet = packet;
 		this.player = player;
-		this.cancelled = false;
 	}
 
 	@Override
@@ -49,11 +53,7 @@ public class PacketReceiveEvent extends Event implements Cancellable, IPacketRec
 	
 	@Override
 	public String getPacketName() {
-		return this.packet.getClass().getSimpleName();
-	}
-	
-	public static HandlerList getHandlerList() {
-		return handlers;
+		return packet.getClass().getSimpleName();
 	}
 
 	@Override
@@ -71,4 +71,12 @@ public class PacketReceiveEvent extends Event implements Cancellable, IPacketRec
 		cancelled = b;
 	}
 
+	/**
+	 * Gets handler list
+	 *
+	 * @return the handler list
+	 */
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

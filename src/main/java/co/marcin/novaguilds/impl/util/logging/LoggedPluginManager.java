@@ -96,7 +96,7 @@ public abstract class LoggedPluginManager implements PluginManager {
 			Collection<RegisteredListener> listeners = entry.getValue();
 			Collection<RegisteredListener> modified = Lists.newArrayList();
 
-			for(Iterator<RegisteredListener> it = listeners.iterator(); it.hasNext();) {
+			for(Iterator<RegisteredListener> it = listeners.iterator(); it.hasNext(); ) {
 				final RegisteredListener delegate = it.next();
 
 				RegisteredListener customListener = new RegisteredListener(delegate.getListener(), nullExecutor, delegate.getPriority(), delegate.getPlugin(), delegate.isIgnoringCancelled()) {

@@ -32,7 +32,7 @@ public enum ChatMode {
 	/**
 	 * Constructor with 'enabled' config
 	 *
-	 * @param name mode's lang name
+	 * @param name   mode's lang name
 	 * @param config config enum to check if mode is enabled
 	 */
 	ChatMode(Message name, Config config) {

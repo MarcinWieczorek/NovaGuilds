@@ -24,7 +24,6 @@ import org.junit.Test;
 public class VersionTest {
 	@Test
 	public void testVersionUtils() throws Exception {
-
 		System.out.println("Current version: " + VersionUtils.getBuildCurrent());
 		System.out.println("Dev version: " + VersionUtils.getBuildDev());
 		System.out.println("Stable version: " + VersionUtils.getBuildLatest());

@@ -101,7 +101,7 @@ public class StorageConnector {
 				storage = new SQLiteStorageImpl(new File(plugin.getDataFolder(), "sqlite.db"));
 				break;
 			case FLAT:
-				 storage = new YamlStorageImpl(new File(plugin.getDataFolder(), "data/"));
+				storage = new YamlStorageImpl(new File(plugin.getDataFolder(), "data/"));
 				break;
 		}
 

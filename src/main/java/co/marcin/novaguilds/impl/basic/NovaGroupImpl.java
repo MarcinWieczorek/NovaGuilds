@@ -22,9 +22,9 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.util.Schematic;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.impl.util.SchematicImpl;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.impl.util.SchematicImpl;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 

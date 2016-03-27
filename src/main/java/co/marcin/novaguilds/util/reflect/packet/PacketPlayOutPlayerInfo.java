@@ -38,7 +38,9 @@ public class PacketPlayOutPlayerInfo {
 
 	static {
 		try {
-			if(packetClass.getConstructor(typesClass) == null) type = 1;
+			if(packetClass.getConstructor(typesClass) == null) {
+				type = 1;
+			}
 		}
 		catch(Exception e) {
 			type = 1;
@@ -52,13 +54,13 @@ public class PacketPlayOutPlayerInfo {
 		}
 	}
 
-	public static Object getPacket(String s, boolean b, int i) {
+	public static Object getPacket(String string, boolean b, int ping) {
 		try {
 			if(type == 0) {
-				return packetClass.getConstructor(typesClass).newInstance(s, b, i);
+				return packetClass.getConstructor(typesClass).newInstance(string, b, ping);
 			}
 			else if(type == 1) {
-				UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + s).getBytes(Charsets.UTF_8));
+				UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + string).getBytes(Charsets.UTF_8));
 				Object profile = null;
 
 				try {
@@ -66,13 +68,13 @@ public class PacketPlayOutPlayerInfo {
 						profile = gameProfileClass.getConstructor(new Class<?>[]{
 								String.class,
 								String.class
-						}).newInstance(uuid.toString(), s);
+						}).newInstance(uuid.toString(), string);
 					}
 					else if(type == 1) {
 						profile = gameProfileClass.getConstructor(new Class<?>[]{
 								UUID.class,
 								String.class
-						}).newInstance(uuid, s);
+						}).newInstance(uuid, string);
 					}
 				}
 				catch(Exception e) {
@@ -81,9 +83,9 @@ public class PacketPlayOutPlayerInfo {
 
 				Class<?> clazz = Reflections.getCraftClass("PacketPlayOutPlayerInfo");
 				Object packet = packetClass.getConstructor().newInstance();
-				Reflections.getPrivateField(clazz, "username").set(packet, s);
+				Reflections.getPrivateField(clazz, "username").set(packet, string);
 				Reflections.getPrivateField(clazz, "gamemode").set(packet, 1);
-				Reflections.getPrivateField(clazz, "ping").set(packet, i);
+				Reflections.getPrivateField(clazz, "ping").set(packet, ping);
 				Reflections.getPrivateField(clazz, "player").set(packet, profile);
 
 				if(!b) {
