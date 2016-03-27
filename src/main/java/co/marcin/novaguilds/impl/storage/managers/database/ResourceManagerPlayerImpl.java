@@ -161,6 +161,10 @@ public class ResourceManagerPlayerImpl extends AbstractDatabaseResourceManager<N
 
 	@Override
 	public void remove(NovaPlayer nPlayer) {
+		if(!nPlayer.isAdded()) {
+			return;
+		}
+
 		getStorage().connect();
 
 		try {

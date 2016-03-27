@@ -247,6 +247,10 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 
 	@Override
 	public void remove(NovaGuild guild) {
+		if(!guild.isAdded()) {
+			return;
+		}
+
 		getStorage().connect();
 
 		try {

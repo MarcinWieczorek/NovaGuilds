@@ -110,6 +110,10 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 
 	@Override
 	public void remove(NovaPlayer nPlayer) {
+		if(!nPlayer.isAdded()) {
+			return;
+		}
+
 		if(getFile(nPlayer).delete()) {
 			LoggerUtils.info("Deleted player " + nPlayer.getName() + "'s file.");
 		}

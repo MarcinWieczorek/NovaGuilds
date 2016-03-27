@@ -105,6 +105,10 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 
 	@Override
 	public void remove(NovaRegion region) {
+		if(!region.isAdded()) {
+			return;
+		}
+
 		if(getFile(region).delete()) {
 			LoggerUtils.info("Deleted guild " + region.getGuild().getName() + " region's file.");
 		}

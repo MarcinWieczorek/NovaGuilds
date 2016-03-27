@@ -110,6 +110,10 @@ public class ResourceManagerRankImpl extends AbstractYAMLResourceManager<NovaRan
 
 	@Override
 	public void remove(NovaRank rank) {
+		if(!rank.isAdded()) {
+			return;
+		}
+
 		guildResourceManager.save(rank.getGuild());
 	}
 

@@ -237,6 +237,10 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 
 	@Override
 	public void remove(NovaGuild guild) {
+		if(!guild.isAdded()) {
+			return;
+		}
+
 		if(getFile(guild).delete()) {
 			LoggerUtils.info("Deleted guild " + guild.getName() + "'s file.");
 		}

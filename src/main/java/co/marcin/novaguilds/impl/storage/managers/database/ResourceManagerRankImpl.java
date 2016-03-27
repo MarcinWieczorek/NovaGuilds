@@ -169,6 +169,10 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 
 	@Override
 	public void remove(NovaRank rank) {
+		if(!rank.isAdded()) {
+			return;
+		}
+
 		getStorage().connect();
 
 		try {

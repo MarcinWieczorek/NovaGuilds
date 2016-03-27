@@ -151,6 +151,10 @@ public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<N
 
 	@Override
 	public void remove(NovaRegion region) {
+		if(!region.isAdded()) {
+			return;
+		}
+
 		getStorage().connect();
 
 		try {
