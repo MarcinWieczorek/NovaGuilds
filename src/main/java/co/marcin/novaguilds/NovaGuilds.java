@@ -19,7 +19,6 @@
 package co.marcin.novaguilds;
 
 import co.marcin.novaguilds.api.NovaGuildsAPI;
-import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.storage.Storage;
@@ -77,7 +76,6 @@ import org.mcstats.Metrics;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -115,7 +113,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private static final String logPrefix = "[NovaGuilds]";
 
 	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
-	public final List<NovaGuild> guildRaids = new ArrayList<>();
 	private static boolean raidRunnableRunning = false;
 	private co.marcin.novaguilds.api.util.packet.PacketExtension packetExtension;
 
@@ -446,7 +443,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 
 	public void showRaidBar(NovaRaid raid) {
-		if(raid.getFinished()) {
+		if(raid.getResult() != NovaRaid.Result.DURING) {
 			raid.getGuildAttacker().removeRaidBar();
 			raid.getGuildDefender().removeRaidBar();
 		}

@@ -626,11 +626,6 @@ public interface NovaGuild extends Resource {
 	void removeRank(NovaRank rank);
 
 	/**
-	 * Removes the raid
-	 */
-	void removeRaid();
-
-	/**
 	 * Takes money
 	 *
 	 * @param money the amount

@@ -38,13 +38,18 @@ public class RunnableRaid implements Runnable {
 
 	public void run() {
 		NovaGuilds.setRaidRunnableRunning(false);
+		boolean renewTask = false;
 
-		for(NovaGuild guild : plugin.guildRaids) {
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+			if(!guild.isRaid()) {
+				continue;
+			}
+
 			NovaRaid raid = guild.getRaid();
 			plugin.showRaidBar(raid);
 			NovaGuild guildDefender = raid.getGuildDefender();
 
-			LoggerUtils.debug(guild.getName() + " scheduler working " + plugin.guildRaids.size());
+			LoggerUtils.debug(guild.getName() + " raid scheduler working " + raid.getProgress());
 
 			//stepping progress
 			for(int count = 0; count < raid.getPlayersOccupyingCount(); count++) {
@@ -62,50 +67,57 @@ public class RunnableRaid implements Runnable {
 			}
 
 			if(NumberUtils.systemSeconds() - raid.getInactiveTime() > Config.RAID_TIMEINACTIVE.getSeconds()) {
-				Message.BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON.vars(vars).broadcast();
-				guild.removeRaidBar();
-				raid.getGuildAttacker().removeRaidBar();
-				plugin.guildRaids.remove(guild);
-				return;
+				raid.setResult(NovaRaid.Result.TIMEOUT);
 			}
 
 			if(raid.isProgressFinished()) {
-				raid.finish();
+				if(guildDefender.getLives() > 1) {
+					raid.setResult(NovaRaid.Result.SUCCESS);
+				}
+				else {
+					raid.setResult(NovaRaid.Result.DESTROYED);
+				}
 			}
 
 			//finishing raid
-			if(raid.getFinished()) {
-				Message.BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON.vars(vars).broadcast();
-				guild.removeRaidBar();
-				raid.getGuildAttacker().removeRaidBar();
-				guild.takeLive();
-				guild.updateTimeRest();
-				guild.updateLostLive();
-				guild.removeRaid();
-				plugin.guildRaids.remove(guild);
-
+			if(raid.getResult() != NovaRaid.Result.DURING) {
 				int pointsTake = Config.RAID_POINTSTAKE.getInt();
-				if(pointsTake > 0) {
-					guild.takePoints(pointsTake);
-					guildDefender.addPoints(pointsTake);
+
+				switch(raid.getResult()) {
+					case DESTROYED:
+						guildDefender.addPoints(pointsTake);
+
+						GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.RAID);
+						plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
+
+						if(!guildAbandonEvent.isCancelled()) {
+							vars.put(VarKey.GUILDNAME, guildDefender.getName());
+							Message.BROADCAST_GUILD_DESTROYED.vars(vars).broadcast();
+							plugin.getGuildManager().delete(guildDefender);
+						}
+						break;
+					case SUCCESS:
+						Message.BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON.vars(vars).broadcast();
+						guild.takeLive();
+						guild.updateTimeRest();
+						guild.updateLostLive();
+						guild.takePoints(pointsTake);
+						guildDefender.addPoints(pointsTake);
+						break;
+					case TIMEOUT:
+						Message.BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON.vars(vars).broadcast();
+						break;
 				}
 
-				if(guild.getLives() == 0) {
-					//fire event
-					GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.RAID);
-					plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
-
-					//if event is not cancelled
-					if(!guildAbandonEvent.isCancelled()) {
-						vars.put(VarKey.GUILDNAME, guildDefender.getName());
-						Message.BROADCAST_GUILD_DESTROYED.vars(vars).broadcast();
-						plugin.getGuildManager().delete(guildDefender);
-					}
-				}
+				guild.removeRaidBar();
+				guildDefender.removeRaidBar();
+			}
+			else if(!renewTask) {
+				renewTask = true;
 			}
 		}
 
-		if(!plugin.guildRaids.isEmpty() && plugin.isEnabled() && !NovaGuilds.isRaidRunnableRunning()) {
+		if(renewTask && plugin.isEnabled() && !NovaGuilds.isRaidRunnableRunning()) {
 			plugin.worker.schedule(this, 1, TimeUnit.SECONDS);
 			NovaGuilds.setRaidRunnableRunning(true);
 		}

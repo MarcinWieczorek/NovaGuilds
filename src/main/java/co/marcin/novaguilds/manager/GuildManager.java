@@ -176,8 +176,8 @@ public class GuildManager {
 
 	public List<NovaRaid> getRaidsTakingPart(NovaGuild guild) {
 		List<NovaRaid> list = new ArrayList<>();
-		for(NovaGuild raidGuild : plugin.guildRaids) {
-			if(raidGuild.getRaid().getGuildAttacker().equals(guild)) {
+		for(NovaGuild raidGuild : getGuilds()) {
+			if(raidGuild.isRaid() && raidGuild.getRaid().getGuildAttacker().equals(guild)) {
 				list.add(raidGuild.getRaid());
 			}
 		}

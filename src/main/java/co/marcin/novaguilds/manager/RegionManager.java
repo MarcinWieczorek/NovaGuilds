@@ -277,7 +277,7 @@ public class RegionManager {
 		nPlayer.setAtRegion(region);
 
 		if(!region.getGuild().isMember(nPlayer)) {
-			checkRaidInit(player);
+			checkRaidInit(nPlayer);
 
 			Message.CHAT_REGION_NOTIFYGUILD_ENTERED.vars(vars).broadcast(region.getGuild());
 		}
@@ -318,9 +318,7 @@ public class RegionManager {
 		}
 	}
 
-	public void checkRaidInit(Player player) {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-
+	public void checkRaidInit(NovaPlayer nPlayer) {
 		if(!Config.RAID_ENABLED.getBoolean() || !nPlayer.hasGuild() || !nPlayer.isAtRegion()) {
 			return;
 		}
@@ -337,7 +335,7 @@ public class RegionManager {
 					if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size() == guildDefender.getPlayers().size()) {
 						if(NumberUtils.systemSeconds() - guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
 							guildDefender.createRaid(nPlayer.getGuild());
-							plugin.guildRaids.add(guildDefender);
+							guildDefender.getRaid().addPlayerOccupying(nPlayer);
 
 							if(!NovaGuilds.isRaidRunnableRunning()) {
 								Runnable task = new RunnableRaid();
@@ -346,14 +344,14 @@ public class RegionManager {
 							}
 						}
 						else {
-							Message.CHAT_RAID_PROTECTION.send(player);
+							Message.CHAT_RAID_PROTECTION.send(nPlayer);
 						}
 					}
 				}
 				else {
 					final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 
-					Message.CHAT_RAID_RESTING.setVar(VarKey.TIMEREST, StringUtils.secondsToString(timeWait)).send(player);
+					Message.CHAT_RAID_RESTING.setVar(VarKey.TIMEREST, StringUtils.secondsToString(timeWait)).send(nPlayer);
 				}
 			}
 		}

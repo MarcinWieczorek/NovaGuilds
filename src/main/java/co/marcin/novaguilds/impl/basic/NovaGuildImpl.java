@@ -505,7 +505,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public boolean isRaid() {
-		return !(raid == null) && NovaGuilds.getInstance().guildRaids.contains(this);
+		return raid != null && raid.getResult() == NovaRaid.Result.DURING;
 	}
 
 	@Override
@@ -580,12 +580,28 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public void addMoney(double money) {
+		if(money == 0) {
+			return;
+		}
+
+		if(money < 0) {
+			throw new IllegalArgumentException("Cannot add negative amount of money");
+		}
+
 		this.money += money;
 		setChanged();
 	}
 
 	@Override
 	public void addPoints(int points) {
+		if(points == 0) {
+			return;
+		}
+
+		if(points < 0) {
+			throw new IllegalArgumentException("Cannot add negative amount of points");
+		}
+
 		this.points += points;
 		setChanged();
 	}
@@ -645,12 +661,15 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public void removeRaid() {
-		raid = null;
-	}
-
-	@Override
 	public void takeMoney(double money) {
+		if(money == 0) {
+			return;
+		}
+
+		if(money < 0) {
+			throw new IllegalArgumentException("Cannot take negative amount of money");
+		}
+
 		this.money -= money;
 		setChanged();
 	}
@@ -669,6 +688,14 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public void takePoints(int points) {
+		if(points == 0) {
+			return;
+		}
+
+		if(points < 0) {
+			throw new IllegalArgumentException("Cannot add negative amount of points");
+		}
+
 		this.points -= points;
 		setChanged();
 	}
@@ -740,8 +767,9 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 			}
 		}
 
-		//remove raid
-		//TODO
+		if(isRaid()) {
+			getRaid().setResult(NovaRaid.Result.DESTROYED);
+		}
 
 		//bank and hologram
 		if(this.getVaultHologram() != null) {
