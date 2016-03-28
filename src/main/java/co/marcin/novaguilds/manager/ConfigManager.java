@@ -77,6 +77,21 @@ public class ConfigManager {
 
 			throw new UnsupportedOperationException("Version " + Bukkit.getBukkitVersion() + " is not supported by NovaGuilds");
 		}
+
+		public float getVersionNumberAsFloat() {
+			String name = org.apache.commons.lang.StringUtils.replace(name(), "MINECRAFT_", "");
+			name = org.apache.commons.lang.StringUtils.replace(name, "_", ".");
+
+			return Float.parseFloat(name);
+		}
+
+		public boolean isOlderThan(ServerVersion version) {
+			return getVersionNumberAsFloat() < version.getVersionNumberAsFloat();
+		}
+
+		public boolean isNewerThan(ServerVersion version) {
+			return getVersionNumberAsFloat() > version.getVersionNumberAsFloat();
+		}
 	}
 
 	public static final Map<String, String> essentialsLocale = new HashMap<String, String>() {{

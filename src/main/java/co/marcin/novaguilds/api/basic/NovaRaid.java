@@ -78,13 +78,6 @@ public interface NovaRaid {
 	List<NovaPlayer> getPlayersOccupying();
 
 	/**
-	 * Gets the amount of attackers of defenders region
-	 *
-	 * @return the amount
-	 */
-	int getPlayersOccupyingCount();
-
-	/**
 	 * Gets raid result
 	 *
 	 * @return result
@@ -137,7 +130,7 @@ public interface NovaRaid {
 	/**
 	 * Adds some progress
 	 */
-	void stepProgress();
+	void addProgress(float progress);
 
 	/**
 	 * Sets the result

@@ -302,19 +302,8 @@ public class RegionManager {
 		nPlayer.setAtRegion(null);
 		Message.CHAT_REGION_EXITED.setVar(VarKey.GUILDNAME, region.getGuild().getName()).send(player);
 
-		if(nPlayer.hasGuild()) {
-			if(nPlayer.getGuild().isWarWith(guild)) {
-				if(guild.isRaid()) {
-					guild.getRaid().removePlayerOccupying(nPlayer);
-
-					if(guild.getRaid().getPlayersOccupyingCount() == 0) {
-						guild.getRaid().resetProgress();
-						guild.removeRaidBar();
-						nPlayer.getGuild().removeRaidBar();
-						guild.getRaid().updateInactiveTime();
-					}
-				}
-			}
+		if(nPlayer.hasGuild() && nPlayer.getGuild().isWarWith(guild) && guild.isRaid()) {
+			guild.getRaid().removePlayerOccupying(nPlayer);
 		}
 	}
 

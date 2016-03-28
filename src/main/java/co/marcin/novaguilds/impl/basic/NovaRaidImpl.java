@@ -79,11 +79,6 @@ public class NovaRaidImpl implements NovaRaid {
 	}
 
 	@Override
-	public int getPlayersOccupyingCount() {
-		return playersOccupying.size();
-	}
-
-	@Override
 	public Result getResult() {
 		return result;
 	}
@@ -124,9 +119,11 @@ public class NovaRaidImpl implements NovaRaid {
 	}
 
 	@Override
-	public void stepProgress() {
-		if(progress < 100) {
-			progress += Config.RAID_MULTIPLER.getDouble();
+	public void addProgress(float progress) {
+		this.progress += Config.RAID_MULTIPLER.getDouble();
+
+		if(this.progress > 100) {
+			this.progress = 100;
 		}
 	}
 

@@ -52,8 +52,11 @@ public class RunnableRaid implements Runnable {
 			LoggerUtils.debug(guild.getName() + " raid scheduler working " + raid.getProgress());
 
 			//stepping progress
-			for(int count = 0; count < raid.getPlayersOccupyingCount(); count++) {
-				raid.stepProgress();
+			if(raid.getPlayersOccupying().size() > 0) {
+				raid.addProgress((float) (raid.getPlayersOccupying().size() * Config.RAID_MULTIPLER.getDouble()));
+			}
+			else {
+				raid.resetProgress();
 			}
 
 			//vars hashmap
@@ -62,7 +65,7 @@ public class RunnableRaid implements Runnable {
 			vars.put(VarKey.DEFENDER, guildDefender.getName());
 
 			//players raiding, update inactive time
-			if(raid.getPlayersOccupyingCount() > 0) {
+			if(raid.getPlayersOccupying().size() > 0) {
 				raid.updateInactiveTime();
 			}
 

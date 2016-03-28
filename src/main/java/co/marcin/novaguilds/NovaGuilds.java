@@ -33,6 +33,7 @@ import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.exception.MissingDependencyException;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
+import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
 import co.marcin.novaguilds.impl.util.packet.PacketExtension1_7Impl;
 import co.marcin.novaguilds.impl.util.packet.PacketExtension1_8Impl;
 import co.marcin.novaguilds.impl.util.signgui.SignGUI1_7Impl;
@@ -58,7 +59,6 @@ import co.marcin.novaguilds.util.VersionUtils;
 import com.earth2me.essentials.Essentials;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import me.confuser.barapi.BarAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -287,9 +287,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		worker.shutdown();
 
 		//reset barapi
-		if(Config.BARAPI_ENABLED.getBoolean()) {
+		if(Config.BOSSBAR_ENABLED.getBoolean()) {
 			for(Player player : NovaGuilds.getOnlinePlayers()) {
-				BarAPI.removeBar(player);
+				BossBarUtils.removeBar(player);
 			}
 		}
 
@@ -452,8 +452,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			players.addAll(raid.getGuildDefender().getOnlinePlayers());
 
 			for(Player player : players) {
-				if(Config.BARAPI_ENABLED.getBoolean()) {
-					BarAPI.setMessage(player, Message.BARAPI_WARPROGRESS.setVar(VarKey.DEFENDER, raid.getGuildDefender().getName()).get(), raid.getProgress());
+				if(Config.BOSSBAR_ENABLED.getBoolean()) {
+					BossBarUtils.setMessage(player, Message.BARAPI_WARPROGRESS.setVar(VarKey.DEFENDER, raid.getGuildDefender().getName()).get(), raid.getProgress());
 				}
 				else {
 					//TODO
@@ -525,13 +525,20 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		//BarAPI
-		if(Config.BARAPI_ENABLED.getBoolean()) {
-			if(getServer().getPluginManager().getPlugin("BarAPI") == null) {
-				LoggerUtils.error("Couldn't find BarAPI plugin, disabling this feature.");
-				Config.BARAPI_ENABLED.set(false);
+		if(Config.BOSSBAR_ENABLED.getBoolean()) {
+			boolean barAPI = getServer().getPluginManager().getPlugin("BarAPI") != null;
+			boolean bossBarAPI = getServer().getPluginManager().getPlugin("BossBarAPI") != null;
+
+			if(bossBarAPI || (barAPI && ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_9))) {
+				LoggerUtils.info((barAPI ? "BarAPI" : "BossBarAPI") + " hooked");
 			}
 			else {
-				LoggerUtils.info("BarAPI hooked");
+				LoggerUtils.error("Couldn't find BarAPI or BossBarAPI plugin, disabling this feature.");
+				Config.BOSSBAR_ENABLED.set(false);
+
+				if(barAPI && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_9) {
+					LoggerUtils.info("Please use BossBarAPI instead BarAPI");
+				}
 			}
 		}
 

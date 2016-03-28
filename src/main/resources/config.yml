@@ -61,7 +61,7 @@ lang:
 # Use 1.8 titles                                  #
 usetitles: false
 
-barapi:
+bossbar:
  enabled: true
  raidbar: true
 

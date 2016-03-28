@@ -25,6 +25,7 @@ import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -33,7 +34,6 @@ import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import me.confuser.barapi.BarAPI;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -821,9 +821,9 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public void removeRaidBar() {
-		if(Config.BARAPI_ENABLED.getBoolean()) {
+		if(Config.BOSSBAR_ENABLED.getBoolean()) {
 			for(Player player : getOnlinePlayers()) {
-				BarAPI.removeBar(player);
+				BossBarUtils.removeBar(player);
 			}
 		}
 	}
