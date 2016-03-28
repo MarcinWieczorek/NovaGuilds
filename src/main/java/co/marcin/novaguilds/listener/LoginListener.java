@@ -37,8 +37,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import protocolsupport.api.ProtocolSupportAPI;
-import protocolsupport.api.ProtocolVersion;
 
 public class LoginListener extends AbstractListener {
 	@EventHandler
@@ -84,19 +82,10 @@ public class LoginListener extends AbstractListener {
 		if(Config.TABLIST_ENABLED.getBoolean()) {
 			TabList tabList = null;
 
-			//ProtocolSupport
-			if(plugin.isProtocolSupportEnabled()) {
-				ProtocolVersion protocolVersion = ProtocolSupportAPI.getProtocolVersion(player);
-				switch(protocolVersion) {
-					case MINECRAFT_1_8:
-						tabList = new TabList1_8NorthTabImpl(nPlayer);
-						break;
-				}
-			}
-			else {
-				if(ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
+			switch(ConfigManager.getServerVersion()) {
+				case MINECRAFT_1_8:
 					tabList = new TabList1_8NorthTabImpl(nPlayer);
-				}
+					break;
 			}
 
 			nPlayer.setTabList(tabList);

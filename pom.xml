@@ -147,12 +147,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.shevchik</groupId>
-            <artifactId>protocolsupport</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.7.2</version>
