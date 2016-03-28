@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.TabList;
@@ -29,6 +30,7 @@ import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -55,13 +57,24 @@ public class LoginListener extends AbstractListener {
 			Message.CHAT_UPDATE.send(player);
 		}
 
-		//Show bank hologram
-		if(nPlayer.hasGuild()) {
-			nPlayer.getGuild().showVaultHologram(player);
-		}
-
 		if(RegionManager.get(player) != null) {
 			plugin.getRegionManager().playerEnteredRegion(player, player.getLocation());
+		}
+
+		if(nPlayer.hasGuild()) {
+			for(Player onlinePlayer : NovaGuilds.getOnlinePlayers()) {
+				LoggerUtils.debug(onlinePlayer.getName());
+				NovaPlayer onlineNPlayer = PlayerManager.getPlayer(onlinePlayer);
+
+				if(onlineNPlayer.equals(nPlayer) || !onlineNPlayer.isAtRegion() || !onlineNPlayer.getAtRegion().getGuild().equals(nPlayer.getGuild())) {
+					continue;
+				}
+
+				plugin.getRegionManager().checkRaidInit(onlineNPlayer);
+			}
+
+			//Show bank hologram
+			nPlayer.getGuild().showVaultHologram(player);
 		}
 
 		//TabAPI

@@ -245,10 +245,8 @@ public class RegionManager {
 	}
 
 	public void playerEnteredRegion(Player player, Location toLocation) {
-		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET)) {
-			if(plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
-				return;
-			}
+		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
+			return;
 		}
 
 		NovaRegion region = get(toLocation);

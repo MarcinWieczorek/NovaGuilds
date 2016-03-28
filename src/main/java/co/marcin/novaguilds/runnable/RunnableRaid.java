@@ -26,10 +26,14 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
+import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
+import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -40,16 +44,14 @@ public class RunnableRaid implements Runnable {
 		NovaGuilds.setRaidRunnableRunning(false);
 		boolean renewTask = false;
 
-		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			if(!guild.isRaid()) {
+		for(NovaGuild guildDefender : plugin.getGuildManager().getGuilds()) {
+			if(!guildDefender.isRaid()) {
 				continue;
 			}
 
-			NovaRaid raid = guild.getRaid();
-			plugin.showRaidBar(raid);
-			NovaGuild guildDefender = raid.getGuildDefender();
+			NovaRaid raid = guildDefender.getRaid();
 
-			LoggerUtils.debug(guild.getName() + " raid scheduler working " + raid.getProgress());
+			LoggerUtils.debug(guildDefender.getName() + " raid scheduler working " + raid.getProgress());
 
 			//stepping progress
 			if(raid.getPlayersOccupying().size() > 0) {
@@ -88,9 +90,9 @@ public class RunnableRaid implements Runnable {
 
 				switch(raid.getResult()) {
 					case DESTROYED:
-						guildDefender.addPoints(pointsTake);
+						raid.getGuildAttacker().addPoints(pointsTake);
 
-						GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.RAID);
+						GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guildDefender, AbandonCause.RAID);
 						plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
 
 						if(!guildAbandonEvent.isCancelled()) {
@@ -101,28 +103,65 @@ public class RunnableRaid implements Runnable {
 						break;
 					case SUCCESS:
 						Message.BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON.vars(vars).broadcast();
-						guild.takeLive();
-						guild.updateTimeRest();
-						guild.updateLostLive();
-						guild.takePoints(pointsTake);
+						guildDefender.takeLive();
+						guildDefender.updateTimeRest();
+						guildDefender.updateLostLive();
+						guildDefender.takePoints(pointsTake);
 						guildDefender.addPoints(pointsTake);
 						break;
 					case TIMEOUT:
 						Message.BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON.vars(vars).broadcast();
 						break;
 				}
-
-				guild.removeRaidBar();
-				guildDefender.removeRaidBar();
 			}
 			else if(!renewTask) {
 				renewTask = true;
 			}
+
+			raidBar(raid);
 		}
 
 		if(renewTask && plugin.isEnabled() && !NovaGuilds.isRaidRunnableRunning()) {
 			NovaGuilds.runTaskLater(this, 1, TimeUnit.SECONDS);
 			NovaGuilds.setRaidRunnableRunning(true);
+		}
+	}
+
+	private void raidBar(NovaRaid raid) {
+		if(raid.getResult() != NovaRaid.Result.DURING) {
+			raid.getGuildAttacker().removeRaidBar();
+			raid.getGuildDefender().removeRaidBar();
+		}
+		else {
+			List<Player> players = raid.getGuildAttacker().getOnlinePlayers();
+			players.addAll(raid.getGuildDefender().getOnlinePlayers());
+
+			for(Player player : players) {
+				if(Config.BOSSBAR_ENABLED.getBoolean()) {
+					BossBarUtils.setMessage(player, Message.BARAPI_WARPROGRESS.setVar(VarKey.DEFENDER, raid.getGuildDefender().getName()).get(), raid.getProgress());
+				}
+				else {
+					//TODO
+					if(raid.getProgress() == 0 || raid.getProgress() % 10 == 0 || raid.getProgress() >= 90) {
+						String lines;
+						if(raid.getProgress() == 0) {
+							lines = "&f";
+						}
+						else {
+							lines = "&4";
+						}
+
+						for(int i = 1; i <= 100; i++) {
+							lines += "|";
+							if(i == raid.getProgress()) {
+								lines += "&f";
+							}
+						}
+
+						MessageManager.sendPrefixMessage(player, lines);
+					}
+				}
+			}
 		}
 	}
 }
