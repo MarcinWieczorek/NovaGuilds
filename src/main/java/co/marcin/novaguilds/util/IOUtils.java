@@ -36,17 +36,11 @@ public final class IOUtils {
 	private IOUtils() {
 	}
 
-	public static String inputStreamToString(InputStream inputStream) {
-		try {
-			return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
-		}
-		catch(IOException e) {
-			LoggerUtils.exception(e);
-		}
-		return null;
+	public static String inputStreamToString(InputStream inputStream) throws IOException {
+		return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
 	}
 
-	public static void saveInputStreamToFile(InputStream inputStream, File file) {
+	public static void saveInputStreamToFile(InputStream inputStream, File file) throws IOException {
 		FileOutputStream outputStream = null;
 		try {
 			outputStream = new FileOutputStream(file);
@@ -57,28 +51,13 @@ public final class IOUtils {
 			while((read = inputStream.read(bytes)) != -1) {
 				outputStream.write(bytes, 0, read);
 			}
-
-		}
-		catch(IOException e) {
-			LoggerUtils.exception(e);
 		}
 		finally {
 			if(inputStream != null) {
-				try {
-					inputStream.close();
-				}
-				catch(IOException e) {
-					LoggerUtils.exception(e);
-				}
+				inputStream.close();
 			}
 			if(outputStream != null) {
-				try {
-					outputStream.close();
-				}
-				catch(IOException e) {
-					LoggerUtils.exception(e);
-				}
-
+				outputStream.close();
 			}
 		}
 	}
@@ -114,14 +93,8 @@ public final class IOUtils {
 		return new String(byteArrayOutputStream.toByteArray(), encoding);
 	}
 
-	public static String read(File file) {
-		try {
-			return inputStreamToString(new FileInputStream(file));
-		}
-		catch(FileNotFoundException e) {
-			LoggerUtils.exception(e);
-			return null;
-		}
+	public static String read(File file) throws IOException {
+		return inputStreamToString(new FileInputStream(file));
 	}
 
 	public static void write(File file, String string) {

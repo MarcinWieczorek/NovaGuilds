@@ -82,7 +82,7 @@ public final class LoggerUtils {
 		error("", false);
 		error("Server Information:", false);
 		error("  NovaGuilds: #" + plugin.getBuild() + " (" + VersionUtils.getCommit() + ")", false);
-		error("  Storage Type: " + plugin.getConfigManager().getDataStorageType().name(), false);
+		error("  Storage Type: " + (plugin.getConfigManager() == null || plugin.getConfigManager().getDataStorageType() == null ? "null" : plugin.getConfigManager().getDataStorageType().name()), false);
 		error("  Bukkit: " + Bukkit.getBukkitVersion(), false);
 		error("  Java: " + System.getProperty("java.version"), false);
 		error("  Thread: " + Thread.currentThread(), false);

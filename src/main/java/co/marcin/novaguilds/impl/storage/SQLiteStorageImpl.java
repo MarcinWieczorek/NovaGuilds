@@ -87,8 +87,9 @@ public class SQLiteStorageImpl extends AbstractDatabaseStorage implements Databa
 
 				firstConnect = false;
 			}
-			catch(SQLException | ClassNotFoundException e) {
+			catch(SQLException | ClassNotFoundException | IOException e) {
 				failureCause = e;
+				return false;
 			}
 		}
 		return true;

@@ -43,7 +43,6 @@ import java.util.concurrent.TimeUnit;
 
 public class PlayerManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final ResourceManager<NovaPlayer> resourceManager = plugin.getStorage().getResourceManager(NovaPlayer.class);
 	private final Map<String, NovaPlayer> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 	//new getters
@@ -78,17 +77,17 @@ public class PlayerManager {
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = resourceManager.save(getPlayers());
+		int count = getResourceManager().save(getPlayers());
 
 		LoggerUtils.info("Players data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 	}
 
 	public void load() {
 		players.clear();
-		for(NovaPlayer nPlayer : resourceManager.load()) {
+		for(NovaPlayer nPlayer : getResourceManager().load()) {
 			if(players.containsKey(nPlayer.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					resourceManager.remove(nPlayer);
+					getResourceManager().remove(nPlayer);
 					LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
 				}
 				else {
@@ -207,5 +206,9 @@ public class PlayerManager {
 
 	public static <T> List<T> limitList(List<T> list, int limit) {
 		return list.subList(0, list.size() < limit ? list.size() : limit);
+	}
+
+	private ResourceManager<NovaPlayer> getResourceManager() {
+		return plugin.getStorage().getResourceManager(NovaPlayer.class);
 	}
 }

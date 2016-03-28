@@ -36,11 +36,16 @@ public class VersionUtils {
 
 	static {
 		if(!init) {
-			new VersionUtils();
+			try {
+				new VersionUtils();
+			}
+			catch(IOException e) {
+				LoggerUtils.exception(e);
+			}
 		}
 	}
 
-	private VersionUtils() {
+	private VersionUtils() throws IOException {
 		init = true;
 		NovaGuilds ng = NovaGuilds.getInstance();
 
@@ -54,16 +59,11 @@ public class VersionUtils {
 			commit = ng.getResource("commit.yml") == null ? "invalid" : IOUtils.inputStreamToString(ng.getResource("commit.yml"));
 		}
 
-		try {
-			String latestString = StringUtils.getContent("http://novaguilds.pl/latest.info");
-			String devString = StringUtils.getContent("http://novaguilds.pl/dev.info");
+		String latestString = StringUtils.getContent("http://novaguilds.pl/latest.info");
+		String devString = StringUtils.getContent("http://novaguilds.pl/dev.info");
 
-			buildLatest = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(latestString, "-SNAPSHOT", ""));
-			buildDev = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(devString, "-SNAPSHOT", ""));
-		}
-		catch(IOException e) {
-			LoggerUtils.error("Failed to fetch versions");
-		}
+		buildLatest = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(latestString, "-SNAPSHOT", ""));
+		buildDev = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(devString, "-SNAPSHOT", ""));
 	}
 
 	public static void checkVersion() {

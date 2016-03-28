@@ -55,7 +55,6 @@ import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final ResourceManager<NovaGuild> resourceManager = plugin.getStorage().getResourceManager(NovaGuild.class);
 	private final Map<String, NovaGuild> guilds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 	
 	//getters
@@ -121,10 +120,10 @@ public class GuildManager {
 
 	public void load() {
 		guilds.clear();
-		for(NovaGuild guild : resourceManager.load()) {
+		for(NovaGuild guild : getResourceManager().load()) {
 			if(guilds.containsKey(guild.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					resourceManager.remove(guild);
+					getResourceManager().remove(guild);
 				}
 
 				LoggerUtils.error("Removed guild with doubled name (" + guild.getName() + ")");
@@ -145,19 +144,19 @@ public class GuildManager {
 	}
 	
 	public void save(NovaGuild guild) {
-		resourceManager.save(guild);
+		getResourceManager().save(guild);
 	}
 
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = resourceManager.save(getGuilds());
+		int count = getResourceManager().save(getGuilds());
 
 		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 	}
 
 	public void delete(NovaGuild guild) {
-		resourceManager.remove(guild);
+		getResourceManager().remove(guild);
 
 		//remove region
 		if(guild.hasRegion()) {
@@ -410,5 +409,9 @@ public class GuildManager {
 		}
 
 		LoggerUtils.info("Guilds cleanup finished, removed " + count + " guilds.");
+	}
+
+	private ResourceManager<NovaGuild> getResourceManager() {
+		return plugin.getStorage().getResourceManager(NovaGuild.class);
 	}
 }

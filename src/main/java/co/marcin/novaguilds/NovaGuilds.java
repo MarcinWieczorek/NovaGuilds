@@ -25,12 +25,12 @@ import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
-import co.marcin.novaguilds.exception.MissingDependencyException;
 import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
@@ -43,6 +43,7 @@ import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.manager.DependencyManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
@@ -56,10 +57,8 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
-import com.earth2me.essentials.Essentials;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -67,13 +66,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.kitteh.vanish.VanishPlugin;
 import org.mcstats.Metrics;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -91,167 +86,152 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	* Escape. ~Bukkit.PL
 	* */
 
-	private static NovaGuilds inst;
+	private static NovaGuilds instance;
 	private final int build = Integer.parseInt(StringUtils.replace(getDescription().getVersion(), "-SNAPSHOT", ""));
 
 	//Vault
-	private static Economy economy;
 	private SignGUI signGUI;
-	private Essentials essentials;
-	private VanishPlugin vanishNoPacket;
 
-	private GuildManager guildManager;
-	private RegionManager regionManager;
-	private PlayerManager playerManager;
-	private MessageManager messageManager;
-	private CommandManager commandManager;
-	private ConfigManager configManager;
-	private GroupManager groupManager;
-	private RankManager rankManager;
-	private TaskManager taskManager;
-	private ListenerManager listenerManager;
-	private final HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
+	private final DependencyManager dependencyManager;
+	private final ListenerManager   listenerManager;
+	private final HologramManager   hologramManager;
+	private final CommandManager    commandManager;
+	private final MessageManager    messageManager;
+	private final RegionManager     regionManager;
+	private final PlayerManager     playerManager;
+	private final ConfigManager     configManager;
+	private final GuildManager      guildManager;
+	private final GroupManager      groupManager;
+	private final RankManager       rankManager;
+	private final TaskManager       taskManager;
 
 	private static boolean raidRunnableRunning = false;
 	private PacketExtension packetExtension;
 	private Storage storage;
 
-	public void onEnable() {
-		inst = this;
+	public NovaGuilds() {
+		instance = this;
 
-		//managers
-		taskManager = new TaskManager();
-		configManager = new ConfigManager();
-		messageManager = new MessageManager();
-
-		try {
-			getMessageManager().load();
-		}
-		catch(FatalNovaGuildsException e) {
-			LoggerUtils.exception(e);
-			return;
-		}
-
-		LoggerUtils.info("Messages loaded: " + Config.LANG_NAME.getString());
-
-		commandManager = new CommandManager();
-		groupManager = new GroupManager();
-		listenerManager = new ListenerManager();
-
-		try {
-			checkDependencies();
-		}
-		catch(FatalNovaGuildsException e) {
-			LoggerUtils.exception(e);
-			return;
-		}
-
-		//Version check
-		VersionUtils.checkVersion();
-
-		if(!setUpStorage()) {
-			return;
-		}
-
-		guildManager = new GuildManager();
-		playerManager = new PlayerManager();
-		rankManager = new RankManager();
-		regionManager = new RegionManager();
-
-		//Data loading
-		getGuildManager().load();
-		LoggerUtils.info("Guilds data loaded");
-		getRegionManager().load();
-		LoggerUtils.info("Regions data loaded");
-		getRankManager().loadDefaultRanks();
-		getPlayerManager().load();
-		LoggerUtils.info("Players data loaded");
-
-		LoggerUtils.info("Post checks running");
-		getGuildManager().postCheck();
-
-		getRankManager().load();
-		LoggerUtils.info("Ranks data loaded");
-
-		//HologramManager
-		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			hologramManager.load();
-		}
-
-		if(Config.PACKETS_ENABLED.getBoolean()) {
-			switch(ConfigManager.getServerVersion()) {
-				case MINECRAFT_1_7:
-					packetExtension = new PacketExtension1_7Impl();
-					signGUI = new SignGUI1_7Impl();
-
-					if(Config.PACKETS_ADVANCEDENTITYUSE.getBoolean()) {
-						new PacketListener1_7Impl();
-					}
-					break;
-				case MINECRAFT_1_8:
-					packetExtension = new PacketExtension1_8Impl();
-					signGUI = new SignGUI1_8Impl();
-					break;
-				case MINECRAFT_1_9:
-					packetExtension = new PacketExtension1_8Impl();
-					signGUI = new SignGUI1_9Impl();
-					break;
-			}
-
-			//Register players (for reload)
-			for(Player p : NovaGuilds.getOnlinePlayers()) {
-				getPacketExtension().registerPlayer(p);
-			}
-		}
-		else {
-			getServer().getPluginManager().registerEvents(new Listener() {
-				@EventHandler
-				public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {
-					PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
-					getServer().getPluginManager().callEvent(clickEvent);
-					event.setCancelled(clickEvent.isCancelled());
-				}
-
-				@EventHandler
-				public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
-					PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
-					Bukkit.getPluginManager().callEvent(interactEntityEvent);
-					event.setCancelled(interactEntityEvent.isCancelled());
-				}
-			}, this);
-		}
-
-		if(signGUI == null) {
-			Config.SIGNGUI_ENABLED.set(false);
-		}
-
-		if(Config.VAULT_ENABLED.getBoolean()) {
-			new VaultListener();
-		}
-
-		if(getConfigManager().useVanishNoPacket()) {
-			new VanishListener();
-		}
-
-		//Tablist/tag update
-		TagUtils.refresh();
-		TabUtils.refresh();
-
-		//metrics
-		setupMetrics();
-
-		LoggerUtils.info("#" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ") Enabled");
+		dependencyManager = new DependencyManager();
+		hologramManager   = new HologramManager();
+		listenerManager   = new ListenerManager();
+		messageManager    = new MessageManager();
+		commandManager    = new CommandManager();
+		regionManager     = new RegionManager();
+		playerManager     = new PlayerManager();
+		configManager     = new ConfigManager();
+		guildManager      = new GuildManager();
+		groupManager      = new GroupManager();
+		rankManager       = new RankManager();
+		taskManager       = new TaskManager();
 	}
 
-	public boolean setUpStorage() {
+	public void onEnable() {
 		try {
-			storage = new StorageConnector().getStorage();
-			return true;
+			//managers
+			getDependencyManager().setUp();
+			getConfigManager().reload();
+			getMessageManager().load();
+			getCommandManager().setUp();
+			getGroupManager().load();
+			getListenerManager().registerListeners();
+
+			//Version check
+			VersionUtils.checkVersion();
+
+			setUpStorage();
+
+			//Data loading
+			getGuildManager().load();
+			LoggerUtils.info("Guilds data loaded");
+			getRegionManager().load();
+			LoggerUtils.info("Regions data loaded");
+			getRankManager().loadDefaultRanks();
+			getPlayerManager().load();
+			LoggerUtils.info("Players data loaded");
+
+			LoggerUtils.info("Post checks running");
+			getGuildManager().postCheck();
+
+			getRankManager().load();
+			LoggerUtils.info("Ranks data loaded");
+
+			//HologramManager
+			if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
+				getHologramManager().load();
+			}
+
+			if(Config.PACKETS_ENABLED.getBoolean()) {
+				switch(ConfigManager.getServerVersion()) {
+					case MINECRAFT_1_7:
+						packetExtension = new PacketExtension1_7Impl();
+						signGUI = new SignGUI1_7Impl();
+
+						if(Config.PACKETS_ADVANCEDENTITYUSE.getBoolean()) {
+							new PacketListener1_7Impl();
+						}
+						break;
+					case MINECRAFT_1_8:
+						packetExtension = new PacketExtension1_8Impl();
+						signGUI = new SignGUI1_8Impl();
+						break;
+					case MINECRAFT_1_9:
+						packetExtension = new PacketExtension1_8Impl();
+						signGUI = new SignGUI1_9Impl();
+						break;
+				}
+
+				//Register players (for reload)
+				for(Player p : NovaGuilds.getOnlinePlayers()) {
+					getPacketExtension().registerPlayer(p);
+				}
+			}
+			else {
+				getServer().getPluginManager().registerEvents(new Listener() {
+					@EventHandler
+					public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {
+						PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
+						getServer().getPluginManager().callEvent(clickEvent);
+						event.setCancelled(clickEvent.isCancelled());
+					}
+
+					@EventHandler
+					public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+						PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
+						Bukkit.getPluginManager().callEvent(interactEntityEvent);
+						event.setCancelled(interactEntityEvent.isCancelled());
+					}
+				}, this);
+			}
+
+			if(signGUI == null) {
+				Config.SIGNGUI_ENABLED.set(false);
+			}
+
+			if(Config.VAULT_ENABLED.getBoolean()) {
+				new VaultListener();
+			}
+
+			if(getDependencyManager().isEnabled(Dependency.VANISHNOPACKET)) {
+				new VanishListener();
+			}
+
+			//Tablist/tag update
+			TagUtils.refresh();
+			TabUtils.refresh();
+
+			//metrics
+			setupMetrics();
+
+			LoggerUtils.info("#" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ") Enabled");
 		}
-		catch(FatalNovaGuildsException e) {
+		catch(Exception e) {
 			LoggerUtils.exception(e);
-			return false;
 		}
+	}
+
+	public void setUpStorage() throws FatalNovaGuildsException {
+		storage = new StorageConnector().getStorage();
 	}
 	
 	public void onDisable() {
@@ -290,7 +270,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				h.delete();
 			}
 		}
-		
+
 		for(Player p : NovaGuilds.getOnlinePlayers()) {
 			PlayerManager.getPlayer(p).cancelToolProgress();
 		}
@@ -304,8 +284,13 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		LoggerUtils.info("#" + VersionUtils.getBuildCurrent() + " Disabled");
 	}
 
+	/**
+	 * Gets the instance
+	 *
+	 * @return the instance
+	 */
 	public static NovaGuilds getInstance() {
-		return inst;
+		return instance;
 	}
 	
 	//Managers
@@ -369,10 +354,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		return build;
 	}
 
-	public static Economy getEconomy() {
-		return economy;
-	}
-
 	@Override
 	public RankManager getRankManager() {
 		return rankManager;
@@ -383,54 +364,29 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		return packetExtension;
 	}
 
-	//Vault economy
-	private boolean setupEconomy() {
-		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-
-		if(rsp == null) {
-			return false;
-		}
-
-		economy = rsp.getProvider();
-		return economy != null;
+	public DependencyManager getDependencyManager() {
+		return dependencyManager;
 	}
 
-	//VanishNoPacket
-	private boolean checkVanishNoPacket() {
-		Plugin p = getServer().getPluginManager().getPlugin("VanishNoPacket");
+	private void setupMetrics() throws IOException {
+		Metrics metrics = new Metrics(this);
+		Metrics.Graph guildsAndUsersGraph = metrics.createGraph("Guilds and users");
 
-		if(p instanceof VanishPlugin) {
-			vanishNoPacket = (VanishPlugin) p;
-		}
+		guildsAndUsersGraph.addPlotter(new Metrics.Plotter("Guilds") {
+			@Override
+			public int getValue() {
+				return getGuildManager().getGuilds().size();
+			}
+		});
 
-		return vanishNoPacket != null;
-	}
+		guildsAndUsersGraph.addPlotter(new Metrics.Plotter("Users") {
+			@Override
+			public int getValue() {
+				return getPlayerManager().getPlayers().size();
+			}
+		});
 
-	private void setupMetrics() {
-		try {
-			Metrics metrics = new Metrics(this);
-			Metrics.Graph guildsAndUsersGraph = metrics.createGraph("Guilds and users");
-
-			guildsAndUsersGraph.addPlotter(new Metrics.Plotter("Guilds") {
-				@Override
-				public int getValue() {
-					return getGuildManager().getGuilds().size();
-				}
-			});
-
-			guildsAndUsersGraph.addPlotter(new Metrics.Plotter("Users") {
-				@Override
-				public int getValue() {
-					return getPlayerManager().getPlayers().size();
-				}
-			});
-
-			metrics.start();
-		}
-		catch(IOException e) {
-			LoggerUtils.info("Failed to update stats!");
-			LoggerUtils.info(e.getMessage());
-		}
+		metrics.start();
 	}
 
 	public void showRaidBar(NovaRaid raid) {
@@ -471,104 +427,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 	}
 
-	private void checkDependencies() throws FatalNovaGuildsException {
-		try {
-			//Vault
-			if(getServer().getPluginManager().getPlugin("Vault") == null) {
-				throw new MissingDependencyException("Could not satisfy dependency: Vault");
-			}
-			LoggerUtils.info("Vault hooked");
-
-			//Economy
-			if(!setupEconomy()) {
-				LoggerUtils.error("Could not setup Vault's economy, disabling");
-				throw new Exception("Could not set up Economy");
-			}
-			LoggerUtils.info("Vault's Economy hooked");
-		}
-		catch(Exception e) {
-			throw new FatalNovaGuildsException("Failed to satisfy dependencies", e);
-		}
-
-		checkSoftDependencies();
-	}
-
-	public void checkSoftDependencies() {
-		//HolographicDisplays
-		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			//Try to find the API
-			boolean apiFound;
-			try {
-				Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
-				apiFound = true;
-			}
-			catch(ClassNotFoundException e) {
-				apiFound = false;
-			}
-
-			if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null || !apiFound) {
-				LoggerUtils.error("Couldn't find HolographicDisplays plugin, disabling this feature.");
-				Config.HOLOGRAPHICDISPLAYS_ENABLED.set(false);
-			}
-			else {
-				LoggerUtils.info("HolographicDisplays hooked");
-			}
-		}
-
-		//BarAPI
-		if(Config.BOSSBAR_ENABLED.getBoolean()) {
-			boolean barAPI = getServer().getPluginManager().getPlugin("BarAPI") != null;
-			boolean bossBarAPI = getServer().getPluginManager().getPlugin("BossBarAPI") != null;
-
-			if(bossBarAPI || (barAPI && ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_9))) {
-				LoggerUtils.info((barAPI ? "BarAPI" : "BossBarAPI") + " hooked");
-			}
-			else {
-				LoggerUtils.error("Couldn't find BarAPI or BossBarAPI plugin, disabling this feature.");
-				Config.BOSSBAR_ENABLED.set(false);
-
-				if(barAPI && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_9) {
-					LoggerUtils.info("Please use BossBarAPI instead BarAPI");
-				}
-			}
-		}
-
-		//VanishNoPacket
-		if(checkVanishNoPacket()) {
-			LoggerUtils.info("VanishNoPacket hooked");
-		}
-		else {
-			LoggerUtils.info("VanishNoPacket not found, support disabled");
-			getConfigManager().disableVanishNoPacket();
-		}
-
-		//NorthTab
-		if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
-			if(getServer().getPluginManager().getPlugin("NorthTab") == null) {
-				LoggerUtils.error("Couldn't find NorthTab plugin, disabling 1.8 tablist.");
-				Config.TABLIST_ENABLED.set(false);
-			}
-			else {
-				LoggerUtils.info("NorthTab hooked");
-			}
-		}
-
-		//Essentials
-		essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-	}
-
-	public void setConfigManager(ConfigManager configManager) {
-		this.configManager = configManager;
-	}
-
-	public void setCommandManager(CommandManager commandManager) {
-		this.commandManager = commandManager;
-	}
-
-	public VanishPlugin getVanishNoPacket() {
-		return vanishNoPacket;
-	}
-
 	public static boolean isRaidRunnableRunning() {
 		return raidRunnableRunning;
 	}
@@ -578,15 +436,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 
 	public static void runTaskLater(Runnable runnable, long delay, TimeUnit timeUnit) {
-		Bukkit.getScheduler().runTaskLater(inst, runnable, timeUnit.toSeconds(delay) * 20);
-	}
-
-	public Essentials getEssentials() {
-		return essentials;
-	}
-
-	public boolean isEssentialsEnabled() {
-		return essentials != null;
+		Bukkit.getScheduler().runTaskLater(instance, runnable, timeUnit.toSeconds(delay) * 20);
 	}
 
 	public SignGUI getSignGUI() {

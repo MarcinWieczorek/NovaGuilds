@@ -44,7 +44,7 @@ public class TableAnalyzer {
 		this.connection = connection;
 	}
 
-	public void analyze(String table, String sql) {
+	public void analyze(String table, String sql) throws SQLException {
 		if(!existsTable(table)) {
 			addTable(sql);
 		}
@@ -76,7 +76,7 @@ public class TableAnalyzer {
 		}
 	}
 
-	public void update() {
+	public void update() throws SQLException {
 		sort();
 		for(MissMatch missMatch : missMatches) {
 			LoggerUtils.debug(missMatch.getModificationType().name() + ": " + missMatch.getIndex() + " " + missMatch.getColumnName() + " " + missMatch.getColumnType());
@@ -88,27 +88,17 @@ public class TableAnalyzer {
 		}
 	}
 
-	private void addColumn(MissMatch missMatch) {
-		try {
-			String sql = "ALTER TABLE `" + missMatch.getTable() + "` ADD COLUMN `" + missMatch.getColumnName() + "` " + missMatch.getColumnType() + " NOT NULL;";
-			Statement statement = connection.createStatement();
-			statement.execute(sql);
-			LoggerUtils.info("Added new column " + missMatch.getColumnName() + " to table " + missMatch.getTable());
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
+	private void addColumn(MissMatch missMatch) throws SQLException {
+		String sql = "ALTER TABLE `" + missMatch.getTable() + "` ADD COLUMN `" + missMatch.getColumnName() + "` " + missMatch.getColumnType() + " NOT NULL;";
+		Statement statement = connection.createStatement();
+		statement.execute(sql);
+		LoggerUtils.info("Added new column " + missMatch.getColumnName() + " to table " + missMatch.getTable());
 	}
 
-	private void addTable(String sql) {
-		try {
-			Statement statement = connection.createStatement();
-			statement.execute(sql);
-			LoggerUtils.info("Added new table");
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
+	private void addTable(String sql) throws SQLException {
+		Statement statement = connection.createStatement();
+		statement.execute(sql);
+		LoggerUtils.info("Added new table");
 	}
 
 	private void sort() {
@@ -117,7 +107,6 @@ public class TableAnalyzer {
 				return o1.getIndex() - o2.getIndex();
 			}
 		});
-
 	}
 
 	private void getSqlStructure(String sql) {
@@ -141,41 +130,30 @@ public class TableAnalyzer {
 		sqlStructure.putAll(map);
 	}
 
-	private void getTableStructure(String table) {
-		try {
-			DatabaseMetaData databaseMetaData = connection.getMetaData();
-			ResultSet columns = databaseMetaData.getColumns(null, null, table, null);
-			HashMap<String, String> map = new HashMap<>();
+	private void getTableStructure(String table) throws SQLException {
+		DatabaseMetaData databaseMetaData = connection.getMetaData();
+		ResultSet columns = databaseMetaData.getColumns(null, null, table, null);
+		HashMap<String, String> map = new HashMap<>();
 
-			while(columns.next()) {
-				String columnName = columns.getString("COLUMN_NAME");
-				String columnType = columns.getString("TYPE_NAME");
+		while(columns.next()) {
+			String columnName = columns.getString("COLUMN_NAME");
+			String columnType = columns.getString("TYPE_NAME");
 
-				map.put(columnName, columnType);
-			}
-			columns.close();
-
-			tableStructure.clear();
-			tableStructure.putAll(map);
+			map.put(columnName, columnType);
 		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
+		columns.close();
+
+		tableStructure.clear();
+		tableStructure.putAll(map);
 	}
 
-	private boolean existsTable(String table) {
-		try {
-			DatabaseMetaData md = connection.getMetaData();
-			ResultSet rs = md.getTables(null, null, "%", null);
-			while(rs.next()) {
-				if(rs.getString(3).equalsIgnoreCase(table)) {
-					return true;
-				}
+	private boolean existsTable(String table) throws SQLException {
+		DatabaseMetaData md = connection.getMetaData();
+		ResultSet rs = md.getTables(null, null, "%", null);
+		while(rs.next()) {
+			if(rs.getString(3).equalsIgnoreCase(table)) {
+				return true;
 			}
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-			return false;
 		}
 
 		return false;

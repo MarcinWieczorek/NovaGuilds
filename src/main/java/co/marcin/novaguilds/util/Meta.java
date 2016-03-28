@@ -25,7 +25,7 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.metadata.Metadatable;
 
 public class Meta {
-	private static NovaGuilds plugin = NovaGuilds.getInstance();
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	public static void setMetadata(Metadatable obj, String key, Object value) {
 		obj.setMetadata(key, new FixedMetadataValue(plugin, value));

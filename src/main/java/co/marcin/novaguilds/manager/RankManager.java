@@ -39,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 
 public class RankManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final ResourceManager<NovaRank> resourceManager = plugin.getStorage().getResourceManager(NovaRank.class);
 	private final List<NovaRank> genericRanks = new ArrayList<>();
 	private boolean loaded = false;
 
@@ -48,7 +47,7 @@ public class RankManager {
 	}
 
 	public void load() {
-		int count = resourceManager.load().size();
+		int count = getResourceManager().load().size();
 
 		LoggerUtils.info("Loaded " + count + " ranks.");
 
@@ -61,7 +60,7 @@ public class RankManager {
 	public void save() {
 		long nanoTime = System.nanoTime();
 
-		int count = resourceManager.save(get());
+		int count = getResourceManager().save(get());
 
 		LoggerUtils.info("Ranks data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " ranks)");
 	}
@@ -71,7 +70,7 @@ public class RankManager {
 			return;
 		}
 
-		resourceManager.remove(rank);
+		getResourceManager().remove(rank);
 
 		rank.getGuild().removeRank(rank);
 
@@ -82,7 +81,7 @@ public class RankManager {
 
 	public void delete(NovaGuild guild) {
 		for(NovaRank rank : guild.getRanks()) {
-			resourceManager.remove(rank);
+			getResourceManager().remove(rank);
 		}
 
 		guild.setRanks(new ArrayList<NovaRank>());
@@ -167,5 +166,9 @@ public class RankManager {
 
 	public static NovaRank getDefaultRank() {
 		return plugin.getRankManager().getGenericRanks().get(1);
+	}
+
+	private ResourceManager<NovaRank> getResourceManager() {
+		return plugin.getStorage().getResourceManager(NovaRank.class);
 	}
 }

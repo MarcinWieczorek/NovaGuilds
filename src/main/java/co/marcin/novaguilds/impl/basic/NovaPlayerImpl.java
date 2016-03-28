@@ -155,7 +155,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public double getMoney() {
-		return NovaGuilds.getEconomy().getBalance(name);
+		return NovaGuilds.getInstance().getDependencyManager().getEconomy().getBalance(name);
 	}
 
 	@Override
@@ -425,7 +425,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void addMoney(double money) {
-		NovaGuilds.getEconomy().depositPlayer(name, money);
+		NovaGuilds.getInstance().getDependencyManager().getEconomy().depositPlayer(name, money);
 	}
 
 	@Override
@@ -465,7 +465,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void takeMoney(double money) {
-		NovaGuilds.getEconomy().withdrawPlayer(name, money);
+		NovaGuilds.getInstance().getDependencyManager().getEconomy().withdrawPlayer(name, money);
 	}
 
 	@Override

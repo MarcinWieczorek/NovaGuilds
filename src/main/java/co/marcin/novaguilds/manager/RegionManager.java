@@ -24,6 +24,7 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
@@ -38,6 +39,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
+import org.kitteh.vanish.VanishPlugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +51,6 @@ import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final ResourceManager<NovaRegion> resourceManager = plugin.getStorage().getResourceManager(NovaRegion.class);
 
 	//getters
 	public static NovaRegion get(Location location) {
@@ -99,26 +100,26 @@ public class RegionManager {
 			guild.setRegion(null);
 		}
 
-		resourceManager.load();
+		getResourceManager().load();
 
 		LoggerUtils.info("Loaded " + getRegions().size() + " regions.");
 	}
 	
 	public void save(NovaRegion region) {
-		resourceManager.save(region);
+		getResourceManager().save(region);
 	}
 	
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = resourceManager.save(getRegions());
+		int count = getResourceManager().save(getRegions());
 
 		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
 	
 	//delete region
 	public void remove(NovaRegion region) {
-		resourceManager.remove(region);
+		getResourceManager().remove(region);
 
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);
@@ -244,8 +245,8 @@ public class RegionManager {
 	}
 
 	public void playerEnteredRegion(Player player, Location toLocation) {
-		if(plugin.getConfigManager().useVanishNoPacket()) {
-			if(plugin.getVanishNoPacket().getManager().isVanished(player)) {
+		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET)) {
+			if(plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
 				return;
 			}
 		}
@@ -344,5 +345,9 @@ public class RegionManager {
 				}
 			}
 		}
+	}
+
+	private ResourceManager<NovaRegion> getResourceManager() {
+		return plugin.getStorage().getResourceManager(NovaRegion.class);
 	}
 }

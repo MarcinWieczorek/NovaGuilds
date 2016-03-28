@@ -36,26 +36,18 @@ import org.bukkit.event.Event;
 
 public class ListenerManager {
 	private PacketListener packetListener;
-	private static final LoggedPluginManager loggedPluginManager;
-
-	static {
-		loggedPluginManager = new LoggedPluginManager(NovaGuilds.getInstance()) {
-			@Override
-			protected void customHandler(Event event, Throwable e) {
-				LoggerUtils.exception(e);
-			}
-		};
-	}
-
-	public ListenerManager() {
-		registerListeners();
-	}
+	private static final LoggedPluginManager loggedPluginManager = new LoggedPluginManager(NovaGuilds.getInstance()) {
+		@Override
+		protected void customHandler(Event event, Throwable e) {
+			LoggerUtils.exception(e);
+		}
+	};
 
 	public PacketListener getPacketListener() {
 		return packetListener;
 	}
 
-	private void registerListeners() {
+	public void registerListeners() {
 		new LoginListener();
 		new ToolListener();
 		new RegionInteractListener();

@@ -21,10 +21,7 @@ package co.marcin.novaguilds.command.admin.config;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
-
-import java.io.IOException;
 
 public class CommandAdminConfigReset extends AbstractCommandExecutor {
 	private static final Command command = Command.ADMIN_CONFIG_RESET;
@@ -35,16 +32,10 @@ public class CommandAdminConfigReset extends AbstractCommandExecutor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
-		try {
-			plugin.getConfigManager().backupFile();
-		}
-		catch(IOException e) {
-			LoggerUtils.exception(e);
-		}
+		plugin.getConfigManager().backupFile();
 
 		if(plugin.getConfigManager().getConfigFile().delete()) {
 			plugin.getConfigManager().reload();
-			plugin.checkSoftDependencies();
 		}
 		else {
 			Message.CHAT_ERROROCCURED.send(sender);

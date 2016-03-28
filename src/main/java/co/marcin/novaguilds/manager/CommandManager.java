@@ -121,8 +121,7 @@ public class CommandManager {
 	private final Map<Command, CommandExecutor> executors = new HashMap<>();
 	private ItemStack topItem;
 
-	public CommandManager() {
-		plugin.setCommandManager(this);
+	public void setUp() {
 		registerCommands();
 
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("aliases");

@@ -30,6 +30,7 @@ import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -252,18 +253,11 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	/**
 	 * Adds tables to the database
 	 */
-	protected void setupTables() {
-		try {
-			for(String tableCode : getSqlActions()) {
-				Statement statement = getConnection().createStatement();
-				statement.executeUpdate(tableCode);
-				LoggerUtils.info("Table added to the database!");
-			}
-		}
-		catch(SQLException e) {
-			LoggerUtils.info("Could not create tables. Switching to secondary storage.");
-			plugin.getConfigManager().setToSecondaryDataStorageType();
-			LoggerUtils.exception(e);
+	protected void setupTables() throws SQLException, IOException {
+		for(String tableCode : getSqlActions()) {
+			Statement statement = getConnection().createStatement();
+			statement.executeUpdate(tableCode);
+			LoggerUtils.info("Table added to the database!");
 		}
 	}
 
@@ -293,7 +287,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	 *
 	 * @return the array of strings
 	 */
-	private String[] getSqlActions() {
+	private String[] getSqlActions() throws IOException {
 		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType() == DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
 		String sqlString = IOUtils.inputStreamToString(inputStream);
 
