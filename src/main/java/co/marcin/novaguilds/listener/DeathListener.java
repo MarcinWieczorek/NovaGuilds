@@ -41,14 +41,19 @@ import java.util.Map;
 public class DeathListener extends AbstractListener {
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
+		Player victim = event.getEntity();
+		NovaPlayer nPlayer = PlayerManager.getPlayer(victim);
+
+		//Exit from region
+		if(nPlayer.isAtRegion()) {
+			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
+		}
+
 		if(event.getEntity().getKiller() == null) {
 			return;
 		}
 
-		Player victim = event.getEntity();
 		Player attacker = event.getEntity().getKiller();
-
-		NovaPlayer nPlayer = PlayerManager.getPlayer(victim);
 		NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
 
 		nPlayerAttacker.addKill();
@@ -128,11 +133,6 @@ public class DeathListener extends AbstractListener {
 				nPlayer.takeMoney(money);
 				nPlayerAttacker.addMoney(money);
 			}
-		}
-
-		//Exit from region
-		if(nPlayer.isAtRegion()) {
-			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
 		}
 
 		//disable death message
