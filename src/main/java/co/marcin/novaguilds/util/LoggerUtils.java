@@ -29,12 +29,13 @@ import java.util.logging.Logger;
 public final class LoggerUtils {
 	private static final Logger logger = Logger.getLogger("Minecraft");
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private static final String logPrefix = "[NovaGuilds]";
 
 	private LoggerUtils() {
 	}
 
 	public static void error(String error, boolean classPrefix) {
-		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix ? classPrefix() : "") + space(error) + error));
+		logger.severe(StringUtils.fixColors(logPrefix + (classPrefix ? classPrefix() : "") + space(error) + error));
 	}
 
 	public static void error(String error) {
@@ -46,7 +47,7 @@ public final class LoggerUtils {
 	}
 
 	public static void info(String msg, boolean classPrefix) {
-		logger.info(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix ? classPrefix() : "") + space(msg) + msg));
+		logger.info(StringUtils.fixColors(logPrefix + (classPrefix ? classPrefix() : "") + space(msg) + msg));
 	}
 
 	public static void debug(String msg) {

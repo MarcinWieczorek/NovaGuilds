@@ -328,7 +328,7 @@ public class RegionManager {
 
 							if(!NovaGuilds.isRaidRunnableRunning()) {
 								Runnable task = new RunnableRaid();
-								plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+								NovaGuilds.runTaskLater(task, 1, TimeUnit.SECONDS);
 								NovaGuilds.setRaidRunnableRunning(true);
 							}
 						}

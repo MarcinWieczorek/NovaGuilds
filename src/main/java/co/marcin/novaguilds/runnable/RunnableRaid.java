@@ -121,7 +121,7 @@ public class RunnableRaid implements Runnable {
 		}
 
 		if(renewTask && plugin.isEnabled() && !NovaGuilds.isRaidRunnableRunning()) {
-			plugin.worker.schedule(this, 1, TimeUnit.SECONDS);
+			NovaGuilds.runTaskLater(this, 1, TimeUnit.SECONDS);
 			NovaGuilds.setRaidRunnableRunning(true);
 		}
 	}

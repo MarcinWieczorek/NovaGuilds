@@ -80,8 +80,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
@@ -100,6 +98,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private static Economy economy;
 	private SignGUI signGUI;
 	private Essentials essentials;
+	private VanishPlugin vanishNoPacket;
 
 	private GuildManager guildManager;
 	private RegionManager regionManager;
@@ -108,17 +107,13 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private CommandManager commandManager;
 	private ConfigManager configManager;
 	private GroupManager groupManager;
-	private ListenerManager listenerManager;
-	private static final String logPrefix = "[NovaGuilds]";
-
-	public final ScheduledExecutorService worker = Executors.newSingleThreadScheduledExecutor();
-	private static boolean raidRunnableRunning = false;
-	private co.marcin.novaguilds.api.util.packet.PacketExtension packetExtension;
-
-	private VanishPlugin vanishNoPacket;
-	private final HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
 	private RankManager rankManager;
 	private TaskManager taskManager;
+	private ListenerManager listenerManager;
+	private final HologramManager hologramManager = new HologramManager(new File(getDataFolder(), "holograms.yml"));
+
+	private static boolean raidRunnableRunning = false;
+	private PacketExtension packetExtension;
 	private Storage storage;
 
 	public void onEnable() {
@@ -281,9 +276,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		if(getSignGUI() != null) {
 			getSignGUI().destroy();
 		}
-
-		//Stop schedulers
-		worker.shutdown();
 
 		//reset barapi
 		if(Config.BOSSBAR_ENABLED.getBoolean()) {
@@ -565,20 +557,12 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
 	}
 
-	public static String getLogPrefix() {
-		return logPrefix;
-	}
-
 	public void setConfigManager(ConfigManager configManager) {
 		this.configManager = configManager;
 	}
 
 	public void setCommandManager(CommandManager commandManager) {
 		this.commandManager = commandManager;
-	}
-
-	public ScheduledExecutorService getWorker() {
-		return worker;
 	}
 
 	public VanishPlugin getVanishNoPacket() {
