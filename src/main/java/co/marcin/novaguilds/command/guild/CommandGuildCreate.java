@@ -39,6 +39,7 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.ParticleUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -224,6 +225,9 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 							nPlayer.getPlayer().getInventory().addItem(Config.VAULT_ITEM.getItemStack());
 						}
 					}
+
+					//Supernova
+					ParticleUtils.createSuperNova(player);
 
 					//messages
 					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);

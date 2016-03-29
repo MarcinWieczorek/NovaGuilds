@@ -30,7 +30,6 @@ import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -63,7 +62,6 @@ public class LoginListener extends AbstractListener {
 
 		if(nPlayer.hasGuild()) {
 			for(Player onlinePlayer : NovaGuilds.getOnlinePlayers()) {
-				LoggerUtils.debug(onlinePlayer.getName());
 				NovaPlayer onlineNPlayer = PlayerManager.getPlayer(onlinePlayer);
 
 				if(onlineNPlayer.equals(nPlayer) || !onlineNPlayer.isAtRegion() || !onlineNPlayer.getAtRegion().getGuild().equals(nPlayer.getGuild())) {

@@ -152,6 +152,12 @@
             <version>1.7.2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.darkblade12</groupId>
+            <artifactId>particleeffect</artifactId>
+            <version>1.7.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
