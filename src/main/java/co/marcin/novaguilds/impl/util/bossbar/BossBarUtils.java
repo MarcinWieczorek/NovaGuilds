@@ -1,8 +1,9 @@
 package co.marcin.novaguilds.impl.util.bossbar;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.IBossBarUtils;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.manager.ConfigManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class BossBarUtils {
@@ -13,7 +14,7 @@ public class BossBarUtils {
 			switch(ConfigManager.getServerVersion()) {
 				case MINECRAFT_1_7:
 				case MINECRAFT_1_8:
-					boolean bossBarAPI = Bukkit.getPluginManager().getPlugin("BossBarAPI") != null;
+					boolean bossBarAPI = NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BOSSBARAPI);
 					bossBarUtils = bossBarAPI ? new BossBarUtilsBossBarImpl() : new BossBarUtilsBarAPIImpl();
 					break;
 				case MINECRAFT_1_9:

@@ -161,7 +161,6 @@ public class TaskManager {
 	 * Runs all task depending on the config
 	 */
 	public void runTasks() {
-
 		for(Task task : Task.values()) {
 			boolean condition = task.checkCondition();
 

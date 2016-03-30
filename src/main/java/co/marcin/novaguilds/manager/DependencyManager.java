@@ -84,7 +84,7 @@ public class DependencyManager {
 	}
 
 	private Plugin getPlugin(String name) {
-		return Bukkit.getPluginManager().getPlugin(name);
+		return ListenerManager.getLoggedPluginManager().getPlugin(name);
 	}
 
 	@SuppressWarnings("unchecked")

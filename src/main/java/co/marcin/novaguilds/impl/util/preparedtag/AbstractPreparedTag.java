@@ -38,12 +38,24 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 	private boolean hidden;
 	private TagColor color = TagColor.NEUTRAL;
 
-	//Constructors
+	/**
+	 * The constructor
+	 *
+	 * @param pattern the pattern
+	 * @param guild   the guild
+	 */
 	public AbstractPreparedTag(Config pattern, NovaGuild guild) {
 		this.pattern = pattern;
 		this.guild = guild;
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param pattern             the pattern
+	 * @param guild               the guild
+	 * @param leaderPrefixEnabled leader prefix enabled
+	 */
 	public AbstractPreparedTag(Config pattern, NovaGuild guild, boolean leaderPrefixEnabled) {
 		this.pattern = pattern;
 		this.guild = guild;

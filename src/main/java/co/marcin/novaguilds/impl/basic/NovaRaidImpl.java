@@ -38,6 +38,12 @@ public class NovaRaidImpl implements NovaRaid {
 	private final List<NovaPlayer> playersOccupying = new ArrayList<>();
 	private Result result = Result.DURING;
 
+	/**
+	 * The constructor
+	 *
+	 * @param guildAttacker attacker guild
+	 * @param guildDefender defender guild
+	 */
 	public NovaRaidImpl(NovaGuild guildAttacker, NovaGuild guildDefender) {
 		this.guildAttacker = guildAttacker;
 		this.guildDefender = guildDefender;

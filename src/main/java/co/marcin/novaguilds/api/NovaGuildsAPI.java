@@ -109,11 +109,11 @@ public interface NovaGuildsAPI {
 	TaskManager getTaskManager();
 
 	/**
-	 * Returns the build of the plugin
+	 * Gets listener manager
 	 *
-	 * @return current plugin version
+	 * @return the ListenerManager
 	 */
-	int getBuild();
+	ListenerManager getListenerManager();
 
 	/**
 	 * Returns the PacketExtension
@@ -121,8 +121,6 @@ public interface NovaGuildsAPI {
 	 * @return the PacketExtension
 	 */
 	PacketExtension getPacketExtension();
-
-	ListenerManager getListenerManager();
 
 	/**
 	 * Returns the storage

@@ -82,11 +82,15 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
 	private final List<NovaRank> ranks = new ArrayList<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param uuid the UUID
+	 */
 	public NovaGuildImpl(UUID uuid) {
 		this.uuid = uuid;
 	}
 
-	//getters
 	@Override
 	public UUID getUUID() {
 		return uuid;
@@ -269,7 +273,6 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		return null;
 	}
 
-	//setters
 	@Override
 	public void setVaultHologram(Hologram hologram) {
 		vaultHologram = hologram;
@@ -472,7 +475,6 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		this.ranks.addAll(ranks);
 	}
 
-	//check
 	@Override
 	public boolean isInvitedToAlly(NovaGuild guild) {
 		return allyInvitations.contains(guild);
@@ -523,7 +525,6 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		return this.money >= money;
 	}
 
-	//add/remove
 	@Override
 	public void addAlly(NovaGuild guild) {
 		if(guild != null && !isAlly(guild)) {

@@ -62,7 +62,7 @@ public final class LoggerUtils {
 		}
 	}
 
-	public static String classPrefix() {
+	private static String classPrefix() {
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		String line = ste[4].toString();
 		String[] split1 = org.apache.commons.lang.StringUtils.split(line, '(');
@@ -71,7 +71,7 @@ public final class LoggerUtils {
 		return className.equals("NovaGuilds") ? "" : "[" + className + "]";
 	}
 
-	public static String space(String s) {
+	private static String space(String s) {
 		return s.contains("Manager]") ? "" : " ";
 	}
 
@@ -81,7 +81,7 @@ public final class LoggerUtils {
 		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName(), false);
 		error("", false);
 		error("Server Information:", false);
-		error("  NovaGuilds: #" + plugin.getBuild() + " (" + VersionUtils.getCommit() + ")", false);
+		error("  NovaGuilds: #" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ")", false);
 		error("  Storage Type: " + (plugin.getConfigManager() == null || plugin.getConfigManager().getDataStorageType() == null ? "null" : plugin.getConfigManager().getDataStorageType().name()), false);
 		error("  Bukkit: " + Bukkit.getBukkitVersion(), false);
 		error("  Java: " + System.getProperty("java.version"), false);

@@ -34,6 +34,11 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 	private final NovaRank rank;
 	private final Map<Integer, GuildPermission> slotPermissionsMap = new HashMap<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param rank the rank
+	 */
 	public GUIInventoryGuildPermissionSelect(NovaRank rank) {
 		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
@@ -50,15 +55,6 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 
 		togglePermission(slotPermissionsMap.get(slot));
 		refreshSlot(slot);
-	}
-
-	private void togglePermission(GuildPermission permission) {
-		if(rank.hasPermission(permission)) {
-			rank.removePermission(permission);
-		}
-		else {
-			rank.addPermission(permission);
-		}
 	}
 
 	@Override
@@ -85,6 +81,25 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 		}
 	}
 
+	/**
+	 * Toggles permission
+	 *
+	 * @param permission the permission
+	 */
+	private void togglePermission(GuildPermission permission) {
+		if(rank.hasPermission(permission)) {
+			rank.removePermission(permission);
+		}
+		else {
+			rank.addPermission(permission);
+		}
+	}
+
+	/**
+	 * Refreshes item in slot
+	 *
+	 * @param slot the slot
+	 */
 	private void refreshSlot(int slot) {
 		ItemStack itemStack;
 		GuildPermission perm = slotPermissionsMap.get(slot);

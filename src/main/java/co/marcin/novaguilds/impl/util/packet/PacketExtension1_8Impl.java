@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.util.packet;
 
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import io.netty.channel.Channel;
@@ -28,7 +29,6 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -53,9 +53,15 @@ public class PacketExtension1_8Impl implements PacketExtension {
 		}
 	}
 
-	private static Channel getChannel(Player p) {
+	/**
+	 * Gets the Channel
+	 *
+	 * @param player the player
+	 * @return the channel
+	 */
+	private static Channel getChannel(Player player) {
 		try {
-			Object eP = handleMethod.invoke(p);
+			Object eP = handleMethod.invoke(player);
 			return clientChannel.get(networkManager.get(playerConnection.get(eP)));
 		}
 		catch(Exception e) {
@@ -64,6 +70,7 @@ public class PacketExtension1_8Impl implements PacketExtension {
 		}
 	}
 
+	@Override
 	public void registerPlayer(final Player player) {
 		try {
 			Channel c = getChannel(player);
@@ -111,12 +118,20 @@ public class PacketExtension1_8Impl implements PacketExtension {
 		}
 	}
 
+	@Override
 	public void unregisterChannel() {
 
 	}
-	
+
+	/**
+	 * Call an event
+	 *
+	 * @param event the event
+	 * @param <E>   event type
+	 * @return the event
+	 */
 	private static <E extends Event> E callEvent(E event) {
-		Bukkit.getPluginManager().callEvent(event);
+		ListenerManager.getLoggedPluginManager().callEvent(event);
 		return event;
 	}
 }

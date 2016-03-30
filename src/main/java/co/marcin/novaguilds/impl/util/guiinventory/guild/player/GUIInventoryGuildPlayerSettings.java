@@ -38,6 +38,11 @@ public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 	private ItemStack kickItem;
 	private ItemStack rankItem;
 
+	/**
+	 * The constructor
+	 *
+	 * @param nPlayer the player who's settings are being edited
+	 */
 	public GUIInventoryGuildPlayerSettings(NovaPlayer nPlayer) {
 		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.setVar(VarKey.PLAYERNAME, nPlayer.getName()));
 		this.nPlayer = nPlayer;

@@ -21,7 +21,7 @@ public enum Dependency {
 	}
 
 	Dependency(String name, boolean hardDependency, DependencyManager.RunnableWithException additionalTask) {
-		this(name,  hardDependency);
+		this(name, hardDependency);
 		this.additionalTask = additionalTask;
 	}
 

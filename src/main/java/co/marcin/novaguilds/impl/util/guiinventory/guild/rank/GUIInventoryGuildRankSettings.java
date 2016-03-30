@@ -39,7 +39,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private final NovaRank rank;
-	private NovaGuild guild;
+	private final NovaGuild guild;
 
 	private ItemStack editPermissionsItem;
 	private ItemStack setDefaultItem;
@@ -48,9 +48,15 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private ItemStack deleteItem;
 	private ItemStack memberListItem;
 
+	/**
+	 * The constructor
+	 *
+	 * @param rank the rank
+	 */
 	public GUIInventoryGuildRankSettings(NovaRank rank) {
 		super(9, Message.INVENTORY_GUI_RANK_SETTINGS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
+		this.guild = rank.getGuild();
 	}
 
 	@Override
@@ -85,7 +91,6 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 						rank.setName(lines[pattern.getInputLine()]);
 						close();
 						GUIInventoryGuildRankSettings gui = new GUIInventoryGuildRankSettings(rank);
-						gui.setGuild(getGuild());
 						gui.open(getViewer());
 					}
 				});
@@ -138,14 +143,20 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		ChestGUIUtils.addBackItem(this);
 	}
 
+	/**
+	 * Gets the guild
+	 *
+	 * @return the guild
+	 */
 	public NovaGuild getGuild() {
 		return guild;
 	}
 
-	public void setGuild(NovaGuild guild) {
-		this.guild = guild;
-	}
-
+	/**
+	 * Clones a rank
+	 *
+	 * @return the rank
+	 */
 	private NovaRank cloneRank() {
 		String clonePrefix = Message.INVENTORY_GUI_RANK_SETTINGS_CLONEPREFIX.get();
 		String cloneName = rank.getName().startsWith(clonePrefix) || rank.isGeneric() ? rank.getName() : clonePrefix + rank.getName();

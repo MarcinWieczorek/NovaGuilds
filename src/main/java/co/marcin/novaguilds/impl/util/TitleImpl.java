@@ -118,6 +118,9 @@ public class TitleImpl implements Title {
 		loadClasses();
 	}
 
+	/**
+	 * Loads classes
+	 */
 	private void loadClasses() {
 		packetTitle = getNMSClass("PacketPlayOutTitle");
 		packetActions = getNMSClass("PacketPlayOutTitle$EnumTitleAction");

@@ -54,6 +54,11 @@ public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellabl
 		this.cancelled = cancel;
 	}
 
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
+
 	/**
 	 * Gets the entity that was clicked by the player.
 	 *
@@ -70,11 +75,6 @@ public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellabl
 	 */
 	public EntityUseAction getAction() {
 		return action;
-	}
-
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
 	}
 
 	/**

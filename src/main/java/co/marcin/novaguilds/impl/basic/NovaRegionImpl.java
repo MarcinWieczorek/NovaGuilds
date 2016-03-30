@@ -31,10 +31,18 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	private World world;
 	private NovaGuild guild;
 
+	/**
+	 * The constructor
+	 */
 	public NovaRegionImpl() {
 
 	}
 
+	/**
+	 * Create from RegionSelection
+	 *
+	 * @param selection the selection
+	 */
 	public NovaRegionImpl(RegionSelection selection) {
 		setCorner(0, selection.getCorner(0));
 		setCorner(1, selection.getCorner(1));

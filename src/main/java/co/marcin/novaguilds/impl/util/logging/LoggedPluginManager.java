@@ -121,6 +121,12 @@ public abstract class LoggedPluginManager implements PluginManager {
 		}
 	}
 
+	/**
+	 * Gets wrapped executor
+	 *
+	 * @param executor the executor
+	 * @return wrapped executor
+	 */
 	private EventExecutor getWrappedExecutor(final EventExecutor executor) {
 		return new EventExecutor() {
 			@Override
@@ -138,6 +144,12 @@ public abstract class LoggedPluginManager implements PluginManager {
 		};
 	}
 
+	/**
+	 * Gets event listeners
+	 *
+	 * @param type event type
+	 * @return handler list
+	 */
 	private HandlerList getEventListeners(Class<? extends Event> type) {
 		try {
 			Method method = getRegistrationClass(type).getDeclaredMethod("getHandlerList", new Class[0]);
@@ -149,6 +161,12 @@ public abstract class LoggedPluginManager implements PluginManager {
 		}
 	}
 
+	/**
+	 * Gets registration class
+	 *
+	 * @param clazz event class
+	 * @return the class
+	 */
 	private Class<? extends Event> getRegistrationClass(Class<? extends Event> clazz) {
 		try {
 			clazz.getDeclaredMethod("getHandlerList", new Class[0]);

@@ -105,12 +105,16 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 
 			if(rank != null) {
 				GUIInventoryGuildRankSettings guiInventory = new GUIInventoryGuildRankSettings(rank);
-				guiInventory.setGuild(getGuild());
 				guiInventory.open(nPlayer);
 			}
 		}
 	}
 
+	/**
+	 * Gets the guild
+	 *
+	 * @return the guild
+	 */
 	public NovaGuild getGuild() {
 		return guild;
 	}

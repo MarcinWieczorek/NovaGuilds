@@ -56,7 +56,6 @@ import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -83,7 +82,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	* */
 
 	private static NovaGuilds instance;
-	private final int build = Integer.parseInt(StringUtils.replace(getDescription().getVersion(), "-SNAPSHOT", ""));
 
 	//Vault
 	private SignGUI signGUI;
@@ -194,7 +192,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					@EventHandler
 					public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
 						PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
-						Bukkit.getPluginManager().callEvent(interactEntityEvent);
+						ListenerManager.getLoggedPluginManager().callEvent(interactEntityEvent);
 						event.setCancelled(interactEntityEvent.isCancelled());
 					}
 				}, this);
@@ -343,11 +341,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	@Override
 	public Storage getStorage() {
 		return storage;
-	}
-
-	@Override
-	public int getBuild() {
-		return build;
 	}
 
 	@Override

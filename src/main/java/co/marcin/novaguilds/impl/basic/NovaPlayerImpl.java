@@ -72,10 +72,21 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	private RegionSelection activeSelection;
 	private boolean regionSpectate;
 
+	/**
+	 * The constructor
+	 *
+	 * @param uuid the UUID
+	 */
 	public NovaPlayerImpl(UUID uuid) {
 		this.uuid = uuid;
 	}
 
+	/**
+	 * Gets a NovaPlayer from a Player
+	 *
+	 * @param player the player
+	 * @return NovaPlayer instance
+	 */
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
 			NovaPlayer nPlayer = new NovaPlayerImpl(player.getUniqueId());
@@ -87,7 +98,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 		return null;
 	}
 
-	//getters
 	@Override
 	public Player getPlayer() {
 		return player;
@@ -208,7 +218,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 		return id;
 	}
 
-	//setters
 	@Override
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
@@ -334,8 +343,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	//check stuff
+
 	@Override
 	public boolean isCompassPointingGuild() {
 		return compassPointingGuild;
@@ -395,8 +403,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	public boolean canGetKillPoints(Player player) {
 		return !killingHistory.containsKey(player.getUniqueId()) || NumberUtils.systemSeconds() - killingHistory.get(player.getUniqueId()) > Config.KILLING_COOLDOWN.getSeconds();
 	}
-	
-	//add stuff
+
 	@Override
 	public void addInvitation(NovaGuild guild) {
 		if(!isInvitedTo(guild)) {
@@ -449,8 +456,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 		commandExecutorHandler = new CommandExecutorHandler(command, getPlayer(), args);
 		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
 	}
-	
-	//delete stuff
+
 	@Override
 	public void deleteInvitation(NovaGuild guild) {
 		invitedTo.remove(guild);

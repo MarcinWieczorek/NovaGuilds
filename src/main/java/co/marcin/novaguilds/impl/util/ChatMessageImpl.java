@@ -41,6 +41,11 @@ public class ChatMessageImpl implements ChatMessage {
 	private boolean reportToConsole = true;
 	private boolean reported = false;
 
+	/**
+	 * The constructor
+	 *
+	 * @param player message sender
+	 */
 	public ChatMessageImpl(Player player) {
 		this.player = player;
 	}
@@ -159,6 +164,11 @@ public class ChatMessageImpl implements ChatMessage {
 		}
 	}
 
+	/**
+	 * Parse the message, fill variables
+	 *
+	 * @return parsed string
+	 */
 	private String parse() {
 		String format = getFormat();
 

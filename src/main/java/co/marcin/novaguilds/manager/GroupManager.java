@@ -38,7 +38,7 @@ public class GroupManager {
 		groupsNames.add("admin");
 
 		for(String groupName : groupsNames) {
-			groups.put(groupName, new NovaGroupImpl(plugin, groupName));
+			groups.put(groupName, new NovaGroupImpl(groupName));
 		}
 	}
 

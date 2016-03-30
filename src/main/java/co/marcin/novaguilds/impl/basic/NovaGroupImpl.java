@@ -38,6 +38,7 @@ import java.util.List;
  * @author Marcin Wieczorek
  */
 public class NovaGroupImpl implements NovaGroup {
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	private final String name;
 	private double guildCreateMoney = 0;
@@ -65,7 +66,12 @@ public class NovaGroupImpl implements NovaGroup {
 	private int regionAutoSize = 0;
 	private Schematic schematic;
 
-	public NovaGroupImpl(NovaGuilds plugin, String group) {
+	/**
+	 * The constructor
+	 *
+	 * @param group group name
+	 */
+	public NovaGroupImpl(String group) {
 		name = group;
 		LoggerUtils.info("Loading group '" + name + "'...");
 

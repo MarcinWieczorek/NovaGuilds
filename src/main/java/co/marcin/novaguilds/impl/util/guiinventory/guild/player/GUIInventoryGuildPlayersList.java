@@ -38,6 +38,11 @@ public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 	private final Map<Integer, NovaPlayer> slotPlayersMap = new HashMap<>();
 	protected final NovaGuild guild;
 
+	/**
+	 * The constructor
+	 *
+	 * @param guild the guild
+	 */
 	public GUIInventoryGuildPlayersList(NovaGuild guild) {
 		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSLIST_TITLE);
 		this.guild = guild;

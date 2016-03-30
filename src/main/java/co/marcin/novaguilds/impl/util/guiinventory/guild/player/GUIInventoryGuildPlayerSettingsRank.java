@@ -27,6 +27,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public class GUIInventoryGuildPlayerSettingsRank extends GUIInventoryGuildRankList {
 	private final NovaPlayer nPlayer;
 
+	/**
+	 * The constructor
+	 *
+	 * @param nPlayer player who's rank are being set
+	 */
 	public GUIInventoryGuildPlayerSettingsRank(NovaPlayer nPlayer) {
 		super(nPlayer.getGuild());
 		this.nPlayer = nPlayer;

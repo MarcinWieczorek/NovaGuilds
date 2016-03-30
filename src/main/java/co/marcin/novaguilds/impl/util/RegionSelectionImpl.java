@@ -189,6 +189,9 @@ public class RegionSelectionImpl implements RegionSelection {
 		return playerList;
 	}
 
+	/**
+	 * Loads materials depending on selection type
+	 */
 	protected void loadMaterials() {
 		switch(type) {
 			case HIGHLIGHT:
@@ -230,10 +233,18 @@ public class RegionSelectionImpl implements RegionSelection {
 		}
 	}
 
+	/**
+	 * Clears block list
+	 */
 	protected void clearBlockList() {
 		blockList.clear();
 	}
 
+	/**
+	 * Sends a rectangle
+	 *
+	 * @param player target player
+	 */
 	@SuppressWarnings("deprecation")
 	protected void sendRectangle(Player player) {
 		if(player == null || getCorner(0) == null || getCorner(1) == null) {
@@ -251,6 +262,14 @@ public class RegionSelectionImpl implements RegionSelection {
 		}
 	}
 
+	/**
+	 * Sends block change to a player
+	 *
+	 * @param player   target player
+	 * @param location block location
+	 * @param material material
+	 * @param data     durability byte
+	 */
 	@SuppressWarnings("deprecation")
 	protected void highlightCorner(Player player, Location location, Material material, Byte data) {
 		if(player == null || location == null) {

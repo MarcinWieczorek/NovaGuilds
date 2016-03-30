@@ -44,7 +44,7 @@ public interface PacketExtension {
 		String getPacketName();
 
 		/**
-		 * Gets hanndler priority
+		 * Gets handler priority
 		 *
 		 * @return the priority
 		 */

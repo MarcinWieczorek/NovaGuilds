@@ -28,10 +28,10 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -175,7 +175,7 @@ public class RegionInteractListener extends AbstractListener {
 			}
 
 			PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(player, event.getEntity(), EntityUseAction.ATTACK);
-			Bukkit.getPluginManager().callEvent(interactEntityEvent);
+			ListenerManager.getLoggedPluginManager().callEvent(interactEntityEvent);
 			event.setCancelled(interactEntityEvent.isCancelled());
 
 			if(interactEntityEvent.isCancelled()) {
@@ -352,7 +352,7 @@ public class RegionInteractListener extends AbstractListener {
 		}
 	}
 
-	class Non1_7Events extends AbstractListener {
+	private class Non1_7Events extends AbstractListener {
 		/**
 		 * Handles editing items on an ArmorStand
 		 *

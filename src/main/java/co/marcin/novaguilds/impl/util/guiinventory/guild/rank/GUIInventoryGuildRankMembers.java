@@ -30,6 +30,12 @@ import java.util.List;
 public class GUIInventoryGuildRankMembers extends GUIInventoryGuildPlayersList {
 	private final NovaRank rank;
 
+	/**
+	 * The constructor
+	 *
+	 * @param guild the guild
+	 * @param rank  the rank
+	 */
 	public GUIInventoryGuildRankMembers(NovaGuild guild, NovaRank rank) {
 		super(guild);
 		this.rank = rank;
@@ -49,6 +55,13 @@ public class GUIInventoryGuildRankMembers extends GUIInventoryGuildPlayersList {
 		generateContent(list);
 	}
 
+	/**
+	 * Gets members of a rank from a guild
+	 *
+	 * @param guild the guild
+	 * @param rank  the rank
+	 * @return list of NovaPlayers
+	 */
 	public static List<NovaPlayer> getMembers(NovaGuild guild, NovaRank rank) {
 		List<NovaPlayer> list = new ArrayList<>();
 

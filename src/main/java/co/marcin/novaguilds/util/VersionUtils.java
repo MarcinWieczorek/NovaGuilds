@@ -48,16 +48,18 @@ public class VersionUtils {
 	private VersionUtils() throws IOException {
 		init = true;
 		NovaGuilds ng = NovaGuilds.getInstance();
+		String currentString;
 
 		if(ng == null) {
-			String currentString = YamlConfiguration.loadConfiguration(new File("./src/main/resources/plugin.yml")).getString("version");
-			currentString = org.apache.commons.lang.StringUtils.replace(currentString, "-SNAPSHOT", "");
-			buildCurrent = Integer.parseInt(currentString);
+			currentString = YamlConfiguration.loadConfiguration(new File("./src/main/resources/plugin.yml")).getString("version");
 		}
 		else {
-			buildCurrent = ng.getBuild();
+			currentString = ng.getDescription().getVersion();
 			commit = ng.getResource("commit.yml") == null ? "invalid" : IOUtils.inputStreamToString(ng.getResource("commit.yml"));
 		}
+
+		currentString = org.apache.commons.lang.StringUtils.replace(currentString, "-SNAPSHOT", "");
+		buildCurrent = Integer.parseInt(currentString);
 
 		String latestString = StringUtils.getContent("http://novaguilds.pl/latest.info");
 		String devString = StringUtils.getContent("http://novaguilds.pl/dev.info");
