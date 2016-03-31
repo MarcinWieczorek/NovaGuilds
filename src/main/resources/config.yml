@@ -61,7 +61,7 @@ lang:
 # Use 1.8 titles                                  #
 usetitles: false
 
-barapi:
+bossbar:
  enabled: true
  raidbar: true
 
@@ -70,11 +70,6 @@ tagapi:
 
 signgui:
  enabled: true
- lines:
-  - "Edit name:"
-  - "---------------"
-  - "{RANK_NAME}"
-  - "---------------"
 
 ###################################################
 # Points below player's name                      #

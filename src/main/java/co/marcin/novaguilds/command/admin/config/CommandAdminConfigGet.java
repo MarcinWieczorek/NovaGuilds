@@ -37,9 +37,9 @@ public class CommandAdminConfigGet extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
-			getCommand().getUsageMessage().send(sender);
+			command.getUsageMessage().send(sender);
 			return;
 		}
 

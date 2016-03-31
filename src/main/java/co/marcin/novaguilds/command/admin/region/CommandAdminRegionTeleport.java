@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
@@ -32,7 +33,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandAdminRegionTeleport extends AbstractCommandExecutor.ReversedAdminRegion {
+public class CommandAdminRegionTeleport extends AbstractCommandExecutor.Reversed<NovaRegion> {
 	private static final Command command = Command.ADMIN_REGION_TELEPORT;
 
 	public CommandAdminRegionTeleport() {
@@ -40,7 +41,8 @@ public class CommandAdminRegionTeleport extends AbstractCommandExecutor.Reversed
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
+		NovaRegion region = getParameter();
 		NovaPlayer nPlayerOther;
 		Player player;
 

@@ -43,7 +43,7 @@ public class CommandAdminGuildInactive extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		int page = 1;
 		if(args.length == 1) {
 			if(NumberUtils.isNumeric(args[0])) {

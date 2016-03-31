@@ -42,7 +42,7 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Config config = Config.fromPath(args[0]);
 
 		if(config == null) {
@@ -66,7 +66,7 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 			valueString = valueString.substring(1);
 			valueString = valueString.substring(0, valueString.length() - 1);
 
-			String[] split = { valueString };
+			String[] split = {valueString};
 			if(org.apache.commons.lang.StringUtils.contains(valueString, ";")) {
 				split = org.apache.commons.lang.StringUtils.split(valueString, ";");
 			}

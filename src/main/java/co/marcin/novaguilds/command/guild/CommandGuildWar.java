@@ -47,7 +47,7 @@ public class CommandGuildWar extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -160,7 +160,7 @@ public class CommandGuildWar extends AbstractCommandExecutor {
 			Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
 			TagUtils.refresh();
 			TabUtils.refresh();
-			plugin.getRegionManager().checkRaidInit(nPlayer.getPlayer());
+			plugin.getRegionManager().checkRaidInit(nPlayer);
 		}
 	}
 }

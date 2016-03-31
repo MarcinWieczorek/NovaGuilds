@@ -34,10 +34,20 @@ public class StorageConnector {
 	private Storage storage;
 	private boolean isSecondary;
 
+	/**
+	 * The constructor
+	 *
+	 * @throws FatalNovaGuildsException
+	 */
 	public StorageConnector() throws FatalNovaGuildsException {
 		handle();
 	}
 
+	/**
+	 * Handles storage connecting
+	 *
+	 * @throws FatalNovaGuildsException
+	 */
 	public void handle() throws FatalNovaGuildsException {
 		try {
 			connect();
@@ -61,12 +71,24 @@ public class StorageConnector {
 		}
 	}
 
+	/**
+	 * Creates the storage
+	 *
+	 * @throws StorageConnectionFailedException
+	 */
 	public void connect() throws StorageConnectionFailedException {
 		DataStorageType storageType = plugin.getConfigManager().getDataStorageType();
 		LoggerUtils.info("Connecting to " + storageType.name() + " storage (attempt: " + storageConnectionAttempt + ")");
 
 		switch(storageType) {
 			case MYSQL:
+				if(Config.MYSQL_HOST.getString().isEmpty()) {
+					plugin.getConfigManager().setToSecondaryDataStorageType();
+					isSecondary = true;
+					storageConnectionAttempt = 1;
+					throw new StorageConnectionFailedException("MySQL credentials not specified in the config");
+				}
+
 				storage = new MySQLStorageImpl(
 						Config.MYSQL_HOST.getString(),
 						Config.MYSQL_PORT.getString(),
@@ -79,13 +101,19 @@ public class StorageConnector {
 				storage = new SQLiteStorageImpl(new File(plugin.getDataFolder(), "sqlite.db"));
 				break;
 			case FLAT:
-				 storage = new YamlStorageImpl(new File(plugin.getDataFolder(), "data/"));
+				storage = new YamlStorageImpl(new File(plugin.getDataFolder(), "data/"));
 				break;
 		}
 
+		storage.registerManagers();
 		LoggerUtils.info("Successfuly connected to the storage");
 	}
 
+	/**
+	 * Gets the storage
+	 *
+	 * @return the storage
+	 */
 	public Storage getStorage() {
 		return storage;
 	}

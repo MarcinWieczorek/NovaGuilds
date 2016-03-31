@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.exception;
 
 import co.marcin.novaguilds.NovaGuilds;
-import org.bukkit.Bukkit;
+import co.marcin.novaguilds.manager.ListenerManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,13 +40,16 @@ public class FatalNovaGuildsException extends Exception {
 		disable();
 	}
 
+	/**
+	 * Disables NovaGuilds
+	 */
 	private void disable() {
 		fatal = true;
 
 		NovaGuilds.runTaskLater(new Runnable() {
 			@Override
 			public void run() {
-				Bukkit.getPluginManager().disablePlugin(NovaGuilds.getInstance());
+				ListenerManager.getLoggedPluginManager().disablePlugin(NovaGuilds.getInstance());
 			}
 		}, 1, TimeUnit.MILLISECONDS);
 	}

@@ -26,29 +26,30 @@ import org.bukkit.entity.Entity;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+@SuppressWarnings("ConstantConditions")
 public class Reflections {
 	public static Class<?> getCraftClass(String name) {
 		String className = "net.minecraft.server." + getVersion() + name;
-		Class<?> c = null;
+
 		try {
-			c = Class.forName(className);
+			return Class.forName(className);
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
+			return null;
 		}
-		return c;
 	}
 
 	public static Class<?> getBukkitClass(String name) {
 		String className = "org.bukkit.craftbukkit." + getVersion() + name;
-		Class<?> c = null;
+
 		try {
-			c = Class.forName(className);
+			return Class.forName(className);
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
+			return null;
 		}
-		return c;
 	}
 
 	public static Object getHandle(Entity entity) {
@@ -140,28 +141,38 @@ public class Reflections {
 	}
 
 	public static Method getMethod(Class<?> cl, String method, Class<?>... args) {
-		for(Method m : cl.getMethods())
-			if(m.getName().equals(method) && classListEqual(args, m.getParameterTypes()))
+		for(Method m : cl.getMethods()) {
+			if(m.getName().equals(method) && classListEqual(args, m.getParameterTypes())) {
 				return m;
+			}
+		}
+
 		return null;
 	}
 
 	public static Method getMethod(Class<?> cl, String method) {
-		for(Method m : cl.getMethods())
-			if(m.getName().equals(method))
+		for(Method m : cl.getMethods()) {
+			if(m.getName().equals(method)) {
 				return m;
+			}
+		}
 		return null;
 	}
 
 	public static boolean classListEqual(Class<?>[] l1, Class<?>[] l2) {
 		boolean equal = true;
-		if(l1.length != l2.length)
+
+		if(l1.length != l2.length) {
 			return false;
-		for(int i = 0; i < l1.length; i++)
+		}
+
+		for(int i = 0; i < l1.length; i++) {
 			if(l1[i] != l2[i]) {
 				equal = false;
 				break;
 			}
+		}
+
 		return equal;
 	}
 
@@ -185,5 +196,4 @@ public class Reflections {
 
 		boolean hasField(Object target);
 	}
-
 }

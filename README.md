@@ -1,17 +1,28 @@
-<a href="http://novaguilds.pl/"><img src="http://novaguilds.marcin.co/img/newlogo.png" /></a><br/><br/>
+<a href="http://novaguilds.pl/"><img src="http://novaguilds.pl/img/newlogo.png" /></a><br/><br/>
 
 NovaGuilds is my own guilds plugin, still in development, but I want to hear your opinions and ideas.<br/>
 Please leave feedback!<br/><br/>
+
+<span style="font-size: 20px;color:red">
+    I do not allow anybody to publish compiled source (.jar) on their websites.<br/>
+    Please download NovaGuilds' binary files only from bukkit.org, github and novaguilds.pl<br/>
+     The safest way is to compile it yourself!<br/>
+     You are free to redistribute modified versions of source code to others, but you must not distribute compiled versions of the plugin using the name NovaGuilds.
+</span>
+
+<br/><br/>
+
 <b>Vault</b> is required!<br/>
-<b>BarAPI</b> is required unless you turn it off in config!<br/>
-<b>HolographicDisplays</b> is required unless you turn it off in config!<br/>
+<b>BarAPI/BossBarAPI</b> is optional<br/>
+<b>HolographicDisplays</b> is optional<br/>
+<b>VanishNoPacket</b> is optional<br/>
 <br/><br/>
 [![Join the chat at https://gitter.im/MarcinWieczorek/NovaGuilds](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MarcinWieczorek/NovaGuilds?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/MarcinWieczorek/NovaGuilds.svg?branch=master)](https://travis-ci.org/MarcinWieczorek/NovaGuilds)
 <br/>
 
 <h2><b>Downloads</b></h2>
-The plugin works on all <b>1.7</b> and <b>1.8</b> versions!<br/>
+The plugin works on all <b>1.7</b> <b>1.8</b> and <b>1.9</b> versions!<br/>
 <a href="http://novaguilds.pl">http://novaguilds.pl/</a>
 <br/><br/><br/>
 
@@ -34,44 +45,44 @@ mvn clean install
 <a href="https://github.com/Mondanzo">@Mondanzo</a> for German translation
 
 <h2>Screenshots</h2>
-<img src="http://novaguilds.marcin.co/img/ss/ngss1.jpg" alt="ss" />
+<img src="http://novaguilds.pl/img/ss/ngss1.jpg" alt="ss" />
 <br/><br/><br/>
 
 <h2><b>Setup</b></h2>
 <ul>
     <li>Download latest version</li>
     <li>Put it in your plugins/ directory</li>
-    <li>Also put there Vault</li>
-    <li>Add BarAPI and HolographicDisplays plugins if you need.</li>
-    <li>Restart/reload the server</li>
+    <li>Also put there Vault plugin</li>
+    <li>Add BarAPI/BossBarAPI and HolographicDisplays plugins if you need.</li>
+    <li>Restart the server</li>
     <li>Edit <b>config.yml</b> to setup your database</li>
     <li>Add <b>{TAG}</b> to players chat message/prefix (I recommend Essentials config)</li>
-    <li>Restart/reload the server</li>
+    <li>Restart the server</li>
     <li>Enjoy and leave feedback!</li>
 </ul>
 
 <br/>
 <h2><b>Features</b></h2>
 <ul>
-    <li>MySQL and SQLite support</li>
-    <li>Money required to create a guild (Vault)(Configurable)</li>
-    <li>Items required to create a guild (Configurable)</li>
-    <li>Configurable region interact (you can allow others to use stuff in guilds)</li>
+    <li>MySQL, SQLite and Flat support</li>
+    <li>Configurable money required to create a guild</li>
+    <li>Configurable items required to create a guild</li>
+    <li>Configurable region interaction</li>
     <li>Configurable messages</li>
     <li>Tags in chat, above player and in the tablist</li>
-    <li>Advanced region selection</li>
     <li>Automatic MySQL tables configuration</li>
     <li>Broadcast messages</li>
     <li>Pay/withdraw money to/from guild's bank</li>
     <li>Allies, wars between guilds</li>
-    <li>Language support</li>
+    <li>Multi-language support</li>
     <li>Guild/Ally chat</li>
-    <li>Configurable command names</li>
+    <li>Configurable command aliases</li>
+    <li>Advanced region selection and resizing</li>
     <li>Automatic regions</li>
-    <li>Region resizing</li>
-    <li>Banks</li>
+    <li>Guild Vaults</li>
     <li>VanishNoPacket support</li>
     <li>Auto update MySQL tables</li>
+    <li>Advanced horse protection</li>
 </ul>
 
 <br/>
@@ -79,14 +90,13 @@ mvn clean install
 <ul>
     <li>Auto update to latest build (?)</li>
     <li>Auto update config (?)</li>
-    <li>Advanced horse protection</li>
     <li>You tell me!</li>
 </ul>
 
 <br/>
 <h2><b>Undocumented features (bugs)</b></h2>
 <ul>
-    <li>Flat and SQLite are not stable, use MySQL</li>
+    <li>Sometimes breaks chat plugin</li>
     <li>Found any? Github -> issues</li>
 </ul>
 
@@ -171,27 +181,27 @@ mvn clean install
         </tr>
         <tr>
             <td>novaguilds.admin.config.access</td>
-            <td></td>
+            <td>Access /nga config</td>
         </tr>
         <tr>
             <td>novaguilds.admin.config.get</td>
-            <td></td>
+            <td>/nga config get</td>
         </tr>
         <tr>
             <td>novaguilds.admin.config.reload</td>
-            <td></td>
+            <td>/nga config reload</td>
         </tr>
         <tr>
             <td>novaguilds.admin.config.reset</td>
-            <td></td>
+            <td>/nga config reset</td>
         </tr>
         <tr>
             <td>novaguilds.admin.config.save</td>
-            <td></td>
+            <td>/nga config save</td>
         </tr>
         <tr>
             <td>novaguilds.admin.config.set</td>
-            <td></td>
+            <td>/nga config set</td>
         </tr>
         <tr>
             <td>novaguilds.admin.guild.access</td>

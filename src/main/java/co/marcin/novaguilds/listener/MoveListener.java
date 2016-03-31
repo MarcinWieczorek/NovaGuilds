@@ -46,6 +46,11 @@ public class MoveListener extends AbstractListener {
 		PlayerManager.getPlayer(event.getPlayer()).cancelToolProgress();
 	}
 
+	/**
+	 * Performs region checking
+	 *
+	 * @param event move event
+	 */
 	private void execute(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);

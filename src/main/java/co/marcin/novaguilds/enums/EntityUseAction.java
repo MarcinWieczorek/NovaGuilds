@@ -25,10 +25,20 @@ public enum EntityUseAction {
 
 	private final int id;
 
+	/**
+	 * The constructor
+	 *
+	 * @param id action id
+	 */
 	EntityUseAction(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the ID
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}

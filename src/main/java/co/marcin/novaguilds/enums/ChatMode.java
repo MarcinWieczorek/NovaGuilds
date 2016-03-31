@@ -18,24 +18,85 @@
 
 package co.marcin.novaguilds.enums;
 
-public enum ChatMode {
-	NORMAL,
-	GUILD,
-	ALLY;
+import java.util.ArrayList;
+import java.util.List;
 
+public enum ChatMode {
+	NORMAL(Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL),
+	GUILD(Message.CHAT_GUILD_CHATMODE_NAMES_GUILD, Config.CHAT_GUILD_ENABLED),
+	ALLY(Message.CHAT_GUILD_CHATMODE_NAMES_ALLY, Config.CHAT_ALLY_ENABLED);
+
+	private final Config enabledConfig;
+	private final Message name;
+
+	/**
+	 * Constructor with 'enabled' config
+	 *
+	 * @param name   mode's lang name
+	 * @param config config enum to check if mode is enabled
+	 */
+	ChatMode(Message name, Config config) {
+		this.name = name;
+		this.enabledConfig = config;
+	}
+
+	/**
+	 * Constructor for normal mode
+	 * Enabled by default
+	 *
+	 * @param name mode's lang name
+	 */
+	ChatMode(Message name) {
+		this.name = name;
+		this.enabledConfig = null;
+	}
+
+	/**
+	 * Checks if mode is enabled in config
+	 *
+	 * @return true if enabled
+	 */
+	public boolean isEnabled() {
+		return enabledConfig == null || enabledConfig.getBoolean();
+	}
+
+	/**
+	 * Gets Message enum of mode's name
+	 *
+	 * @return the Message
+	 */
+	public Message getName() {
+		return name;
+	}
+
+	/**
+	 * Gets next enabled chat mode
+	 *
+	 * @return chat mode
+	 */
 	public ChatMode next() {
 		boolean n = false;
 		for(ChatMode mode : values()) {
+			if(!mode.isEnabled()) {
+				continue;
+			}
+
 			if(n) {
 				return mode;
 			}
 
-			n = mode == this;
+			n = n || mode == this;
 		}
 
 		return NORMAL;
 	}
 
+	/**
+	 * Gets chat mode from string
+	 *
+	 * @param name the string
+	 * @return the chat mode
+	 */
 	public static ChatMode fromString(String name) {
 		try {
 			return valueOf(name.toUpperCase());
@@ -43,5 +104,22 @@ public enum ChatMode {
 		catch(IllegalArgumentException e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Gets all enabled chat modes
+	 *
+	 * @return ChatMode array
+	 */
+	public static ChatMode[] valuesEnabled() {
+		List<ChatMode> list = new ArrayList<>();
+
+		for(ChatMode mode : values()) {
+			if(mode.isEnabled()) {
+				list.add(mode);
+			}
+		}
+
+		return list.toArray(new ChatMode[list.size()]);
 	}
 }

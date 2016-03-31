@@ -35,7 +35,7 @@ public class CommandConfirm extends AbstractCommandExecutor implements CommandEx
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		CommandExecutorHandler handler = nPlayer.getCommandExecutorHandler();
 

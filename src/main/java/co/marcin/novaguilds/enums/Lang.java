@@ -39,22 +39,47 @@ public enum Lang {
 
 	private Charset charset;
 
+	/**
+	 * UTF-8 charset lang
+	 */
 	Lang() {
 		charset = Charset.forName("UTF-8");
 	}
 
+	/**
+	 * Charset specified lang
+	 *
+	 * @param charset the charset
+	 */
 	Lang(Charset charset) {
 		this.charset = charset;
 	}
 
+	/**
+	 * Gets the charset
+	 *
+	 * @return the charset
+	 */
 	public Charset getCharset() {
 		return charset;
 	}
 
+	/**
+	 * Sets the charset
+	 *
+	 * @param charset the charset
+	 */
 	private void setCharset(Charset charset) {
 		this.charset = charset;
 	}
 
+	/**
+	 * Load lang from a file
+	 *
+	 * @param file the file
+	 * @return the lang
+	 * @throws IOException
+	 */
 	public static Lang fromFile(File file) throws IOException {
 		try {
 			String langName = StringUtils.replace(StringUtils.replace(file.getName().toUpperCase(), "-", "_"), ".YML", "");
@@ -80,6 +105,13 @@ public enum Lang {
 		}
 	}
 
+	/**
+	 * Load configuration with charset detecting
+	 *
+	 * @param file the file
+	 * @return the configuration
+	 * @throws IOException
+	 */
 	public static YamlConfiguration loadConfiguration(File file) throws IOException {
 		return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Lang.fromFile(file).getCharset()));
 	}

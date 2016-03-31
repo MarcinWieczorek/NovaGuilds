@@ -34,6 +34,11 @@ public class ChatBroadcastImpl implements ChatBroadcast {
 	private final Message message;
 	private final Map<Integer, PreparedTag> preparedTagMap = new HashMap<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param message the message
+	 */
 	public ChatBroadcastImpl(Message message) {
 		this.message = message;
 	}

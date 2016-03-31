@@ -28,9 +28,10 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
-import org.bukkit.Bukkit;
+import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -82,7 +83,7 @@ public class RegionInteractListener extends AbstractListener {
 		List<String> denyUse = Config.REGION_DENYUSE.getStringList();
 
 		String clickedBlockName = event.getClickedBlock().getType().name();
-		String usedItemName = event.getPlayer().getItemInHand().getType().name();
+		String usedItemName = (event.getItem() == null ? Material.AIR : event.getItem().getType()).name();
 
 		NovaRegion region = RegionManager.get(event.getClickedBlock());
 
@@ -90,7 +91,7 @@ public class RegionInteractListener extends AbstractListener {
 			return;
 		}
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		NovaGuild guild = region.getGuild();
 
 		if(nPlayer.getBypass()) {
@@ -174,7 +175,7 @@ public class RegionInteractListener extends AbstractListener {
 			}
 
 			PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(player, event.getEntity(), EntityUseAction.ATTACK);
-			Bukkit.getPluginManager().callEvent(interactEntityEvent);
+			ListenerManager.getLoggedPluginManager().callEvent(interactEntityEvent);
 			event.setCancelled(interactEntityEvent.isCancelled());
 
 			if(interactEntityEvent.isCancelled()) {
@@ -203,7 +204,7 @@ public class RegionInteractListener extends AbstractListener {
 			}
 			else {
 				if(!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_RIDE))) {
-					if(entity.getType() == EntityType.SHEEP && player.getItemInHand().getType() == Material.SHEARS) {
+					if(entity.getType() == EntityType.SHEEP && InventoryUtils.getItemInHand(player).getType() == Material.SHEARS) {
 						event.setCancelled(true);
 						Message.CHAT_REGION_DENY_RIDEMOB.send(player);
 					}
@@ -272,7 +273,7 @@ public class RegionInteractListener extends AbstractListener {
 
 		if(RegionManager.get(block) != null && (!plugin.getRegionManager().canInteract(player, block) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
 			event.setCancelled(true);
-			Message.CHAT_REGION_DENY_INTERACT.send(event.getPlayer());
+			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
 	}
 
@@ -351,7 +352,7 @@ public class RegionInteractListener extends AbstractListener {
 		}
 	}
 
-	class Non1_7Events extends AbstractListener {
+	private class Non1_7Events extends AbstractListener {
 		/**
 		 * Handles editing items on an ArmorStand
 		 *

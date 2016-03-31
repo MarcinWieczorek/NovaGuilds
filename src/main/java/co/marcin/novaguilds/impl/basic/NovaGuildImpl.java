@@ -25,7 +25,7 @@ import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.impl.util.AbstractChangeable;
+import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -34,7 +34,6 @@ import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import me.confuser.barapi.BarAPI;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -44,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
+public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	private final UUID uuid;
 	private int id;
 	private String name;
@@ -83,11 +82,15 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
 	private final List<NovaRank> ranks = new ArrayList<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param uuid the UUID
+	 */
 	public NovaGuildImpl(UUID uuid) {
 		this.uuid = uuid;
 	}
 
-	//getters
 	@Override
 	public UUID getUUID() {
 		return uuid;
@@ -187,7 +190,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 		return leader;
 	}
 
-	@Override
 	public String getLeaderName() {
 		return leaderName;
 	}
@@ -271,7 +273,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 		return null;
 	}
 
-	//setters
 	@Override
 	public void setVaultHologram(Hologram hologram) {
 		vaultHologram = hologram;
@@ -474,7 +475,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 		this.ranks.addAll(ranks);
 	}
 
-	//check
 	@Override
 	public boolean isInvitedToAlly(NovaGuild guild) {
 		return allyInvitations.contains(guild);
@@ -507,7 +507,7 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 	@Override
 	public boolean isRaid() {
-		return !(raid == null) && NovaGuilds.getInstance().guildRaids.contains(this);
+		return raid != null && raid.getResult() == NovaRaid.Result.DURING;
 	}
 
 	@Override
@@ -525,7 +525,6 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 		return this.money >= money;
 	}
 
-	//add/remove
 	@Override
 	public void addAlly(NovaGuild guild) {
 		if(guild != null && !isAlly(guild)) {
@@ -582,12 +581,28 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 	@Override
 	public void addMoney(double money) {
+		if(money == 0) {
+			return;
+		}
+
+		if(money < 0) {
+			throw new IllegalArgumentException("Cannot add negative amount of money");
+		}
+
 		this.money += money;
 		setChanged();
 	}
 
 	@Override
 	public void addPoints(int points) {
+		if(points == 0) {
+			return;
+		}
+
+		if(points < 0) {
+			throw new IllegalArgumentException("Cannot add negative amount of points");
+		}
+
 		this.points += points;
 		setChanged();
 	}
@@ -647,12 +662,15 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 	}
 
 	@Override
-	public void removeRaid() {
-		raid = null;
-	}
-
-	@Override
 	public void takeMoney(double money) {
+		if(money == 0) {
+			return;
+		}
+
+		if(money < 0) {
+			throw new IllegalArgumentException("Cannot take negative amount of money");
+		}
+
 		this.money -= money;
 		setChanged();
 	}
@@ -671,6 +689,14 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 	@Override
 	public void takePoints(int points) {
+		if(points == 0) {
+			return;
+		}
+
+		if(points < 0) {
+			throw new IllegalArgumentException("Cannot add negative amount of points");
+		}
+
 		this.points -= points;
 		setChanged();
 	}
@@ -742,8 +768,9 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 			}
 		}
 
-		//remove raid
-		//TODO
+		if(isRaid()) {
+			getRaid().setResult(NovaRaid.Result.DESTROYED);
+		}
 
 		//bank and hologram
 		if(this.getVaultHologram() != null) {
@@ -795,9 +822,9 @@ public class NovaGuildImpl extends AbstractChangeable implements NovaGuild {
 
 	@Override
 	public void removeRaidBar() {
-		if(Config.BARAPI_ENABLED.getBoolean()) {
+		if(Config.BOSSBAR_ENABLED.getBoolean()) {
 			for(Player player : getOnlinePlayers()) {
-				BarAPI.removeBar(player);
+				BossBarUtils.removeBar(player);
 			}
 		}
 	}

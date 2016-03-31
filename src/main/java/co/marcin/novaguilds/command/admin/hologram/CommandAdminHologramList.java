@@ -36,7 +36,7 @@ public class CommandAdminHologramList extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Message.CHAT_ADMIN_HOLOGRAM_LIST_HEADER.send(sender);
 		Map<VarKey, String> vars = new HashMap<>();
 		for(NovaHologram hologram : plugin.getHologramManager().getHolograms()) {

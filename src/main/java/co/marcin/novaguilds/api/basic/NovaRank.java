@@ -18,12 +18,12 @@
 
 package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.api.util.Changeable;
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.enums.GuildPermission;
 
 import java.util.List;
 
-public interface NovaRank extends Changeable {
+public interface NovaRank extends Resource {
 	/**
 	 * Gets the ID
 	 *
@@ -150,14 +150,6 @@ public interface NovaRank extends Changeable {
 	 * @return true/false
 	 */
 	boolean hasPermission(GuildPermission permission);
-
-	/**
-	 * Returns if the rank is new
-	 * (not added to the storage yet)
-	 *
-	 * @return true/false
-	 */
-	boolean isNew();
 
 	/**
 	 * Returns if the rank is generic

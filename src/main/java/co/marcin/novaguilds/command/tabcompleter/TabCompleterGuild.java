@@ -18,9 +18,13 @@
 
 package co.marcin.novaguilds.command.tabcompleter;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.guild.CommandGuild;
 import co.marcin.novaguilds.command.region.CommandRegion;
 import co.marcin.novaguilds.enums.ChatMode;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -35,6 +39,7 @@ public class TabCompleterGuild implements TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 		List<String> list = new ArrayList<>();
 		final Set<String> keys = new HashSet<>();
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(args.length > 1) {
 			switch(args[0].toLowerCase()) {
@@ -45,8 +50,23 @@ public class TabCompleterGuild implements TabCompleter {
 				case "c":
 				case "chat":
 				case "chatmode":
-					for(ChatMode chatMode : ChatMode.values()) {
-						list.add(chatMode.name().toLowerCase());
+					for(ChatMode chatMode : ChatMode.valuesEnabled()) {
+						keys.add(chatMode.name().toLowerCase());
+					}
+					break;
+				case "war":
+				case "ally":
+					for(NovaGuild guild : NovaGuilds.getInstance().getGuildManager().getGuilds()) {
+						if(!nPlayer.hasGuild() || !guild.equals(nPlayer.getGuild())) {
+							keys.add(guild.getTag().toLowerCase());
+							keys.add(guild.getName().toLowerCase());
+						}
+					}
+					break;
+				case "join":
+					for(NovaGuild guild : nPlayer.getInvitedTo()) {
+						keys.add(guild.getTag().toLowerCase());
+						keys.add(guild.getName().toLowerCase());
 					}
 					break;
 			}

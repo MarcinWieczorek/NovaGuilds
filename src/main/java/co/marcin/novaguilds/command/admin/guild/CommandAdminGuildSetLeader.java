@@ -42,7 +42,7 @@ public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) { //no leader
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;

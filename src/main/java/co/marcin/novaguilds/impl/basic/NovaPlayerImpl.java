@@ -33,7 +33,6 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
-import co.marcin.novaguilds.impl.util.AbstractChangeable;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.entity.Player;
@@ -44,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
+public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	private int id = 0;
 	private final UUID uuid;
 	private String name;
@@ -73,10 +72,21 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	private RegionSelection activeSelection;
 	private boolean regionSpectate;
 
+	/**
+	 * The constructor
+	 *
+	 * @param uuid the UUID
+	 */
 	public NovaPlayerImpl(UUID uuid) {
 		this.uuid = uuid;
 	}
 
+	/**
+	 * Gets a NovaPlayer from a Player
+	 *
+	 * @param player the player
+	 * @return NovaPlayer instance
+	 */
 	public static NovaPlayer fromPlayer(Player player) {
 		if(player != null) {
 			NovaPlayer nPlayer = new NovaPlayerImpl(player.getUniqueId());
@@ -88,7 +98,6 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 		return null;
 	}
 
-	//getters
 	@Override
 	public Player getPlayer() {
 		return player;
@@ -156,7 +165,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 
 	@Override
 	public double getMoney() {
-		return NovaGuilds.getInstance().econ.getBalance(name);
+		return NovaGuilds.getInstance().getDependencyManager().getEconomy().getBalance(name);
 	}
 
 	@Override
@@ -209,7 +218,6 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 		return id;
 	}
 
-	//setters
 	@Override
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
@@ -335,8 +343,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	//check stuff
+
 	@Override
 	public boolean isCompassPointingGuild() {
 		return compassPointingGuild;
@@ -396,8 +403,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 	public boolean canGetKillPoints(Player player) {
 		return !killingHistory.containsKey(player.getUniqueId()) || NumberUtils.systemSeconds() - killingHistory.get(player.getUniqueId()) > Config.KILLING_COOLDOWN.getSeconds();
 	}
-	
-	//add stuff
+
 	@Override
 	public void addInvitation(NovaGuild guild) {
 		if(!isInvitedTo(guild)) {
@@ -426,7 +432,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 
 	@Override
 	public void addMoney(double money) {
-		NovaGuilds.getInstance().econ.depositPlayer(name, money);
+		NovaGuilds.getInstance().getDependencyManager().getEconomy().depositPlayer(name, money);
 	}
 
 	@Override
@@ -450,8 +456,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 		commandExecutorHandler = new CommandExecutorHandler(command, getPlayer(), args);
 		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
 	}
-	
-	//delete stuff
+
 	@Override
 	public void deleteInvitation(NovaGuild guild) {
 		invitedTo.remove(guild);
@@ -466,7 +471,7 @@ public class NovaPlayerImpl extends AbstractChangeable implements NovaPlayer {
 
 	@Override
 	public void takeMoney(double money) {
-		NovaGuilds.getInstance().econ.withdrawPlayer(name, money);
+		NovaGuilds.getInstance().getDependencyManager().getEconomy().withdrawPlayer(name, money);
 	}
 
 	@Override

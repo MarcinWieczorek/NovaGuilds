@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -28,39 +27,45 @@ import java.io.File;
 import java.io.IOException;
 
 public class VersionUtils {
-	public static int buildCurrent;
-	public static int buildLatest = 0;
-	public static int buildDev = 0;
-	public static boolean updateAvailable = false;
-	public static boolean init = false;
+	private static int buildCurrent;
+	private static int buildLatest;
+	private static int buildDev;
+	private static String commit = "";
+	private static boolean updateAvailable;
+	private static boolean init;
 
 	static {
-		if(!init) new VersionUtils();
+		if(!init) {
+			try {
+				new VersionUtils();
+			}
+			catch(IOException e) {
+				LoggerUtils.exception(e);
+			}
+		}
 	}
 
-	public VersionUtils() {
+	private VersionUtils() throws IOException {
 		init = true;
-		NovaGuildsAPI ng = NovaGuilds.getInstance();
+		NovaGuilds ng = NovaGuilds.getInstance();
+		String currentString;
 
 		if(ng == null) {
-			String currentString = YamlConfiguration.loadConfiguration(new File("./src/main/resources/plugin.yml")).getString("version");
-			currentString = org.apache.commons.lang.StringUtils.replace(currentString, "-SNAPSHOT", "");
-			buildCurrent = Integer.parseInt(currentString);
+			currentString = YamlConfiguration.loadConfiguration(new File("./src/main/resources/plugin.yml")).getString("version");
 		}
 		else {
-			buildCurrent = ng.getBuild();
+			currentString = ng.getDescription().getVersion();
+			commit = ng.getResource("commit.yml") == null ? "invalid" : IOUtils.inputStreamToString(ng.getResource("commit.yml"));
 		}
 
-		try {
-			String latestString = StringUtils.getContent("http://novaguilds.pl/latest.info");
-			String devString = StringUtils.getContent("http://novaguilds.pl/dev.info");
+		currentString = org.apache.commons.lang.StringUtils.replace(currentString, "-SNAPSHOT", "");
+		buildCurrent = Integer.parseInt(currentString);
 
-			buildLatest = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(latestString, "-SNAPSHOT", ""));
-			buildDev = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(devString, "-SNAPSHOT", ""));
-		}
-		catch(IOException e) {
-			LoggerUtils.error("Failed to fetch versions");
-		}
+		String latestString = StringUtils.getContent("http://novaguilds.pl/latest.info");
+		String devString = StringUtils.getContent("http://novaguilds.pl/dev.info");
+
+		buildLatest = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(latestString, "-SNAPSHOT", ""));
+		buildDev = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(devString, "-SNAPSHOT", ""));
 	}
 
 	public static void checkVersion() {
@@ -91,5 +96,25 @@ public class VersionUtils {
 		if(updateAvailable) {
 			Message.CHAT_UPDATE.broadcast(Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE);
 		}
+	}
+
+	public static int getBuildCurrent() {
+		return buildCurrent;
+	}
+
+	public static int getBuildLatest() {
+		return buildLatest;
+	}
+
+	public static int getBuildDev() {
+		return buildDev;
+	}
+
+	public static String getCommit() {
+		return org.apache.commons.lang.StringUtils.substring(commit, 0, 7);
+	}
+
+	public static boolean isUpdateAvailable() {
+		return updateAvailable;
 	}
 }

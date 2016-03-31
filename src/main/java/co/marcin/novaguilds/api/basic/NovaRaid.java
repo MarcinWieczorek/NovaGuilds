@@ -21,6 +21,13 @@ package co.marcin.novaguilds.api.basic;
 import java.util.List;
 
 public interface NovaRaid {
+	enum Result {
+		DURING,
+		TIMEOUT,
+		SUCCESS,
+		DESTROYED
+	}
+
 	/**
 	 * Gets the attacking guild
 	 *
@@ -71,18 +78,11 @@ public interface NovaRaid {
 	List<NovaPlayer> getPlayersOccupying();
 
 	/**
-	 * Gets the amount of attackers of defenders region
+	 * Gets raid result
 	 *
-	 * @return the amount
+	 * @return result
 	 */
-	int getPlayersOccupyingCount();
-
-	/**
-	 * Returns whether the raid is finished or not
-	 *
-	 * @return boolean
-	 */
-	boolean getFinished();
+	Result getResult();
 
 	/**
 	 * Gets the unixtime of last activity on defenders region
@@ -130,19 +130,14 @@ public interface NovaRaid {
 	/**
 	 * Adds some progress
 	 */
-	void stepProgress();
+	void addProgress(float progress);
 
 	/**
-	 * Sets 'finished' flag
+	 * Sets the result
 	 *
-	 * @param finished boolean
+	 * @param result boolean
 	 */
-	void setFinished(boolean finished);
-
-	/**
-	 * Finishes the raid
-	 */
-	void finish();
+	void setResult(Result result);
 
 	/**
 	 * Updates inactive time

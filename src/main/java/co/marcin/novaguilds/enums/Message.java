@@ -63,8 +63,8 @@ public enum Message {
 	CHAT_ADMIN_CONFIG_SAVED,
 	CHAT_ADMIN_CONFIG_SET,
 	CHAT_ADMIN_CONFIG_GET_SINGLE,
-	CHAT_ADMIN_CONFIG_GET_LIST_SECTION(MessageFlag.NOPREFIX),
-	CHAT_ADMIN_CONFIG_GET_LIST_KEY(MessageFlag.NOPREFIX),
+	CHAT_ADMIN_CONFIG_GET_LIST_SECTION(Flag.NOPREFIX),
+	CHAT_ADMIN_CONFIG_GET_LIST_KEY(Flag.NOPREFIX),
 
 	CHAT_ADMIN_GUILD_TIMEREST_SET,
 	CHAT_ADMIN_GUILD_LIST_HEADER,
@@ -221,14 +221,14 @@ public enum Message {
 	CHAT_GUILD_BUY_SLOT_SUCCESS,
 	CHAT_GUILD_BUY_SLOT_MAXREACHED,
 
-	CHAT_GUILD_VAULT_OUTSIDEREGION(MessageFlag.TITLE),
-	CHAT_GUILD_VAULT_PLACE_SUCCESS(MessageFlag.TITLE),
-	CHAT_GUILD_VAULT_DROP(MessageFlag.TITLE),
-	CHAT_GUILD_VAULT_PLACE_EXISTS(MessageFlag.TITLE),
-	CHAT_GUILD_VAULT_PLACE_DOUBLECHEST(MessageFlag.TITLE),
-	CHAT_GUILD_VAULT_BREAK_NOTEMPTY(MessageFlag.TITLE),
-	CHAT_GUILD_VAULT_BREAK_SUCCESS(MessageFlag.TITLE),
-	CHAT_GUILD_VAULT_DENYRELATIVE(MessageFlag.TITLE),
+	CHAT_GUILD_VAULT_OUTSIDEREGION(Flag.TITLE),
+	CHAT_GUILD_VAULT_PLACE_SUCCESS(Flag.TITLE),
+	CHAT_GUILD_VAULT_DROP(Flag.TITLE),
+	CHAT_GUILD_VAULT_PLACE_EXISTS(Flag.TITLE),
+	CHAT_GUILD_VAULT_PLACE_DOUBLECHEST(Flag.TITLE),
+	CHAT_GUILD_VAULT_BREAK_NOTEMPTY(Flag.TITLE),
+	CHAT_GUILD_VAULT_BREAK_SUCCESS(Flag.TITLE),
+	CHAT_GUILD_VAULT_DENYRELATIVE(Flag.TITLE),
 
 	CHAT_GUILD_CHATMODE_SUCCESS,
 	CHAT_GUILD_CHATMODE_INVALID,
@@ -279,8 +279,8 @@ public enum Message {
 	CHAT_REGION_CNOTAFFORD,
 	CHAT_REGION_CREATED,
 	CHAT_REGION_MUSTVEGUILD,
-	CHAT_REGION_ENTERED(MessageFlag.TITLE),
-	CHAT_REGION_EXITED(MessageFlag.TITLE),
+	CHAT_REGION_ENTERED(Flag.TITLE),
+	CHAT_REGION_EXITED(Flag.TITLE),
 	CHAT_REGION_NOTIFYGUILD_ENTERED,
 	CHAT_REGION_BELONGSTO,
 	CHAT_REGION_LIST_HEADER,
@@ -291,7 +291,7 @@ public enum Message {
 	CHAT_REGION_BLOCKEDCMD,
 	CHAT_REGION_DELETED,
 
-	CHAT_USAGE_NGA_CONFIG_ACCESS(MessageFlag.NOPREFIX),
+	CHAT_USAGE_NGA_CONFIG_ACCESS(Flag.NOPREFIX),
 	CHAT_USAGE_NGA_CONFIG_GET,
 	CHAT_USAGE_NGA_CONFIG_RELOAD,
 	CHAT_USAGE_NGA_CONFIG_RESET,
@@ -349,18 +349,18 @@ public enum Message {
 	CHAT_USAGE_TOOL,
 
 	CHAT_COMMANDS_ADMIN_MAIN_HEADER,
-	CHAT_COMMANDS_ADMIN_MAIN_ITEMS(MessageFlag.LIST),
+	CHAT_COMMANDS_ADMIN_MAIN_ITEMS(Flag.LIST),
 	CHAT_COMMANDS_ADMIN_REGION_HEADER,
-	CHAT_COMMANDS_ADMIN_REGION_ITEMS(MessageFlag.LIST),
+	CHAT_COMMANDS_ADMIN_REGION_ITEMS(Flag.LIST),
 	CHAT_COMMANDS_ADMIN_GUILD_HEADER,
-	CHAT_COMMANDS_ADMIN_GUILD_ITEMS(MessageFlag.LIST),
+	CHAT_COMMANDS_ADMIN_GUILD_ITEMS(Flag.LIST),
 	CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER,
 	CHAT_COMMANDS_ADMIN_HOLOGRAM_DISABLED,
-	CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS(MessageFlag.LIST),
-	CHAT_COMMANDS_GUILD_HASGUILD(MessageFlag.LIST),
-	CHAT_COMMANDS_GUILD_NOGUILD(MessageFlag.LIST),
+	CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS(Flag.LIST),
+	CHAT_COMMANDS_GUILD_HASGUILD(Flag.LIST),
+	CHAT_COMMANDS_GUILD_NOGUILD(Flag.LIST),
 	CHAT_COMMANDS_REGION_HEADER,
-	CHAT_COMMANDS_REGION_ITEMS(MessageFlag.LIST),
+	CHAT_COMMANDS_REGION_ITEMS(Flag.LIST),
 
 	CHAT_CREATEGUILD_NOTENOUGHMONEY,
 	CHAT_CREATEGUILD_ITEMLIST,
@@ -411,7 +411,7 @@ public enum Message {
 
 	HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS,
 	HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER,
-	HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW(MessageFlag.NOPREFIX),
+	HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW(Flag.NOPREFIX),
 
 	BARAPI_WARPROGRESS,
 
@@ -495,6 +495,7 @@ public enum Message {
 
 	SIGNGUI_GUILD_SETTINGS_SET_NAME,
 	SIGNGUI_GUILD_SETTINGS_SET_TAG,
+	SIGNGUI_GUILD_RANKS_SET_NAME,
 
 	TIMEUNIT_SECOND_SINGULAR,
 	TIMEUNIT_SECOND_PLURAL,
@@ -513,36 +514,44 @@ public enum Message {
 
 	private String path = null;
 	private Map<VarKey, String> vars = new HashMap<>();
-	private final List<MessageFlag> flags = new ArrayList<>();
+	private final List<Flag> flags = new ArrayList<>();
 
-	private static final Map<ChatMode, Message> chatModeMessages = new HashMap<ChatMode, Message>() {{
-		put(ChatMode.NORMAL, Message.CHAT_GUILD_CHATMODE_NAMES_NORMAL);
-		put(ChatMode.GUILD, Message.CHAT_GUILD_CHATMODE_NAMES_GUILD);
-		put(ChatMode.ALLY, Message.CHAT_GUILD_CHATMODE_NAMES_ALLY);
-	}};
-
-	private enum MessageFlag {
+	private enum Flag {
 		NOPREFIX,
 		TITLE,
 		LIST,
 		NOAFTERVARCOLOR
 	}
 
+	/**
+	 * Constructor without flags
+	 */
 	Message() {
 
 	}
 
-	Message(MessageFlag... flags) {
-		for(MessageFlag flag : flags) {
-			if(flag == MessageFlag.LIST) {
-				this.flags.add(MessageFlag.NOPREFIX);
+	/**
+	 * The constructor
+	 *
+	 * @param flags flags
+	 */
+	Message(Flag... flags) {
+		for(Flag flag : flags) {
+			if(flag == Flag.LIST) {
+				this.flags.add(Flag.NOPREFIX);
 			}
 		}
 
 		Collections.addAll(this.flags, flags);
 	}
 
-	public boolean hasFlag(MessageFlag flag) {
+	/**
+	 * Gets a flag
+	 *
+	 * @param flag the flag
+	 * @return true if message has that flag
+	 */
+	public boolean hasFlag(Flag flag) {
 		return flags.contains(flag);
 	}
 
@@ -552,7 +561,7 @@ public enum Message {
 	 * @return true/false
 	 */
 	public boolean getTitle() {
-		return hasFlag(MessageFlag.TITLE);
+		return hasFlag(Flag.TITLE);
 	}
 
 	/**
@@ -574,7 +583,7 @@ public enum Message {
 	 * @return prefix status true/false
 	 */
 	public boolean isPrefix() {
-		return !hasFlag(MessageFlag.NOPREFIX);
+		return !hasFlag(Flag.NOPREFIX);
 	}
 
 	/**
@@ -592,7 +601,7 @@ public enum Message {
 	 * @param sender receiver
 	 */
 	public void send(CommandSender sender) {
-		if(hasFlag(MessageFlag.LIST)) {
+		if(hasFlag(Flag.LIST)) {
 			MessageManager.sendMessagesList(sender, this);
 		}
 		else {
@@ -622,15 +631,36 @@ public enum Message {
 		return this;
 	}
 
-	public Message setVar(VarKey varKey, String string) {
-		vars.put(varKey, string);
+	/**
+	 * Set a var
+	 *
+	 * @param varKey key enum
+	 * @param value  the value
+	 * @return message instance
+	 */
+	public Message setVar(VarKey varKey, String value) {
+		vars.put(varKey, value);
 		return this;
 	}
 
-	public Message setVar(VarKey varKey, Integer integer) {
-		return setVar(varKey, String.valueOf(integer));
+	/**
+	 * Set a var
+	 *
+	 * @param varKey key enum
+	 * @param value  the value
+	 * @return message instance
+	 */
+	public Message setVar(VarKey varKey, Integer value) {
+		return setVar(varKey, String.valueOf(value));
 	}
 
+	/**
+	 * Set a var
+	 *
+	 * @param varKey key enum
+	 * @param value  the value
+	 * @return message instance
+	 */
 	public Message setVar(VarKey varKey, Double value) {
 		return setVar(varKey, String.valueOf(value));
 	}
@@ -643,12 +673,12 @@ public enum Message {
 	 */
 	public Message prefix(boolean prefix) {
 		if(prefix) {
-			if(flags.contains(MessageFlag.NOPREFIX)) {
-				flags.remove(MessageFlag.NOPREFIX);
+			if(flags.contains(Flag.NOPREFIX)) {
+				flags.remove(Flag.NOPREFIX);
 			}
 		}
 		else {
-			flags.add(MessageFlag.NOPREFIX);
+			flags.add(Flag.NOPREFIX);
 		}
 
 		return this;
@@ -685,13 +715,23 @@ public enum Message {
 	 * @return message string
 	 */
 	public String get() {
-		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars, hasFlag(MessageFlag.NOAFTERVARCOLOR));
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars, hasFlag(Flag.NOAFTERVARCOLOR));
 	}
 
+	/**
+	 * Sets a value to loaded messages
+	 *
+	 * @param string the value
+	 */
 	public void set(String string) {
 		MessageManager.set(this, string);
 	}
 
+	/**
+	 * Sets a value to loaded messages
+	 *
+	 * @param list the list
+	 */
 	public void set(List<String> list) {
 		MessageManager.set(this, list);
 	}
@@ -711,7 +751,7 @@ public enum Message {
 	 * @return the list
 	 */
 	public List<String> getList() {
-		return MessageManager.replaceVarKeyMap(MessageManager.getMessages().getStringList(getPath()), vars, hasFlag(MessageFlag.NOAFTERVARCOLOR));
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessages().getStringList(getPath()), vars, hasFlag(Flag.NOAFTERVARCOLOR));
 	}
 
 	/**
@@ -785,16 +825,6 @@ public enum Message {
 	}
 
 	/**
-	 * Gets a name of chat mode
-	 *
-	 * @param chatMode chat mode enum
-	 * @return the name
-	 */
-	public static Message getChatModeName(ChatMode chatMode) {
-		return chatModeMessages.get(chatMode);
-	}
-
-	/**
 	 * Gets a message with filled coordinated
 	 *
 	 * @param location location instance
@@ -812,6 +842,11 @@ public enum Message {
 		return message;
 	}
 
+	/**
+	 * Creates new chat broadcast
+	 *
+	 * @return chat broadcast instance using this message instance
+	 */
 	public ChatBroadcast newChatBroadcast() {
 		return new ChatBroadcastImpl(this);
 	}

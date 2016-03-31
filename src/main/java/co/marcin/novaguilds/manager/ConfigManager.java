@@ -21,6 +21,7 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -42,13 +43,10 @@ import java.util.Map;
 public class ConfigManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private FileConfiguration config;
-	private final File configFile = new File(plugin.getDataFolder(), "config.yml");
 
 	private DataStorageType primaryDataStorageType;
 	private DataStorageType secondaryDataStorageType;
 	private DataStorageType dataStorageType;
-
-	private boolean useVanishNoPacket = true;
 
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 
@@ -77,6 +75,21 @@ public class ConfigManager {
 
 			throw new UnsupportedOperationException("Version " + Bukkit.getBukkitVersion() + " is not supported by NovaGuilds");
 		}
+
+		public float getVersionNumberAsFloat() {
+			String name = org.apache.commons.lang.StringUtils.replace(name(), "MINECRAFT_", "");
+			name = org.apache.commons.lang.StringUtils.replace(name, "_", ".");
+
+			return Float.parseFloat(name);
+		}
+
+		public boolean isOlderThan(ServerVersion version) {
+			return getVersionNumberAsFloat() < version.getVersionNumberAsFloat();
+		}
+
+		public boolean isNewerThan(ServerVersion version) {
+			return getVersionNumberAsFloat() > version.getVersionNumberAsFloat();
+		}
 	}
 
 	public static final Map<String, String> essentialsLocale = new HashMap<String, String>() {{
@@ -85,12 +98,6 @@ public class ConfigManager {
 		put("de", "de-de");
 		put("zh", "zh-cn");
 	}};
-
-	public ConfigManager() {
-		plugin.setConfigManager(this);
-		reload();
-		LoggerUtils.info("Enabled");
-	}
 
 	public void reload() {
 		cache.clear();
@@ -110,12 +117,12 @@ public class ConfigManager {
 
 		LoggerUtils.info("This server is using Bukkit: " + Bukkit.getBukkitVersion());
 
-		if(Config.USETITLES.getBoolean() && ConfigManager.getServerVersion() == ServerVersion.MINECRAFT_1_7) {
+		if(Config.USETITLES.getBoolean() && getServerVersion() == ServerVersion.MINECRAFT_1_7) {
 			Config.USETITLES.set(false);
 			LoggerUtils.error("You can't use Titles with Bukkit older than 1.8");
 		}
 
-		if(Config.TABLIST_ENABLED.getBoolean() && ConfigManager.getServerVersion() != ServerVersion.MINECRAFT_1_8) {
+		if(Config.TABLIST_ENABLED.getBoolean() && getServerVersion() != ServerVersion.MINECRAFT_1_8) {
 			Config.TABLIST_ENABLED.set(false);
 			LoggerUtils.error("TabList is not currently implemented for server version other than 1.8");
 		}
@@ -186,6 +193,10 @@ public class ConfigManager {
 			Config.SAVEINTERVAL.set("60s");
 		}
 
+		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
+		Config.TABLIST_ENABLED.set(Config.TABLIST_ENABLED.getBoolean() && (plugin.getDependencyManager().isEnabled(Dependency.NORTHTAB) && getServerVersion() == ServerVersion.MINECRAFT_1_8));
+		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));
+
 		//Run tasks
 		plugin.getTaskManager().runTasks();
 	}
@@ -199,17 +210,8 @@ public class ConfigManager {
 		return guildEffects;
 	}
 
-	public boolean useVanishNoPacket() {
-		return useVanishNoPacket;
-	}
-
 	public FileConfiguration getConfig() {
 		return config;
-	}
-
-	//setters
-	public void disableVanishNoPacket() {
-		useVanishNoPacket = false;
 	}
 
 	public void setToSecondaryDataStorageType() {
@@ -313,7 +315,7 @@ public class ConfigManager {
 	}
 
 	public File getConfigFile() {
-		return configFile;
+		return new File(plugin.getDataFolder(), "config.yml");
 	}
 
 	public void backupFile() throws IOException {
@@ -326,12 +328,7 @@ public class ConfigManager {
 		removeFromCache(e);
 	}
 
-	public void save() {
-		try {
-			config.save(configFile);
-		}
-		catch(IOException e) {
-			LoggerUtils.exception(e);
-		}
+	public void save() throws IOException {
+		config.save(getConfigFile());
 	}
 }

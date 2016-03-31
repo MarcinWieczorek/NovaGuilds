@@ -39,7 +39,7 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Map<VarKey, String> vars = new HashMap<>();
 
 		if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {

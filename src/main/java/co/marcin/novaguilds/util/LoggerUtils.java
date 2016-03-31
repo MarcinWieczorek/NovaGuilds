@@ -29,12 +29,13 @@ import java.util.logging.Logger;
 public final class LoggerUtils {
 	private static final Logger logger = Logger.getLogger("Minecraft");
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private static final String logPrefix = "[NovaGuilds]";
 
 	private LoggerUtils() {
 	}
 
 	public static void error(String error, boolean classPrefix) {
-		logger.severe(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix?classPrefix():"") + space(error) + error));
+		logger.severe(StringUtils.fixColors(logPrefix + (classPrefix ? classPrefix() : "") + space(error) + error));
 	}
 
 	public static void error(String error) {
@@ -46,7 +47,7 @@ public final class LoggerUtils {
 	}
 
 	public static void info(String msg, boolean classPrefix) {
-		logger.info(StringUtils.fixColors(NovaGuilds.getLogPrefix() + (classPrefix?classPrefix():"") + space(msg) + msg));
+		logger.info(StringUtils.fixColors(logPrefix + (classPrefix ? classPrefix() : "") + space(msg) + msg));
 	}
 
 	public static void debug(String msg) {
@@ -56,12 +57,12 @@ public final class LoggerUtils {
 	public static void debug(String msg, boolean classPrefix) {
 		if(plugin != null && plugin.getConfigManager() != null) {
 			if(Config.DEBUG.getBoolean()) {
-				info("[DEBUG] " + (classPrefix?classPrefix():"") + msg);
+				info("[DEBUG] " + (classPrefix ? classPrefix() : "") + msg);
 			}
 		}
 	}
 
-	public static String classPrefix() {
+	private static String classPrefix() {
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		String line = ste[4].toString();
 		String[] split1 = org.apache.commons.lang.StringUtils.split(line, '(');
@@ -70,18 +71,18 @@ public final class LoggerUtils {
 		return className.equals("NovaGuilds") ? "" : "[" + className + "]";
 	}
 
-	public static String space(String s) {
+	private static String space(String s) {
 		return s.contains("Manager]") ? "" : " ";
 	}
 
-	public static void exception(Exception e) {
+	public static void exception(Throwable e) {
 		Throwable cause = e.getCause();
 		error("", false);
 		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName(), false);
 		error("", false);
 		error("Server Information:", false);
-		error("  NovaGuilds: #" + plugin.getBuild() + " (" + plugin.getCommit() + ")", false);
-		error("  Storage Type: " + plugin.getConfigManager().getDataStorageType().name(), false);
+		error("  NovaGuilds: #" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ")", false);
+		error("  Storage Type: " + (plugin.getConfigManager() == null || plugin.getConfigManager().getDataStorageType() == null ? "null" : plugin.getConfigManager().getDataStorageType().name()), false);
 		error("  Bukkit: " + Bukkit.getBukkitVersion(), false);
 		error("  Java: " + System.getProperty("java.version"), false);
 		error("  Thread: " + Thread.currentThread(), false);

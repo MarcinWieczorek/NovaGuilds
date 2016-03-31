@@ -77,7 +77,7 @@ public enum Command {
 	ADMIN_HOLOGRAM_ADDTOP(Permission.NOVAGUILDS_ADMIN_HOLOGRAM_ADDTOP, Flag.NOCONSOLE),
 	ADMIN_HOLOGRAM_TELEPORT_HERE(Permission.NOVAGUILDS_ADMIN_HOLOGRAM_TELEPORT_HERE, Flag.NOCONSOLE),
 
-	GUILD_ACCESS(Permission.NOVAGUILDS_GUILD_ACCESS, "guild", new TabCompleterGuild(), Flag.NOCONSOLE),
+	GUILD_ACCESS(Permission.NOVAGUILDS_GUILD_ACCESS, "guild", new TabCompleterGuild()),
 	GUILD_ABANDON(Permission.NOVAGUILDS_GUILD_ABANDON, "abandon", Message.CHAT_USAGE_GUILD_ABANDON, Flag.NOCONSOLE, Flag.CONFIRM),
 	GUILD_ALLY(Permission.NOVAGUILDS_GUILD_ALLY, Message.CHAT_USAGE_GUILD_ALLY, Flag.NOCONSOLE),
 	GUILD_BANK_PAY(Permission.NOVAGUILDS_GUILD_BANK_PAY, Message.CHAT_USAGE_GUILD_BANK_PAY, Flag.NOCONSOLE),
@@ -126,6 +126,15 @@ public enum Command {
 	private Object executorVariable;
 	private final List<Flag> flags = new ArrayList<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param permission     the permission
+	 * @param genericCommand the generic command string
+	 * @param usageMessage   the usage message
+	 * @param tabCompleter   tab completer instance
+	 * @param flags          command flags
+	 */
 	Command(Permission permission, String genericCommand, Message usageMessage, TabCompleter tabCompleter, Flag... flags) {
 		this.permission = permission;
 		this.usageMessage = usageMessage;
@@ -134,75 +143,182 @@ public enum Command {
 		setFlags(flags);
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param permission     the permission
+	 * @param genericCommand the generic command string
+	 * @param usageMessage   the usage message
+	 * @param flags          command flags
+	 */
 	Command(Permission permission, String genericCommand, Message usageMessage, Flag... flags) {
 		this(permission, genericCommand, usageMessage, null, flags);
 	}
 
-	Command(Permission permission, String genericCommand, Flag... flags) {
-		this(permission, genericCommand, null, null, flags);
-	}
-
-	Command(Permission permission, Message usageMessage, Flag... flags) {
-		this(permission, null, usageMessage, null, flags);
-	}
-
-	Command(Permission permission, Flag... flags) {
-		this(permission, null, null, null, flags);
-	}
-
+	/**
+	 * The constructor
+	 *
+	 * @param permission     the permission
+	 * @param genericCommand the generic command string
+	 * @param tabCompleter   tab completer instance
+	 * @param flags          command flags
+	 */
 	Command(Permission permission, String genericCommand, TabCompleter tabCompleter, Flag... flags) {
 		this(permission, genericCommand, null, tabCompleter, flags);
 	}
 
-	private void setFlags(Flag[] flags) {
+	/**
+	 * The constructor
+	 *
+	 * @param permission   the permission
+	 * @param usageMessage the usage message
+	 * @param flags        command flags
+	 */
+	Command(Permission permission, Message usageMessage, Flag... flags) {
+		this(permission, null, usageMessage, null, flags);
+	}
+
+	/**
+	 * The constructor
+	 *
+	 * @param permission     the permission
+	 * @param genericCommand the generic command string
+	 * @param flags          command flags
+	 */
+	Command(Permission permission, String genericCommand, Flag... flags) {
+		this(permission, genericCommand, null, null, flags);
+	}
+
+	/**
+	 * The constructor
+	 *
+	 * @param permission the permission
+	 * @param flags      command flags
+	 */
+	Command(Permission permission, Flag... flags) {
+		this(permission, null, null, null, flags);
+	}
+
+	/**
+	 * Sets flags
+	 *
+	 * @param flags flags
+	 */
+	private void setFlags(Flag... flags) {
 		Collections.addAll(this.flags, flags);
 	}
 
-	public String getPermission() {
-		return permission.getPath();
+	/**
+	 * Gets the permission
+	 *
+	 * @return the permission string
+	 */
+	public Permission getPermission() {
+		return permission;
 	}
 
+	/**
+	 * Checks if a sender has permission to execute the command
+	 *
+	 * @param sender the sender
+	 * @return boolean
+	 */
 	public boolean hasPermission(CommandSender sender) {
 		return permission.has(sender) || sender.isOp();
 	}
 
+	/**
+	 * Checks if the command has a flag
+	 *
+	 * @param flag flag
+	 * @return boolean
+	 */
 	public boolean hasFlag(Flag flag) {
 		return flags.contains(flag);
 	}
 
+	/**
+	 * Checks if a sender is allowed
+	 * (if is console)
+	 *
+	 * @param sender the sender
+	 * @return booealn
+	 */
 	public boolean allowedSender(CommandSender sender) {
 		return sender instanceof Player || !hasFlag(Flag.NOCONSOLE);
 	}
 
+	/**
+	 * Gets usage message
+	 *
+	 * @return the mesage
+	 */
 	public Message getUsageMessage() {
 		return usageMessage;
 	}
 
+	/**
+	 * Executes the command
+	 *
+	 * @param sender sender
+	 * @param args   arguments
+	 */
 	public void execute(CommandSender sender, String[] args) {
 		NovaGuilds.getInstance().getCommandManager().execute(this, sender, args);
 	}
 
+	/**
+	 * Checks if the command has a generic command
+	 *
+	 * @return boolean
+	 */
 	public boolean hasGenericCommand() {
 		return genericCommand != null;
 	}
 
+	/**
+	 * Checks if the command has a tab completer
+	 *
+	 * @return boolean
+	 */
 	public boolean hasTabCompleter() {
 		return tabCompleter != null;
 	}
 
+	/**
+	 * Gets generic command string
+	 *
+	 * @return the string
+	 */
 	public String getGenericCommand() {
 		return genericCommand;
 	}
 
+	/**
+	 * Gets tab completer
+	 *
+	 * @return tab completer instance
+	 */
 	public TabCompleter getTabCompleter() {
 		return tabCompleter;
 	}
 
+	/**
+	 * Sets executor variable
+	 *
+	 * @param executorVariable the value
+	 * @return the instance
+	 */
 	public Command executorVariable(Object executorVariable) {
 		this.executorVariable = executorVariable;
 		return this;
 	}
 
+	/**
+	 * Gets executor variable
+	 *
+	 * @return the value
+	 */
 	public Object getExecutorVariable() {
 		return executorVariable;
 	}

@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.util;
 
+import co.marcin.novaguilds.manager.ConfigManager;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -100,5 +101,14 @@ public final class InventoryUtils {
 
 	public static boolean containsAtLeast(Inventory inventory, ItemStack itemStack, int amount) {
 		return getTotalAmountOfItemStackInInventory(inventory, itemStack) >= amount;
+	}
+
+	public static ItemStack getItemInHand(Player player) {
+		if(ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_9) {
+			return player.getInventory().getItemInMainHand();
+		}
+		else {
+			return player.getItemInHand();
+		}
 	}
 }

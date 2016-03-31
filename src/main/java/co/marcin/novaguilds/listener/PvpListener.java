@@ -47,13 +47,13 @@ public class PvpListener extends AbstractListener {
 			}
 			
 			if(attacker != null) {
-				NovaPlayer novaPlayer = PlayerManager.getPlayer(player);
-				NovaPlayer novaPlayerAttacker = PlayerManager.getPlayer(attacker);
+				NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+				NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
 				//teampvp
-				if(!novaPlayerAttacker.getName().equals(novaPlayer.getName())) {
-					if(novaPlayerAttacker.hasGuild() && novaPlayer.hasGuild()) {
+				if(!nPlayerAttacker.getName().equals(nPlayer.getName())) {
+					if(nPlayerAttacker.hasGuild() && nPlayer.hasGuild()) {
 						if(plugin.getPlayerManager().isGuildMate(player, attacker)) { //same guild
-							if(!novaPlayer.getGuild().getFriendlyPvp()) {
+							if(!nPlayer.getGuild().getFriendlyPvp()) {
 								Message.CHAT_PVP_TEAM.send(attacker);
 								event.setCancelled(true);
 
@@ -64,7 +64,7 @@ public class PvpListener extends AbstractListener {
 							}
 						}
 						else if(plugin.getPlayerManager().isAlly(player, attacker)) { //ally
-							if(!(novaPlayer.getGuild().getFriendlyPvp() && novaPlayerAttacker.getGuild().getFriendlyPvp())) {
+							if(!(nPlayer.getGuild().getFriendlyPvp() && nPlayerAttacker.getGuild().getFriendlyPvp())) {
 								Message.CHAT_PVP_ALLY.send(attacker);
 								event.setCancelled(true);
 

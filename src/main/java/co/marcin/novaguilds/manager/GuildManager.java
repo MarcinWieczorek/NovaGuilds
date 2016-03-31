@@ -22,13 +22,14 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
-import co.marcin.novaguilds.api.util.Schematic;
+import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
+import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -119,10 +120,10 @@ public class GuildManager {
 
 	public void load() {
 		guilds.clear();
-		for(NovaGuild guild : plugin.getStorage().loadGuilds()) {
+		for(NovaGuild guild : getResourceManager().load()) {
 			if(guilds.containsKey(guild.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					plugin.getStorage().remove(guild);
+					getResourceManager().remove(guild);
 				}
 
 				LoggerUtils.error("Removed guild with doubled name (" + guild.getName() + ")");
@@ -139,24 +140,23 @@ public class GuildManager {
 	}
 	
 	public void add(NovaGuild guild) {
-		plugin.getStorage().add(guild);
 		guilds.put(guild.getName(), guild);
 	}
 	
 	public void save(NovaGuild guild) {
-		plugin.getStorage().save(guild);
+		getResourceManager().save(guild);
 	}
-	
+
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = plugin.getStorage().saveGuilds();
+		int count = getResourceManager().save(getGuilds());
 
 		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 	}
 
 	public void delete(NovaGuild guild) {
-		plugin.getStorage().remove(guild);
+		getResourceManager().remove(guild);
 
 		//remove region
 		if(guild.hasRegion()) {
@@ -175,8 +175,8 @@ public class GuildManager {
 
 	public List<NovaRaid> getRaidsTakingPart(NovaGuild guild) {
 		List<NovaRaid> list = new ArrayList<>();
-		for(NovaGuild raidGuild : plugin.guildRaids) {
-			if(raidGuild.getRaid().getGuildAttacker().equals(guild)) {
+		for(NovaGuild raidGuild : getGuilds()) {
+			if(raidGuild.isRaid() && raidGuild.getRaid().getGuildAttacker().equals(guild)) {
 				list.add(raidGuild.getRaid());
 			}
 		}
@@ -189,7 +189,7 @@ public class GuildManager {
 		for(NovaGuild guild : new ArrayList<>(getGuilds())) {
 			boolean remove = false;
 			if(guild != null) {
-				if(guild.getLeaderName() != null) {
+				if(((NovaGuildImpl) guild).getLeaderName() != null) {
 					LoggerUtils.info("(" + guild.getName() + ") Leader's name is set. Probably leader is null");
 				}
 
@@ -237,14 +237,6 @@ public class GuildManager {
 		}
 
 		LoggerUtils.info("Postcheck finished. Found " + i + " invalid guilds");
-	}
-
-	public static void createHomeFloor(NovaGuild guild) {
-		Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
-
-		if(schematic != null) {
-			schematic.paste(guild.getHome());
-		}
 	}
 
 	public List<NovaGuild> getTopGuildsByPoints(int count) {
@@ -409,13 +401,17 @@ public class GuildManager {
 				Map<VarKey, String> vars = new HashMap<>();
 				vars.put(VarKey.GUILDNAME, guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_CLEANUP.vars(vars).broadcast();
-				LoggerUtils.debug("Abandoned guild " + guild.getName() + " due to inactivity.");
+				LoggerUtils.info("Abandoned guild " + guild.getName() + " due to inactivity.");
 				count++;
 
 				plugin.getGuildManager().delete(guild);
 			}
 		}
 
-		LoggerUtils.debug("Guilds cleanup finished, removed " + count + " guilds.");
+		LoggerUtils.info("Guilds cleanup finished, removed " + count + " guilds.");
+	}
+
+	private ResourceManager<NovaGuild> getResourceManager() {
+		return plugin.getStorage().getResourceManager(NovaGuild.class);
 	}
 }

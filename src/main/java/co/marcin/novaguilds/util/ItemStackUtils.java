@@ -324,6 +324,10 @@ public final class ItemStackUtils {
 	}
 
 	public static boolean isSimilar(ItemStack itemStack1, ItemStack itemStack2) {
+		if(itemStack1 == null && itemStack2 != null || itemStack2 == null) {
+			return false;
+		}
+
 		if(itemStack1.getType() != itemStack2.getType()) {
 			return false;
 		}

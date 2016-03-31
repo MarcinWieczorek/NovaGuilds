@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
+import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
@@ -31,6 +32,8 @@ import com.google.common.collect.Lists;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +47,7 @@ public class RankManager {
 	}
 
 	public void load() {
-		int count = plugin.getStorage().loadRanks().size();
+		int count = getResourceManager().load().size();
 
 		LoggerUtils.info("Loaded " + count + " ranks.");
 
@@ -57,7 +60,7 @@ public class RankManager {
 	public void save() {
 		long nanoTime = System.nanoTime();
 
-		int count = plugin.getStorage().saveRanks();
+		int count = getResourceManager().save(get());
 
 		LoggerUtils.info("Ranks data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " ranks)");
 	}
@@ -67,7 +70,7 @@ public class RankManager {
 			return;
 		}
 
-		plugin.getStorage().remove(rank);
+		getResourceManager().remove(rank);
 
 		rank.getGuild().removeRank(rank);
 
@@ -78,7 +81,7 @@ public class RankManager {
 
 	public void delete(NovaGuild guild) {
 		for(NovaRank rank : guild.getRanks()) {
-			plugin.getStorage().remove(rank);
+			getResourceManager().remove(rank);
 		}
 
 		guild.setRanks(new ArrayList<NovaRank>());
@@ -112,6 +115,20 @@ public class RankManager {
 
 	public List<NovaRank> getGenericRanks() {
 		return genericRanks;
+	}
+
+	public Collection<NovaRank> get() {
+		Collection<NovaRank> collection = new HashSet<>();
+
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+			for(NovaRank rank : guild.getRanks()) {
+				if(!rank.isGeneric()) {
+					collection.add(rank);
+				}
+			}
+		}
+
+		return collection;
 	}
 
 	private void assignRanks() {
@@ -149,5 +166,9 @@ public class RankManager {
 
 	public static NovaRank getDefaultRank() {
 		return plugin.getRankManager().getGenericRanks().get(1);
+	}
+
+	private ResourceManager<NovaRank> getResourceManager() {
+		return plugin.getStorage().getResourceManager(NovaRank.class);
 	}
 }

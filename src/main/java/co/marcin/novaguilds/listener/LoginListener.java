@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.TabList;
@@ -37,11 +38,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import protocolsupport.api.ProtocolSupportAPI;
-import protocolsupport.api.ProtocolVersion;
 
 public class LoginListener extends AbstractListener {
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
@@ -54,17 +52,27 @@ public class LoginListener extends AbstractListener {
 		nPlayer.setPlayer(player);
 
 		//Send version message if there's an update
-		if(VersionUtils.updateAvailable && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
+		if(VersionUtils.isUpdateAvailable() && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
 			Message.CHAT_UPDATE.send(player);
-		}
-
-		//Show bank hologram
-		if(nPlayer.hasGuild()) {
-			nPlayer.getGuild().showVaultHologram(player);
 		}
 
 		if(RegionManager.get(player) != null) {
 			plugin.getRegionManager().playerEnteredRegion(player, player.getLocation());
+		}
+
+		if(nPlayer.hasGuild()) {
+			for(Player onlinePlayer : NovaGuilds.getOnlinePlayers()) {
+				NovaPlayer onlineNPlayer = PlayerManager.getPlayer(onlinePlayer);
+
+				if(onlineNPlayer.equals(nPlayer) || !onlineNPlayer.isAtRegion() || !onlineNPlayer.getAtRegion().getGuild().equals(nPlayer.getGuild())) {
+					continue;
+				}
+
+				plugin.getRegionManager().checkRaidInit(onlineNPlayer);
+			}
+
+			//Show bank hologram
+			nPlayer.getGuild().showVaultHologram(player);
 		}
 
 		//TabAPI
@@ -85,19 +93,10 @@ public class LoginListener extends AbstractListener {
 		if(Config.TABLIST_ENABLED.getBoolean()) {
 			TabList tabList = null;
 
-			//ProtocolSupport
-			if(plugin.isProtocolSupportEnabled()) {
-				ProtocolVersion protocolVersion = ProtocolSupportAPI.getProtocolVersion(player);
-				switch(protocolVersion) {
-					case MINECRAFT_1_8:
-						tabList = new TabList1_8NorthTabImpl(nPlayer);
-						break;
-				}
-			}
-			else {
-				if(ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_8) {
+			switch(ConfigManager.getServerVersion()) {
+				case MINECRAFT_1_8:
 					tabList = new TabList1_8NorthTabImpl(nPlayer);
-				}
+					break;
 			}
 
 			nPlayer.setTabList(tabList);

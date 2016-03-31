@@ -18,13 +18,6 @@
 
 package co.marcin.novaguilds.api.storage;
 
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRank;
-import co.marcin.novaguilds.api.basic.NovaRegion;
-
-import java.util.List;
-
 public interface Storage {
 	/**
 	 * Set up the directories, connect to database etc.
@@ -34,175 +27,28 @@ public interface Storage {
 	boolean setUp();
 
 	/**
-	 * Loads players
+	 * Gets resource manager
 	 *
-	 * @return List of players
+	 * @param clazz type class
+	 * @return the manager
 	 */
-	List<NovaPlayer> loadPlayers();
+	<T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz);
 
 	/**
-	 * Loads Guilds
+	 * Registers resource manager
 	 *
-	 * @return List of guilds
+	 * @param clazz           type class
+	 * @param resourceManager the manager
 	 */
-	List<NovaGuild> loadGuilds();
+	<T extends Resource> void registerResourceManager(Class clazz, ResourceManager<T> resourceManager);
 
 	/**
-	 * Loads regions
-	 *
-	 * @return List of regions
+	 * Registers managers
 	 */
-	List<NovaRegion> loadRegions();
-
-	/**
-	 * Loads ranks
-	 *
-	 * @return List of ranks
-	 */
-	List<NovaRank> loadRanks();
+	void registerManagers();
 
 	/**
 	 * Saves all data
 	 */
 	void save();
-
-	/**
-	 * Saves all players
-	 *
-	 * @return The amount of saved items
-	 */
-	Integer savePlayers();
-
-	/**
-	 * Saves all guilds
-	 *
-	 * @return The amount of saved items
-	 */
-	Integer saveGuilds();
-
-	/**
-	 * Saves all regions
-	 *
-	 * @return The amount of saved items
-	 */
-	Integer saveRegions();
-
-	/**
-	 * Saves all ranks
-	 *
-	 * @return The amount of saved items
-	 */
-	Integer saveRanks();
-
-	/**
-	 * Adds a player
-	 *
-	 * @param nPlayer the player
-	 */
-	void add(NovaPlayer nPlayer);
-
-	/**
-	 * Adds a guild
-	 *
-	 * @param guild the guild
-	 */
-	void add(NovaGuild guild);
-
-	/**
-	 * Adds a region
-	 *
-	 * @param region the region
-	 */
-	void add(NovaRegion region);
-
-	/**
-	 * Adds a rank
-	 *
-	 * @param rank the rank
-	 */
-	void add(NovaRank rank);
-
-	/**
-	 * Saves a specific player
-	 *
-	 * @param nPlayer the player
-	 */
-	void save(NovaPlayer nPlayer);
-
-	/**
-	 * Saves a specific guild
-	 *
-	 * @param guild the guild
-	 */
-	void save(NovaGuild guild);
-
-	/**
-	 * Saves a specific region
-	 *
-	 * @param region the region
-	 */
-	void save(NovaRegion region);
-
-	/**
-	 * Saves a specific rank
-	 *
-	 * @param rank the rank
-	 */
-	void save(NovaRank rank);
-
-	/**
-	 * Removes a player
-	 *
-	 * @param nPlayer the player
-	 */
-	void remove(NovaPlayer nPlayer);
-
-	/**
-	 * Removes a guild
-	 *
-	 * @param guild the guild
-	 */
-	void remove(NovaGuild guild);
-
-	/**
-	 * Removes a region
-	 *
-	 * @param region the region
-	 */
-	void remove(NovaRegion region);
-
-	/**
-	 * Removes a rank
-	 *
-	 * @param rank the rank
-	 */
-	void remove(NovaRank rank);
-
-	/**
-	 * Removes players from a list
-	 *
-	 * @param list the list
-	 */
-	void removePlayers(List<NovaPlayer> list);
-
-	/**
-	 * Removes guilds from a list
-	 *
-	 * @param list the list
-	 */
-	void removeGuilds(List<NovaGuild> list);
-
-	/**
-	 * Removes regions from a list
-	 *
-	 * @param list the list
-	 */
-	void removeRegions(List<NovaRegion> list);
-
-	/**
-	 * Removes rank from a list
-	 *
-	 * @param list the list
-	 */
-	void removeRanks(List<NovaRank> list);
 }

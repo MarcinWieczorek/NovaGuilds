@@ -22,9 +22,9 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.util.Schematic;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.impl.util.SchematicImpl;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.SchematicImpl;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,6 +38,7 @@ import java.util.List;
  * @author Marcin Wieczorek
  */
 public class NovaGroupImpl implements NovaGroup {
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	private final String name;
 	private double guildCreateMoney = 0;
@@ -65,8 +66,12 @@ public class NovaGroupImpl implements NovaGroup {
 	private int regionAutoSize = 0;
 	private Schematic schematic;
 
-	@SuppressWarnings("deprecation")
-	public NovaGroupImpl(NovaGuilds plugin, String group) {
+	/**
+	 * The constructor
+	 *
+	 * @param group group name
+	 */
+	public NovaGroupImpl(String group) {
 		name = group;
 		LoggerUtils.info("Loading group '" + name + "'...");
 

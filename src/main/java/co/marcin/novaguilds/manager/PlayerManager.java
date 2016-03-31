@@ -20,11 +20,13 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -39,26 +41,23 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("deprecation")
 public class PlayerManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaPlayer> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-	public boolean exists(String playerName) {
-		return players.containsKey(playerName);
-	}
-
 	//new getters
 	public static NovaPlayer getPlayer(String playerName) {
-		plugin.getPlayerManager().addIfNotExists(playerName);
+		plugin.getPlayerManager().addIfNotExists(Bukkit.getPlayerExact(playerName));
 
 		return plugin.getPlayerManager().players.get(playerName);
 	}
 
 	public static NovaPlayer getPlayer(CommandSender sender) {
-		plugin.getPlayerManager().addIfNotExists(sender.getName());
+		if(sender instanceof Player) {
+			plugin.getPlayerManager().addIfNotExists((Player) sender);
+		}
 
-		return PlayerManager.getPlayer(sender.getName());
+		return getPlayer(sender.getName());
 	}
 
 	public Collection<NovaPlayer> getPlayers() {
@@ -78,17 +77,17 @@ public class PlayerManager {
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = plugin.getStorage().savePlayers();
+		int count = getResourceManager().save(getPlayers());
 
 		LoggerUtils.info("Players data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 	}
 
 	public void load() {
 		players.clear();
-		for(NovaPlayer nPlayer : plugin.getStorage().loadPlayers()) {
+		for(NovaPlayer nPlayer : getResourceManager().load()) {
 			if(players.containsKey(nPlayer.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					plugin.getStorage().remove(nPlayer);
+					getResourceManager().remove(nPlayer);
 					LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
 				}
 				else {
@@ -106,13 +105,7 @@ public class PlayerManager {
 
 	private void add(Player player) {
 		NovaPlayer nPlayer = NovaPlayerImpl.fromPlayer(player);
-		plugin.getStorage().add(nPlayer);
 		players.put(nPlayer.getName(), nPlayer);
-	}
-
-	private void addIfNotExists(String playerName) {
-		Player player = plugin.getServer().getPlayerExact(playerName);
-		addIfNotExists(player);
 	}
 
 	public void addIfNotExists(Player player) {
@@ -194,8 +187,12 @@ public class PlayerManager {
 
 		Collections.sort(playerList, new Comparator<NovaPlayer>() {
 			public int compare(NovaPlayer p1, NovaPlayer p2) {
-				if(p1.getKillDeathRate() > p2.getKillDeathRate()) return -1;
-				if(p1.getKillDeathRate() < p2.getKillDeathRate()) return 1;
+				if(p1.getKillDeathRate() > p2.getKillDeathRate()) {
+					return -1;
+				}
+				if(p1.getKillDeathRate() < p2.getKillDeathRate()) {
+					return 1;
+				}
 				return 0;
 			}
 		});
@@ -209,5 +206,9 @@ public class PlayerManager {
 
 	public static <T> List<T> limitList(List<T> list, int limit) {
 		return list.subList(0, list.size() < limit ? list.size() : limit);
+	}
+
+	private ResourceManager<NovaPlayer> getResourceManager() {
+		return plugin.getStorage().getResourceManager(NovaPlayer.class);
 	}
 }

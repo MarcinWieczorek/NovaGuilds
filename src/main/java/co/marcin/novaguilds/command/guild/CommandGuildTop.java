@@ -38,7 +38,7 @@ public class CommandGuildTop extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
 
 		if(guilds.isEmpty()) {

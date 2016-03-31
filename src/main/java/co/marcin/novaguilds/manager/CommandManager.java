@@ -20,10 +20,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.CommandConfirm;
 import co.marcin.novaguilds.command.CommandNovaGuilds;
 import co.marcin.novaguilds.command.CommandPlayerInfo;
@@ -105,6 +102,7 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
@@ -123,8 +121,7 @@ public class CommandManager {
 	private final Map<Command, CommandExecutor> executors = new HashMap<>();
 	private ItemStack topItem;
 
-	public CommandManager() {
-		plugin.setCommandManager(this);
+	public void setUp() {
 		registerCommands();
 
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("aliases");
@@ -281,7 +278,8 @@ public class CommandManager {
 
 			if(command.hasGenericCommand()) {
 				if(!(executor instanceof org.bukkit.command.CommandExecutor)) {
-					throw new IllegalArgumentException("An executor has to implement CommandExecutor to allow having generic command.");
+					LoggerUtils.exception(new IllegalArgumentException("An executor has to implement CommandExecutor to allow having generic command."));
+					return;
 				}
 
 				PluginCommand genericCommand = plugin.getCommand(command.getGenericCommand());
@@ -314,17 +312,16 @@ public class CommandManager {
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}
 		else {
-			if(executor instanceof CommandExecutor.ReversedAdminGuild) {
-				((CommandExecutor.ReversedAdminGuild) executor).guild((NovaGuild) command.getExecutorVariable());
-			}
-			else if(executor instanceof CommandExecutor.ReversedAdminRegion) {
-				((CommandExecutor.ReversedAdminRegion) executor).region((NovaRegion) command.getExecutorVariable());
-			}
-			else if(executor instanceof CommandExecutor.ReversedAdminHologram) {
-				((CommandExecutor.ReversedAdminHologram) executor).hologram((NovaHologram) command.getExecutorVariable());
+			if(executor instanceof CommandExecutor.Reversed) {
+				((CommandExecutor.Reversed) executor).set(command.getExecutorVariable());
 			}
 
-			executor.execute(sender, args);
+			try {
+				executor.execute(sender, args);
+			}
+			catch(Exception e) {
+				LoggerUtils.exception(new CommandException("Unhandled exception executing command '" + command.name() + "' in plugin NovaGuilds", e));
+			}
 		}
 	}
 

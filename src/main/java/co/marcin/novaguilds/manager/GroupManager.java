@@ -21,7 +21,6 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -33,18 +32,13 @@ public class GroupManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaGroup> groups = new HashMap<>();
 
-	public GroupManager() {
-		load();
-		LoggerUtils.info("Enabled");
-	}
-
 	public void load() {
 		groups.clear();
 		Set<String> groupsNames = plugin.getConfig().getConfigurationSection("groups").getKeys(false);
 		groupsNames.add("admin");
 
 		for(String groupName : groupsNames) {
-			groups.put(groupName, new NovaGroupImpl(plugin, groupName));
+			groups.put(groupName, new NovaGroupImpl(groupName));
 		}
 	}
 

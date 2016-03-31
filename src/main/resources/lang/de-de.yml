@@ -689,6 +689,13 @@ signgui:
      - "{INPUT}"
      - ""
      - ""
+  ranks:
+   set:
+    name:
+     - "Edit name:"
+     - "---------------"
+     - "{INPUT}"
+     - "---------------"
 
 timeunit:
  second:

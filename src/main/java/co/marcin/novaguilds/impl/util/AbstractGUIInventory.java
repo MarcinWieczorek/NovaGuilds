@@ -31,6 +31,12 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	private NovaPlayer viewer;
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
 
+	/**
+	 * The constructor
+	 *
+	 * @param size  inventory size (multiply of 9)
+	 * @param title title message
+	 */
 	public AbstractGUIInventory(int size, Message title) {
 		inventory = ChestGUIUtils.createInventory(size, title);
 	}
@@ -61,6 +67,11 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 		getViewer().getPlayer().closeInventory();
 	}
 
+	/**
+	 * Adds an item if not null
+	 *
+	 * @param itemStack the itemstack
+	 */
 	protected void add(ItemStack itemStack) {
 		if(itemStack != null) {
 			getInventory().addItem(itemStack);
@@ -68,7 +79,7 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	}
 
 	/**
-	 * Reopen the GUI
+	 * Reopens the GUI
 	 */
 	protected void reopen() {
 		close();

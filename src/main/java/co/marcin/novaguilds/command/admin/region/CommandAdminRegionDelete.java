@@ -18,12 +18,13 @@
 
 package co.marcin.novaguilds.command.admin.region;
 
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminRegionDelete extends AbstractCommandExecutor.ReversedAdminRegion {
+public class CommandAdminRegionDelete extends AbstractCommandExecutor.Reversed<NovaRegion> {
 	private static final Command command = Command.ADMIN_REGION_DELETE;
 
 	public CommandAdminRegionDelete() {
@@ -31,7 +32,9 @@ public class CommandAdminRegionDelete extends AbstractCommandExecutor.ReversedAd
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
+		NovaRegion region = getParameter();
+
 		plugin.getRegionManager().remove(region);
 		Message.CHAT_ADMIN_REGION_DELETE_SUCCESS.send(sender);
 	}

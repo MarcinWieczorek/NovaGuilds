@@ -41,7 +41,7 @@ public class CommandGuildLeader extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 1) {
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;

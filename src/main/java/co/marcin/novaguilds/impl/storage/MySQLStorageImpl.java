@@ -21,6 +21,7 @@ package co.marcin.novaguilds.impl.storage;
 import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 import co.marcin.novaguilds.util.LoggerUtils;
 
+import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -100,7 +101,7 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 
 			return true;
 		}
-		catch(SQLException | ClassNotFoundException e) {
+		catch(SQLException | ClassNotFoundException | IOException e) {
 			failureCause = e;
 			return false;
 		}

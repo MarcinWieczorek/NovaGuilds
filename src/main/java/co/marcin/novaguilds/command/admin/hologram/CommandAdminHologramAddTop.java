@@ -34,7 +34,7 @@ public class CommandAdminHologramAddTop extends AbstractCommandExecutor {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaHologram hologram = plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());
 		Message.CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS.setVar(VarKey.NAME, hologram.getName()).send(sender);
 	}

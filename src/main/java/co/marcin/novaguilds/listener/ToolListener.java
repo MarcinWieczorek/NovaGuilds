@@ -55,7 +55,7 @@ public class ToolListener extends AbstractListener {
 		Player player = event.getPlayer();
 		Map<VarKey, String> vars = new HashMap<>();
 
-		if(!ItemStackUtils.isSimilar(player.getItemInHand(), Config.REGION_TOOL.getItemStack())) {
+		if(!ItemStackUtils.isSimilar(event.getItem(), Config.REGION_TOOL.getItemStack())) {
 			return;
 		}
 

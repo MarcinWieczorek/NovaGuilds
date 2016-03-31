@@ -22,7 +22,9 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
@@ -37,6 +39,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
+import org.kitteh.vanish.VanishPlugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -97,30 +100,26 @@ public class RegionManager {
 			guild.setRegion(null);
 		}
 
-		plugin.getStorage().loadRegions();
+		getResourceManager().load();
 
 		LoggerUtils.info("Loaded " + getRegions().size() + " regions.");
 	}
 	
-	public void add(NovaRegion region) {
-		plugin.getStorage().add(region);
-	}
-	
 	public void save(NovaRegion region) {
-		plugin.getStorage().save(region);
+		getResourceManager().save(region);
 	}
 	
 	public void save() {
 		long startTime = System.nanoTime();
 
-		int count = plugin.getStorage().saveRegions();
+		int count = getResourceManager().save(getRegions());
 
 		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
 	
 	//delete region
 	public void remove(NovaRegion region) {
-		plugin.getStorage().remove(region);
+		getResourceManager().remove(region);
 
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);
@@ -246,10 +245,8 @@ public class RegionManager {
 	}
 
 	public void playerEnteredRegion(Player player, Location toLocation) {
-		if(plugin.getConfigManager().useVanishNoPacket()) {
-			if(plugin.getVanishNoPacket().getManager().isVanished(player)) {
-				return;
-			}
+		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
+			return;
 		}
 
 		NovaRegion region = get(toLocation);
@@ -279,7 +276,7 @@ public class RegionManager {
 		nPlayer.setAtRegion(region);
 
 		if(!region.getGuild().isMember(nPlayer)) {
-			checkRaidInit(player);
+			checkRaidInit(nPlayer);
 
 			Message.CHAT_REGION_NOTIFYGUILD_ENTERED.vars(vars).broadcast(region.getGuild());
 		}
@@ -304,25 +301,12 @@ public class RegionManager {
 		nPlayer.setAtRegion(null);
 		Message.CHAT_REGION_EXITED.setVar(VarKey.GUILDNAME, region.getGuild().getName()).send(player);
 
-		if(nPlayer.hasGuild()) {
-			if(nPlayer.getGuild().isWarWith(guild)) {
-				if(guild.isRaid()) {
-					guild.getRaid().removePlayerOccupying(nPlayer);
-
-					if(guild.getRaid().getPlayersOccupyingCount() == 0) {
-						guild.getRaid().resetProgress();
-						guild.removeRaidBar();
-						nPlayer.getGuild().removeRaidBar();
-						guild.getRaid().updateInactiveTime();
-					}
-				}
-			}
+		if(nPlayer.hasGuild() && nPlayer.getGuild().isWarWith(guild) && guild.isRaid()) {
+			guild.getRaid().removePlayerOccupying(nPlayer);
 		}
 	}
 
-	public void checkRaidInit(Player player) {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-
+	public void checkRaidInit(NovaPlayer nPlayer) {
 		if(!Config.RAID_ENABLED.getBoolean() || !nPlayer.hasGuild() || !nPlayer.isAtRegion()) {
 			return;
 		}
@@ -339,25 +323,29 @@ public class RegionManager {
 					if(guildDefender.getOnlinePlayers().size() >= Config.RAID_MINONLINE.getInt() || guildDefender.getOnlinePlayers().size() == guildDefender.getPlayers().size()) {
 						if(NumberUtils.systemSeconds() - guildDefender.getTimeCreated() > Config.GUILD_CREATEPROTECTION.getSeconds()) {
 							guildDefender.createRaid(nPlayer.getGuild());
-							plugin.guildRaids.add(guildDefender);
+							guildDefender.getRaid().addPlayerOccupying(nPlayer);
 
 							if(!NovaGuilds.isRaidRunnableRunning()) {
 								Runnable task = new RunnableRaid();
-								plugin.worker.schedule(task, 1, TimeUnit.SECONDS);
+								NovaGuilds.runTaskLater(task, 1, TimeUnit.SECONDS);
 								NovaGuilds.setRaidRunnableRunning(true);
 							}
 						}
 						else {
-							Message.CHAT_RAID_PROTECTION.send(player);
+							Message.CHAT_RAID_PROTECTION.send(nPlayer);
 						}
 					}
 				}
 				else {
 					final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 
-					Message.CHAT_RAID_RESTING.setVar(VarKey.TIMEREST, StringUtils.secondsToString(timeWait)).send(player);
+					Message.CHAT_RAID_RESTING.setVar(VarKey.TIMEREST, StringUtils.secondsToString(timeWait)).send(nPlayer);
 				}
 			}
 		}
+	}
+
+	private ResourceManager<NovaRegion> getResourceManager() {
+		return plugin.getStorage().getResourceManager(NovaRegion.class);
 	}
 }

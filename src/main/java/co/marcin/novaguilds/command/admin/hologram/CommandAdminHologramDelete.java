@@ -18,13 +18,14 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
+import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdminHologramDelete extends AbstractCommandExecutor.ReversedAdminHologram {
+public class CommandAdminHologramDelete extends AbstractCommandExecutor.Reversed<NovaHologram> {
 	private static final Command command = Command.ADMIN_HOLOGRAM_DELETE;
 
 	public CommandAdminHologramDelete() {
@@ -32,9 +33,10 @@ public class CommandAdminHologramDelete extends AbstractCommandExecutor.Reversed
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
+		NovaHologram hologram = getParameter();
+
 		hologram.delete();
 		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.setVar(VarKey.NAME, hologram.getName()).send(sender);
 	}
 }
-

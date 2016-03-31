@@ -34,13 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HologramManager {
-	private final File file;
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final File file = new File(plugin.getDataFolder(), "holograms.yml");
 	private YamlConfiguration configuration;
 	private final List<NovaHologram> holograms = new ArrayList<>();
-
-	public HologramManager(File file) {
-		this.file = file;
-	}
 
 	public void load() {
 		try {
@@ -62,7 +59,7 @@ public class HologramManager {
 				List<String> lines = new ArrayList<>();
 				if(nHologram.isTop()) {
 					lines.add(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
-					lines.addAll(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
+					lines.addAll(plugin.getGuildManager().getTopGuilds());
 				}
 				else {
 					lines.addAll(configuration.getStringList(name + ".lines"));
@@ -123,7 +120,7 @@ public class HologramManager {
 		NovaHologram hologram = new NovaHologramImpl();
 		hologram.setLocation(location);
 		hologram.addLine(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
-		hologram.addLine(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
+		hologram.addLine(plugin.getGuildManager().getTopGuilds());
 		hologram.setName("topX" + NumberUtils.randInt(1, 999));
 		hologram.create();
 		hologram.setTop(true);

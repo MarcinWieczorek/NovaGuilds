@@ -55,7 +55,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor implements Command
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		List<NovaGuild> invitedTo = nPlayer.getInvitedTo();
 		

@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.api.util.Changeable;
+import co.marcin.novaguilds.api.storage.Resource;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -26,7 +26,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
-public interface NovaGuild extends Changeable {
+public interface NovaGuild extends Resource {
 	/**
 	 * Gets the UUID
 	 *
@@ -152,13 +152,6 @@ public interface NovaGuild extends Changeable {
 	 * @return the leader
 	 */
 	NovaPlayer getLeader();
-
-	/**
-	 * Gets the name of the leader
-	 *
-	 * @return the name of the leader
-	 */
-	String getLeaderName();
 
 	/**
 	 * Gets the ID
@@ -633,11 +626,6 @@ public interface NovaGuild extends Changeable {
 	void removeRank(NovaRank rank);
 
 	/**
-	 * Removes the raid
-	 */
-	void removeRaid();
-
-	/**
 	 * Takes money
 	 *
 	 * @param money the amount
@@ -694,5 +682,8 @@ public interface NovaGuild extends Changeable {
 	 */
 	void removeRaidBar();
 
+	/**
+	 * Run post setup
+	 */
 	void postSetUp();
 }

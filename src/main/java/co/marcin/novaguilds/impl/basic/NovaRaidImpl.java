@@ -35,104 +35,122 @@ public class NovaRaidImpl implements NovaRaid {
 	private int killsAttacker;
 	private int killsDefender;
 	private float progress;
-	private boolean finished;
 	private final List<NovaPlayer> playersOccupying = new ArrayList<>();
+	private Result result = Result.DURING;
 
+	/**
+	 * The constructor
+	 *
+	 * @param guildAttacker attacker guild
+	 * @param guildDefender defender guild
+	 */
 	public NovaRaidImpl(NovaGuild guildAttacker, NovaGuild guildDefender) {
 		this.guildAttacker = guildAttacker;
 		this.guildDefender = guildDefender;
 	}
 
+	@Override
 	public NovaGuild getGuildAttacker() {
 		return guildAttacker;
 	}
 
+	@Override
 	public NovaGuild getGuildDefender() {
 		return guildDefender;
 	}
 
+	@Override
 	public long getStartTime() {
 		return startTime;
 	}
 
+	@Override
 	public int getKillsAttacker() {
 		return killsAttacker;
 	}
 
+	@Override
 	public int getKillsDefender() {
 		return killsDefender;
 	}
 
+	@Override
 	public float getProgress() {
 		return progress;
 	}
 
+	@Override
 	public List<NovaPlayer> getPlayersOccupying() {
 		return playersOccupying;
 	}
 
-	public int getPlayersOccupyingCount() {
-		return playersOccupying.size();
+	@Override
+	public Result getResult() {
+		return result;
 	}
 
-	public boolean getFinished() {
-		return finished;
-	}
-
+	@Override
 	public long getInactiveTime() {
 		return inactiveTime;
 	}
 
-	//setters
+	@Override
 	public void setGuildAttacker(NovaGuild guild) {
 		guildAttacker = guild;
 	}
 
+	@Override
 	public void setGuildDefender(NovaGuild guild) {
 		guildDefender = guild;
 	}
 
+	@Override
 	public void addKillAttacker() {
 		killsAttacker++;
 	}
 
+	@Override
 	public void addKillDefender() {
 		killsDefender++;
 	}
 
+	@Override
 	public void resetProgress() {
 		progress = 0;
 	}
 
+	@Override
 	public boolean isProgressFinished() {
 		return progress >= 100;
 	}
 
-	public void stepProgress() {
-		if(progress < 100) {
-			progress += Config.RAID_MULTIPLER.getDouble();
+	@Override
+	public void addProgress(float progress) {
+		this.progress += Config.RAID_MULTIPLER.getDouble();
+
+		if(this.progress > 100) {
+			this.progress = 100;
 		}
 	}
 
-	public void setFinished(boolean f) {
-		finished = f;
+	@Override
+	public void setResult(Result result) {
+		this.result = result;
 	}
 
-	public void finish() {
-		finished = true;
-	}
-
+	@Override
 	public void updateInactiveTime() {
 		inactiveTime = NumberUtils.systemSeconds();
 	}
 
-	//add/remove
+	@Override
 	public void addPlayerOccupying(NovaPlayer nPlayer) {
 		if(!playersOccupying.contains(nPlayer)) {
 			playersOccupying.add(nPlayer);
 		}
 	}
 
+	@Override
 	public void removePlayerOccupying(NovaPlayer nPlayer) {
 		playersOccupying.remove(nPlayer);
 	}

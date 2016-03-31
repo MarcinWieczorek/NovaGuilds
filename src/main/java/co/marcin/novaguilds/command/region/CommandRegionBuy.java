@@ -53,7 +53,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor implements Command
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(!nPlayer.hasGuild()) {
@@ -138,7 +138,6 @@ public class CommandRegionBuy extends AbstractCommandExecutor implements Command
 			NovaRegion region = new NovaRegionImpl(nPlayer.getActiveSelection());
 
 			nPlayer.getGuild().setRegion(region);
-			plugin.getRegionManager().add(region);
 			Message.CHAT_REGION_CREATED.send(sender);
 		}
 

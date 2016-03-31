@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.util.Schematic;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
@@ -38,6 +39,7 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
+import co.marcin.novaguilds.util.ParticleUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -66,7 +68,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 2) {
 			Message.CHAT_USAGE_GUILD_CREATE.send(sender);
 			return;
@@ -165,26 +167,26 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 		switch(regionValid) {
 			case VALID:
 				//Guild object
-				NovaGuild newGuild = new NovaGuildImpl(UUID.randomUUID());
-				newGuild.setName(guildName);
-				newGuild.setTag(tag);
-				newGuild.setLeader(nPlayer);
-				newGuild.setHome(player.getLocation());
-				newGuild.addPlayer(nPlayer);
-				newGuild.updateInactiveTime();
-				newGuild.setLives(Config.GUILD_STARTLIVES.getInt());
-				newGuild.setPoints(Config.GUILD_STARTPOINTS.getInt());
-				newGuild.setMoney(Config.GUILD_STARTMONEY.getInt());
-				newGuild.setSlots(Config.GUILD_SLOTS_START.getInt());
-				newGuild.setTimeCreated(NumberUtils.systemSeconds());
+				NovaGuild guild = new NovaGuildImpl(UUID.randomUUID());
+				guild.setName(guildName);
+				guild.setTag(tag);
+				guild.setLeader(nPlayer);
+				guild.setHome(player.getLocation());
+				guild.addPlayer(nPlayer);
+				guild.updateInactiveTime();
+				guild.setLives(Config.GUILD_STARTLIVES.getInt());
+				guild.setPoints(Config.GUILD_STARTPOINTS.getInt());
+				guild.setMoney(Config.GUILD_STARTMONEY.getInt());
+				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
+				guild.setTimeCreated(NumberUtils.systemSeconds());
 
 				//fire event
-				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(newGuild, (Player) sender);
+				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(guild, (Player) sender);
 				plugin.getServer().getPluginManager().callEvent(guildCreateEvent);
 
 				if(!guildCreateEvent.isCancelled()) {
 					//Add the guild
-					plugin.getGuildManager().add(newGuild);
+					plugin.getGuildManager().add(guild);
 
 					//taking money away
 					nPlayer.takeMoney(requiredMoney);
@@ -202,7 +204,6 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 					//autoregion
 					if(region != null) {
 						nPlayer.getGuild().setRegion(region);
-						plugin.getRegionManager().add(region);
 
 						for(Player playerCheck : NovaGuilds.getOnlinePlayers()) {
 							if(region.equals(RegionManager.get(playerCheck))) {
@@ -212,7 +213,11 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 					}
 
 					//homefloor
-					GuildManager.createHomeFloor(newGuild);
+					Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
+
+					if(schematic != null) {
+						schematic.paste(guild.getHome());
+					}
 
 					//vault item
 					if(Config.VAULT_ENABLED.getBoolean()) {
@@ -221,10 +226,13 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 						}
 					}
 
+					//Supernova
+					ParticleUtils.createSuperNova(player);
+
 					//messages
 					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);
 
-					vars.put(VarKey.GUILDNAME, newGuild.getName());
+					vars.put(VarKey.GUILDNAME, guild.getName());
 					vars.put(VarKey.PLAYER, sender.getName());
 					Message.BROADCAST_GUILD_CREATED.vars(vars).broadcast();
 				}

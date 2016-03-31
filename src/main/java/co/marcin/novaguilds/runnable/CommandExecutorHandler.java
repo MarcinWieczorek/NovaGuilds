@@ -24,17 +24,16 @@ import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import org.bukkit.scheduler.BukkitTask;
 
 public class CommandExecutorHandler implements Runnable {
 	private final CommandSender sender;
 	private final Command command;
 	private final String[] args;
 	private CommandExecutorHandlerState state = CommandExecutorHandlerState.WAITING;
-	private final ScheduledFuture scheduledFuture;
+	private final BukkitTask bukkitTask;
 	private Object executorVariable;
 
 	public CommandExecutorHandler(Command command, CommandSender sender, String[] args) {
@@ -42,11 +41,11 @@ public class CommandExecutorHandler implements Runnable {
 		this.sender = sender;
 		this.args = args;
 
-		scheduledFuture = NovaGuilds.getInstance().getWorker().schedule(this, Config.CHAT_CONFIRMTIMEOUT.getSeconds(), TimeUnit.SECONDS);
+		bukkitTask = Bukkit.getScheduler().runTaskLater(NovaGuilds.getInstance(), this, Config.CHAT_CONFIRMTIMEOUT.getSeconds() * 20);
 	}
 
 	public void execute() {
-		if(!scheduledFuture.isCancelled() && !scheduledFuture.isDone()) {
+		if(getState() == CommandExecutorHandlerState.CONFIRMED) {
 			command.executorVariable(executorVariable).execute(sender, args);
 			PlayerManager.getPlayer(sender).removeCommandExecutorHandler();
 		}
@@ -54,7 +53,7 @@ public class CommandExecutorHandler implements Runnable {
 
 	public void cancel() {
 		state = CommandExecutorHandlerState.CANCELED;
-		scheduledFuture.cancel(false);
+		bukkitTask.cancel();
 		PlayerManager.getPlayer(sender).removeCommandExecutorHandler();
 	}
 
