@@ -271,7 +271,25 @@ public class RegionInteractListener extends AbstractListener {
 		Player player = event.getPlayer();
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
-		if(RegionManager.get(block) != null && (!plugin.getRegionManager().canInteract(player, block) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
+		if(nPlayer.getBypass()) {
+			return;
+		}
+
+		//Fluid protection
+		NovaRegion fluidProtectRegion = null;
+		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
+			Location centerLocation = region.getCenter().clone();
+			Location blockLocation = block.getLocation().clone();
+			centerLocation.setY(0);
+			blockLocation.setY(0);
+
+			if(blockLocation.distance(centerLocation) <= region.getDiagonal()/2 + Config.REGION_FLUIDPROTECT.getInt()) {
+				fluidProtectRegion = region;
+				break;
+			}
+		}
+
+		if((fluidProtectRegion != null && (!nPlayer.hasGuild() || !fluidProtectRegion.getGuild().isMember(nPlayer) || !fluidProtectRegion.getGuild().isAlly(nPlayer.getGuild()))) || (RegionManager.get(block) != null && (!plugin.getRegionManager().canInteract(player, block) || !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
