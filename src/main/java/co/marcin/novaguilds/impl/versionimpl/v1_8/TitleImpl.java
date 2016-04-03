@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util;
+package co.marcin.novaguilds.impl.versionimpl.v1_8;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Title;
@@ -56,12 +56,18 @@ public class TitleImpl implements Title {
 
 	/**
 	 * Create a new 1.8 title
+	 */
+	public TitleImpl() {
+		this("");
+	}
+
+	/**
+	 * Create a new 1.8 title
 	 *
 	 * @param title Title
 	 */
 	public TitleImpl(String title) {
-		this.title = title;
-		loadClasses();
+		this(title, null);
 	}
 
 	/**
@@ -71,9 +77,7 @@ public class TitleImpl implements Title {
 	 * @param subtitle Subtitle text
 	 */
 	public TitleImpl(String title, String subtitle) {
-		this.title = title;
-		this.subtitle = subtitle;
-		loadClasses();
+		this(title, subtitle, -1, -1, -1);
 	}
 
 	/**

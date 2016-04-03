@@ -16,10 +16,11 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util.signgui;
+package co.marcin.novaguilds.impl.versionimpl.v1_7;
 
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
+import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class SignGUI1_7Impl extends AbstractSignGui {
+public class SignGUIImpl extends AbstractSignGui {
 	protected final Class<?> packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
 	protected final Class<?> packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
 	protected final Class<?> packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
@@ -43,7 +44,7 @@ public class SignGUI1_7Impl extends AbstractSignGui {
 	protected final Class<?> blockClass = Reflections.getCraftClass("Block");
 	protected final Class<?> worldClass = Reflections.getCraftClass("World");
 
-	public SignGUI1_7Impl() {
+	public SignGUIImpl() {
 		registerUpdateHandling();
 	}
 

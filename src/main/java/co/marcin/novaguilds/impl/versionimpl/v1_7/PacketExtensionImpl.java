@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_7;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
@@ -36,7 +36,7 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class PacketExtension1_7Impl implements PacketExtension {
+public class PacketExtensionImpl implements PacketExtension {
 	private static Reflections.FieldAccessor<Channel> clientChannel;
 	private static Field playerConnection;
 	private static Field networkManager;

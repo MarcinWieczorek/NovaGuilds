@@ -16,10 +16,11 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util.signgui;
+package co.marcin.novaguilds.impl.versionimpl.v1_8;
 
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
+import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -37,8 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class SignGUI1_9Impl extends AbstractSignGui {
-
+public class SignGUIImpl extends AbstractSignGui {
+	protected final Class<?> iChatBaseComponentClass = Reflections.getCraftClass("IChatBaseComponent");
 	protected final Class<?> packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
 	protected final Class<?> packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
 	protected final Class<?> packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
@@ -49,7 +50,7 @@ public class SignGUI1_9Impl extends AbstractSignGui {
 	protected final Class<?> chatComponentTextClass = Reflections.getCraftClass("ChatComponentText");
 	protected final Class<?> craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
 
-	public SignGUI1_9Impl() {
+	public SignGUIImpl() {
 		registerUpdateHandling();
 	}
 
@@ -88,45 +89,53 @@ public class SignGUI1_9Impl extends AbstractSignGui {
 			@Override
 			public void handle(PacketReceiveEvent event) {
 				try {
-					if(event.getPacketName().equals("PacketPlayInUpdateSign")) {
-						Object packet = event.getPacket();
+					Object packet = event.getPacket();
 
-						Field blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
-						Reflections.FieldAccessor<String[]> linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
-						Field xField = Reflections.getPrivateField(baseBlockPositionClass, "a");
-						Field yField = Reflections.getPrivateField(baseBlockPositionClass, "c");
-						Field zField = Reflections.getPrivateField(baseBlockPositionClass, "d");
+					Field blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
+					Field linesField = Reflections.getPrivateField(packetInUpdateSignClass, "b");
+					Field xField = Reflections.getPrivateField(baseBlockPositionClass, "a");
+					Field yField = Reflections.getPrivateField(baseBlockPositionClass, "c");
+					Field zField = Reflections.getPrivateField(baseBlockPositionClass, "d");
 
-						final Player player = event.getPlayer();
-						Location v = plugin.getSignGUI().getSignLocations().remove(player.getUniqueId());
+					final Player player = event.getPlayer();
+					Location v = plugin.getSignGUI().getSignLocations().remove(player.getUniqueId());
 
-						if(v == null) {
-							return;
-						}
+					if(v == null) {
+						return;
+					}
 
-						Object blockPosition = blockPositionField.get(packet);
-						int x = xField.getInt(blockPosition);
-						int y = yField.getInt(blockPosition);
-						int z = zField.getInt(blockPosition);
+					Object blockPosition = blockPositionField.get(packet);
+					int x = xField.getInt(blockPosition);
+					int y = yField.getInt(blockPosition);
+					int z = zField.getInt(blockPosition);
 
-						if(x != v.getBlockX() || y != v.getBlockY() || z != v.getBlockZ()) {
-							return;
-						}
+					if(x != v.getBlockX() || y != v.getBlockY() || z != v.getBlockZ()) {
+						return;
+					}
 
-						final String[] lines = linesField.get(packet);
-						final SignGUIListener response = plugin.getSignGUI().getListeners().remove(event.getPlayer().getUniqueId());
+					Method getTextMethod = Reflections.getMethod(iChatBaseComponentClass, "getText");
+					Object[] components = (Object[]) linesField.get(packet);
 
-						if(response != null) {
-							event.setCancelled(true);
-							Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-								public void run() {
-									response.onSignDone(player, lines);
-								}
-							});
-						}
+					int index = 0;
+					final String[] lines = new String[4];
+					for(Object component : components) {
+						Object line = getTextMethod.invoke(component);
+						lines[index] = (String) line;
+						index++;
+					}
+
+					final SignGUIListener response = plugin.getSignGUI().getListeners().remove(event.getPlayer().getUniqueId());
+
+					if(response != null) {
+						event.setCancelled(true);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+							public void run() {
+								response.onSignDone(player, lines);
+							}
+						});
 					}
 				}
-				catch(IllegalAccessException e) {
+				catch(IllegalAccessException | InvocationTargetException e) {
 					LoggerUtils.exception(e);
 				}
 			}

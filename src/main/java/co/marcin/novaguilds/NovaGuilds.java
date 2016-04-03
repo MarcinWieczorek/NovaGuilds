@@ -28,14 +28,9 @@ import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
-import co.marcin.novaguilds.impl.listener.packet.PacketListener1_7Impl;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
-import co.marcin.novaguilds.impl.util.packet.PacketExtension1_7Impl;
-import co.marcin.novaguilds.impl.util.packet.PacketExtension1_8Impl;
-import co.marcin.novaguilds.impl.util.signgui.SignGUI1_7Impl;
-import co.marcin.novaguilds.impl.util.signgui.SignGUI1_8Impl;
-import co.marcin.novaguilds.impl.util.signgui.SignGUI1_9Impl;
+import co.marcin.novaguilds.impl.versionimpl.v1_9.SignGUIImpl;
 import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
@@ -158,20 +153,20 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			if(Config.PACKETS_ENABLED.getBoolean()) {
 				switch(ConfigManager.getServerVersion()) {
 					case MINECRAFT_1_7:
-						packetExtension = new PacketExtension1_7Impl();
-						signGUI = new SignGUI1_7Impl();
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7.PacketExtensionImpl();
+						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7.SignGUIImpl();
 
 						if(Config.PACKETS_ADVANCEDENTITYUSE.getBoolean()) {
-							new PacketListener1_7Impl();
+							new co.marcin.novaguilds.impl.versionimpl.v1_7.PacketListenerImpl();
 						}
 						break;
 					case MINECRAFT_1_8:
-						packetExtension = new PacketExtension1_8Impl();
-						signGUI = new SignGUI1_8Impl();
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
+						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8.SignGUIImpl();
 						break;
 					case MINECRAFT_1_9:
-						packetExtension = new PacketExtension1_8Impl();
-						signGUI = new SignGUI1_9Impl();
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9.PacketExtensionImpl();
+						signGUI = new SignGUIImpl();
 						break;
 				}
 

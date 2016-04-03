@@ -117,9 +117,9 @@ public class ConfigManager {
 
 		LoggerUtils.info("This server is using Bukkit: " + Bukkit.getBukkitVersion());
 
-		if(Config.USETITLES.getBoolean() && getServerVersion() == ServerVersion.MINECRAFT_1_7) {
+		if(Config.USETITLES.getBoolean() && getServerVersion() != ServerVersion.MINECRAFT_1_8) {
 			Config.USETITLES.set(false);
-			LoggerUtils.error("You can't use Titles with Bukkit older than 1.8");
+			LoggerUtils.error("You can't use Titles with Bukkit other than 1.8");
 		}
 
 		if(Config.TABLIST_ENABLED.getBoolean() && getServerVersion() != ServerVersion.MINECRAFT_1_8) {
