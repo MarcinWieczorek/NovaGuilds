@@ -311,6 +311,10 @@ public class RegionManager {
 			return;
 		}
 
+		if(nPlayer.getAtRegion().getCenter().distance(nPlayer.getPlayer().getLocation()) > nPlayer.getAtRegion().getDiagonal()) {
+			return;
+		}
+
 		NovaGuild guildDefender = nPlayer.getAtRegion().getGuild();
 
 		if(nPlayer.getGuild().isWarWith(guildDefender)) {
