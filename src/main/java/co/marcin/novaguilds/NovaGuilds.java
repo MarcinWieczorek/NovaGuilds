@@ -222,7 +222,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	public void setUpStorage() throws FatalNovaGuildsException {
 		storage = new StorageConnector().getStorage();
 	}
-	
+
 	public void onDisable() {
 		if(FatalNovaGuildsException.fatal) {
 			LoggerUtils.info("#" + VersionUtils.getBuildCurrent() + " (FATAL) Disabled");
@@ -281,7 +281,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	public static NovaGuilds getInstance() {
 		return instance;
 	}
-	
+
 	//Managers
 	@Override
 	public GuildManager getGuildManager() {

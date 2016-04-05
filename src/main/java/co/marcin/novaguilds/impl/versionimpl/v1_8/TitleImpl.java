@@ -18,197 +18,40 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_8;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Title;
+import co.marcin.novaguilds.impl.util.AbstractTitle;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
-public class TitleImpl implements Title {
-	/* Title packet */
-	private Class<?> packetTitle;
+public class TitleImpl extends AbstractTitle {
+	protected static final Class<?> packetTitle = Reflections.getCraftClass("PacketPlayOutTitle");
+	protected static final Class<?> packetActions = Reflections.getCraftClass("PacketPlayOutTitle$EnumTitleAction");
+	protected static final Class<?> chatBaseComponent = Reflections.getCraftClass("IChatBaseComponent");
+	protected static final Class<?> nmsChatSerializer = Reflections.getCraftClass("IChatBaseComponent$ChatSerializer");
 
-	/* Title packet actions ENUM */
-	private Class<?> packetActions;
-
-	/* Chat serializer */
-	private Class<?> nmsChatSerializer;
-	private Class<?> chatBaseComponent;
-
-	/* Title text and color */
-	private String title = "";
-	private ChatColor titleColor = ChatColor.WHITE;
-
-	/* Subtitle text and color */
-	private String subtitle = "";
-	private ChatColor subtitleColor = ChatColor.WHITE;
-
-	/* Title timings */
-	private int fadeInTime = -1;
-	private int stayTime = -1;
-	private int fadeOutTime = -1;
-	private boolean ticks = false;
-
-	/**
-	 * Create a new 1.8 title
-	 */
 	public TitleImpl() {
-		this("");
+		super("");
 	}
 
-	/**
-	 * Create a new 1.8 title
-	 *
-	 * @param title Title
-	 */
 	public TitleImpl(String title) {
-		this(title, null);
+		super(title);
 	}
 
-	/**
-	 * Create a new 1.8 title
-	 *
-	 * @param title    Title text
-	 * @param subtitle Subtitle text
-	 */
 	public TitleImpl(String title, String subtitle) {
-		this(title, subtitle, -1, -1, -1);
+		super(title, subtitle);
 	}
 
-	/**
-	 * Copy 1.8 title
-	 *
-	 * @param title Title
-	 */
 	public TitleImpl(Title title) {
-		// Copy title
-		this.title = title.getTitle();
-		subtitle = title.getSubtitle();
-		titleColor = title.getTitleColor();
-		subtitleColor = title.getSubtitleColor();
-		fadeInTime = title.getFadeInTime();
-		fadeOutTime = title.getFadeOutTime();
-		stayTime = title.getStayTime();
-		ticks = title.getTicks();
-		loadClasses();
+		super(title);
 	}
 
-	/**
-	 * Create a new 1.8 title
-	 *
-	 * @param title       Title text
-	 * @param subtitle    Subtitle text
-	 * @param fadeInTime  Fade in time
-	 * @param stayTime    Stay on screen time
-	 * @param fadeOutTime Fade out time
-	 */
 	public TitleImpl(String title, String subtitle, int fadeInTime, int stayTime, int fadeOutTime) {
-		this.title = title;
-		this.subtitle = subtitle;
-		this.fadeInTime = fadeInTime;
-		this.stayTime = stayTime;
-		this.fadeOutTime = fadeOutTime;
-		loadClasses();
-	}
-
-	/**
-	 * Loads classes
-	 */
-	private void loadClasses() {
-		packetTitle = Reflections.getCraftClass("PacketPlayOutTitle");
-		packetActions = Reflections.getCraftClass("PacketPlayOutTitle$EnumTitleAction");
-		chatBaseComponent = Reflections.getCraftClass("IChatBaseComponent");
-		nmsChatSerializer = Reflections.getCraftClass("IChatBaseComponent$ChatSerializer");
-	}
-
-	@Override
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public void setSubtitle(String subtitle) {
-		this.subtitle = subtitle;
-	}
-
-	@Override
-	public String getSubtitle() {
-		return subtitle;
-	}
-
-	@Override
-	public ChatColor getTitleColor() {
-		return titleColor;
-	}
-
-	@Override
-	public ChatColor getSubtitleColor() {
-		return subtitleColor;
-	}
-
-	@Override
-	public int getFadeInTime() {
-		return fadeInTime;
-	}
-
-	@Override
-	public int getFadeOutTime() {
-		return fadeOutTime;
-	}
-
-	@Override
-	public int getStayTime() {
-		return stayTime;
-	}
-
-	@Override
-	public boolean getTicks() {
-		return ticks;
-	}
-
-	@Override
-	public void setTitleColor(ChatColor color) {
-		titleColor = color;
-	}
-
-	@Override
-	public void setSubtitleColor(ChatColor color) {
-		subtitleColor = color;
-	}
-
-	@Override
-	public void setFadeInTime(int time) {
-		fadeInTime = time;
-	}
-
-	@Override
-	public void setFadeOutTime(int time) {
-		fadeOutTime = time;
-	}
-
-	@Override
-	public void setStayTime(int time) {
-		stayTime = time;
-	}
-
-	@Override
-	public void setTimingsToTicks() {
-		ticks = true;
-	}
-
-	@Override
-	public void setTimingsToSeconds() {
-		ticks = false;
+		super(title, subtitle, fadeInTime, stayTime, fadeOutTime);
 	}
 
 	@Override
@@ -255,13 +98,6 @@ public class TitleImpl implements Title {
 			catch(Exception e) {
 				LoggerUtils.exception(e);
 			}
-		}
-	}
-
-	@Override
-	public void broadcast() {
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
-			send(player);
 		}
 	}
 

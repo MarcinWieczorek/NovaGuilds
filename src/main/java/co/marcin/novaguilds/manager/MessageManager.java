@@ -28,7 +28,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
-import co.marcin.novaguilds.impl.versionimpl.v1_8.TitleImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import com.earth2me.essentials.Essentials;
@@ -265,10 +264,10 @@ public class MessageManager {
 			case MINECRAFT_1_7:
 				throw new IllegalArgumentException("Cannot send a title on 1.7 server");
 			case MINECRAFT_1_8:
-				title = new TitleImpl();
+				title = new co.marcin.novaguilds.impl.versionimpl.v1_8.TitleImpl();
 				break;
 			case MINECRAFT_1_9:
-				throw new IllegalArgumentException("Not implemented yet"); //TODO
+				title = new co.marcin.novaguilds.impl.versionimpl.v1_9.TitleImpl();
 		}
 
 		title.setSubtitleColor(instance.prefixColor);

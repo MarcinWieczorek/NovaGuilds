@@ -5,7 +5,7 @@ import co.marcin.novaguilds.api.storage.Resource;
 public abstract class AbstractResource implements Resource {
 	private boolean added;
 	private boolean changed;
-	
+
 	@Override
 	public final boolean isAdded() {
 		return added;

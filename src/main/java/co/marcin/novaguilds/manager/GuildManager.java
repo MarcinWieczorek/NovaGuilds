@@ -56,12 +56,12 @@ import java.util.concurrent.TimeUnit;
 public class GuildManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaGuild> guilds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-	
+
 	//getters
 	public static NovaGuild getGuildByName(String name) {
 		return plugin.getGuildManager().guilds.get(name);
 	}
-	
+
 	public static NovaGuild getGuildByTag(String tag) {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			if(StringUtils.removeColors(guild.getTag()).equalsIgnoreCase(tag)) {
@@ -83,14 +83,14 @@ public class GuildManager {
 		if(guild == null) {
 			guild = getGuildByName(mixed);
 		}
-		
+
 		if(guild == null) {
 			NovaPlayer nPlayer = PlayerManager.getPlayer(mixed);
-			
+
 			if(nPlayer == null) {
 				return null;
 			}
-			
+
 			guild = nPlayer.getGuild();
 		}
 
@@ -100,7 +100,7 @@ public class GuildManager {
 	public Collection<NovaGuild> getGuilds() {
 		return guilds.values();
 	}
-	
+
 	public boolean exists(String guildName) {
 		return guilds.containsKey(guildName);
 	}
@@ -138,11 +138,11 @@ public class GuildManager {
 		loadVaultHolograms();
 		LoggerUtils.info("Generated bank holograms.");
 	}
-	
+
 	public void add(NovaGuild guild) {
 		guilds.put(guild.getName(), guild);
 	}
-	
+
 	public void save(NovaGuild guild) {
 		getResourceManager().save(guild);
 	}
@@ -166,7 +166,7 @@ public class GuildManager {
 		guilds.remove(guild.getName());
 		guild.destroy();
 	}
-	
+
 	public void changeName(NovaGuild guild, String newName) {
 		guilds.remove(guild.getName());
 		guilds.put(newName, guild);

@@ -25,8 +25,8 @@ import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.impl.versionimpl.v1_8.TabListNorthTabImpl;
 import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.impl.versionimpl.v1_8.TabListNorthTabImpl;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
@@ -104,7 +104,7 @@ public class LoginListener extends AbstractListener {
 			TabUtils.refresh();
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());

@@ -54,7 +54,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor implements Comman
 		if(args.length == 0) {
 			Map<String, String[]> langInfo = new HashMap<>();
 			String commit = VersionUtils.getCommit();
-			
+
 			langInfo.put("zh-cn", new String[]{
 					Message.CHAT_PREFIX.get() + "NovaGuilds 公会插件信息",
 					"&2NovaGuilds &6#&c" + VersionUtils.getBuildCurrent() + " &4(&e" + commit + "&4)",
@@ -63,7 +63,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor implements Comman
 					"&6网址: &bhttp://novaguilds.pl/",
 					"&2最新插件构建: &6#&c" + VersionUtils.getBuildLatest()
 			});
-			
+
 			langInfo.put("en-en", new String[]{
 					Message.CHAT_PREFIX.get() + "NovaGuilds Information",
 					"&2NovaGuilds &6#&c" + VersionUtils.getBuildCurrent() + " &4(&e" + commit + "&4)",

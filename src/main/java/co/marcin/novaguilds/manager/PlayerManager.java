@@ -73,7 +73,7 @@ public class PlayerManager {
 
 		return collection;
 	}
-	
+
 	public void save() {
 		long startTime = System.nanoTime();
 

@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class CommandGuildLeave extends AbstractCommandExecutor implements CommandExecutor {
 	private static final Command command = Command.GUILD_LEAVE;
-	
+
 	public CommandGuildLeave() {
 		super(command);
 	}
@@ -46,11 +46,11 @@ public class CommandGuildLeave extends AbstractCommandExecutor implements Comman
 		command.execute(sender, args);
 		return true;
 	}
-	
+
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		
+
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return;

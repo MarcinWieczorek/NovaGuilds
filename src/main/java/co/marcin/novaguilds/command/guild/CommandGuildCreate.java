@@ -56,7 +56,7 @@ import java.util.UUID;
 
 public class CommandGuildCreate extends AbstractCommandExecutor implements CommandExecutor {
 	private static final Command command = Command.GUILD_CREATE;
-	
+
 	public CommandGuildCreate() {
 		super(command);
 	}
@@ -78,7 +78,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 
 		String tag = args[0];
 		String guildName = args[1];
-		
+
 		//remove colors
 		guildName = StringUtils.removeColors(guildName);
 		if(!Config.GUILD_SETTINGS_TAG_COLOR.getBoolean()) {
@@ -87,7 +87,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		Map<VarKey, String> vars = new HashMap<>();
-		
+
 		if(nPlayer.hasGuild()) { //has guild already
 			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
 			return;

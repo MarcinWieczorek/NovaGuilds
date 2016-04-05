@@ -45,12 +45,12 @@ public class PacketReceiveEvent extends Event implements Cancellable, PacketEven
 	public Object getPacket() {
 		return packet;
 	}
-	
+
 	@Override
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	@Override
 	public String getPacketName() {
 		return packet.getClass().getSimpleName();

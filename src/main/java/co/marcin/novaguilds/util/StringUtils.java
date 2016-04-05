@@ -45,7 +45,7 @@ public final class StringUtils {
 		if(msg == null) {
 			return null;
 		}
-		
+
 		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 
@@ -62,11 +62,11 @@ public final class StringUtils {
 
 		return new String(b);
 	}
-	
+
 	public static String removeColors(String msg) {
 		return ChatColor.stripColor(fixColors(msg));
 	}
-	
+
 	public static String getContent(String s) throws IOException {
 		URL url = new URL(s);
 		URLConnection con = url.openConnection();
@@ -75,22 +75,22 @@ public final class StringUtils {
 		encoding = encoding == null ? "UTF-8" : encoding;
 		return IOUtils.toString(in, encoding);
 	}
-	
+
 	public static String parseDBLocation(Location l) {
 		return l == null ? "" : l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ() + ";" + Math.round(l.getYaw());
 	}
-	
+
 	public static String parseDBLocationCoordinates2D(Location l) {
 		return l.getBlockX() + ";" + l.getBlockZ();
 	}
-	
+
 	public static String[] parseArgs(String[] args, int cut) {
 		if(args.length == 0 || args.length < cut) {
 			return args;
 		}
-		
+
 		String[] newArgs = new String[args.length - cut];
-		
+
 		int index = 0;
 		for(int i = 0; i < args.length; i++) {
 			if(i >= cut) {
@@ -98,10 +98,10 @@ public final class StringUtils {
 				index++;
 			}
 		}
-		
+
 		return newArgs;
 	}
-	
+
 	public static List<String> semicolonToList(String str) {
 		List<String> list = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public final class StringUtils {
 		else if(!str.isEmpty()) {
 			list.add(str);
 		}
-		
+
 		return list;
 	}
 

@@ -135,7 +135,7 @@ public class RegionInteractListener extends AbstractListener {
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
 	}
-	
+
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) { //PLACING
 		Player player = event.getPlayer();
@@ -146,7 +146,7 @@ public class RegionInteractListener extends AbstractListener {
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
 	}
-	
+
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent event) { //Entity Damage
 		List<String> denyMobDamageList = Config.REGION_DENYMOBDAMAGE.getStringList();
@@ -217,7 +217,7 @@ public class RegionInteractListener extends AbstractListener {
 	public void onExplosion(EntityExplodeEvent event) {
 		Location loc = event.getLocation();
 		NovaRegion region = RegionManager.get(loc);
-		
+
 		if(region != null) {
 			for(Block block : new ArrayList<>(event.blockList())) {
 				if(plugin.getGuildManager().isVaultBlock(block)) {
@@ -283,7 +283,7 @@ public class RegionInteractListener extends AbstractListener {
 			centerLocation.setY(0);
 			blockLocation.setY(0);
 
-			if(blockLocation.distance(centerLocation) <= region.getDiagonal()/2 + Config.REGION_FLUIDPROTECT.getInt()) {
+			if(blockLocation.distance(centerLocation) <= region.getDiagonal() / 2 + Config.REGION_FLUIDPROTECT.getInt()) {
 				fluidProtectRegion = region;
 				break;
 			}
