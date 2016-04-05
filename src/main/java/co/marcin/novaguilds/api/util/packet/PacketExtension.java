@@ -35,6 +35,14 @@ public interface PacketExtension {
 	 */
 	void unregisterChannel();
 
+	/**
+	 * Sends a packet or more
+	 *
+	 * @param player  target player
+	 * @param packets packets
+	 */
+	void sendPacket(Player player, Object... packets);
+
 	interface PacketHandler {
 		/**
 		 * Gets packet name

@@ -18,38 +18,17 @@
 
 package co.marcin.novaguilds.util.reflect;
 
-import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.NovaGuilds;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Method;
-
 public class PacketSender {
-	public static void sendPacket(Player player, Object... packets) {
-		sendPacket(new Player[]{player}, packets);
+	public static void sendPacket(Player[] players, Object... packets) {
+		for(Player player : players) {
+			sendPacket(player, packets);
+		}
 	}
 
-	public static void sendPacket(Player[] players, Object... packets) {
-		try {
-			Class<?> packetClass = Reflections.getCraftClass("Packet");
-			Class<?> craftPlayerClass = Reflections.getBukkitClass("CraftPlayer");
-
-			for(Player player : players) {
-				Object craftPlayer = craftPlayerClass.cast(player);
-				Object handle = craftPlayerClass.getMethod("getHandle").invoke(craftPlayer);
-				Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
-				Method sendPacketMethod = playerConnection.getClass().getMethod("sendPacket", packetClass);
-
-				for(Object packet : packets) {
-					if(packet == null) {
-						continue;
-					}
-
-					sendPacketMethod.invoke(playerConnection, packet);
-				}
-			}
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
-		}
+	public static void sendPacket(Player player, Object... packets) {
+		NovaGuilds.getInstance().getPacketExtension().sendPacket(player, packets);
 	}
 }

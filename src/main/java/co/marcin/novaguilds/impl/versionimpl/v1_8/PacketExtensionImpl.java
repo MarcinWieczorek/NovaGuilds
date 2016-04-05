@@ -29,17 +29,21 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+@SuppressWarnings("ConstantConditions")
 public class PacketExtensionImpl implements PacketExtension {
 	private static Reflections.FieldAccessor<Channel> clientChannel;
 	private static Field playerConnection;
 	private static Field networkManager;
 	private static Method handleMethod;
+	protected static Class<?> packetClass;
+	protected static Class<?> craftPlayerClass;
 
 	static {
 		try {
@@ -47,6 +51,8 @@ public class PacketExtensionImpl implements PacketExtension {
 			playerConnection = Reflections.getField(Reflections.getCraftClass("EntityPlayer"), "playerConnection");
 			networkManager = Reflections.getField(Reflections.getCraftClass("PlayerConnection"), "networkManager");
 			handleMethod = Reflections.getMethod(Reflections.getBukkitClass("entity.CraftEntity"), "getHandle");
+			packetClass = Reflections.getCraftClass("Packet");
+			craftPlayerClass = Reflections.getBukkitClass("entity.CraftPlayer");
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -103,6 +109,7 @@ public class PacketExtensionImpl implements PacketExtension {
 					}
 				}
 			};
+
 			ChannelPipeline cp = c.pipeline();
 			if(cp.names().contains("packet_handler")) {
 				if(cp.names().contains("NovaGuilds")) {
@@ -133,5 +140,27 @@ public class PacketExtensionImpl implements PacketExtension {
 	private static <E extends Event> E callEvent(E event) {
 		ListenerManager.getLoggedPluginManager().callEvent(event);
 		return event;
+	}
+
+	@Override
+	public void sendPacket(Player player, Object... packets) {
+		try {
+			Validate.notNull(craftPlayerClass);
+			Object craftPlayer = craftPlayerClass.cast(player);
+			Object handle = craftPlayerClass.getMethod("getHandle").invoke(craftPlayer);
+			Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			Method sendPacketMethod = playerConnection.getClass().getMethod("sendPacket", packetClass);
+
+			for(Object packet : packets) {
+				if(packet == null) {
+					continue;
+				}
+
+				sendPacketMethod.invoke(playerConnection, packet);
+			}
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
+		}
 	}
 }
