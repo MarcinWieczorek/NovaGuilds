@@ -591,6 +591,10 @@ inventory:
     openinvitation: "FENCE_GATE 1 name:&6Toggle_open_invitation lore:Currently_{FLAG}"
     buylife: "APPLE 1 name:&6Buy_a_life"
     buyslot: "MINECART 1 name:&6Buy_a_slot"
+    invite: "CAKE 1 name:&6Invite_players"
+   invite:
+    title: "Inviting players"
+    item: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
   back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "队员列表"

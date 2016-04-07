@@ -36,6 +36,7 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 	private ItemStack openInvitationItem;
 	private ItemStack buyLifeItem;
 	private ItemStack buySlotItem;
+	private ItemStack inviteItem;
 
 	public GUIInventoryGuildSettings() {
 		super(9, Message.INVENTORY_GUI_SETTINGS_TITLE);
@@ -83,6 +84,9 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 			getViewer().getPlayer().performCommand("g buyslot");
 			generateContent();
 		}
+		else if(clicked.equals(inviteItem)) {
+			new GUIInventoryGuildInvite().open(getViewer());
+		}
 	}
 
 	@Override
@@ -95,6 +99,7 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 		openInvitationItem = Message.INVENTORY_GUI_SETTINGS_ITEM_OPENINVITATION.setVar(VarKey.FLAG, Message.getOnOff(getViewer().getGuild().isOpenInvitation())).getItemStack();
 		buyLifeItem = Message.INVENTORY_GUI_SETTINGS_ITEM_BUYLIFE.getItemStack();
 		buySlotItem = Message.INVENTORY_GUI_SETTINGS_ITEM_BUYSLOT.getItemStack();
+		inviteItem = Message.INVENTORY_GUI_SETTINGS_ITEM_INVITE.getItemStack();
 
 		if(getViewer().hasPermission(GuildPermission.SET_NAME)) {
 			add(setNameItem);
@@ -122,6 +127,10 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 
 		if(getViewer().hasPermission(GuildPermission.BUYSLOT)) {
 			add(buySlotItem);
+		}
+
+		if(getViewer().hasPermission(GuildPermission.INVITE)) {
+			add(inviteItem);
 		}
 	}
 }
