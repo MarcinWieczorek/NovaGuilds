@@ -95,14 +95,15 @@ public final class LoggerUtils {
 		printStackTrace(e.getStackTrace());
 		error("", false);
 
-		if(cause != null) {
+		while(cause != null) {
 			error("Caused by: " + cause.getClass().getName(), false);
 			error("  " + cause.getMessage(), false);
 
 			printStackTrace(cause.getStackTrace());
+			error("", false);
+			cause = cause.getCause();
 		}
 
-		error("", false);
 		error("End of Error.", false);
 		error("", false);
 
