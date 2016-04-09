@@ -13,16 +13,16 @@ public enum Dependency {
 
 	private final String name;
 	private final boolean hardDependency;
-	private DependencyManager.RunnableWithException additionalTask;
+	private DependencyManager.RunnableWithException[] additionalTasks = new DependencyManager.RunnableWithException[0];
 
 	Dependency(String name, boolean hardDependency) {
 		this.name = name;
 		this.hardDependency = hardDependency;
 	}
 
-	Dependency(String name, boolean hardDependency, DependencyManager.RunnableWithException additionalTask) {
+	Dependency(String name, boolean hardDependency, DependencyManager.RunnableWithException... additionalTasks) {
 		this(name, hardDependency);
-		this.additionalTask = additionalTask;
+		this.additionalTasks = additionalTasks;
 	}
 
 	public String getName() {
@@ -33,11 +33,11 @@ public enum Dependency {
 		return hardDependency;
 	}
 
-	public boolean hasAdditionalTask() {
-		return additionalTask != null;
+	public boolean hasAdditionalTasks() {
+		return additionalTasks.length > 0;
 	}
 
-	public void runAdditionalTask() throws Exception {
-		additionalTask.run();
+	public DependencyManager.RunnableWithException[] getAdditionalTasks() {
+		return additionalTasks;
 	}
 }

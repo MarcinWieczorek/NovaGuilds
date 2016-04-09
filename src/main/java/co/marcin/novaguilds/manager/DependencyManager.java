@@ -38,13 +38,15 @@ public class DependencyManager {
 				pluginMap.put(dependency, plugin);
 				LoggerUtils.info("Found plugin " + dependency.getName());
 
-				if(dependency.hasAdditionalTask()) {
-					try {
-						LoggerUtils.info("Running additional task for " + dependency.getName());
-						dependency.runAdditionalTask();
-					}
-					catch(Exception e) {
-						throw new MissingDependencyException("Could not pass additional task", e);
+				if(dependency.hasAdditionalTasks()) {
+					for(RunnableWithException additionalTask : dependency.getAdditionalTasks()) {
+						try {
+							LoggerUtils.info("Running additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName());
+							additionalTask.run();
+						}
+						catch(Exception e) {
+							throw new MissingDependencyException("Could not pass additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName(), e);
+						}
 					}
 				}
 			}
