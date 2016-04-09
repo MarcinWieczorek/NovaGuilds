@@ -114,7 +114,13 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 		}
 
 		//distance from spawn
-		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < Config.GUILD_FROMSPAWN.getInt()) {
+		Location spawnLocationBedrock = player.getWorld().getSpawnLocation().clone();
+		spawnLocationBedrock.setY(0);
+
+		Location playerLocationBedrock = player.getLocation().clone();
+		playerLocationBedrock.setY(0);
+
+		if(spawnLocationBedrock.distance(playerLocationBedrock) < Config.GUILD_FROMSPAWN.getInt()) {
 			vars.put(VarKey.DISTANCE, String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
 			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.vars(vars).send(sender);
 			return;
