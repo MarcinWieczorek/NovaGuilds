@@ -1,4 +1,4 @@
-package co.marcin.novaguilds.impl.versionimpl.v1_9.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_8.packet;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -11,10 +11,10 @@ import java.lang.reflect.InvocationTargetException;
 @SuppressWarnings("ConstantConditions")
 public class PacketPlayOutTitle {
 	protected static final NovaGuilds plugin = NovaGuilds.getInstance();
-	protected static Class<?> packetTitle = Reflections.getCraftClass("PacketPlayOutTitle");
-	protected static Class<?> titleActionsClass = Reflections.getCraftClass("PacketPlayOutTitle$EnumTitleAction");
-	protected static final Class<?> chatSerializerClass = Reflections.getCraftClass("IChatBaseComponent$ChatSerializer");
-	protected static final Class<?> chatBaseComponentClass = Reflections.getCraftClass("IChatBaseComponent");
+	protected static Class<?> packetTitleClass;
+	protected static Class<?> titleActionsClass;
+	protected static Class<?> chatSerializerClass;
+	protected static Class<?> chatBaseComponentClass;
 	private final Object packet;
 
 	public enum EnumTitleAction {
@@ -48,8 +48,10 @@ public class PacketPlayOutTitle {
 
 	static {
 		try {
-			packetTitle = Reflections.getCraftClass("PacketPlayOutTitle");
+			packetTitleClass = Reflections.getCraftClass("PacketPlayOutTitle");
 			titleActionsClass = Reflections.getCraftClass("PacketPlayOutTitle$EnumTitleAction");
+			chatSerializerClass = Reflections.getCraftClass("IChatBaseComponent$ChatSerializer");
+			chatBaseComponentClass = Reflections.getCraftClass("IChatBaseComponent");
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -91,7 +93,7 @@ public class PacketPlayOutTitle {
 			serialized = Reflections.getMethod(chatSerializerClass, "a", String.class).invoke(null, json);
 		}
 
-		packet = packetTitle.getConstructor(titleActionsClass, chatBaseComponentClass, Integer.TYPE, Integer.TYPE, Integer.TYPE).newInstance(action.getCraftAction(), serialized, fadeIn, stay, fadeOut);
+		packet = packetTitleClass.getConstructor(titleActionsClass, chatBaseComponentClass, Integer.TYPE, Integer.TYPE, Integer.TYPE).newInstance(action.getCraftAction(), serialized, fadeIn, stay, fadeOut);
 	}
 
 	/**

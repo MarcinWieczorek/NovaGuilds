@@ -7,7 +7,6 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
 
-@SuppressWarnings("ConstantConditions")
 public class TitleImpl extends AbstractTitle {
 	public TitleImpl() {
 		super("", "", -1, -1, -1);

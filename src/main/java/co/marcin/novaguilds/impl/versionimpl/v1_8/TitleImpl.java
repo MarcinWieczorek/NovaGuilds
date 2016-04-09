@@ -20,20 +20,12 @@ package co.marcin.novaguilds.impl.versionimpl.v1_8;
 
 import co.marcin.novaguilds.api.util.Title;
 import co.marcin.novaguilds.impl.util.AbstractTitle;
+import co.marcin.novaguilds.impl.versionimpl.v1_8.packet.PacketPlayOutTitle;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Method;
-
-@SuppressWarnings("ConstantConditions")
 public class TitleImpl extends AbstractTitle {
-	protected static final Class<?> packetTitle = Reflections.getCraftClass("PacketPlayOutTitle");
-	protected static final Class<?> packetActions = Reflections.getCraftClass("PacketPlayOutTitle$EnumTitleAction");
-	protected static final Class<?> chatBaseComponent = Reflections.getCraftClass("IChatBaseComponent");
-	protected static final Class<?> nmsChatSerializer = Reflections.getCraftClass("IChatBaseComponent$ChatSerializer");
-
 	public TitleImpl() {
 		super("");
 	}
@@ -56,61 +48,31 @@ public class TitleImpl extends AbstractTitle {
 
 	@Override
 	public void send(Player player) {
-		if(packetTitle != null) {
-			resetTitle(player);
+		resetTitle(player);
 
-			try {
-				// Send timings first
-				Object handle = Reflections.getHandle(player);
-				Object connection = Reflections.getField(handle.getClass(), "playerConnection").get(handle);
-				Object[] actions = packetActions.getEnumConstants();
-				Method sendPacket = Reflections.getMethod(connection.getClass(), "sendPacket");
-
-				Object packet = packetTitle.getConstructor(packetActions,
-						chatBaseComponent, Integer.TYPE, Integer.TYPE,
-						Integer.TYPE).newInstance(actions[2], null,
-						fadeInTime * (ticks ? 1 : 20),
-						stayTime * (ticks ? 1 : 20),
-						fadeOutTime * (ticks ? 1 : 20));
-
-				if(fadeInTime != -1 && fadeOutTime != -1 && stayTime != -1) {
-					sendPacket.invoke(connection, packet);
-				}
-
-
-				Object serialized = Reflections.getMethod(nmsChatSerializer, "a", String.class).invoke(null, "{text:\""
-						+ StringUtils.fixColors(title) + "\",color:"
-						+ titleColor.name().toLowerCase() + "}");
-				packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[0], serialized);
-				sendPacket.invoke(connection, packet);
-
-				if(!subtitle.isEmpty()) {
-					serialized = Reflections.getMethod(nmsChatSerializer, "a", String.class).invoke(null, "{text:\""
-							+ StringUtils.fixColors(subtitle)
-							+ "\",color:"
-							+ subtitleColor.name()
-							.toLowerCase() + "}");
-
-					packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[1], serialized);
-					sendPacket.invoke(connection, packet);
-				}
+		try {
+			if(fadeInTime != -1 && fadeOutTime != -1 && stayTime != -1) {
+				new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, fadeInTime * (ticks ? 1 : 20), stayTime * (ticks ? 1 : 20), fadeOutTime * (ticks ? 1 : 20)).send(player);
 			}
-			catch(Exception e) {
-				LoggerUtils.exception(e);
+
+			String titleJson = "{text:\"" + StringUtils.fixColors(title) + "\",color:" + titleColor.name().toLowerCase() + "}";
+
+			new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, titleJson).send(player);
+
+			if(subtitle != null) {
+				String subTitleJson = "{text:\"" + StringUtils.fixColors(subtitle) + "\",color:" + subtitleColor.name().toLowerCase() + "}";
+				new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, subTitleJson).send(player);
 			}
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
 		}
 	}
 
 	@Override
 	public void clearTitle(Player player) {
 		try {
-			// Send timings first
-			Object handle = Reflections.getHandle(player);
-			Object connection = Reflections.getField(handle.getClass(), "playerConnection").get(handle);
-			Object[] actions = packetActions.getEnumConstants();
-			Method sendPacket = Reflections.getMethod(connection.getClass(), "sendPacket");
-			Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[3], null);
-			sendPacket.invoke(connection, packet);
+			new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.CLEAR, null).send(player);
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -120,13 +82,7 @@ public class TitleImpl extends AbstractTitle {
 	@Override
 	public void resetTitle(Player player) {
 		try {
-			// Send timings first
-			Object handle = Reflections.getHandle(player);
-			Object connection = Reflections.getField(handle.getClass(), "playerConnection").get(handle);
-			Object[] actions = packetActions.getEnumConstants();
-			Method sendPacket = Reflections.getMethod(connection.getClass(), "sendPacket");
-			Object packet = packetTitle.getConstructor(packetActions, chatBaseComponent).newInstance(actions[4], null);
-			sendPacket.invoke(connection, packet);
+			new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.RESET, null).send(player);
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
