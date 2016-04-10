@@ -311,7 +311,8 @@ public class RegionManager {
 			return;
 		}
 
-		if(nPlayer.getAtRegion().getCenter().distance(nPlayer.getPlayer().getLocation()) > nPlayer.getAtRegion().getDiagonal()) {
+		if(nPlayer.getAtRegion().getGuild().getHome().distance(nPlayer.getPlayer().getLocation()) > nPlayer.getAtRegion().getDiagonal()) {
+			LoggerUtils.debug(nPlayer.getAtRegion().getGuild().getHome().distance(nPlayer.getPlayer().getLocation()) + " > " + nPlayer.getAtRegion().getDiagonal());
 			return;
 		}
 
