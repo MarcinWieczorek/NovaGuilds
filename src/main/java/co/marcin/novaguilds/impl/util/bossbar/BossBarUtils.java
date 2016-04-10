@@ -18,7 +18,7 @@ public class BossBarUtils {
 					bossBarUtils = bossBarAPI ? new BossBarUtilsBossBarImpl() : new BossBarUtilsBarAPIImpl();
 					break;
 				case MINECRAFT_1_9:
-					bossBarUtils = new BossBarUtilsBossBarImpl();
+					bossBarUtils = new BossBarUtilsBukkitImpl();
 					break;
 			}
 		}
