@@ -37,12 +37,26 @@ import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class SignGUIImpl extends AbstractSignGui {
-	protected final Class<?> packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
-	protected final Class<?> packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
-	protected final Class<?> packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
-	protected final Class<?> packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
-	protected final Class<?> blockClass = Reflections.getCraftClass("Block");
-	protected final Class<?> worldClass = Reflections.getCraftClass("World");
+	protected static Class<?> packetInUpdateSignClass;
+	protected static Class<?> packetOutUpdateSignClass;
+	protected static Class<?> packetBlockChangeClass;
+	protected static Class<?> packetOpenSignEditorClass;
+	protected static Class<?> blockClass;
+	protected static Class<?> worldClass;
+
+	static {
+		try {
+			packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
+			packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
+			packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
+			packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
+			blockClass = Reflections.getCraftClass("Block");
+			worldClass = Reflections.getCraftClass("World");
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
+		}
+	}
 
 	public SignGUIImpl() {
 		registerUpdateHandling();
@@ -149,7 +163,7 @@ public class SignGUIImpl extends AbstractSignGui {
 
 			return packet;
 		}
-		catch(InstantiationException | IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
+		catch(InstantiationException | IllegalAccessException | InvocationTargetException | IllegalArgumentException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
 			return null;
 		}
@@ -171,7 +185,7 @@ public class SignGUIImpl extends AbstractSignGui {
 
 			return packet;
 		}
-		catch(InstantiationException | IllegalAccessException e) {
+		catch(InstantiationException | IllegalAccessException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
 			return null;
 		}

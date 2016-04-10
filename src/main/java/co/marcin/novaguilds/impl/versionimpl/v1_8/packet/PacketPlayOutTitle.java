@@ -1,21 +1,19 @@
 package co.marcin.novaguilds.impl.versionimpl.v1_8.packet;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.impl.util.AbstractPacket;
 import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.reflect.PacketSender;
 import co.marcin.novaguilds.util.reflect.Reflections;
-import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
 @SuppressWarnings("ConstantConditions")
-public class PacketPlayOutTitle {
+public class PacketPlayOutTitle extends AbstractPacket {
 	protected static final NovaGuilds plugin = NovaGuilds.getInstance();
 	protected static Class<?> packetTitleClass;
 	protected static Class<?> titleActionsClass;
 	protected static Class<?> chatSerializerClass;
 	protected static Class<?> chatBaseComponentClass;
-	private final Object packet;
 
 	public enum EnumTitleAction {
 		TITLE(0),
@@ -94,14 +92,5 @@ public class PacketPlayOutTitle {
 		}
 
 		packet = packetTitleClass.getConstructor(titleActionsClass, chatBaseComponentClass, Integer.TYPE, Integer.TYPE, Integer.TYPE).newInstance(action.getCraftAction(), serialized, fadeIn, stay, fadeOut);
-	}
-
-	/**
-	 * Sends the packet to a player
-	 *
-	 * @param player the receiver
-	 */
-	public void send(Player player) {
-		PacketSender.sendPacket(player, packet);
 	}
 }

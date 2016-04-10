@@ -60,7 +60,7 @@ public class PacketListenerImpl extends AbstractListener {
 					PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), entity, action);
 					plugin.getServer().getPluginManager().callEvent(clickEvent);
 				}
-				catch(IllegalAccessException | InvocationTargetException e) {
+				catch(IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
 					LoggerUtils.exception(e);
 				}
 			}

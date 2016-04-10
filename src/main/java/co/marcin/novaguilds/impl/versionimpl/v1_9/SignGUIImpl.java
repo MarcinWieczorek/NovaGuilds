@@ -40,15 +40,32 @@ import java.util.List;
 @SuppressWarnings("ConstantConditions")
 public class SignGUIImpl extends AbstractSignGui {
 
-	protected final Class<?> packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
-	protected final Class<?> packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
-	protected final Class<?> packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
-	protected final Class<?> packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
-	protected final Class<?> baseBlockPositionClass = Reflections.getCraftClass("BaseBlockPosition");
-	protected final Class<?> blockPositionClass = Reflections.getCraftClass("BlockPosition");
-	protected final Class<?> worldClass = Reflections.getCraftClass("World");
-	protected final Class<?> chatComponentTextClass = Reflections.getCraftClass("ChatComponentText");
-	protected final Class<?> craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
+	protected static Class<?> packetInUpdateSignClass;
+	protected static Class<?> packetOutUpdateSignClass;
+	protected static Class<?> packetBlockChangeClass;
+	protected static Class<?> packetOpenSignEditorClass;
+	protected static Class<?> baseBlockPositionClass;
+	protected static Class<?> blockPositionClass;
+	protected static Class<?> worldClass;
+	protected static Class<?> chatComponentTextClass;
+	protected static Class<?> craftMagicNumbersClass;
+
+	static {
+		try {
+			packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
+			packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
+			packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
+			packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
+			baseBlockPositionClass = Reflections.getCraftClass("BaseBlockPosition");
+			blockPositionClass = Reflections.getCraftClass("BlockPosition");
+			worldClass = Reflections.getCraftClass("World");
+			chatComponentTextClass = Reflections.getCraftClass("ChatComponentText");
+			craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
+		}
+	}
 
 	public SignGUIImpl() {
 		registerUpdateHandling();
@@ -127,7 +144,7 @@ public class SignGUIImpl extends AbstractSignGui {
 						}
 					}
 				}
-				catch(IllegalAccessException e) {
+				catch(IllegalAccessException | NoSuchFieldException e) {
 					LoggerUtils.exception(e);
 				}
 			}
@@ -171,7 +188,7 @@ public class SignGUIImpl extends AbstractSignGui {
 
 			return packet;
 		}
-		catch(InstantiationException | IllegalAccessException | InvocationTargetException e) {
+		catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
 			return null;
 		}
@@ -208,7 +225,7 @@ public class SignGUIImpl extends AbstractSignGui {
 
 			return packet;
 		}
-		catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+		catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
 			return null;
 		}
