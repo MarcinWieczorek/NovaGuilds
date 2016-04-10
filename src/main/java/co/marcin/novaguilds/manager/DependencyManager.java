@@ -1,6 +1,5 @@
 package co.marcin.novaguilds.manager;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.exception.MissingDependencyException;
@@ -98,17 +97,6 @@ public class DependencyManager {
 		@Override
 		public void run() throws ClassNotFoundException {
 			Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
-		}
-	}
-
-	public static class BarAPIVersionCompatilibityCheck implements RunnableWithException {
-		private final NovaGuilds plugin = NovaGuilds.getInstance();
-
-		@Override
-		public void run() throws Exception {
-			if(plugin.getDependencyManager().isEnabled(Dependency.BARAPI) && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_9) {
-				throw new MissingDependencyException("You may not use BarAPI with 1.9 server");
-			}
 		}
 	}
 

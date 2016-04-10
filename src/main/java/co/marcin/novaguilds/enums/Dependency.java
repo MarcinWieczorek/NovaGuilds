@@ -8,7 +8,7 @@ public enum Dependency {
 	VANISHNOPACKET("VanishNoPacket", false),
 	ESSENTIALS("Essentials", false),
 	BOSSBARAPI("BossBarAPI", false),
-	BARAPI("BarAPI", false, new DependencyManager.BarAPIVersionCompatilibityCheck()),
+	BARAPI("BarAPI", false),
 	HOLOGRAPHICDISPLAYS("HolographicDisplays", false, new DependencyManager.HolographicDisplaysAPIChecker());
 
 	private final String name;
