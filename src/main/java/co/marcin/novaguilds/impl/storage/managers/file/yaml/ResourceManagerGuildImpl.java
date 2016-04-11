@@ -137,7 +137,6 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 				}
 
 				//set values
-				guildData.set("id", guild.getId());
 				guildData.set("name", guild.getName());
 				guildData.set("tag", guild.getTag());
 				guildData.set("leader", guild.getLeader().getName());
