@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
 import co.marcin.novaguilds.impl.versionimpl.v1_8.TabListNorthTabImpl;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -103,6 +104,8 @@ public class LoginListener extends AbstractListener {
 
 			TabUtils.refresh();
 		}
+
+		BossBarUtils.removeBar(player);
 	}
 
 	@EventHandler

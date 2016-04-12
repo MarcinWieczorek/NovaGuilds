@@ -2,6 +2,7 @@ package co.marcin.novaguilds.impl.util.bossbar;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.IBossBarUtils;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.manager.ConfigManager;
 import org.bukkit.entity.Player;
@@ -11,15 +12,60 @@ public class BossBarUtils {
 
 	static {
 		if(bossBarUtils == null) {
-			switch(ConfigManager.getServerVersion()) {
-				case MINECRAFT_1_7:
-				case MINECRAFT_1_8:
-					boolean bossBarAPI = NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BOSSBARAPI);
-					bossBarUtils = bossBarAPI ? new BossBarUtilsBossBarImpl() : new BossBarUtilsBarAPIImpl();
-					break;
-				case MINECRAFT_1_9:
-					bossBarUtils = new BossBarUtilsBukkitImpl();
-					break;
+			if(Config.BOSSBAR_ENABLED.getBoolean()) {
+				switch(ConfigManager.getServerVersion()) {
+					case MINECRAFT_1_7:
+					case MINECRAFT_1_8:
+						boolean bossBarAPI = NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BOSSBARAPI);
+						bossBarUtils = bossBarAPI ? new BossBarUtilsBossBarImpl() : new BossBarUtilsBarAPIImpl();
+						break;
+					case MINECRAFT_1_9:
+						bossBarUtils = new BossBarUtilsBukkitImpl();
+						break;
+				}
+			}
+			else {
+				bossBarUtils = new AbstractBossBarUtils() {
+					@Override
+					public void setMessage(Player player, String message) {
+
+					}
+
+					@Override
+					public void setMessage(Player player, String message, float percent) {
+
+					}
+
+					@Override
+					public void setMessage(Player player, String message, int seconds) {
+
+					}
+
+					@Override
+					public boolean hasBar(Player player) {
+						return false;
+					}
+
+					@Override
+					public void removeBar(Player player) {
+
+					}
+
+					@Override
+					public void setHealth(Player player, float percent) {
+
+					}
+
+					@Override
+					public float getHealth(Player player) {
+						return 0;
+					}
+
+					@Override
+					public String getMessage(Player player) {
+						return null;
+					}
+				};
 			}
 		}
 	}

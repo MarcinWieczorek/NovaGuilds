@@ -45,7 +45,9 @@ public enum Config {
 	DELETEINVALID,
 
 	BOSSBAR_ENABLED,
-	BOSSBAR_RAIDBAR,
+	BOSSBAR_RAIDBAR_ENABLED,
+	BOSSBAR_RAIDBAR_STYLE,
+	BOSSBAR_RAIDBAR_COLOR,
 
 	TAGAPI_ENABLED,
 
@@ -361,5 +363,15 @@ public enum Config {
 	 */
 	public void set(Object obj) {
 		cM.set(this, obj);
+	}
+
+	public <E extends Enum> E toEnum(Class<E> clazz) {
+		for(E enumConstant : clazz.getEnumConstants()) {
+			if(enumConstant.name().equalsIgnoreCase(getString())) {
+				return enumConstant;
+			}
+		}
+
+		return null;
 	}
 }

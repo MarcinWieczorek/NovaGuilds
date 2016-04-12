@@ -1,5 +1,6 @@
 package co.marcin.novaguilds.impl.util.bossbar;
 
+import co.marcin.novaguilds.enums.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -18,7 +19,7 @@ public class BossBarUtilsBukkitImpl extends AbstractBossBarUtils {
 			return getBossBar(player);
 		}
 
-		BossBar bossBar = Bukkit.getServer().createBossBar("", BarColor.PURPLE, BarStyle.SOLID);
+		BossBar bossBar = Bukkit.getServer().createBossBar("", Config.BOSSBAR_RAIDBAR_COLOR.toEnum(BarColor.class), Config.BOSSBAR_RAIDBAR_STYLE.toEnum(BarStyle.class));
 		bossBar.addPlayer(player);
 		bossBars.put(player.getUniqueId(), bossBar);
 		return bossBar;
@@ -43,7 +44,7 @@ public class BossBarUtilsBukkitImpl extends AbstractBossBarUtils {
 
 	@Override
 	public void setMessage(Player player, String message, int seconds) {
-		throw new IllegalArgumentException("Not implemented yet");
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	@Override

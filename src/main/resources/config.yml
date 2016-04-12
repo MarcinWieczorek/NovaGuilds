@@ -58,12 +58,21 @@ lang:
  overrideessentials: false
 
 ###################################################
-# Use 1.8 titles                                  #
+# Use titles to display suitable messages         #
 usetitles: false
 
 bossbar:
  enabled: true
- raidbar: true
+
+# Boss bar during the raid                        #
+ raidbar:
+  enabled: true
+
+# Bar style                                       #
+  style: SOLID
+
+# Bar color                                       #
+  color: PURPLE
 
 tagapi:
  enabled: true
