@@ -39,7 +39,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private final NovaRank rank;
-	private final NovaGuild guild;
 
 	private ItemStack editPermissionsItem;
 	private ItemStack setDefaultItem;
@@ -56,7 +55,6 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	public GUIInventoryGuildRankSettings(NovaRank rank) {
 		super(9, Message.INVENTORY_GUI_RANK_SETTINGS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
-		this.guild = rank.getGuild();
 	}
 
 	@Override
@@ -116,11 +114,13 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		deleteItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.getItemStack();
 		memberListItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.getItemStack();
 
+		boolean isLeaderRank = RankManager.getLeaderRank().equals(rank);
+
 		if(!rank.isGeneric()) {
 			add(editPermissionsItem);
 		}
 
-		if(!rank.equals(getGuild().getDefaultRank()) && !RankManager.getLeaderRank().equals(rank)) {
+		if((rank.isGeneric() || !rank.equals(getGuild().getDefaultRank())) && !isLeaderRank) {
 			add(setDefaultItem);
 		}
 
@@ -130,13 +130,10 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 
 		if(!rank.isGeneric()) {
 			add(renameItem);
-		}
-
-		if(!rank.isGeneric()) {
 			add(deleteItem);
 		}
 
-		if(!GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
+		if(!isLeaderRank && !GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
 			add(memberListItem);
 		}
 
@@ -149,7 +146,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	 * @return the guild
 	 */
 	public NovaGuild getGuild() {
-		return guild;
+		return rank.getGuild();
 	}
 
 	/**
