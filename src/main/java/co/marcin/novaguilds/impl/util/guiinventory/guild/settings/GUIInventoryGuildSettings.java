@@ -24,6 +24,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.impl.util.signgui.SignGUIPatternImpl;
+import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -132,5 +133,7 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 		if(getViewer().hasPermission(GuildPermission.INVITE)) {
 			add(inviteItem);
 		}
+
+		ChestGUIUtils.addBackItem(this);
 	}
 }

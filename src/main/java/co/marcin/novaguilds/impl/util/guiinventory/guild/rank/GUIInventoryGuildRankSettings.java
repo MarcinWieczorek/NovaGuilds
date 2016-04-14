@@ -75,6 +75,12 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			}
 
 			clonedRank.setDefault(true);
+
+			if(rank.isGeneric()) {
+				close();
+				new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
+			}
+
 			generateContent();
 		}
 		else if(clickedItemStack.equals(cloneItem)) {
@@ -146,7 +152,19 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	 * @return the guild
 	 */
 	public NovaGuild getGuild() {
-		return rank.getGuild();
+		if(rank.isGeneric()) {
+			GUIInventory previousGui = getViewer().getGuiInventoryHistory().get(getViewer().getGuiInventoryHistory().size() - 2);
+
+			if(previousGui instanceof GUIInventoryGuildRankList) {
+				return ((GUIInventoryGuildRankList) previousGui).getGuild();
+			}
+			else {
+				return getViewer().getGuild();
+			}
+		}
+		else {
+			return rank.getGuild();
+		}
 	}
 
 	/**
@@ -168,15 +186,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 
 		NovaRank clone = new NovaRankImpl(cloneName);
 		clone.setClone(rank.isGeneric());
-		NovaGuild guild;
-
-		if(rank.isGeneric()) {
-			GUIInventory previousGui = getViewer().getGuiInventoryHistory().get(getViewer().getGuiInventoryHistory().size() - 2);
-			guild = ((GUIInventoryGuildRankList) previousGui).getGuild();
-		}
-		else {
-			guild = rank.getGuild();
-		}
+		NovaGuild guild = getGuild();
 
 		boolean doubleName;
 		int i = 1;
@@ -200,6 +210,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		} while(doubleName);
 
 		clone.setPermissions(rank.getPermissions());
+		clone.setGuild(guild);
 		guild.addRank(clone);
 		return clone;
 	}
