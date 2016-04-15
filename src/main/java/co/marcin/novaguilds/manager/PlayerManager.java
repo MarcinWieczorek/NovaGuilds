@@ -76,10 +76,12 @@ public class PlayerManager {
 
 	public void save() {
 		long startTime = System.nanoTime();
-
 		int count = getResourceManager().save(getPlayers());
-
 		LoggerUtils.info("Players data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
+
+		startTime = System.nanoTime();
+		count = getResourceManager().executeRemoval();
+		LoggerUtils.info("Players removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 	}
 
 	public void load() {
@@ -87,7 +89,7 @@ public class PlayerManager {
 		for(NovaPlayer nPlayer : getResourceManager().load()) {
 			if(players.containsKey(nPlayer.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					getResourceManager().remove(nPlayer);
+					getResourceManager().addToRemovalQueue(nPlayer);
 					LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
 				}
 				else {

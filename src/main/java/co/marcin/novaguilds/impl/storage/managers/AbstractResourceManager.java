@@ -6,11 +6,13 @@ import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.api.storage.Storage;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class AbstractResourceManager<T extends Resource> implements ResourceManager<T> {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Storage storage;
+	private final Collection<T> removalQueue = new HashSet<>();
 
 	/**
 	 * The constructor
@@ -59,5 +61,22 @@ public abstract class AbstractResourceManager<T extends Resource> implements Res
 	 */
 	private void register(Class clazz) {
 		getStorage().registerResourceManager(clazz, this);
+	}
+
+	@Override
+	public int executeRemoval() {
+		int count = removalQueue.size();
+
+		for(T resource : removalQueue) {
+			remove(resource);
+		}
+
+		removalQueue.clear();
+		return count;
+	}
+
+	@Override
+	public void addToRemovalQueue(T t) {
+		removalQueue.add(t);
 	}
 }

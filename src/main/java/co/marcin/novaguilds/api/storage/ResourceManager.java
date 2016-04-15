@@ -47,4 +47,16 @@ public interface ResourceManager<T extends Resource> {
 	 * @param list the list
 	 */
 	void remove(List<T> list);
+
+	/**
+	 * Adds an object to removal queue
+	 */
+	void addToRemovalQueue(T t);
+
+	/**
+	 * Actually deletes queued data
+	 *
+	 * @return amount of removed items
+	 */
+	int executeRemoval();
 }

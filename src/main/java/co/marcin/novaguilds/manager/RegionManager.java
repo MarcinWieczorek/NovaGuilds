@@ -111,15 +111,17 @@ public class RegionManager {
 
 	public void save() {
 		long startTime = System.nanoTime();
-
 		int count = getResourceManager().save(getRegions());
-
 		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
+
+		startTime = System.nanoTime();
+		count = getResourceManager().executeRemoval();
+		LoggerUtils.info("Regions removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
 
 	//delete region
 	public void remove(NovaRegion region) {
-		getResourceManager().remove(region);
+		getResourceManager().addToRemovalQueue(region);
 
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);

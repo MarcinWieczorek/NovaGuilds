@@ -59,10 +59,12 @@ public class RankManager {
 
 	public void save() {
 		long nanoTime = System.nanoTime();
-
 		int count = getResourceManager().save(get());
-
 		LoggerUtils.info("Ranks data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " ranks)");
+
+		nanoTime = System.nanoTime();
+		count = getResourceManager().executeRemoval();
+		LoggerUtils.info("Ranks removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " ranks)");
 	}
 
 	public void delete(NovaRank rank) {
@@ -70,7 +72,7 @@ public class RankManager {
 			return;
 		}
 
-		getResourceManager().remove(rank);
+		getResourceManager().addToRemovalQueue(rank);
 
 		rank.getGuild().removeRank(rank);
 
@@ -81,7 +83,7 @@ public class RankManager {
 
 	public void delete(NovaGuild guild) {
 		for(NovaRank rank : guild.getRanks()) {
-			getResourceManager().remove(rank);
+			getResourceManager().addToRemovalQueue(rank);
 		}
 
 		guild.setRanks(new ArrayList<NovaRank>());
