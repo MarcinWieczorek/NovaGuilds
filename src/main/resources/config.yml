@@ -310,7 +310,7 @@ guild:
  effect:
 
 # duration of the effect                          #
-  duration: 2000
+  duration: 100s
 
 # available effects                               #
   list:
