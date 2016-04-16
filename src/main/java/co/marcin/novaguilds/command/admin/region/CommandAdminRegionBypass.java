@@ -72,7 +72,7 @@ public class CommandAdminRegionBypass extends AbstractCommandExecutor {
 			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getBypass()));
 
 			if(nPlayer.isOnline()) {
-				Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.vars(vars).send(sender);
+				Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.vars(vars).send(nPlayer);
 			}
 
 			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER.vars(vars).send(sender);
