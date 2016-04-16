@@ -332,10 +332,10 @@ public class RegionManager {
 							guildDefender.createRaid(nPlayer.getGuild());
 							guildDefender.getRaid().addPlayerOccupying(nPlayer);
 
-							if(!NovaGuilds.isRaidRunnableRunning()) {
+							if(!RunnableRaid.isRaidRunnableRunning()) {
 								Runnable task = new RunnableRaid();
 								NovaGuilds.runTaskLater(task, 1, TimeUnit.SECONDS);
-								NovaGuilds.setRaidRunnableRunning(true);
+								RunnableRaid.setRaidRunnableRunning(true);
 							}
 						}
 						else {

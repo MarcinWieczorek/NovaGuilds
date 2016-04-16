@@ -69,17 +69,14 @@ import java.util.concurrent.TimeUnit;
 
 public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	/*
-	* Dioricie nasz, ktorys jest w javie, swiec sie bugi Twoje, przyjdz ficzery Twoje,
-	* badz kod Twoj jako w gicie tak i w mavenie, stacktrace naszego powszedniego
-	* daj nam dzisiaj, i daj nam buildy Twoje, jako i my commity dajemy,
-	* i nie wodz nas na wycieki pamieci, ale daj nam Bugi.
-	* Escape. ~Bukkit.PL
-	* */
+	 * Dioricie nasz, któryś jest w Javie, święć się bugi Twoje, przyjdź ficzery Twoje,
+	 * bądź kod Twój jako w gicie tak i w mavenie, stacktrace naszego powszedniego
+	 * daj nam dzisiaj, i daj nam buildy Twoje, jako i my commity dajemy,
+	 * i nie wódź nas na wycieki pamięci, ale daj nam Bugi.
+	 * Escape. ~Bukkit.PL
+	 */
 
 	private static NovaGuilds instance;
-
-	//Vault
-	private SignGUI signGUI;
 
 	private final DependencyManager dependencyManager;
 	private final ListenerManager   listenerManager;
@@ -94,9 +91,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private final RankManager       rankManager;
 	private final TaskManager       taskManager;
 
-	private static boolean raidRunnableRunning = false;
 	private PacketExtension packetExtension;
 	private Storage storage;
+	private SignGUI signGUI;
 
 	public NovaGuilds() {
 		instance = this;
@@ -115,6 +112,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		taskManager       = new TaskManager();
 	}
 
+	@Override
 	public void onEnable() {
 		try {
 			//managers
@@ -219,10 +217,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 	}
 
-	public void setUpStorage() throws FatalNovaGuildsException {
-		storage = new StorageConnector().getStorage();
-	}
-
+	@Override
 	public void onDisable() {
 		if(FatalNovaGuildsException.fatal) {
 			LoggerUtils.info("#" + VersionUtils.getBuildCurrent() + " (FATAL) Disabled");
@@ -273,16 +268,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		LoggerUtils.info("#" + VersionUtils.getBuildCurrent() + " Disabled");
 	}
 
-	/**
-	 * Gets the instance
-	 *
-	 * @return the instance
-	 */
-	public static NovaGuilds getInstance() {
-		return instance;
-	}
-
-	//Managers
 	@Override
 	public GuildManager getGuildManager() {
 		return guildManager;
@@ -348,10 +333,34 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		return packetExtension;
 	}
 
+	@Override
 	public DependencyManager getDependencyManager() {
 		return dependencyManager;
 	}
 
+	/**
+	 * Gets the instance
+	 *
+	 * @return the instance
+	 */
+	public static NovaGuilds getInstance() {
+		return instance;
+	}
+
+	/**
+	 * Sets up the storage
+	 *
+	 * @throws FatalNovaGuildsException if fails
+	 */
+	public void setUpStorage() throws FatalNovaGuildsException {
+		storage = new StorageConnector().getStorage();
+	}
+
+	/**
+	 * Setups metrics
+	 *
+	 * @throws IOException if fails
+	 */
 	private void setupMetrics() throws IOException {
 		Metrics metrics = new Metrics(this);
 		Metrics.Graph guildsAndUsersGraph = metrics.createGraph("Guilds and users");
@@ -373,22 +382,31 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		metrics.start();
 	}
 
-	public static boolean isRaidRunnableRunning() {
-		return raidRunnableRunning;
-	}
-
-	public static void setRaidRunnableRunning(boolean raidRunnableRunning) {
-		NovaGuilds.raidRunnableRunning = raidRunnableRunning;
-	}
-
+	/**
+	 * Runs a runnable
+	 *
+	 * @param runnable Runnable implementation
+	 * @param delay delay in timeUnit
+	 * @param timeUnit time unit
+	 */
 	public static void runTaskLater(Runnable runnable, long delay, TimeUnit timeUnit) {
 		Bukkit.getScheduler().runTaskLater(instance, runnable, timeUnit.toSeconds(delay) * 20);
 	}
 
+	/**
+	 * Gets sign gui
+	 *
+	 * @return SignGUI implementation
+	 */
 	public SignGUI getSignGUI() {
 		return signGUI;
 	}
 
+	/**
+	 * Gets online players
+	 *
+	 * @return Collection of online players
+	 */
 	@SuppressWarnings("unchecked")
 	public static Collection<Player> getOnlinePlayers() {
 		Collection<Player> collection = new HashSet<>();
