@@ -577,6 +577,8 @@ inventory:
  ggui:
   name: "公会菜单"
  gui:
+  guildtop: "SIGN 1"
+  hometp: "ENDER_PEARL 1 name:Home"
   settings:
    title: "Guild settings"
    item:

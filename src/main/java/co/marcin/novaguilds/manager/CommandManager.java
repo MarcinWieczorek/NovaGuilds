@@ -99,27 +99,20 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class CommandManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, String> aliases = new HashMap<>();
-	private final Map<ItemStack, String> guiCommands = new HashMap<>();
 	private final Map<Command, CommandExecutor> executors = new HashMap<>();
-	private ItemStack topItem;
 
 	public void setUp() {
 		registerCommands();
@@ -131,8 +124,6 @@ public class CommandManager {
 				aliases.put(alias, key);
 			}
 		}
-
-		setupGuildMenu();
 
 		LoggerUtils.info("Enabled");
 	}
@@ -233,43 +224,6 @@ public class CommandManager {
 		new CommandAdminHologramDelete();
 		new CommandAdminHologramTeleport();
 		new CommandAdminHologramTeleportHere();
-	}
-
-	public String getGuiCommand(ItemStack itemStack) {
-		return guiCommands.get(itemStack);
-	}
-
-	public Set<ItemStack> getGuiItems() {
-		return guiCommands.keySet();
-	}
-
-	public void updateGuiTop() {
-		guiCommands.remove(topItem);
-
-		ItemMeta meta = Bukkit.getItemFactory().getItemMeta(topItem.getType());
-		meta.setDisplayName(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
-		meta.setLore(plugin.getGuildManager().getTopGuilds());
-		topItem.setItemMeta(meta);
-		guiCommands.put(topItem, "g top");
-	}
-
-	public void setupGuildMenu() {
-		guiCommands.clear();
-		ConfigurationSection sectionGUI = plugin.getConfig().getConfigurationSection("gguicmd");
-
-		for(String key : sectionGUI.getKeys(false)) {
-			String guiCommand = key.replaceAll("_", " ");
-			ItemStack is = ItemStackUtils.stringToItemStack(sectionGUI.getString(key));
-
-			if(is != null) {
-				if(key.equalsIgnoreCase("top")) {
-					topItem = is;
-				}
-				else {
-					guiCommands.put(is, guiCommand);
-				}
-			}
-		}
 	}
 
 	public void registerExecutor(Command command, CommandExecutor executor) {

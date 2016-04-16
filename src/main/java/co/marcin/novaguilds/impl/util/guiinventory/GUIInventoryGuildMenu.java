@@ -24,13 +24,17 @@ import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.impl.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
 import co.marcin.novaguilds.impl.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
 import co.marcin.novaguilds.impl.util.guiinventory.guild.settings.GUIInventoryGuildSettings;
+import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 	private ItemStack ranksItem;
 	private ItemStack playersItem;
 	private ItemStack settingsItem;
+	private ItemStack homeTeleportItem;
+	private ItemStack guildTopItem;
 
 	public GUIInventoryGuildMenu() {
 		super(9, Message.INVENTORY_GGUI_NAME);
@@ -49,22 +53,28 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 		else if(clickedItemStack.equals(settingsItem)) {
 			new GUIInventoryGuildSettings().open(getViewer());
 		}
+		else if(clickedItemStack.equals(homeTeleportItem)) {
+			Bukkit.dispatchCommand(getViewer().getPlayer(), "g home");
+		}
 	}
 
 	@Override
 	public void generateContent() {
 		inventory.clear();
-		plugin.getCommandManager().updateGuiTop();
-
-		for(ItemStack item : plugin.getCommandManager().getGuiItems()) {
-			add(item);
-		}
 
 		ranksItem = Message.INVENTORY_GUI_RANKS_ICONITEM.getItemStack();
 		playersItem = Message.INVENTORY_GUI_PLAYERSLIST_ICONITEM.getItemStack();
 		settingsItem = Message.INVENTORY_GUI_SETTINGS_ITEM_ICON.getItemStack();
+		homeTeleportItem = Message.INVENTORY_GUI_HOMETP.getItemStack();
+		guildTopItem = Message.INVENTORY_GUI_GUILDTOP.getItemStack();
+
+		if(guildTopItem != null) {
+			add(guildTopItem);
+			updateGuiTop();
+		}
 
 		if(getViewer().hasGuild()) {
+			add(homeTeleportItem);
 			add(playersItem);
 
 			if(getViewer().hasPermission(GuildPermission.RANK_EDIT)) {
@@ -73,5 +83,13 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 
 			add(settingsItem);
 		}
+	}
+
+	protected void updateGuiTop() {
+		ItemMeta meta = Bukkit.getItemFactory().getItemMeta(guildTopItem.getType());
+		meta.setDisplayName(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
+		meta.setLore(plugin.getGuildManager().getTopGuilds());
+		guildTopItem.setItemMeta(meta);
+		getInventory().setItem(0, guildTopItem);
 	}
 }

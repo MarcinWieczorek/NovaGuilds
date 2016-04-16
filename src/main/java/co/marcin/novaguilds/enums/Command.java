@@ -119,12 +119,12 @@ public enum Command {
 		CONFIRM
 	}
 
-	private Message usageMessage;
+	private final Message usageMessage;
 	private final Permission permission;
-	private String genericCommand;
-	private TabCompleter tabCompleter;
-	private Object executorVariable;
+	private final String genericCommand;
+	private final TabCompleter tabCompleter;
 	private final List<Flag> flags = new ArrayList<>();
+	private Object executorVariable;
 
 	/**
 	 * The constructor
@@ -242,7 +242,7 @@ public enum Command {
 	 * (if is console)
 	 *
 	 * @param sender the sender
-	 * @return booealn
+	 * @return boolean
 	 */
 	public boolean allowedSender(CommandSender sender) {
 		return sender instanceof Player || !hasFlag(Flag.NOCONSOLE);
@@ -251,7 +251,7 @@ public enum Command {
 	/**
 	 * Gets usage message
 	 *
-	 * @return the mesage
+	 * @return the message
 	 */
 	public Message getUsageMessage() {
 		return usageMessage;
