@@ -218,7 +218,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 						}
 					}
 
-					//homefloor
+					//home schematic
 					Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
 
 					if(schematic != null) {

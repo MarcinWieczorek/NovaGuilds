@@ -68,8 +68,8 @@ public abstract class LoggedPluginManager implements PluginManager {
 	/**
 	 * Invoked when an error occurs in a event listener.
 	 *
-	 * @param event - the event where the error occured.
-	 * @param e     - error that occured.
+	 * @param event - the event where the error occurred.
+	 * @param e     - error that occurred.
 	 */
 	protected abstract void customHandler(Event event, Throwable e);
 

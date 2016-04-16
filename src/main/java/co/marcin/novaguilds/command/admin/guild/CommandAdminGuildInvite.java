@@ -49,7 +49,7 @@ public class CommandAdminGuildInvite extends AbstractCommandExecutor.Reversed<No
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
 
-		if(nPlayer == null) { //noplayer
+		if(nPlayer == null) {
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return;
 		}

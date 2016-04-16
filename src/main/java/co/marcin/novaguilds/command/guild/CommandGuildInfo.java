@@ -183,7 +183,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor implements Command
 		vars.put(VarKey.CREATEDAGO, StringUtils.secondsToString(createdAgo, TimeUnit.HOURS));
 		vars.put(VarKey.PROTLEFT, StringUtils.secondsToString(protectionLeft, TimeUnit.HOURS));
 
-		//spawnpoint location coords
+		//home location coordinates
 		Location sp = guild.getHome();
 		if(sp != null) {
 			vars.put(VarKey.SP_X, String.valueOf(sp.getBlockX()));
@@ -209,7 +209,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor implements Command
 				skip = true;
 			}
 
-			//spawnpoint
+			//home location
 			if((guildInfoMessage.contains("{SP_X}") || guildInfoMessage.contains("{SP_Y}") || guildInfoMessage.contains("{SP_Z}")) && guild.getHome() == null) {
 				skip = true;
 			}

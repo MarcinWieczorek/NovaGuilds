@@ -163,7 +163,7 @@ public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<N
 			preparedStatement.executeUpdate();
 		}
 		catch(SQLException e) {
-			LoggerUtils.info("An error occured while deleting a guild's region (" + region.getGuild().getName() + ")");
+			LoggerUtils.info("An error occurred while deleting a guild's region (" + region.getGuild().getName() + ")");
 			LoggerUtils.exception(e);
 		}
 	}

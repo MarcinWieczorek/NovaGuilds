@@ -118,7 +118,7 @@ public class RegionInteractListener extends AbstractListener {
 
 		event.setCancelled(true);
 
-		if(clickedBlockName.contains("_PLATE")) { //Supress for plates
+		if(clickedBlockName.contains("_PLATE")) { //Suppress for plates
 			return;
 		}
 
@@ -333,7 +333,7 @@ public class RegionInteractListener extends AbstractListener {
 	}
 
 	/**
-	 * Handles breaking pantings, item frames, leashes
+	 * Handles breaking paintings, item frames, leashes
 	 *
 	 * @param event The event
 	 */

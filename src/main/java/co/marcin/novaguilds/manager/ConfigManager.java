@@ -207,7 +207,7 @@ public class ConfigManager {
 			Config.BOSSBAR_RAIDBAR_COLOR.set(BarColor.PURPLE.name());
 		}
 
-		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (getServerVersion() == ServerVersion.MINECRAFT_1_9 ||plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
+		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (getServerVersion() == ServerVersion.MINECRAFT_1_9 || plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
 		Config.BOSSBAR_RAIDBAR_ENABLED.set(Config.BOSSBAR_RAIDBAR_ENABLED.getBoolean() && Config.BOSSBAR_ENABLED.getBoolean());
 		Config.TABLIST_ENABLED.set(Config.TABLIST_ENABLED.getBoolean() && (plugin.getDependencyManager().isEnabled(Dependency.NORTHTAB) && getServerVersion() == ServerVersion.MINECRAFT_1_8));
 		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));

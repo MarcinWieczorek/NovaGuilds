@@ -206,7 +206,7 @@ public class GuildManager {
 				}
 
 				if(guild.getHome() == null) {
-					LoggerUtils.info("(" + guild.getName() + ") Spawnpoint is null");
+					LoggerUtils.info("(" + guild.getName() + ") home location is null");
 					remove = true;
 				}
 

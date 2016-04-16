@@ -291,7 +291,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType() == DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
 		String sqlString = IOUtils.inputStreamToString(inputStream);
 
-		if(sqlString == null || sqlString.isEmpty() || !sqlString.contains("--")) {
+		if(sqlString.isEmpty() || !sqlString.contains("--")) {
 			LoggerUtils.error("Invalid SQL");
 			return new String[0];
 		}

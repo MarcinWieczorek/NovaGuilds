@@ -142,7 +142,7 @@ public interface NovaGuild extends Resource {
 	/**
 	 * Gets the guild's home
 	 *
-	 * @return the Location instace
+	 * @return the Location instance
 	 */
 	Location getHome();
 

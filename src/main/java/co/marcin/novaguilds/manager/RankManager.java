@@ -51,7 +51,7 @@ public class RankManager {
 
 		LoggerUtils.info("Loaded " + count + " ranks.");
 
-		//Assing ranks to players
+		//Assign ranks to players
 		assignRanks();
 
 		loaded = true;

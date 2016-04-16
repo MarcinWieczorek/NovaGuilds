@@ -292,6 +292,7 @@ public final class ItemStackUtils {
 			}
 
 			if(material == Material.WRITTEN_BOOK) {
+				//FIXME
 				BookMeta bm = (BookMeta) itemStack.getItemMeta();
 				List<String> pages = new ArrayList<>();
 				List<String> pagesColor = new ArrayList<>();

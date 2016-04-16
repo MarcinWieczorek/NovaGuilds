@@ -21,7 +21,6 @@ package co.marcin.novaguilds.impl.basic;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
-import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.util.NumberUtils;
 
 import java.util.ArrayList;
@@ -126,7 +125,7 @@ public class NovaRaidImpl implements NovaRaid {
 
 	@Override
 	public void addProgress(float progress) {
-		this.progress += Config.RAID_MULTIPLER.getDouble();
+		this.progress += progress;
 
 		if(this.progress > 100) {
 			this.progress = 100;
