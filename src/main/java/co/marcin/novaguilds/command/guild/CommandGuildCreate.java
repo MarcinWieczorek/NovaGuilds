@@ -180,9 +180,9 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 				guild.setHome(player.getLocation());
 				guild.addPlayer(nPlayer);
 				guild.updateInactiveTime();
-				guild.setLives(Config.GUILD_STARTLIVES.getInt());
-				guild.setPoints(Config.GUILD_STARTPOINTS.getInt());
-				guild.setMoney(Config.GUILD_STARTMONEY.getInt());
+				guild.setLives(Config.GUILD_START_LIVES.getInt());
+				guild.setPoints(Config.GUILD_START_POINTS.getInt());
+				guild.setMoney(Config.GUILD_START_MONEY.getInt());
 				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 				guild.setTimeCreated(NumberUtils.systemSeconds());
 

@@ -255,14 +255,11 @@ guild:
 # new guilds protection                           #
  createprotection: 24h
 
-# starting points                                 #
- startpoints: 1000
-
-# starting money                                  #
- startmoney: 0
-
-# starting lives                                  #
- startlives: 2
+# start amounts                                   #
+ start:
+  points: 1000
+  money: 0
+  lives: 2
 
 # slots amount; start and maximum amount          #
  slots:
