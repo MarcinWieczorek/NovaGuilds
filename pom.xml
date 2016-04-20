@@ -18,10 +18,6 @@
 
     <repositories>
         <repository>
-            <id>ess-repo</id>
-            <url>https://ci.drtshock.net/plugin/repository/everything/</url>
-        </repository>
-        <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
