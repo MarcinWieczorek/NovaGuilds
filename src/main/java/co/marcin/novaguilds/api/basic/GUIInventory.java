@@ -44,6 +44,11 @@ public interface GUIInventory {
 	void open(NovaPlayer nPlayer);
 
 	/**
+	 * Action executed after a gui gets opened
+	 */
+	void onOpen();
+
+	/**
 	 * Generates the content
 	 */
 	void generateContent();

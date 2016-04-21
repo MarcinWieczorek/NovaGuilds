@@ -35,14 +35,21 @@ public class GUIInventoryGuildPlayerSettingsRank extends GUIInventoryGuildRankLi
 	public GUIInventoryGuildPlayerSettingsRank(NovaPlayer nPlayer) {
 		super(nPlayer.getGuild());
 		this.nPlayer = nPlayer;
-		getInventory().remove(addRankItem);
 	}
 
 	@Override
 	public void onClick(InventoryClickEvent event) {
 		if(getViewer().hasPermission(GuildPermission.RANK_SET)) {
 			NovaRank rank = slotRanksMap.get(event.getRawSlot());
-			nPlayer.setGuildRank(rank);
+
+			if(rank != null) {
+				nPlayer.setGuildRank(rank);
+			}
 		}
+	}
+
+	@Override
+	public void onOpen() {
+		getInventory().remove(addRankItem);
 	}
 }

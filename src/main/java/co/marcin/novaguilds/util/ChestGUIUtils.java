@@ -56,6 +56,8 @@ public class ChestGUIUtils {
 			nPlayer.getPlayer().openInventory(inventory);
 
 			guiContinueList.remove(nPlayer);
+
+			guiInventory.onOpen();
 		}
 	}
 

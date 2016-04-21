@@ -63,6 +63,11 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	}
 
 	@Override
+	public void onOpen() {
+
+	}
+
+	@Override
 	public final void close() {
 		getViewer().getPlayer().closeInventory();
 	}
