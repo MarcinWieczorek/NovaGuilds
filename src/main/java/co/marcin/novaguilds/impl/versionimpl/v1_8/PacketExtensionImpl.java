@@ -78,68 +78,51 @@ public class PacketExtensionImpl implements PacketExtension {
 
 	@Override
 	public void registerPlayer(final Player player) {
-		try {
-			Channel c = getChannel(player);
-			ChannelHandler handler = new ChannelDuplexHandler() {
-				@Override
-				public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+		Channel c = getChannel(player);
+		ChannelHandler handler = new ChannelDuplexHandler() {
+			@Override
+			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+				if(msg == null) {
+					return;
+				}
+
+				super.write(ctx, msg, promise);
+			}
+
+			@Override
+			public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+				try {
 					if(msg == null) {
 						return;
 					}
 
-					super.write(ctx, msg, promise);
-				}
+					PacketReceiveEvent event = callEvent(new PacketReceiveEvent(msg, player));
 
-				@Override
-				public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-					try {
-						if(msg == null) {
-							return;
-						}
-
-						PacketReceiveEvent event = callEvent(new PacketReceiveEvent(msg, player));
-
-						if(event.isCancelled() || event.getPacket() == null) {
-							return;
-						}
-						super.channelRead(ctx, event.getPacket());
+					if(event.isCancelled() || event.getPacket() == null) {
+						return;
 					}
-					catch(Exception e) {
-						super.channelRead(ctx, msg);
-					}
+					super.channelRead(ctx, event.getPacket());
 				}
-			};
-
-			ChannelPipeline cp = c.pipeline();
-			if(cp.names().contains("packet_handler")) {
-				if(cp.names().contains("NovaGuilds")) {
-					cp.replace("NovaGuilds", "NovaGuilds", handler);
-				}
-				else {
-					cp.addBefore("packet_handler", "NovaGuilds", handler);
+				catch(Exception e) {
+					super.channelRead(ctx, msg);
 				}
 			}
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
+		};
+
+		ChannelPipeline cp = c.pipeline();
+		if(cp.names().contains("packet_handler")) {
+			if(cp.names().contains("NovaGuilds")) {
+				cp.replace("NovaGuilds", "NovaGuilds", handler);
+			}
+			else {
+				cp.addBefore("packet_handler", "NovaGuilds", handler);
+			}
 		}
 	}
 
 	@Override
 	public void unregisterChannel() {
 
-	}
-
-	/**
-	 * Call an event
-	 *
-	 * @param event the event
-	 * @param <E>   event type
-	 * @return the event
-	 */
-	private static <E extends Event> E callEvent(E event) {
-		ListenerManager.getLoggedPluginManager().callEvent(event);
-		return event;
 	}
 
 	@Override
@@ -162,5 +145,17 @@ public class PacketExtensionImpl implements PacketExtension {
 		catch(Exception e) {
 			LoggerUtils.exception(e);
 		}
+	}
+
+	/**
+	 * Call an event
+	 *
+	 * @param event the event
+	 * @param <E>   event type
+	 * @return the event
+	 */
+	private static <E extends Event> E callEvent(E event) {
+		ListenerManager.getLoggedPluginManager().callEvent(event);
+		return event;
 	}
 }

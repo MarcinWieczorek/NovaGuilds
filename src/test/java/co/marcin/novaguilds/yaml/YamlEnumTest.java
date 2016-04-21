@@ -141,6 +141,7 @@ public class YamlEnumTest {
 
 	/**
 	 * Gets the config
+	 *
 	 * @return config.yml YamlConfiguration
 	 */
 	private YamlConfiguration getConfig() {
