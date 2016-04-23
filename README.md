@@ -1,6 +1,7 @@
 <a href="http://novaguilds.pl/"><img src="http://novaguilds.pl/img/newlogo.png" /></a><br/><br/>
 
 NovaGuilds is my own guilds plugin, still in development, but I want to hear your opinions and ideas.<br/>
+Check the wiki on github for details.<br/>
 Please leave feedback!<br/><br/>
 
 <span style="font-size: 20px;color:red">
@@ -28,17 +29,15 @@ The plugin works on all <b>1.7</b> <b>1.8</b> and <b>1.9</b> versions!<br/>
 
 <h2><b>How to compile NovaGuilds on your own?</b></h2>
 First of all, you'll need to download the source. Download the zip from github and unpack, or (and this is a better idea)
+Then you need Maven to build the project. Download it from public repositories (your machine probably runs Linux).
+'cd' into plugin's directory and build it.
+My project uses CraftBukkit <i>1.7.10-R0.1</i> Please build it on your own, because redistributing is against its license. 
 ```bash
 git clone https://github.com/MarcinWieczorek/NovaGuilds.git
-```
-
-You need Maven to build the project. Download it from public repositories (your machine probably runs Linux).
-'cd' into plugin's directory and build it.
-```bash
 cd NovaGuilds/
 mvn clean install
 ```
-<br/><br/><br/>
+<br/><br/>
 
 <h2>Special thanks:</h2>
 <a href="https://www.spigotmc.org/members/x_2088.65434/">@x_2088</a> for Chinese translation<br/>
@@ -79,7 +78,7 @@ mvn clean install
     <li>Configurable command aliases</li>
     <li>Advanced region selection and resizing</li>
     <li>Automatic regions</li>
-    <li>Guild Vaults</li>
+    <li>Guild vaults</li>
     <li>VanishNoPacket support</li>
     <li>Auto update MySQL tables</li>
     <li>Advanced horse protection</li>
