@@ -24,7 +24,7 @@ import co.marcin.novaguilds.enums.Command;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
-	protected Command command;
+	protected final Command command;
 
 	/**
 	 * The constructor

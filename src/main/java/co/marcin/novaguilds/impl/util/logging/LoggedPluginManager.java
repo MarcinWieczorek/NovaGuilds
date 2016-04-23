@@ -40,12 +40,11 @@ import org.bukkit.plugin.UnknownDependencyException;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
 public abstract class LoggedPluginManager implements PluginManager {
-	private PluginManager delegate;
+	private final PluginManager delegate;
 
 	/**
 	 * A constructor using Plugin instance
@@ -96,9 +95,7 @@ public abstract class LoggedPluginManager implements PluginManager {
 			Collection<RegisteredListener> listeners = entry.getValue();
 			Collection<RegisteredListener> modified = Lists.newArrayList();
 
-			for(Iterator<RegisteredListener> it = listeners.iterator(); it.hasNext(); ) {
-				final RegisteredListener delegate = it.next();
-
+			for(final RegisteredListener delegate : listeners) {
 				RegisteredListener customListener = new RegisteredListener(delegate.getListener(), nullExecutor, delegate.getPriority(), delegate.getPlugin(), delegate.isIgnoringCancelled()) {
 					@Override
 					public void callEvent(Event event) throws EventException {
@@ -152,9 +149,9 @@ public abstract class LoggedPluginManager implements PluginManager {
 	 */
 	private HandlerList getEventListeners(Class<? extends Event> type) {
 		try {
-			Method method = getRegistrationClass(type).getDeclaredMethod("getHandlerList", new Class[0]);
+			Method method = getRegistrationClass(type).getDeclaredMethod("getHandlerList");
 			method.setAccessible(true);
-			return (HandlerList) method.invoke(null, new Object[0]);
+			return (HandlerList) method.invoke(null);
 		}
 		catch(Exception e) {
 			throw new IllegalPluginAccessException(e.toString());
@@ -169,7 +166,7 @@ public abstract class LoggedPluginManager implements PluginManager {
 	 */
 	private Class<? extends Event> getRegistrationClass(Class<? extends Event> clazz) {
 		try {
-			clazz.getDeclaredMethod("getHandlerList", new Class[0]);
+			clazz.getDeclaredMethod("getHandlerList");
 			return clazz;
 
 		}

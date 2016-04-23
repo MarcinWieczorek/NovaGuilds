@@ -38,6 +38,7 @@ public abstract class AbstractStorage implements Storage {
 		plugin.getPlayerManager().save();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz) {
 		return (ResourceManager<T>) resourceManagers.get(clazz);

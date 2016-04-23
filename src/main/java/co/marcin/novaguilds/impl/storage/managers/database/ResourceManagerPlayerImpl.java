@@ -3,7 +3,6 @@ package co.marcin.novaguilds.impl.storage.managers.database;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.storage.Storage;
-import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.manager.GuildManager;
@@ -70,10 +69,6 @@ public class ResourceManagerPlayerImpl extends AbstractDatabaseResourceManager<N
 				}
 
 				nPlayer.setUnchanged();
-
-				if(nPlayer.getPoints() == 0 && nPlayer.getKills() == 0 && nPlayer.getDeaths() == 0) {
-					nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
-				}
 
 				list.add(nPlayer);
 			}

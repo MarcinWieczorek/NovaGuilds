@@ -103,12 +103,13 @@ public final class InventoryUtils {
 		return getTotalAmountOfItemStackInInventory(inventory, itemStack) >= amount;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static ItemStack getItemInHand(Player player) {
-		if(ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_9) {
-			return player.getInventory().getItemInMainHand();
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_9)) {
+			return player.getItemInHand();
 		}
 		else {
-			return player.getItemInHand();
+			return player.getInventory().getItemInMainHand();
 		}
 	}
 }

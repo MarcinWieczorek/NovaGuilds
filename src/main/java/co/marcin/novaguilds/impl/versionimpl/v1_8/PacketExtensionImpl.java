@@ -38,7 +38,7 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
 public class PacketExtensionImpl implements PacketExtension {
-	private static Reflections.FieldAccessor<Channel> clientChannel;
+	private static final Reflections.FieldAccessor<Channel> clientChannel;
 	private static Field playerConnection;
 	private static Field networkManager;
 	private static Method handleMethod;

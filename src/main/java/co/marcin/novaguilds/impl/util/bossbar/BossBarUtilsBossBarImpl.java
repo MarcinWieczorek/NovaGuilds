@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@SuppressWarnings("deprecation")
 public class BossBarUtilsBossBarImpl extends AbstractBossBarUtils {
 	protected static final boolean v1_9 = ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_9;
 	private final Map<UUID, BossBar> bossBarMap = new HashMap<>();

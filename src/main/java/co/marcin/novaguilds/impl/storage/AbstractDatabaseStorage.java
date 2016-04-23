@@ -237,17 +237,10 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	 *
 	 * @return boolean
 	 */
-	protected boolean checkTables() {
-		try {
-			DatabaseMetaData md = getConnection().getMetaData();
-			ResultSet rs = md.getTables(null, null, Config.MYSQL_PREFIX.getString() + "%", null);
-			return rs.next();
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
-
-		return false;
+	protected boolean checkTables() throws SQLException {
+		DatabaseMetaData md = getConnection().getMetaData();
+		ResultSet rs = md.getTables(null, null, Config.MYSQL_PREFIX.getString() + "%", null);
+		return rs.next();
 	}
 
 	/**

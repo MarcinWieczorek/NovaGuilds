@@ -5,6 +5,7 @@ import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.exception.MissingDependencyException;
 import co.marcin.novaguilds.util.LoggerUtils;
 import net.milkbowl.vault.economy.Economy;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DependencyManager {
-	private Map<Dependency, Plugin> pluginMap = new HashMap<>();
+	private final Map<Dependency, Plugin> pluginMap = new HashMap<>();
 
 	private Economy economy;
 
@@ -66,22 +67,11 @@ public class DependencyManager {
 
 	/**
 	 * Setups economy
-	 *
-	 * @return true if succeeded
 	 */
-	private boolean setupEconomy() {
-		if(!isEnabled(Dependency.ESSENTIALS)) {
-			return false;
-		}
-
+	private void setupEconomy() {
 		RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
-
-		if(rsp == null) {
-			return false;
-		}
-
 		economy = rsp.getProvider();
-		return economy != null;
+		Validate.notNull(economy);
 	}
 
 	private Plugin getPlugin(String name) {

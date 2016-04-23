@@ -343,11 +343,11 @@ public final class StringUtils {
 		String itemListString = "";
 		int i = 0;
 		for(ItemStack missingItemStack : items) {
-			String row = Message.CHAT_CREATEGUILD_ITEMLIST.get();
-			row = org.apache.commons.lang.StringUtils.replace(row, "{ITEMNAME}", missingItemStack.getType().name());
-			row = org.apache.commons.lang.StringUtils.replace(row, "{AMOUNT}", missingItemStack.getAmount() + "");
+			Message rowMessage = Message.CHAT_CREATEGUILD_ITEMLIST;
+			rowMessage.setVar(VarKey.ITEMNAME, missingItemStack.getType().name());
+			rowMessage.setVar(VarKey.AMOUNT, missingItemStack.getAmount());
 
-			itemListString += row;
+			itemListString += rowMessage.get();
 
 			if(i < items.size() - 1) {
 				itemListString += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();

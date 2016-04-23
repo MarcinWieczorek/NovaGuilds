@@ -111,13 +111,13 @@ public class SchematicImpl implements Schematic {
 					Location blockLocation = root.clone().add(x, y, z);
 					int index = x + (y * length + z) * width;
 
-					Block b = blockLocation.getBlock();
+					Block block = blockLocation.getBlock();
 
-					Meta.protect(b);
-					Meta.setMetadata(b, "state", b.getState());
+					Meta.protect(block);
+					Meta.setMetadata(block, "state", block.getState());
 
-					b.setTypeId(blocks[index] < 0 ? Material.SPONGE.getId() : blocks[index]);
-					b.setData(data[index]);
+					block.setTypeId(blocks[index] < 0 ? Material.SPONGE.getId() : blocks[index]);
+					block.setData(data[index]);
 				}
 			}
 		}

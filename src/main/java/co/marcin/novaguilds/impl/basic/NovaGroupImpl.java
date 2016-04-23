@@ -48,7 +48,7 @@ public class NovaGroupImpl implements NovaGroup {
 	private double guildHomeMoney = 0;
 
 	private final List<ItemStack> guildJoinItems = new ArrayList<>();
-	private double guildJoinMoney;
+	private double guildJoinMoney = 0;
 
 	private final List<ItemStack> guildEffectItems = new ArrayList<>();
 	private double guildEffectPrice = 0;

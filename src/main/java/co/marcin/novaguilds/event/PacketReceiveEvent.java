@@ -27,7 +27,7 @@ import org.bukkit.event.HandlerList;
 public class PacketReceiveEvent extends Event implements Cancellable, PacketEvent {
 	private static final HandlerList handlers = new HandlerList();
 	private final Player player;
-	private Object packet;
+	private final Object packet;
 	private boolean cancelled;
 
 	/**
