@@ -7,6 +7,7 @@ import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
+import co.marcin.novaguilds.util.BannerUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -53,6 +54,7 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 				guild.setPoints(configuration.getInt("points"));
 				guild.setLives(configuration.getInt("lives"));
 				guild.setSlots(configuration.getInt("slots"));
+				guild.setBannerMeta(BannerUtils.deserialize(configuration.getString("banner")));
 
 				guild.setTimeRest(configuration.getLong("timerest"));
 				guild.setLostLiveTime(configuration.getLong("lostlive"));
@@ -148,6 +150,7 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 				guildData.set("points", guild.getPoints());
 				guildData.set("lives", guild.getLives());
 				guildData.set("slots", guild.getSlots());
+				guildData.set("banner", BannerUtils.serialize(guild.getBannerMeta()));
 
 				guildData.set("timerest", guild.getTimeRest());
 				guildData.set("lostlive", guild.getLostLiveTime());

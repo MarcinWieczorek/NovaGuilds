@@ -29,6 +29,7 @@ import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerRegion
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -130,7 +131,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatementMap.put(PreparedStatements.GUILDS_DELETE, guildsDelete);
 
 			//Guilds update
-			String guildsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=?, `openinv`=? WHERE `id`=?";
+			String guildsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=?, `openinv`=?, `banner`=? WHERE `id`=?";
 			PreparedStatement guildsUpdate = getConnection().prepareStatement(guildsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
@@ -264,7 +265,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 			for(String action : getSqlActions()) {
 				if(action.contains("CREATE TABLE")) {
-					String table = org.apache.commons.lang.StringUtils.split(action, '`')[1];
+					String table = StringUtils.split(action, '`')[1];
+					LoggerUtils.info(" Table: " + table);
 					analyzer.analyze(table, action);
 					analyzer.update();
 				}
@@ -289,7 +291,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			return new String[0];
 		}
 
-		sqlString = org.apache.commons.lang.StringUtils.replace(sqlString, "{SQLPREFIX}", Config.MYSQL_PREFIX.getString());
+		sqlString = StringUtils.replace(sqlString, "{SQLPREFIX}", Config.MYSQL_PREFIX.getString());
 		return sqlString.split("--");
 	}
 }

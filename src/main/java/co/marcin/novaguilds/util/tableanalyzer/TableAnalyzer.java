@@ -63,7 +63,7 @@ public class TableAnalyzer {
 			for(int i = newindex; i < sqlStructure.size(); i++) {
 				MissMatch missMatch = new MissMatch(ModificationType.ADD);
 				missMatch.setTable(table);
-				String name = sqlKeys.get(i);
+				String name = sqlKeys.get(i - 1);
 
 				if(!tableStructure.keySet().contains(name)) {
 					missMatch.setColumnName(name);

@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.storage.Resource;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.BannerMeta;
 
 import java.util.List;
 import java.util.UUID;
@@ -222,6 +223,13 @@ public interface NovaGuild extends Resource {
 	 * @return the amount
 	 */
 	int getSlots();
+
+	/**
+	 * Gets banner meta
+	 *
+	 * @return banner meta
+	 */
+	BannerMeta getBannerMeta();
 
 	/**
 	 * Gets the default rank
@@ -432,6 +440,13 @@ public interface NovaGuild extends Resource {
 	 * @param slots the amount
 	 */
 	void setSlots(int slots);
+
+	/**
+	 * Sets banner meta
+	 *
+	 * @param bannerMeta the meta
+	 */
+	void setBannerMeta(BannerMeta bannerMeta);
 
 	/**
 	 * Sets the ranks

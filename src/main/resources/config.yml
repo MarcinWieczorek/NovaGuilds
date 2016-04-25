@@ -401,6 +401,11 @@ groups:
     money: 100
     items: []
 
+# buying a banner                                 #
+   banner:
+    money: 0
+    items: []
+
   region:
 # size (radius) of auto created region (5=10x10)  #
    autoregionsize: 5

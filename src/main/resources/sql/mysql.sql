@@ -18,6 +18,7 @@ CREATE TABLE `{SQLPREFIX}guilds` (
   `bankloc` tinytext NOT NULL,
   `slots` int(11) NOT NULL,
   `openinv` int(1) NOT NULL,
+  `banner` tinytext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 --
