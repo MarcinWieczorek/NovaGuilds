@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.storage.Database;
+import co.marcin.novaguilds.api.util.DatabaseAnalyzer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.PreparedStatements;
@@ -26,9 +27,9 @@ import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerGuildI
 import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerPlayerImpl;
 import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerRankImpl;
 import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerRegionImpl;
+import co.marcin.novaguilds.impl.util.DatabaseAnalyzerImpl;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
@@ -261,7 +262,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	protected void analyze() {
 		try {
 			LoggerUtils.info("Analyzing the database...");
-			TableAnalyzer analyzer = new TableAnalyzer(getConnection());
+			DatabaseAnalyzer analyzer = new DatabaseAnalyzerImpl(getConnection());
 
 			for(String action : getSqlActions()) {
 				if(action.contains("CREATE TABLE")) {
