@@ -213,7 +213,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 
 						for(Player playerCheck : NovaGuilds.getOnlinePlayers()) {
 							if(region.equals(RegionManager.get(playerCheck))) {
-								plugin.getRegionManager().playerEnteredRegion(playerCheck, playerCheck.getLocation());
+								plugin.getRegionManager().playerEnteredRegion(playerCheck, region);
 							}
 						}
 					}

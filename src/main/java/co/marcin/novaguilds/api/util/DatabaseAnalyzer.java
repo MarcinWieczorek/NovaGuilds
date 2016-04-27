@@ -40,7 +40,7 @@ public interface DatabaseAnalyzer {
 	 * Analyzes a table
 	 *
 	 * @param table table name
-	 * @param sql target table create code
+	 * @param sql   target table create code
 	 * @throws SQLException when anything bad happens
 	 */
 	void analyze(String table, String sql) throws SQLException;

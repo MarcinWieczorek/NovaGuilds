@@ -21,6 +21,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -57,8 +58,9 @@ public class LoginListener extends AbstractListener {
 			Message.CHAT_UPDATE.send(player);
 		}
 
-		if(RegionManager.get(player) != null) {
-			plugin.getRegionManager().playerEnteredRegion(player, player.getLocation());
+		NovaRegion region = RegionManager.get(player);
+		if(region != null) {
+			plugin.getRegionManager().playerEnteredRegion(player, region);
 		}
 
 		if(nPlayer.hasGuild()) {

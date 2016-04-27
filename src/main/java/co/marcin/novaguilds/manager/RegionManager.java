@@ -28,6 +28,8 @@ import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.event.PlayerEnterRegionEvent;
+import co.marcin.novaguilds.event.PlayerExitRegionEvent;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -246,12 +248,17 @@ public class RegionManager {
 		return list;
 	}
 
-	public void playerEnteredRegion(Player player, Location toLocation) {
-		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
+	public void playerEnteredRegion(Player player, NovaRegion region) {
+		PlayerEnterRegionEvent regionEvent = new PlayerEnterRegionEvent(player, region);
+		plugin.getServer().getPluginManager().callEvent(regionEvent);
+
+		if(regionEvent.isCancelled()) {
 			return;
 		}
 
-		NovaRegion region = get(toLocation);
+		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
+			return;
+		}
 
 		if(region == null) {
 			return;
@@ -293,6 +300,13 @@ public class RegionManager {
 	public void playerExitedRegion(Player player) {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		NovaRegion region = nPlayer.getAtRegion();
+
+		PlayerExitRegionEvent regionEvent = new PlayerExitRegionEvent(player, region);
+		plugin.getServer().getPluginManager().callEvent(regionEvent);
+
+		if(regionEvent.isCancelled()) {
+			return;
+		}
 
 		if(region == null) {
 			return;
