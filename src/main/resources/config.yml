@@ -151,6 +151,12 @@ aliases:
   - opusc
 
 ###################################################
+# Leaderboard settings                            #
+leaderboard:
+ guild:
+  rows: 5
+
+###################################################
 # Chat settings                                   #
 chat:
 

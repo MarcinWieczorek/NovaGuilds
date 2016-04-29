@@ -560,7 +560,6 @@ holographicdisplays:
  locations:
   topguilds:
  topguilds:
-  toprows: 5
   header: "&2公会 &c排行榜"
   row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
 

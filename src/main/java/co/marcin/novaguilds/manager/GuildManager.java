@@ -369,7 +369,7 @@ public class GuildManager {
 	}
 
 	public List<String> getTopGuilds() {
-		int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
+		int limit = Config.LEADERBOARD_GUILD_ROWS.getInt();
 		int i = 1;
 
 		List<String> list = new ArrayList<>();

@@ -22,6 +22,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import org.bukkit.command.CommandSender;
@@ -46,7 +47,7 @@ public class CommandGuildTop extends AbstractCommandExecutor {
 			return;
 		}
 
-		int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
+		int limit = Config.LEADERBOARD_GUILD_ROWS.getInt();
 		int i = 1;
 
 		Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.send(sender);
