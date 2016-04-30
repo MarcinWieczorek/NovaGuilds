@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.util.guiinventory.guild.rank;
 
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.enums.Config;
@@ -66,8 +67,11 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		}
 		else if(clickedItemStack.equals(setDefaultItem)) {
 			NovaRank clonedRank = rank;
-			if(rank.isGeneric() && !RankManager.getDefaultRank().equals(rank)) {
+			if(rank.isGeneric()) {
 				clonedRank = cloneRank();
+			}
+			else {
+				rank.setDefault(false);
 			}
 
 			if(!getGuild().getDefaultRank().isGeneric()) {
@@ -79,12 +83,15 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			if(rank.isGeneric()) {
 				close();
 				new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
+				return;
 			}
 
 			generateContent();
 		}
 		else if(clickedItemStack.equals(cloneItem)) {
-			cloneRank();
+			NovaRank clonedRank = cloneRank();
+			close();
+			new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
 		}
 		else if(clickedItemStack.equals(renameItem)) {
 			if(Config.SIGNGUI_ENABLED.getBoolean()) {
@@ -139,7 +146,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			add(deleteItem);
 		}
 
-		if(!isLeaderRank && !GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
+		if(!GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
 			add(memberListItem);
 		}
 
@@ -184,8 +191,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			}
 		}
 
-		NovaRank clone = new NovaRankImpl(cloneName);
-		clone.setClone(rank.isGeneric());
+		NovaRank clone = new NovaRankImpl(rank);
 		NovaGuild guild = getGuild();
 
 		boolean doubleName;
@@ -209,9 +215,14 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			i++;
 		} while(doubleName);
 
-		clone.setPermissions(rank.getPermissions());
-		clone.setGuild(guild);
 		guild.addRank(clone);
+
+		//Move players
+		for(NovaPlayer nPlayer : rank.getMembers()) {
+			rank.removeMember(nPlayer);
+			clone.addMember(nPlayer);
+		}
+
 		return clone;
 	}
 }

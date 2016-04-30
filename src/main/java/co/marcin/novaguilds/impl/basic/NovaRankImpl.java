@@ -56,6 +56,12 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 		this.name = name;
 	}
 
+	public NovaRankImpl(final NovaRank rank) {
+		setClone(rank.isGeneric());
+		setName(rank.getName());
+		setPermissions(rank.getPermissions());
+	}
+
 	@Override
 	public int getId() {
 		if(id <= 0) {
@@ -176,7 +182,7 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 
 	@Override
 	public boolean isGeneric() {
-		return NovaGuilds.getInstance().getRankManager().isGenericRank(this);
+		return this instanceof GenericRankImpl;
 	}
 
 	@Override
