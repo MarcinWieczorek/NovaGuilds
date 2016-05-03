@@ -34,18 +34,18 @@ public class PvpListener extends AbstractListener {
 		if(event.getEntity() instanceof Player) {
 			Player attacker = null;
 			Player player = (Player) event.getEntity();
-			
+
 			if(event.getDamager() instanceof Player) {
 				attacker = (Player) event.getDamager();
 			}
 			else if(event.getDamager().getType() == EntityType.ARROW) {
 				Arrow arrow = (Arrow) event.getDamager();
-				
+
 				if(arrow.getShooter() instanceof Player) {
 					attacker = (Player) arrow.getShooter();
 				}
 			}
-			
+
 			if(attacker != null) {
 				NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 				NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);

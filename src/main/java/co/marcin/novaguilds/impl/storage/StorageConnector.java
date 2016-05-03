@@ -106,7 +106,7 @@ public class StorageConnector {
 		}
 
 		storage.registerManagers();
-		LoggerUtils.info("Successfuly connected to the storage");
+		LoggerUtils.info("Successfully connected to the storage");
 	}
 
 	/**

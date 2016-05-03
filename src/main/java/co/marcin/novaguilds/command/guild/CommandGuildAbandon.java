@@ -39,7 +39,7 @@ import java.util.Map;
 
 public class CommandGuildAbandon extends AbstractCommandExecutor implements CommandExecutor {
 	private static final Command command = Command.GUILD_ABANDON;
-	
+
 	public CommandGuildAbandon() {
 		super(command);
 	}
@@ -61,7 +61,7 @@ public class CommandGuildAbandon extends AbstractCommandExecutor implements Comm
 		command.execute(sender, args);
 		return true;
 	}
-	
+
 	public void execute(CommandSender sender, String args[]) {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 

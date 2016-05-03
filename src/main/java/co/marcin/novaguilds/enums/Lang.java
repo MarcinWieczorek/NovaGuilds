@@ -91,7 +91,7 @@ public enum Lang {
 
 				if(line.startsWith("#")) {
 					line = line.substring(1);
-					LoggerUtils.info("Detected custom enconding for file " + file.getName() + ": " + line);
+					LoggerUtils.info("Detected custom encoding for file " + file.getName() + ": " + line);
 					Lang lang = Lang.CUSTOM;
 					lang.setCharset(Charset.forName(line));
 					return lang;

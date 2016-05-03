@@ -46,7 +46,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor implements Command
 	public CommandRegionBuy() {
 		super(command);
 	}
-	
+
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;

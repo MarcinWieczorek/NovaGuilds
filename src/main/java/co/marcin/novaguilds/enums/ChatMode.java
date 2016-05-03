@@ -85,7 +85,7 @@ public enum ChatMode {
 				return mode;
 			}
 
-			n = n || mode == this;
+			n = mode == this;
 		}
 
 		return NORMAL;

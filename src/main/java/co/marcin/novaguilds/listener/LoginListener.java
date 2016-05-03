@@ -21,12 +21,14 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.impl.basic.tablist.TabList1_8NorthTabImpl;
 import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
+import co.marcin.novaguilds.impl.versionimpl.v1_8.TabListNorthTabImpl;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
@@ -56,8 +58,9 @@ public class LoginListener extends AbstractListener {
 			Message.CHAT_UPDATE.send(player);
 		}
 
-		if(RegionManager.get(player) != null) {
-			plugin.getRegionManager().playerEnteredRegion(player, player.getLocation());
+		NovaRegion region = RegionManager.get(player);
+		if(region != null) {
+			plugin.getRegionManager().playerEnteredRegion(player, region);
 		}
 
 		if(nPlayer.hasGuild()) {
@@ -95,7 +98,7 @@ public class LoginListener extends AbstractListener {
 
 			switch(ConfigManager.getServerVersion()) {
 				case MINECRAFT_1_8:
-					tabList = new TabList1_8NorthTabImpl(nPlayer);
+					tabList = new TabListNorthTabImpl(nPlayer);
 					break;
 			}
 
@@ -103,8 +106,10 @@ public class LoginListener extends AbstractListener {
 
 			TabUtils.refresh();
 		}
+
+		BossBarUtils.removeBar(player);
 	}
-	
+
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());

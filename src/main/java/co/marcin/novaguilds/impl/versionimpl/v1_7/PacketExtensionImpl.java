@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_7;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
@@ -36,11 +36,14 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class PacketExtension1_7Impl implements PacketExtension {
+@SuppressWarnings("ConstantConditions")
+public class PacketExtensionImpl implements PacketExtension {
 	private static Reflections.FieldAccessor<Channel> clientChannel;
 	private static Field playerConnection;
 	private static Field networkManager;
 	private static Method handleMethod;
+	protected static Class<?> packetClass;
+	protected static Class<?> craftPlayerClass;
 
 	static {
 		try {
@@ -48,6 +51,8 @@ public class PacketExtension1_7Impl implements PacketExtension {
 			playerConnection = Reflections.getField(Reflections.getCraftClass("EntityPlayer"), "playerConnection");
 			networkManager = Reflections.getField(Reflections.getCraftClass("PlayerConnection"), "networkManager");
 			handleMethod = Reflections.getMethod(Reflections.getBukkitClass("entity.CraftEntity"), "getHandle");
+			packetClass = Reflections.getCraftClass("Packet");
+			craftPlayerClass = Reflections.getBukkitClass("entity.CraftPlayer");
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -107,6 +112,27 @@ public class PacketExtension1_7Impl implements PacketExtension {
 	public void unregisterChannel() {
 		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			getChannel(player).pipeline().remove("NovaGuilds");
+		}
+	}
+
+	@Override
+	public void sendPacket(Player player, Object... packets) {
+		try {
+			Object craftPlayer = craftPlayerClass.cast(player);
+			Object handle = craftPlayerClass.getMethod("getHandle").invoke(craftPlayer);
+			Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			Method sendPacketMethod = playerConnection.getClass().getMethod("sendPacket", packetClass);
+
+			for(Object packet : packets) {
+				if(packet == null) {
+					continue;
+				}
+
+				sendPacketMethod.invoke(playerConnection, packet);
+			}
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
 		}
 	}
 }

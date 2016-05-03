@@ -56,12 +56,12 @@ import java.util.concurrent.TimeUnit;
 public class GuildManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaGuild> guilds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-	
+
 	//getters
 	public static NovaGuild getGuildByName(String name) {
 		return plugin.getGuildManager().guilds.get(name);
 	}
-	
+
 	public static NovaGuild getGuildByTag(String tag) {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			if(StringUtils.removeColors(guild.getTag()).equalsIgnoreCase(tag)) {
@@ -83,14 +83,14 @@ public class GuildManager {
 		if(guild == null) {
 			guild = getGuildByName(mixed);
 		}
-		
+
 		if(guild == null) {
 			NovaPlayer nPlayer = PlayerManager.getPlayer(mixed);
-			
+
 			if(nPlayer == null) {
 				return null;
 			}
-			
+
 			guild = nPlayer.getGuild();
 		}
 
@@ -100,7 +100,7 @@ public class GuildManager {
 	public Collection<NovaGuild> getGuilds() {
 		return guilds.values();
 	}
-	
+
 	public boolean exists(String guildName) {
 		return guilds.containsKey(guildName);
 	}
@@ -123,7 +123,7 @@ public class GuildManager {
 		for(NovaGuild guild : getResourceManager().load()) {
 			if(guilds.containsKey(guild.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					getResourceManager().remove(guild);
+					getResourceManager().addToRemovalQueue(guild);
 				}
 
 				LoggerUtils.error("Removed guild with doubled name (" + guild.getName() + ")");
@@ -138,25 +138,27 @@ public class GuildManager {
 		loadVaultHolograms();
 		LoggerUtils.info("Generated bank holograms.");
 	}
-	
+
 	public void add(NovaGuild guild) {
 		guilds.put(guild.getName(), guild);
 	}
-	
+
 	public void save(NovaGuild guild) {
 		getResourceManager().save(guild);
 	}
 
 	public void save() {
 		long startTime = System.nanoTime();
-
 		int count = getResourceManager().save(getGuilds());
-
 		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
+
+		startTime = System.nanoTime();
+		count = getResourceManager().executeRemoval();
+		LoggerUtils.info("Guilds removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 	}
 
 	public void delete(NovaGuild guild) {
-		getResourceManager().remove(guild);
+		getResourceManager().addToRemovalQueue(guild);
 
 		//remove region
 		if(guild.hasRegion()) {
@@ -166,7 +168,7 @@ public class GuildManager {
 		guilds.remove(guild.getName());
 		guild.destroy();
 	}
-	
+
 	public void changeName(NovaGuild guild, String newName) {
 		guilds.remove(guild.getName());
 		guilds.put(newName, guild);
@@ -204,7 +206,7 @@ public class GuildManager {
 				}
 
 				if(guild.getHome() == null) {
-					LoggerUtils.info("(" + guild.getName() + ") Spawnpoint is null");
+					LoggerUtils.info("(" + guild.getName() + ") home location is null");
 					remove = true;
 				}
 
@@ -367,7 +369,7 @@ public class GuildManager {
 	}
 
 	public List<String> getTopGuilds() {
-		int limit = Integer.parseInt(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_TOPROWS.get()); //TODO move to config
+		int limit = Config.LEADERBOARD_GUILD_ROWS.getInt();
 		int i = 1;
 
 		List<String> list = new ArrayList<>();

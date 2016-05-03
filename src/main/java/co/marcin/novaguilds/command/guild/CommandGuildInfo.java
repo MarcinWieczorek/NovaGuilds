@@ -48,18 +48,18 @@ public class CommandGuildInfo extends AbstractCommandExecutor implements Command
 	public CommandGuildInfo() {
 		super(command);
 	}
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;
 	}
-	
+
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		String guildName;
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		
+
 		if(args.length > 0) {
 			guildName = args[0];
 		}
@@ -68,7 +68,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor implements Command
 				Message.CHAT_CMDFROMCONSOLE.send(sender);
 				return;
 			}
-			
+
 			if(nPlayer.hasGuild()) {
 				guildName = nPlayer.getGuild().getName();
 			}
@@ -80,7 +80,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor implements Command
 
 		//searching by name
 		NovaGuild guild = GuildManager.getGuildFind(guildName);
-		
+
 		if(guild == null) {
 			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
 			return;
@@ -183,7 +183,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor implements Command
 		vars.put(VarKey.CREATEDAGO, StringUtils.secondsToString(createdAgo, TimeUnit.HOURS));
 		vars.put(VarKey.PROTLEFT, StringUtils.secondsToString(protectionLeft, TimeUnit.HOURS));
 
-		//spawnpoint location coords
+		//home location coordinates
 		Location sp = guild.getHome();
 		if(sp != null) {
 			vars.put(VarKey.SP_X, String.valueOf(sp.getBlockX()));
@@ -209,7 +209,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor implements Command
 				skip = true;
 			}
 
-			//spawnpoint
+			//home location
 			if((guildInfoMessage.contains("{SP_X}") || guildInfoMessage.contains("{SP_Y}") || guildInfoMessage.contains("{SP_Z}")) && guild.getHome() == null) {
 				skip = true;
 			}

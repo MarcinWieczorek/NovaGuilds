@@ -560,7 +560,6 @@ holographicdisplays:
  locations:
   topguilds: 
  topguilds:
-  toprows: 5
   header: "&2Guilds &cTOP5"
   row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
   
@@ -577,6 +576,8 @@ inventory:
  ggui:
   name: Guild's Menu
  gui:
+  guildtop: "SIGN 1"
+  hometp: "ENDER_PEARL 1 name:Home"
   settings:
    title: "Guild settings"
    item:
@@ -591,6 +592,10 @@ inventory:
     openinvitation: "FENCE_GATE 1 name:&6Toggle_open_invitation lore:Currently_{FLAG}"
     buylife: "APPLE 1 name:&6Buy_a_life"
     buyslot: "MINECART 1 name:&6Buy_a_slot"
+    invite: "CAKE 1 name:&6Invite_players"
+   invite:
+    title: "Inviting players"
+    item: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
   back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "Players list"

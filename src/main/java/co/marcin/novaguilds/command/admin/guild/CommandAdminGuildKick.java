@@ -46,9 +46,9 @@ public class CommandAdminGuildKick extends AbstractCommandExecutor {
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;
 		}
-		
+
 		NovaPlayer nPlayerKick = PlayerManager.getPlayer(args[0]);
-		
+
 		if(nPlayerKick == null) { //no player
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return;
@@ -65,15 +65,15 @@ public class CommandAdminGuildKick extends AbstractCommandExecutor {
 			Message.CHAT_ADMIN_GUILD_KICK_LEADER.send(sender);
 			return;
 		}
-		
+
 		//all passed
 		guild.removePlayer(nPlayerKick);
-		
+
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYERNAME, nPlayerKick.getName());
 		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
-		
+
 		//tab/tag
 		TagUtils.refresh();
 		TabUtils.refresh();

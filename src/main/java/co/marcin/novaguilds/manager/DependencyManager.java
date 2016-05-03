@@ -1,11 +1,11 @@
 package co.marcin.novaguilds.manager;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.exception.MissingDependencyException;
 import co.marcin.novaguilds.util.LoggerUtils;
 import net.milkbowl.vault.economy.Economy;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DependencyManager {
-	private Map<Dependency, Plugin> pluginMap = new HashMap<>();
+	private final Map<Dependency, Plugin> pluginMap = new HashMap<>();
 
 	private Economy economy;
 
@@ -38,13 +38,15 @@ public class DependencyManager {
 				pluginMap.put(dependency, plugin);
 				LoggerUtils.info("Found plugin " + dependency.getName());
 
-				if(dependency.hasAdditionalTask()) {
-					try {
-						LoggerUtils.info("Running additional task for " + dependency.getName());
-						dependency.runAdditionalTask();
-					}
-					catch(Exception e) {
-						throw new MissingDependencyException("Could not pass additional task", e);
+				if(dependency.hasAdditionalTasks()) {
+					for(RunnableWithException additionalTask : dependency.getAdditionalTasks()) {
+						try {
+							LoggerUtils.info("Running additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName());
+							additionalTask.run();
+						}
+						catch(Exception e) {
+							throw new MissingDependencyException("Could not pass additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName(), e);
+						}
 					}
 				}
 			}
@@ -65,22 +67,11 @@ public class DependencyManager {
 
 	/**
 	 * Setups economy
-	 *
-	 * @return true if succeeded
 	 */
-	private boolean setupEconomy() {
-		if(!isEnabled(Dependency.ESSENTIALS)) {
-			return false;
-		}
-
+	private void setupEconomy() {
 		RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
-
-		if(rsp == null) {
-			return false;
-		}
-
 		economy = rsp.getProvider();
-		return economy != null;
+		Validate.notNull(economy);
 	}
 
 	private Plugin getPlugin(String name) {
@@ -96,17 +87,6 @@ public class DependencyManager {
 		@Override
 		public void run() throws ClassNotFoundException {
 			Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
-		}
-	}
-
-	public static class BarAPIVersionCompatilibityCheck implements RunnableWithException {
-		private final NovaGuilds plugin = NovaGuilds.getInstance();
-
-		@Override
-		public void run() throws Exception {
-			if(plugin.getDependencyManager().isEnabled(Dependency.BARAPI) && ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_9) {
-				throw new MissingDependencyException("You may not use BarAPI with 1.9 server");
-			}
 		}
 	}
 

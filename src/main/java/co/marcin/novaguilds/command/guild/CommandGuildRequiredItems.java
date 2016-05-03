@@ -20,14 +20,10 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
-import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.util.guiinventory.GUIInventoryRequiredItems;
 import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.List;
 
 public class CommandGuildRequiredItems extends AbstractCommandExecutor {
 	private static final Command command = Command.GUILD_REQUIREDITEMS;
@@ -38,20 +34,6 @@ public class CommandGuildRequiredItems extends AbstractCommandExecutor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
-		Player player = (Player) sender;
-
-		List<ItemStack> requiredItems = GroupManager.getGroup(sender).getGuildCreateItems();
-		int size = 9 * Math.round(requiredItems.size() / 9);
-		if(size == 0) {
-			size = 9;
-		}
-
-		Inventory inventory = plugin.getServer().createInventory(null, size, Message.INVENTORY_REQUIREDITEMS_NAME.get());
-
-		for(ItemStack item : requiredItems) {
-			inventory.addItem(item);
-		}
-
-		player.openInventory(inventory);
+		new GUIInventoryRequiredItems(GroupManager.getGroup(sender).getGuildCreateItems()).open(PlayerManager.getPlayer(sender));
 	}
 }

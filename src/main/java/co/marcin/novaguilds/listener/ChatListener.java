@@ -40,7 +40,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class ChatListener extends AbstractListener {
-	
+
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		if(event.isCancelled()) {

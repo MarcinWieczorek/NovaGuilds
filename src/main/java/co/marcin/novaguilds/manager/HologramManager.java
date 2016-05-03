@@ -124,7 +124,7 @@ public class HologramManager {
 		hologram.setName("topX" + NumberUtils.randInt(1, 999));
 		hologram.create();
 		hologram.setTop(true);
-		
+
 		holograms.add(hologram);
 
 		return hologram;

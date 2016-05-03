@@ -37,14 +37,24 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
 public class SchematicImpl implements Schematic {
-	protected static final Class<?> NBTCompressedStreamToolsClass = Reflections.getCraftClass("NBTCompressedStreamTools");
-	protected static final Class<?> NBTTagCompoundClass = Reflections.getCraftClass("NBTTagCompound");
+	protected static Class<?> nBTCompressedStreamToolsClass;
+	protected static Class<?> nBTTagCompoundClass;
 	private short width;
 	private short height;
 	private short length;
 	private byte[] blocks;
 	private byte[] data;
 	private final String name;
+
+	static {
+		try {
+			nBTCompressedStreamToolsClass = Reflections.getCraftClass("NBTCompressedStreamTools");
+			nBTTagCompoundClass = Reflections.getCraftClass("NBTTagCompound");
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
+		}
+	}
 
 	/**
 	 * Constructor using file name
@@ -71,12 +81,12 @@ public class SchematicImpl implements Schematic {
 		}
 
 		try {
-			Method aMethod = Reflections.getMethod(NBTCompressedStreamToolsClass, "a", InputStream.class);
+			Method aMethod = Reflections.getMethod(nBTCompressedStreamToolsClass, "a", InputStream.class);
 			FileInputStream fis = new FileInputStream(file);
 			Object nbtData = aMethod.invoke(null, fis);
 
-			Method getShortMethod = Reflections.getMethod(NBTTagCompoundClass, "getShort");
-			Method getByteArrayMethod = Reflections.getMethod(NBTTagCompoundClass, "getByteArray");
+			Method getShortMethod = Reflections.getMethod(nBTTagCompoundClass, "getShort");
+			Method getByteArrayMethod = Reflections.getMethod(nBTTagCompoundClass, "getByteArray");
 
 			width = (short) getShortMethod.invoke(nbtData, "Width");
 			height = (short) getShortMethod.invoke(nbtData, "Height");
@@ -101,13 +111,13 @@ public class SchematicImpl implements Schematic {
 					Location blockLocation = root.clone().add(x, y, z);
 					int index = x + (y * length + z) * width;
 
-					Block b = blockLocation.getBlock();
+					Block block = blockLocation.getBlock();
 
-					Meta.protect(b);
-					Meta.setMetadata(b, "state", b.getState());
+					Meta.protect(block);
+					Meta.setMetadata(block, "state", block.getState());
 
-					b.setTypeId(blocks[index] < 0 ? Material.SPONGE.getId() : blocks[index]);
-					b.setData(data[index]);
+					block.setTypeId(blocks[index] < 0 ? Material.SPONGE.getId() : blocks[index]);
+					block.setData(data[index]);
 				}
 			}
 		}

@@ -39,9 +39,10 @@ import java.util.concurrent.TimeUnit;
 
 public class RunnableRaid implements Runnable {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private static boolean running = false;
 
 	public void run() {
-		NovaGuilds.setRaidRunnableRunning(false);
+		running = true;
 		boolean renewTask = false;
 
 		for(NovaGuild guildDefender : plugin.getGuildManager().getGuilds()) {
@@ -121,9 +122,9 @@ public class RunnableRaid implements Runnable {
 			raidBar(raid);
 		}
 
-		if(renewTask && plugin.isEnabled() && !NovaGuilds.isRaidRunnableRunning()) {
+		if(renewTask && plugin.isEnabled() && !running) {
 			NovaGuilds.runTaskLater(this, 1, TimeUnit.SECONDS);
-			NovaGuilds.setRaidRunnableRunning(true);
+			running = true;
 		}
 	}
 
@@ -163,5 +164,13 @@ public class RunnableRaid implements Runnable {
 				}
 			}
 		}
+	}
+
+	public static boolean isRaidRunnableRunning() {
+		return running;
+	}
+
+	public static void setRaidRunnableRunning(boolean raidRunnableRunning) {
+		running = raidRunnableRunning;
 	}
 }

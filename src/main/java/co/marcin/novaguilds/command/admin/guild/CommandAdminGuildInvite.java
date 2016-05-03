@@ -48,8 +48,8 @@ public class CommandAdminGuildInvite extends AbstractCommandExecutor.Reversed<No
 		}
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
-		
-		if(nPlayer == null) { //noplayer
+
+		if(nPlayer == null) {
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return;
 		}
@@ -58,12 +58,12 @@ public class CommandAdminGuildInvite extends AbstractCommandExecutor.Reversed<No
 			Message.CHAT_PLAYER_HASGUILD.send(sender);
 			return;
 		}
-		
+
 		if(nPlayer.isInvitedTo(guild)) {
 			Message.CHAT_PLAYER_ALREADYINVITED.send(sender);
 			return;
 		}
-		
+
 		//all passed
 		nPlayer.addInvitation(guild);
 

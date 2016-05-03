@@ -16,10 +16,11 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util.signgui;
+package co.marcin.novaguilds.impl.versionimpl.v1_7;
 
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
+import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -35,15 +36,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
-public class SignGUI1_7Impl extends AbstractSignGui {
-	protected final Class<?> packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
-	protected final Class<?> packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
-	protected final Class<?> packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
-	protected final Class<?> packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
-	protected final Class<?> blockClass = Reflections.getCraftClass("Block");
-	protected final Class<?> worldClass = Reflections.getCraftClass("World");
+public class SignGUIImpl extends AbstractSignGui {
+	protected static Class<?> packetInUpdateSignClass;
+	protected static Class<?> packetOutUpdateSignClass;
+	protected static Class<?> packetBlockChangeClass;
+	protected static Class<?> packetOpenSignEditorClass;
+	protected static Class<?> blockClass;
+	protected static Class<?> worldClass;
 
-	public SignGUI1_7Impl() {
+	static {
+		try {
+			packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
+			packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
+			packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
+			packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
+			blockClass = Reflections.getCraftClass("Block");
+			worldClass = Reflections.getCraftClass("World");
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
+		}
+	}
+
+	public SignGUIImpl() {
 		registerUpdateHandling();
 	}
 
@@ -148,7 +163,7 @@ public class SignGUI1_7Impl extends AbstractSignGui {
 
 			return packet;
 		}
-		catch(InstantiationException | IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
+		catch(InstantiationException | IllegalAccessException | InvocationTargetException | IllegalArgumentException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
 			return null;
 		}
@@ -170,7 +185,7 @@ public class SignGUI1_7Impl extends AbstractSignGui {
 
 			return packet;
 		}
-		catch(InstantiationException | IllegalAccessException e) {
+		catch(InstantiationException | IllegalAccessException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
 			return null;
 		}

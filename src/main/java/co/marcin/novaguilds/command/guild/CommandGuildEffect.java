@@ -83,7 +83,7 @@ public class CommandGuildEffect extends AbstractCommandExecutor {
 		List<PotionEffectType> potionEffects = plugin.getConfigManager().getGuildEffects();
 		int index = NumberUtils.randInt(0, potionEffects.size() - 1);
 		PotionEffectType effectType = potionEffects.get(index);
-		PotionEffect effect = effectType.createEffect(Config.GUILD_EFFECT_DURATION.getInt(), 1);
+		PotionEffect effect = effectType.createEffect(Config.GUILD_EFFECT_DURATION.getSeconds() * 20, 1);
 
 
 		//add effect

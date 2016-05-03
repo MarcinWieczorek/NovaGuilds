@@ -58,12 +58,21 @@ lang:
  overrideessentials: false
 
 ###################################################
-# Use 1.8 titles                                  #
+# Use titles to display suitable messages         #
 usetitles: false
 
 bossbar:
  enabled: true
- raidbar: true
+
+# Boss bar during the raid                        #
+ raidbar:
+  enabled: true
+
+# Bar style                                       #
+  style: SOLID
+
+# Bar color                                       #
+  color: PURPLE
 
 tagapi:
  enabled: true
@@ -142,10 +151,10 @@ aliases:
   - opusc
 
 ###################################################
-# Guild menu items                                #
-gguicmd:
- g_home: ENDER_PEARL 1 name:Home
- TOP: Sign 1
+# Leaderboard settings                            #
+leaderboard:
+ guild:
+  rows: 5
 
 ###################################################
 # Chat settings                                   #
@@ -175,7 +184,7 @@ chat:
   war: "c"
   guild: "b"
 
-# ally chat settings
+# ally chat settings                              #
  ally:
   prefix: "!!"
   enabled: true
@@ -246,14 +255,11 @@ guild:
 # new guilds protection                           #
  createprotection: 24h
 
-# starting points                                 #
- startpoints: 1000
-
-# starting money                                  #
- startmoney: 0
-
-# starting lives                                  #
- startlives: 2
+# start amounts                                   #
+ start:
+  points: 1000
+  money: 0
+  lives: 2
 
 # slots amount; start and maximum amount          #
  slots:
@@ -301,7 +307,7 @@ guild:
  effect:
 
 # duration of the effect                          #
-  duration: 2000
+  duration: 100s
 
 # available effects                               #
   list:
@@ -399,6 +405,11 @@ groups:
 # buying an effect                                #
    effect:
     money: 100
+    items: []
+
+# buying a banner                                 #
+   banner:
+    money: 0
     items: []
 
   region:
@@ -604,6 +615,9 @@ region:
 
 # tool item                                       #
  tool: "STICK 1 name:&5NovaGuilds_&6Tool lore:&cLeft_Click_+_SHIFT|&6To_toggle_the_mode|&e****&2Check_Mode&e****|&6Right_click_to_check|&e****&2Select_Mode&e***|&cLeft/Right|&6click_to_select|&6Right_click_a_corner|&6to_resize"
+
+# Disallow lava/water 5 blocks outside the region #
+ fluidprotect: 5
 
 # commands blocked at region                      #
 # when player is not member and not ally          #

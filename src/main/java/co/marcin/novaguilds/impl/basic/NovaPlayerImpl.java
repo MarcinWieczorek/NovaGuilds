@@ -81,23 +81,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 		this.uuid = uuid;
 	}
 
-	/**
-	 * Gets a NovaPlayer from a Player
-	 *
-	 * @param player the player
-	 * @return NovaPlayer instance
-	 */
-	public static NovaPlayer fromPlayer(Player player) {
-		if(player != null) {
-			NovaPlayer nPlayer = new NovaPlayerImpl(player.getUniqueId());
-			nPlayer.setName(player.getName());
-			nPlayer.setPlayer(player);
-			nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
-			return nPlayer;
-		}
-		return null;
-	}
-
 	@Override
 	public Player getPlayer() {
 		return player;

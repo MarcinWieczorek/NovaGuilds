@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.manager.DependencyManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
@@ -121,6 +122,13 @@ public interface NovaGuildsAPI {
 	 * @return the PacketExtension
 	 */
 	PacketExtension getPacketExtension();
+
+	/**
+	 * Returns the DependencyManager
+	 *
+	 * @return the DependencyManager
+	 */
+	DependencyManager getDependencyManager();
 
 	/**
 	 * Returns the storage

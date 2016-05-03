@@ -62,7 +62,7 @@ public class MoveListener extends AbstractListener {
 
 		//entering
 		if((fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) || (fromRegion != null && toRegion != null && !fromRegion.equals(toRegion))) {
-			plugin.getRegionManager().playerEnteredRegion(player, event.getTo());
+			plugin.getRegionManager().playerEnteredRegion(player, toRegion);
 		}
 
 		//exiting

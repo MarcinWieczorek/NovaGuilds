@@ -45,7 +45,9 @@ public enum Config {
 	DELETEINVALID,
 
 	BOSSBAR_ENABLED,
-	BOSSBAR_RAIDBAR,
+	BOSSBAR_RAIDBAR_ENABLED,
+	BOSSBAR_RAIDBAR_STYLE,
+	BOSSBAR_RAIDBAR_COLOR,
 
 	TAGAPI_ENABLED,
 
@@ -113,6 +115,8 @@ public enum Config {
 	CLEANUP_INTERVAL,
 	CLEANUP_STARTUPDELAY,
 
+	LEADERBOARD_GUILD_ROWS,
+
 	VAULT_ENABLED,
 	VAULT_ITEM,
 	VAULT_HOLOGRAM_ENABLED,
@@ -126,6 +130,7 @@ public enum Config {
 	REGION_MAXSIZE,
 	REGION_MINDISTANCE,
 	REGION_TOOL,
+	REGION_FLUIDPROTECT,
 	REGION_BLOCKEDCMDS,
 	REGION_WATERFLOW,
 	REGION_ALLYINTERACT,
@@ -148,9 +153,9 @@ public enum Config {
 
 	GUILD_CREATEPROTECTION,
 
-	GUILD_STARTPOINTS,
-	GUILD_STARTLIVES,
-	GUILD_STARTMONEY,
+	GUILD_START_POINTS,
+	GUILD_START_LIVES,
+	GUILD_START_MONEY,
 	GUILD_SLOTS_START,
 	GUILD_SLOTS_MAX,
 
@@ -360,5 +365,15 @@ public enum Config {
 	 */
 	public void set(Object obj) {
 		cM.set(this, obj);
+	}
+
+	public <E extends Enum> E toEnum(Class<E> clazz) {
+		for(E enumConstant : clazz.getEnumConstants()) {
+			if(enumConstant.name().equalsIgnoreCase(getString())) {
+				return enumConstant;
+			}
+		}
+
+		return null;
 	}
 }

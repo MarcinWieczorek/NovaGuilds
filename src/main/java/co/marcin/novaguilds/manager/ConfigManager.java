@@ -27,6 +27,8 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -117,9 +119,9 @@ public class ConfigManager {
 
 		LoggerUtils.info("This server is using Bukkit: " + Bukkit.getBukkitVersion());
 
-		if(Config.USETITLES.getBoolean() && getServerVersion() == ServerVersion.MINECRAFT_1_7) {
+		if(Config.USETITLES.getBoolean() && getServerVersion() != ServerVersion.MINECRAFT_1_8) {
 			Config.USETITLES.set(false);
-			LoggerUtils.error("You can't use Titles with Bukkit older than 1.8");
+			LoggerUtils.error("You can't use Titles with Bukkit other than 1.8");
 		}
 
 		if(Config.TABLIST_ENABLED.getBoolean() && getServerVersion() != ServerVersion.MINECRAFT_1_8) {
@@ -193,7 +195,20 @@ public class ConfigManager {
 			Config.SAVEINTERVAL.set("60s");
 		}
 
-		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
+		//Bar style enum
+		if(Config.BOSSBAR_RAIDBAR_STYLE.toEnum(BarColor.class) == null) {
+			LoggerUtils.error("Invalid BarStyle enum. Resetting to default.");
+			Config.BOSSBAR_RAIDBAR_STYLE.set(BarStyle.SOLID.name());
+		}
+
+		//Bar color enum
+		if(Config.BOSSBAR_RAIDBAR_COLOR.toEnum(BarStyle.class) == null) {
+			LoggerUtils.error("Invalid BarColor enum. Resetting to default.");
+			Config.BOSSBAR_RAIDBAR_COLOR.set(BarColor.PURPLE.name());
+		}
+
+		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (getServerVersion() == ServerVersion.MINECRAFT_1_9 || plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
+		Config.BOSSBAR_RAIDBAR_ENABLED.set(Config.BOSSBAR_RAIDBAR_ENABLED.getBoolean() && Config.BOSSBAR_ENABLED.getBoolean());
 		Config.TABLIST_ENABLED.set(Config.TABLIST_ENABLED.getBoolean() && (plugin.getDependencyManager().isEnabled(Dependency.NORTHTAB) && getServerVersion() == ServerVersion.MINECRAFT_1_8));
 		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));
 

@@ -151,4 +151,18 @@ public interface NovaGroup {
 	 * @return money
 	 */
 	double getGuildEffectPrice();
+
+	/**
+	 * Gets the list of items required to buy a banner
+	 *
+	 * @return list of items
+	 */
+	List<ItemStack> getGuildBuyBannerItems();
+
+	/**
+	 * Get the price of buying a banner
+	 *
+	 * @return money
+	 */
+	double getGuildBuyBannerMoney();
 }

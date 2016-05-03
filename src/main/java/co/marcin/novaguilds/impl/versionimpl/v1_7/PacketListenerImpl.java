@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.listener.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_7;
 
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
@@ -31,8 +31,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
-public class PacketListener1_7Impl extends AbstractListener {
-	public PacketListener1_7Impl() {
+public class PacketListenerImpl extends AbstractListener {
+	public PacketListenerImpl() {
 		new AbstractPacketHandler("PacketPlayInUseEntity") {
 			@Override
 			public void handle(PacketReceiveEvent event) {
@@ -60,7 +60,7 @@ public class PacketListener1_7Impl extends AbstractListener {
 					PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), entity, action);
 					plugin.getServer().getPluginManager().callEvent(clickEvent);
 				}
-				catch(IllegalAccessException | InvocationTargetException e) {
+				catch(IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
 					LoggerUtils.exception(e);
 				}
 			}

@@ -135,7 +135,7 @@ public class CommandAdminGuildResetPoints extends AbstractCommandExecutor {
 					}
 				}
 				else {
-					newPoints = Config.GUILD_STARTPOINTS.getInt();
+					newPoints = Config.GUILD_START_POINTS.getInt();
 				}
 
 				guild.setPoints(newPoints);

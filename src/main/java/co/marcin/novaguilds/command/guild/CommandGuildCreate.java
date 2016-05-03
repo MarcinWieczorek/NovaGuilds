@@ -56,7 +56,7 @@ import java.util.UUID;
 
 public class CommandGuildCreate extends AbstractCommandExecutor implements CommandExecutor {
 	private static final Command command = Command.GUILD_CREATE;
-	
+
 	public CommandGuildCreate() {
 		super(command);
 	}
@@ -78,7 +78,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 
 		String tag = args[0];
 		String guildName = args[1];
-		
+
 		//remove colors
 		guildName = StringUtils.removeColors(guildName);
 		if(!Config.GUILD_SETTINGS_TAG_COLOR.getBoolean()) {
@@ -87,7 +87,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		Map<VarKey, String> vars = new HashMap<>();
-		
+
 		if(nPlayer.hasGuild()) { //has guild already
 			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
 			return;
@@ -114,7 +114,13 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 		}
 
 		//distance from spawn
-		if(player.getWorld().getSpawnLocation().distance(player.getLocation()) < Config.GUILD_FROMSPAWN.getInt()) {
+		Location spawnLocationBedrock = player.getWorld().getSpawnLocation().clone();
+		spawnLocationBedrock.setY(0);
+
+		Location playerLocationBedrock = player.getLocation().clone();
+		playerLocationBedrock.setY(0);
+
+		if(spawnLocationBedrock.distance(playerLocationBedrock) < Config.GUILD_FROMSPAWN.getInt()) {
 			vars.put(VarKey.DISTANCE, String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
 			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.vars(vars).send(sender);
 			return;
@@ -174,9 +180,9 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 				guild.setHome(player.getLocation());
 				guild.addPlayer(nPlayer);
 				guild.updateInactiveTime();
-				guild.setLives(Config.GUILD_STARTLIVES.getInt());
-				guild.setPoints(Config.GUILD_STARTPOINTS.getInt());
-				guild.setMoney(Config.GUILD_STARTMONEY.getInt());
+				guild.setLives(Config.GUILD_START_LIVES.getInt());
+				guild.setPoints(Config.GUILD_START_POINTS.getInt());
+				guild.setMoney(Config.GUILD_START_MONEY.getInt());
 				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 				guild.setTimeCreated(NumberUtils.systemSeconds());
 
@@ -207,12 +213,12 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 
 						for(Player playerCheck : NovaGuilds.getOnlinePlayers()) {
 							if(region.equals(RegionManager.get(playerCheck))) {
-								plugin.getRegionManager().playerEnteredRegion(playerCheck, playerCheck.getLocation());
+								plugin.getRegionManager().playerEnteredRegion(playerCheck, region);
 							}
 						}
 					}
 
-					//homefloor
+					//home schematic
 					Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
 
 					if(schematic != null) {

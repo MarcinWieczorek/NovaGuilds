@@ -1,23 +1,6 @@
-/*
- *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2016 Marcin (CTRL) Wieczorek
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>
- */
+package co.marcin.novaguilds.impl.util;
 
-package co.marcin.novaguilds.util.tableanalyzer;
-
+import co.marcin.novaguilds.api.util.DatabaseAnalyzer;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -33,23 +16,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TableAnalyzer {
+public class DatabaseAnalyzerImpl implements DatabaseAnalyzer {
 	private final Connection connection;
 	private final Map<String, String> sqlStructure = new HashMap<>();
 	private final Map<Integer, String> sqlNames = new HashMap<>();
 	private final Map<String, String> tableStructure = new HashMap<>();
-	private final List<MissMatch> missMatches = new ArrayList<>();
+	private final List<Missmatch> missmatches = new ArrayList<>();
 
-	public TableAnalyzer(Connection connection) {
+	public DatabaseAnalyzerImpl(Connection connection) {
 		this.connection = connection;
 	}
 
+	@Override
 	public void analyze(String table, String sql) throws SQLException {
 		if(!existsTable(table)) {
 			addTable(sql);
 		}
 
-		missMatches.clear();
+		missmatches.clear();
 		getSqlStructure(sql);
 		getTableStructure(table);
 
@@ -61,38 +45,45 @@ public class TableAnalyzer {
 			int newindex = tableStructure.size();
 
 			for(int i = newindex; i < sqlStructure.size(); i++) {
-				MissMatch missMatch = new MissMatch(ModificationType.ADD);
-				missMatch.setTable(table);
-				String name = sqlKeys.get(i);
+				MissmatchImpl missmatch = new MissmatchImpl();
+				missmatch.setModificationType(ModificationType.ADD);
+				missmatch.setTable(table);
+				String name = sqlKeys.get(i - 1);
 
 				if(!tableStructure.keySet().contains(name)) {
-					missMatch.setColumnName(name);
-					missMatch.setColumnType(sqlStructure.get(name));
-					missMatch.setIndex(i);
+					missmatch.setColumnName(name);
+					missmatch.setColumnType(sqlStructure.get(name));
+					missmatch.setIndex(i);
 
-					missMatches.add(missMatch);
+					missmatches.add(missmatch);
 				}
 			}
 		}
 	}
 
+	@Override
 	public void update() throws SQLException {
 		sort();
-		for(MissMatch missMatch : missMatches) {
-			LoggerUtils.debug(missMatch.getModificationType().name() + ": " + missMatch.getIndex() + " " + missMatch.getColumnName() + " " + missMatch.getColumnType());
-			switch(missMatch.getModificationType()) {
+		for(Missmatch Missmatch : missmatches) {
+			LoggerUtils.debug(Missmatch.getModificationType().name() + ": " + Missmatch.getIndex() + " " + Missmatch.getColumnName() + " " + Missmatch.getColumnType());
+			switch(Missmatch.getModificationType()) {
 				case ADD:
-					addColumn(missMatch);
+					addColumn(Missmatch);
 					break;
 			}
 		}
 	}
 
-	private void addColumn(MissMatch missMatch) throws SQLException {
-		String sql = "ALTER TABLE `" + missMatch.getTable() + "` ADD COLUMN `" + missMatch.getColumnName() + "` " + missMatch.getColumnType() + " NOT NULL;";
+	@Override
+	public List<Missmatch> getMissmatches() {
+		return missmatches;
+	}
+
+	private void addColumn(Missmatch Missmatch) throws SQLException {
+		String sql = "ALTER TABLE `" + Missmatch.getTableName() + "` ADD COLUMN `" + Missmatch.getColumnName() + "` " + Missmatch.getColumnType() + " NOT NULL;";
 		Statement statement = connection.createStatement();
 		statement.execute(sql);
-		LoggerUtils.info("Added new column " + missMatch.getColumnName() + " to table " + missMatch.getTable());
+		LoggerUtils.info("Added new column " + Missmatch.getColumnName() + " to table " + Missmatch.getTableName());
 	}
 
 	private void addTable(String sql) throws SQLException {
@@ -102,8 +93,8 @@ public class TableAnalyzer {
 	}
 
 	private void sort() {
-		Collections.sort(missMatches, new Comparator<MissMatch>() {
-			public int compare(MissMatch o1, MissMatch o2) {
+		Collections.sort(missmatches, new Comparator<Missmatch>() {
+			public int compare(Missmatch o1, Missmatch o2) {
 				return o1.getIndex() - o2.getIndex();
 			}
 		});
@@ -157,5 +148,58 @@ public class TableAnalyzer {
 		}
 
 		return false;
+	}
+
+	public class MissmatchImpl implements DatabaseAnalyzer.Missmatch {
+		private int index;
+		private String table;
+		private String columnName;
+		private String columnType;
+		private ModificationType modificationType;
+
+		@Override
+		public int getIndex() {
+			return index;
+		}
+
+		@Override
+		public ModificationType getModificationType() {
+			return modificationType;
+		}
+
+		@Override
+		public String getColumnName() {
+			return columnName;
+		}
+
+		@Override
+		public String getColumnType() {
+			return columnType;
+		}
+
+		@Override
+		public String getTableName() {
+			return table;
+		}
+
+		public void setIndex(int index) {
+			this.index = index;
+		}
+
+		public void setModificationType(ModificationType modificationType) {
+			this.modificationType = modificationType;
+		}
+
+		public void setColumnName(String columnName) {
+			this.columnName = columnName;
+		}
+
+		public void setColumnType(String columnType) {
+			this.columnType = columnType;
+		}
+
+		public void setTable(String table) {
+			this.table = table;
+		}
 	}
 }

@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -73,13 +74,15 @@ public class PlayerManager {
 
 		return collection;
 	}
-	
+
 	public void save() {
 		long startTime = System.nanoTime();
-
 		int count = getResourceManager().save(getPlayers());
-
 		LoggerUtils.info("Players data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
+
+		startTime = System.nanoTime();
+		count = getResourceManager().executeRemoval();
+		LoggerUtils.info("Players removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 	}
 
 	public void load() {
@@ -87,7 +90,7 @@ public class PlayerManager {
 		for(NovaPlayer nPlayer : getResourceManager().load()) {
 			if(players.containsKey(nPlayer.getName())) {
 				if(Config.DELETEINVALID.getBoolean()) {
-					getResourceManager().remove(nPlayer);
+					getResourceManager().addToRemovalQueue(nPlayer);
 					LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
 				}
 				else {
@@ -104,7 +107,13 @@ public class PlayerManager {
 	}
 
 	private void add(Player player) {
-		NovaPlayer nPlayer = NovaPlayerImpl.fromPlayer(player);
+		Validate.notNull(player);
+
+		NovaPlayer nPlayer = new NovaPlayerImpl(player.getUniqueId());
+		nPlayer.setName(player.getName());
+		nPlayer.setPlayer(player);
+		nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
+
 		players.put(nPlayer.getName(), nPlayer);
 	}
 

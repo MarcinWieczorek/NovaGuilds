@@ -38,6 +38,7 @@ import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.BannerMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	private long timeCreated;
 	private int lives;
 	private int slots;
+	private BannerMeta bannerMeta;
 	private boolean openInvitation = false;
 	private boolean friendlyPvp = false;
 	private Location vaultLocation;
@@ -247,6 +249,11 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	@Override
 	public int getSlots() {
 		return slots;
+	}
+
+	@Override
+	public BannerMeta getBannerMeta() {
+		return bannerMeta;
 	}
 
 	@Override
@@ -467,6 +474,11 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	@Override
 	public void setSlots(int slots) {
 		this.slots = slots;
+	}
+
+	@Override
+	public void setBannerMeta(BannerMeta bannerMeta) {
+		this.bannerMeta = bannerMeta;
 	}
 
 	@Override

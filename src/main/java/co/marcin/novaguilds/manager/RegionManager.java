@@ -28,6 +28,8 @@ import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.event.PlayerEnterRegionEvent;
+import co.marcin.novaguilds.event.PlayerExitRegionEvent;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -56,7 +58,7 @@ public class RegionManager {
 	public static NovaRegion get(Location location) {
 		int x = location.getBlockX();
 		int z = location.getBlockZ();
-		
+
 		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
 			if(!location.getWorld().equals(region.getWorld())) {
 				continue;
@@ -64,14 +66,14 @@ public class RegionManager {
 
 			Location c1 = region.getCorner(0);
 			Location c2 = region.getCorner(1);
-			
+
 			if((x >= c1.getBlockX() && x <= c2.getBlockX()) || (x <= c1.getBlockX() && x >= c2.getBlockX())) {
 				if((z >= c1.getBlockZ() && z <= c2.getBlockZ()) || (z <= c1.getBlockZ() && z >= c2.getBlockZ())) {
 					return region;
 				}
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -82,7 +84,7 @@ public class RegionManager {
 	public static NovaRegion get(Entity entity) {
 		return get(entity.getLocation());
 	}
-	
+
 	public Collection<NovaRegion> getRegions() {
 		Collection<NovaRegion> regions = new HashSet<>();
 
@@ -94,7 +96,7 @@ public class RegionManager {
 
 		return regions;
 	}
-	
+
 	public void load() {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			guild.setRegion(null);
@@ -104,37 +106,39 @@ public class RegionManager {
 
 		LoggerUtils.info("Loaded " + getRegions().size() + " regions.");
 	}
-	
+
 	public void save(NovaRegion region) {
 		getResourceManager().save(region);
 	}
-	
+
 	public void save() {
 		long startTime = System.nanoTime();
-
 		int count = getResourceManager().save(getRegions());
-
 		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
+
+		startTime = System.nanoTime();
+		count = getResourceManager().executeRemoval();
+		LoggerUtils.info("Regions removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
-	
+
 	//delete region
 	public void remove(NovaRegion region) {
-		getResourceManager().remove(region);
+		getResourceManager().addToRemovalQueue(region);
 
 		if(region.getGuild() != null) {
 			region.getGuild().setRegion(null);
 		}
 	}
-	
+
 	public RegionValidity checkRegionSelect(Location l1, Location l2) {
 		int x1 = l1.getBlockX();
 		int x2 = l2.getBlockX();
 		int z1 = l1.getBlockZ();
 		int z2 = l2.getBlockZ();
-		
+
 		int difX = Math.abs(x1 - x2) + 1;
 		int difZ = Math.abs(z1 - z2) + 1;
-		
+
 		int minSize = Config.REGION_MINSIZE.getInt();
 		int maxSize = Config.REGION_MAXSIZE.getInt();
 
@@ -154,27 +158,27 @@ public class RegionManager {
 			return RegionValidity.VALID;
 		}
 	}
-	
+
 	public List<NovaRegion> getRegionsInsideArea(Location l1, Location l2) {
 		ArrayList<NovaRegion> list = new ArrayList<>();
 		int x1 = l1.getBlockX();
 		int x2 = l2.getBlockX();
 		int z1 = l1.getBlockZ();
 		int z2 = l2.getBlockZ();
-		
+
 		boolean i1;
 		boolean i2;
 		boolean i3;
 		boolean i4;
-		
+
 		boolean ov1;
 		boolean ov2;
 		boolean overlaps;
-		
+
 		for(NovaRegion region : getRegions()) {
 			Location c1 = region.getCorner(0);
 			Location c2 = region.getCorner(1);
-			
+
 			//c1
 			i1 = (c1.getBlockX() <= x1 && c1.getBlockX() >= x2) || (c1.getBlockX() >= x1 && c1.getBlockX() <= x2);
 			i2 = (c1.getBlockZ() <= z1 && c1.getBlockZ() >= z2) || (c1.getBlockZ() >= z1 && c1.getBlockZ() <= z2);
@@ -182,17 +186,17 @@ public class RegionManager {
 			//c2
 			i3 = (c2.getBlockX() <= x1 && c2.getBlockX() >= x2) || (c2.getBlockX() >= x1 && c2.getBlockX() <= x2);
 			i4 = (c2.getBlockZ() <= z1 && c2.getBlockZ() >= z2) || (c2.getBlockZ() >= z1 && c2.getBlockZ() <= z2);
-			
+
 			ov1 = i1 && i2;
 			ov2 = i3 && i4;
-			
+
 			overlaps = ov1 || ov2;
-			
+
 			if(overlaps) {
 				list.add(region);
 			}
 		}
-		
+
 		return list;
 	}
 
@@ -244,12 +248,17 @@ public class RegionManager {
 		return list;
 	}
 
-	public void playerEnteredRegion(Player player, Location toLocation) {
-		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
+	public void playerEnteredRegion(Player player, NovaRegion region) {
+		PlayerEnterRegionEvent regionEvent = new PlayerEnterRegionEvent(player, region);
+		plugin.getServer().getPluginManager().callEvent(regionEvent);
+
+		if(regionEvent.isCancelled()) {
 			return;
 		}
 
-		NovaRegion region = get(toLocation);
+		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
+			return;
+		}
 
 		if(region == null) {
 			return;
@@ -292,6 +301,13 @@ public class RegionManager {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		NovaRegion region = nPlayer.getAtRegion();
 
+		PlayerExitRegionEvent regionEvent = new PlayerExitRegionEvent(player, region);
+		plugin.getServer().getPluginManager().callEvent(regionEvent);
+
+		if(regionEvent.isCancelled()) {
+			return;
+		}
+
 		if(region == null) {
 			return;
 		}
@@ -311,6 +327,11 @@ public class RegionManager {
 			return;
 		}
 
+		if(nPlayer.getAtRegion().getGuild().getHome().distance(nPlayer.getPlayer().getLocation()) > nPlayer.getAtRegion().getDiagonal()) {
+			LoggerUtils.debug(nPlayer.getAtRegion().getGuild().getHome().distance(nPlayer.getPlayer().getLocation()) + " > " + nPlayer.getAtRegion().getDiagonal());
+			return;
+		}
+
 		NovaGuild guildDefender = nPlayer.getAtRegion().getGuild();
 
 		if(nPlayer.getGuild().isWarWith(guildDefender)) {
@@ -325,10 +346,10 @@ public class RegionManager {
 							guildDefender.createRaid(nPlayer.getGuild());
 							guildDefender.getRaid().addPlayerOccupying(nPlayer);
 
-							if(!NovaGuilds.isRaidRunnableRunning()) {
+							if(!RunnableRaid.isRaidRunnableRunning()) {
 								Runnable task = new RunnableRaid();
 								NovaGuilds.runTaskLater(task, 1, TimeUnit.SECONDS);
-								NovaGuilds.setRaidRunnableRunning(true);
+								RunnableRaid.setRaidRunnableRunning(true);
 							}
 						}
 						else {

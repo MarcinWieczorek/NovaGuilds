@@ -91,14 +91,14 @@ public interface RegionSelection {
 	List<NovaPlayer> getPlayerList();
 
 	/**
-	 * Gets region validy enum if present
+	 * Gets region validity enum if present
 	 *
 	 * @return the validity enum
 	 */
 	RegionValidity getValidity();
 
 	/**
-	 * Chcecks if the region is valid
+	 * Checks if the region is valid
 	 *
 	 * @return boolean
 	 */

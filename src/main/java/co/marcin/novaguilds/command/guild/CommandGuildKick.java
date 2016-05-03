@@ -44,26 +44,26 @@ public class CommandGuildKick extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		
+
 		if(!nPlayer.hasGuild()) {
 			Message.CHAT_GUILD_NOTINGUILD.send(sender);
 			return;
 		}
-		
+
 		NovaGuild guild = nPlayer.getGuild();
-		
+
 		if(!nPlayer.hasPermission(GuildPermission.KICK)) {
 			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
-		
+
 		if(args.length == 0) {
 			Message.CHAT_PLAYER_ENTERNAME.send(sender);
 			return;
 		}
-		
+
 		NovaPlayer nPlayerKick = PlayerManager.getPlayer(args[0]);
-		
+
 		if(nPlayerKick == null) {
 			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
 			return;
@@ -73,7 +73,7 @@ public class CommandGuildKick extends AbstractCommandExecutor {
 			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
 			return;
 		}
-		
+
 		if(!nPlayerKick.getGuild().getName().equalsIgnoreCase(guild.getName())) {
 			Message.CHAT_PLAYER_NOTINYOURGUILD.send(sender);
 			return;
@@ -83,7 +83,7 @@ public class CommandGuildKick extends AbstractCommandExecutor {
 			Message.CHAT_GUILD_KICKYOURSELF.send(sender);
 			return;
 		}
-		
+
 		//all passed
 		guild.removePlayer(nPlayerKick);
 		nPlayerKick.cancelToolProgress();
@@ -91,12 +91,12 @@ public class CommandGuildKick extends AbstractCommandExecutor {
 		if(nPlayerKick.isOnline()) {
 			guild.hideVaultHologram(nPlayerKick.getPlayer());
 		}
-		
+
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYERNAME, nPlayerKick.getName());
 		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
-		
+
 		//tab/tag
 		TagUtils.refresh();
 		TabUtils.refresh();

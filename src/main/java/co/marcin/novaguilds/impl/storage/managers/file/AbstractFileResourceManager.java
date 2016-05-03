@@ -39,8 +39,13 @@ public abstract class AbstractFileResourceManager<T extends Resource> extends Ab
 
 	@Override
 	public void add(T t) {
-		createFileIfNotExists(getFile(t));
-		t.setAdded();
+		try {
+			createFileIfNotExists(getFile(t));
+			t.setAdded();
+		}
+		catch(IOException e) {
+			LoggerUtils.exception(e);
+		}
 	}
 
 	/**
@@ -80,22 +85,14 @@ public abstract class AbstractFileResourceManager<T extends Resource> extends Ab
 	 * Creates file if doesn't exist
 	 *
 	 * @param file the file
-	 * @return true if succeeded
+	 * @throws IOException if failed
 	 */
-	private boolean createFileIfNotExists(File file) {
+	private void createFileIfNotExists(File file) throws IOException {
 		if(!file.exists()) {
-			try {
-				if(!file.createNewFile()) {
-					throw new IOException("File creating failed (" + file.getPath() + ")");
-				}
-			}
-			catch(IOException e) {
-				LoggerUtils.exception(e);
-				return false;
+			if(!file.createNewFile()) {
+				throw new IOException("File creating failed (" + file.getPath() + ")");
 			}
 		}
-
-		return true;
 	}
 
 	/**

@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.storage.Database;
+import co.marcin.novaguilds.api.util.DatabaseAnalyzer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.PreparedStatements;
@@ -26,9 +27,10 @@ import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerGuildI
 import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerPlayerImpl;
 import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerRankImpl;
 import co.marcin.novaguilds.impl.storage.managers.database.ResourceManagerRegionImpl;
+import co.marcin.novaguilds.impl.util.DatabaseAnalyzerImpl;
 import co.marcin.novaguilds.util.IOUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.tableanalyzer.TableAnalyzer;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -130,7 +132,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatementMap.put(PreparedStatements.GUILDS_DELETE, guildsDelete);
 
 			//Guilds update
-			String guildsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=?, `openinv`=? WHERE `id`=?";
+			String guildsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=?, `openinv`=?, `banner`=? WHERE `id`=?";
 			PreparedStatement guildsUpdate = getConnection().prepareStatement(guildsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
@@ -237,17 +239,10 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	 *
 	 * @return boolean
 	 */
-	protected boolean checkTables() {
-		try {
-			DatabaseMetaData md = getConnection().getMetaData();
-			ResultSet rs = md.getTables(null, null, Config.MYSQL_PREFIX.getString() + "%", null);
-			return rs.next();
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
-
-		return false;
+	protected boolean checkTables() throws SQLException {
+		DatabaseMetaData md = getConnection().getMetaData();
+		ResultSet rs = md.getTables(null, null, Config.MYSQL_PREFIX.getString() + "%", null);
+		return rs.next();
 	}
 
 	/**
@@ -267,11 +262,12 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	protected void analyze() {
 		try {
 			LoggerUtils.info("Analyzing the database...");
-			TableAnalyzer analyzer = new TableAnalyzer(getConnection());
+			DatabaseAnalyzer analyzer = new DatabaseAnalyzerImpl(getConnection());
 
 			for(String action : getSqlActions()) {
 				if(action.contains("CREATE TABLE")) {
-					String table = org.apache.commons.lang.StringUtils.split(action, '`')[1];
+					String table = StringUtils.split(action, '`')[1];
+					LoggerUtils.info(" Table: " + table);
 					analyzer.analyze(table, action);
 					analyzer.update();
 				}
@@ -291,12 +287,12 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 		InputStream inputStream = plugin.getResource("sql/" + (plugin.getConfigManager().getDataStorageType() == DataStorageType.MYSQL ? "mysql" : "sqlite") + ".sql");
 		String sqlString = IOUtils.inputStreamToString(inputStream);
 
-		if(sqlString == null || sqlString.isEmpty() || !sqlString.contains("--")) {
+		if(sqlString.isEmpty() || !sqlString.contains("--")) {
 			LoggerUtils.error("Invalid SQL");
 			return new String[0];
 		}
 
-		sqlString = org.apache.commons.lang.StringUtils.replace(sqlString, "{SQLPREFIX}", Config.MYSQL_PREFIX.getString());
+		sqlString = StringUtils.replace(sqlString, "{SQLPREFIX}", Config.MYSQL_PREFIX.getString());
 		return sqlString.split("--");
 	}
 }

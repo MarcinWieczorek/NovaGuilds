@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.util.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_8;
 
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
@@ -29,17 +29,21 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class PacketExtension1_8Impl implements PacketExtension {
+@SuppressWarnings("ConstantConditions")
+public class PacketExtensionImpl implements PacketExtension {
 	private static Reflections.FieldAccessor<Channel> clientChannel;
 	private static Field playerConnection;
 	private static Field networkManager;
 	private static Method handleMethod;
+	protected static Class<?> packetClass;
+	protected static Class<?> craftPlayerClass;
 
 	static {
 		try {
@@ -47,6 +51,8 @@ public class PacketExtension1_8Impl implements PacketExtension {
 			playerConnection = Reflections.getField(Reflections.getCraftClass("EntityPlayer"), "playerConnection");
 			networkManager = Reflections.getField(Reflections.getCraftClass("PlayerConnection"), "networkManager");
 			handleMethod = Reflections.getMethod(Reflections.getBukkitClass("entity.CraftEntity"), "getHandle");
+			packetClass = Reflections.getCraftClass("Packet");
+			craftPlayerClass = Reflections.getBukkitClass("entity.CraftPlayer");
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -72,55 +78,73 @@ public class PacketExtension1_8Impl implements PacketExtension {
 
 	@Override
 	public void registerPlayer(final Player player) {
-		try {
-			Channel c = getChannel(player);
-			ChannelHandler handler = new ChannelDuplexHandler() {
-				@Override
-				public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+		Channel c = getChannel(player);
+		ChannelHandler handler = new ChannelDuplexHandler() {
+			@Override
+			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+				if(msg == null) {
+					return;
+				}
+
+				super.write(ctx, msg, promise);
+			}
+
+			@Override
+			public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+				try {
 					if(msg == null) {
 						return;
 					}
 
-					super.write(ctx, msg, promise);
-				}
+					PacketReceiveEvent event = callEvent(new PacketReceiveEvent(msg, player));
 
-				@Override
-				public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-					try {
-						if(msg == null) {
-							return;
-						}
-
-						PacketReceiveEvent event = callEvent(new PacketReceiveEvent(msg, player));
-
-						if(event.isCancelled() || event.getPacket() == null) {
-							return;
-						}
-						super.channelRead(ctx, event.getPacket());
+					if(event.isCancelled() || event.getPacket() == null) {
+						return;
 					}
-					catch(Exception e) {
-						super.channelRead(ctx, msg);
-					}
+					super.channelRead(ctx, event.getPacket());
 				}
-			};
-			ChannelPipeline cp = c.pipeline();
-			if(cp.names().contains("packet_handler")) {
-				if(cp.names().contains("NovaGuilds")) {
-					cp.replace("NovaGuilds", "NovaGuilds", handler);
-				}
-				else {
-					cp.addBefore("packet_handler", "NovaGuilds", handler);
+				catch(Exception e) {
+					super.channelRead(ctx, msg);
 				}
 			}
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
+		};
+
+		ChannelPipeline cp = c.pipeline();
+		if(cp.names().contains("packet_handler")) {
+			if(cp.names().contains("NovaGuilds")) {
+				cp.replace("NovaGuilds", "NovaGuilds", handler);
+			}
+			else {
+				cp.addBefore("packet_handler", "NovaGuilds", handler);
+			}
 		}
 	}
 
 	@Override
 	public void unregisterChannel() {
 
+	}
+
+	@Override
+	public void sendPacket(Player player, Object... packets) {
+		try {
+			Validate.notNull(craftPlayerClass);
+			Object craftPlayer = craftPlayerClass.cast(player);
+			Object handle = craftPlayerClass.getMethod("getHandle").invoke(craftPlayer);
+			Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+			Method sendPacketMethod = playerConnection.getClass().getMethod("sendPacket", packetClass);
+
+			for(Object packet : packets) {
+				if(packet == null) {
+					continue;
+				}
+
+				sendPacketMethod.invoke(playerConnection, packet);
+			}
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
+		}
 	}
 
 	/**

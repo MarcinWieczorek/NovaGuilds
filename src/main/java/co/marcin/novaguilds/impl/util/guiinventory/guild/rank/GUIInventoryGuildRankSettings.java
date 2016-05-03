@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.util.guiinventory.guild.rank;
 
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.enums.Config;
@@ -39,7 +40,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private final NovaRank rank;
-	private final NovaGuild guild;
 
 	private ItemStack editPermissionsItem;
 	private ItemStack setDefaultItem;
@@ -56,7 +56,6 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	public GUIInventoryGuildRankSettings(NovaRank rank) {
 		super(9, Message.INVENTORY_GUI_RANK_SETTINGS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
-		this.guild = rank.getGuild();
 	}
 
 	@Override
@@ -68,8 +67,11 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		}
 		else if(clickedItemStack.equals(setDefaultItem)) {
 			NovaRank clonedRank = rank;
-			if(rank.isGeneric() && !RankManager.getDefaultRank().equals(rank)) {
+			if(rank.isGeneric()) {
 				clonedRank = cloneRank();
+			}
+			else {
+				rank.setDefault(false);
 			}
 
 			if(!getGuild().getDefaultRank().isGeneric()) {
@@ -77,10 +79,19 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			}
 
 			clonedRank.setDefault(true);
+
+			if(rank.isGeneric()) {
+				close();
+				new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
+				return;
+			}
+
 			generateContent();
 		}
 		else if(clickedItemStack.equals(cloneItem)) {
-			cloneRank();
+			NovaRank clonedRank = cloneRank();
+			close();
+			new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
 		}
 		else if(clickedItemStack.equals(renameItem)) {
 			if(Config.SIGNGUI_ENABLED.getBoolean()) {
@@ -116,11 +127,13 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		deleteItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.getItemStack();
 		memberListItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.getItemStack();
 
+		boolean isLeaderRank = RankManager.getLeaderRank().equals(rank);
+
 		if(!rank.isGeneric()) {
 			add(editPermissionsItem);
 		}
 
-		if(!rank.equals(getGuild().getDefaultRank()) && !RankManager.getLeaderRank().equals(rank)) {
+		if((rank.isGeneric() || !rank.equals(getGuild().getDefaultRank())) && !isLeaderRank) {
 			add(setDefaultItem);
 		}
 
@@ -130,9 +143,6 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 
 		if(!rank.isGeneric()) {
 			add(renameItem);
-		}
-
-		if(!rank.isGeneric()) {
 			add(deleteItem);
 		}
 
@@ -149,7 +159,19 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	 * @return the guild
 	 */
 	public NovaGuild getGuild() {
-		return guild;
+		if(rank.isGeneric()) {
+			GUIInventory previousGui = getViewer().getGuiInventoryHistory().get(getViewer().getGuiInventoryHistory().size() - 2);
+
+			if(previousGui instanceof GUIInventoryGuildRankList) {
+				return ((GUIInventoryGuildRankList) previousGui).getGuild();
+			}
+			else {
+				return getViewer().getGuild();
+			}
+		}
+		else {
+			return rank.getGuild();
+		}
 	}
 
 	/**
@@ -169,17 +191,8 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			}
 		}
 
-		NovaRank clone = new NovaRankImpl(cloneName);
-		clone.setClone(rank.isGeneric());
-		NovaGuild guild;
-
-		if(rank.isGeneric()) {
-			GUIInventory previousGui = getViewer().getGuiInventoryHistory().get(getViewer().getGuiInventoryHistory().size() - 2);
-			guild = ((GUIInventoryGuildRankList) previousGui).getGuild();
-		}
-		else {
-			guild = rank.getGuild();
-		}
+		NovaRank clone = new NovaRankImpl(rank);
+		NovaGuild guild = getGuild();
 
 		boolean doubleName;
 		int i = 1;
@@ -202,8 +215,14 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 			i++;
 		} while(doubleName);
 
-		clone.setPermissions(rank.getPermissions());
 		guild.addRank(clone);
+
+		//Move players
+		for(NovaPlayer nPlayer : rank.getMembers()) {
+			rank.removeMember(nPlayer);
+			clone.addMember(nPlayer);
+		}
+
 		return clone;
 	}
 }

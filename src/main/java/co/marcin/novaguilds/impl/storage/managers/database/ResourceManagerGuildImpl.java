@@ -5,6 +5,7 @@ import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
+import co.marcin.novaguilds.util.BannerUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
@@ -117,6 +118,7 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 				guild.setHome(homeLocation);
 				guild.setVaultLocation(vaultLocation);
 				guild.setSlots(res.getInt("slots"));
+				guild.setBannerMeta(BannerUtils.deserialize(res.getString("banner")));
 
 				guild.setAlliesNames(allies);
 				guild.setAllyInvitationNames(allyInvitationList);
@@ -191,8 +193,9 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 			preparedStatement.setString(15, vaultLocationString);
 			preparedStatement.setInt(16, guild.getSlots());
 			preparedStatement.setBoolean(17, guild.isOpenInvitation());
+			preparedStatement.setString(18, BannerUtils.serialize(guild.getBannerMeta()));
 
-			preparedStatement.setInt(18, guild.getId());
+			preparedStatement.setInt(19, guild.getId());
 
 			preparedStatement.executeUpdate();
 			guild.setUnchanged();

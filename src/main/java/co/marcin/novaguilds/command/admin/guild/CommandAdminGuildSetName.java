@@ -44,17 +44,17 @@ public class CommandAdminGuildSetName extends AbstractCommandExecutor.Reversed<N
 		}
 
 		String newName = args[0];
-		
+
 		if(newName.length() < Config.GUILD_SETTINGS_NAME_MIN.getInt()) { //too short name
 			Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
 			return;
 		}
-		
+
 		if(newName.length() > Config.GUILD_SETTINGS_NAME_MAX.getInt()) { //too long name
 			Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
 			return;
 		}
-		
+
 		if(plugin.getGuildManager().exists(newName)) { //name exists
 			Message.CHAT_CREATEGUILD_NAMEEXISTS.send(sender);
 			return;

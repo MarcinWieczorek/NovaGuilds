@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class CommandGuildJoin extends AbstractCommandExecutor implements CommandExecutor {
 	private static final Command command = Command.GUILD_JOIN;
-	
+
 	public CommandGuildJoin() {
 		super(command);
 	}
@@ -58,7 +58,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor implements Command
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		List<NovaGuild> invitedTo = nPlayer.getInvitedTo();
-		
+
 		if(nPlayer.hasGuild()) {
 			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
 			return;

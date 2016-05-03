@@ -48,7 +48,7 @@ public class NovaGroupImpl implements NovaGroup {
 	private double guildHomeMoney = 0;
 
 	private final List<ItemStack> guildJoinItems = new ArrayList<>();
-	private double guildJoinMoney;
+	private double guildJoinMoney = 0;
 
 	private final List<ItemStack> guildEffectItems = new ArrayList<>();
 	private double guildEffectPrice = 0;
@@ -60,6 +60,9 @@ public class NovaGroupImpl implements NovaGroup {
 
 	private final List<ItemStack> guildBuySlotItems = new ArrayList<>();
 	private double guildBuySlotMoney = 0;
+
+	private final List<ItemStack> guildBuyBannerItems = new ArrayList<>();
+	private double guildBuyBannerMoney = 0;
 
 	private double regionPricePerBlock = 0;
 	private double regionCreateMoney = 0;
@@ -100,6 +103,9 @@ public class NovaGroupImpl implements NovaGroup {
 
 		guildBuySlotItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.buyslot.items")));
 		guildBuySlotMoney = section.getDouble("guild.buyslot.money");
+
+		guildBuyBannerItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.banner.items")));
+		guildBuyBannerMoney = section.getDouble("guild.banner.money");
 
 		//Schematic
 		String schematicName = section.getString("guild.create.schematic");
@@ -194,5 +200,15 @@ public class NovaGroupImpl implements NovaGroup {
 
 	public double getGuildEffectPrice() {
 		return guildEffectPrice;
+	}
+
+	@Override
+	public List<ItemStack> getGuildBuyBannerItems() {
+		return guildBuyBannerItems;
+	}
+
+	@Override
+	public double getGuildBuyBannerMoney() {
+		return guildBuyBannerMoney;
 	}
 }
