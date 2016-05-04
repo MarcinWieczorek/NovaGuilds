@@ -201,7 +201,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 					InventoryUtils.removeItems(player, items);
 
 					//update tag and tabs
-					TagUtils.refresh((Player) sender);
+					TagUtils.refresh();
 					TabUtils.refresh(nPlayer);
 
 					//Update holograms

@@ -84,7 +84,7 @@ public class LoginListener extends AbstractListener {
 				player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			}
 
-			TagUtils.refresh(player);
+			TagUtils.refresh();
 		}
 
 		//PacketExtension

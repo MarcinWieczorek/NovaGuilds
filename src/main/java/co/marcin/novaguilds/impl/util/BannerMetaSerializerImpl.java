@@ -12,6 +12,10 @@ import org.bukkit.inventory.meta.BannerMeta;
 public class BannerMetaSerializerImpl implements BannerMetaSerializer {
 	@Override
 	public String serialize(BannerMeta bannerMeta) {
+		if(bannerMeta == null) {
+			return "";
+		}
+
 		StringBuilder builder = new StringBuilder();
 
 		builder.append((bannerMeta.getBaseColor() == null ? DyeColor.BLACK : bannerMeta.getBaseColor()).name());
