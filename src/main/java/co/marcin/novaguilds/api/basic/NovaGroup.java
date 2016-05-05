@@ -24,48 +24,56 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public interface NovaGroup {
+	enum Key {
+		CREATE_MONEY(Type.DOUBLE),
+		CREATE_ITEMS(Type.ITEMSTACKLIST),
+
+		HOME_DELAY(Type.INTEGER),
+		HOME_MONEY(Type.DOUBLE),
+		HOME_ITEMS(Type.ITEMSTACKLIST),
+
+		JOIN_MONEY(Type.DOUBLE),
+		JOIN_ITEMS(Type.ITEMSTACKLIST),
+
+		EFFECT_MONEY(Type.DOUBLE),
+		EFFECT_ITEMS(Type.ITEMSTACKLIST),
+
+		BUY_LIFE_MONEY(Type.DOUBLE),
+		BUY_LIFE_ITEMS(Type.ITEMSTACKLIST),
+
+		BUY_SLOT_MONEY(Type.DOUBLE),
+		BUY_SLOT_ITEMS(Type.ITEMSTACKLIST),
+
+		BUY_BANNER_MONEY(Type.DOUBLE),
+		BUY_BANNER_ITEMS(Type.ITEMSTACKLIST),
+
+		REGION_CREATE_MONEY(Type.DOUBLE),
+		REGION_PRICEPERBLOCK(Type.DOUBLE),
+		REGION_AUTOSIZE(Type.INTEGER);
+
+		private final Type type;
+
+		public enum Type {
+			ITEMSTACKLIST,
+			DOUBLE,
+			INTEGER
+		}
+
+		Key(Type type) {
+			this.type = type;
+		}
+
+		public Type getType() {
+			return type;
+		}
+	}
+
 	/**
 	 * Get group's name
 	 *
 	 * @return name
 	 */
 	String getName();
-
-	/**
-	 * Get teleport delay
-	 *
-	 * @return teleport delay in seconds
-	 */
-	int getGuildTeleportDelay();
-
-	/**
-	 * Get auto-region's size
-	 * The size is one side's of a square length in blocks
-	 *
-	 * @return size
-	 */
-	int getRegionAutoSize();
-
-	/**
-	 * Get the amount of money required to create a guild
-	 *
-	 * @return money
-	 */
-	double getGuildCreateMoney();
-
-	/**
-	 * Get the price of one block of region's surface
-	 *
-	 * @return money
-	 */
-	double getRegionPricePerBlock();
-
-	/**
-	 * Get the price of creating a region (without surface cost)
-	 *
-	 * @return money
-	 */
-	double getRegionCreateMoney();
 
 	/**
 	 * Gets the schematic that gets pasted
@@ -76,93 +84,26 @@ public interface NovaGroup {
 	Schematic getCreateSchematic();
 
 	/**
-	 * Get the list of items required to create a guild
+	 * Gets a double
 	 *
-	 * @return list of items
+	 * @param key the key
+	 * @return double value
 	 */
-	List<ItemStack> getGuildCreateItems();
+	double getDouble(Key key);
 
 	/**
-	 * Get the price of teleporting to guild's home
+	 * Gets an int
 	 *
-	 * @return money
+	 * @param key the key
+	 * @return integer value
 	 */
-	double getGuildHomeMoney();
+	int getInt(Key key);
 
 	/**
-	 * Get the list of items required to teleport to guild's home
+	 * Gets an ItemStack list
 	 *
-	 * @return list of items
+	 * @param key the key
+	 * @return ItemStack list
 	 */
-	List<ItemStack> getGuildHomeItems();
-
-	/**
-	 * Get the price of joining a guild
-	 *
-	 * @return money
-	 */
-	double getGuildJoinMoney();
-
-	/**
-	 * Get the list of items required to join a guild
-	 *
-	 * @return list of items
-	 */
-	List<ItemStack> getGuildJoinItems();
-
-	/**
-	 * Get the price of buying a life
-	 *
-	 * @return money
-	 */
-	double getGuildBuylifeMoney();
-
-	/**
-	 * Get the list of items required to buy a life
-	 *
-	 * @return list of items
-	 */
-	List<ItemStack> getGuildBuylifeItems();
-
-	/**
-	 * Get the list of items required to buy a slot
-	 *
-	 * @return list of items
-	 */
-	List<ItemStack> getGuildBuySlotItems();
-
-	/**
-	 * Get the price of buying a slot
-	 *
-	 * @return money
-	 */
-	double getGuildBuySlotMoney();
-
-	/**
-	 * Get the list of items required to buy an effect
-	 *
-	 * @return list of items
-	 */
-	List<ItemStack> getGuildEffectItems();
-
-	/**
-	 * Get the price of buying an effect
-	 *
-	 * @return money
-	 */
-	double getGuildEffectPrice();
-
-	/**
-	 * Gets the list of items required to buy a banner
-	 *
-	 * @return list of items
-	 */
-	List<ItemStack> getGuildBuyBannerItems();
-
-	/**
-	 * Get the price of buying a banner
-	 *
-	 * @return money
-	 */
-	double getGuildBuyBannerMoney();
+	List<ItemStack> getItemStackList(Key key);
 }

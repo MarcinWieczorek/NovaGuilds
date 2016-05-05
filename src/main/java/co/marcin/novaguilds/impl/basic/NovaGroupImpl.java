@@ -30,7 +30,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * NovaGroup - a configurable group for players
@@ -40,33 +42,30 @@ import java.util.List;
 public class NovaGroupImpl implements NovaGroup {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
+	private final Map<Key, Object> values = new HashMap<>();
+
+	private static final Map<Key, String> paths = new HashMap<Key, String>() {{
+		put(Key.CREATE_MONEY, "guild.create.money");
+		put(Key.CREATE_ITEMS, "guild.create.items");
+		put(Key.HOME_DELAY, "guild.home.tpdelay");
+		put(Key.HOME_MONEY, "guild.home.money");
+		put(Key.HOME_ITEMS, "guild.home.items");
+		put(Key.JOIN_MONEY, "guild.join.money");
+		put(Key.JOIN_ITEMS, "guild.join.items");
+		put(Key.EFFECT_MONEY, "guild.effect.money");
+		put(Key.EFFECT_ITEMS, "guild.effect.items");
+		put(Key.BUY_LIFE_MONEY, "guild.buylife.money");
+		put(Key.BUY_LIFE_ITEMS, "guild.buylife.items");
+		put(Key.BUY_SLOT_MONEY, "guild.buyslot.money");
+		put(Key.BUY_SLOT_ITEMS, "guild.buyslot.items");
+		put(Key.BUY_BANNER_MONEY, "guild.banner.money");
+		put(Key.BUY_BANNER_ITEMS, "guild.banner.items");
+		put(Key.REGION_CREATE_MONEY, "region.createmoney");
+		put(Key.REGION_PRICEPERBLOCK, "region.ppb");
+		put(Key.REGION_AUTOSIZE, "region.autoregionsize");
+	}};
+
 	private final String name;
-	private double guildCreateMoney = 0;
-	private final List<ItemStack> guildCreateItems = new ArrayList<>();
-
-	private final List<ItemStack> guildHomeItems = new ArrayList<>();
-	private double guildHomeMoney = 0;
-
-	private final List<ItemStack> guildJoinItems = new ArrayList<>();
-	private double guildJoinMoney = 0;
-
-	private final List<ItemStack> guildEffectItems = new ArrayList<>();
-	private double guildEffectPrice = 0;
-
-	private int guildTeleportDelay = 0;
-
-	private final List<ItemStack> guildBuylifeItems = new ArrayList<>();
-	private double guildBuylifeMoney = 0;
-
-	private final List<ItemStack> guildBuySlotItems = new ArrayList<>();
-	private double guildBuySlotMoney = 0;
-
-	private final List<ItemStack> guildBuyBannerItems = new ArrayList<>();
-	private double guildBuyBannerMoney = 0;
-
-	private double regionPricePerBlock = 0;
-	private double regionCreateMoney = 0;
-	private int regionAutoSize = 0;
 	private Schematic schematic;
 
 	/**
@@ -80,32 +79,32 @@ public class NovaGroupImpl implements NovaGroup {
 
 		//setting all values
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups." + group);
-		guildCreateItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.create.items")));
-		guildCreateMoney = section.getDouble("guild.create.money");
 
-		guildTeleportDelay = section.getInt("guild.home.tpdelay");
+		for(Key key : Key.values()) {
+			if(!section.contains(paths.get(key)) && values.get(key) != null) {
+				continue;
+			}
 
-		guildHomeItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.home.items")));
-		guildJoinItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.join.items")));
+			Object value = null;
 
-		regionPricePerBlock = section.getDouble("region.ppb");
-		regionCreateMoney = section.getDouble("region.createmoney");
-		regionAutoSize = section.getInt("region.autoregionsize");
+			switch(key.getType()) {
+				case DOUBLE:
+					value = section.getDouble(paths.get(key));
+					break;
+				case INTEGER:
+					value = section.getInt(paths.get(key));
+					break;
+				case ITEMSTACKLIST:
+					value = ItemStackUtils.stringToItemStackList(section.getStringList(paths.get(key)));
 
-		guildHomeMoney = section.getDouble("guild.home.money");
-		guildJoinMoney = section.getDouble("guild.join.money");
+					if(value == null) {
+						value = new ArrayList<ItemStack>();
+					}
+					break;
+			}
 
-		guildEffectItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.effect.items")));
-		guildEffectPrice = section.getDouble("guild.effect.money");
-
-		guildBuylifeItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.buylife.items")));
-		guildBuylifeMoney = section.getDouble("guild.buylife.money");
-
-		guildBuySlotItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.buyslot.items")));
-		guildBuySlotMoney = section.getDouble("guild.buyslot.money");
-
-		guildBuyBannerItems.addAll(ItemStackUtils.stringToItemStackList(section.getStringList("guild.banner.items")));
-		guildBuyBannerMoney = section.getDouble("guild.banner.money");
+			values.put(key, value);
+		}
 
 		//Schematic
 		String schematicName = section.getString("guild.create.schematic");
@@ -118,97 +117,44 @@ public class NovaGroupImpl implements NovaGroup {
 			}
 		}
 
-		int autoRegionWidth = regionAutoSize * 2 + 1;
+		int autoRegionWidth = getInt(Key.REGION_AUTOSIZE) * 2 + 1;
 		if(autoRegionWidth > Config.REGION_MAXSIZE.getInt()) {
-			regionAutoSize = Config.REGION_MAXSIZE.getInt() / 2 - 1;
-			LoggerUtils.error("Group " + name + " has too big autoregion. Reset to " + regionAutoSize);
+			values.put(Key.REGION_AUTOSIZE, Config.REGION_MAXSIZE.getInt() / 2 - 1);
+			LoggerUtils.error("Group " + name + " has too big autoregion. Reset to " + getInt(Key.REGION_AUTOSIZE));
 		}
 
 		if(autoRegionWidth < Config.REGION_MINSIZE.getInt()) {
-			regionAutoSize = Config.REGION_MINSIZE.getInt() / 2;
-			LoggerUtils.error("Group " + name + " has too small autoregion. Reset to " + regionAutoSize);
+			values.put(Key.REGION_AUTOSIZE, Config.REGION_MINSIZE.getInt() / 2);
+			LoggerUtils.error("Group " + name + " has too small autoregion. Reset to " + getInt(Key.REGION_AUTOSIZE));
 		}
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
-	public int getGuildTeleportDelay() {
-		return guildTeleportDelay;
-	}
-
-	public int getRegionAutoSize() {
-		return regionAutoSize;
-	}
-
-	public double getGuildCreateMoney() {
-		return guildCreateMoney;
-	}
-
-	public double getRegionPricePerBlock() {
-		return regionPricePerBlock;
-	}
-
-	public double getRegionCreateMoney() {
-		return regionCreateMoney;
-	}
-
+	@Override
 	public Schematic getCreateSchematic() {
 		return schematic;
 	}
 
-	public List<ItemStack> getGuildCreateItems() {
-		return guildCreateItems;
-	}
-
-	public double getGuildHomeMoney() {
-		return guildHomeMoney;
-	}
-
-	public List<ItemStack> getGuildHomeItems() {
-		return guildHomeItems;
-	}
-
-	public double getGuildJoinMoney() {
-		return guildJoinMoney;
-	}
-
-	public List<ItemStack> getGuildJoinItems() {
-		return guildJoinItems;
-	}
-
-	public double getGuildBuylifeMoney() {
-		return guildBuylifeMoney;
-	}
-
-	public List<ItemStack> getGuildBuylifeItems() {
-		return guildBuylifeItems;
-	}
-
-	public List<ItemStack> getGuildBuySlotItems() {
-		return guildBuySlotItems;
-	}
-
-	public double getGuildBuySlotMoney() {
-		return guildBuySlotMoney;
-	}
-
-	public List<ItemStack> getGuildEffectItems() {
-		return guildEffectItems;
-	}
-
-	public double getGuildEffectPrice() {
-		return guildEffectPrice;
+	public Object get(Key key) {
+		return values.get(key);
 	}
 
 	@Override
-	public List<ItemStack> getGuildBuyBannerItems() {
-		return guildBuyBannerItems;
+	public double getDouble(Key key) {
+		return (double) get(key);
 	}
 
 	@Override
-	public double getGuildBuyBannerMoney() {
-		return guildBuyBannerMoney;
+	public int getInt(Key key) {
+		return (int) get(key);
+	}
+
+	@Override
+	public List<ItemStack> getItemStackList(Key key) {
+		return (List<ItemStack>) get(key);
 	}
 }

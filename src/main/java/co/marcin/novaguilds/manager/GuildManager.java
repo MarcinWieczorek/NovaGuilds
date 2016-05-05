@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
@@ -355,11 +356,11 @@ public class GuildManager {
 
 	public void delayedTeleport(Player player, Location location, Message message) {
 		Runnable task = new RunnableTeleportRequest(player, location, message);
-		int delay = GroupManager.getGroup(player) == null ? 0 : GroupManager.getGroup(player).getGuildTeleportDelay();
+		int delay = GroupManager.getGroup(player) == null ? 0 : GroupManager.getGroup(player).getInt(NovaGroup.Key.HOME_DELAY);
 
 		if(delay > 0) {
 			Map<VarKey, String> vars = new HashMap<>();
-			vars.put(VarKey.DELAY, String.valueOf(GroupManager.getGroup(player).getGuildTeleportDelay()));
+			vars.put(VarKey.DELAY, String.valueOf(GroupManager.getGroup(player).getInt(NovaGroup.Key.HOME_DELAY)));
 			NovaGuilds.runTaskLater(task, delay, TimeUnit.SECONDS);
 			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
 		}

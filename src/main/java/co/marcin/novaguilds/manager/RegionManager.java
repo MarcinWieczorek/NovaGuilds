@@ -160,7 +160,7 @@ public class RegionManager {
 	}
 
 	public List<NovaRegion> getRegionsInsideArea(Location l1, Location l2) {
-		ArrayList<NovaRegion> list = new ArrayList<>();
+		List<NovaRegion> list = new ArrayList<>();
 		int x1 = l1.getBlockX();
 		int x2 = l2.getBlockX();
 		int z1 = l1.getBlockZ();

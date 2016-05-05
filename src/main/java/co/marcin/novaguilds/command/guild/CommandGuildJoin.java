@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.guild;
 
 
+import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
@@ -120,7 +121,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor implements Command
 		}
 
 		//items
-		List<ItemStack> joinItems = GroupManager.getGroup(sender).getGuildJoinItems();
+		List<ItemStack> joinItems = GroupManager.getGroup(sender).getItemStackList(NovaGroup.Key.JOIN_ITEMS);
 
 		if(!joinItems.isEmpty()) {
 			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), joinItems);
@@ -136,7 +137,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor implements Command
 		Map<VarKey, String> vars = new HashMap<>();
 
 		//money
-		double joinMoney = GroupManager.getGroup(sender).getGuildJoinMoney();
+		double joinMoney = GroupManager.getGroup(sender).getDouble(NovaGroup.Key.JOIN_MONEY);
 		if(joinMoney > 0 && !nPlayer.hasMoney(joinMoney)) {
 			vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
 			Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);

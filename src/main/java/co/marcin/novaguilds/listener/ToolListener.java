@@ -208,13 +208,13 @@ public class ToolListener extends AbstractListener {
 								int regionSize = RegionUtils.checkRegionSize(selectedLocation[0], selectedLocation[1]);
 								NovaGroup group = GroupManager.getGroup(nPlayer.getPlayer());
 								double price;
-								double ppb = group.getRegionPricePerBlock();
+								double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
 
 								if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
 									price = ppb * (regionSize - nPlayer.getGuild().getRegion().getSurface());
 								}
 								else {
-									price = ppb * regionSize + group.getRegionCreateMoney();
+									price = ppb * regionSize + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY);
 								}
 
 								vars.put(VarKey.SIZE, String.valueOf(regionSize));

@@ -56,8 +56,8 @@ public class CommandGuildBuyLife extends AbstractCommandExecutor {
 
 		NovaGroup group = GroupManager.getGroup(sender);
 
-		List<ItemStack> items = group.getGuildBuylifeItems();
-		double money = group.getGuildBuylifeMoney();
+		List<ItemStack> items = group.getItemStackList(NovaGroup.Key.BUY_LIFE_ITEMS);
+		double money = group.getDouble(NovaGroup.Key.BUY_LIFE_MONEY);
 
 		List<ItemStack> missingItems = InventoryUtils.getMissingItems(nPlayer.getPlayer().getInventory(), items);
 

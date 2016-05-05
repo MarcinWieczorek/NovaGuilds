@@ -123,19 +123,19 @@ public class CommandNovaGuilds extends AbstractCommandExecutor implements Comman
 				}
 
 				sender.sendMessage("name = " + group.getName());
-				sender.sendMessage("guildCreateMoney = " + group.getGuildCreateMoney());
-				sender.sendMessage("guildHomeMoney = " + group.getGuildHomeMoney());
-				sender.sendMessage("guildJoinMoney = " + group.getGuildJoinMoney());
-				sender.sendMessage("guildCreateItems = " + group.getGuildCreateItems().toString());
+				sender.sendMessage("guildCreateMoney = " + group.getDouble(NovaGroup.Key.CREATE_MONEY));
+				sender.sendMessage("guildHomeMoney = " + group.getDouble(NovaGroup.Key.HOME_MONEY));
+				sender.sendMessage("guildJoinMoney = " + group.getDouble(NovaGroup.Key.JOIN_MONEY));
+				sender.sendMessage("guildCreateItems = " + group.getItemStackList(NovaGroup.Key.CREATE_ITEMS).toString());
 				sender.sendMessage("guildCreateSchematic = " + (group.getCreateSchematic() == null ? "no schematic" : group.getCreateSchematic().getName()));
-				sender.sendMessage("guildHomeItems = " + group.getGuildHomeItems().toString());
-				sender.sendMessage("guildJoinItems = " + group.getGuildJoinItems().toString());
-				sender.sendMessage("guildEffectItems = " + group.getGuildEffectItems().toString());
-				sender.sendMessage("guildEffectMoney = " + group.getGuildEffectPrice());
-				sender.sendMessage("guildTeleportDelay = " + group.getGuildTeleportDelay() + "s");
-				sender.sendMessage("regionCreateMoney = " + group.getRegionCreateMoney());
-				sender.sendMessage("regionPricePerBlock = " + group.getRegionPricePerBlock());
-				sender.sendMessage("regionAutoSize = " + group.getRegionAutoSize());
+				sender.sendMessage("guildHomeItems = " + group.getItemStackList(NovaGroup.Key.HOME_ITEMS).toString());
+				sender.sendMessage("guildJoinItems = " + group.getItemStackList(NovaGroup.Key.JOIN_ITEMS).toString());
+				sender.sendMessage("guildEffectItems = " + group.getItemStackList(NovaGroup.Key.EFFECT_ITEMS).toString());
+				sender.sendMessage("guildEffectMoney = " + group.getDouble(NovaGroup.Key.EFFECT_MONEY));
+				sender.sendMessage("guildTeleportDelay = " + group.getInt(NovaGroup.Key.HOME_DELAY) + "s");
+				sender.sendMessage("regionCreateMoney = " + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY));
+				sender.sendMessage("regionPricePerBlock = " + group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK));
+				sender.sendMessage("regionAutoSize = " + group.getInt(NovaGroup.Key.REGION_AUTOSIZE));
 				break;
 			case "g":
 			case "guild":

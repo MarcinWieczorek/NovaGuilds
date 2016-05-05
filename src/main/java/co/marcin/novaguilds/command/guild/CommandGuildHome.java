@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
@@ -90,7 +91,7 @@ public class CommandGuildHome extends AbstractCommandExecutor {
 			}
 
 			//items
-			List<ItemStack> homeItems = GroupManager.getGroup(sender).getGuildHomeItems();
+			List<ItemStack> homeItems = GroupManager.getGroup(sender).getItemStackList(NovaGroup.Key.HOME_ITEMS);
 
 			if(!homeItems.isEmpty()) {
 				List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
@@ -104,7 +105,7 @@ public class CommandGuildHome extends AbstractCommandExecutor {
 			}
 
 			//money
-			double homeMoney = GroupManager.getGroup(sender).getGuildHomeMoney();
+			double homeMoney = GroupManager.getGroup(sender).getDouble(NovaGroup.Key.HOME_MONEY);
 			if(homeMoney > 0 && !nPlayer.hasMoney(homeMoney)) {
 				Message.CHAT_GUILD_NOTENOUGHMONEY.setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
 				return;

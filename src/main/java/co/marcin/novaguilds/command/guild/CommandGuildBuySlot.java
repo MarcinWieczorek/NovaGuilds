@@ -62,8 +62,8 @@ public class CommandGuildBuySlot extends AbstractCommandExecutor {
 		}
 
 		NovaGroup group = GroupManager.getGroup(sender);
-		double money = group.getGuildBuySlotMoney();
-		List<ItemStack> items = group.getGuildBuySlotItems();
+		double money = group.getDouble(NovaGroup.Key.BUY_SLOT_MONEY);
+		List<ItemStack> items = group.getItemStackList(NovaGroup.Key.BUY_SLOT_ITEMS);
 
 		if(money > 0 && !nPlayer.hasMoney(money)) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);

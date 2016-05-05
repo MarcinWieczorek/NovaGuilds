@@ -110,13 +110,13 @@ public class CommandRegionBuy extends AbstractCommandExecutor implements Command
 		//region's price
 		double price;
 		NovaGroup group = GroupManager.getGroup(sender);
-		double ppb = group.getRegionPricePerBlock();
+		double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
 
 		if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
 			price = ppb * (regionSize - guild.getRegion().getSurface());
 		}
 		else {
-			price = ppb * regionSize + group.getRegionCreateMoney();
+			price = ppb * regionSize + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY);
 		}
 
 		if(price > 0 && guild.getMoney() < price) {

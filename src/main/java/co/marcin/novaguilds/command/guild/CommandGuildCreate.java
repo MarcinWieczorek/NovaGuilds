@@ -134,8 +134,8 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 
 		//items required
 		NovaGroup group = GroupManager.getGroup(sender);
-		List<ItemStack> items = group.getGuildCreateItems();
-		double requiredMoney = group.getGuildCreateMoney();
+		List<ItemStack> items = group.getItemStackList(NovaGroup.Key.CREATE_ITEMS);
+		double requiredMoney = group.getDouble(NovaGroup.Key.CREATE_MONEY);
 
 		if(requiredMoney > 0 && !nPlayer.hasMoney(requiredMoney)) {
 			vars.put(VarKey.REQUIREDMONEY, String.valueOf(requiredMoney));
@@ -156,7 +156,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 
 		//Automatic Region
 		if(Config.REGION_AUTOREGION.getBoolean()) {
-			int size = group.getRegionAutoSize();
+			int size = group.getInt(NovaGroup.Key.REGION_AUTOSIZE);
 			Location playerLocation = player.getLocation();
 			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
 			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
