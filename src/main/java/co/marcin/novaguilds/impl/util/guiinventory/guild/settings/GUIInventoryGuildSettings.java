@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.util.guiinventory.guild.settings;
 
 import co.marcin.novaguilds.api.util.SignGUI;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
@@ -47,24 +48,28 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 	public void onClick(InventoryClickEvent event) {
 		ItemStack clicked = event.getCurrentItem();
 		if(clicked.equals(setNameItem)) {
-			final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_NAME.setVar(VarKey.INPUT, getViewer().getGuild().getName()));
-			plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
-				@Override
-				public void onSignDone(Player player, String[] lines) {
-					player.performCommand("g setname " + lines[pattern.getInputLine()]);
-					reopen();
-				}
-			});
+			if(Config.SIGNGUI_ENABLED.getBoolean()) {
+				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_NAME.setVar(VarKey.INPUT, getViewer().getGuild().getName()));
+				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
+					@Override
+					public void onSignDone(Player player, String[] lines) {
+						player.performCommand("g setname " + lines[pattern.getInputLine()]);
+						reopen();
+					}
+				});
+			}
 		}
 		else if(clicked.equals(setTagItem)) {
-			final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_TAG.setVar(VarKey.INPUT, getViewer().getGuild().getTag()));
-			plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
-				@Override
-				public void onSignDone(Player player, String[] lines) {
-					player.performCommand("g settag " + lines[pattern.getInputLine()]);
-					reopen();
-				}
-			});
+			if(Config.SIGNGUI_ENABLED.getBoolean()) {
+				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_TAG.setVar(VarKey.INPUT, getViewer().getGuild().getTag()));
+				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
+					@Override
+					public void onSignDone(Player player, String[] lines) {
+						player.performCommand("g settag " + lines[pattern.getInputLine()]);
+						reopen();
+					}
+				});
+			}
 		}
 		else if(clicked.equals(setHomeItem)) {
 			getViewer().getPlayer().performCommand("g home set");

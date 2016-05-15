@@ -116,7 +116,7 @@ public class SignGUIImpl extends AbstractSignGui {
 					Field zField = Reflections.getPrivateField(baseBlockPositionClass, "d");
 
 					final Player player = event.getPlayer();
-					Location v = plugin.getSignGUI().getSignLocations().remove(player.getUniqueId());
+					Location v = getSignLocations().remove(player.getUniqueId());
 
 					if(v == null) {
 						return;
@@ -142,7 +142,7 @@ public class SignGUIImpl extends AbstractSignGui {
 						index++;
 					}
 
-					final SignGUIListener response = plugin.getSignGUI().getListeners().remove(event.getPlayer().getUniqueId());
+					final SignGUIListener response = getListeners().remove(event.getPlayer().getUniqueId());
 
 					if(response != null) {
 						event.setCancelled(true);
