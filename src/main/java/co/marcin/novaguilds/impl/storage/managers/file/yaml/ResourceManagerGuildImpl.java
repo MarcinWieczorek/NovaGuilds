@@ -138,6 +138,11 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 					allyInvitationNames.add(guildLoop.getName());
 				}
 
+				List<String> noWarInvitationNames = new ArrayList<>();
+				for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
+					noWarInvitationNames.add(guildLoop.getName());
+				}
+
 				//set values
 				guildData.set("name", guild.getName());
 				guildData.set("tag", guild.getTag());
@@ -145,7 +150,7 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 				guildData.set("allies", alliesNames);
 				guildData.set("alliesinv", allyInvitationNames);
 				guildData.set("wars", warsNames);
-				guildData.set("nowar", guild.getNoWarInvitations());
+				guildData.set("nowar", noWarInvitationNames);
 				guildData.set("money", guild.getMoney());
 				guildData.set("points", guild.getPoints());
 				guildData.set("lives", guild.getLives());
