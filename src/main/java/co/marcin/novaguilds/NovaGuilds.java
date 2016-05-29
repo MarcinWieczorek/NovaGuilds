@@ -30,7 +30,6 @@ import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
-import co.marcin.novaguilds.impl.versionimpl.v1_9.SignGUIImpl;
 import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
@@ -168,11 +167,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8.SignGUIImpl();
 						}
 						break;
-					case MINECRAFT_1_9:
-						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9.PacketExtensionImpl();
+					case MINECRAFT_1_9_R1:
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {
-							signGUI = new SignGUIImpl();
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.SignGUIImpl();
 						}
 						break;
 				}

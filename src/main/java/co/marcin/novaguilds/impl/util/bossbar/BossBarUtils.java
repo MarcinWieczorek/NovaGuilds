@@ -19,7 +19,7 @@ public class BossBarUtils {
 						boolean bossBarAPI = NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BOSSBARAPI);
 						bossBarUtils = bossBarAPI ? new BossBarUtilsBossBarImpl() : new BossBarUtilsBarAPIImpl();
 						break;
-					case MINECRAFT_1_9:
+					case MINECRAFT_1_9_R1:
 						bossBarUtils = new BossBarUtilsBukkitImpl();
 						break;
 				}

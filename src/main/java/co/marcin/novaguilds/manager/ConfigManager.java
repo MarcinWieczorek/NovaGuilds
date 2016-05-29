@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
@@ -62,35 +63,45 @@ public class ConfigManager {
 	public enum ServerVersion {
 		MINECRAFT_1_7,
 		MINECRAFT_1_8,
-		MINECRAFT_1_9;
+		MINECRAFT_1_9_R1,
 
 		public static ServerVersion detect() {
+			String craftBukkitVersion = Reflections.getVersion();
+			craftBukkitVersion = craftBukkitVersion.substring(1, craftBukkitVersion.length() - 1);
+			LoggerUtils.info(craftBukkitVersion);
+
 			for(ServerVersion version : values()) {
 				String string = version.name();
 				string = org.apache.commons.lang.StringUtils.replace(string, "MINECRAFT_", "");
-				string = org.apache.commons.lang.StringUtils.replace(string, "_", ".");
 
-				if(Bukkit.getBukkitVersion().startsWith(string)) {
+				if(craftBukkitVersion.startsWith(string)) {
 					return version;
 				}
 			}
 
-			throw new UnsupportedOperationException("Version " + Bukkit.getBukkitVersion() + " is not supported by NovaGuilds");
-		}
-
-		public float getVersionNumberAsFloat() {
-			String name = org.apache.commons.lang.StringUtils.replace(name(), "MINECRAFT_", "");
-			name = org.apache.commons.lang.StringUtils.replace(name, "_", ".");
-
-			return Float.parseFloat(name);
+			throw new UnsupportedOperationException("Version " + craftBukkitVersion + " is not supported by NovaGuilds");
 		}
 
 		public boolean isOlderThan(ServerVersion version) {
-			return getVersionNumberAsFloat() < version.getVersionNumberAsFloat();
+			return getIndex() < version.getIndex();
 		}
 
 		public boolean isNewerThan(ServerVersion version) {
-			return getVersionNumberAsFloat() > version.getVersionNumberAsFloat();
+			return getIndex() > version.getIndex();
+		}
+
+		private int getIndex() {
+			int index = 1;
+
+			for(ServerVersion version : values()) {
+				if(version == this) {
+					return index;
+				}
+
+				index++;
+			}
+
+			return index;
 		}
 	}
 
@@ -209,7 +220,7 @@ public class ConfigManager {
 			}
 		}
 
-		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (getServerVersion() == ServerVersion.MINECRAFT_1_9 || plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
+		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (getServerVersion().isNewerThan(ServerVersion.MINECRAFT_1_8) || plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
 		Config.BOSSBAR_RAIDBAR_ENABLED.set(Config.BOSSBAR_RAIDBAR_ENABLED.getBoolean() && Config.BOSSBAR_ENABLED.getBoolean());
 		Config.TABLIST_ENABLED.set(Config.TABLIST_ENABLED.getBoolean() && (plugin.getDependencyManager().isEnabled(Dependency.NORTHTAB) && getServerVersion() == ServerVersion.MINECRAFT_1_8));
 		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));

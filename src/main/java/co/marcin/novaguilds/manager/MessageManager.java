@@ -266,8 +266,8 @@ public class MessageManager {
 			case MINECRAFT_1_8:
 				title = new co.marcin.novaguilds.impl.versionimpl.v1_8.TitleImpl();
 				break;
-			case MINECRAFT_1_9:
-				title = new co.marcin.novaguilds.impl.versionimpl.v1_9.TitleImpl();
+			case MINECRAFT_1_9_R1:
+				title = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.TitleImpl();
 		}
 
 		title.setSubtitleColor(instance.prefixColor);

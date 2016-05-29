@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class BossBarUtilsBossBarImpl extends AbstractBossBarUtils {
-	protected static final boolean v1_9 = ConfigManager.getServerVersion() == ConfigManager.ServerVersion.MINECRAFT_1_9;
+	protected static final boolean v1_9 = ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8);
 	private final Map<UUID, BossBar> bossBarMap = new HashMap<>();
 
 	private BossBar createIfNotExists(Player player) {

@@ -1,8 +1,8 @@
-package co.marcin.novaguilds.impl.versionimpl.v1_9;
+package co.marcin.novaguilds.impl.versionimpl.v1_9_R1;
 
 import co.marcin.novaguilds.api.util.Title;
 import co.marcin.novaguilds.impl.util.AbstractTitle;
-import co.marcin.novaguilds.impl.versionimpl.v1_9.packet.PacketPlayOutTitle;
+import co.marcin.novaguilds.impl.versionimpl.v1_9_R1.packet.PacketPlayOutTitle;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;

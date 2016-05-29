@@ -1,4 +1,4 @@
-package co.marcin.novaguilds.impl.versionimpl.v1_9.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_9_R1.packet;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.impl.util.AbstractPacket;

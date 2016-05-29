@@ -105,7 +105,7 @@ public final class InventoryUtils {
 
 	@SuppressWarnings("deprecation")
 	public static ItemStack getItemInHand(Player player) {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_9)) {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_9_R1)) {
 			return player.getItemInHand();
 		}
 		else {
