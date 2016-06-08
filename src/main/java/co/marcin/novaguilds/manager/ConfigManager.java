@@ -63,7 +63,7 @@ public class ConfigManager {
 	public enum ServerVersion {
 		MINECRAFT_1_7,
 		MINECRAFT_1_8,
-		MINECRAFT_1_9_R1,
+		MINECRAFT_1_9_R1;
 
 		public static ServerVersion detect() {
 			String craftBukkitVersion = Reflections.getVersion();
