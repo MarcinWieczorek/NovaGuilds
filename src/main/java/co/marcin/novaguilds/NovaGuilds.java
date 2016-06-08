@@ -149,7 +149,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 			if(Config.PACKETS_ENABLED.getBoolean()) {
 				switch(ConfigManager.getServerVersion()) {
-					case MINECRAFT_1_7:
+					case MINECRAFT_1_7_2:
+					case MINECRAFT_1_7_10:
 						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {
