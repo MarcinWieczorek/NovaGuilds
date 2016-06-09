@@ -65,6 +65,7 @@ public class ConfigManager {
 		MINECRAFT_1_7_10,
 		MINECRAFT_1_8,
 		MINECRAFT_1_9_R1,
+		MINECRAFT_1_9_R2,
 		MINECRAFT_1_10_R1;
 
 		public static ServerVersion detect() {

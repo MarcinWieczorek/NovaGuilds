@@ -175,6 +175,14 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.SignGUIImpl();
 						}
 						break;
+					case MINECRAFT_1_9_R2:
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.PacketExtensionImpl();
+
+						if(Config.SIGNGUI_ENABLED.getBoolean()) {
+							Config.SIGNGUI_ENABLED.set(false);
+							//TODO implement SignGUI for 1.9-R2
+						}
+						break;
 					case MINECRAFT_1_10_R1:
 						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.PacketExtensionImpl();
 
