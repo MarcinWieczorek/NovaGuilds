@@ -33,6 +33,7 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
+import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -233,7 +234,10 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 					}
 
 					//Supernova
-					ParticleUtils.createSuperNova(player);
+					//FIXME Particle library needs an update to 1.10
+					if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_10_R1)) {
+						ParticleUtils.createSuperNova(player);
+					}
 
 					//messages
 					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);
