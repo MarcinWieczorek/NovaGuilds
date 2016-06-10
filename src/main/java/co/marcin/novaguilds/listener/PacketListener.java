@@ -31,6 +31,11 @@ import java.util.Map;
 public class PacketListener extends AbstractListener {
 	private static final Map<String, PacketExtension.PacketHandler> packetHandlers = new HashMap<>();
 
+	/**
+	 * Registers a handler
+	 *
+	 * @param packetHandler the handler
+	 */
 	public static void register(PacketExtension.PacketHandler packetHandler) {
 		if(!Config.PACKETS_ENABLED.getBoolean()) {
 			LoggerUtils.info("Could not register " + packetHandler.getPacketName() + " handler. Packets are disabled.");
@@ -45,12 +50,23 @@ public class PacketListener extends AbstractListener {
 		packetHandlers.put(packetHandler.getPacketName(), packetHandler);
 	}
 
+	/**
+	 * Unregisters a handler
+	 *
+	 * @param packetHandler the handler
+	 */
 	public static void unregister(PacketExtension.PacketHandler packetHandler) {
 		if(packetHandlers.containsKey(packetHandler.getPacketName())) {
 			packetHandlers.remove(packetHandler.getPacketName());
 		}
 	}
 
+	/**
+	 * Gets a handler
+	 *
+	 * @param packetName packet name
+	 * @return the handler
+	 */
 	public static PacketExtension.PacketHandler getHandler(String packetName) {
 		return packetHandlers.get(packetName);
 	}

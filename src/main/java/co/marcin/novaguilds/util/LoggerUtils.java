@@ -34,26 +34,62 @@ public final class LoggerUtils {
 	private LoggerUtils() {
 	}
 
+	/**
+	 * Sends error message
+	 *
+	 * @param error       message string
+	 * @param classPrefix include class prefix
+	 */
 	public static void error(String error, boolean classPrefix) {
 		logger.severe(StringUtils.fixColors(logPrefix + (classPrefix ? classPrefix() : "") + space(error) + error));
 	}
 
+	/**
+	 * Sends error message
+	 * includes class prefix
+	 *
+	 * @param error message string
+	 */
 	public static void error(String error) {
 		error(error, true);
 	}
 
+	/**
+	 * Sends info message
+	 * includes class prefix
+	 *
+	 * @param msg message string
+	 */
 	public static void info(String msg) {
 		info(msg, true);
 	}
 
+	/**
+	 * Sends info message
+	 *
+	 * @param msg         message string
+	 * @param classPrefix include class prefix
+	 */
 	public static void info(String msg, boolean classPrefix) {
 		logger.info(StringUtils.fixColors(logPrefix + (classPrefix ? classPrefix() : "") + space(msg) + msg));
 	}
 
+	/**
+	 * Sends debug message
+	 * includes class prefix
+	 *
+	 * @param msg message string
+	 */
 	public static void debug(String msg) {
 		debug(msg, true);
 	}
 
+	/**
+	 * Sends debug message
+	 *
+	 * @param msg         message string
+	 * @param classPrefix include class prefix
+	 */
 	public static void debug(String msg, boolean classPrefix) {
 		if(plugin != null && plugin.getConfigManager() != null) {
 			if(Config.DEBUG.getBoolean()) {
@@ -62,6 +98,11 @@ public final class LoggerUtils {
 		}
 	}
 
+	/**
+	 * Gets the prefix of a class where a message is being sent
+	 *
+	 * @return class prefix
+	 */
 	private static String classPrefix() {
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		String line = ste[4].toString();
@@ -71,14 +112,25 @@ public final class LoggerUtils {
 		return className.equals("NovaGuilds") ? "" : "[" + className + "]";
 	}
 
-	private static String space(String s) {
-		return s.contains("Manager]") ? "" : " ";
+	/**
+	 * Creates a space if the string does not contain 'Manager' word
+	 *
+	 * @param string string
+	 * @return string with or without a space
+	 */
+	private static String space(String string) {
+		return string.contains("Manager]") ? "" : " ";
 	}
 
-	public static void exception(Throwable e) {
-		Throwable cause = e.getCause();
+	/**
+	 * Handles an exception
+	 *
+	 * @param exception the exception
+	 */
+	public static void exception(Throwable exception) {
+		Throwable cause = exception.getCause();
 		error("", false);
-		error("[NovaGuilds] Severe error: " + e.getClass().getSimpleName(), false);
+		error("[NovaGuilds] Severe error: " + exception.getClass().getSimpleName(), false);
 		error("", false);
 		error("Server Information:", false);
 		error("  NovaGuilds: #" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ")", false);
@@ -88,11 +140,11 @@ public final class LoggerUtils {
 		error("  Thread: " + Thread.currentThread(), false);
 		error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"), false);
 		error("  Exception Message: ", false);
-		error("   " + e.getMessage(), false);
+		error("   " + exception.getMessage(), false);
 		error("", false);
 
 		error("Stack trace: ", false);
-		printStackTrace(e.getStackTrace());
+		printStackTrace(exception.getStackTrace());
 		error("", false);
 
 		while(cause != null) {
@@ -111,6 +163,11 @@ public final class LoggerUtils {
 		Message.CHAT_ERROROCCURED.broadcast(Permission.NOVAGUILDS_ERROR);
 	}
 
+	/**
+	 * Prints stacktrace
+	 *
+	 * @param stackTraceElements stacktrace elements
+	 */
 	private static void printStackTrace(StackTraceElement[] stackTraceElements) {
 		for(StackTraceElement st : stackTraceElements) {
 			error("	at " + st.toString(), false);

@@ -35,10 +35,23 @@ public class ChestGUIUtils {
 	private ChestGUIUtils() {
 	}
 
+	/**
+	 * Creates a number which is the multiple of 9
+	 * So an inventory can be created with it
+	 *
+	 * @param count amount of items
+	 * @return suitable inventory size
+	 */
 	public static int getChestSize(int count) {
 		return (count / 9) * 9 + (count % 9 == 0 ? 0 : 9);
 	}
 
+	/**
+	 * Opens inventory gui
+	 *
+	 * @param nPlayer      player
+	 * @param guiInventory target gui
+	 */
 	public static void openGUIInventory(NovaPlayer nPlayer, GUIInventory guiInventory) {
 		if(nPlayer.isOnline()) {
 			nPlayer.setGuiInventory(guiInventory);
@@ -61,6 +74,13 @@ public class ChestGUIUtils {
 		}
 	}
 
+	/**
+	 * Creates an inventory
+	 *
+	 * @param size  size
+	 * @param title title
+	 * @return the inventory
+	 */
 	public static Inventory createInventory(int size, String title) {
 		if(title.length() > 32) {
 			title = title.substring(0, 32);
@@ -69,10 +89,22 @@ public class ChestGUIUtils {
 		return Bukkit.createInventory(null, size, title);
 	}
 
+	/**
+	 * Creates an inventory
+	 *
+	 * @param size  size
+	 * @param title title message
+	 * @return the inventory
+	 */
 	public static Inventory createInventory(int size, Message title) {
 		return createInventory(size, title.get());
 	}
 
+	/**
+	 * Adds a item allowing to return to a previous gui
+	 *
+	 * @param guiInventory gui
+	 */
 	public static void addBackItem(GUIInventory guiInventory) {
 		Inventory inventory = guiInventory.getInventory();
 		NovaPlayer nPlayer = guiInventory.getViewer();

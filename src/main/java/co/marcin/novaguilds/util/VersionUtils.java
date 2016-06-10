@@ -45,6 +45,12 @@ public class VersionUtils {
 		}
 	}
 
+	/**
+	 * Gets initialized statically
+	 * Checks plugin versions
+	 *
+	 * @throws IOException when failed to fetch versions
+	 */
 	private VersionUtils() throws IOException {
 		init = true;
 		NovaGuilds ng = NovaGuilds.getInstance();
@@ -68,6 +74,9 @@ public class VersionUtils {
 		buildDev = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(devString, "-SNAPSHOT", ""));
 	}
 
+	/**
+	 * Prints info about versions to the console
+	 */
 	public static void checkVersion() {
 		LoggerUtils.info("You're using build: #" + buildCurrent);
 		LoggerUtils.info("Latest stable build of the plugin is: #" + buildLatest);
@@ -98,22 +107,47 @@ public class VersionUtils {
 		}
 	}
 
+	/**
+	 * Gets current plugin build
+	 *
+	 * @return build number
+	 */
 	public static int getBuildCurrent() {
 		return buildCurrent;
 	}
 
+	/**
+	 * Gets latest stable build
+	 *
+	 * @return build number
+	 */
 	public static int getBuildLatest() {
 		return buildLatest;
 	}
 
+	/**
+	 * Gets latest development build
+	 *
+	 * @return build number
+	 */
 	public static int getBuildDev() {
 		return buildDev;
 	}
 
+	/**
+	 * Gets commit sha of the plugin
+	 *
+	 * @return commit SHA (first 7 characters)
+	 */
 	public static String getCommit() {
 		return org.apache.commons.lang.StringUtils.substring(commit, 0, 7);
 	}
 
+	/**
+	 * Tells if an update is available
+	 *
+	 * @return boolean
+	 */
 	public static boolean isUpdateAvailable() {
 		return updateAvailable;
 	}

@@ -65,7 +65,12 @@ public final class BannerUtils {
 		return DyeColor.values()[NumberUtils.randInt(0, DyeColor.values().length - 1)];
 	}
 
-
+	/**
+	 * Deserializes a string to banner meta
+	 *
+	 * @param string serialized meta
+	 * @return banner meta
+	 */
 	public static BannerMeta deserialize(String string) {
 		return getSerializer().deserialize(string);
 	}

@@ -41,6 +41,12 @@ public final class StringUtils {
 	private StringUtils() {
 	}
 
+	/**
+	 * Replaces '&' with section sign
+	 *
+	 * @param msg message
+	 * @return new string
+	 */
 	public static String fixColors(String msg) {
 		if(msg == null) {
 			return null;
@@ -49,6 +55,12 @@ public final class StringUtils {
 		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 
+	/**
+	 * Reverses color character replacement
+	 *
+	 * @param msg colored message
+	 * @return raw message
+	 */
 	public static String unTranslateAlternateColorCodes(String msg) {
 		char altColorChar = ChatColor.COLOR_CHAR;
 
@@ -63,12 +75,25 @@ public final class StringUtils {
 		return new String(b);
 	}
 
+	/**
+	 * Removes colors from a string
+	 *
+	 * @param msg the message
+	 * @return new message
+	 */
 	public static String removeColors(String msg) {
 		return ChatColor.stripColor(fixColors(msg));
 	}
 
-	public static String getContent(String s) throws IOException {
-		URL url = new URL(s);
+	/**
+	 * Gets content of a website
+	 *
+	 * @param urlString url
+	 * @return page contents
+	 * @throws IOException when connection fails
+	 */
+	public static String getContent(String urlString) throws IOException {
+		URL url = new URL(urlString);
 		URLConnection con = url.openConnection();
 		InputStream in = con.getInputStream();
 		String encoding = con.getContentEncoding();
@@ -76,14 +101,34 @@ public final class StringUtils {
 		return IOUtils.toString(in, encoding);
 	}
 
-	public static String parseDBLocation(Location l) {
-		return l == null ? "" : l.getWorld().getName() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ() + ";" + Math.round(l.getYaw());
+	/**
+	 * Converts location to a String (3D)
+	 * Contains world name
+	 *
+	 * @param location the location
+	 * @return location string
+	 */
+	public static String parseDBLocation(Location location) {
+		return location == null ? "" : location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" + location.getBlockZ() + ";" + Math.round(location.getYaw());
 	}
 
-	public static String parseDBLocationCoordinates2D(Location l) {
-		return l.getBlockX() + ";" + l.getBlockZ();
+	/**
+	 * Convers location to a String (2D)
+	 *
+	 * @param location the location
+	 * @return location string
+	 */
+	public static String parseDBLocationCoordinates2D(Location location) {
+		return location.getBlockX() + ";" + location.getBlockZ();
 	}
 
+	/**
+	 * Cuts first elements of an array
+	 *
+	 * @param args array
+	 * @param cut  amount of elements to cut
+	 * @return new array
+	 */
 	public static String[] parseArgs(String[] args, int cut) {
 		if(args.length == 0 || args.length < cut) {
 			return args;
@@ -102,6 +147,12 @@ public final class StringUtils {
 		return newArgs;
 	}
 
+	/**
+	 * Created a list from strings separated by semicolons
+	 *
+	 * @param str string
+	 * @return list
+	 */
 	public static List<String> semicolonToList(String str) {
 		List<String> list = new ArrayList<>();
 
@@ -116,6 +167,15 @@ public final class StringUtils {
 		return list;
 	}
 
+	/**
+	 * Joins together elements from a list
+	 *
+	 * @param items     list of strings
+	 * @param pattern   pattern
+	 * @param separator separator
+	 * @param varName   variable name
+	 * @return string
+	 */
 	public static String join(List<String> items, String pattern, String separator, String varName) {
 		String joined = "";
 
@@ -131,6 +191,13 @@ public final class StringUtils {
 		return joined;
 	}
 
+	/**
+	 * Joins together elements from a list
+	 *
+	 * @param items     list of strings
+	 * @param separator separator
+	 * @return string
+	 */
 	public static String join(List<String> items, String separator) {
 		String joined = "";
 		for(String item : items) {
@@ -140,6 +207,13 @@ public final class StringUtils {
 		return joined;
 	}
 
+	/**
+	 * Joins together elements from an array
+	 *
+	 * @param items     list of strings
+	 * @param separator separator
+	 * @return string
+	 */
 	public static String join(String[] items, String separator) {
 		String joined = "";
 
@@ -154,6 +228,13 @@ public final class StringUtils {
 		return joined;
 	}
 
+	/**
+	 * Replaces variables in a string
+	 *
+	 * @param msg  target string
+	 * @param vars variable map (with values)
+	 * @return replaced string
+	 */
 	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars) {
 		if(vars != null) {
 			for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
@@ -164,6 +245,13 @@ public final class StringUtils {
 		return msg;
 	}
 
+	/**
+	 * Replaces variables in a string
+	 *
+	 * @param msg  target string
+	 * @param vars variable map (with values)
+	 * @return replaced string
+	 */
 	public static String replaceMap(String msg, Map<String, String> vars) {
 		if(vars != null) {
 			for(Map.Entry<String, String> entry : vars.entrySet()) {
@@ -174,10 +262,25 @@ public final class StringUtils {
 		return msg;
 	}
 
+	/**
+	 * Converts seconds to a string
+	 * Time unit is seconds
+	 *
+	 * @param seconds amount of seconds
+	 * @return time string
+	 */
 	public static String secondsToString(long seconds) {
 		return secondsToString(seconds, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * Converts seconds to a string
+	 * Time unit is seconds
+	 *
+	 * @param seconds amount of seconds
+	 * @param unit    time unit
+	 * @return time string
+	 */
 	public static String secondsToString(long seconds, TimeUnit unit) {
 		if(seconds <= 0) {
 			seconds = 0;
@@ -263,6 +366,12 @@ public final class StringUtils {
 		return r;
 	}
 
+	/**
+	 * Converts a string to seconds
+	 *
+	 * @param str string
+	 * @return amount of seconds
+	 */
 	public static int stringToSeconds(String str) {
 		String[] spaceSplit = str.split(" ");
 		int seconds = 0;
@@ -321,6 +430,12 @@ public final class StringUtils {
 		return seconds;
 	}
 
+	/**
+	 * Checks if a string is allowed due to rules specified in config
+	 *
+	 * @param string string
+	 * @return boolean
+	 */
 	public static boolean isStringAllowed(String string) {
 		if(Config.GUILD_STRINGCHECK_ENABLED.getBoolean()) {
 			if(Config.GUILD_STRINGCHECK_REGEX.getBoolean()) {
@@ -339,6 +454,12 @@ public final class StringUtils {
 		return true;
 	}
 
+	/**
+	 * Creates a message with a list of items
+	 *
+	 * @param items item list
+	 * @return message string
+	 */
 	public static String getItemList(List<ItemStack> items) {
 		String itemListString = "";
 		int i = 0;
@@ -358,6 +479,12 @@ public final class StringUtils {
 		return fixColors(itemListString);
 	}
 
+	/**
+	 * Converts JSON to a list of strings
+	 *
+	 * @param json json string
+	 * @return list of strings
+	 */
 	public static List<String> jsonToList(String json) {
 		json = "{array:" + json + "}";
 		JSONObject obj = new JSONObject(json);

@@ -9,10 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParticleUtils {
+	/**
+	 * Creates supernova effect where an entity exists
+	 *
+	 * @param entity target entity
+	 */
 	public static void createSuperNova(Entity entity) {
 		createSuperNova(entity.getLocation());
 	}
 
+	/**
+	 * Gets circle vectors
+	 *
+	 * @param radius    radius of a circle
+	 * @param precision precision (amount of vectors)
+	 * @return list of vectors
+	 */
 	public static List<Vector> getCircleVectors(int radius, int precision) {
 		List<Vector> list = new ArrayList<>();
 
@@ -32,6 +44,11 @@ public class ParticleUtils {
 		return list;
 	}
 
+	/**
+	 * Creates supernova effect
+	 *
+	 * @param location target location
+	 */
 	public static void createSuperNova(Location location) {
 		float speed = 1F;
 		double range = 15D;

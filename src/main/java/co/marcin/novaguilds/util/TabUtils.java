@@ -44,6 +44,11 @@ public final class TabUtils {
 	private TabUtils() {
 	}
 
+	/**
+	 * Refreshes player's tab
+	 *
+	 * @param nPlayer target player
+	 */
 	public static void refresh(NovaPlayer nPlayer) {
 		if(!Config.TABLIST_ENABLED.getBoolean()) {
 			return;
@@ -56,24 +61,47 @@ public final class TabUtils {
 		nPlayer.getTabList().send();
 	}
 
+	/**
+	 * Refreshes player's tab
+	 *
+	 * @param player target player
+	 */
 	public static void refresh(Player player) {
 		refresh(PlayerManager.getPlayer(player));
 	}
 
+	/**
+	 * Refreshes all players' tabs
+	 */
 	public static void refresh() {
 		refresh(new ArrayList<>(plugin.getPlayerManager().getOnlinePlayers()));
 	}
 
+	/**
+	 * Refreshes tabs of all guild's members
+	 *
+	 * @param guild target guild
+	 */
 	public static void refresh(NovaGuild guild) {
 		refresh(guild.getPlayers());
 	}
 
+	/**
+	 * Refreshes tabs of players from a list
+	 *
+	 * @param list list of players
+	 */
 	public static void refresh(List<NovaPlayer> list) {
 		for(NovaPlayer nPlayer : list) {
 			refresh(nPlayer);
 		}
 	}
 
+	/**
+	 * Fills variables in a tablist
+	 *
+	 * @param tabList tablist
+	 */
 	@SuppressWarnings("deprecation")
 	public static void fillVars(TabList tabList) {
 		NovaPlayer nPlayer = tabList.getPlayer();
@@ -213,6 +241,13 @@ public final class TabUtils {
 		private final String varKey;
 		private final List<NovaPlayer> list;
 
+		/**
+		 * ListDisplay constructor
+		 *
+		 * @param rowPattern pattern for every row from config
+		 * @param varKey     variable key
+		 * @param list       list of players
+		 */
 		ListDisplay(Config rowPattern, String varKey, List<NovaPlayer> list) {
 			this.rowPattern = rowPattern;
 			this.varKey = varKey;

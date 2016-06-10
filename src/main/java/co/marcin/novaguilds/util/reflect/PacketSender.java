@@ -22,12 +22,24 @@ import co.marcin.novaguilds.NovaGuilds;
 import org.bukkit.entity.Player;
 
 public class PacketSender {
+	/**
+	 * Sends packets to players
+	 *
+	 * @param players array of players
+	 * @param packets packets
+	 */
 	public static void sendPacket(Player[] players, Object... packets) {
 		for(Player player : players) {
 			sendPacket(player, packets);
 		}
 	}
 
+	/**
+	 * Sends packets to a player
+	 *
+	 * @param player  player
+	 * @param packets packets
+	 */
 	public static void sendPacket(Player player, Object... packets) {
 		NovaGuilds.getInstance().getPacketExtension().sendPacket(player, packets);
 	}
