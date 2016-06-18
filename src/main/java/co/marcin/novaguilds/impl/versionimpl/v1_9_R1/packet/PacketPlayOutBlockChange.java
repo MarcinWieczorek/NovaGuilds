@@ -34,6 +34,7 @@ public class PacketPlayOutBlockChange extends AbstractPacket {
 	protected static Class<?> worldClass;
 	protected static Class<?> craftMagicNumbersClass;
 	protected static Class<?> blockClass;
+	protected static Class<?> blockPositionClass;
 	protected static Field blockPositionField;
 	protected static Field blockDataField;
 	protected static Method getBlockMethod;
@@ -46,6 +47,7 @@ public class PacketPlayOutBlockChange extends AbstractPacket {
 			blockClass = Reflections.getCraftClass("Block");
 			worldClass = Reflections.getCraftClass("World");
 			craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
+			blockPositionClass = Reflections.getCraftClass("BlockPosition");
 
 			blockPositionField = Reflections.getField(packetBlockChangeClass, "a");
 			blockDataField = Reflections.getField(packetBlockChangeClass, "block");
@@ -55,7 +57,7 @@ public class PacketPlayOutBlockChange extends AbstractPacket {
 
 			getBlockMethod = Reflections.getMethod(craftMagicNumbersClass, "getBlock", Material.class);
 			fromLegacyDataMethod = Reflections.getMethod(blockClass, "fromLegacyData");
-			getTypeMethod = Reflections.getMethod(worldClass, "getType");
+			getTypeMethod = Reflections.getMethod(worldClass, "getType", blockPositionClass);
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);

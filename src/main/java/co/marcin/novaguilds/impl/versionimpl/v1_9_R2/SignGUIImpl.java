@@ -28,7 +28,6 @@ import co.marcin.novaguilds.impl.versionimpl.v1_9_R2.packet.PacketPlayOutOpenSig
 import co.marcin.novaguilds.impl.versionimpl.v1_9_R2.packet.PacketPlayOutTileEntityData;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
-import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,27 +39,6 @@ import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class SignGUIImpl extends AbstractSignGui {
-	protected static Class<?> packetBlockChangeClass;
-	protected static Class<?> packetOpenSignEditorClass;
-	protected static Class<?> blockPositionClass;
-	protected static Class<?> worldClass;
-	protected static Class<?> chatComponentTextClass;
-	protected static Class<?> craftMagicNumbersClass;
-
-	static {
-		try {
-			packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
-			packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
-			blockPositionClass = Reflections.getCraftClass("BlockPosition");
-			worldClass = Reflections.getCraftClass("World");
-			chatComponentTextClass = Reflections.getCraftClass("ChatComponentText");
-			craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
-		}
-	}
-
 	public SignGUIImpl() {
 		registerUpdateHandling();
 	}
@@ -96,37 +74,32 @@ public class SignGUIImpl extends AbstractSignGui {
 		new AbstractPacketHandler("PacketPlayInUpdateSign") {
 			@Override
 			public void handle(PacketReceiveEvent event) {
-				if(event.getPacketName().equals("PacketPlayInUpdateSign")) {
-					try {
-						Object packet = event.getPacket();
-						PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(packet);
+				try {
+					final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
+					final Player player = event.getPlayer();
 
-						final Player player = event.getPlayer();
-						Location v = getSignLocations().remove(player.getUniqueId());
+					Location v = getSignLocations().remove(player.getUniqueId());
 
-						if(v == null) {
-							return;
-						}
-
-						if(packetPlayInUpdateSign.getX() != v.getBlockX() || packetPlayInUpdateSign.getY() != v.getBlockY() || packetPlayInUpdateSign.getZ() != v.getBlockZ()) {
-							return;
-						}
-
-						final String[] lines = packetPlayInUpdateSign.getLines();
-						final SignGUIListener response = getListeners().remove(event.getPlayer().getUniqueId());
-
-						if(response != null) {
-							event.setCancelled(true);
-							Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-								public void run() {
-									response.onSignDone(player, lines);
-								}
-							});
-						}
+					if(v == null
+							|| packetPlayInUpdateSign.getX() != v.getBlockX()
+							|| packetPlayInUpdateSign.getY() != v.getBlockY()
+							|| packetPlayInUpdateSign.getZ() != v.getBlockZ()) {
+						return;
 					}
-					catch(IllegalAccessException | NoSuchFieldException e) {
-						LoggerUtils.exception(e);
+
+					final SignGUIListener response = getListeners().remove(player.getUniqueId());
+
+					if(response != null) {
+						event.setCancelled(true);
+						Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+							public void run() {
+								response.onSignDone(player, packetPlayInUpdateSign.getLines());
+							}
+						});
 					}
+				}
+				catch(IllegalAccessException | NoSuchFieldException e) {
+					LoggerUtils.exception(e);
 				}
 			}
 		};

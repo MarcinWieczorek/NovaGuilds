@@ -77,10 +77,12 @@ public class SignGUIImpl extends AbstractSignGui {
 				try {
 					final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
 					final Player player = event.getPlayer();
-
 					Location v = getSignLocations().remove(player.getUniqueId());
 
-					if(v == null || packetPlayInUpdateSign.getX() != v.getBlockX() || packetPlayInUpdateSign.getY() != v.getBlockY() || packetPlayInUpdateSign.getZ() != v.getBlockZ()) {
+					if(v == null
+							|| packetPlayInUpdateSign.getBlockPositionWrapper().getX() != v.getBlockX()
+							|| packetPlayInUpdateSign.getBlockPositionWrapper().getY() != v.getBlockY()
+							|| packetPlayInUpdateSign.getBlockPositionWrapper().getZ() != v.getBlockZ()) {
 						return;
 					}
 

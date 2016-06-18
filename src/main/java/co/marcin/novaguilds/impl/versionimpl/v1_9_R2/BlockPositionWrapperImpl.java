@@ -29,13 +29,19 @@ import java.lang.reflect.InvocationTargetException;
 public class BlockPositionWrapperImpl extends AbstractBlockPositionWrapper {
 	protected static Class<?> blockPositionClass;
 	protected static Class<?> baseBlockPositionClass;
+	protected static Field xField;
+	protected static Field yField;
+	protected static Field zField;
 
 	static {
 		try {
 			blockPositionClass = Reflections.getCraftClass("BlockPosition");
 			baseBlockPositionClass = Reflections.getCraftClass("BaseBlockPosition");
+			xField = Reflections.getPrivateField(baseBlockPositionClass, "a");
+			yField = Reflections.getPrivateField(baseBlockPositionClass, "b");
+			zField = Reflections.getPrivateField(baseBlockPositionClass, "c");
 		}
-		catch(Exception e) {
+		catch(ClassNotFoundException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
 		}
 	}
@@ -48,12 +54,8 @@ public class BlockPositionWrapperImpl extends AbstractBlockPositionWrapper {
 		super(x, y, z);
 	}
 
-	public BlockPositionWrapperImpl(Object blockPosition) throws NoSuchFieldException, IllegalAccessException {
+	public BlockPositionWrapperImpl(Object blockPosition) throws IllegalAccessException {
 		super(blockPosition);
-
-		Field xField = Reflections.getPrivateField(baseBlockPositionClass, "a");
-		Field yField = Reflections.getPrivateField(baseBlockPositionClass, "b");
-		Field zField = Reflections.getPrivateField(baseBlockPositionClass, "c");
 
 		setX(xField.getInt(blockPosition));
 		setY(yField.getInt(blockPosition));
@@ -73,7 +75,7 @@ public class BlockPositionWrapperImpl extends AbstractBlockPositionWrapper {
 					getZ()
 			);
 		}
-		catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+		catch(InvocationTargetException | IllegalAccessException | NoSuchMethodException | InstantiationException e) {
 			LoggerUtils.exception(e);
 			return null;
 		}
