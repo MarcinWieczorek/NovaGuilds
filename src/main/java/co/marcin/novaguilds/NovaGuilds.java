@@ -169,26 +169,24 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 						}
 						break;
 					case MINECRAFT_1_9_R1:
-						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.PacketExtensionImpl();
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {
 							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.SignGUIImpl();
 						}
 						break;
 					case MINECRAFT_1_9_R2:
-						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.PacketExtensionImpl();
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {
-							Config.SIGNGUI_ENABLED.set(false);
-							//TODO implement SignGUI for 1.9-R2
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R2.SignGUIImpl();
 						}
 						break;
 					case MINECRAFT_1_10_R1:
-						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.PacketExtensionImpl();
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {
-							Config.SIGNGUI_ENABLED.set(false);
-							//TODO implement SignGUI for 1.10
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R2.SignGUIImpl();
 						}
 						break;
 				}

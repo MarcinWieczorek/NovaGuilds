@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.util.reflect;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.Packet;
 import org.bukkit.entity.Player;
 
 public class PacketSender {
@@ -42,5 +43,29 @@ public class PacketSender {
 	 */
 	public static void sendPacket(Player player, Object... packets) {
 		NovaGuilds.getInstance().getPacketExtension().sendPacket(player, packets);
+	}
+
+	/**
+	 * Sends packets to a player
+	 *
+	 * @param player  player
+	 * @param packets packets
+	 */
+	public static void sendPacket(Player player, Packet... packets) {
+		for(Packet packet : packets) {
+			sendPacket(player, packet.getPacket());
+		}
+	}
+
+	/**
+	 * Sends packets to players
+	 *
+	 * @param players array of players
+	 * @param packets packets
+	 */
+	public static void sendPacket(Player[] players, Packet... packets) {
+		for(Player player : players) {
+			sendPacket(player, packets);
+		}
 	}
 }
