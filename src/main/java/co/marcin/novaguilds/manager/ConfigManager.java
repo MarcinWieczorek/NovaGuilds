@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,18 +72,24 @@ public class ConfigManager {
 		public static ServerVersion detect() {
 			String craftBukkitVersion = Reflections.getVersion();
 			craftBukkitVersion = craftBukkitVersion.substring(1, craftBukkitVersion.length() - 1);
-			LoggerUtils.info(craftBukkitVersion);
 
 			for(ServerVersion version : values()) {
 				String string = version.name();
 				string = org.apache.commons.lang.StringUtils.replace(string, "MINECRAFT_", "");
 
 				if(craftBukkitVersion.startsWith(string)) {
+					LoggerUtils.info("This server is using version: " + craftBukkitVersion);
 					return version;
 				}
 			}
 
-			throw new UnsupportedOperationException("Version " + craftBukkitVersion + " is not supported by NovaGuilds");
+			ServerVersion closestVersion = getClosestVersion(craftBukkitVersion);
+			LoggerUtils.error("Version " + craftBukkitVersion + " is not supported by NovaGuilds.");
+			LoggerUtils.error("Expect bugs and report them to the development team. (/ng)");
+			LoggerUtils.error("NovaGuilds is now using implementation for version: " + closestVersion.name());
+
+			//Work on closest supported version
+			return closestVersion;
 		}
 
 		public boolean isOlderThan(ServerVersion version) {
@@ -90,6 +98,43 @@ public class ConfigManager {
 
 		public boolean isNewerThan(ServerVersion version) {
 			return getIndex() > version.getIndex();
+		}
+
+		public static ServerVersion getClosestVersion(String versionString) {
+			versionString = org.apache.commons.lang.StringUtils.replace(versionString, "_", "");
+			versionString = org.apache.commons.lang.StringUtils.replace(versionString, "R", "");
+			int versionInt = Integer.parseInt(versionString);
+			ArrayList<Integer> intVersions = new ArrayList<>();
+			intVersions.add(versionInt);
+			Map<Integer, ServerVersion> integerServerVersionMap = new HashMap<>();
+
+			for(ServerVersion serverVersion : ServerVersion.values()) {
+				String versionString1 = org.apache.commons.lang.StringUtils.replace(serverVersion.name().substring(10), "_", "");
+				versionString1 = org.apache.commons.lang.StringUtils.replace(versionString1, "R", "");
+				int versionNumber = Integer.parseInt(versionString1);
+				intVersions.add(versionNumber);
+				integerServerVersionMap.put(versionNumber, serverVersion);
+			}
+
+			Collections.sort(intVersions, new Comparator<Integer>() {
+				public int compare(Integer o1, Integer o2) {
+					return o2 - o1;
+				}
+			});
+
+			int index;
+			for(index = 0; index < intVersions.size(); index++) {
+				if(versionInt == intVersions.get(index)) {
+					break;
+				}
+			}
+
+			int targetIndex = index + 1;
+			if(intVersions.size() <= targetIndex) {
+				targetIndex = intVersions.size() - 2;
+			}
+
+			return integerServerVersionMap.get(intVersions.get(targetIndex));
 		}
 
 		private int getIndex() {
