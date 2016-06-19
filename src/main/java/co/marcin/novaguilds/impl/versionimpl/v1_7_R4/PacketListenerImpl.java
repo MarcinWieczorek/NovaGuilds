@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.versionimpl.v1_7;
+package co.marcin.novaguilds.impl.versionimpl.v1_7_R4;
 
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.event.PacketReceiveEvent;

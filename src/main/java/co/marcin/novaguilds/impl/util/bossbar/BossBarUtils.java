@@ -15,7 +15,7 @@ public class BossBarUtils {
 			if(Config.BOSSBAR_ENABLED.getBoolean()) {
 				switch(ConfigManager.getServerVersion()) {
 					case MINECRAFT_1_7_2:
-					case MINECRAFT_1_7_10:
+					case MINECRAFT_1_7_R4:
 					case MINECRAFT_1_8:
 						boolean bossBarAPI = NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BOSSBARAPI);
 						bossBarUtils = bossBarAPI ? new BossBarUtilsBossBarImpl() : new BossBarUtilsBarAPIImpl();

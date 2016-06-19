@@ -150,15 +150,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			if(Config.PACKETS_ENABLED.getBoolean()) {
 				switch(ConfigManager.getServerVersion()) {
 					case MINECRAFT_1_7_2:
-					case MINECRAFT_1_7_10:
-						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7.PacketExtensionImpl();
+					case MINECRAFT_1_7_R4:
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {
-							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7.SignGUIImpl();
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.SignGUIImpl();
 						}
 
 						if(Config.PACKETS_ADVANCEDENTITYUSE.getBoolean()) {
-							new co.marcin.novaguilds.impl.versionimpl.v1_7.PacketListenerImpl();
+							new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketListenerImpl();
 						}
 						break;
 					case MINECRAFT_1_8:

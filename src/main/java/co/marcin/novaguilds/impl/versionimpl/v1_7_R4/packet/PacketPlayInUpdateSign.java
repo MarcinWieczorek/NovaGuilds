@@ -1,4 +1,4 @@
-package co.marcin.novaguilds.impl.versionimpl.v1_7.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet;
 
 import co.marcin.novaguilds.impl.util.AbstractPacket;
 import co.marcin.novaguilds.util.LoggerUtils;

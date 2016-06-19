@@ -115,7 +115,7 @@ public enum Lang {
 	 * @throws IOException
 	 */
 	public static YamlConfiguration loadConfiguration(File file) throws IOException {
-		if(NovaGuilds.getInstance() != null && ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_10)) {
+		if(NovaGuilds.getInstance() != null && ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
 			return YamlConfiguration.loadConfiguration(file);
 		}
 		else {

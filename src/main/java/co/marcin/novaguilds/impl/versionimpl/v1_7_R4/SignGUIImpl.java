@@ -16,16 +16,16 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.versionimpl.v1_7;
+package co.marcin.novaguilds.impl.versionimpl.v1_7_R4;
 
 import co.marcin.novaguilds.api.util.Packet;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
-import co.marcin.novaguilds.impl.versionimpl.v1_7.packet.PacketPlayInUpdateSign;
-import co.marcin.novaguilds.impl.versionimpl.v1_7.packet.PacketPlayOutBlockChange;
-import co.marcin.novaguilds.impl.versionimpl.v1_7.packet.PacketPlayOutOpenSignEditor;
-import co.marcin.novaguilds.impl.versionimpl.v1_7.packet.PacketPlayOutUpdateSign;
+import co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet.PacketPlayInUpdateSign;
+import co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet.PacketPlayOutBlockChange;
+import co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet.PacketPlayOutOpenSignEditor;
+import co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet.PacketPlayOutUpdateSign;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import org.bukkit.Bukkit;
