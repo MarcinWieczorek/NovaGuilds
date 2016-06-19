@@ -26,6 +26,15 @@ public class PacketPlayOutOpenSignEditor extends AbstractPacket {
 		}
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param location location
+	 * @throws NoSuchMethodException     when something goes wrong
+	 * @throws IllegalAccessException    when something goes wrong
+	 * @throws InvocationTargetException when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
+	 */
 	public PacketPlayOutOpenSignEditor(Location location) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		packet = packetOpenSignEditorConstructor.newInstance(
 				location.getBlockX(),

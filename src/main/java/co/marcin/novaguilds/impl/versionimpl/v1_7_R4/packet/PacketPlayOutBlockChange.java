@@ -42,6 +42,17 @@ public class PacketPlayOutBlockChange extends AbstractPacket {
 		}
 	}
 
+
+	/**
+	 * Creates the packet
+	 *
+	 * @param location location
+	 * @param material material
+	 * @param data     data byte (color, type etc.)
+	 * @throws IllegalAccessException    when something goes wrong
+	 * @throws InvocationTargetException when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
+	 */
 	public PacketPlayOutBlockChange(Location location, Material material, int data) throws IllegalAccessException, InstantiationException, InvocationTargetException {
 		packet = packetPlayOutBlockChangeClass.newInstance();
 

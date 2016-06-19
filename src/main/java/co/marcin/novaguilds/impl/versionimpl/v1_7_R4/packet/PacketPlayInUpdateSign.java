@@ -30,6 +30,11 @@ public class PacketPlayInUpdateSign extends AbstractPacket {
 	private final int y;
 	private final int z;
 
+	/**
+	 * Creates the packet
+	 *
+	 * @param packet NMS packet
+	 */
 	public PacketPlayInUpdateSign(Object packet) {
 		x = xField.get(packet);
 		y = yField.get(packet);
