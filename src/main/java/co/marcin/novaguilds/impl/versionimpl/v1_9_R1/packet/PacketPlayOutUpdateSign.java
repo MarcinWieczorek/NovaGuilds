@@ -61,12 +61,12 @@ public class PacketPlayOutUpdateSign extends AbstractPacket {
 	 * The constructor
 	 *
 	 * @param location sign location
-	 * @param lines array of 4 strings
-	 * @throws IllegalAccessException when something goes wrong
-	 * @throws InstantiationException when something goes wrong
-	 * @throws NoSuchFieldException when something goes wrong
+	 * @param lines    array of 4 strings
+	 * @throws IllegalAccessException    when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
+	 * @throws NoSuchFieldException      when something goes wrong
 	 * @throws InvocationTargetException when something goes wrong
-	 * @throws NoSuchMethodException when something goes wrong
+	 * @throws NoSuchMethodException     when something goes wrong
 	 */
 	public PacketPlayOutUpdateSign(Location location, String[] lines) throws IllegalAccessException, InstantiationException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException {
 		packet = packetOutUpdateSignClass.newInstance();
