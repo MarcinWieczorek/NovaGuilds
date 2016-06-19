@@ -18,46 +18,27 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_7;
 
+import co.marcin.novaguilds.api.util.Packet;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
+import co.marcin.novaguilds.impl.versionimpl.v1_7.packet.PacketPlayInUpdateSign;
+import co.marcin.novaguilds.impl.versionimpl.v1_7.packet.PacketPlayOutBlockChange;
+import co.marcin.novaguilds.impl.versionimpl.v1_7.packet.PacketPlayOutOpenSignEditor;
+import co.marcin.novaguilds.impl.versionimpl.v1_7.packet.PacketPlayOutUpdateSign;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
-import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class SignGUIImpl extends AbstractSignGui {
-	protected static Class<?> packetInUpdateSignClass;
-	protected static Class<?> packetOutUpdateSignClass;
-	protected static Class<?> packetBlockChangeClass;
-	protected static Class<?> packetOpenSignEditorClass;
-	protected static Class<?> blockClass;
-	protected static Class<?> worldClass;
-
-	static {
-		try {
-			packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
-			packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
-			packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
-			packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
-			blockClass = Reflections.getCraftClass("Block");
-			worldClass = Reflections.getCraftClass("World");
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
-		}
-	}
-
 	public SignGUIImpl() {
 		registerUpdateHandling();
 	}
@@ -66,37 +47,24 @@ public class SignGUIImpl extends AbstractSignGui {
 		new AbstractPacketHandler("PacketPlayInUpdateSign") {
 			@Override
 			public void handle(PacketReceiveEvent event) {
-				Object packet = event.getPacket();
-
-				Reflections.FieldAccessor<String[]> linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
-				Reflections.FieldAccessor<Integer> xField = Reflections.getField(packetInUpdateSignClass, int.class, 0);
-				Reflections.FieldAccessor<Integer> yField = Reflections.getField(packetInUpdateSignClass, int.class, 1);
-				Reflections.FieldAccessor<Integer> zField = Reflections.getField(packetInUpdateSignClass, int.class, 2);
-
-
+				final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
 				final Player player = event.getPlayer();
 				Location v = getSignLocations().remove(player.getUniqueId());
 
-				if(v == null) {
+				if(v == null
+						|| packetPlayInUpdateSign.getX() != v.getBlockX()
+						|| packetPlayInUpdateSign.getY() != v.getBlockY()
+						|| packetPlayInUpdateSign.getZ() != v.getBlockZ()) {
 					return;
 				}
 
-				int x = xField.get(packet);
-				int y = yField.get(packet);
-				int z = zField.get(packet);
-
-				if(x != v.getBlockX() || y != v.getBlockY() || z != v.getBlockZ()) {
-					return;
-				}
-
-				final String[] lines = linesField.get(packet);
-				final SignGUIListener response = getListeners().remove(event.getPlayer().getUniqueId());
+				final SignGUIListener response = getListeners().remove(player.getUniqueId());
 
 				if(response != null) {
 					event.setCancelled(true);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 						public void run() {
-							response.onSignDone(player, lines);
+							response.onSignDone(player, packetPlayInUpdateSign.getLines());
 						}
 					});
 				}
@@ -106,107 +74,34 @@ public class SignGUIImpl extends AbstractSignGui {
 
 	@Override
 	public void open(Player player, String[] defaultText, SignGUIListener response) {
-		List<Object> packets = new ArrayList<>();
-		Location location = player.getLocation().clone();
-		location.setY(0);
-
-		for(int i = 0; i < 4; i++) {
-			if(defaultText[i].length() > 15) {
-				defaultText[i] = defaultText[i].substring(0, 15);
-			}
-		}
-
-		if(defaultText != null) {
-			packets.add(packetBlockChange(location, Material.SIGN_POST, 0));
-			packets.add(packetSignChange(location, defaultText));
-		}
-
-		packets.add(packetOpenSignEditor(location));
-
-		if(defaultText != null) {
-			packets.add(packetBlockChange(location, null, 0));
-		}
-
-		signLocations.put(player.getUniqueId(), location);
-		listeners.put(player.getUniqueId(), response);
-		PacketSender.sendPacket(player, packets.toArray());
-	}
-
-	@SuppressWarnings("deprecation")
-	protected Object packetBlockChange(Location location, Material material, int data) {
 		try {
-			Object packet = packetBlockChangeClass.newInstance();
-			Field aField = Reflections.getPrivateField(packetBlockChangeClass, "a");
-			Field bField = Reflections.getPrivateField(packetBlockChangeClass, "b");
-			Field cField = Reflections.getPrivateField(packetBlockChangeClass, "c");
-			Field blockField = Reflections.getPrivateField(packetBlockChangeClass, "block");
-			Field dataField = Reflections.getPrivateField(packetBlockChangeClass, "data");
+			List<Packet> packets = new ArrayList<>();
+			Location location = player.getLocation().clone();
+			location.setY(0);
 
-			aField.set(packet, location.getBlockX());
-			bField.set(packet, location.getBlockY());
-			cField.set(packet, location.getBlockZ());
-
-			Object block;
-			if(material == null) {
-				Method getBlockAtMethod = Reflections.getMethod(worldClass, "getType", int.class, int.class, int.class);
-				block = getBlockAtMethod.invoke(Reflections.getHandle(location.getWorld()), location.getBlockX(), location.getBlockY(), location.getBlockZ());
-			}
-			else {
-				Object id = material.getId();
-				Method getByIdMethod = Reflections.getMethod(blockClass, "getById");
-				block = getByIdMethod.invoke(null, id);
+			for(int i = 0; i < 4; i++) {
+				if(defaultText[i].length() > 15) {
+					defaultText[i] = defaultText[i].substring(0, 15);
+				}
 			}
 
-			blockField.set(packet, block);
+			if(defaultText != null) {
+				packets.add(new PacketPlayOutBlockChange(location, Material.SIGN_POST, 0));
+				packets.add(new PacketPlayOutUpdateSign(location, defaultText));
+			}
 
-			dataField.set(packet, data);
+			packets.add(new PacketPlayOutOpenSignEditor(location));
 
-			return packet;
+			if(defaultText != null) {
+				packets.add(new PacketPlayOutBlockChange(location, null, 0));
+			}
+
+			signLocations.put(player.getUniqueId(), location);
+			listeners.put(player.getUniqueId(), response);
+			PacketSender.sendPacket(player, packets.toArray(new Packet[packets.size()]));
 		}
-		catch(InstantiationException | IllegalAccessException | InvocationTargetException | IllegalArgumentException | NoSuchFieldException e) {
+		catch(IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
 			LoggerUtils.exception(e);
-			return null;
 		}
-	}
-
-	protected Object packetSignChange(Location location, String[] lines) {
-		try {
-			Object packet = packetOutUpdateSignClass.newInstance();
-
-			Field xField = Reflections.getPrivateField(packetOutUpdateSignClass, "x");
-			Field yField = Reflections.getPrivateField(packetOutUpdateSignClass, "y");
-			Field zField = Reflections.getPrivateField(packetOutUpdateSignClass, "z");
-			Field linesField = Reflections.getPrivateField(packetOutUpdateSignClass, "lines");
-
-			xField.set(packet, location.getBlockX());
-			yField.set(packet, location.getBlockY());
-			zField.set(packet, location.getBlockZ());
-			linesField.set(packet, lines);
-
-			return packet;
-		}
-		catch(InstantiationException | IllegalAccessException | NoSuchFieldException e) {
-			LoggerUtils.exception(e);
-			return null;
-		}
-	}
-
-	protected Object packetOpenSignEditor(Location location) {
-		try {
-			return packetOpenSignEditorClass.getConstructor(
-					int.class,
-					int.class,
-					int.class
-			).newInstance(
-					location.getBlockX(),
-					location.getBlockY(),
-					location.getBlockZ()
-			);
-		}
-		catch(InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-			LoggerUtils.exception(e);
-			return null;
-		}
-
 	}
 }
