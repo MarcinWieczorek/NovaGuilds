@@ -161,7 +161,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 							new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketListenerImpl();
 						}
 						break;
-					case MINECRAFT_1_8:
+					case MINECRAFT_1_8_R2:
 						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {

@@ -73,7 +73,7 @@ public final class BannerUtils {
 	 * @return banner meta
 	 */
 	public static BannerMeta deserialize(String string) {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8)) {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
 			return null;
 		}
 
@@ -97,7 +97,7 @@ public final class BannerUtils {
 	 * @return serialized meta
 	 */
 	public static String serialize(BannerMeta bannerMeta) {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8)) {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
 			return "";
 		}
 
@@ -124,7 +124,7 @@ public final class BannerUtils {
 	 * @return banner meta
 	 */
 	public static BannerMeta getBannerMeta(Banner banner) {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8)) {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
 			return null;
 		}
 
