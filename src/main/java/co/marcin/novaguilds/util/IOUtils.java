@@ -36,10 +36,24 @@ public final class IOUtils {
 	private IOUtils() {
 	}
 
+	/**
+	 * Converts input stream to a string
+	 *
+	 * @param inputStream input stream
+	 * @return the string
+	 * @throws IOException when something goes wrong
+	 */
 	public static String inputStreamToString(InputStream inputStream) throws IOException {
 		return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
 	}
 
+	/**
+	 * Saves input stream to a file
+	 *
+	 * @param inputStream input stream
+	 * @param file        target file
+	 * @throws IOException when something goes wrong
+	 */
 	public static void saveInputStreamToFile(InputStream inputStream, File file) throws IOException {
 		FileOutputStream outputStream = null;
 		try {
@@ -62,6 +76,13 @@ public final class IOUtils {
 		}
 	}
 
+	/**
+	 * Gets a list of names of files
+	 * excluding the extension
+	 *
+	 * @param directory target directory
+	 * @return list of files
+	 */
 	public static List<String> getFilesWithoutExtension(File directory) {
 		List<String> list = new ArrayList<>();
 		File[] filesList = directory.listFiles();
@@ -81,6 +102,14 @@ public final class IOUtils {
 		return list;
 	}
 
+	/**
+	 * Converts an input stream to a string with an encoding
+	 *
+	 * @param in       input stream
+	 * @param encoding encoding
+	 * @return the string
+	 * @throws IOException when something goes wrong
+	 */
 	public static String toString(InputStream in, String encoding) throws IOException {
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		byte[] buf = new byte[8192];
@@ -93,10 +122,23 @@ public final class IOUtils {
 		return new String(byteArrayOutputStream.toByteArray(), encoding);
 	}
 
+	/**
+	 * Reads a file to a string
+	 *
+	 * @param file file
+	 * @return string
+	 * @throws IOException when something goes wrong
+	 */
 	public static String read(File file) throws IOException {
 		return inputStreamToString(new FileInputStream(file));
 	}
 
+	/**
+	 * Writes string to a file
+	 *
+	 * @param file   target file
+	 * @param string the string
+	 */
 	public static void write(File file, String string) {
 		try(PrintWriter out = new PrintWriter(file)) {
 			out.println(string);

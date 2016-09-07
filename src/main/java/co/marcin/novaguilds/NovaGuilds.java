@@ -30,7 +30,6 @@ import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
-import co.marcin.novaguilds.impl.versionimpl.v1_9.SignGUIImpl;
 import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
@@ -150,21 +149,44 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 			if(Config.PACKETS_ENABLED.getBoolean()) {
 				switch(ConfigManager.getServerVersion()) {
-					case MINECRAFT_1_7:
-						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7.PacketExtensionImpl();
-						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7.SignGUIImpl();
+					case MINECRAFT_1_7_R4:
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketExtensionImpl();
+
+						if(Config.SIGNGUI_ENABLED.getBoolean()) {
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.SignGUIImpl();
+						}
 
 						if(Config.PACKETS_ADVANCEDENTITYUSE.getBoolean()) {
-							new co.marcin.novaguilds.impl.versionimpl.v1_7.PacketListenerImpl();
+							new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketListenerImpl();
 						}
 						break;
-					case MINECRAFT_1_8:
+					case MINECRAFT_1_8_R2:
 						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
-						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8.SignGUIImpl();
+
+						if(Config.SIGNGUI_ENABLED.getBoolean()) {
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8.SignGUIImpl();
+						}
 						break;
-					case MINECRAFT_1_9:
-						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_9.PacketExtensionImpl();
-						signGUI = new SignGUIImpl();
+					case MINECRAFT_1_9_R1:
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
+
+						if(Config.SIGNGUI_ENABLED.getBoolean()) {
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.SignGUIImpl();
+						}
+						break;
+					case MINECRAFT_1_9_R2:
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
+
+						if(Config.SIGNGUI_ENABLED.getBoolean()) {
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R2.SignGUIImpl();
+						}
+						break;
+					case MINECRAFT_1_10_R1:
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8.PacketExtensionImpl();
+
+						if(Config.SIGNGUI_ENABLED.getBoolean()) {
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R2.SignGUIImpl();
+						}
 						break;
 				}
 

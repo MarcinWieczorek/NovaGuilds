@@ -18,6 +18,8 @@
 
 package co.marcin.novaguilds.enums;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -113,6 +115,11 @@ public enum Lang {
 	 * @throws IOException
 	 */
 	public static YamlConfiguration loadConfiguration(File file) throws IOException {
-		return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Lang.fromFile(file).getCharset()));
+		if(NovaGuilds.getInstance() != null && ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
+			return YamlConfiguration.loadConfiguration(file);
+		}
+		else {
+			return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Lang.fromFile(file).getCharset()));
+		}
 	}
 }

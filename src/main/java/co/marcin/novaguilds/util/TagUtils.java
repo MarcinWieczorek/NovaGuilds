@@ -37,6 +37,11 @@ public final class TagUtils {
 	private TagUtils() {
 	}
 
+	/**
+	 * Refreshes tag of a player
+	 *
+	 * @param p target player
+	 */
 	@SuppressWarnings("deprecation")
 	public static void refresh(Player p) {
 		if(!Config.TAGAPI_ENABLED.getBoolean()) {
@@ -81,12 +86,20 @@ public final class TagUtils {
 		}
 	}
 
+	/**
+	 * Refreshes tags of all players online
+	 */
 	public static void refresh() {
 		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			refresh(player);
 		}
 	}
 
+	/**
+	 * Refreshes tags of a whole guild
+	 *
+	 * @param guild target guild
+	 */
 	public static void refresh(NovaGuild guild) {
 		if(guild != null) {
 			for(Player player : guild.getOnlinePlayers()) {

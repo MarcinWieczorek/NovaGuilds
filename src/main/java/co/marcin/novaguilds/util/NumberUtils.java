@@ -24,20 +24,44 @@ public final class NumberUtils {
 	private NumberUtils() {
 	}
 
+	/**
+	 * Checks is a string is a number
+	 *
+	 * @param str string
+	 * @return boolean
+	 */
 	public static boolean isNumeric(String str) {
 		return !str.isEmpty() && str.matches("[+-]?\\d*(\\.\\d+)?");
 	}
 
+	/**
+	 * Gets random integer
+	 *
+	 * @param min min value
+	 * @param max max value
+	 * @return random int
+	 */
 	public static int randInt(int min, int max) {
 		Random rand = new Random();
 
 		return rand.nextInt((max - min) + 1) + min;
 	}
 
+	/**
+	 * Rounds off a double to two decimal places
+	 *
+	 * @param val number
+	 * @return rounded off number
+	 */
 	public static double roundOffTo2DecPlaces(double val) {
 		return Math.round(val * 100) / 100;
 	}
 
+	/**
+	 * Gets unixtime
+	 *
+	 * @return the time
+	 */
 	public static long systemSeconds() {
 		return System.currentTimeMillis() / 1000;
 	}

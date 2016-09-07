@@ -3,6 +3,7 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.api.util.BannerMetaSerializer;
 import co.marcin.novaguilds.impl.util.BannerMetaSerializerImpl;
+import co.marcin.novaguilds.manager.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -65,8 +66,17 @@ public final class BannerUtils {
 		return DyeColor.values()[NumberUtils.randInt(0, DyeColor.values().length - 1)];
 	}
 
-
+	/**
+	 * Deserializes a string to banner meta
+	 *
+	 * @param string serialized meta
+	 * @return banner meta
+	 */
 	public static BannerMeta deserialize(String string) {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+			return null;
+		}
+
 		return getSerializer().deserialize(string);
 	}
 
@@ -87,6 +97,10 @@ public final class BannerUtils {
 	 * @return serialized meta
 	 */
 	public static String serialize(BannerMeta bannerMeta) {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+			return "";
+		}
+
 		return getSerializer().serialize(bannerMeta);
 	}
 
@@ -110,6 +124,10 @@ public final class BannerUtils {
 	 * @return banner meta
 	 */
 	public static BannerMeta getBannerMeta(Banner banner) {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+			return null;
+		}
+
 		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(Material.BANNER);
 
 		meta.setBaseColor(banner.getBaseColor());

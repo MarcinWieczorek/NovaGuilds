@@ -97,7 +97,7 @@ public class LoginListener extends AbstractListener {
 			TabList tabList = null;
 
 			switch(ConfigManager.getServerVersion()) {
-				case MINECRAFT_1_8:
+				case MINECRAFT_1_8_R2:
 					tabList = new TabListNorthTabImpl(nPlayer);
 					break;
 			}

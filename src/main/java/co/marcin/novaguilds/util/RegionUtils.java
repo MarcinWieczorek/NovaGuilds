@@ -35,10 +35,25 @@ public final class RegionUtils {
 	private RegionUtils() {
 	}
 
+	/**
+	 * Gets all blocks on a border of a region
+	 * Only highest blocks
+	 *
+	 * @param region region
+	 * @return list of blocks
+	 */
 	public static List<Block> getBorderBlocks(NovaRegion region) {
 		return getBorderBlocks(region.getCorner(0), region.getCorner(1));
 	}
 
+	/**
+	 * Gets all blocks on a border of a rectangle specified by two opposite corners
+	 * Only highest blocks
+	 *
+	 * @param l1 corner 1
+	 * @param l2 corner 2
+	 * @return list of blocks
+	 */
 	public static List<Block> getBorderBlocks(Location l1, Location l2) {
 		List<Block> blocks = new ArrayList<>();
 
@@ -103,6 +118,12 @@ public final class RegionUtils {
 		return blocks;
 	}
 
+	/**
+	 * Sends a true block to a player
+	 *
+	 * @param player target player
+	 * @param block  block
+	 */
 	@SuppressWarnings("deprecation")
 	public static void resetBlock(Player player, Block block) {
 		Material material = block.getWorld().getBlockAt(block.getLocation()).getType();
@@ -111,6 +132,13 @@ public final class RegionUtils {
 		player.sendBlockChange(block.getLocation(), material, data);
 	}
 
+	/**
+	 * Gets center location of a rectangle specified by two opposite corners
+	 *
+	 * @param l1 corner 1
+	 * @param l2 corner 2
+	 * @return center location
+	 */
 	public static Location getCenterLocation(Location l1, Location l2) {
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX());
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ());
@@ -121,6 +149,13 @@ public final class RegionUtils {
 		return new Location(l1.getWorld(), newX, l1.getBlockY(), newZ);
 	}
 
+	/**
+	 * Checks the area of a rectangle specified by two opposite corners
+	 *
+	 * @param l1 corner 1
+	 * @param l2 corner 2
+	 * @return the area
+	 */
 	public static int checkRegionSize(Location l1, Location l2) {
 		int x1 = l1.getBlockX();
 		int x2 = l2.getBlockX();
@@ -133,6 +168,14 @@ public final class RegionUtils {
 		return difX * difZ;
 	}
 
+	/**
+	 * Converts ConfigurationSection to a location
+	 * valid key names are:
+	 * world, x, y, z, yaw, pitch
+	 *
+	 * @param section section
+	 * @return location
+	 */
 	public static Location sectionToLocation(ConfigurationSection section) {
 		World world = Bukkit.getWorld(section.getString("world"));
 		double x = section.getDouble("x");

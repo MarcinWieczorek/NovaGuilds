@@ -6,7 +6,7 @@
 
     <groupId>co.marcin</groupId>
     <artifactId>novaguilds</artifactId>
-    <version>37</version>
+    <version>38-SNAPSHOT</version>
 
     <distributionManagement>
         <repository>
@@ -53,6 +53,28 @@
             <artifactId>EssentialsX</artifactId>
             <version>2.0.1</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>BOSEconomy</artifactId>
+                    <groupId>BOSEconomy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>PermissionsEx</artifactId>
+                    <groupId>ru.tehkode</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>iConomy5</artifactId>
+                    <groupId>iConomy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>iConomy6</artifactId>
+                    <groupId>iConomy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>MultiCurrency</artifactId>
+                    <groupId>MultiCurrency</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -63,7 +85,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.9.2-R0.1-SNAPSHOT</version>
+            <version>1.10-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

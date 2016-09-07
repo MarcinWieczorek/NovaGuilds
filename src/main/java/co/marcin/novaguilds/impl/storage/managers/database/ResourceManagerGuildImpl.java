@@ -235,6 +235,7 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 			preparedStatement.setString(16, vaultLocationString); //vault location
 			preparedStatement.setInt(17, guild.getSlots()); //slots
 			preparedStatement.setBoolean(18, guild.isOpenInvitation()); //openinv
+			preparedStatement.setString(19, BannerUtils.serialize(guild.getBannerMeta())); //banner
 
 			preparedStatement.execute();
 

@@ -38,6 +38,12 @@ public final class ItemStackUtils {
 	private ItemStackUtils() {
 	}
 
+	/**
+	 * Converts string to an item
+	 *
+	 * @param str string
+	 * @return item
+	 */
 	@SuppressWarnings("deprecation")
 	public static ItemStack stringToItemStack(String str) {
 		if(!str.isEmpty()) {
@@ -296,6 +302,12 @@ public final class ItemStackUtils {
 		return stringToItemStack("DIRT 1 name:&cINVALID_ITEM");
 	}
 
+	/**
+	 * Converts a list of strings to a list of items
+	 *
+	 * @param list list of strings
+	 * @return list of items
+	 */
 	public static List<ItemStack> stringToItemStackList(List<String> list) {
 		List<ItemStack> itemList = new ArrayList<>();
 		for(String item : list) {
@@ -308,6 +320,13 @@ public final class ItemStackUtils {
 		return itemList;
 	}
 
+	/**
+	 * Checks if two items are the same and only amount may be different
+	 *
+	 * @param itemStack1 item 1
+	 * @param itemStack2 item 2
+	 * @return boolean
+	 */
 	public static boolean isSimilar(ItemStack itemStack1, ItemStack itemStack2) {
 		if(itemStack1 == null && itemStack2 != null || itemStack2 == null) {
 			return false;

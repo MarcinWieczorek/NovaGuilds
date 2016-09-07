@@ -118,16 +118,24 @@ public class ChatListener extends AbstractListener {
 		}
 
 		//Message with a tag
-		ChatMessage chatMessage = new ChatMessageImpl(player);
-		chatMessage.setTag(preparedTag);
-		chatMessage.setFormat(event.getFormat());
-		chatMessage.setMessage(event.getMessage());
+		if(Config.CHAT_ADVANCED.getBoolean()) {
+			ChatMessage chatMessage = new ChatMessageImpl(player);
+			chatMessage.setTag(preparedTag);
+			chatMessage.setFormat(event.getFormat());
+			chatMessage.setMessage(event.getMessage());
 
-		for(NovaPlayer onlineNovaPlayer : plugin.getPlayerManager().getOnlinePlayers()) {
-			preparedTag.setTagColorFor(onlineNovaPlayer);
-			preparedTag.setHidden(Permission.NOVAGUILDS_CHAT_NOTAG.has(player));
+			for(NovaPlayer onlineNovaPlayer : plugin.getPlayerManager().getOnlinePlayers()) {
+				preparedTag.setTagColorFor(onlineNovaPlayer);
+				preparedTag.setHidden(Permission.NOVAGUILDS_CHAT_NOTAG.has(player));
 
-			chatMessage.send(onlineNovaPlayer);
+				chatMessage.send(onlineNovaPlayer);
+			}
+		}
+		else {
+			event.setCancelled(false);
+			String format = event.getFormat();
+			format = org.apache.commons.lang.StringUtils.replace(format, "{TAG}", preparedTag.get());
+			event.setFormat(format);
 		}
 	}
 
