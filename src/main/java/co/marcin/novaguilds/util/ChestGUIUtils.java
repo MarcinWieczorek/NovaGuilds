@@ -43,7 +43,7 @@ public class ChestGUIUtils {
 	 * @return suitable inventory size
 	 */
 	public static int getChestSize(int count) {
-		return (count / 9) * 9 + (count % 9 == 0 ? 0 : 9);
+		return count == 0 ? 9 : (count / 9) * 9 + (count % 9 == 0 ? 0 : 9);
 	}
 
 	/**
