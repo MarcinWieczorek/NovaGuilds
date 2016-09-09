@@ -128,7 +128,8 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 		}
 
 		//Disabled worlds
-		if(Config.GUILD_DISABLEDWORLDS.getStringList().contains(player.getWorld().getName())) {
+		if(Config.GUILD_DISABLEDWORLDS.getStringList().contains(player.getWorld().getName())
+				|| Config.GUILD_DISABLEDWORLDS.getStringList().contains(player.getWorld().getUID().toString())) {
 			Message.CHAT_CREATEGUILD_DISABLEDWORLD.send(sender);
 			return;
 		}
