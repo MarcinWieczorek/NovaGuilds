@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerEvent;
 public class PlayerEnterRegionEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
-	private NovaRegion region;
+	private final NovaRegion region;
 
 	/**
 	 * The constructor

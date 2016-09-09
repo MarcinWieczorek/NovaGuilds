@@ -75,7 +75,7 @@ public class SignGUIImpl extends AbstractSignGui {
 	@Override
 	public void open(Player player, String[] defaultText, SignGUIListener response) {
 		try {
-			List<Packet> packets = new ArrayList<>();
+			final List<Packet> packets = new ArrayList<>();
 			Location location = player.getLocation().clone();
 			location.setY(0);
 

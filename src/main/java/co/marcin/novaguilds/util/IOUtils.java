@@ -84,7 +84,7 @@ public final class IOUtils {
 	 * @return list of files
 	 */
 	public static List<String> getFilesWithoutExtension(File directory) {
-		List<String> list = new ArrayList<>();
+		final List<String> list = new ArrayList<>();
 		File[] filesList = directory.listFiles();
 
 		if(filesList != null) {

@@ -112,7 +112,7 @@ public enum ChatMode {
 	 * @return ChatMode array
 	 */
 	public static ChatMode[] valuesEnabled() {
-		List<ChatMode> list = new ArrayList<>();
+		final List<ChatMode> list = new ArrayList<>();
 
 		for(ChatMode mode : values()) {
 			if(mode.isEnabled()) {

@@ -51,7 +51,7 @@ public final class ItemStackUtils {
 			Material material;
 			String name = "";
 			int amount = 0;
-			List<String> lore = new ArrayList<>();
+			final List<String> lore = new ArrayList<>();
 			String loreString = "";
 			String bookAuthor = null;
 			String bookBook = null;
@@ -309,7 +309,7 @@ public final class ItemStackUtils {
 	 * @return list of items
 	 */
 	public static List<ItemStack> stringToItemStackList(List<String> list) {
-		List<ItemStack> itemList = new ArrayList<>();
+		final List<ItemStack> itemList = new ArrayList<>();
 		for(String item : list) {
 			ItemStack itemStack = stringToItemStack(item);
 			if(itemStack != null) {

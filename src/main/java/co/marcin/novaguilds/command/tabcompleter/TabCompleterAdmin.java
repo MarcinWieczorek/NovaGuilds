@@ -35,7 +35,7 @@ import java.util.Set;
 public class TabCompleterAdmin implements TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		List<String> list = new ArrayList<>();
+		final List<String> list = new ArrayList<>();
 		Set<String> keys = null;
 
 		if(args.length > 1) {

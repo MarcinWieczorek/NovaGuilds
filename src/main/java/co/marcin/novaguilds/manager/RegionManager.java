@@ -169,7 +169,7 @@ public class RegionManager {
 	}
 
 	public List<NovaRegion> getRegionsInsideArea(Location l1, Location l2) {
-		List<NovaRegion> list = new ArrayList<>();
+		final List<NovaRegion> list = new ArrayList<>();
 		int x1 = l1.getBlockX();
 		int x2 = l2.getBlockX();
 		int z1 = l1.getBlockZ();
@@ -228,7 +228,7 @@ public class RegionManager {
 	}
 
 	public List<NovaGuild> getGuildsTooClose(Location l1, Location l2) {
-		List<NovaGuild> list = new ArrayList<>();
+		final List<NovaGuild> list = new ArrayList<>();
 
 		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
 		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;

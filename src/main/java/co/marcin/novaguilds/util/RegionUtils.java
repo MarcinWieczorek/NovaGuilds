@@ -57,7 +57,7 @@ public final class RegionUtils {
 	 * @return list of blocks
 	 */
 	public static List<Block> getBorderBlocks(Location l1, Location l2) {
-		List<Block> blocks = new ArrayList<>();
+		final List<Block> blocks = new ArrayList<>();
 
 		//World world = region.getWorld();
 		World world = l1.getWorld() == null ? Bukkit.getWorlds().get(0) : l1.getWorld();

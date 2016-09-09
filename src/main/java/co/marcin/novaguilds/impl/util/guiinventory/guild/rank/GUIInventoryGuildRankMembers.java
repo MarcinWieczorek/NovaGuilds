@@ -49,7 +49,7 @@ public class GUIInventoryGuildRankMembers extends GUIInventoryGuildPlayersList {
 
 	@Override
 	public void generateContent() {
-		List<NovaPlayer> list = new ArrayList<>();
+		final List<NovaPlayer> list = new ArrayList<>();
 
 		if(rank.isGeneric()) {
 			list.addAll(getMembers(guild, rank));
@@ -69,7 +69,7 @@ public class GUIInventoryGuildRankMembers extends GUIInventoryGuildPlayersList {
 	 * @return list of NovaPlayers
 	 */
 	public static List<NovaPlayer> getMembers(NovaGuild guild, NovaRank rank) {
-		List<NovaPlayer> list = new ArrayList<>();
+		final List<NovaPlayer> list = new ArrayList<>();
 
 		for(NovaPlayer nPlayer : rank.getMembers()) {
 			if(guild.isMember(nPlayer)) {

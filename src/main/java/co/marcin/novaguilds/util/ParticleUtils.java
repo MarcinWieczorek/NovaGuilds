@@ -44,7 +44,7 @@ public class ParticleUtils {
 	 * @return list of vectors
 	 */
 	public static List<Vector> getCircleVectors(int radius, int precision) {
-		List<Vector> list = new ArrayList<>();
+		final List<Vector> list = new ArrayList<>();
 
 		for(int i = 0; i < precision; i++) {
 			double p1 = (i * Math.PI) / (precision / 2);

@@ -207,7 +207,7 @@ public final class TabUtils {
 		}
 
 		//Players TOP
-		List<ListDisplay> listDisplays = new ArrayList<>();
+		final List<ListDisplay> listDisplays = new ArrayList<>();
 		listDisplays.add(new ListDisplay(Config.TABLIST_TOPROW_PLAYERS_POINTS, "POINTS", plugin.getPlayerManager().getTopPlayersByPoints(20)));
 		listDisplays.add(new ListDisplay(Config.TABLIST_TOPROW_PLAYERS_KDR, "KDR", plugin.getPlayerManager().getTopPlayersByKDR(20)));
 

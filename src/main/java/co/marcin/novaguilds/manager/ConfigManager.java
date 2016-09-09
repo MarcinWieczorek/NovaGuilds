@@ -104,7 +104,7 @@ public class ConfigManager {
 			versionString = org.apache.commons.lang.StringUtils.replace(versionString, "_", "");
 			versionString = org.apache.commons.lang.StringUtils.replace(versionString, "R", "");
 			int versionInt = Integer.parseInt(versionString);
-			ArrayList<Integer> intVersions = new ArrayList<>();
+			final List<Integer> intVersions = new ArrayList<>();
 			intVersions.add(versionInt);
 			Map<Integer, ServerVersion> integerServerVersionMap = new HashMap<>();
 
@@ -361,8 +361,8 @@ public class ConfigManager {
 	}
 
 	public List<ItemStack> getItemStackList(String path) {
-		List<String> stringList = getStringList(path);
-		List<ItemStack> itemStackList = new ArrayList<>();
+		final List<String> stringList = getStringList(path);
+		final List<ItemStack> itemStackList = new ArrayList<>();
 
 		for(String string : stringList) {
 			ItemStack is = ItemStackUtils.stringToItemStack(string);
@@ -376,8 +376,8 @@ public class ConfigManager {
 	}
 
 	public List<Material> getMaterialList(String path) {
-		List<String> stringList = getStringList(path);
-		List<Material> materialList = new ArrayList<>();
+		final List<String> stringList = getStringList(path);
+		final List<Material> materialList = new ArrayList<>();
 
 		for(String string : stringList) {
 			Material material = Material.getMaterial(string);

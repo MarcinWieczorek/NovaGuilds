@@ -55,7 +55,7 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 		slotRanksMap.clear();
 
 		int slot = 0;
-		List<NovaRank> ranks = new ArrayList<>();
+		final List<NovaRank> ranks = new ArrayList<>();
 		ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
 		ranks.addAll(guild.getRanks());
 

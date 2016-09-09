@@ -90,7 +90,7 @@ public abstract class AbstractFileResourceManager<T extends Resource> extends Ab
 	 */
 	protected List<File> getFiles() {
 		File[] files = getDirectory().listFiles();
-		List<File> list = new ArrayList<>();
+		final List<File> list = new ArrayList<>();
 
 		if(files != null) {
 			list.addAll(Arrays.asList(files));

@@ -68,7 +68,7 @@ public final class InventoryUtils {
 	 * @return list of missing items
 	 */
 	public static List<ItemStack> getMissingItems(Inventory inventory, List<ItemStack> items) {
-		List<ItemStack> missing = new ArrayList<>();
+		final List<ItemStack> missing = new ArrayList<>();
 
 		if(items != null && inventory.getType() != InventoryType.CREATIVE) {
 			for(ItemStack item : items) {

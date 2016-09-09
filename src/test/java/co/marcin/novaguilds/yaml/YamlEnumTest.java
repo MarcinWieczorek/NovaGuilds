@@ -46,7 +46,7 @@ public class YamlEnumTest {
 		System.out.println();
 		System.out.println("Testing config enums...");
 		YamlConfiguration config = getConfig();
-		List<String> configEnumNames = new ArrayList<>();
+		final List<String> configEnumNames = new ArrayList<>();
 		for(Config v : Config.values()) {
 			configEnumNames.add(v.name());
 		}
@@ -111,7 +111,7 @@ public class YamlEnumTest {
 		System.out.println("Testing message enums...");
 		File motherFile = new File(YamlParseTest.resourcesDirectory, "lang/en-en.yml");
 		YamlConfiguration motherConfiguration = Lang.loadConfiguration(motherFile);
-		List<String> messageEnumNames = new ArrayList<>();
+		final List<String> messageEnumNames = new ArrayList<>();
 		for(Message v : Message.values()) {
 			messageEnumNames.add(v.name());
 		}

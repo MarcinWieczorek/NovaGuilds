@@ -31,7 +31,7 @@ import java.util.List;
 public class PermissionInReadmeTest {
 	@Test
 	public void testPermissionInReadme() throws Exception {
-		List<Permission> fromReadme = new ArrayList<>();
+		final List<Permission> fromReadme = new ArrayList<>();
 
 		Document document = Jsoup.parse(new File("./README.md"), "UTF-8");
 		Element tableBody = document.getElementById("permissions-table").child(1);

@@ -58,7 +58,7 @@ public class YamlIncompleteTranslationTest {
 		//Mother lang setup
 		File motherLangFile = new File(langDir, "en-en.yml");
 		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
-		List<String> motherKeys = new ArrayList<>();
+		final List<String> motherKeys = new ArrayList<>();
 		for(String key : motherConfiguration.getKeys(true)) {
 			if(!motherConfiguration.isConfigurationSection(key)) {
 				motherKeys.add(key);

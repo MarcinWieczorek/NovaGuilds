@@ -63,7 +63,7 @@ public class CommandGuildWar extends AbstractCommandExecutor {
 			String guildNameFormat = Message.CHAT_GUILD_WAR_LIST_ITEM.get();
 
 			if(!guild.getWars().isEmpty()) {
-				List<String> warNames = new ArrayList<>();
+				final List<String> warNames = new ArrayList<>();
 				for(NovaGuild guildLoop : guild.getWars()) {
 					warNames.add(guildLoop.getName());
 				}
@@ -78,7 +78,7 @@ public class CommandGuildWar extends AbstractCommandExecutor {
 			if(!guild.getNoWarInvitations().isEmpty()) {
 				Message.CHAT_GUILD_WAR_LIST_NOWARINVHEADER.send(sender);
 
-				List<String> noWarInvitationNames = new ArrayList<>();
+				final List<String> noWarInvitationNames = new ArrayList<>();
 				for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
 					noWarInvitationNames.add(guildLoop.getName());
 				}

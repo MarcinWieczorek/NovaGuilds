@@ -37,7 +37,7 @@ import java.util.Set;
 public class TabCompleterGuild implements TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-		List<String> list = new ArrayList<>();
+		final List<String> list = new ArrayList<>();
 		final Set<String> keys = new HashSet<>();
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 

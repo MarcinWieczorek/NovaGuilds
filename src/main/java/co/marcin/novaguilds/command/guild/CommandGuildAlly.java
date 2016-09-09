@@ -145,7 +145,7 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 		String guildNameFormat = Message.CHAT_GUILD_ALLY_LIST_ITEM.get();
 
 		if(!guild.getAllies().isEmpty()) {
-			List<String> alliesNamesList = new ArrayList<>();
+			final List<String> alliesNamesList = new ArrayList<>();
 
 			for(NovaGuild guildLoop : guild.getAllies()) {
 				alliesNamesList.add(guildLoop.getName());
@@ -160,7 +160,7 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 		if(!guild.getAllyInvitations().isEmpty()) {
 			Message.CHAT_GUILD_ALLY_LIST_HEADER_INVITATIONS.send(sender);
 
-			List<String> allyInvitationNames = new ArrayList<>();
+			final List<String> allyInvitationNames = new ArrayList<>();
 			for(NovaGuild guildLoop : guild.getAllyInvitations()) {
 				allyInvitationNames.add(guildLoop.getName());
 			}

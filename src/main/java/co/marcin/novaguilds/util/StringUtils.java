@@ -155,7 +155,7 @@ public final class StringUtils {
 	 * @return list
 	 */
 	public static List<String> semicolonToList(String str) {
-		List<String> list = new ArrayList<>();
+		final List<String> list = new ArrayList<>();
 
 		if(str.contains(";")) {
 			String[] split = str.split(";");
@@ -497,7 +497,7 @@ public final class StringUtils {
 		JSONObject obj = new JSONObject(json);
 		JSONArray arr = obj.optJSONArray("array");
 
-		List<String> list = new ArrayList<>();
+		final List<String> list = new ArrayList<>();
 
 		for(int i = 0; i < arr.length(); i++) {
 			list.add(arr.getString(i));
