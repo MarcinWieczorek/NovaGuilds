@@ -293,7 +293,13 @@ public class RegionInteractListener extends AbstractListener {
 			}
 		}
 
-		if((fluidProtectRegion != null && (!nPlayer.hasGuild() || !fluidProtectRegion.getGuild().isMember(nPlayer) || !fluidProtectRegion.getGuild().isAlly(nPlayer.getGuild()))) || (RegionManager.get(block) != null && (!plugin.getRegionManager().canInteract(player, block) || !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
+		if((fluidProtectRegion != null
+				&& (!nPlayer.hasGuild()
+					|| (!fluidProtectRegion.getGuild().isMember(nPlayer)
+						&& !fluidProtectRegion.getGuild().isAlly(nPlayer.getGuild()))))
+				|| (RegionManager.get(block) != null
+					&& (!plugin.getRegionManager().canInteract(player, block)
+						|| !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
