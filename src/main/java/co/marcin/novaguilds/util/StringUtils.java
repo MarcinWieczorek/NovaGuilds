@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 public final class StringUtils {
 	private StringUtils() {
+
 	}
 
 	/**
@@ -109,7 +110,7 @@ public final class StringUtils {
 	 * @return location string
 	 */
 	public static String parseDBLocation(Location location) {
-		return location == null ? "" : location.getWorld().getName() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" + location.getBlockZ() + ";" + Math.round(location.getYaw());
+		return location == null ? "" : location.getWorld().getUID().toString() + ";" + location.getBlockX() + ";" + location.getBlockY() + ";" + location.getBlockZ() + ";" + Math.round(location.getYaw());
 	}
 
 	/**
@@ -194,32 +195,38 @@ public final class StringUtils {
 	/**
 	 * Joins together elements from a list
 	 *
-	 * @param items     list of strings
+	 * @param items     list
 	 * @param separator separator
 	 * @return string
 	 */
-	public static String join(List<String> items, String separator) {
-		String joined = "";
-		for(String item : items) {
-			joined = joined + item + separator;
-		}
+	public static String join(List items, String separator) {
+		return join(items.toArray(), separator);
+	}
 
-		return joined;
+	/**
+	 * Join together elements
+	 * divided with a semicolon
+	 *
+	 * @param list the list
+	 * @return string
+	 */
+	public static String joinSemicolon(List list) {
+		return join(list, ";");
 	}
 
 	/**
 	 * Joins together elements from an array
 	 *
-	 * @param items     list of strings
+	 * @param items     array of objects
 	 * @param separator separator
 	 * @return string
 	 */
-	public static String join(String[] items, String separator) {
+	public static String join(Object[] items, String separator) {
 		String joined = "";
 
 		if(items.length > 0) {
-			for(String row : items) {
-				joined = joined + row + separator;
+			for(Object row : items) {
+				joined = joined + row.toString() + separator;
 			}
 
 			joined = joined.substring(0, joined.length() - separator.length());
@@ -497,5 +504,15 @@ public final class StringUtils {
 		}
 
 		return list;
+	}
+
+	/**
+	 * Checks if a string is an UUID
+	 *
+	 * @param string string
+	 * @return true if UUID
+	 */
+	public static boolean isUUID(String string) {
+		return string.contains("-") && string.split("-").length == 5;
 	}
 }

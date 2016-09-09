@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.basic.GenericRankImpl;
+import co.marcin.novaguilds.impl.storage.managers.database.AbstractDatabaseResourceManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import com.google.common.collect.Lists;
 import org.bukkit.configuration.ConfigurationSection;
@@ -59,7 +60,15 @@ public class RankManager {
 
 	public void save() {
 		long nanoTime = System.nanoTime();
-		int count = getResourceManager().save(get());
+
+		if(getResourceManager() instanceof AbstractDatabaseResourceManager) {
+			AbstractDatabaseResourceManager<NovaRank> databaseResourceManager = (AbstractDatabaseResourceManager<NovaRank>) getResourceManager();
+			int count = databaseResourceManager.executeUpdateUUID();
+			LoggerUtils.info("Rank UUIDs updated in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " ranks)");
+		}
+
+		nanoTime = System.nanoTime();
+		int count = getResourceManager().executeSave() + getResourceManager().save(get());
 		LoggerUtils.info("Ranks data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " ranks)");
 
 		nanoTime = System.nanoTime();

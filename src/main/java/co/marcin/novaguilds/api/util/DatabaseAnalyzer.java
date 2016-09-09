@@ -82,6 +82,14 @@ public interface DatabaseAnalyzer {
 		String getColumnName();
 
 		/**
+		 * Gets column to be put in 'AFTER' query
+		 * For ADD_INSIDE
+		 *
+		 * @return name
+		 */
+		String getPreviousColumn();
+
+		/**
 		 * Gets column type
 		 *
 		 * @return column type
@@ -94,5 +102,12 @@ public interface DatabaseAnalyzer {
 		 * @return table name
 		 */
 		String getTableName();
+
+		/**
+		 * Gets constraints
+		 *
+		 * @return constraints string
+		 */
+		String getConstraints();
 	}
 }

@@ -24,8 +24,12 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.util.IConverter;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.impl.util.NonNullArrayList;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
+import co.marcin.novaguilds.impl.util.converter.NameToGuildConverterImpl;
+import co.marcin.novaguilds.impl.util.converter.UUIDToGuildConverterImpl;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -45,7 +49,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class NovaGuildImpl extends AbstractResource implements NovaGuild {
-	private final UUID uuid;
 	private int id;
 	private String name;
 	private String tag;
@@ -67,20 +70,14 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	private boolean friendlyPvp = false;
 	private Location vaultLocation;
 	private Hologram vaultHologram;
+	private final LoadingWrapper loadingWrapper;
 
 	private final List<NovaPlayer> players = new ArrayList<>();
 
-	private final List<NovaGuild> allies = new ArrayList<>();
-	private final List<String> alliesNames = new ArrayList<>();
-	private final List<String> allyInvitationNames = new ArrayList<>();
-	private final List<NovaGuild> allyInvitations = new ArrayList<>();
-
-	private final List<NovaGuild> war = new ArrayList<>();
-	private final List<String> warNames = new ArrayList<>();
-
-	private final List<String> noWarInvitedNames = new ArrayList<>();
-	private final List<NovaGuild> noWarInvited = new ArrayList<>();
-
+	private final List<NovaGuild> allies = new NonNullArrayList<>();
+	private final List<NovaGuild> allyInvitations = new NonNullArrayList<>();
+	private final List<NovaGuild> war = new NonNullArrayList<>();
+	private final List<NovaGuild> noWarInvited = new NonNullArrayList<>();
 	private final List<NovaPlayer> invitedPlayers = new ArrayList<>();
 	private final List<NovaRank> ranks = new ArrayList<>();
 
@@ -90,12 +87,18 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	 * @param uuid the UUID
 	 */
 	public NovaGuildImpl(UUID uuid) {
-		this.uuid = uuid;
+		this(uuid, null);
 	}
 
-	@Override
-	public UUID getUUID() {
-		return uuid;
+	public NovaGuildImpl(UUID uuid, LoadingWrapper loadingWrapper) {
+		super(uuid);
+
+		if(loadingWrapper != null) {
+			this.loadingWrapper = loadingWrapper;
+		}
+		else {
+			this.loadingWrapper = new LoadingWrapperImpl<>();
+		}
 	}
 
 	@Override
@@ -150,7 +153,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public List<NovaPlayer> getOnlineNovaPlayers() {
-		List<NovaPlayer> list = new ArrayList<>();
+		final List<NovaPlayer> list = new ArrayList<>();
 
 		for(NovaPlayer nPlayer : getPlayers()) {
 			if(nPlayer.isOnline() && nPlayer.getPlayer() != null) {
@@ -163,7 +166,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public List<Player> getOnlinePlayers() {
-		List<Player> list = new ArrayList<>();
+		final List<Player> list = new ArrayList<>();
 
 		for(NovaPlayer nPlayer : getOnlineNovaPlayers()) {
 			list.add(nPlayer.getPlayer());
@@ -364,17 +367,9 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public void setAlliesNames(List<String> list) {
-		alliesNames.clear();
-		alliesNames.addAll(list);
-
-		setChanged();
-	}
-
-	@Override
-	public void setAllyInvitationNames(List<String> list) {
-		allyInvitationNames.clear();
-		allyInvitationNames.addAll(list);
+	public void setAllyInvitations(List<NovaGuild> list) {
+		allyInvitations.clear();
+		allyInvitations.addAll(list);
 
 		setChanged();
 	}
@@ -386,17 +381,9 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public void setWarsNames(List<String> list) {
-		warNames.clear();
-		warNames.addAll(list);
-
-		setChanged();
-	}
-
-	@Override
-	public void setNoWarInvitations(List<String> list) {
-		noWarInvitedNames.clear();
-		noWarInvitedNames.addAll(list);
+	public void setNoWarInvitations(List<NovaGuild> list) {
+		noWarInvited.clear();
+		noWarInvited.addAll(list);
 
 		setChanged();
 	}
@@ -580,9 +567,21 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 			players.add(nPlayer);
 			nPlayer.setGuild(this);
 
-			if(getLeaderName() != null && getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
-				setLeader(nPlayer);
-				leaderName = null;
+			if(getLeaderName() != null) {
+				try {
+					UUID leaderUUID = UUID.fromString(getLeaderName());
+
+					if(leaderUUID.equals(nPlayer.getUUID())) {
+						setLeader(nPlayer);
+						leaderName = null;
+					}
+				}
+				catch(IllegalArgumentException e) {
+					if(getLeaderName().equalsIgnoreCase(nPlayer.getName())) {
+						setLeader(nPlayer);
+						leaderName = null;
+					}
+				}
 			}
 
 			if(NovaGuilds.getInstance().getRankManager().isLoaded() && !nPlayer.isLeader()) {
@@ -789,7 +788,6 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 			this.getVaultHologram().delete();
 		}
 
-
 		GuildManager.checkVaultDestroyed(this);
 		if(getVaultLocation() != null) {
 			getVaultLocation().getBlock().breakNaturally();
@@ -809,6 +807,11 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 		//Delete ranks
 		plugin.getRankManager().delete(this);
+
+		//Delete region
+		if(hasRegion()) {
+			plugin.getRegionManager().remove(getRegion());
+		}
 
 		//Refresh top holograms
 		plugin.getHologramManager().refreshTopHolograms();
@@ -843,28 +846,87 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public void postSetUp() {
-		for(String allyName : alliesNames) {
-			NovaGuild allyGuild = GuildManager.getGuildByName(allyName);
-			addAlly(allyGuild);
+		IConverter<?, NovaGuild> converter;
+
+		if(loadingWrapper instanceof LoadingWrapper37MigrationImpl) {
+			converter = new NameToGuildConverterImpl();
+		}
+		else {
+			converter = new UUIDToGuildConverterImpl();
 		}
 
-		//Wars
-		for(String warName : warNames) {
-			NovaGuild warGuild = GuildManager.getGuildByName(warName);
-			addWar(warGuild);
-		}
-
-		//No-war invitations
-		for(String guildName : noWarInvitedNames) {
-			addNoWarInvitation(GuildManager.getGuildByName(guildName));
-		}
-
-		//Ally invitations
-		for(String guildName : allyInvitationNames) {
-			addAllyInvitation(GuildManager.getGuildByName(guildName));
-		}
-		setAllyInvitationNames(new ArrayList<String>());
+		setAllies(converter.convert(loadingWrapper.getAllies()));
+		setAllyInvitations(converter.convert(loadingWrapper.getAllyInvitations()));
+		setNoWarInvitations(converter.convert(loadingWrapper.getNoWarInvitations()));
+		setWars(converter.convert(loadingWrapper.getWars()));
 
 		setUnchanged();
+
+		if(loadingWrapper.getAllies().size() != getAllies().size()
+				|| loadingWrapper.getAllyInvitations().size() != getAllyInvitations().size()
+				|| loadingWrapper.getNoWarInvitations().size() != getNoWarInvitations().size()
+				|| loadingWrapper.getWars().size() != getWars().size()) {
+			setChanged();
+		}
+	}
+
+	@Override
+	public LoadingWrapper getLoadingWrapper() {
+		return loadingWrapper;
+	}
+
+	public static class LoadingWrapperImpl<T> implements LoadingWrapper<T> {
+		protected final List<T> allies = new ArrayList<>();
+		protected final List<T> allyInvitations = new ArrayList<>();
+		protected final List<T> wars = new ArrayList<>();
+		protected final List<T> noWarInvitations = new ArrayList<>();
+
+		@Override
+		public List<T> getAllies() {
+			return allies;
+		}
+
+		@Override
+		public List<T> getAllyInvitations() {
+			return allyInvitations;
+		}
+
+		@Override
+		public List<T> getWars() {
+			return wars;
+		}
+
+		@Override
+		public List<T> getNoWarInvitations() {
+			return noWarInvitations;
+		}
+
+		@Override
+		public void setAllies(List<T> list) {
+			allies.clear();
+			allies.addAll(list);
+		}
+
+		@Override
+		public void setAllyInvitations(List<T> list) {
+			allyInvitations.clear();
+			allyInvitations.addAll(list);
+		}
+
+		@Override
+		public void setWars(List<T> list) {
+			wars.clear();
+			wars.addAll(list);
+		}
+
+		@Override
+		public void setNoWarInvitations(List<T> list) {
+			noWarInvitations.clear();
+			noWarInvitations.addAll(list);
+		}
+	}
+
+	public static class LoadingWrapper37MigrationImpl extends LoadingWrapperImpl<String> {
+
 	}
 }

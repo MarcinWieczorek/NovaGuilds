@@ -116,8 +116,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 			int returnKeys = isStatementReturnGeneratedKeysSupported() ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS;
 
-			//Guilds insert (id, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, created, bankloc, slots, openinv, banner)
-			String guildsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "guilds` VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			//Guilds insert (id, uuid, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, created, bankloc, slots, openinv, banner)
+			String guildsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "guilds` VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement guildsInsert = getConnection().prepareStatement(guildsInsertSQL, returnKeys);
 			preparedStatementMap.put(PreparedStatements.GUILDS_INSERT, guildsInsert);
 
@@ -127,12 +127,12 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatementMap.put(PreparedStatements.GUILDS_SELECT, guildsSelect);
 
 			//Guilds delete
-			String guildsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "guilds` WHERE `id`=?";
+			String guildsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "guilds` WHERE `uuid`=?";
 			PreparedStatement guildsDelete = getConnection().prepareStatement(guildsDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_DELETE, guildsDelete);
 
 			//Guilds update
-			String guildsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=?, `openinv`=?, `banner`=? WHERE `id`=?";
+			String guildsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=?, `openinv`=?, `banner`=? WHERE `uuid`=?";
 			PreparedStatement guildsUpdate = getConnection().prepareStatement(guildsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
@@ -153,13 +153,13 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatementMap.put(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
 
 			//Players delete
-			String playersDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "players` WHERE `id`=?";
+			String playersDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "players` WHERE `uuid`=?";
 			PreparedStatement playersDelete = getConnection().prepareStatement(playersDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.PLAYERS_DELETE, playersDelete);
 
 
-			//Regions insert (id, loc_1, loc_2, guild, world)
-			String regionsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "regions` VALUES(null,?,?,?,?);";
+			//Regions insert (id, uuid, loc_1, loc_2, guild, world)
+			String regionsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "regions` VALUES(null,?,?,?,?,?);";
 			PreparedStatement regionsInsert = getConnection().prepareStatement(regionsInsertSQL, returnKeys);
 			preparedStatementMap.put(PreparedStatements.REGIONS_INSERT, regionsInsert);
 
@@ -169,18 +169,18 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatementMap.put(PreparedStatements.REGIONS_SELECT, regionsSelect);
 
 			//Regions delete
-			String regionsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "regions` WHERE `id`=?";
+			String regionsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "regions` WHERE `uuid`=?";
 			PreparedStatement regionsDelete = getConnection().prepareStatement(regionsDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_DELETE, regionsDelete);
 
 			//Regions update
-			String regionsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "regions` SET `loc_1`=?, `loc_2`=?, `guild`=?, `world`=? WHERE `id`=?";
+			String regionsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "regions` SET `loc_1`=?, `loc_2`=?, `guild`=?, `world`=? WHERE `uuid`=?";
 			PreparedStatement regionsUpdate = getConnection().prepareStatement(regionsUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
 
-			//Ranks insert (id, name, guild, permissions, players, default, clone)
-			String ranksInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "ranks` VALUES(null,?,?,?,?,?,?);";
+			//Ranks insert (id, uuid, name, guild, permissions, players, default, clone)
+			String ranksInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "ranks` VALUES(null,?,?,?,?,?,?,?);";
 			PreparedStatement ranksInsert = getConnection().prepareStatement(ranksInsertSQL, returnKeys);
 			preparedStatementMap.put(PreparedStatements.RANKS_INSERT, ranksInsert);
 
@@ -190,7 +190,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatementMap.put(PreparedStatements.RANKS_SELECT, ranksSelect);
 
 			//Ranks delete
-			String ranksDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "ranks` WHERE `id`=?";
+			String ranksDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "ranks` WHERE `uuid`=?";
 			PreparedStatement ranksDelete = getConnection().prepareStatement(ranksDeleteSQL);
 			preparedStatementMap.put(PreparedStatements.RANKS_DELETE, ranksDelete);
 
@@ -200,7 +200,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			preparedStatementMap.put(PreparedStatements.RANKS_DELETE_GUILD, ranksDeleteGuild);
 
 			//Ranks update
-			String ranksUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "ranks` SET `name`=?, `guild`=?, `permissions`=?, `members`=?, `def`=?, `clone`=? WHERE `id`=?";
+			String ranksUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "ranks` SET `name`=?, `guild`=?, `permissions`=?, `members`=?, `def`=?, `clone`=? WHERE `uuid`=?";
 			PreparedStatement ranksUpdate = getConnection().prepareStatement(ranksUpdateSQL);
 			preparedStatementMap.put(PreparedStatements.RANKS_UPDATE, ranksUpdate);
 
@@ -267,11 +267,12 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			for(String action : getSqlActions()) {
 				if(action.contains("CREATE TABLE")) {
 					String table = StringUtils.split(action, '`')[1];
-					LoggerUtils.info(" Table: " + table);
+					LoggerUtils.info("Table: " + table, false);
 					analyzer.analyze(table, action);
-					analyzer.update();
 				}
 			}
+
+			analyzer.update();
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);

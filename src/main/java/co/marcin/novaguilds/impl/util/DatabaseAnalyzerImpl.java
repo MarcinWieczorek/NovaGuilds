@@ -21,7 +21,9 @@ public class DatabaseAnalyzerImpl implements DatabaseAnalyzer {
 	private final Map<String, String> sqlStructure = new HashMap<>();
 	private final Map<Integer, String> sqlNames = new HashMap<>();
 	private final Map<String, String> tableStructure = new HashMap<>();
+	private final Map<Integer, String> tableNames = new HashMap<>();
 	private final List<Missmatch> missmatches = new ArrayList<>();
+	private final Map<String, String> sqlConstraints = new HashMap<>();
 
 	public DatabaseAnalyzerImpl(Connection connection) {
 		this.connection = connection;
@@ -33,42 +35,62 @@ public class DatabaseAnalyzerImpl implements DatabaseAnalyzer {
 			addTable(sql);
 		}
 
-		missmatches.clear();
 		getSqlStructure(sql);
 		getTableStructure(table);
 
-		List<String> sqlKeys = new ArrayList<>();
-		sqlKeys.addAll(sqlNames.values());
+		//ADD_INSIDE
+		if(tableStructure.size() < sqlNames.size()) {
+			int shift = 0;
 
-		//search for ADD
-		if(tableStructure.size() < sqlKeys.size()) {
-			int newindex = tableStructure.size();
+			for(int index = 0; index + shift < sqlNames.size(); index++) {
+				String n1 = tableNames.get(index);
+				String n2 = sqlNames.get(index + shift);
 
-			for(int i = newindex; i < sqlStructure.size(); i++) {
-				MissmatchImpl missmatch = new MissmatchImpl();
-				missmatch.setModificationType(ModificationType.ADD);
-				missmatch.setTable(table);
-				String name = sqlKeys.get(i - 1);
-
-				if(!tableStructure.keySet().contains(name)) {
-					missmatch.setColumnName(name);
-					missmatch.setColumnType(sqlStructure.get(name));
-					missmatch.setIndex(i);
-
-					missmatches.add(missmatch);
+				if(n2.equalsIgnoreCase(n1)) {
+					continue;
 				}
+
+				String after = tableNames.get(index - 1);
+				shift++;
+				Missmatch missmatch = new MissmatchImpl(ModificationType.ADD_INSIDE, table, index, n2, sqlStructure.get(n2), after, sqlConstraints.get(n2));
+				missmatches.add(missmatch);
+				LoggerUtils.info(" ADD_INSIDE: " + n2 + " (" + sqlStructure.get(n2) + ") after " + after, false);
 			}
+		}
+
+		for(String columnName : tableNames.values()) {
+			String typeTable = tableStructure.get(columnName);
+			String typeSQL = sqlStructure.get(columnName);
+
+			if(typeSQL.contains("(")) {
+				StringBuilder buf = new StringBuilder(typeSQL);
+				int start = typeSQL.indexOf("(");
+				int end = typeSQL.indexOf(")") + 1;
+				buf.replace(start, end, "");
+				typeSQL = buf.toString();
+			}
+
+			if(typeSQL.equalsIgnoreCase(typeTable)) {
+				continue;
+			}
+
+			Missmatch missmatch = new MissmatchImpl(ModificationType.CHANGETYPE, table, 0, columnName, sqlStructure.get(columnName), sqlConstraints.get(columnName));
+			missmatches.add(missmatch);
+			LoggerUtils.info(" CHANGETYPE: " + columnName + ": " + typeTable + " -> " + typeSQL, false);
 		}
 	}
 
 	@Override
 	public void update() throws SQLException {
 		sort();
-		for(Missmatch Missmatch : missmatches) {
-			LoggerUtils.debug(Missmatch.getModificationType().name() + ": " + Missmatch.getIndex() + " " + Missmatch.getColumnName() + " " + Missmatch.getColumnType());
-			switch(Missmatch.getModificationType()) {
-				case ADD:
-					addColumn(Missmatch);
+
+		for(Missmatch missmatch : missmatches) {
+			switch(missmatch.getModificationType()) {
+				case ADD_INSIDE:
+					addColumn(missmatch);
+					break;
+				case CHANGETYPE:
+					changeType(missmatch);
 					break;
 			}
 		}
@@ -79,19 +101,48 @@ public class DatabaseAnalyzerImpl implements DatabaseAnalyzer {
 		return missmatches;
 	}
 
-	private void addColumn(Missmatch Missmatch) throws SQLException {
-		String sql = "ALTER TABLE `" + Missmatch.getTableName() + "` ADD COLUMN `" + Missmatch.getColumnName() + "` " + Missmatch.getColumnType() + " NOT NULL;";
+	/**
+	 * Adds a column
+	 * (also inside a table)
+	 *
+	 * @param missmatch missmatch instance
+	 * @throws SQLException when something goes wrong
+	 */
+	private void addColumn(Missmatch missmatch) throws SQLException {
+		String sql = "ALTER TABLE `" + missmatch.getTableName() + "` ADD COLUMN `" + missmatch.getColumnName() + "` " + missmatch.getColumnType() + " " + missmatch.getConstraints() + " AFTER `" + missmatch.getPreviousColumn() + "`;";
 		Statement statement = connection.createStatement();
 		statement.execute(sql);
-		LoggerUtils.info("Added new column " + Missmatch.getColumnName() + " to table " + Missmatch.getTableName());
+		LoggerUtils.info("Added new column " + missmatch.getColumnName() + " after " + missmatch.getPreviousColumn() + " to table " + missmatch.getTableName());
 	}
 
+	/**
+	 * Changes table type
+	 *
+	 * @param missmatch missmatch instance
+	 * @throws SQLException when something goes wrong
+	 */
+	private void changeType(Missmatch missmatch) throws SQLException {
+		String sql = "ALTER TABLE `" + missmatch.getTableName() + "` MODIFY `" + missmatch.getColumnName() + "` " + missmatch.getColumnType() + ";";
+		Statement statement = connection.createStatement();
+		statement.execute(sql);
+		LoggerUtils.info("Changed column " + missmatch.getColumnName() + " type to " + missmatch.getColumnType());
+	}
+
+	/**
+	 * Adds a table
+	 *
+	 * @param sql table create SQL
+	 * @throws SQLException when something goes wrong
+	 */
 	private void addTable(String sql) throws SQLException {
 		Statement statement = connection.createStatement();
 		statement.execute(sql);
 		LoggerUtils.info("Added new table");
 	}
 
+	/**
+	 * Sorts missmatches by index
+	 */
 	private void sort() {
 		Collections.sort(missmatches, new Comparator<Missmatch>() {
 			public int compare(Missmatch o1, Missmatch o2) {
@@ -100,47 +151,76 @@ public class DatabaseAnalyzerImpl implements DatabaseAnalyzer {
 		});
 	}
 
+	/**
+	 * Gets table structure from
+	 * table create code
+	 * Fills tableNames with index and name
+	 * Fills tableStructure with name and type
+	 *
+	 * @param sql table create SQL
+	 */
 	private void getSqlStructure(String sql) {
-		String[] cols = org.apache.commons.lang.StringUtils.split(sql, ",\r\n");
-		HashMap<String, String> map = new HashMap<>();
 		sqlNames.clear();
-
+		sqlStructure.clear();
 		int i = 0;
-		for(String c : cols) {
+
+		for(String c : StringUtils.split(sql, ",\r\n")) {
 			if(c.startsWith("  `")) {
 				String[] split = StringUtils.split(c, ' ');
-				String name = org.apache.commons.lang.StringUtils.replace(split[0], "`", "");
-				map.put(name, split[1]);
+				String name = StringUtils.replace(split[0], "`", "");
+				String type = split[1];
+				String constraints = StringUtils.replace(c, "  " + split[0] + " " + split[1], "");
 
+				if(split[2].equalsIgnoreCase("unsigned")) {
+					type += " " + split[2];
+				}
+
+				sqlStructure.put(name, type);
 				sqlNames.put(i, name);
+				sqlConstraints.put(name, constraints);
 				i++;
 			}
 		}
-
-		sqlStructure.clear();
-		sqlStructure.putAll(map);
 	}
 
+	/**
+	 * Gets table structure from the database
+	 * Fills tableNames with index and name
+	 * Fills tableStructure with name and type
+	 *
+	 * @param table table name
+	 * @throws SQLException when something goes wrong
+	 */
 	private void getTableStructure(String table) throws SQLException {
 		DatabaseMetaData databaseMetaData = connection.getMetaData();
 		ResultSet columns = databaseMetaData.getColumns(null, null, table, null);
-		HashMap<String, String> map = new HashMap<>();
+		tableNames.clear();
+		tableStructure.clear();
+		int i = 0;
 
 		while(columns.next()) {
 			String columnName = columns.getString("COLUMN_NAME");
 			String columnType = columns.getString("TYPE_NAME");
 
-			map.put(columnName, columnType);
+			tableNames.put(i, columnName);
+			tableStructure.put(columnName, columnType);
+			i++;
 		}
-		columns.close();
 
-		tableStructure.clear();
-		tableStructure.putAll(map);
+		columns.close();
 	}
 
+	/**
+	 * Checks if a table exists
+	 *
+	 * @param table table name
+	 * @return true if the table exists
+	 * @throws SQLException when something goes wrong
+	 */
 	private boolean existsTable(String table) throws SQLException {
 		DatabaseMetaData md = connection.getMetaData();
 		ResultSet rs = md.getTables(null, null, "%", null);
+
 		while(rs.next()) {
 			if(rs.getString(3).equalsIgnoreCase(table)) {
 				return true;
@@ -151,11 +231,48 @@ public class DatabaseAnalyzerImpl implements DatabaseAnalyzer {
 	}
 
 	public class MissmatchImpl implements DatabaseAnalyzer.Missmatch {
-		private int index;
-		private String table;
-		private String columnName;
-		private String columnType;
-		private ModificationType modificationType;
+		private final int index;
+		private final String table;
+		private final String columnName;
+		private final String columnType;
+		private final String previousColumn;
+		private final String constraints;
+		private final ModificationType modificationType;
+
+		/**
+		 * The constructor
+		 *
+		 * @param modificationType modification type enum
+		 * @param table            table name
+		 * @param index            index
+		 * @param columnName       column name
+		 * @param columnType       column type
+		 * @param previousColumn   previous column (AFTER)
+		 * @param constraints      constraints
+		 */
+		public MissmatchImpl(ModificationType modificationType, String table, int index, String columnName, String columnType, String previousColumn, String constraints) {
+			this.modificationType = modificationType;
+			this.table = table;
+			this.index = index;
+			this.columnName = columnName;
+			this.columnType = columnType;
+			this.previousColumn = previousColumn;
+			this.constraints = constraints;
+		}
+
+		/**
+		 * The constructor
+		 *
+		 * @param modificationType modification type enum
+		 * @param table            table name
+		 * @param index            index
+		 * @param columnName       column name
+		 * @param columnType       column type
+		 * @param constraints      constraints
+		 */
+		public MissmatchImpl(ModificationType modificationType, String table, int index, String columnName, String columnType, String constraints) {
+			this(modificationType, table, index, columnName, columnType, "", constraints);
+		}
 
 		@Override
 		public int getIndex() {
@@ -178,28 +295,18 @@ public class DatabaseAnalyzerImpl implements DatabaseAnalyzer {
 		}
 
 		@Override
+		public String getPreviousColumn() {
+			return previousColumn;
+		}
+
+		@Override
 		public String getTableName() {
 			return table;
 		}
 
-		public void setIndex(int index) {
-			this.index = index;
-		}
-
-		public void setModificationType(ModificationType modificationType) {
-			this.modificationType = modificationType;
-		}
-
-		public void setColumnName(String columnName) {
-			this.columnName = columnName;
-		}
-
-		public void setColumnType(String columnType) {
-			this.columnType = columnType;
-		}
-
-		public void setTable(String table) {
-			this.table = table;
+		@Override
+		public String getConstraints() {
+			return constraints;
 		}
 	}
 }

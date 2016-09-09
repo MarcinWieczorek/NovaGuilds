@@ -1,10 +1,23 @@
 package co.marcin.novaguilds.impl.basic;
 
 import co.marcin.novaguilds.api.storage.Resource;
+import co.marcin.novaguilds.impl.util.AbstractChangeable;
 
-public abstract class AbstractResource implements Resource {
+import java.util.UUID;
+
+public abstract class AbstractResource extends AbstractChangeable implements Resource {
 	private boolean added;
-	private boolean changed;
+	private boolean unloaded;
+	protected final UUID uuid;
+
+	public AbstractResource(UUID uuid) {
+		this.uuid = uuid;
+	}
+
+	@Override
+	public final UUID getUUID() {
+		return uuid;
+	}
 
 	@Override
 	public final boolean isAdded() {
@@ -22,17 +35,12 @@ public abstract class AbstractResource implements Resource {
 	}
 
 	@Override
-	public final void setChanged() {
-		changed = true;
+	public boolean isUnloaded() {
+		return unloaded;
 	}
 
 	@Override
-	public final void setUnchanged() {
-		changed = false;
-	}
-
-	@Override
-	public final boolean isChanged() {
-		return changed;
+	public void unload() {
+		unloaded = true;
 	}
 }

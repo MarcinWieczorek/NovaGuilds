@@ -25,16 +25,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.BannerMeta;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface NovaGuild extends Resource {
-	/**
-	 * Gets the UUID
-	 *
-	 * @return the UUID
-	 */
-	UUID getUUID();
-
 	/**
 	 * Gets the name
 	 *
@@ -324,18 +316,13 @@ public interface NovaGuild extends Resource {
 	void setAllies(List<NovaGuild> list);
 
 	/**
-	 * Sets the allies (names)
-	 *
-	 * @param list the list
-	 */
-	void setAlliesNames(List<String> list);
 
 	/**
 	 * Sets ally invitations (names)
 	 *
 	 * @param list the list
 	 */
-	void setAllyInvitationNames(List<String> list);
+	void setAllyInvitations(List<NovaGuild> list);
 
 	/**
 	 * Sets the wars
@@ -345,18 +332,11 @@ public interface NovaGuild extends Resource {
 	void setWars(List<NovaGuild> list);
 
 	/**
-	 * Sets the wars (names)
-	 *
-	 * @param list the list
-	 */
-	void setWarsNames(List<String> list);
-
-	/**
 	 * Sets no-war invitations
 	 *
 	 * @param list the list
 	 */
-	void setNoWarInvitations(List<String> list);
+	void setNoWarInvitations(List<NovaGuild> list);
 
 	/**
 	 * Sets the amount of points
@@ -701,4 +681,31 @@ public interface NovaGuild extends Resource {
 	 * Run post setup
 	 */
 	void postSetUp();
+
+	/**
+	 * Gets loading wrapper
+	 * Used for storing guild data
+	 * before they are loaded
+	 *
+	 * @return loading wrapper
+	 */
+	LoadingWrapper getLoadingWrapper();
+
+	interface LoadingWrapper<T> {
+		void setAllies(List<T> list);
+
+		void setAllyInvitations(List<T> list);
+
+		void setWars(List<T> list);
+
+		void setNoWarInvitations(List<T> list);
+
+		List<T> getAllies();
+
+		List<T> getAllyInvitations();
+
+		List<T> getWars();
+
+		List<T> getNoWarInvitations();
+	}
 }

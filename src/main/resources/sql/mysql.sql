@@ -1,13 +1,14 @@
 CREATE TABLE `{SQLPREFIX}guilds` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` tinytext CHARACTER SET utf8 NOT NULL,
   `tag` tinytext CHARACTER SET utf8 NOT NULL,
   `name` tinytext CHARACTER SET utf8 NOT NULL,
   `leader` tinytext CHARACTER SET utf8 NOT NULL,
   `spawn` tinytext CHARACTER SET utf8 NOT NULL,
-  `allies` tinytext CHARACTER SET utf8 NOT NULL,
-  `alliesinv` tinytext CHARACTER SET utf8 NOT NULL,
-  `war` tinytext CHARACTER SET utf8 NOT NULL,
-  `nowarinv` tinytext CHARACTER SET utf8 NOT NULL,
+  `allies` text CHARACTER SET utf8 NOT NULL,
+  `alliesinv` text CHARACTER SET utf8 NOT NULL,
+  `war` text CHARACTER SET utf8 NOT NULL,
+  `nowarinv` text CHARACTER SET utf8 NOT NULL,
   `money` double NOT NULL,
   `points` int(11) unsigned NOT NULL,
   `lives` int(11) NOT NULL,
@@ -27,7 +28,7 @@ CREATE TABLE `{SQLPREFIX}players` (
   `uuid` tinytext CHARACTER SET utf8 NOT NULL,
   `name` tinytext CHARACTER SET utf8 NOT NULL,
   `guild` tinytext CHARACTER SET utf8 NOT NULL,
-  `invitedto` tinytext CHARACTER SET utf8 NOT NULL,
+  `invitedto` text CHARACTER SET utf8 NOT NULL,
   `points` int(11) NOT NULL,
   `kills` int(11) NOT NULL,
   `deaths` int(11) NOT NULL,
@@ -36,6 +37,7 @@ CREATE TABLE `{SQLPREFIX}players` (
 --
 CREATE TABLE `{SQLPREFIX}regions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` tinytext CHARACTER SET utf8 NOT NULL,
   `loc_1` tinytext CHARACTER SET utf8 NOT NULL,
   `loc_2` tinytext CHARACTER SET utf8 NOT NULL,
   `guild` tinytext CHARACTER SET utf8 NOT NULL,
@@ -45,6 +47,7 @@ CREATE TABLE `{SQLPREFIX}regions` (
 --
 CREATE TABLE `{SQLPREFIX}ranks` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` tinytext CHARACTER SET utf8 NOT NULL,
   `name` tinytext CHARACTER SET utf8 NOT NULL,
   `guild` tinytext CHARACTER SET utf8 NOT NULL,
   `permissions` text CHARACTER SET utf8 NOT NULL,

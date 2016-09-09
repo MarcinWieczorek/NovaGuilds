@@ -29,7 +29,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface NovaPlayer extends Resource {
 	/**
@@ -59,13 +58,6 @@ public interface NovaPlayer extends Resource {
 	 * @return the list
 	 */
 	List<NovaGuild> getInvitedTo();
-
-	/**
-	 * Gets player's unique ID
-	 *
-	 * @return the UUID
-	 */
-	UUID getUUID();
 
 	/**
 	 * Gets active region selection

@@ -35,6 +35,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
@@ -45,7 +46,6 @@ import java.util.UUID;
 
 public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	private int id = 0;
-	private final UUID uuid;
 	private String name;
 	private Player player;
 	private NovaGuild guild;
@@ -78,7 +78,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	 * @param uuid the UUID
 	 */
 	public NovaPlayerImpl(UUID uuid) {
-		this.uuid = uuid;
+		super(uuid);
 	}
 
 	@Override
@@ -99,11 +99,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	@Override
 	public List<NovaGuild> getInvitedTo() {
 		return invitedTo;
-	}
-
-	@Override
-	public UUID getUUID() {
-		return uuid;
 	}
 
 	@Override
@@ -148,7 +143,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public double getMoney() {
-		return NovaGuilds.getInstance().getDependencyManager().getEconomy().getBalance(name);
+		return NovaGuilds.getInstance().getDependencyManager().getEconomy().getBalance(Bukkit.getOfflinePlayer(getUUID()));
 	}
 
 	@Override
@@ -301,12 +296,8 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 			this.guildRank.removeMember(this);
 		}
 
-		if(guildRank != null) {
-			guildRank.addMember(this);
-
-			if(!hasPermission(GuildPermission.REGION_CREATE) && !hasPermission(GuildPermission.REGION_RESIZE)) {
-				cancelToolProgress();
-			}
+		if(guildRank != null && !hasPermission(GuildPermission.REGION_CREATE) && !hasPermission(GuildPermission.REGION_RESIZE)) {
+			cancelToolProgress();
 		}
 
 		this.guildRank = guildRank;
@@ -415,7 +406,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void addMoney(double money) {
-		NovaGuilds.getInstance().getDependencyManager().getEconomy().depositPlayer(name, money);
+		NovaGuilds.getInstance().getDependencyManager().getEconomy().depositPlayer(Bukkit.getOfflinePlayer(getUUID()), money);
 	}
 
 	@Override
@@ -454,7 +445,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void takeMoney(double money) {
-		NovaGuilds.getInstance().getDependencyManager().getEconomy().withdrawPlayer(name, money);
+		NovaGuilds.getInstance().getDependencyManager().getEconomy().withdrawPlayer(Bukkit.getOfflinePlayer(getUUID()), money);
 	}
 
 	@Override

@@ -39,6 +39,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CommandRegionBuy extends AbstractCommandExecutor implements CommandExecutor {
 	private static final Command command = Command.REGION_BUY;
@@ -135,7 +136,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor implements Command
 			Message.CHAT_REGION_RESIZE_SUCCESS.send(sender);
 		}
 		else {
-			NovaRegion region = new NovaRegionImpl(nPlayer.getActiveSelection());
+			NovaRegion region = new NovaRegionImpl(UUID.randomUUID(), nPlayer.getActiveSelection());
 
 			nPlayer.getGuild().setRegion(region);
 			Message.CHAT_REGION_CREATED.send(sender);

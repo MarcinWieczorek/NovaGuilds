@@ -93,7 +93,7 @@ public final class LoggerUtils {
 	public static void debug(String msg, boolean classPrefix) {
 		if(plugin != null && plugin.getConfigManager() != null) {
 			if(Config.DEBUG.getBoolean()) {
-				info("[DEBUG] " + (classPrefix ? classPrefix() : "") + msg);
+				info("[DEBUG] " + (classPrefix ? classPrefix() : "") + msg, false);
 			}
 		}
 	}

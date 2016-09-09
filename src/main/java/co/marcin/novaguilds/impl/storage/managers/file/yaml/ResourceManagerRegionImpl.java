@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaRegion> {
 	/**
@@ -27,37 +28,71 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 
 	@Override
 	public List<NovaRegion> load() {
-		List<NovaRegion> list = new ArrayList<>();
+		final List<NovaRegion> list = new ArrayList<>();
 
 		for(File regionFile : getFiles()) {
 			FileConfiguration configuration = loadConfiguration(regionFile);
+			String guildName = trimExtension(regionFile);
+			NovaGuild guild;
+			UUID regionUUID;
+			boolean forceSave = false;
 
-			if(configuration != null && configuration.getKeys(true).size() > 0) {
-				World world = plugin.getServer().getWorld(configuration.getString("world"));
+			if(configuration == null || configuration.getKeys(true).size() == 0) {
+				LoggerUtils.error("Null or empty configuration for region " + trimExtension(regionFile));
+				continue;
+			}
 
-				if(world != null) {
-					String guildName = trimExtension(regionFile);
-					NovaGuild guild = GuildManager.getGuildFind(guildName);
+			World world;
+			try {
+				world = plugin.getServer().getWorld(UUID.fromString(configuration.getString("world")));
+			}
+			catch(IllegalArgumentException e) {
+				world = plugin.getServer().getWorld(configuration.getString("world"));
+			}
 
-					if(guild == null) {
-						LoggerUtils.error("There's no guild matching region " + guildName);
-						continue;
-					}
+			if(world == null) {
+				LoggerUtils.error("Null world for region " + trimExtension(regionFile));
+				continue;
+			}
 
-					NovaRegion region = new NovaRegionImpl();
-					region.setAdded();
+			try {
+				String guildUUIDString = configuration.getString("guild", "");
+				guild = GuildManager.getGuild(UUID.fromString(guildUUIDString));
+			}
+			catch(IllegalArgumentException e) {
+				guild = GuildManager.getGuildByName(guildName);
+				forceSave = true;
+			}
 
-					Location c1 = new Location(world, configuration.getInt("corner1.x"), 0, configuration.getInt("corner1.z"));
-					Location c2 = new Location(world, configuration.getInt("corner2.x"), 0, configuration.getInt("corner2.z"));
+			if(guild == null) {
+				LoggerUtils.error("There's no guild matching region " + guildName);
+				continue;
+			}
 
-					region.setCorner(0, c1);
-					region.setCorner(1, c2);
-					region.setWorld(world);
-					guild.setRegion(region);
-					region.setUnchanged();
+			try {
+				regionUUID = UUID.fromString(trimExtension(regionFile));
+			}
+			catch(IllegalArgumentException e) {
+				regionUUID = UUID.randomUUID();
+				forceSave = true;
+			}
 
-					list.add(region);
-				}
+			NovaRegion region = new NovaRegionImpl(regionUUID);
+			region.setAdded();
+
+			Location corner1 = new Location(world, configuration.getInt("corner1.x"), 0, configuration.getInt("corner1.z"));
+			Location corner2 = new Location(world, configuration.getInt("corner2.x"), 0, configuration.getInt("corner2.z"));
+
+			region.setCorner(0, corner1);
+			region.setCorner(1, corner2);
+			region.setWorld(world);
+			guild.setRegion(region);
+			region.setUnchanged();
+
+			list.add(region);
+
+			if(forceSave) {
+				addToSaveQueue(region);
 			}
 		}
 
@@ -66,7 +101,7 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 
 	@Override
 	public boolean save(NovaRegion region) {
-		if(!region.isChanged()) {
+		if(!region.isChanged() && !isInSaveQueue(region) || region.isUnloaded()) {
 			return false;
 		}
 
@@ -79,7 +114,8 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 		if(regionData != null) {
 			try {
 				//set values
-				regionData.set("world", region.getWorld().getName());
+				regionData.set("world", region.getWorld().getUID().toString());
+				regionData.set("guild", region.getGuild().getUUID().toString());
 
 				//corners
 				regionData.set("corner1.x", region.getCorner(0).getBlockX());
@@ -104,21 +140,32 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 	}
 
 	@Override
-	public void remove(NovaRegion region) {
+	public boolean remove(NovaRegion region) {
 		if(!region.isAdded()) {
-			return;
+			return false;
 		}
 
 		if(getFile(region).delete()) {
 			LoggerUtils.info("Deleted guild " + region.getGuild().getName() + " region's file.");
+			return true;
 		}
 		else {
 			LoggerUtils.error("Failed to delete guild " + region.getGuild().getName() + " region's file.");
+			return false;
 		}
 	}
 
 	@Override
 	public File getFile(NovaRegion region) {
-		return new File(getDirectory(), region.getGuild().getName() + ".yml");
+		File file = new File(getDirectory(), region.getUUID().toString() + ".yml");
+
+		if(!file.exists()) {
+			File nameFile = new File(getDirectory(), region.getGuild().getName() + ".yml");
+			if(!nameFile.renameTo(file)) {
+				LoggerUtils.error("Failed to rename file " + nameFile.getName() + " to " + file.getName());
+			}
+		}
+
+		return file;
 	}
 }

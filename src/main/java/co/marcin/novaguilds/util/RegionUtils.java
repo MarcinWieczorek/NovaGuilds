@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.util;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,6 +30,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public final class RegionUtils {
 
@@ -177,7 +179,14 @@ public final class RegionUtils {
 	 * @return location
 	 */
 	public static Location sectionToLocation(ConfigurationSection section) {
-		World world = Bukkit.getWorld(section.getString("world"));
+		World world;
+		try {
+			world = NovaGuilds.getInstance().getServer().getWorld(UUID.fromString(section.getString("world")));
+		}
+		catch(IllegalArgumentException e) {
+			world = NovaGuilds.getInstance().getServer().getWorld(section.getString("world"));
+		}
+
 		double x = section.getDouble("x");
 		double y = section.getDouble("y");
 		double z = section.getDouble("z");
@@ -189,5 +198,18 @@ public final class RegionUtils {
 		}
 
 		return new Location(world, x, y, z, yaw, pitch);
+	}
+
+	/**
+	 * Deserializes 2D location string
+	 * separated by a semicolon
+	 * (x;z)
+	 *
+	 * @param string serialized location
+	 * @return deserialized location
+	 */
+	public static Location deserializeLocation2D(String string) {
+		String[] split = string.split(";");
+		return new Location(null, Integer.parseInt(split[0]), 0, Integer.parseInt(split[1]));
 	}
 }

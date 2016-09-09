@@ -7,12 +7,12 @@ import co.marcin.novaguilds.api.storage.Storage;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 public abstract class AbstractResourceManager<T extends Resource> implements ResourceManager<T> {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Storage storage;
 	private final Collection<T> removalQueue = new HashSet<>();
+	private final Collection<T> saveQueue = new HashSet<>();
 
 	/**
 	 * The constructor
@@ -39,10 +39,16 @@ public abstract class AbstractResourceManager<T extends Resource> implements Res
 	}
 
 	@Override
-	public void remove(List<T> list) {
+	public int remove(Collection<T> list) {
+		int count = 0;
+
 		for(T t : list) {
-			remove(t);
+			if(remove(t)) {
+				count++;
+			}
 		}
+
+		return count;
 	}
 
 	/**
@@ -65,18 +71,42 @@ public abstract class AbstractResourceManager<T extends Resource> implements Res
 
 	@Override
 	public int executeRemoval() {
-		int count = removalQueue.size();
-
-		for(T resource : removalQueue) {
-			remove(resource);
-		}
-
+		int count = remove(removalQueue);
 		removalQueue.clear();
 		return count;
 	}
 
 	@Override
+	public void addToSaveQueue(T t) {
+		saveQueue.add(t);
+	}
+
+	@Override
+	public void removeFromSaveQueue(T t) {
+		if(isInSaveQueue(t)) {
+			saveQueue.remove(t);
+		}
+	}
+
+	@Override
+	public boolean isInSaveQueue(T t) {
+		return saveQueue.contains(t);
+	}
+
+	@Override
 	public void addToRemovalQueue(T t) {
 		removalQueue.add(t);
+	}
+
+	@Override
+	public boolean isInRemovalQueue(T t) {
+		return removalQueue.contains(t);
+	}
+
+	@Override
+	public int executeSave() {
+		int count = save(saveQueue);
+		saveQueue.clear();
+		return count;
 	}
 }

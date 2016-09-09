@@ -2,16 +2,18 @@ package co.marcin.novaguilds.impl.storage.managers.database;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.storage.Storage;
+import co.marcin.novaguilds.api.util.IConverter;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
+import co.marcin.novaguilds.impl.util.converter.ResourceToUUIDConverterImpl;
+import co.marcin.novaguilds.impl.util.converter.StringToUUIDConverterImpl;
 import co.marcin.novaguilds.util.BannerUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import java.nio.charset.Charset;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,27 +28,36 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 	 * @param storage the storage
 	 */
 	public ResourceManagerGuildImpl(Storage storage) {
-		super(storage, NovaGuild.class);
+		super(storage, NovaGuild.class, "guilds");
 	}
 
 	@Override
 	public List<NovaGuild> load() {
 		getStorage().connect();
-		List<NovaGuild> list = new ArrayList<>();
+		final List<NovaGuild> list = new ArrayList<>();
 
 		try {
 			PreparedStatement statement = getStorage().getPreparedStatement(PreparedStatements.GUILDS_SELECT);
 			ResultSet res = statement.executeQuery();
 
 			while(res.next()) {
+				boolean forceSave = false;
+				boolean updateUUID = false;
 				String homeCoordinates = res.getString("spawn");
 
 				Location homeLocation = null;
 				if(!homeCoordinates.isEmpty()) {
 					String[] homeSplit = org.apache.commons.lang.StringUtils.split(homeCoordinates, ';');
 					if(homeSplit.length == 5) {
-						String worldName = homeSplit[0];
-						World world = plugin.getServer().getWorld(worldName);
+						String worldString = homeSplit[0];
+						World world;
+						try {
+							world = plugin.getServer().getWorld(UUID.fromString(worldString));
+						}
+						catch(IllegalArgumentException e) {
+							world = plugin.getServer().getWorld(worldString);
+							forceSave = true;
+						}
 
 						if(world != null) {
 							int x = Integer.parseInt(homeSplit[1]);
@@ -63,9 +74,17 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 				Location vaultLocation = null;
 				if(!vaultLocationString.isEmpty()) {
 					String[] vaultLocationSplit = vaultLocationString.split(";");
+
 					if(vaultLocationSplit.length == 5) { //LENGTH
-						String worldName = vaultLocationSplit[0];
-						World world = plugin.getServer().getWorld(worldName);
+						String worldString = vaultLocationSplit[0];
+						World world;
+						try {
+							world = plugin.getServer().getWorld(UUID.fromString(worldString));
+						}
+						catch(IllegalArgumentException e) {
+							world = plugin.getServer().getWorld(worldString);
+							forceSave = true;
+						}
 
 						if(world != null) {
 							int x = Integer.parseInt(vaultLocationSplit[1]);
@@ -82,29 +101,41 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 					LoggerUtils.info("Failed loading guild " + res.getString("name") + ", world does not exist");
 				}
 
-				List<String> allies = new ArrayList<>();
-				List<String> allyInvitationList = new ArrayList<>();
-				List<String> wars = new ArrayList<>();
-				List<String> noWarInvitationList = new ArrayList<>();
+				//Loading wrapper
+				NovaGuild.LoadingWrapper loadingWrapper = null;
+				List alliesList = StringUtils.semicolonToList(res.getString("allies"));
+				List alliesInvitationsList = StringUtils.semicolonToList(res.getString("alliesinv"));
+				List warsList = StringUtils.semicolonToList(res.getString("war"));
+				List noWarInvitationsList = StringUtils.semicolonToList(res.getString("nowarinv"));
+				List migrationList = alliesList.isEmpty()
+						? alliesInvitationsList.isEmpty()
+								? warsList.isEmpty()
+										? noWarInvitationsList
+										: warsList
+								: alliesInvitationsList
+						: alliesList;
 
-				if(!res.getString("allies").isEmpty()) {
-					allies = StringUtils.semicolonToList(res.getString("allies"));
+				if(migrationList.isEmpty() || StringUtils.isUUID((String) migrationList.get(0))) { //UUID
+					IConverter<String, UUID> converter = new StringToUUIDConverterImpl();
+					alliesList = converter.convert(alliesList);
+					alliesInvitationsList = converter.convert(alliesInvitationsList);
+					warsList = converter.convert(warsList);
+					noWarInvitationsList = converter.convert(noWarInvitationsList);
+				}
+				else { //name
+					loadingWrapper = new NovaGuildImpl.LoadingWrapper37MigrationImpl();
 				}
 
-				if(!res.getString("alliesinv").isEmpty()) {
-					allyInvitationList = StringUtils.semicolonToList(res.getString("alliesinv"));
+				UUID guildUUID;
+				try {
+					guildUUID = UUID.fromString(res.getString("uuid"));
+				}
+				catch(IllegalArgumentException e) {
+					guildUUID = UUID.randomUUID();
+					updateUUID = true;
 				}
 
-				if(!res.getString("war").isEmpty()) {
-					wars = StringUtils.semicolonToList(res.getString("war"));
-				}
-
-				if(!res.getString("nowarinv").isEmpty()) {
-					noWarInvitationList = StringUtils.semicolonToList(res.getString("nowarinv"));
-				}
-
-				UUID stringUUID = UUID.nameUUIDFromBytes(("Guild: " + res.getString("name")).getBytes(Charset.forName("UTF-8"))); //TODO uuid field
-				NovaGuild guild = new NovaGuildImpl(stringUUID);
+				NovaGuild guild = new NovaGuildImpl(guildUUID, loadingWrapper);
 				guild.setAdded();
 				guild.setId(res.getInt("id"));
 				guild.setMoney(res.getDouble("money"));
@@ -119,15 +150,15 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 				guild.setVaultLocation(vaultLocation);
 				guild.setSlots(res.getInt("slots"));
 				guild.setBannerMeta(BannerUtils.deserialize(res.getString("banner")));
-
-				guild.setAlliesNames(allies);
-				guild.setAllyInvitationNames(allyInvitationList);
-
-				guild.setWarsNames(wars);
-				guild.setNoWarInvitations(noWarInvitationList);
 				guild.setInactiveTime(res.getLong("activity"));
 				guild.setTimeCreated(res.getLong("created"));
 				guild.setOpenInvitation(res.getBoolean("openinv"));
+
+				loadingWrapper = guild.getLoadingWrapper();
+				loadingWrapper.setAllies(alliesList);
+				loadingWrapper.setAllyInvitations(alliesInvitationsList);
+				loadingWrapper.setWars(warsList);
+				loadingWrapper.setNoWarInvitations(noWarInvitationsList);
 
 				//set unchanged
 				guild.setUnchanged();
@@ -143,14 +174,23 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 
 				if(guild.getId() == 0) {
 					LoggerUtils.info("Failed to load guild " + res.getString("name") + ". Invalid ID");
+					guild.unload();
 					continue;
+				}
+
+				if(forceSave) {
+					addToSaveQueue(guild);
+				}
+
+				if(updateUUID) {
+					addToUpdateUUIDQueue(guild);
 				}
 
 				list.add(guild);
 			}
 		}
 		catch(SQLException e) {
-			LoggerUtils.info("An error occured while loading guilds!");
+			LoggerUtils.info("An error occurred while loading guilds!");
 			LoggerUtils.exception(e);
 		}
 
@@ -159,7 +199,7 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 
 	@Override
 	public boolean save(NovaGuild guild) {
-		if(!guild.isChanged()) {
+		if(!guild.isChanged() && !isInSaveQueue(guild) || guild.isUnloaded() || isInRemovalQueue(guild)) {
 			return false;
 		}
 
@@ -173,29 +213,30 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 		try {
 			String homeCoordinates = StringUtils.parseDBLocation(guild.getHome());
 			String vaultLocationString = StringUtils.parseDBLocation(guild.getVaultLocation());
+			IConverter<NovaGuild, UUID> cvt = new ResourceToUUIDConverterImpl<>();
 
 			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.GUILDS_UPDATE);
 
-			preparedStatement.setString(1, guild.getTag());
-			preparedStatement.setString(2, guild.getName());
-			preparedStatement.setString(3, guild.getLeader().getName());
-			preparedStatement.setString(4, homeCoordinates);
-			preparedStatement.setString(5, serializeNovaGuildList(guild.getAllies()));
-			preparedStatement.setString(6, serializeNovaGuildList(guild.getAllyInvitations()));
-			preparedStatement.setString(7, serializeNovaGuildList(guild.getWars()));
-			preparedStatement.setString(8, serializeNovaGuildList(guild.getNoWarInvitations()));
-			preparedStatement.setDouble(9, guild.getMoney());
-			preparedStatement.setInt(10, guild.getPoints());
-			preparedStatement.setInt(11, guild.getLives());
-			preparedStatement.setLong(12, guild.getTimeRest());
-			preparedStatement.setLong(13, guild.getLostLiveTime());
-			preparedStatement.setLong(14, guild.getInactiveTime());
-			preparedStatement.setString(15, vaultLocationString);
-			preparedStatement.setInt(16, guild.getSlots());
-			preparedStatement.setBoolean(17, guild.isOpenInvitation());
-			preparedStatement.setString(18, BannerUtils.serialize(guild.getBannerMeta()));
+			preparedStatement.setString( 1,  guild.getTag());                                                      //tag
+			preparedStatement.setString( 2,  guild.getName());                                                     //name
+			preparedStatement.setString( 3,  guild.getLeader().getUUID().toString());                              //leader uuid
+			preparedStatement.setString( 4,  homeCoordinates);                                                     //home location
+			preparedStatement.setString( 5,  StringUtils.joinSemicolon(cvt.convert(guild.getAllies())));           //allies
+			preparedStatement.setString( 6,  StringUtils.joinSemicolon(cvt.convert(guild.getAllyInvitations())));  //ally invitations
+			preparedStatement.setString( 7,  StringUtils.joinSemicolon(cvt.convert(guild.getWars())));             //wars
+			preparedStatement.setString( 8,  StringUtils.joinSemicolon(cvt.convert(guild.getNoWarInvitations()))); //no war invitations
+			preparedStatement.setDouble( 9,  guild.getMoney());                                                    //money
+			preparedStatement.setInt(    10, guild.getPoints());                                                   //points
+			preparedStatement.setInt(    11, guild.getLives());                                                    //lives amount
+			preparedStatement.setLong(   12, guild.getTimeRest());                                                 //rest time
+			preparedStatement.setLong(   13, guild.getLostLiveTime());                                             //lost live time
+			preparedStatement.setLong(   14, guild.getInactiveTime());                                             //inactive time
+			preparedStatement.setString( 15, vaultLocationString);                                                 //vault location
+			preparedStatement.setInt(    16, guild.getSlots());                                                    //slots
+			preparedStatement.setBoolean(17, guild.isOpenInvitation());                                            //open invitation
+			preparedStatement.setString( 18, BannerUtils.serialize(guild.getBannerMeta()));                        //banner
 
-			preparedStatement.setInt(19, guild.getId());
+			preparedStatement.setString( 19, guild.getUUID().toString());                                          //guild UUID
 
 			preparedStatement.executeUpdate();
 			guild.setUnchanged();
@@ -215,27 +256,29 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 		try {
 			String homeLocationString = StringUtils.parseDBLocation(guild.getHome());
 			String vaultLocationString = StringUtils.parseDBLocation(guild.getVaultLocation());
+			IConverter<NovaGuild, UUID> cvt = new ResourceToUUIDConverterImpl<>();
 
 			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.GUILDS_INSERT);
-			preparedStatement.setString(1, guild.getTag()); //tag
-			preparedStatement.setString(2, guild.getName()); //name
-			preparedStatement.setString(3, guild.getLeader().getName()); //leader
-			preparedStatement.setString(4, homeLocationString); //home
-			preparedStatement.setString(5, serializeNovaGuildList(guild.getAllies()));
-			preparedStatement.setString(6, serializeNovaGuildList(guild.getAllyInvitations()));
-			preparedStatement.setString(7, serializeNovaGuildList(guild.getWars()));
-			preparedStatement.setString(8, serializeNovaGuildList(guild.getNoWarInvitations()));
-			preparedStatement.setDouble(9, guild.getMoney()); //money
-			preparedStatement.setInt(10, guild.getPoints()); //points
-			preparedStatement.setInt(11, guild.getLives()); //lives
-			preparedStatement.setLong(12, guild.getTimeRest()); //timerest
-			preparedStatement.setLong(13, guild.getLostLiveTime()); //lostlive
-			preparedStatement.setLong(14, guild.getInactiveTime()); //active
-			preparedStatement.setLong(15, guild.getTimeCreated()); //created
-			preparedStatement.setString(16, vaultLocationString); //vault location
-			preparedStatement.setInt(17, guild.getSlots()); //slots
-			preparedStatement.setBoolean(18, guild.isOpenInvitation()); //openinv
-			preparedStatement.setString(19, BannerUtils.serialize(guild.getBannerMeta())); //banner
+			preparedStatement.setString( 1,  guild.getUUID().toString());                                          //uuid
+			preparedStatement.setString( 2,  guild.getTag());                                                      //tag
+			preparedStatement.setString( 3,  guild.getName());                                                     //name
+			preparedStatement.setString( 4,  guild.getLeader().getUUID().toString());                              //leader uuid
+			preparedStatement.setString( 5,  homeLocationString);                                                  //home location
+			preparedStatement.setString( 6,  StringUtils.joinSemicolon(cvt.convert(guild.getAllies())));           //allies
+			preparedStatement.setString( 7,  StringUtils.joinSemicolon(cvt.convert(guild.getAllyInvitations())));  //ally invitations
+			preparedStatement.setString( 8,  StringUtils.joinSemicolon(cvt.convert(guild.getWars())));             //wars
+			preparedStatement.setString( 9,  StringUtils.joinSemicolon(cvt.convert(guild.getNoWarInvitations()))); //no war invitations
+			preparedStatement.setDouble( 10, guild.getMoney());                                                    //money
+			preparedStatement.setInt(    11, guild.getPoints());                                                   //points
+			preparedStatement.setInt(    12, guild.getLives());                                                    //lives amount
+			preparedStatement.setLong(   13, guild.getTimeRest());                                                 //rest time
+			preparedStatement.setLong(   14, guild.getLostLiveTime());                                             //open invitation
+			preparedStatement.setLong(   15, guild.getInactiveTime());                                             //lost live time
+			preparedStatement.setLong(   16, guild.getTimeCreated());                                              //created time
+			preparedStatement.setString( 17, vaultLocationString);                                                 //vault location
+			preparedStatement.setInt(    18, guild.getSlots());                                                    //slots
+			preparedStatement.setBoolean(19, guild.isOpenInvitation());                                            //open invitation
+			preparedStatement.setString( 20, BannerUtils.serialize(guild.getBannerMeta()));                        //banner
 
 			preparedStatement.execute();
 
@@ -250,44 +293,28 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 	}
 
 	@Override
-	public void remove(NovaGuild guild) {
+	public boolean remove(NovaGuild guild) {
 		if(!guild.isAdded()) {
-			return;
+			return false;
 		}
 
 		getStorage().connect();
 
 		try {
 			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.GUILDS_DELETE);
-			preparedStatement.setInt(1, guild.getId());
+			preparedStatement.setString(1, guild.getUUID().toString());
 			preparedStatement.executeUpdate();
+			return true;
 		}
 		catch(SQLException e) {
 			LoggerUtils.info("SQLException while deleting a guild.");
 			LoggerUtils.exception(e);
+			return false;
 		}
 	}
 
-	/**
-	 * Serialize a list of guilds to a string of names separated by semicolons.
-	 * name1;name2;name3 etc.
-	 *
-	 * @param list the list
-	 * @return the string
-	 */
-	protected String serializeNovaGuildList(List<NovaGuild> list) {
-		String string = "";
-
-		if(!list.isEmpty()) {
-			for(NovaGuild guild : list) {
-				if(!string.equals("")) {
-					string += ";";
-				}
-
-				string += guild.getName();
-			}
-		}
-
-		return string;
+	@Override
+	protected void updateUUID(NovaGuild resource) {
+		updateUUID(resource, resource.getId());
 	}
 }

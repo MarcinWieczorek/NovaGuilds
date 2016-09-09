@@ -162,7 +162,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
 			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
 
-			region = new NovaRegionImpl();
+			region = new NovaRegionImpl(UUID.randomUUID());
 
 			region.setCorner(0, c1);
 			region.setCorner(1, c2);

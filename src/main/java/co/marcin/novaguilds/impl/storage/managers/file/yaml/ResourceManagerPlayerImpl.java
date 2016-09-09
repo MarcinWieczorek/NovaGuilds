@@ -3,9 +3,14 @@ package co.marcin.novaguilds.impl.storage.managers.file.yaml;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.storage.Storage;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
+import co.marcin.novaguilds.impl.util.converter.ResourceToUUIDConverterImpl;
+import co.marcin.novaguilds.impl.util.converter.ToStringConverterImpl;
+import co.marcin.novaguilds.impl.util.converter.UUIDOrNameToGuildConverterImpl;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -27,13 +32,14 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 
 	@Override
 	public List<NovaPlayer> load() {
-		List<NovaPlayer> list = new ArrayList<>();
+		final List<NovaPlayer> list = new ArrayList<>();
+		final List<UUID> uuids = new ArrayList<>();
 
 		for(File playerFile : getFiles()) {
 			FileConfiguration configuration = loadConfiguration(playerFile);
 
 			if(configuration != null) {
-				UUID uuid = UUID.fromString(configuration.getString("uuid"));
+				UUID uuid = UUID.fromString(trimExtension(playerFile));
 				NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
 				nPlayer.setAdded();
 
@@ -46,16 +52,51 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 				}
 
 				nPlayer.setName(configuration.getString("name"));
-				List<NovaGuild> invitedToList = plugin.getGuildManager().nameListToGuildsList(configuration.getStringList("invitedto"));
-				nPlayer.setInvitedTo(invitedToList);
 
+				List<String> invitedToStringList = configuration.getStringList("invitedto");
+				List<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
+
+				if(!invitedToStringList.isEmpty() && !StringUtils.isUUID(invitedToStringList.get(0))) {
+					LoggerUtils.debug("Migrating invited list for player " + nPlayer.getUUID().toString());
+					addToSaveQueue(nPlayer);
+				}
+
+				if(invitedToStringList.size() != invitedToList.size()) {
+					LoggerUtils.debug("Invited to size differs for player " + nPlayer.getUUID().toString());
+					addToSaveQueue(nPlayer);
+				}
+
+				nPlayer.setInvitedTo(invitedToList);
 				nPlayer.setPoints(configuration.getInt("points"));
 				nPlayer.setKills(configuration.getInt("kills"));
 				nPlayer.setDeaths(configuration.getInt("deaths"));
 
-				String guildName = configuration.getString("guild").toLowerCase();
-				if(!guildName.isEmpty()) {
-					NovaGuild guild = GuildManager.getGuildByName(guildName);
+				//Remove if doubled
+				if(uuids.contains(nPlayer.getUUID())) {
+					nPlayer.unload();
+
+					if(Config.DELETEINVALID.getBoolean()) {
+						addToRemovalQueue(nPlayer);
+						LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
+					}
+					else {
+						LoggerUtils.error("Doubled player: " + nPlayer.getName());
+					}
+
+					continue;
+				}
+
+				//Set the guild
+				String guildString = configuration.getString("guild");
+				if(configuration.contains("guild") && !guildString.isEmpty()) {
+					NovaGuild guild;
+					try {
+						guild = GuildManager.getGuild(UUID.fromString(guildString));
+					}
+					catch(IllegalArgumentException e) {
+						guild = GuildManager.getGuildByName(guildString);
+						addToSaveQueue(nPlayer);
+					}
 
 					if(guild != null) {
 						guild.addPlayer(nPlayer);
@@ -65,6 +106,7 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 				nPlayer.setUnchanged();
 
 				list.add(nPlayer);
+				uuids.add(nPlayer.getUUID());
 			}
 		}
 
@@ -73,7 +115,7 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 
 	@Override
 	public boolean save(NovaPlayer nPlayer) {
-		if(!nPlayer.isChanged()) {
+		if(!nPlayer.isChanged() && !isInSaveQueue(nPlayer) || nPlayer.isUnloaded()) {
 			return false;
 		}
 
@@ -86,13 +128,16 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 		if(playerData != null) {
 			try {
 				//set values
-				playerData.set("uuid", nPlayer.getUUID().toString());
 				playerData.set("name", nPlayer.getName());
-				playerData.set("guild", nPlayer.hasGuild() ? nPlayer.getGuild().getName() : "");
-				playerData.set("invitedto", nPlayer.getInvitedTo());
+				playerData.set("guild", nPlayer.hasGuild() ? nPlayer.getGuild().getUUID().toString() : null);
+				playerData.set("invitedto", new ToStringConverterImpl().convert((List) new ResourceToUUIDConverterImpl<NovaGuild>().convert(nPlayer.getInvitedTo())));
 				playerData.set("points", nPlayer.getPoints());
 				playerData.set("kills", nPlayer.getKills());
 				playerData.set("deaths", nPlayer.getDeaths());
+
+				if(playerData.contains("uuid")) {
+					playerData.set("uuid", null);
+				}
 
 				//save
 				playerData.save(getFile(nPlayer));
@@ -109,16 +154,18 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 	}
 
 	@Override
-	public void remove(NovaPlayer nPlayer) {
+	public boolean remove(NovaPlayer nPlayer) {
 		if(!nPlayer.isAdded()) {
-			return;
+			return false;
 		}
 
 		if(getFile(nPlayer).delete()) {
 			LoggerUtils.info("Deleted player " + nPlayer.getName() + "'s file.");
+			return true;
 		}
 		else {
 			LoggerUtils.error("Failed to delete player " + nPlayer.getName() + "'s file.");
+			return false;
 		}
 	}
 

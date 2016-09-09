@@ -31,6 +31,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
+import co.marcin.novaguilds.impl.storage.managers.database.AbstractDatabaseResourceManager;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -52,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class GuildManager {
@@ -72,6 +74,15 @@ public class GuildManager {
 		return null;
 	}
 
+	public static NovaGuild getGuild(UUID uuid) {
+		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+			if(guild.getUUID().equals(uuid)) {
+				return guild;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Find by player/tag/guildname
 	 *
@@ -79,23 +90,28 @@ public class GuildManager {
 	 * @return guild instance
 	 */
 	public static NovaGuild getGuildFind(String mixed) {
-		NovaGuild guild = getGuildByTag(mixed);
-
-		if(guild == null) {
-			guild = getGuildByName(mixed);
+		try {
+			return getGuild(UUID.fromString(mixed));
 		}
+		catch(IllegalArgumentException e) {
+			NovaGuild guild = getGuildByName(mixed);
 
-		if(guild == null) {
-			NovaPlayer nPlayer = PlayerManager.getPlayer(mixed);
-
-			if(nPlayer == null) {
-				return null;
+			if(guild == null) {
+				guild = getGuildByTag(mixed);
 			}
 
-			guild = nPlayer.getGuild();
-		}
+			if(guild == null) {
+				NovaPlayer nPlayer = PlayerManager.getPlayer(mixed);
 
-		return guild;
+				if(nPlayer == null) {
+					return null;
+				}
+
+				guild = nPlayer.getGuild();
+			}
+
+			return guild;
+		}
 	}
 
 	public Collection<NovaGuild> getGuilds() {
@@ -104,19 +120,6 @@ public class GuildManager {
 
 	public boolean exists(String guildName) {
 		return guilds.containsKey(guildName);
-	}
-
-	public List<NovaGuild> nameListToGuildsList(List<String> namesList) {
-		List<NovaGuild> invitedToList = new ArrayList<>();
-
-		for(String guildName : namesList) {
-			NovaGuild guild = getGuildByName(guildName);
-			if(guild != null) {
-				invitedToList.add(guild);
-			}
-		}
-
-		return invitedToList;
 	}
 
 	public void load() {
@@ -150,7 +153,15 @@ public class GuildManager {
 
 	public void save() {
 		long startTime = System.nanoTime();
-		int count = getResourceManager().save(getGuilds());
+
+		if(getResourceManager() instanceof AbstractDatabaseResourceManager) {
+			AbstractDatabaseResourceManager<NovaGuild> databaseResourceManager = (AbstractDatabaseResourceManager<NovaGuild>) getResourceManager();
+			int count = databaseResourceManager.executeUpdateUUID();
+			LoggerUtils.info("Guild UUIDs updated in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
+		}
+
+		startTime = System.nanoTime();
+		int count = getResourceManager().executeSave() + getResourceManager().save(getGuilds());
 		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 
 		startTime = System.nanoTime();
@@ -177,7 +188,7 @@ public class GuildManager {
 	}
 
 	public List<NovaRaid> getRaidsTakingPart(NovaGuild guild) {
-		List<NovaRaid> list = new ArrayList<>();
+		final List<NovaRaid> list = new ArrayList<>();
 		for(NovaGuild raidGuild : getGuilds()) {
 			if(raidGuild.isRaid() && raidGuild.getRaid().getGuildAttacker().equals(guild)) {
 				list.add(raidGuild.getRaid());
@@ -191,51 +202,45 @@ public class GuildManager {
 		int i = 0;
 		for(NovaGuild guild : new ArrayList<>(getGuilds())) {
 			boolean remove = false;
-			if(guild != null) {
-				if(((NovaGuildImpl) guild).getLeaderName() != null) {
-					LoggerUtils.info("(" + guild.getName() + ") Leader's name is set. Probably leader is null");
-				}
+			guild.postSetUp();
 
-				if(guild.getLeader() == null) {
-					LoggerUtils.info("(" + guild.getName() + ") Leader is null");
-					remove = true;
-				}
-
-				if(guild.getPlayers().isEmpty()) {
-					LoggerUtils.info("(" + guild.getName() + ") 0 players");
-					remove = true;
-				}
-
-				if(guild.getHome() == null) {
-					LoggerUtils.info("(" + guild.getName() + ") home location is null");
-					remove = true;
-				}
-
-				if(guild.getId() <= 0 && plugin.getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
-					LoggerUtils.info("(" + guild.getName() + ") ID <= 0 !");
-					remove = true;
-				}
+			if(((NovaGuildImpl) guild).getLeaderName() != null) {
+				LoggerUtils.info("(" + guild.getName() + ") Leader's name is set. Probably leader is null");
 			}
-			else {
-				LoggerUtils.info("guild is null!");
+
+			if(guild.getLeader() == null) {
+				LoggerUtils.info("(" + guild.getName() + ") Leader is null");
+				remove = true;
+			}
+
+			if(guild.getPlayers().isEmpty()) {
+				LoggerUtils.info("(" + guild.getName() + ") 0 players");
+				remove = true;
+			}
+
+			if(guild.getHome() == null) {
+				LoggerUtils.info("(" + guild.getName() + ") home location is null");
+				remove = true;
+			}
+
+			if(guild.getId() <= 0 && plugin.getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
+				LoggerUtils.info("(" + guild.getName() + ") ID <= 0 !");
 				remove = true;
 			}
 
 			if(remove) {
-				LoggerUtils.info("Unloaded guild " + (guild == null ? "null" : guild.getName()));
+				LoggerUtils.info("Unloaded guild " + guild.getName());
 				if(Config.DELETEINVALID.getBoolean()) {
 					delete(guild);
-					LoggerUtils.info("DELETED guild " + (guild == null ? "null" : guild.getName()));
+					LoggerUtils.info("DELETED guild " + guild.getName());
 				}
-				else if(guild != null) {
+				else {
 					guilds.remove(guild.getName());
-					guild.destroy();
 				}
 
+				guild.destroy();
+				guild.unload();
 				i++;
-			}
-			else { //Add allies, wars etc
-				guild.postSetUp();
 			}
 		}
 
@@ -243,7 +248,7 @@ public class GuildManager {
 	}
 
 	public List<NovaGuild> getTopGuildsByPoints(int count) {
-		List<NovaGuild> guildsByPoints = new ArrayList<>(guilds.values());
+		final List<NovaGuild> guildsByPoints = new ArrayList<>(guilds.values());
 
 		Collections.sort(guildsByPoints, new Comparator<NovaGuild>() {
 			public int compare(NovaGuild o1, NovaGuild o2) {
@@ -251,7 +256,7 @@ public class GuildManager {
 			}
 		});
 
-		List<NovaGuild> guildsLimited = new ArrayList<>();
+		final List<NovaGuild> guildsLimited = new ArrayList<>();
 
 		int i = 0;
 		for(NovaGuild guild : guildsByPoints) {
@@ -267,7 +272,7 @@ public class GuildManager {
 	}
 
 	public List<NovaGuild> getMostInactiveGuilds() {
-		List<NovaGuild> guildsByInactive = new ArrayList<>(guilds.values());
+		final List<NovaGuild> guildsByInactive = new ArrayList<>(guilds.values());
 
 		Collections.sort(guildsByInactive, new Comparator<NovaGuild>() {
 			public int compare(NovaGuild o1, NovaGuild o2) {
@@ -373,7 +378,7 @@ public class GuildManager {
 		int limit = Config.LEADERBOARD_GUILD_ROWS.getInt();
 		int i = 1;
 
-		List<String> list = new ArrayList<>();
+		final List<String> list = new ArrayList<>();
 		Map<VarKey, String> vars = new HashMap<>();
 
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
@@ -414,7 +419,7 @@ public class GuildManager {
 		LoggerUtils.info("Guilds cleanup finished, removed " + count + " guilds.");
 	}
 
-	private ResourceManager<NovaGuild> getResourceManager() {
+	public ResourceManager<NovaGuild> getResourceManager() {
 		return plugin.getStorage().getResourceManager(NovaGuild.class);
 	}
 }

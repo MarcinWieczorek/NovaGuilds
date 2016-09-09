@@ -2,14 +2,15 @@ PRAGMA encoding = 'UTF-8';
 --
 CREATE TABLE `{SQLPREFIX}guilds` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `uuid` tinytext NOT NULL,
   `tag` tinytext NOT NULL,
   `name` tinytext NOT NULL,
   `leader` tinytext NOT NULL,
   `spawn` tinytext NOT NULL,
-  `allies` tinytext NOT NULL,
-  `alliesinv` tinytext NOT NULL,
-  `war` tinytext NOT NULL,
-  `nowarinv` tinytext NOT NULL,
+  `allies` text NOT NULL,
+  `alliesinv` text NOT NULL,
+  `war` text NOT NULL,
+  `nowarinv` text NOT NULL,
   `money` double NOT NULL,
   `points` int(11) NOT NULL,
   `lives` int(11) NOT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE `{SQLPREFIX}players` (
   `uuid` tinytext NOT NULL,
   `name` tinytext NOT NULL,
   `guild` tinytext NOT NULL,
-  `invitedto` tinytext NOT NULL,
+  `invitedto` text NOT NULL,
   `points` int(11) NOT NULL,
   `kills` int(11) NOT NULL,
   `deaths` int(11) NOT NULL
@@ -36,6 +37,7 @@ CREATE TABLE `{SQLPREFIX}players` (
 --
 CREATE TABLE `{SQLPREFIX}regions` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `uuid` tinytext NOT NULL,
   `loc_1` tinytext NOT NULL,
   `loc_2` tinytext NOT NULL,
   `guild` tinytext NOT NULL,
@@ -44,6 +46,7 @@ CREATE TABLE `{SQLPREFIX}regions` (
 --
 CREATE TABLE `{SQLPREFIX}ranks` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `uuid` tinytext NOT NULL,
   `name` tinytext NOT NULL,
   `guild` tinytext NOT NULL,
   `permissions` text NOT NULL,

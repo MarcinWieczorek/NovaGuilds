@@ -39,19 +39,51 @@ public interface ResourceManager<T extends Resource> {
 	 *
 	 * @param t instance
 	 */
-	void remove(T t);
+	boolean remove(T t);
 
 	/**
 	 * Removes data from a list
 	 *
 	 * @param list the list
 	 */
-	void remove(List<T> list);
+	int remove(Collection<T> list);
+
+	/**
+	 * Adds an object to save queue
+	 *
+	 * @param t instance
+	 */
+	void addToSaveQueue(T t);
+
+	/**
+	 * Removes an object from save queue
+	 *
+	 * @param t instance
+	 */
+	void removeFromSaveQueue(T t);
+
+	/**
+	 * Checks if an object is in save queue
+	 *
+	 * @param t instance
+	 * @return boolean
+	 */
+	boolean isInSaveQueue(T t);
 
 	/**
 	 * Adds an object to removal queue
+	 *
+	 * @param t instance
 	 */
 	void addToRemovalQueue(T t);
+
+	/**
+	 * Checks if an object is in removal queue
+	 *
+	 * @param t instance
+	 * @return boolean
+	 */
+	boolean isInRemovalQueue(T t);
 
 	/**
 	 * Actually deletes queued data
@@ -59,4 +91,11 @@ public interface ResourceManager<T extends Resource> {
 	 * @return amount of removed items
 	 */
 	int executeRemoval();
+
+	/**
+	 * Saves queued data
+	 *
+	 * @return amount of saved items
+	 */
+	int executeSave();
 }

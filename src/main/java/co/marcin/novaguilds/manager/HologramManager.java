@@ -56,7 +56,7 @@ public class HologramManager {
 				nHologram.setLocation(location);
 				nHologram.setTop(configuration.getBoolean(name + ".top"));
 
-				List<String> lines = new ArrayList<>();
+				final List<String> lines = new ArrayList<>();
 				if(nHologram.isTop()) {
 					lines.add(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
 					lines.addAll(plugin.getGuildManager().getTopGuilds());
@@ -94,7 +94,7 @@ public class HologramManager {
 					}
 
 					configuration.set(hologram.getName() + ".top", hologram.isTop());
-					configuration.set(hologram.getName() + ".location.world", hologram.getLocation().getWorld().getName());
+					configuration.set(hologram.getName() + ".location.world", hologram.getLocation().getWorld().getUID().toString());
 					configuration.set(hologram.getName() + ".location.x", hologram.getLocation().getX());
 					configuration.set(hologram.getName() + ".location.y", hologram.getLocation().getY());
 					configuration.set(hologram.getName() + ".location.z", hologram.getLocation().getZ());

@@ -25,6 +25,8 @@ import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.util.UUID;
+
 public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	private final Location[] corners = new Location[2];
 	private int id;
@@ -34,8 +36,8 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	/**
 	 * The constructor
 	 */
-	public NovaRegionImpl() {
-
+	public NovaRegionImpl(UUID uuid) {
+		super(uuid);
 	}
 
 	/**
@@ -43,7 +45,8 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	 *
 	 * @param selection the selection
 	 */
-	public NovaRegionImpl(RegionSelection selection) {
+	public NovaRegionImpl(UUID uuid, RegionSelection selection) {
+		this(uuid);
 		setCorner(0, selection.getCorner(0));
 		setCorner(1, selection.getCorner(1));
 		setWorld(selection.getCorner(0).getWorld());
@@ -116,6 +119,7 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	@Override
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
+		setChanged();
 	}
 
 	@Override

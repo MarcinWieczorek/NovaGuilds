@@ -341,7 +341,7 @@ public class MessageManager {
 	}
 
 	public static List<String> replaceVarKeyMap(List<String> list, Map<VarKey, String> vars, boolean usePrefixColor) {
-		List<String> newList = new ArrayList<>();
+		final List<String> newList = new ArrayList<>();
 
 		for(String string : list) {
 			string = replaceVarKeyMap(string, vars, usePrefixColor);

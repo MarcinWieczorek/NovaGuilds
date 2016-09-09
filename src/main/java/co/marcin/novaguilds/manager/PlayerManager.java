@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerManager {
@@ -61,6 +62,16 @@ public class PlayerManager {
 		return getPlayer(sender.getName());
 	}
 
+	public static NovaPlayer getPlayer(UUID uuid) {
+		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
+			if(nPlayer.getUUID().equals(uuid)) {
+				return nPlayer;
+			}
+		}
+
+		return null;
+	}
+
 	public Collection<NovaPlayer> getPlayers() {
 		return players.values();
 	}
@@ -77,7 +88,7 @@ public class PlayerManager {
 
 	public void save() {
 		long startTime = System.nanoTime();
-		int count = getResourceManager().save(getPlayers());
+		int count = getResourceManager().executeSave() + getResourceManager().save(getPlayers());
 		LoggerUtils.info("Players data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 
 		startTime = System.nanoTime();
@@ -88,18 +99,6 @@ public class PlayerManager {
 	public void load() {
 		players.clear();
 		for(NovaPlayer nPlayer : getResourceManager().load()) {
-			if(players.containsKey(nPlayer.getName())) {
-				if(Config.DELETEINVALID.getBoolean()) {
-					getResourceManager().addToRemovalQueue(nPlayer);
-					LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
-				}
-				else {
-					LoggerUtils.error("Doubled player: " + nPlayer.getName());
-				}
-
-				continue;
-			}
-
 			players.put(nPlayer.getName(), nPlayer);
 		}
 
@@ -180,7 +179,7 @@ public class PlayerManager {
 	 * @return list of players
 	 */
 	public List<NovaPlayer> getTopPlayersByPoints() {
-		List<NovaPlayer> playerList = new ArrayList<>(players.values());
+		final List<NovaPlayer> playerList = new ArrayList<>(players.values());
 
 		Collections.sort(playerList, new Comparator<NovaPlayer>() {
 			public int compare(NovaPlayer o1, NovaPlayer o2) {
@@ -192,7 +191,7 @@ public class PlayerManager {
 	}
 
 	public List<NovaPlayer> getTopPlayersByKDR() {
-		List<NovaPlayer> playerList = new ArrayList<>(players.values());
+		final List<NovaPlayer> playerList = new ArrayList<>(players.values());
 
 		Collections.sort(playerList, new Comparator<NovaPlayer>() {
 			public int compare(NovaPlayer p1, NovaPlayer p2) {
@@ -217,7 +216,7 @@ public class PlayerManager {
 		return list.subList(0, list.size() < limit ? list.size() : limit);
 	}
 
-	private ResourceManager<NovaPlayer> getResourceManager() {
+	public ResourceManager<NovaPlayer> getResourceManager() {
 		return plugin.getStorage().getResourceManager(NovaPlayer.class);
 	}
 }

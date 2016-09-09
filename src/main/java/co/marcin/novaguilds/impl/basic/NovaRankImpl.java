@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class NovaRankImpl extends AbstractResource implements NovaRank {
 	private int id;
@@ -39,24 +40,24 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 	/**
 	 * The constructor
 	 *
-	 * @param id rank's id
+	 * @param uuid uuid
 	 */
-	public NovaRankImpl(int id) {
-		this.id = id;
+	public NovaRankImpl(UUID uuid) {
+		super(uuid);
 	}
 
 	/**
 	 * The constructor
-	 * Not added rank's id = -1
 	 *
 	 * @param name rank's name
 	 */
 	public NovaRankImpl(String name) {
-		id = -1;
+		this(UUID.randomUUID());
 		this.name = name;
 	}
 
 	public NovaRankImpl(final NovaRank rank) {
+		this(rank.getName());
 		setClone(rank.isGeneric());
 		setName(rank.getName());
 		setPermissions(rank.getPermissions());

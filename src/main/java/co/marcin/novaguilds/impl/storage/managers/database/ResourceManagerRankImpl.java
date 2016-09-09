@@ -4,11 +4,14 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.storage.Storage;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaRankImpl;
+import co.marcin.novaguilds.impl.util.converter.EnumToNameConverterImpl;
+import co.marcin.novaguilds.impl.util.converter.ResourceToUUIDConverterImpl;
+import co.marcin.novaguilds.impl.util.converter.UUIDOrNameToPlayerConverterImpl;
 import co.marcin.novaguilds.manager.GuildManager;
-import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.json.JSONArray;
@@ -18,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<NovaRank> {
 	/**
@@ -26,27 +30,55 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 	 * @param storage the storage
 	 */
 	public ResourceManagerRankImpl(Storage storage) {
-		super(storage, NovaRank.class);
+		super(storage, NovaRank.class, "ranks");
 	}
 
 	@Override
 	public List<NovaRank> load() {
 		getStorage().connect();
-		List<NovaRank> list = new ArrayList<>();
+		final List<NovaRank> list = new ArrayList<>();
 
 		try {
 			PreparedStatement statement = getStorage().getPreparedStatement(PreparedStatements.RANKS_SELECT);
 
 			ResultSet res = statement.executeQuery();
 			while(res.next()) {
-				boolean fixPlayerList = false;
-				NovaRank rank = new NovaRankImpl(res.getInt("id"));
+				boolean updateUUID = false;
+
+				UUID rankUUID;
+				try {
+					rankUUID = UUID.fromString(res.getString("uuid"));
+				}
+				catch(IllegalArgumentException e) {
+					rankUUID = UUID.randomUUID();
+					updateUUID = true;
+				}
+
+				NovaRank rank = new NovaRankImpl(rankUUID);
+				rank.setId(res.getInt("id"));
 				rank.setAdded();
 
-				NovaGuild guild = GuildManager.getGuildByName(res.getString("guild"));
+				NovaGuild guild;
+				try {
+					guild = GuildManager.getGuild(UUID.fromString(res.getString("guild")));
+				}
+				catch(IllegalArgumentException e) {
+					guild = GuildManager.getGuildByName(res.getString("guild"));
+					addToSaveQueue(rank);
+				}
+
+				if(updateUUID) {
+					addToUpdateUUIDQueue(rank);
+				}
 
 				if(guild == null) {
-					LoggerUtils.error("Failed to find guild: " + res.getString("name"));
+					LoggerUtils.error("Failed to find guild: " + res.getString("guild"));
+					rank.unload();
+
+					if(Config.DELETEINVALID.getBoolean()) {
+						addToRemovalQueue(rank);
+					}
+
 					continue;
 				}
 
@@ -57,24 +89,25 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 					rank.addPermission(GuildPermission.valueOf(permName));
 				}
 
-				for(String playerName : StringUtils.jsonToList(res.getString("members"))) {
-					NovaPlayer nPlayer = PlayerManager.getPlayer(playerName);
+				List<String> memberStringList = StringUtils.jsonToList(res.getString("members"));
+				List<NovaPlayer> memberList = new UUIDOrNameToPlayerConverterImpl().convert(memberStringList);
 
-					if(nPlayer == null) {
-						LoggerUtils.error("Player " + playerName + " doesn't exist, cannot be added to rank '" + rank.getName() + "' of guild " + rank.getGuild().getName());
-						fixPlayerList = true;
-						continue;
+				if(memberList.size() != memberStringList.size()) {
+					for(String m : memberStringList) {
+						LoggerUtils.debug(" " + m);
 					}
+					for(NovaPlayer novaPlayer : memberList) {
+					}
+					addToSaveQueue(rank);
+				}
 
+				for(NovaPlayer nPlayer : memberList) {
 					rank.addMember(nPlayer);
 				}
 
 				rank.setDefault(res.getBoolean("def"));
 				rank.setClone(res.getBoolean("clone"));
-
-				if(!fixPlayerList) {
-					rank.setUnchanged();
-				}
+				rank.setUnchanged();
 
 				list.add(rank);
 			}
@@ -88,7 +121,7 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 
 	@Override
 	public boolean save(NovaRank rank) {
-		if(!rank.isChanged()) {
+		if(!rank.isChanged() && !isInSaveQueue(rank) || rank.isUnloaded() || isInRemovalQueue(rank)) {
 			return false;
 		}
 
@@ -99,30 +132,19 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 
 		getStorage().connect();
 
-		//Permission list
-		List<String> permissionNamesList = new ArrayList<>();
-		for(GuildPermission permission : rank.getPermissions()) {
-			permissionNamesList.add(permission.name());
-		}
-
-		//Member list
-		List<String> memberNamesList = new ArrayList<>();
-		if(!rank.isDefault()) {
-			for(NovaPlayer nPlayer : rank.getMembers()) {
-				memberNamesList.add(nPlayer.getName());
-			}
-		}
+		final List<UUID> memberNamesList = new ResourceToUUIDConverterImpl<NovaPlayer>().convert(rank.getMembers());
+		final List<String> permissionNamesList = new EnumToNameConverterImpl<GuildPermission>().convert(rank.getPermissions());
 
 		try {
 			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.RANKS_UPDATE);
-			preparedStatement.setString(1, rank.getName());
-			preparedStatement.setString(2, rank.getGuild().getName());
-			preparedStatement.setString(3, new JSONArray(permissionNamesList).toString());
-			preparedStatement.setString(4, new JSONArray(memberNamesList).toString());
-			preparedStatement.setBoolean(5, rank.isDefault());
-			preparedStatement.setBoolean(6, rank.isClone());
+			preparedStatement.setString( 1, rank.getName());                                //rank name
+			preparedStatement.setString( 2, rank.getGuild().getUUID().toString());          //guild uuid
+			preparedStatement.setString( 3, new JSONArray(permissionNamesList).toString()); //permissions
+			preparedStatement.setString( 4, new JSONArray(memberNamesList).toString());     //members
+			preparedStatement.setBoolean(5, rank.isDefault());                              //default
+			preparedStatement.setBoolean(6, rank.isClone());                                //clone
 
-			preparedStatement.setInt(7, rank.getId());
+			preparedStatement.setString( 7, rank.getUUID().toString());                     //rank uuid
 			preparedStatement.execute();
 
 			rank.setUnchanged();
@@ -139,23 +161,17 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 		getStorage().connect();
 
 		try {
-			List<String> memberNamesList = new ArrayList<>();
-			for(NovaPlayer nPlayer : rank.getMembers()) {
-				memberNamesList.add(nPlayer.getName());
-			}
-
-			List<String> permissionNamesList = new ArrayList<>();
-			for(GuildPermission permission : rank.getPermissions()) {
-				permissionNamesList.add(permission.name());
-			}
+			List<UUID> memberNamesList = new ResourceToUUIDConverterImpl<NovaPlayer>().convert(rank.getMembers());
+			List<String> permissionNamesList = new EnumToNameConverterImpl<GuildPermission>().convert(rank.getPermissions());
 
 			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.RANKS_INSERT);
-			preparedStatement.setString(1, rank.getName());
-			preparedStatement.setString(2, rank.getGuild().getName());
-			preparedStatement.setString(3, new JSONArray(permissionNamesList).toString());
-			preparedStatement.setString(4, new JSONArray(memberNamesList).toString());
-			preparedStatement.setBoolean(5, rank.isDefault());
-			preparedStatement.setBoolean(6, rank.isClone());
+			preparedStatement.setString( 1, rank.getUUID().toString());                     //UUID
+			preparedStatement.setString( 2, rank.getName());                                //rank name
+			preparedStatement.setString( 3, rank.getGuild().getUUID().toString());          //guild name
+			preparedStatement.setString( 4, new JSONArray(permissionNamesList).toString()); //permissions
+			preparedStatement.setString( 5, new JSONArray(memberNamesList).toString());     //members
+			preparedStatement.setBoolean(6, rank.isDefault());                              //default
+			preparedStatement.setBoolean(7, rank.isClone());                                //clone
 			preparedStatement.execute();
 
 			rank.setId(getStorage().returnGeneratedKey(preparedStatement));
@@ -168,22 +184,27 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 	}
 
 	@Override
-	public void remove(NovaRank rank) {
+	public boolean remove(NovaRank rank) {
 		if(!rank.isAdded()) {
-			return;
+			return false;
 		}
 
 		getStorage().connect();
 
 		try {
-			if(rank.isAdded()) {
-				PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.RANKS_DELETE);
-				preparedStatement.setInt(1, rank.getId());
-				preparedStatement.execute();
-			}
+			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.RANKS_DELETE);
+			preparedStatement.setString(1, rank.getUUID().toString());
+			preparedStatement.execute();
+			return true;
 		}
 		catch(SQLException e) {
 			LoggerUtils.exception(e);
+			return false;
 		}
+	}
+
+	@Override
+	protected void updateUUID(NovaRank resource) {
+		updateUUID(resource, resource.getId());
 	}
 }
