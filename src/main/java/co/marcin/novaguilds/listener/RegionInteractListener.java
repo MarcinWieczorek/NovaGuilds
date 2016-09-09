@@ -278,6 +278,10 @@ public class RegionInteractListener extends AbstractListener {
 		//Fluid protection
 		NovaRegion fluidProtectRegion = null;
 		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
+			if(!region.getWorld().equals(block.getWorld())) {
+				continue;
+			}
+
 			Location centerLocation = region.getCenter().clone();
 			Location blockLocation = block.getLocation().clone();
 			centerLocation.setY(0);
