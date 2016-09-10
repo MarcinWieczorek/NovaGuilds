@@ -130,7 +130,19 @@ public class PlayerManager {
 	 * Loads players
 	 */
 	public void load() {
+		//Close all GUIs
+		for(NovaPlayer nPlayer : getPlayers()) {
+			if(nPlayer.isOnline()) {
+				//Close GUI
+				if(nPlayer.getGuiInventory() != null) {
+					nPlayer.getGuiInventoryHistory().clear();
+					nPlayer.getPlayer().closeInventory();
+				}
+			}
+		}
+
 		players.clear();
+
 		for(NovaPlayer nPlayer : getResourceManager().load()) {
 			players.put(nPlayer.getName(), nPlayer);
 		}
