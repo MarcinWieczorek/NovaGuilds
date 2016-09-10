@@ -72,7 +72,7 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getRegionSpectate()));
 
 			if(nPlayer.isOnline()) {
-				Message.CHAT_ADMIN_REGION_SPECTATE_NOTIFYOTHER.vars(vars).send(sender);
+				Message.CHAT_ADMIN_REGION_SPECTATE_NOTIFYOTHER.vars(vars).send(nPlayer);
 			}
 
 			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_OTHER.vars(vars).send(sender);
