@@ -128,6 +128,10 @@ public final class RegionUtils {
 	 */
 	@SuppressWarnings("deprecation")
 	public static void resetBlock(Player player, Block block) {
+		if(player == null || block == null) {
+			return;
+		}
+
 		Material material = block.getWorld().getBlockAt(block.getLocation()).getType();
 		byte data = block.getWorld().getBlockAt(block.getLocation()).getData();
 
