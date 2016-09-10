@@ -7,8 +7,8 @@ Please leave feedback!<br/><br/>
 <span style="font-size: 20px;color:red">
     I do not allow anybody to publish compiled source (.jar) on their websites.<br/>
     Please download NovaGuilds' binary files only from bukkit.org, github and novaguilds.pl<br/>
-     The safest way is to compile it yourself!<br/>
-     You are free to redistribute modified versions of source code to others, but you must not distribute compiled versions of the plugin using the name NovaGuilds.
+    The safest way is to compile it yourself!<br/>
+    You are free to redistribute modified versions of source code to others, but you must not distribute compiled versions of the plugin using the name NovaGuilds.
 </span>
 
 <br/><br/>
@@ -24,8 +24,16 @@ Please leave feedback!<br/><br/>
 <br/>
 
 <h2><b>Downloads</b></h2>
-The plugin works on all <b>1.7</b> <b>1.8</b> and <b>1.9</b> versions!<br/>
-<a href="http://novaguilds.pl">http://novaguilds.pl/</a>
+The plugin works on all versions including and above <b>1.7.10</b>
+<a href="http://novaguilds.pl">http://novaguilds.pl/</a><br/>
+<b>SNAPSHOTS: </b> <a href="http://repo.novaguilds.pl/co/marcin/novaguilds/">http://repo.novaguilds.pl/co/marcin/novaguilds/</a>
+<br/><br/><br/>
+
+<h2><b>Support</b></h2>
+If you need support:<br/>
+<a href="https://github.com/MarcinWieczorek/NovaGuilds/issues">Visit issues page</a><br/>
+<a href="mailto:marcin@marcin.co">Send me an email</a><br/>
+Send me a message using XMPP: marcinwieczorek@jabbim.pl
 <br/><br/><br/>
 
 <h2><b>How to compile NovaGuilds on your own?</b></h2>
@@ -526,7 +534,7 @@ mvn clean install
         </tr>
         <tr>
             <td>novaguilds.playerinfo</td>
-            <td>/pi or right click player</td>
+            <td>/pi or right click player with shift</td>
         </tr>
         <tr>
             <td>novaguilds.tool.check</td>
