@@ -60,11 +60,22 @@ public class GuildManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaGuild> guilds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-	//getters
+	/**
+	 * Gets a guild by its name
+	 *
+	 * @param name guild's name
+	 * @return the instance
+	 */
 	public static NovaGuild getGuildByName(String name) {
 		return plugin.getGuildManager().guilds.get(name);
 	}
 
+	/**
+	 * Gets a guild by its tag
+	 *
+	 * @param tag guild's tag
+	 * @return the instance
+	 */
 	public static NovaGuild getGuildByTag(String tag) {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			if(StringUtils.removeColors(guild.getTag()).equalsIgnoreCase(tag)) {
@@ -74,6 +85,12 @@ public class GuildManager {
 		return null;
 	}
 
+	/**
+	 * Gets a guild by its unique ID
+	 *
+	 * @param uuid guild's uuid
+	 * @return the instance
+	 */
 	public static NovaGuild getGuild(UUID uuid) {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			if(guild.getUUID().equals(uuid)) {
@@ -114,14 +131,28 @@ public class GuildManager {
 		}
 	}
 
+	/**
+	 * Gets all loaded guilds
+	 *
+	 * @return collection of guilds
+	 */
 	public Collection<NovaGuild> getGuilds() {
 		return guilds.values();
 	}
 
+	/**
+	 * Checks if a guild exists
+	 *
+	 * @param guildName guild name
+	 * @return boolean
+	 */
 	public boolean exists(String guildName) {
 		return guilds.containsKey(guildName);
 	}
 
+	/**
+	 * Loads guilds
+	 */
 	public void load() {
 		guilds.clear();
 		for(NovaGuild guild : getResourceManager().load()) {
@@ -143,14 +174,27 @@ public class GuildManager {
 		LoggerUtils.info("Generated bank holograms.");
 	}
 
+	/**
+	 * Adds a guild
+	 *
+	 * @param guild guild instance
+	 */
 	public void add(NovaGuild guild) {
 		guilds.put(guild.getName(), guild);
 	}
 
+	/**
+	 * Saves a guild
+	 *
+	 * @param guild guild instance
+	 */
 	public void save(NovaGuild guild) {
 		getResourceManager().save(guild);
 	}
 
+	/**
+	 * Saves all guilds
+	 */
 	public void save() {
 		long startTime = System.nanoTime();
 
@@ -169,6 +213,11 @@ public class GuildManager {
 		LoggerUtils.info("Guilds removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 	}
 
+	/**
+	 * Deletes a guild
+	 *
+	 * @param guild guild instance
+	 */
 	public void delete(NovaGuild guild) {
 		getResourceManager().addToRemovalQueue(guild);
 
@@ -181,12 +230,24 @@ public class GuildManager {
 		guild.destroy();
 	}
 
+	/**
+	 * Changes guild name
+	 *
+	 * @param guild   guild instance
+	 * @param newName new name
+	 */
 	public void changeName(NovaGuild guild, String newName) {
 		guilds.remove(guild.getName());
 		guilds.put(newName, guild);
 		guild.setName(newName);
 	}
 
+	/**
+	 * Gets raid a guild is taking part in
+	 *
+	 * @param guild guild instance
+	 * @return list of raids
+	 */
 	public List<NovaRaid> getRaidsTakingPart(NovaGuild guild) {
 		final List<NovaRaid> list = new ArrayList<>();
 		for(NovaGuild raidGuild : getGuilds()) {
@@ -198,6 +259,10 @@ public class GuildManager {
 		return list;
 	}
 
+	/**
+	 * Does the post check
+	 * Unloads invalid guilds
+	 */
 	public void postCheck() {
 		int i = 0;
 		for(NovaGuild guild : new ArrayList<>(getGuilds())) {
@@ -247,6 +312,12 @@ public class GuildManager {
 		LoggerUtils.info("Postcheck finished. Found " + i + " invalid guilds");
 	}
 
+	/**
+	 * Gets top guilds by points
+	 *
+	 * @param count amount of guilds
+	 * @return list of guilds
+	 */
 	public List<NovaGuild> getTopGuildsByPoints(int count) {
 		final List<NovaGuild> guildsByPoints = new ArrayList<>(guilds.values());
 
@@ -271,6 +342,12 @@ public class GuildManager {
 		return guildsLimited;
 	}
 
+	/**
+	 * Gets the list of guilds
+	 * sorted by most inactive
+	 *
+	 * @return list of guilds
+	 */
 	public List<NovaGuild> getMostInactiveGuilds() {
 		final List<NovaGuild> guildsByInactive = new ArrayList<>(guilds.values());
 
@@ -283,6 +360,9 @@ public class GuildManager {
 		return guildsByInactive;
 	}
 
+	/**
+	 * Loads vault holograms for each guild
+	 */
 	private void loadVaultHolograms() {
 		for(NovaGuild guild : getGuilds()) {
 			if(guild.getVaultLocation() != null) {
@@ -291,10 +371,21 @@ public class GuildManager {
 		}
 	}
 
+	/**
+	 * Checks if an itemstack is the vault item
+	 *
+	 * @param itemStack itemstack
+	 * @return boolean
+	 */
 	public boolean isVaultItemStack(ItemStack itemStack) {
 		return ItemStackUtils.isSimilar(itemStack, Config.VAULT_ITEM.getItemStack());
 	}
 
+	/**
+	 * Appends the vault hologram
+	 *
+	 * @param guild guild instance
+	 */
 	public void appendVaultHologram(NovaGuild guild) {
 		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
 			if(Config.VAULT_HOLOGRAM_ENABLED.getBoolean()) {
@@ -329,6 +420,12 @@ public class GuildManager {
 		}
 	}
 
+	/**
+	 * Checks if a block is the vault
+	 *
+	 * @param block the block
+	 * @return boolean
+	 */
 	public boolean isVaultBlock(Block block) {
 		if(block.getType() == Config.VAULT_ITEM.getItemStack().getType()) {
 			for(NovaGuild guild : getGuilds()) {
@@ -345,6 +442,12 @@ public class GuildManager {
 		return false;
 	}
 
+	/**
+	 * Fixes vault hologram and vault location
+	 * if it has been disabled abnormally
+	 *
+	 * @param guild guild instance
+	 */
 	public static void checkVaultDestroyed(NovaGuild guild) {
 		if(guild.getVaultLocation() != null) {
 			if(guild.getVaultLocation().getBlock().getType() != Material.CHEST) {
@@ -354,11 +457,19 @@ public class GuildManager {
 				if(hologram != null) {
 					hologram.delete();
 				}
+
 				guild.setVaultHologram(null);
 			}
 		}
 	}
 
+	/**
+	 * Teleports a player with a delay
+	 *
+	 * @param player   target player
+	 * @param location target location
+	 * @param message  teleport message
+	 */
 	public void delayedTeleport(Player player, Location location, Message message) {
 		Runnable task = new RunnableTeleportRequest(player, location, message);
 		int delay = GroupManager.getGroup(player) == null ? 0 : GroupManager.getGroup(player).getInt(NovaGroup.Key.HOME_DELAY);
@@ -374,6 +485,11 @@ public class GuildManager {
 		}
 	}
 
+	/**
+	 * Generates a message with top guilds
+	 *
+	 * @return list of strings
+	 */
 	public List<String> getTopGuilds() {
 		int limit = Config.LEADERBOARD_GUILD_ROWS.getInt();
 		int i = 1;
@@ -393,6 +509,9 @@ public class GuildManager {
 		return list;
 	}
 
+	/**
+	 * Cleans inactive guilds
+	 */
 	public void cleanInactiveGuilds() {
 		int count = 0;
 
@@ -419,6 +538,11 @@ public class GuildManager {
 		LoggerUtils.info("Guilds cleanup finished, removed " + count + " guilds.");
 	}
 
+	/**
+	 * Gets the resource manager
+	 *
+	 * @return the manager
+	 */
 	public ResourceManager<NovaGuild> getResourceManager() {
 		return plugin.getStorage().getResourceManager(NovaGuild.class);
 	}

@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.admin.region;
 
-
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;

@@ -202,7 +202,7 @@ public class Reflections {
 	}
 
 	/**
-	 * Compares two lists of classess
+	 * Compares two lists of classes
 	 *
 	 * @param l1 list 1
 	 * @param l2 list 2
@@ -236,7 +236,7 @@ public class Reflections {
 		/**
 		 * Invokes a constructor
 		 *
-		 * @param arguments argumnets
+		 * @param arguments arguments
 		 * @return instance
 		 */
 		Object invoke(Object... arguments);

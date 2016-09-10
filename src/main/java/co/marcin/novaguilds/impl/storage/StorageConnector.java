@@ -37,7 +37,7 @@ public class StorageConnector {
 	/**
 	 * The constructor
 	 *
-	 * @throws FatalNovaGuildsException
+	 * @throws FatalNovaGuildsException when something goes wrong
 	 */
 	public StorageConnector() throws FatalNovaGuildsException {
 		handle();
@@ -46,7 +46,7 @@ public class StorageConnector {
 	/**
 	 * Handles storage connecting
 	 *
-	 * @throws FatalNovaGuildsException
+	 * @throws FatalNovaGuildsException when something goes wrong
 	 */
 	public void handle() throws FatalNovaGuildsException {
 		try {
@@ -74,7 +74,7 @@ public class StorageConnector {
 	/**
 	 * Creates the storage
 	 *
-	 * @throws StorageConnectionFailedException
+	 * @throws StorageConnectionFailedException when something goes wrong
 	 */
 	public void connect() throws StorageConnectionFailedException {
 		DataStorageType storageType = plugin.getConfigManager().getDataStorageType();

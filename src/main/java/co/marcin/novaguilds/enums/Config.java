@@ -368,6 +368,13 @@ public enum Config {
 		cM.set(this, obj);
 	}
 
+	/**
+	 * Converts the value to an enum
+	 *
+	 * @param clazz enum class
+	 * @param <E>   enum class
+	 * @return enum value
+	 */
 	public <E extends Enum> E toEnum(Class<E> clazz) {
 		for(E enumConstant : clazz.getEnumConstants()) {
 			if(enumConstant.name().equalsIgnoreCase(getString())) {

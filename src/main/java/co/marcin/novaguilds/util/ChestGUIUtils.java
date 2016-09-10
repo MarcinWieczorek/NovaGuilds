@@ -33,6 +33,7 @@ public class ChestGUIUtils {
 	public static final List<NovaPlayer> guiContinueList = new ArrayList<>();
 
 	private ChestGUIUtils() {
+
 	}
 
 	/**

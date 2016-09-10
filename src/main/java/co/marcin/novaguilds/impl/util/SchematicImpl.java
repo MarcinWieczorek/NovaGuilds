@@ -61,7 +61,7 @@ public class SchematicImpl implements Schematic {
 	 * in plugins/NovaGuilds/schematic/
 	 *
 	 * @param fileName file name
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException when the file does not exist
 	 */
 	public SchematicImpl(String fileName) throws FileNotFoundException {
 		this(new File(NovaGuilds.getInstance().getDataFolder() + "/schematic/", fileName));
@@ -71,7 +71,7 @@ public class SchematicImpl implements Schematic {
 	 * Constructor using File instance
 	 *
 	 * @param file file instance
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException when the file does not exist
 	 */
 	public SchematicImpl(File file) throws FileNotFoundException {
 		name = file.getName();

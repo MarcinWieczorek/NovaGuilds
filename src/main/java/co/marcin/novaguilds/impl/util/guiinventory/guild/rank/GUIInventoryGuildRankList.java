@@ -44,6 +44,13 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 	protected final Map<Integer, NovaRank> slotRanksMap = new HashMap<>();
 	protected ItemStack addRankItem;
 
+	/**
+	 * The constructor
+	 * Displays the list of ranks
+	 * in a specified guild
+	 *
+	 * @param guild the guild
+	 */
 	public GUIInventoryGuildRankList(NovaGuild guild) {
 		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE);
 		this.guild = guild;

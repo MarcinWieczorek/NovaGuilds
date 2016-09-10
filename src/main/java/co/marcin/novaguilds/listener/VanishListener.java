@@ -28,6 +28,11 @@ import org.bukkit.event.EventHandler;
 import org.kitteh.vanish.event.VanishStatusChangeEvent;
 
 public class VanishListener extends AbstractListener {
+	/**
+	 * Support VanishNoPacket plugin
+	 *
+	 * @param event vanish status change event
+	 */
 	@EventHandler
 	public void onVanishStatusChange(VanishStatusChangeEvent event) {
 		Player player = event.getPlayer();

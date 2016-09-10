@@ -32,6 +32,10 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
 public class PacketListenerImpl extends AbstractListener {
+	/**
+	 * Registers packet listener
+	 * for advanced interact entity event
+	 */
 	public PacketListenerImpl() {
 		new AbstractPacketHandler("PacketPlayInUseEntity") {
 			@Override

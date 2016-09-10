@@ -28,6 +28,11 @@ public class SignGUIPatternImpl implements SignGUI.SignGUIPattern {
 	private final Message message;
 	private int inputLine;
 
+	/**
+	 * The constructor
+	 *
+	 * @param message message enum of the pattern
+	 */
 	public SignGUIPatternImpl(Message message) {
 		this.message = message;
 	}
@@ -42,6 +47,12 @@ public class SignGUIPatternImpl implements SignGUI.SignGUIPattern {
 		return inputLine;
 	}
 
+	/**
+	 * Creates the pattern from a list
+	 *
+	 * @param list list of strings
+	 * @return array of strings
+	 */
 	protected String[] fromList(List<String> list) {
 		String[] lines = new String[4];
 

@@ -35,6 +35,9 @@ import java.util.Map;
 public class GUIInventoryGuildInvite extends AbstractGUIInventory {
 	private final Map<Integer, NovaPlayer> playerMap = new HashMap<>();
 
+	/**
+	 * The constructor
+	 */
 	public GUIInventoryGuildInvite() {
 		super(ChestGUIUtils.getChestSize(NovaGuilds.getOnlinePlayers().size()), Message.INVENTORY_GUI_SETTINGS_INVITE_TITLE);
 	}

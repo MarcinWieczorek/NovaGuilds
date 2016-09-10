@@ -114,6 +114,9 @@ public class CommandManager {
 	private final Map<String, String> aliases = new HashMap<>();
 	private final Map<Command, CommandExecutor> executors = new HashMap<>();
 
+	/**
+	 * Sets up the manager
+	 */
 	public void setUp() {
 		registerCommands();
 
@@ -128,14 +131,29 @@ public class CommandManager {
 		LoggerUtils.info("Enabled");
 	}
 
+	/**
+	 * Gets the command that an alias points to
+	 *
+	 * @param alias the alias
+	 * @return the main command
+	 */
 	public String getMainCommand(String alias) {
 		return aliases.get(alias);
 	}
 
+	/**
+	 * Checks if an alias exists
+	 *
+	 * @param alias the alias
+	 * @return boolean
+	 */
 	public boolean existsAlias(String alias) {
 		return aliases.containsKey(alias);
 	}
 
+	/**
+	 * Registers the commands
+	 */
 	private void registerCommands() {
 		//register custom executors
 		new CommandGuild();
@@ -226,6 +244,12 @@ public class CommandManager {
 		new CommandAdminHologramTeleportHere();
 	}
 
+	/**
+	 * Registers a command executor
+	 *
+	 * @param command  command enum
+	 * @param executor the executor
+	 */
 	public void registerExecutor(Command command, CommandExecutor executor) {
 		if(!executors.containsKey(command)) {
 			executors.put(command, executor);
@@ -246,6 +270,13 @@ public class CommandManager {
 		}
 	}
 
+	/**
+	 * Executes a command
+	 *
+	 * @param command command enum
+	 * @param sender  sender instance
+	 * @param args    command arguments
+	 */
 	public void execute(Command command, CommandSender sender, String[] args) {
 		CommandExecutor executor = getExecutor(command);
 
@@ -279,6 +310,12 @@ public class CommandManager {
 		}
 	}
 
+	/**
+	 * Gets an executor
+	 *
+	 * @param command command enum
+	 * @return command executor
+	 */
 	public CommandExecutor getExecutor(Command command) {
 		return executors.get(command);
 	}

@@ -21,6 +21,11 @@ package co.marcin.novaguilds.impl.basic;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 
 public class GenericRankImpl extends NovaRankImpl {
+	/**
+	 * The constructor
+	 *
+	 * @param name rank name
+	 */
 	public GenericRankImpl(String name) {
 		super(name);
 	}

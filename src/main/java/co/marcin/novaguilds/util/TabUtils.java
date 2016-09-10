@@ -42,6 +42,7 @@ public final class TabUtils {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
 	private TabUtils() {
+
 	}
 
 	/**
@@ -254,14 +255,29 @@ public final class TabUtils {
 			this.list = list;
 		}
 
+		/**
+		 * Gets row pattern as Config enum
+		 *
+		 * @return the pattern
+		 */
 		public Config getRowPattern() {
 			return rowPattern;
 		}
 
+		/**
+		 * Returns the var key
+		 *
+		 * @return the var key
+		 */
 		public String getVarKey() {
 			return varKey;
 		}
 
+		/**
+		 * Returns player list
+		 *
+		 * @return the list
+		 */
 		public List<NovaPlayer> getList() {
 			return list;
 		}

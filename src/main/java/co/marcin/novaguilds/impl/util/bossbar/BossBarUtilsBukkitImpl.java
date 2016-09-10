@@ -32,6 +32,12 @@ import java.util.UUID;
 public class BossBarUtilsBukkitImpl extends AbstractBossBarUtils {
 	private final Map<UUID, BossBar> bossBars = new HashMap<>();
 
+	/**
+	 * Creates a boss bar if doesn't exist
+	 *
+	 * @param player the player
+	 * @return the boss bar
+	 */
 	private BossBar createIfNotExists(Player player) {
 		if(bossBars.containsKey(player.getUniqueId())) {
 			return getBossBar(player);
@@ -43,6 +49,12 @@ public class BossBarUtilsBukkitImpl extends AbstractBossBarUtils {
 		return bossBar;
 	}
 
+	/**
+	 * Gets the boss bar of a player
+	 *
+	 * @param player the player
+	 * @return the boss bar
+	 */
 	private BossBar getBossBar(Player player) {
 		return bossBars.get(player.getUniqueId());
 	}

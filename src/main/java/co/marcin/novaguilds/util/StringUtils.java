@@ -114,7 +114,7 @@ public final class StringUtils {
 	}
 
 	/**
-	 * Convers location to a String (2D)
+	 * Converts location to a String (2D)
 	 *
 	 * @param location the location
 	 * @return location string

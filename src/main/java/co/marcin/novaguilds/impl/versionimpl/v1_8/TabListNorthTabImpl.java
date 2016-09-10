@@ -36,6 +36,11 @@ public class TabListNorthTabImpl implements TabList {
 	private final List<String> lines = new ArrayList<>();
 	private final Map<VarKey, String> vars = new HashMap<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param nPlayer tablist owner
+	 */
 	public TabListNorthTabImpl(NovaPlayer nPlayer) {
 		this.nPlayer = nPlayer;
 		clear();

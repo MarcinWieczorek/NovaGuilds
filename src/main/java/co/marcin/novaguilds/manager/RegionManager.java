@@ -55,7 +55,12 @@ import java.util.concurrent.TimeUnit;
 public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
-	//getters
+	/**
+	 * Gets the region at a location
+	 *
+	 * @param location the location
+	 * @return region
+	 */
 	public static NovaRegion get(Location location) {
 		int x = location.getBlockX();
 		int z = location.getBlockZ();
@@ -78,14 +83,31 @@ public class RegionManager {
 		return null;
 	}
 
+	/**
+	 * Gets the region a block lays in
+	 *
+	 * @param block the block
+	 * @return region
+	 */
 	public static NovaRegion get(Block block) {
 		return get(block.getLocation());
 	}
 
+	/**
+	 * Gets the region an entity is at
+	 *
+	 * @param entity the entity
+	 * @return region
+	 */
 	public static NovaRegion get(Entity entity) {
 		return get(entity.getLocation());
 	}
 
+	/**
+	 * Gets all regions
+	 *
+	 * @return collection of regions
+	 */
 	public Collection<NovaRegion> getRegions() {
 		Collection<NovaRegion> regions = new HashSet<>();
 
@@ -98,6 +120,9 @@ public class RegionManager {
 		return regions;
 	}
 
+	/**
+	 * Loads regions
+	 */
 	public void load() {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			guild.setRegion(null);
@@ -108,10 +133,18 @@ public class RegionManager {
 		LoggerUtils.info("Loaded " + getRegions().size() + " regions.");
 	}
 
+	/**
+	 * Saves a specified region
+	 *
+	 * @param region the region
+	 */
 	public void save(NovaRegion region) {
 		getResourceManager().save(region);
 	}
 
+	/**
+	 * Saves all regions
+	 */
 	public void save() {
 		long startTime = System.nanoTime();
 
@@ -130,7 +163,11 @@ public class RegionManager {
 		LoggerUtils.info("Regions removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 	}
 
-	//delete region
+	/**
+	 * Removes a region
+	 *
+	 * @param region the region
+	 */
 	public void remove(NovaRegion region) {
 		getResourceManager().addToRemovalQueue(region);
 
@@ -139,6 +176,13 @@ public class RegionManager {
 		}
 	}
 
+	/**
+	 * Checks selection validity
+	 *
+	 * @param l1 first corner
+	 * @param l2 second corner
+	 * @return
+	 */
 	public RegionValidity checkRegionSelect(Location l1, Location l2) {
 		int x1 = l1.getBlockX();
 		int x2 = l2.getBlockX();
@@ -168,6 +212,13 @@ public class RegionManager {
 		}
 	}
 
+	/**
+	 * Gets regions inside a rectangle
+	 *
+	 * @param l1 first corner
+	 * @param l2 second corner
+	 * @return list of regions
+	 */
 	public List<NovaRegion> getRegionsInsideArea(Location l1, Location l2) {
 		final List<NovaRegion> list = new ArrayList<>();
 		int x1 = l1.getBlockX();
@@ -209,24 +260,60 @@ public class RegionManager {
 		return list;
 	}
 
+	/**
+	 * Checks if a player can interact at a location
+	 *
+	 * @param player   player
+	 * @param location location
+	 * @return boolean
+	 */
 	public boolean canInteract(Player player, Location location) {
 		NovaRegion region = get(location);
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		return region == null || nPlayer.getBypass() || (nPlayer.hasGuild() && region.getGuild().isMember(nPlayer));
 	}
 
+	/**
+	 * Checks if a player can interact at a block
+	 *
+	 * @param player player
+	 * @param block  block
+	 * @return boolean
+	 */
 	public boolean canInteract(Player player, Block block) {
 		return canInteract(player, block.getLocation());
 	}
 
+	/**
+	 * Checks is a player can interact at an entity
+	 *
+	 * @param player player
+	 * @param entity entity
+	 * @return boolean
+	 */
 	public boolean canInteract(Player player, Entity entity) {
 		return canInteract(player, entity.getLocation());
 	}
 
+	/**
+	 * Checks if a rectangle is far enough from other regions
+	 *
+	 * @param l1 first corner
+	 * @param l2 second corner
+	 * @return
+	 */
 	private boolean isFarEnough(Location l1, Location l2) {
 		return getGuildsTooClose(l1, l2).isEmpty();
 	}
 
+	/**
+	 * Gets guilds too close to a rectangle
+	 * The distance is being taken from the config
+	 *
+	 * @param l1 first corner
+	 * @param l2 second corner
+	 * @return list of guilds
+	 */
 	public List<NovaGuild> getGuildsTooClose(Location l1, Location l2) {
 		final List<NovaGuild> list = new ArrayList<>();
 
@@ -257,6 +344,12 @@ public class RegionManager {
 		return list;
 	}
 
+	/**
+	 * Gets executed when a player enters a region
+	 *
+	 * @param player the player
+	 * @param region region he entered
+	 */
 	public void playerEnteredRegion(Player player, NovaRegion region) {
 		PlayerEnterRegionEvent regionEvent = new PlayerEnterRegionEvent(player, region);
 		plugin.getServer().getPluginManager().callEvent(regionEvent);
@@ -306,6 +399,11 @@ public class RegionManager {
 		}
 	}
 
+	/**
+	 * Gets executed when a player leaves a region
+	 *
+	 * @param player the player
+	 */
 	public void playerExitedRegion(Player player) {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 		NovaRegion region = nPlayer.getAtRegion();
@@ -331,6 +429,11 @@ public class RegionManager {
 		}
 	}
 
+	/**
+	 * Initiates the raid if possible
+	 *
+	 * @param nPlayer the initiator
+	 */
 	public void checkRaidInit(NovaPlayer nPlayer) {
 		if(!Config.RAID_ENABLED.getBoolean() || !nPlayer.hasGuild() || !nPlayer.isAtRegion()) {
 			return;
@@ -375,6 +478,11 @@ public class RegionManager {
 		}
 	}
 
+	/**
+	 * Gets the resource manager
+	 *
+	 * @return resource manager
+	 */
 	public ResourceManager<NovaRegion> getResourceManager() {
 		return plugin.getStorage().getResourceManager(NovaRegion.class);
 	}

@@ -43,10 +43,18 @@ public class RankManager {
 	private final List<NovaRank> genericRanks = new ArrayList<>();
 	private boolean loaded = false;
 
+	/**
+	 * Checks if the ranks are loaded
+	 *
+	 * @return true if loaded
+	 */
 	public boolean isLoaded() {
 		return loaded;
 	}
 
+	/**
+	 * Loads the ranks
+	 */
 	public void load() {
 		int count = getResourceManager().load().size();
 
@@ -58,6 +66,9 @@ public class RankManager {
 		loaded = true;
 	}
 
+	/**
+	 * Saves all ranks
+	 */
 	public void save() {
 		long nanoTime = System.nanoTime();
 
@@ -76,6 +87,11 @@ public class RankManager {
 		LoggerUtils.info("Ranks removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " ranks)");
 	}
 
+	/**
+	 * Deletes a rank
+	 *
+	 * @param rank the rank
+	 */
 	public void delete(NovaRank rank) {
 		if(rank.isGeneric()) {
 			return;
@@ -90,6 +106,11 @@ public class RankManager {
 		}
 	}
 
+	/**
+	 * Deletes all ranks of a guild
+	 *
+	 * @param guild the guild
+	 */
 	public void delete(NovaGuild guild) {
 		for(NovaRank rank : guild.getRanks()) {
 			getResourceManager().addToRemovalQueue(rank);
@@ -98,6 +119,9 @@ public class RankManager {
 		guild.setRanks(new ArrayList<NovaRank>());
 	}
 
+	/**
+	 * Loads generic ranks
+	 */
 	public void loadDefaultRanks() {
 		genericRanks.clear();
 		NovaRank leaderRank = new GenericRankImpl(Message.INVENTORY_GUI_RANKS_LEADERNAME.get());
@@ -120,10 +144,20 @@ public class RankManager {
 		LoggerUtils.info("Loaded " + count + " default (guild) ranks.");
 	}
 
+	/**
+	 * Gets generic ranks
+	 *
+	 * @return list with generic ranks
+	 */
 	public List<NovaRank> getGenericRanks() {
 		return genericRanks;
 	}
 
+	/**
+	 * Gets all the ranks
+	 *
+	 * @return collection of ranks
+	 */
 	public Collection<NovaRank> get() {
 		Collection<NovaRank> collection = new HashSet<>();
 
@@ -138,12 +172,20 @@ public class RankManager {
 		return collection;
 	}
 
+	/**
+	 * Assigns ranks to all players
+	 */
 	private void assignRanks() {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			assignRanks(guild);
 		}
 	}
 
+	/**
+	 * Assigns ranks in a guild
+	 *
+	 * @param guild the guild
+	 */
 	public void assignRanks(NovaGuild guild) {
 		for(NovaPlayer nPlayer : guild.getPlayers()) {
 			if(nPlayer.getGuildRank() == null) {
@@ -167,14 +209,29 @@ public class RankManager {
 		}
 	}
 
+	/**
+	 * Gets leader rank
+	 *
+	 * @return the rank
+	 */
 	public static NovaRank getLeaderRank() {
 		return NovaGuilds.getInstance().getRankManager().getGenericRanks().get(0);
 	}
 
+	/**
+	 * Gets default generic rank
+	 *
+	 * @return the rank
+	 */
 	public static NovaRank getDefaultRank() {
 		return plugin.getRankManager().getGenericRanks().get(1);
 	}
 
+	/**
+	 * Gets the resource manager
+	 *
+	 * @return the manager
+	 */
 	private ResourceManager<NovaRank> getResourceManager() {
 		return plugin.getStorage().getResourceManager(NovaRank.class);
 	}

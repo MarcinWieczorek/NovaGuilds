@@ -56,6 +56,14 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 		this.name = name;
 	}
 
+	/**
+	 * The constructor
+	 * Clones a rank
+	 * Creates new UUID
+	 * Doesn't assign a guild
+	 *
+	 * @param rank rank to clone
+	 */
 	public NovaRankImpl(final NovaRank rank) {
 		this(rank.getName());
 		setClone(rank.isGeneric());

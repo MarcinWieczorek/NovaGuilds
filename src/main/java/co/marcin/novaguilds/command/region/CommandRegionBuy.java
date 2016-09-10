@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.region;
 
-
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -48,6 +47,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor implements Command
 		super(command);
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		command.execute(sender, args);
 		return true;

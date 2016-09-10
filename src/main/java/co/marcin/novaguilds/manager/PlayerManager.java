@@ -47,13 +47,24 @@ public class PlayerManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaPlayer> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-	//new getters
+	/**
+	 * Gets a player by his name
+	 *
+	 * @param playerName player name
+	 * @return player instance
+	 */
 	public static NovaPlayer getPlayer(String playerName) {
 		plugin.getPlayerManager().addIfNotExists(Bukkit.getPlayerExact(playerName));
 
 		return plugin.getPlayerManager().players.get(playerName);
 	}
 
+	/**
+	 * Gets a player from CommandSender
+	 *
+	 * @param sender command sender
+	 * @return player instance
+	 */
 	public static NovaPlayer getPlayer(CommandSender sender) {
 		if(sender instanceof Player) {
 			plugin.getPlayerManager().addIfNotExists((Player) sender);
@@ -62,6 +73,12 @@ public class PlayerManager {
 		return getPlayer(sender.getName());
 	}
 
+	/**
+	 * Gets a player by his UUID
+	 *
+	 * @param uuid player uuid
+	 * @return player instance
+	 */
 	public static NovaPlayer getPlayer(UUID uuid) {
 		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
 			if(nPlayer.getUUID().equals(uuid)) {
@@ -72,10 +89,20 @@ public class PlayerManager {
 		return null;
 	}
 
+	/**
+	 * Gets all players
+	 *
+	 * @return collection of players
+	 */
 	public Collection<NovaPlayer> getPlayers() {
 		return players.values();
 	}
 
+	/**
+	 * Gets online players
+	 *
+	 * @return collection of players
+	 */
 	public Collection<NovaPlayer> getOnlinePlayers() {
 		Collection<NovaPlayer> collection = new HashSet<>();
 
@@ -86,6 +113,9 @@ public class PlayerManager {
 		return collection;
 	}
 
+	/**
+	 * Saves all players
+	 */
 	public void save() {
 		long startTime = System.nanoTime();
 		int count = getResourceManager().executeSave() + getResourceManager().save(getPlayers());
@@ -96,6 +126,9 @@ public class PlayerManager {
 		LoggerUtils.info("Players removed in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " players)");
 	}
 
+	/**
+	 * Loads players
+	 */
 	public void load() {
 		players.clear();
 		for(NovaPlayer nPlayer : getResourceManager().load()) {
@@ -105,6 +138,11 @@ public class PlayerManager {
 		LoggerUtils.info("Loaded " + players.size() + " players.");
 	}
 
+	/**
+	 * Adds a player
+	 *
+	 * @param player player instance
+	 */
 	private void add(Player player) {
 		Validate.notNull(player);
 
@@ -116,12 +154,24 @@ public class PlayerManager {
 		players.put(nPlayer.getName(), nPlayer);
 	}
 
+	/**
+	 * Adds a player if he doesn't exist already
+	 *
+	 * @param player player instance
+	 */
 	public void addIfNotExists(Player player) {
 		if(player != null && !players.containsKey(player.getName())) {
 			add(player);
 		}
 	}
 
+	/**
+	 * Checks if two players are in same guild
+	 *
+	 * @param player1 player 1
+	 * @param player2 player 2
+	 * @return boolean
+	 */
 	public boolean isGuildMate(Player player1, Player player2) {
 		NovaPlayer nPlayer1 = getPlayer(player1);
 		NovaPlayer nPlayer2 = getPlayer(player2);
@@ -129,6 +179,13 @@ public class PlayerManager {
 		return nPlayer1.getGuild().isMember(nPlayer2) || nPlayer1.equals(nPlayer2);
 	}
 
+	/**
+	 * Checks if two players are allies
+	 *
+	 * @param player1 player 1
+	 * @param player2 player 2
+	 * @return boolean
+	 */
 	public boolean isAlly(Player player1, Player player2) {
 		NovaPlayer nPlayer1 = getPlayer(player1);
 		NovaPlayer nPlayer2 = getPlayer(player2);
@@ -136,6 +193,12 @@ public class PlayerManager {
 		return nPlayer1.getGuild().isAlly(nPlayer2.getGuild()) || nPlayer1.equals(nPlayer2);
 	}
 
+	/**
+	 * Sends player info
+	 *
+	 * @param sender   info receiver
+	 * @param nCPlayer target player
+	 */
 	public void sendPlayerInfo(CommandSender sender, NovaPlayer nCPlayer) {
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYERNAME, nCPlayer.getName());
@@ -190,6 +253,11 @@ public class PlayerManager {
 		return playerList;
 	}
 
+	/**
+	 * Gets top players by kill/death/rate
+	 *
+	 * @return list of players
+	 */
 	public List<NovaPlayer> getTopPlayersByKDR() {
 		final List<NovaPlayer> playerList = new ArrayList<>(players.values());
 
@@ -208,14 +276,33 @@ public class PlayerManager {
 		return playerList;
 	}
 
+	/**
+	 * Gets top players by kill/death/rate
+	 *
+	 * @param count limit
+	 * @return list of players
+	 */
 	public List<NovaPlayer> getTopPlayersByKDR(int count) {
 		return limitList(getTopPlayersByKDR(), count);
 	}
 
+	/**
+	 * Limits a list
+	 *
+	 * @param list  the list
+	 * @param limit target limit
+	 * @param <T>   type
+	 * @return limited list
+	 */
 	public static <T> List<T> limitList(List<T> list, int limit) {
 		return list.subList(0, list.size() < limit ? list.size() : limit);
 	}
 
+	/**
+	 * Gets NovaPlayer resource manager
+	 *
+	 * @return the manager
+	 */
 	public ResourceManager<NovaPlayer> getResourceManager() {
 		return plugin.getStorage().getResourceManager(NovaPlayer.class);
 	}

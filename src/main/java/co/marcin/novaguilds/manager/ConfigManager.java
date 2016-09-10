@@ -58,6 +58,11 @@ public class ConfigManager {
 	private final Map<Config, Object> cache = new HashMap<>();
 	private static final ServerVersion serverVersion = ServerVersion.detect();
 
+	/**
+	 * Gets current server version
+	 *
+	 * @return server version
+	 */
 	public static ServerVersion getServerVersion() {
 		return serverVersion;
 	}
@@ -69,6 +74,11 @@ public class ConfigManager {
 		MINECRAFT_1_9_R2,
 		MINECRAFT_1_10_R1;
 
+		/**
+		 * Detects server version
+		 *
+		 * @return server version enum
+		 */
 		public static ServerVersion detect() {
 			String craftBukkitVersion = Reflections.getVersion();
 			craftBukkitVersion = craftBukkitVersion.substring(1, craftBukkitVersion.length() - 1);
@@ -92,14 +102,33 @@ public class ConfigManager {
 			return closestVersion;
 		}
 
+		/**
+		 * Checks if a version is older than some other
+		 *
+		 * @param version version to check
+		 * @return boolean
+		 */
 		public boolean isOlderThan(ServerVersion version) {
 			return getIndex() < version.getIndex();
 		}
 
+		/**
+		 * Checks if a version is newer than some other
+		 *
+		 * @param version version to check
+		 * @return boolean
+		 */
 		public boolean isNewerThan(ServerVersion version) {
 			return getIndex() > version.getIndex();
 		}
 
+		/**
+		 * Gets server version closest to desired
+		 * or exact if is supported
+		 *
+		 * @param versionString version string present in craftbukkit package name
+		 * @return version
+		 */
 		public static ServerVersion getClosestVersion(String versionString) {
 			versionString = org.apache.commons.lang.StringUtils.replace(versionString, "_", "");
 			versionString = org.apache.commons.lang.StringUtils.replace(versionString, "R", "");
@@ -137,6 +166,11 @@ public class ConfigManager {
 			return integerServerVersionMap.get(intVersions.get(targetIndex));
 		}
 
+		/**
+		 * Gets version index
+		 *
+		 * @return version index
+		 */
 		private int getIndex() {
 			int index = 1;
 
@@ -159,6 +193,9 @@ public class ConfigManager {
 		put("zh", "zh-cn");
 	}};
 
+	/**
+	 * Reloads the config
+	 */
 	public void reload() {
 		cache.clear();
 
@@ -276,90 +313,203 @@ public class ConfigManager {
 		plugin.getTaskManager().runTasks();
 	}
 
-	//getters
+	/**
+	 * Gets data storage type
+	 *
+	 * @return data storage type enum
+	 */
 	public DataStorageType getDataStorageType() {
 		return dataStorageType;
 	}
 
+	/**
+	 * Gets available effects for a guild
+	 *
+	 * @return list of potion effect types
+	 */
 	public List<PotionEffectType> getGuildEffects() {
 		return guildEffects;
 	}
 
+	/**
+	 * Gets the config as FileConfiguration
+	 *
+	 * @return the config
+	 */
 	public FileConfiguration getConfig() {
 		return config;
 	}
 
+	/**
+	 * Sets the config to secondary data type
+	 */
 	public void setToSecondaryDataStorageType() {
 		dataStorageType = secondaryDataStorageType;
 	}
 
+	/**
+	 * Sets the config to primary data type
+	 */
 	public void setToPrimaryDataStorageType() {
 		dataStorageType = primaryDataStorageType;
 	}
 
-	//Cache
+	/**
+	 * Gets a value from cache
+	 *
+	 * @param c config enum
+	 * @return cached object
+	 */
 	public Object getEnumConfig(Config c) {
 		return cache.get(c);
 	}
 
+	/**
+	 * Checks if a value is present in the cache
+	 *
+	 * @param c config enum
+	 * @return boolean
+	 */
 	public boolean isInCache(Config c) {
 		return cache.containsKey(c);
 	}
 
+	/**
+	 * Puts an object in cache
+	 *
+	 * @param c config enum
+	 * @param o the object
+	 */
 	public void putInCache(Config c, Object o) {
 		if(!cache.containsKey(c)) {
 			cache.put(c, o);
 		}
 	}
 
+	/**
+	 * Removes an object from the cache
+	 *
+	 * @param c config enum
+	 */
 	public void removeFromCache(Config c) {
 		if(cache.containsKey(c)) {
 			cache.remove(c);
 		}
 	}
 
-	//methods from enum
+	/**
+	 * Gets a string
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public String getString(String path) {
 		return config.getString(path) == null ? "" : config.getString(path);
 	}
 
+	/**
+	 * Gets a string list
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public List<String> getStringList(String path) {
 		return config.getStringList(path) == null ? new ArrayList<String>() : config.getStringList(path);
 	}
 
+	/**
+	 * Gets a long
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public long getLong(String path) {
 		return config.getLong(path);
 	}
 
+	/**
+	 * Gets an int
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public int getInt(String path) {
 		return config.getInt(path);
 	}
 
+	/**
+	 * Gets a double
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public double getDouble(String path) {
 		return config.getDouble(path);
 	}
 
+	/**
+	 * Gets a boolean
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public boolean getBoolean(String path) {
 		return config.getBoolean(path);
 	}
 
+	/**
+	 * Gets seconds
+	 * Converted from a string
+	 * 1y 5d 10h 3s etc.
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public int getSeconds(String path) {
 		return StringUtils.stringToSeconds(getString(path));
 	}
 
+	/**
+	 * Gets an itemstack
+	 * from Essentials compatible string
+	 * STONE:1 1 etc.
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public ItemStack getItemStack(String path) {
 		return ItemStackUtils.stringToItemStack(getString(path));
 	}
 
+	/**
+	 * Gets a material from its name
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public Material getMaterial(String path) {
 		return Material.getMaterial((getString(path).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path), ':')[0] : getString(path)).toUpperCase());
 	}
 
-	//STONE:1
+	/**
+	 * Gets material data
+	 * from a string after a colon
+	 * STONE:1
+	 *       ^
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public byte getMaterialData(String path) {
 		return Byte.valueOf(getString(path).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path), ':')[1] : "0");
 	}
 
+	/**
+	 * Gets itemstack list
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public List<ItemStack> getItemStackList(String path) {
 		final List<String> stringList = getStringList(path);
 		final List<ItemStack> itemStackList = new ArrayList<>();
@@ -375,6 +525,12 @@ public class ConfigManager {
 		return itemStackList;
 	}
 
+	/**
+	 * Gets material list
+	 *
+	 * @param path config path
+	 * @return the value
+	 */
 	public List<Material> getMaterialList(String path) {
 		final List<String> stringList = getStringList(path);
 		final List<Material> materialList = new ArrayList<>();
@@ -389,20 +545,41 @@ public class ConfigManager {
 		return materialList;
 	}
 
+	/**
+	 * Gets config file
+	 *
+	 * @return the file
+	 */
 	public File getConfigFile() {
 		return new File(plugin.getDataFolder(), "config.yml");
 	}
 
+	/**
+	 * Backups the config
+	 *
+	 * @throws IOException when something goes wrong
+	 */
 	public void backupFile() throws IOException {
 		File backupFile = new File(getConfigFile().getParentFile(), "config.yml.backup");
 		Files.copy(getConfigFile().toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 
-	public void set(Config e, Object obj) {
-		config.set(e.getPath(), obj);
-		removeFromCache(e);
+	/**
+	 * Sets a value in the config
+	 *
+	 * @param c   config enum
+	 * @param obj value
+	 */
+	public void set(Config c, Object obj) {
+		config.set(c.getPath(), obj);
+		removeFromCache(c);
 	}
 
+	/**
+	 * Saves the config to file
+	 *
+	 * @throws IOException when something goes wrong
+	 */
 	public void save() throws IOException {
 		config.save(getConfigFile());
 	}

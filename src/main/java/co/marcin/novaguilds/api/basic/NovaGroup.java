@@ -59,10 +59,20 @@ public interface NovaGroup {
 			INTEGER
 		}
 
+		/**
+		 * The constructor
+		 *
+		 * @param type variable type
+		 */
 		Key(Type type) {
 			this.type = type;
 		}
 
+		/**
+		 * Gets variable type
+		 *
+		 * @return the type
+		 */
 		public Type getType() {
 			return type;
 		}

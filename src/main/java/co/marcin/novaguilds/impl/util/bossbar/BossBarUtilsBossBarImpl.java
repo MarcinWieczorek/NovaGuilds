@@ -35,6 +35,12 @@ public class BossBarUtilsBossBarImpl extends AbstractBossBarUtils {
 	protected static final boolean v1_9 = ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2);
 	private final Map<UUID, BossBar> bossBarMap = new HashMap<>();
 
+	/**
+	 * Creates a boss bar if doesn't exist
+	 *
+	 * @param player the player
+	 * @return the boss bar
+	 */
 	private BossBar createIfNotExists(Player player) {
 		if(!v1_9) {
 			return null;
@@ -50,6 +56,12 @@ public class BossBarUtilsBossBarImpl extends AbstractBossBarUtils {
 		return bossBar;
 	}
 
+	/**
+	 * Gets the boss bar of a player
+	 *
+	 * @param player the player
+	 * @return the boss bar
+	 */
 	private BossBar getBossBar(Player player) {
 		return bossBarMap.get(player.getUniqueId());
 	}

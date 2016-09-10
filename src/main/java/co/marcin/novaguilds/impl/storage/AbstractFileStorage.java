@@ -34,7 +34,7 @@ public abstract class AbstractFileStorage extends AbstractStorage {
 	 * AbstractFileStorage constructor
 	 *
 	 * @param dataDirectory data directory
-	 * @throws StorageConnectionFailedException
+	 * @throws StorageConnectionFailedException when something goes wrong
 	 */
 	public AbstractFileStorage(File dataDirectory) throws StorageConnectionFailedException {
 		this.dataDirectory = dataDirectory;

@@ -36,7 +36,7 @@ public class SQLiteStorageImpl extends AbstractDatabaseStorage implements Databa
 	 * Creates a new SQLite instance
 	 *
 	 * @param databaseFile The database file (Must end in .db)
-	 * @throws StorageConnectionFailedException
+	 * @throws StorageConnectionFailedException when something goes wrong
 	 */
 	public SQLiteStorageImpl(File databaseFile) throws StorageConnectionFailedException {
 		this.databaseFile = databaseFile;

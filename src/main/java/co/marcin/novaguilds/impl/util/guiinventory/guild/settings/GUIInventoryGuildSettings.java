@@ -40,6 +40,9 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 	private ItemStack buySlotItem;
 	private ItemStack inviteItem;
 
+	/**
+	 * The constructor
+	 */
 	public GUIInventoryGuildSettings() {
 		super(9, Message.INVENTORY_GUI_SETTINGS_TITLE);
 	}

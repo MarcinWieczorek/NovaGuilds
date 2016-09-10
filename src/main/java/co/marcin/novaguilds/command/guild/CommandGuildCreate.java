@@ -257,6 +257,12 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 		}
 	}
 
+	/**
+	 * Validates a tag
+	 *
+	 * @param tag tag string
+	 * @return return message
+	 */
 	public static Message validTag(String tag) {
 		if(GuildManager.getGuildByTag(tag) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_TAGEXISTS;
@@ -277,6 +283,12 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 		return null;
 	}
 
+	/**
+	 * Validates a name
+	 *
+	 * @param name name string
+	 * @return return message
+	 */
 	public static Message validName(String name) {
 		if(GuildManager.getGuildByName(name) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_NAMEEXISTS;

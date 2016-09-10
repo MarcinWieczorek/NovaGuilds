@@ -37,8 +37,8 @@ public abstract class AbstractDatabaseResourceManager<T extends Resource> extend
 	/**
 	 * The constructor
 	 *
-	 * @param storage the storage
-	 * @param clazz   type class
+	 * @param storage    the storage
+	 * @param clazz      type class
 	 * @param columnName column name in the database
 	 */
 	protected AbstractDatabaseResourceManager(Storage storage, Class clazz, String columnName) {

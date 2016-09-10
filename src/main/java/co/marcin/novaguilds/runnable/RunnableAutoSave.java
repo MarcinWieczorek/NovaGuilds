@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 public class RunnableAutoSave implements Runnable {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
+	@Override
 	public void run() {
 		plugin.getGuildManager().save();
 		plugin.getRegionManager().save();

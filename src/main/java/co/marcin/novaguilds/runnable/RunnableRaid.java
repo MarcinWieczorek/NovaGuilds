@@ -41,6 +41,7 @@ public class RunnableRaid implements Runnable {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private static boolean running = false;
 
+	@Override
 	public void run() {
 		running = true;
 		boolean renewTask = false;
@@ -128,6 +129,11 @@ public class RunnableRaid implements Runnable {
 		}
 	}
 
+	/**
+	 * Displays the raid bar to all players taking part
+	 *
+	 * @param raid raid instance
+	 */
 	private void raidBar(NovaRaid raid) {
 		if(raid.getResult() != NovaRaid.Result.DURING) {
 			raid.getGuildAttacker().removeRaidBar();
@@ -166,10 +172,20 @@ public class RunnableRaid implements Runnable {
 		}
 	}
 
+	/**
+	 * Checks if this task is already running
+	 *
+	 * @return true if is running
+	 */
 	public static boolean isRaidRunnableRunning() {
 		return running;
 	}
 
+	/**
+	 * Sets the whether the task is running
+	 *
+	 * @param raidRunnableRunning the flag
+	 */
 	public static void setRaidRunnableRunning(boolean raidRunnableRunning) {
 		running = raidRunnableRunning;
 	}

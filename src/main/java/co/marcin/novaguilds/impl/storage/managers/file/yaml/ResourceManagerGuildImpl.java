@@ -147,7 +147,7 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 				homeLocation.setYaw(yaw);
 				guild.setHome(homeLocation);
 
-				//bankloc
+				//vault location
 				if(configuration.isConfigurationSection("bankloc")) {
 					World vaultWorld;
 					try {

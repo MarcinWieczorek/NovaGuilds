@@ -44,7 +44,7 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 	 * @param database Database name
 	 * @param username Username
 	 * @param password Password
-	 * @throws StorageConnectionFailedException
+	 * @throws StorageConnectionFailedException when something goes wrong
 	 */
 	public MySQLStorageImpl(String hostname, String port, String database, String username, String password) throws StorageConnectionFailedException {
 		this.hostname = hostname;

@@ -31,7 +31,7 @@ public class YamlStorageImpl extends AbstractFileStorage {
 	 * The constructor
 	 *
 	 * @param dataDirectory data directory
-	 * @throws StorageConnectionFailedException
+	 * @throws StorageConnectionFailedException when something goes wrong
 	 */
 	public YamlStorageImpl(File dataDirectory) throws StorageConnectionFailedException {
 		super(dataDirectory);

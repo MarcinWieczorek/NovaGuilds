@@ -36,6 +36,7 @@ import java.util.Map;
 
 public final class ItemStackUtils {
 	private ItemStackUtils() {
+
 	}
 
 	/**

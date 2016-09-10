@@ -82,6 +82,11 @@ public class PacketListener extends AbstractListener {
 		packetHandler.handle(event);
 	}
 
+	/**
+	 * Gets all packet handlers
+	 *
+	 * @return map of packet handlers with packet names as keys
+	 */
 	public Map<String, PacketExtension.PacketHandler> getPacketHandlers() {
 		return packetHandlers;
 	}

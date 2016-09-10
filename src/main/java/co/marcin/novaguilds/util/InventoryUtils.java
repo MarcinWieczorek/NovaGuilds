@@ -33,6 +33,7 @@ import java.util.List;
 
 public final class InventoryUtils {
 	private InventoryUtils() {
+
 	}
 
 	/**

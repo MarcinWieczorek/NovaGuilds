@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.guild;
 
-
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;

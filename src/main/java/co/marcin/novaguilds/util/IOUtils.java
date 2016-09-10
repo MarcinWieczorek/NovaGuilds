@@ -34,6 +34,7 @@ import java.util.List;
 
 public final class IOUtils {
 	private IOUtils() {
+
 	}
 
 	/**
@@ -70,6 +71,7 @@ public final class IOUtils {
 			if(inputStream != null) {
 				inputStream.close();
 			}
+
 			if(outputStream != null) {
 				outputStream.close();
 			}

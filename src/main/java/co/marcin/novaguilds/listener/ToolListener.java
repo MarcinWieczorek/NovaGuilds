@@ -49,7 +49,11 @@ import java.util.List;
 import java.util.Map;
 
 public class ToolListener extends AbstractListener {
-	@SuppressWarnings("deprecation")
+	/**
+	 * Handles all tool actions
+	 *
+	 * @param event player interact event
+	 */
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {
 		Player player = event.getPlayer();

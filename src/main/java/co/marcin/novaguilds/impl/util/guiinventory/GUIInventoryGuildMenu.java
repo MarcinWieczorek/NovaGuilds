@@ -36,6 +36,9 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 	private ItemStack homeTeleportItem;
 	private ItemStack guildTopItem;
 
+	/**
+	 * The constructor
+	 */
 	public GUIInventoryGuildMenu() {
 		super(9, Message.INVENTORY_GGUI_NAME);
 	}
@@ -85,6 +88,9 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 		}
 	}
 
+	/**
+	 * Updates guild top item
+	 */
 	protected void updateGuiTop() {
 		ItemMeta meta = Bukkit.getItemFactory().getItemMeta(guildTopItem.getType());
 		meta.setDisplayName(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());

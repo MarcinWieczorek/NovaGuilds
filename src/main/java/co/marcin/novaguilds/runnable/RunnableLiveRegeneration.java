@@ -26,6 +26,7 @@ import co.marcin.novaguilds.util.NumberUtils;
 public class RunnableLiveRegeneration implements Runnable {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
+	@Override
 	public void run() {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			long lostLiveTime = guild.getLostLiveTime();

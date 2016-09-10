@@ -42,10 +42,18 @@ public class ListenerManager {
 		}
 	};
 
+	/**
+	 * Returns the packet listener
+	 *
+	 * @return packet listener
+	 */
 	public PacketListener getPacketListener() {
 		return packetListener;
 	}
 
+	/**
+	 * Registers the listeners
+	 */
 	public void registerListeners() {
 		new LoginListener();
 		new ToolListener();
@@ -59,6 +67,11 @@ public class ListenerManager {
 		packetListener = new PacketListener();
 	}
 
+	/**
+	 * Gets PluginManager instance
+	 *
+	 * @return PluginManager instance
+	 */
 	public static LoggedPluginManager getLoggedPluginManager() {
 		return loggedPluginManager;
 	}

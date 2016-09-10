@@ -36,6 +36,13 @@ public class CommandExecutorHandler implements Runnable {
 	private final BukkitTask bukkitTask;
 	private Object executorVariable;
 
+	/**
+	 * The constructor
+	 *
+	 * @param command the command
+	 * @param sender  command sender
+	 * @param args    arguments
+	 */
 	public CommandExecutorHandler(Command command, CommandSender sender, String[] args) {
 		this.command = command;
 		this.sender = sender;
@@ -44,6 +51,9 @@ public class CommandExecutorHandler implements Runnable {
 		bukkitTask = Bukkit.getScheduler().runTaskLater(NovaGuilds.getInstance(), this, Config.CHAT_CONFIRMTIMEOUT.getSeconds() * 20);
 	}
 
+	/**
+	 * Executes the command
+	 */
 	public void execute() {
 		if(getState() == CommandExecutorHandlerState.CONFIRMED) {
 			command.executorVariable(executorVariable).execute(sender, args);
@@ -51,12 +61,19 @@ public class CommandExecutorHandler implements Runnable {
 		}
 	}
 
+	/**
+	 * Cancels the command
+	 */
 	public void cancel() {
 		state = CommandExecutorHandlerState.CANCELED;
 		bukkitTask.cancel();
 		PlayerManager.getPlayer(sender).removeCommandExecutorHandler();
 	}
 
+	/**
+	 * Sets command status as confirmed
+	 * and executes it
+	 */
 	public void confirm() {
 		if(state != CommandExecutorHandlerState.CANCELED) {
 			state = CommandExecutorHandlerState.CONFIRMED;
@@ -72,18 +89,38 @@ public class CommandExecutorHandler implements Runnable {
 		}
 	}
 
+	/**
+	 * Gets the command
+	 *
+	 * @return the command enum
+	 */
 	public Command getCommand() {
 		return command;
 	}
 
+	/**
+	 * Gets execution status
+	 *
+	 * @return
+	 */
 	public CommandExecutorHandlerState getState() {
 		return state;
 	}
 
+	/**
+	 * Gets executor variable
+	 *
+	 * @return the object
+	 */
 	public Object getExecutorVariable() {
 		return executorVariable;
 	}
 
+	/**
+	 * Sets executor variable
+	 *
+	 * @param executorVariable the object
+	 */
 	public void executorVariable(Object executorVariable) {
 		this.executorVariable = executorVariable;
 	}

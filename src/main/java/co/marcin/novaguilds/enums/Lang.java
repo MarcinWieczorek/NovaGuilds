@@ -80,7 +80,7 @@ public enum Lang {
 	 *
 	 * @param file the file
 	 * @return the lang
-	 * @throws IOException
+	 * @throws IOException when something goes wrong
 	 */
 	public static Lang fromFile(File file) throws IOException {
 		try {
@@ -112,7 +112,7 @@ public enum Lang {
 	 *
 	 * @param file the file
 	 * @return the configuration
-	 * @throws IOException
+	 * @throws IOException when something goes wrong
 	 */
 	public static YamlConfiguration loadConfiguration(File file) throws IOException {
 		if(NovaGuilds.getInstance() != null && ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {

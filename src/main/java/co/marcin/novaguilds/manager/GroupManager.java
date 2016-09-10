@@ -32,6 +32,9 @@ public class GroupManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, NovaGroup> groups = new HashMap<>();
 
+	/**
+	 * Loads groups
+	 */
 	public void load() {
 		groups.clear();
 		Set<String> groupsNames = plugin.getConfig().getConfigurationSection("groups").getKeys(false);
@@ -42,6 +45,12 @@ public class GroupManager {
 		}
 	}
 
+	/**
+	 * Gets the group of a player
+	 *
+	 * @param player player
+	 * @return the group
+	 */
 	public static NovaGroup getGroup(Player player) {
 		Map<String, NovaGroup> groups = plugin.getGroupManager().getGroups();
 		String groupName = "default";
@@ -64,6 +73,12 @@ public class GroupManager {
 		return getGroup(groupName);
 	}
 
+	/**
+	 * Gets the group of a command sender
+	 *
+	 * @param sender command sender
+	 * @return the group
+	 */
 	public static NovaGroup getGroup(CommandSender sender) {
 		if(sender instanceof Player) {
 			return getGroup((Player) sender);
@@ -73,6 +88,12 @@ public class GroupManager {
 		}
 	}
 
+	/**
+	 * Gets a group by its name
+	 *
+	 * @param groupName group name
+	 * @return the group
+	 */
 	public static NovaGroup getGroup(String groupName) {
 		Map<String, NovaGroup> groups = plugin.getGroupManager().getGroups();
 
@@ -82,6 +103,11 @@ public class GroupManager {
 		return null;
 	}
 
+	/**
+	 * Gets all groups
+	 *
+	 * @return map with groups and their names (as keys)
+	 */
 	public Map<String, NovaGroup> getGroups() {
 		return groups;
 	}

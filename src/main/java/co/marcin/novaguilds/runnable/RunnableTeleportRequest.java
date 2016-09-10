@@ -25,14 +25,20 @@ import org.bukkit.entity.Player;
 public class RunnableTeleportRequest implements Runnable {
 	private final Player player;
 	private final Location location;
-
 	private final Location startLocation;
 	private final Message message;
 
-	public RunnableTeleportRequest(Player p, Location l, Message message) {
-		player = p;
-		location = l;
-		startLocation = player.getLocation();
+	/**
+	 * The constructor
+	 *
+	 * @param player   the player
+	 * @param location target location
+	 * @param message  teleport message
+	 */
+	public RunnableTeleportRequest(Player player, Location location, Message message) {
+		this.player = player;
+		this.location = location;
+		startLocation = this.player.getLocation();
 		this.message = message;
 	}
 

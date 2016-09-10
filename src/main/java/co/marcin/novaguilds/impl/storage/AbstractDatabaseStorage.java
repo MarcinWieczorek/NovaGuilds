@@ -217,7 +217,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	 *
 	 * @param statement the enum
 	 * @return the statement
-	 * @throws SQLException
+	 * @throws SQLException when something goes wrong
 	 */
 	public PreparedStatement getPreparedStatement(PreparedStatements statement) throws SQLException {
 		if(preparedStatementMap.isEmpty() || !preparedStatementMap.containsKey(statement)) {

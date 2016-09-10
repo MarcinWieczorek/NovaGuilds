@@ -63,6 +63,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegionInteractListener extends AbstractListener {
+	/**
+	 * The constructor
+	 */
 	public RegionInteractListener() {
 		super();
 

@@ -30,6 +30,11 @@ import java.util.List;
 public class GUIInventoryRequiredItems extends AbstractGUIInventory {
 	private final List<ItemStack> requiredItems = new ArrayList<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param itemStackList list of required items
+	 */
 	public GUIInventoryRequiredItems(List<ItemStack> itemStackList) {
 		super(ChestGUIUtils.getChestSize(itemStackList.size()), Message.INVENTORY_REQUIREDITEMS_NAME);
 		requiredItems.addAll(itemStackList);

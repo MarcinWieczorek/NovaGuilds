@@ -28,6 +28,11 @@ public abstract class AbstractResource extends AbstractChangeable implements Res
 	private boolean unloaded;
 	protected final UUID uuid;
 
+	/**
+	 * The constructor
+	 *
+	 * @param uuid the uuid
+	 */
 	public AbstractResource(UUID uuid) {
 		this.uuid = uuid;
 	}

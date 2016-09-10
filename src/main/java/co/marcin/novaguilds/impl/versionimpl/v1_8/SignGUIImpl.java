@@ -39,6 +39,9 @@ import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class SignGUIImpl extends AbstractSignGui {
+	/**
+	 * The constructor
+	 */
 	public SignGUIImpl() {
 		registerUpdateHandling();
 	}
@@ -70,6 +73,9 @@ public class SignGUIImpl extends AbstractSignGui {
 		}
 	}
 
+	/**
+	 * Registers packet the handler
+	 */
 	protected void registerUpdateHandling() {
 		new AbstractPacketHandler("PacketPlayInUpdateSign") {
 			@Override

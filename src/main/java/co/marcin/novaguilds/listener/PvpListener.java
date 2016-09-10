@@ -49,7 +49,8 @@ public class PvpListener extends AbstractListener {
 			if(attacker != null) {
 				NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 				NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
-				//teampvp
+
+				//team pvp
 				if(!nPlayerAttacker.getName().equals(nPlayer.getName())) {
 					if(nPlayerAttacker.hasGuild() && nPlayer.hasGuild()) {
 						if(plugin.getPlayerManager().isGuildMate(player, attacker)) { //same guild

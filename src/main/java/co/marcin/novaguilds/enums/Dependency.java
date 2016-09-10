@@ -33,28 +33,61 @@ public enum Dependency {
 	private final boolean hardDependency;
 	private DependencyManager.RunnableWithException[] additionalTasks = new DependencyManager.RunnableWithException[0];
 
+	/**
+	 * The constructor
+	 *
+	 * @param name           the name
+	 * @param hardDependency true if required
+	 */
 	Dependency(String name, boolean hardDependency) {
 		this.name = name;
 		this.hardDependency = hardDependency;
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param name            the name
+	 * @param hardDependency  true if required
+	 * @param additionalTasks additional tasks
+	 */
 	Dependency(String name, boolean hardDependency, DependencyManager.RunnableWithException... additionalTasks) {
 		this(name, hardDependency);
 		this.additionalTasks = additionalTasks;
 	}
 
+	/**
+	 * Gets the name
+	 *
+	 * @return dependency name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Checks if the dependency is required (hard)
+	 *
+	 * @return boolean
+	 */
 	public boolean isHardDependency() {
 		return hardDependency;
 	}
 
+	/**
+	 * Checks if there are additional tasks
+	 *
+	 * @return
+	 */
 	public boolean hasAdditionalTasks() {
 		return additionalTasks.length > 0;
 	}
 
+	/**
+	 * Gets additional tasks
+	 *
+	 * @return array of runables
+	 */
 	public DependencyManager.RunnableWithException[] getAdditionalTasks() {
 		return additionalTasks;
 	}

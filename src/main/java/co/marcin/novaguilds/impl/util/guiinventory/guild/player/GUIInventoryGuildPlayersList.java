@@ -40,6 +40,8 @@ public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 
 	/**
 	 * The constructor
+	 * Displays the list of players
+	 * in a guild
 	 *
 	 * @param guild the guild
 	 */
@@ -53,6 +55,11 @@ public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 		generateContent(guild.getPlayers());
 	}
 
+	/**
+	 * Generates the content
+	 *
+	 * @param playerList list of players
+	 */
 	public void generateContent(List<NovaPlayer> playerList) {
 		inventory.clear();
 		int slot = 0;

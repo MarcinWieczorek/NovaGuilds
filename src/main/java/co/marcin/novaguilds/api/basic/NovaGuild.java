@@ -316,8 +316,6 @@ public interface NovaGuild extends Resource {
 	void setAllies(List<NovaGuild> list);
 
 	/**
-
-	/**
 	 * Sets ally invitations (names)
 	 *
 	 * @param list the list
@@ -692,20 +690,60 @@ public interface NovaGuild extends Resource {
 	LoadingWrapper getLoadingWrapper();
 
 	interface LoadingWrapper<T> {
+		/**
+		 * Sets allies
+		 *
+		 * @param list the list
+		 */
 		void setAllies(List<T> list);
 
+		/**
+		 * Sets ally invitations
+		 *
+		 * @param list the list
+		 */
 		void setAllyInvitations(List<T> list);
 
+		/**
+		 * Sets wars
+		 *
+		 * @param list the list
+		 */
 		void setWars(List<T> list);
 
+		/**
+		 * Sets no war invitations
+		 *
+		 * @param list the list
+		 */
 		void setNoWarInvitations(List<T> list);
 
+		/**
+		 * Gets allies
+		 *
+		 * @return the list
+		 */
 		List<T> getAllies();
 
+		/**
+		 * Gets ally invitations
+		 *
+		 * @return the list
+		 */
 		List<T> getAllyInvitations();
 
+		/**
+		 * Gets wars
+		 *
+		 * @return the list
+		 */
 		List<T> getWars();
 
+		/**
+		 * Gets no war invitations
+		 *
+		 * @return the list
+		 */
 		List<T> getNoWarInvitations();
 	}
 }

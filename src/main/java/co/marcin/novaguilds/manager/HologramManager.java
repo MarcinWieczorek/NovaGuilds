@@ -39,6 +39,9 @@ public class HologramManager {
 	private YamlConfiguration configuration;
 	private final List<NovaHologram> holograms = new ArrayList<>();
 
+	/**
+	 * Loads holograms
+	 */
 	public void load() {
 		try {
 			if(!file.exists() && !file.createNewFile()) {
@@ -81,6 +84,9 @@ public class HologramManager {
 		}
 	}
 
+	/**
+	 * Saves the holograms
+	 */
 	public void save() {
 		if(configuration != null) {
 			for(NovaHologram hologram : holograms) {
@@ -116,6 +122,14 @@ public class HologramManager {
 		LoggerUtils.info("Finished saving holograms.");
 	}
 
+	/**
+	 * Adds top hologram
+	 * with a random name
+	 * topX(0-999)
+	 *
+	 * @param location target location
+	 * @return the hologram
+	 */
 	public NovaHologram addTopHologram(Location location) {
 		NovaHologram hologram = new NovaHologramImpl();
 		hologram.setLocation(location);
@@ -130,6 +144,9 @@ public class HologramManager {
 		return hologram;
 	}
 
+	/**
+	 * Refreshes holograms
+	 */
 	public void refreshTopHolograms() {
 		for(NovaHologram hologram : holograms) {
 			if(hologram.isTop()) {
@@ -138,10 +155,21 @@ public class HologramManager {
 		}
 	}
 
+	/**
+	 * Gets all the holograms
+	 *
+	 * @return list of holograms
+	 */
 	public List<NovaHologram> getHolograms() {
 		return holograms;
 	}
 
+	/**
+	 * Gets a hologram by its name
+	 *
+	 * @param name hologram name
+	 * @return the hologram
+	 */
 	public NovaHologram getHologram(String name) {
 		for(NovaHologram hologram : holograms) {
 			if(hologram.getName().equalsIgnoreCase(name)) {

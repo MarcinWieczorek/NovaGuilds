@@ -39,7 +39,6 @@ public class NovaHologramImpl implements NovaHologram {
 	private boolean isTop = false;
 	private boolean deleted = false;
 
-	//getters
 	@Override
 	public String getName() {
 		return name;
@@ -55,7 +54,6 @@ public class NovaHologramImpl implements NovaHologram {
 		return lines;
 	}
 
-	//setters
 	@Override
 	public void setName(String name) {
 		this.name = name;
@@ -66,7 +64,6 @@ public class NovaHologramImpl implements NovaHologram {
 		this.location = location;
 	}
 
-	//add
 	@Override
 	public void addLine(String line) {
 		lines.add(line);
@@ -127,7 +124,6 @@ public class NovaHologramImpl implements NovaHologram {
 		deleted = true;
 	}
 
-	//check
 	@Override
 	public boolean isTop() {
 		return isTop;

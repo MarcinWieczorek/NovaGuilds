@@ -111,6 +111,9 @@ public class MessageManager {
 		}
 	}
 
+	/**
+	 * Restores the prefix if it's been removed in the lang file
+	 */
 	public void restorePrefix() {
 		String prefix = Message.CHAT_PREFIX.get();
 		prefix = StringUtils.removeColors(StringUtils.fixColors(prefix));
@@ -332,6 +335,14 @@ public class MessageManager {
 		return replaceVarKeyMap(msg, vars, true);
 	}
 
+	/**
+	 * Replace a map of vars
+	 *
+	 * @param msg            message string
+	 * @param vars           map of variables
+	 * @param usePrefixColor true to use color from prefix
+	 * @return replaced string
+	 */
 	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars, boolean usePrefixColor) {
 		for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
 			vars.put(entry.getKey(), entry.getValue() + (usePrefixColor ? instance.prefixColor : ""));
@@ -340,6 +351,15 @@ public class MessageManager {
 		return StringUtils.replaceVarKeyMap(msg, vars);
 	}
 
+	/**
+	 * Replaces a map of variables
+	 * A version for string lists
+	 *
+	 * @param list           list of strings
+	 * @param vars           map of variables
+	 * @param usePrefixColor true to use color from prefix
+	 * @return a list with replaced strings
+	 */
 	public static List<String> replaceVarKeyMap(List<String> list, Map<VarKey, String> vars, boolean usePrefixColor) {
 		final List<String> newList = new ArrayList<>();
 
@@ -351,14 +371,32 @@ public class MessageManager {
 		return newList;
 	}
 
+	/**
+	 * Sets the configuration of current language
+	 * to the configuration specified
+	 *
+	 * @param messages yaml configuration
+	 */
 	public void setMessages(YamlConfiguration messages) {
 		this.messages = messages;
 	}
 
+	/**
+	 * Sets a message
+	 *
+	 * @param message message enum
+	 * @param string  the message
+	 */
 	public static void set(Message message, String string) {
 		getMessages().set(message.getPath(), string);
 	}
 
+	/**
+	 * Sets a list of strings as a message
+	 *
+	 * @param message message enum
+	 * @param list    list of strings
+	 */
 	public static void set(Message message, List<String> list) {
 		getMessages().set(message.getPath(), list);
 	}

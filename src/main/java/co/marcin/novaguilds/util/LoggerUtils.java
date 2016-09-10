@@ -32,6 +32,7 @@ public final class LoggerUtils {
 	private static final String logPrefix = "[NovaGuilds]";
 
 	private LoggerUtils() {
+
 	}
 
 	/**

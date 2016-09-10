@@ -33,9 +33,13 @@ import java.util.Map;
 
 public class DependencyManager {
 	private final Map<Dependency, Plugin> pluginMap = new HashMap<>();
-
 	private Economy economy;
 
+	/**
+	 * Sets up the manager
+	 *
+	 * @throws FatalNovaGuildsException when something goes wrong
+	 */
 	public void setUp() throws FatalNovaGuildsException {
 		try {
 			checkDependencies();
@@ -46,6 +50,11 @@ public class DependencyManager {
 		}
 	}
 
+	/**
+	 * Checks dependencies
+	 *
+	 * @throws MissingDependencyException when something goes wrong
+	 */
 	public void checkDependencies() throws MissingDependencyException {
 		pluginMap.clear();
 
@@ -79,6 +88,12 @@ public class DependencyManager {
 		}
 	}
 
+	/**
+	 * Checks if a dependency is enabled
+	 *
+	 * @param dependency dependency enum
+	 * @return boolean
+	 */
 	public boolean isEnabled(Dependency dependency) {
 		return pluginMap.containsKey(dependency);
 	}
@@ -92,10 +107,24 @@ public class DependencyManager {
 		Validate.notNull(economy);
 	}
 
+	/**
+	 * Gets a plugin by its name
+	 *
+	 * @param name plugin's name
+	 * @return plugin instance
+	 */
 	private Plugin getPlugin(String name) {
 		return ListenerManager.getLoggedPluginManager().getPlugin(name);
 	}
 
+	/**
+	 * Gets the object of a plugin
+	 *
+	 * @param dependency dependency enum
+	 * @param cast       class to cast
+	 * @param <T>        class to cast
+	 * @return plugin instance
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T get(Dependency dependency, Class<T> cast) {
 		return (T) pluginMap.get(dependency);
@@ -109,9 +138,19 @@ public class DependencyManager {
 	}
 
 	public interface RunnableWithException {
+		/**
+		 * Runs.
+		 *
+		 * @throws Exception when something goes wrong
+		 */
 		void run() throws Exception;
 	}
 
+	/**
+	 * Gets the Economy
+	 *
+	 * @return economy instance
+	 */
 	public Economy getEconomy() {
 		return economy;
 	}
