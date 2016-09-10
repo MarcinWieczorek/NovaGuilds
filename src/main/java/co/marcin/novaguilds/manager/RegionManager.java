@@ -181,7 +181,7 @@ public class RegionManager {
 	 *
 	 * @param l1 first corner
 	 * @param l2 second corner
-	 * @return
+	 * @return region validity
 	 */
 	public RegionValidity checkRegionSelect(Location l1, Location l2) {
 		int x1 = l1.getBlockX();
@@ -300,7 +300,7 @@ public class RegionManager {
 	 *
 	 * @param l1 first corner
 	 * @param l2 second corner
-	 * @return
+	 * @return boolean
 	 */
 	private boolean isFarEnough(Location l1, Location l2) {
 		return getGuildsTooClose(l1, l2).isEmpty();
@@ -325,19 +325,21 @@ public class RegionManager {
 		Location centerLocation = RegionUtils.getCenterLocation(l1, l2);
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
-			if(guildLoop.getHome().getWorld().equals(l1.getWorld())) {
-				int radius2 = 0;
+			if(!guildLoop.getHome().getWorld().equals(l1.getWorld())) {
+				continue;
+			}
 
-				if(guildLoop.hasRegion()) {
-					radius2 = guildLoop.getRegion().getDiagonal() / 2;
-				}
+			int radius2 = 0;
 
-				centerLocation.setY(guildLoop.getHome().getY());
+			if(guildLoop.hasRegion()) {
+				radius2 = guildLoop.getRegion().getDiagonal() / 2;
+			}
 
-				double distance = centerLocation.distance(guildLoop.getHome());
-				if(distance < min + radius2) {
-					list.add(guildLoop);
-				}
+			centerLocation.setY(guildLoop.getHome().getY());
+
+			double distance = centerLocation.distance(guildLoop.getHome());
+			if(distance < min + radius2) {
+				list.add(guildLoop);
 			}
 		}
 
