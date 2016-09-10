@@ -252,9 +252,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		getRankManager().save();
 		LoggerUtils.info("Saved all data");
 
-		//Save Holograms
-		getHologramManager().save();
-
 		if(Config.PACKETS_ENABLED.getBoolean() && getPacketExtension() != null) {
 			getPacketExtension().unregisterChannel();
 		}
@@ -272,6 +269,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//removing holograms
 		if(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
+			//Save holograms
+			getHologramManager().save();
+
 			for(Hologram h : HologramsAPI.getHolograms(this)) {
 				h.delete();
 			}

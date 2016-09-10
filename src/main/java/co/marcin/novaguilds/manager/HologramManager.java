@@ -92,7 +92,6 @@ public class HologramManager {
 			for(NovaHologram hologram : holograms) {
 				if(hologram.isDeleted()) {
 					configuration.set(hologram.getName(), null);
-					LoggerUtils.info("Deleted hologram " + hologram.getName());
 				}
 				else {
 					if(!hologram.isTop()) {
@@ -104,7 +103,6 @@ public class HologramManager {
 					configuration.set(hologram.getName() + ".location.x", hologram.getLocation().getX());
 					configuration.set(hologram.getName() + ".location.y", hologram.getLocation().getY());
 					configuration.set(hologram.getName() + ".location.z", hologram.getLocation().getZ());
-					LoggerUtils.info("Saved hologram " + hologram.getName());
 				}
 			}
 
