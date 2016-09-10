@@ -674,6 +674,7 @@ region:
   - BEACON
   - ITEM_FRAME
   - BREWING_STAND
+  - TRAPPED_CHEST
 
 # deny using                                      #
  denyuse:
