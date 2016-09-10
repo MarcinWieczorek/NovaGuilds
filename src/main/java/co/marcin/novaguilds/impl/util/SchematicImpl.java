@@ -39,6 +39,9 @@ import java.lang.reflect.Method;
 public class SchematicImpl implements Schematic {
 	protected static Class<?> nBTCompressedStreamToolsClass;
 	protected static Class<?> nBTTagCompoundClass;
+	protected static Method aMethod;
+	protected static Method getShortMethod;
+	protected static Method getByteArrayMethod;
 	private short width;
 	private short height;
 	private short length;
@@ -50,6 +53,9 @@ public class SchematicImpl implements Schematic {
 		try {
 			nBTCompressedStreamToolsClass = Reflections.getCraftClass("NBTCompressedStreamTools");
 			nBTTagCompoundClass = Reflections.getCraftClass("NBTTagCompound");
+			aMethod = Reflections.getMethod(nBTCompressedStreamToolsClass, "a", InputStream.class);
+			getShortMethod = Reflections.getMethod(nBTTagCompoundClass, "getShort");
+			getByteArrayMethod = Reflections.getMethod(nBTTagCompoundClass, "getByteArray");
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -81,12 +87,8 @@ public class SchematicImpl implements Schematic {
 		}
 
 		try {
-			Method aMethod = Reflections.getMethod(nBTCompressedStreamToolsClass, "a", InputStream.class);
 			FileInputStream fis = new FileInputStream(file);
 			Object nbtData = aMethod.invoke(null, fis);
-
-			Method getShortMethod = Reflections.getMethod(nBTTagCompoundClass, "getShort");
-			Method getByteArrayMethod = Reflections.getMethod(nBTTagCompoundClass, "getByteArray");
 
 			width = (short) getShortMethod.invoke(nbtData, "Width");
 			height = (short) getShortMethod.invoke(nbtData, "Height");
