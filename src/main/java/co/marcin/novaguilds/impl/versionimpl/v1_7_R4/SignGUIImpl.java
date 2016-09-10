@@ -106,7 +106,7 @@ public class SignGUIImpl extends AbstractSignGui {
 			listeners.put(player.getUniqueId(), response);
 			PacketSender.sendPacket(player, packets.toArray(new Packet[packets.size()]));
 		}
-		catch(IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+		catch(IllegalAccessException | InstantiationException | InvocationTargetException e) {
 			LoggerUtils.exception(e);
 		}
 	}

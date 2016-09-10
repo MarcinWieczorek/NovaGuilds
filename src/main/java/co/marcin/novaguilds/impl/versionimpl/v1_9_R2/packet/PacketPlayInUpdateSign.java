@@ -52,9 +52,8 @@ public class PacketPlayInUpdateSign extends AbstractPacket {
 	 *
 	 * @param packet NMS PacketPlayInUpdateSign object
 	 * @throws IllegalAccessException when something goes wrong
-	 * @throws NoSuchFieldException   when something goes wrong
 	 */
-	public PacketPlayInUpdateSign(Object packet) throws IllegalAccessException, NoSuchFieldException {
+	public PacketPlayInUpdateSign(Object packet) throws IllegalAccessException {
 		BlockPositionWrapper blockPosition = new BlockPositionWrapperImpl(blockPositionField.get(packet));
 
 		x = blockPosition.getX();

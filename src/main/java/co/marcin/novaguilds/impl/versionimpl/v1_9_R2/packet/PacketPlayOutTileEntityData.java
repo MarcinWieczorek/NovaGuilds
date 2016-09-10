@@ -125,10 +125,9 @@ public class PacketPlayOutTileEntityData extends AbstractPacket {
 	 * @throws IllegalAccessException    when something goes wrong
 	 * @throws InstantiationException    when something goes wrong
 	 * @throws InvocationTargetException when something goes wrong
-	 * @throws ClassNotFoundException    when something goes wrong
 	 * @throws NoSuchMethodException     when something goes wrong
 	 */
-	public static PacketPlayOutTileEntityData getSignChange(Location location, String[] lines) throws IllegalAccessException, InstantiationException, InvocationTargetException, ClassNotFoundException, NoSuchMethodException {
+	public static PacketPlayOutTileEntityData getSignChange(Location location, String[] lines) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
 		Object tag = nBTTagCompoundClass.newInstance();
 
 		nBTTagCompoundSetStringMethod.invoke(tag, "id", "0"); //FIXME what is this for?

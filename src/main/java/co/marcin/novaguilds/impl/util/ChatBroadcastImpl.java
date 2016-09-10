@@ -61,7 +61,7 @@ public class ChatBroadcastImpl implements ChatBroadcast {
 	@Override
 	public void setTag(Integer index, PreparedTag preparedTag) {
 		if(index > 10 || index < 1) {
-			throw new RuntimeException("Index must be between 1 and 10");
+			throw new IllegalArgumentException("Index must be between 1 and 10");
 		}
 
 		preparedTagMap.put(index, preparedTag);

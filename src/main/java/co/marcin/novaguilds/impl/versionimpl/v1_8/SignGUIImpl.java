@@ -68,7 +68,7 @@ public class SignGUIImpl extends AbstractSignGui {
 			listeners.put(player.getUniqueId(), response);
 			PacketSender.sendPacket(player, packets.toArray(new Packet[packets.size()]));
 		}
-		catch(NoSuchFieldException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+		catch(NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
 			LoggerUtils.exception(e);
 		}
 	}
@@ -103,7 +103,7 @@ public class SignGUIImpl extends AbstractSignGui {
 						});
 					}
 				}
-				catch(IllegalAccessException | InvocationTargetException | NoSuchFieldException e) {
+				catch(IllegalAccessException | InvocationTargetException e) {
 					LoggerUtils.exception(e);
 				}
 			}

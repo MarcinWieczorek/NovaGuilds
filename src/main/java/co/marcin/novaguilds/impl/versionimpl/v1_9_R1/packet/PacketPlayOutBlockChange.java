@@ -72,11 +72,9 @@ public class PacketPlayOutBlockChange extends AbstractPacket {
 	 * @param data     data byte (color, type etc.)
 	 * @throws IllegalAccessException    when something goes wrong
 	 * @throws InvocationTargetException when something goes wrong
-	 * @throws NoSuchFieldException      when something goes wrong
 	 * @throws InstantiationException    when something goes wrong
-	 * @throws NoSuchMethodException     when something goes wrong
 	 */
-	public PacketPlayOutBlockChange(Location location, Material material, int data) throws IllegalAccessException, InvocationTargetException, NoSuchFieldException, InstantiationException, NoSuchMethodException {
+	public PacketPlayOutBlockChange(Location location, Material material, int data) throws IllegalAccessException, InvocationTargetException, InstantiationException {
 		Object blockPosition = new BlockPositionWrapperImpl(location).getBlockPosition();
 		packet = packetBlockChangeClass.newInstance();
 
