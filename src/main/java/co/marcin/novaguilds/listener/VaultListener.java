@@ -107,6 +107,10 @@ public class VaultListener extends AbstractListener {
 			return;
 		}
 
+		if(nPlayer.getBypass()) {
+			return;
+		}
+
 		event.setCancelled(true);
 	}
 
@@ -116,6 +120,10 @@ public class VaultListener extends AbstractListener {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		if(plugin.getGuildManager().isVaultBlock(event.getBlock())) {
+			if(nPlayer.getBypass()) {
+				return;
+			}
+
 			Chest chest = (Chest) event.getBlock().getState();
 
 			if(InventoryUtils.isEmpty(chest.getInventory())) {
