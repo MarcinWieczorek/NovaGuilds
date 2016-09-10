@@ -35,15 +35,16 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class RunnableRaid implements Runnable {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private static boolean running = false;
+	private final UUID taskUUID = UUID.randomUUID();
+	private static UUID scheduledUUID;
 
 	@Override
 	public void run() {
-		running = true;
 		boolean renewTask = false;
 
 		for(NovaGuild guildDefender : plugin.getGuildManager().getGuilds()) {
@@ -123,9 +124,11 @@ public class RunnableRaid implements Runnable {
 			raidBar(raid);
 		}
 
-		if(renewTask && plugin.isEnabled() && !running) {
-			NovaGuilds.runTaskLater(this, 1, TimeUnit.SECONDS);
-			running = true;
+		if(renewTask && plugin.isEnabled()) {
+			schedule();
+		}
+		else {
+			scheduledUUID = null;
 		}
 	}
 
@@ -178,15 +181,18 @@ public class RunnableRaid implements Runnable {
 	 * @return true if is running
 	 */
 	public static boolean isRaidRunnableRunning() {
-		return running;
+		return scheduledUUID != null;
 	}
 
-	/**
-	 * Sets the whether the task is running
-	 *
-	 * @param raidRunnableRunning the flag
-	 */
-	public static void setRaidRunnableRunning(boolean raidRunnableRunning) {
-		running = raidRunnableRunning;
+	public void schedule() {
+		if(scheduledUUID == null) {
+			scheduledUUID = taskUUID;
+		}
+
+		if(!scheduledUUID.equals(taskUUID)) {
+			return;
+		}
+
+		NovaGuilds.runTaskLater(this, 1, TimeUnit.SECONDS);
 	}
 }

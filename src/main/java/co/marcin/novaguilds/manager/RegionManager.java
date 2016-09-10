@@ -461,9 +461,7 @@ public class RegionManager {
 							guildDefender.getRaid().addPlayerOccupying(nPlayer);
 
 							if(!RunnableRaid.isRaidRunnableRunning()) {
-								Runnable task = new RunnableRaid();
-								NovaGuilds.runTaskLater(task, 1, TimeUnit.SECONDS);
-								RunnableRaid.setRaidRunnableRunning(true);
+								new RunnableRaid().schedule();
 							}
 						}
 						else {
