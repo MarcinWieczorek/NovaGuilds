@@ -20,7 +20,6 @@ package co.marcin.novaguilds.impl.util.bossbar;
 
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.manager.ConfigManager;
-import co.marcin.novaguilds.util.LoggerUtils;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.inventivetalent.bossbar.BossBar;
@@ -75,7 +74,6 @@ public class BossBarUtilsBossBarImpl extends AbstractBossBarUtils {
 	public void setMessage(Player player, String message, float percent) {
 		if(v1_9) {
 			BossBar bar = createIfNotExists(player);
-			LoggerUtils.debug(new TextComponent(message).toString());
 			bar.setMessage(new TextComponent(message).toString());
 			bar.setProgress(percent / 100F);
 		}

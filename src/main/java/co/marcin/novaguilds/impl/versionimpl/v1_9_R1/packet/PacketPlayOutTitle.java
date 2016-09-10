@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_9_R1.packet;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.impl.util.AbstractPacket;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -27,7 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 
 @SuppressWarnings("ConstantConditions")
 public class PacketPlayOutTitle extends AbstractPacket {
-	protected static final NovaGuilds plugin = NovaGuilds.getInstance();
 	protected static Class<?> packetTitle;
 	protected static Class<?> titleActionsClass;
 	protected static Class<?> chatSerializerClass;
