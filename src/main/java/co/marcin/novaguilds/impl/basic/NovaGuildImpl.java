@@ -38,6 +38,7 @@ import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -794,7 +795,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		}
 
 		GuildManager.checkVaultDestroyed(this);
-		if(getVaultLocation() != null) {
+		if(Config.DEBUG.getBoolean() && getVaultLocation() != null) {
 			getVaultLocation().getBlock().breakNaturally();
 			getVaultLocation().getWorld().playEffect(getVaultLocation(), Effect.SMOKE, 1000);
 		}
