@@ -93,6 +93,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private PacketExtension packetExtension;
 	private Storage storage;
 	private SignGUI signGUI;
+	private static Method getOnlinePlayersMethod;
+
+	static {
+		try {
+			getOnlinePlayersMethod = Server.class.getMethod("getOnlinePlayers");
+		}
+		catch(NoSuchMethodException e) {
+			LoggerUtils.exception(e);
+		}
+	}
 
 	public NovaGuilds() {
 		instance = this;
@@ -434,8 +444,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		Collection<Player> collection = new HashSet<>();
 
 		try {
-			Method getOnlinePlayersMethod = Server.class.getMethod("getOnlinePlayers");
-
 			if(getOnlinePlayersMethod.getReturnType().equals(Collection.class)) {
 				collection = ((Collection) getOnlinePlayersMethod.invoke(Bukkit.getServer()));
 			}
