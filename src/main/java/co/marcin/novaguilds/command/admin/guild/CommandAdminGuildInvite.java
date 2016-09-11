@@ -71,8 +71,8 @@ public class CommandAdminGuildInvite extends AbstractCommandExecutor.Reversed<No
 		vars.put(VarKey.GUILDNAME, guild.getName());
 		Message.CHAT_ADMIN_GUILD_INVITED.vars(vars).send(sender);
 
-		if(nPlayer.getPlayer() != null) {
-			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(sender);
+		if(nPlayer.isOnline()) {
+			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(nPlayer);
 		}
 	}
 }
