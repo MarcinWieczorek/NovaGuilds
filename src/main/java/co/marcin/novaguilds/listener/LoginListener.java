@@ -107,6 +107,11 @@ public class LoginListener extends AbstractListener {
 			TabUtils.refresh();
 		}
 
+		//Guild inactive time
+		if(nPlayer.hasGuild()) {
+			nPlayer.getGuild().updateInactiveTime();
+		}
+
 		BossBarUtils.removeBar(player);
 	}
 
@@ -120,6 +125,11 @@ public class LoginListener extends AbstractListener {
 			for(NovaRaid raid : plugin.getGuildManager().getRaidsTakingPart(nPlayer.getGuild())) {
 				raid.removePlayerOccupying(nPlayer);
 			}
+		}
+
+		//Guild inactive time
+		if(nPlayer.hasGuild()) {
+			nPlayer.getGuild().updateInactiveTime();
 		}
 	}
 }

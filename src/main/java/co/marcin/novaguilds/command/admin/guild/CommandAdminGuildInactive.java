@@ -128,9 +128,9 @@ public class CommandAdminGuildInactive extends AbstractCommandExecutor {
 			if(display) {
 				String inactiveString = StringUtils.secondsToString(NumberUtils.systemSeconds() - guild.getInactiveTime(), TimeUnit.SECONDS);
 
-				String agoNowString = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_AGO.get();
+				Message agoNowMessage = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_AGO.setVar(VarKey.INACTIVE, inactiveString);
 				if(inactiveString.isEmpty()) {
-					agoNowString = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_NOW.get();
+					agoNowMessage = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_NOW;
 				}
 
 				Map<VarKey, String> vars = new HashMap<>();
@@ -138,8 +138,7 @@ public class CommandAdminGuildInactive extends AbstractCommandExecutor {
 				vars.put(VarKey.PLAYERNAME, guild.getLeader().getName());
 				vars.put(VarKey.TAG, guild.getTag());
 				vars.put(VarKey.PLAYERSCOUNT, String.valueOf(guild.getPlayers().size()));
-				vars.put(VarKey.AGONOW, agoNowString);
-				vars.put(VarKey.INACTIVE, inactiveString);
+				vars.put(VarKey.AGONOW, agoNowMessage.get());
 
 				String rowMessage = MessageManager.replaceVarKeyMap(rowFormat, vars);
 				MessageManager.sendMessage(sender, rowMessage);
