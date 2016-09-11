@@ -28,10 +28,10 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
-import co.marcin.novaguilds.impl.versionimpl.v1_8.TabListNorthTabImpl;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -94,17 +94,14 @@ public class LoginListener extends AbstractListener {
 
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
-			TabList tabList = null;
-
-			switch(ConfigManager.getServerVersion()) {
-				case MINECRAFT_1_8_R2:
-					tabList = new TabListNorthTabImpl(nPlayer);
-					break;
+			try {
+				TabList tabList = (TabList) Class.forName("co.marcin.novaguilds.impl.versionimpl." + ConfigManager.getServerVersion().getString() + ".TabListImpl").newInstance();
+				nPlayer.setTabList(tabList);
+				TabUtils.refresh();
 			}
-
-			nPlayer.setTabList(tabList);
-
-			TabUtils.refresh();
+			catch(ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+				LoggerUtils.exception(e);
+			}
 		}
 
 		//Guild inactive time

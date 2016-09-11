@@ -19,36 +19,24 @@
 package co.marcin.novaguilds.impl.versionimpl.v1_8;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.TabList;
-import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.AbstractTabList;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import tk.northpl.tab.API;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class TabListNorthTabImpl implements TabList {
-	private final NovaPlayer nPlayer;
-	private final List<String> lines = new ArrayList<>();
-	private final Map<VarKey, String> vars = new HashMap<>();
-
+public class TabListImpl extends AbstractTabList {
 	/**
 	 * The constructor
 	 *
 	 * @param nPlayer tablist owner
 	 */
-	public TabListNorthTabImpl(NovaPlayer nPlayer) {
-		this.nPlayer = nPlayer;
-		clear();
+	public TabListImpl(NovaPlayer nPlayer) {
+		super(nPlayer);
 	}
 
 	@Override
 	public void send() {
-		if(!nPlayer.isOnline()) {
+		if(!getPlayer().isOnline()) {
 			return;
 		}
 
@@ -57,28 +45,11 @@ public class TabListNorthTabImpl implements TabList {
 		int x = 0;
 		int y = 0;
 		for(String line : lines) {
-			line = StringUtils.replaceVarKeyMap(line, vars);
+			line = StringUtils.replaceVarKeyMap(line, getVars());
 			line = StringUtils.fixColors(line);
 
-			API.setTabSlot(nPlayer.getPlayer(), x, y, line);
+			API.setTabSlot(getPlayer().getPlayer(), x, y, line);
 			y++;
 		}
-	}
-
-	@Override
-	public NovaPlayer getPlayer() {
-		return nPlayer;
-	}
-
-	@Override
-	public Map<VarKey, String> getVars() {
-		return vars;
-	}
-
-	@Override
-	public void clear() {
-		lines.clear();
-		lines.addAll(Config.TABLIST_SCHEME.getStringList());
-		vars.clear();
 	}
 }

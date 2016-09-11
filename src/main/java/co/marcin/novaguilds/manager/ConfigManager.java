@@ -184,6 +184,10 @@ public class ConfigManager {
 
 			return index;
 		}
+
+		public String getString() {
+			return "v" + name().substring(10);
+		}
 	}
 
 	public static final Map<String, String> essentialsLocale = new HashMap<String, String>() {{
@@ -219,9 +223,16 @@ public class ConfigManager {
 			LoggerUtils.error("You can't use Titles with Bukkit other than 1.8");
 		}
 
-		if(Config.TABLIST_ENABLED.getBoolean() && getServerVersion() != ServerVersion.MINECRAFT_1_8_R2) {
-			Config.TABLIST_ENABLED.set(false);
-			LoggerUtils.error("TabList is not currently implemented for server version other than 1.8");
+		//Tablist
+		if(Config.TABLIST_ENABLED.getBoolean()) {
+			try {
+				Class.forName("co.marcin.novaguilds.impl.versionimpl." + getServerVersion().getString() + ".TabListImpl");
+				LoggerUtils.info("Loaded TabList implementation for version: " + getServerVersion().getString());
+			}
+			catch(ClassNotFoundException e) {
+				Config.TABLIST_ENABLED.set(false);
+				LoggerUtils.error("TabList not found for version " + getServerVersion().getString());
+			}
 		}
 
 		String primaryDataStorageTypeString = Config.DATASTORAGE_PRIMARY.getString().toUpperCase();
