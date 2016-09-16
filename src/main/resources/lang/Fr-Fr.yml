@@ -1,13 +1,13 @@
 chat:
  prefix: "&4&l[&7NovaGuilds&4&l] &6"
- nopermissions: "&cVous n''avez pas assez de permissions pour faire ceci."
+ nopermissions: "&cVous n'avez pas assez de permissions pour faire ceci."
  unknowncmd: "&cCommande inconnue."
  invalidparam: "&cParamètres invalides de commande"
  cmdfromconsole: "Vous ne pouvez pas effectuer cette commande depuis la console"
- enterinteger: "Merci d''entrer un nombre."
+ enterinteger: "Merci d'entrer un nombre."
  delayedteleport: "Vous allez être téléporté dans &c{DELAY} secondes"
  delayedtpmoved: "Vous avez bougé! Téléportation annulé!"
- erroroccured: "&cUne erreur à eu lieu. Contactez l''administrateur du serveur."
+ erroroccured: "&cUne erreur à eu lieu. Contactez l'administrateur du serveur."
  update: "&4Il y a une mise à jour disponible! &6http://www.novaguilds.pl/"
  basic:
   negativenumber: "Merci de donner un nombre plus grand ou égal à zero."
@@ -15,7 +15,7 @@ chat:
   'off': "OFF"
   coords3d: "&6{X}&c/&6{Y}&c/&6{Z}"
  confirm:
-  nullhandler: "Il n''y a pas de commande en suspens à confirmer"
+  nullhandler: "Il n'y a pas de commande en suspens à confirmer"
   needconfirm: "Vous devez confirmer cet action. &c/confirm"
   timeout: "Votre demande de confirmation a expiré."
 
@@ -66,13 +66,13 @@ chat:
      enternewname: "Entrez un nouveau nom"
      success: "Nom de la guilde modifié."
     leader:
-     notinguild: "Ce joueur n''est pas dans la guilde &a{GUILDNAME}"
+     notinguild: "Ce joueur n'est pas dans la guilde &a{GUILDNAME}"
      alreadyleader: "Le joueur &c{PLAYERNAME} est déjà le dirigeant!"
      success: "Nouveau dirigeant fixé!"
    reset:
     points:
      invalidconditiontype: "&cCondition invalide de type &4(&a< > = all&4)"
-     novalue: "Merci d''ajouter une valeur après &a{CHAR}"
+     novalue: "Merci d'ajouter une valeur après &a{CHAR}"
      success: "Points de la guilde &a{COUNT} réinitialisé avec succès"
   region:
    bypass:
@@ -145,8 +145,8 @@ chat:
      lives: "&4&l> &7/nga &cg &6<&cguild&6> &clives &6<&clives&6> &2- &6fixe les vies"
     abandon: "&4&l> &7/nga &cg &6<&cguild&6> &cabandon &2- &6abandonne la guilde"
     bank:
-     pay: "&4&l> &7/nga &cg &6<&cguild&6> &cpay &6<&camount&6> &2- &6Verse de l''argent à la banque de la guilde"
-     withdraw: "&4&l> &7/nga &cg &6<&cguild&6> &cwithdraw &6<&camount&6> &2- &6Prélève de l''argent dans la banque d''une guilde"
+     pay: "&4&l> &7/nga &cg &6<&cguild&6> &cpay &6<&camount&6> &2- &6Verse de l'argent à la banque de la guilde"
+     withdraw: "&4&l> &7/nga &cg &6<&cguild&6> &cwithdraw &6<&camount&6> &2- &6Prélève de l'argent dans la banque d'une guilde"
     purge: "&4&l> &7/nga &cg &6purge &2- &6Supprime toutes les guiles"
     tp: "&4&l> &7/nga &cg &6<&cguild&6> &ctp &6[&cplayer&6] &2- &6TP au foyer de la guilde"
     reset:
@@ -162,8 +162,8 @@ chat:
    abandon: "&4&l> &7/abandon &2- &6Abandonne votre guilde"
    ally: "&4&l> &7/g &cally &6<&cguild&6> &2- &6Invite à une alliance"
    bank:
-    pay: "&4&l> &7/g &cpay &6<&camount&6> &2- &6Verse de l''argent dans la banque de la guilde"
-    withdraw: "&4&l> &7/g &cwithdraw &6<&camount&6> &2- &6Prélève de l''argent de la banque de guilde"
+    pay: "&4&l> &7/g &cpay &6<&camount&6> &2- &6Verse de l'argent dans la banque de la guilde"
+    withdraw: "&4&l> &7/g &cwithdraw &6<&camount&6> &2- &6Prélève de l'argent de la banque de guilde"
    buy:
     life: "&4&l> &7/g &cbuylife &2- &6Achète une vie"
     slot: "&4&l> &7/g &cbuyslot &2- &6Extend la limite de joueurs!"
@@ -193,7 +193,7 @@ chat:
    access: "&4&l> &7/g &crg &2- &6Commandes de régions"
    buy: "&4&l> &7/g &crg &6buy &2- &6Crée une région"
    delete: "&4&l> &7/g &crg &6delete &2- &6Détruit la région"
-  tool: "&4&l> &7/ng &ctool &2- &6Vérifie ou sélectionne une zone avec l''outil!"
+  tool: "&4&l> &7/ng &ctool &2- &6Vérifie ou sélectionne une zone avec l'outil!"
 
  commands:
   admin:
@@ -223,8 +223,8 @@ chat:
      - "&4&l> &7/nga &cg &6<&cguild&6> &csettag &6<&ctag&6> &2- &6Fixe le tag"
      - "&4&l> &7/nga &cg &6<&cguild&6> &csetpoints &6<&cpoints&6> &2- &6Fixe les points"
      - "&4&l> &7/nga &cg &6<&cguild&6> &cinvite &6<&cplayer&6> &2- &6Invite un joueur à la guilde"
-     - "&4&l> &7/nga &cg &6<&cguild&6> &cpay &6<&camount&6> &2- &6Verse de l''argent à la banque de guilde"
-     - "&4&l> &7/nga &cg &6<&cguild&6> &cwithdraw &6<&camount&6> &2- &6Prélève de l''argent de la banque de guilde"
+     - "&4&l> &7/nga &cg &6<&cguild&6> &cpay &6<&camount&6> &2- &6Verse de l'argent à la banque de guilde"
+     - "&4&l> &7/nga &cg &6<&cguild&6> &cwithdraw &6<&camount&6> &2- &6Prélève de l'argent de la banque de guilde"
      - "&4&l> &7/nga &cg &6<&cguild&6> &ctimerest &6<&ctime&6> &2- &6Fixe le temps de repos. (1y/d/m/h/s)"
      - "&4&l> &7/nga &cg &6<&cguild&6> &cliveregentime &6<&ctime&6> &2- &6Fixe le temps de la regénération de vie."
      - "&4&l> &7/nga &cg &6<&cguild&6> &clives &6<&clives&6> &2- &6Fixe les vies"
@@ -263,14 +263,14 @@ chat:
     - "{EFFECT}&4&l> &7/g &ceffect &2- &6Effets pour la guilde"
     - "{HOME_TELEPORT}&4&l> &7/g &chome &2- &6TP vers le foyer de la guilde"
     - "{HOME_SET}&4&l> &7/g &chome set &2- &6Fixe le foyer de votre guilde"
-    - "{BANK_PAY}&4&l> &7/g &cpay &6<&camount&6> &2- &6Verse de l''argent dans la banque de guilde"
-    - "{BANK_WITHDRAW}&4&l> &7/g &cwithdraw &6<&camount&6> &2- &6Prélève de l''argent dans la banque de guilde"
+    - "{BANK_PAY}&4&l> &7/g &cpay &6<&camount&6> &2- &6Verse de l'argent dans la banque de guilde"
+    - "{BANK_WITHDRAW}&4&l> &7/g &cwithdraw &6<&camount&6> &2- &6Prélève de l'argent dans la banque de guilde"
     - "&4&l> &7/g &cleader &6<&cplayer&6> &2- &6Fixe le dirigeant de la guilde"
     - "&4&l> &7/g &cally &6<&cguild&6> &2- &6Invite à une alliance"
     - "&4&l> &7/g &cwar &6[&cguild&6] &2- &6Guerre!"
     - "{KICK}&4&l> &7/g &ckick &6<&cplayer&6> &2- &6Éjecte un joueur de la guilde"
     - "{PVPTOGGLE}&4&l> &7/g &cpvp &2- &6Basculement en mode PVP"
-    - "{OPENINVITATION}&4&l> &7/g &copeninv &2- &6Basculement du status d''invitation ouverte"
+    - "{OPENINVITATION}&4&l> &7/g &copeninv &2- &6Basculement du status d'invitation ouverte"
     - "{SET_NAME}&4&l> &7/g &csetname &2- &6Fixe le nom"
     - "{SET_TAG}&4&l> &7/g &csettag &2- &6Fixe le tag"
     - "&4&l> &7/g &crg &2- &6Commandes de régions"
@@ -287,7 +287,7 @@ chat:
   ally: "Vous ne pouvez pas blesser vos alliés."
  
  raid:
-  resting: "Vous devez attendre &c{TIMEREST} avant d''attaquer cette guilde."
+  resting: "Vous devez attendre &c{TIMEREST} avant d'attaquer cette guilde."
   protection: "Cette guilde est nouvelle et est toujours protégé. Réessayez demain."
  
  guild:
@@ -299,7 +299,7 @@ chat:
     exists: "Le coffre-fort existe déjà!"
     doublechest: "Le coffre-fort ne peut que seulement être un seul coffre"
    break:
-    notempty: "Le coffre fort n''est pas vide!"
+    notempty: "Le coffre fort n'est pas vide!"
     success: "Coffre-fort détruit."
    denyrelative: "Vous ne pouvez pas placer ce block près du coffre-fort"
 
@@ -316,41 +316,41 @@ chat:
    war: "Premièrement vous devez terminer la guerre avec cette guilde."
    samename: "Vous ne pouvez pas vous allier avec votre propre guilde!"
    invited: "Vous avez invité &a{ALLYNAME} à une alliance."
-   accepted: "Vous avez accepté la demande d''alliance avec &a{ALLYNAME}"
-   notifyguild: "La guilde &a{GUILDNAME} vous a invité à s''allier avec eux."
-   notifyguildcanceled: "La guilde &a{GUILDNAME} a annulé leurs demande d''alliance"
-   canceled: "Demande d''alliance annulé avec la guilde &a{ALLYNAME}"
+   accepted: "Vous avez accepté la demande d'alliance avec &a{ALLYNAME}"
+   notifyguild: "La guilde &a{GUILDNAME} vous a invité à s'allier avec eux."
+   notifyguildcanceled: "La guilde &a{GUILDNAME} a annulé leurs demande d'alliance"
+   canceled: "Demande d'alliance annulé avec la guilde &a{ALLYNAME}"
    list:
     noallies: "Aucun allié."
     header:
      allies: "Liste des alliés:"
-     invitations: "Liste des demandes d''alliances:"
+     invitations: "Liste des demandes d'alliances:"
     item: "&c{GUILDNAME}"
     separator: "&f, "
    
   couldnotfind: "Impossible de trouver la guilde."
-  hasnoregion: "Cette guilde n''a pas de région"
+  hasnoregion: "Cette guilde n'a pas de région"
   entername: "Entrez le nom de la guilde"
   entertag: "Donnez un nouveau tag"
-  namenotexist: "Il n''y a pas de guilde portant ce nom"
-  notinguild: "Vous n''avez pas de guilde"
+  namenotexist: "Il n'y a pas de guilde portant ce nom"
+  notinguild: "Vous n'avez pas de guilde"
   abandoned: "Guilde abandonné avec succès"
-  notleader: "Vous n''êtes pas le dirigeant"
-  noguildperm: "Vous n''avez pas assez de permissions"
-  notenoughmoney: "Il n''y a pas assez d''argent dans la banque de la guilde."
+  notleader: "Vous n'êtes pas le dirigeant"
+  noguildperm: "Vous n'avez pas assez de permissions"
+  notenoughmoney: "Il n'y a pas assez d'argent dans la banque de la guilde."
   sethome:
    success: "Foyer de la guilde fixé!"
    outsideregion: "Vous ne pouvez pas fixer votre foyer en dehors de la région de votre guilde"
-   overlaps: "Vous ne pouvez pas fixer le foyer à l''emplacement d''une autre guilde!"
+   overlaps: "Vous ne pouvez pas fixer le foyer à l'emplacement d'une autre guilde!"
   set:
    name: "Le nom de la guilde a été fixé."
    tag: "Le tag de la guilde a été fixé."
   home: "Téléporté au foyer de la guilde"
-  hasregionalready: "Votre guilde à déjà une région. Redimensionnez ou supprimez l''actuel région."
+  hasregionalready: "Votre guilde à déjà une région. Redimensionnez ou supprimez l'actuel région."
   joined: "Vous avez rejoins la guilde!"
   explosionatregion: "Il y a eu une explosion dans la région de votre guilde!"
   kickyourself: "Vous ne pouvez pas vous éjecter vous même de la guilde!"
-  tooclose: "Vous êtes trop proche d''une autre guilde"
+  tooclose: "Vous êtes trop proche d'une autre guilde"
   isfull: "Cette guilde à atteint sa limite de joueurs"
   buylife: "Vous avez acheté une vie pour votre guilde."
   buy:
@@ -362,8 +362,8 @@ chat:
    ally: "Premièrement vous devez arrêter votre alliance avec cette guilde."
    yourguildwar: "Vous ne pouvez pas commencer une guerre avec vous-même!"
    nowarinv:
-    success: "Vous avez demandé à &a{GUILDNAME} d''arrêter la guerre"
-    notify: "&a{GUILDNAME} vous à demandé d''arrêter la guerre"
+    success: "Vous avez demandé à &a{GUILDNAME} d'arrêter la guerre"
+    notify: "&a{GUILDNAME} vous à demandé d'arrêter la guerre"
    list:
     nowars: "Aucune guerre."
     warsheader: "Liste des guerres:"
@@ -374,7 +374,7 @@ chat:
   leader:
    success: "&a{PLAYERNAME} est désormais le dirigeant de la guilde!"
    samenick: "Vous êtes déjà le dirigeant!"
-   notsameguild: "Ce joueur n''est pas dans votre guilde."
+   notsameguild: "Ce joueur n'est pas dans votre guilde."
   leave:
    isleader: "Le dirigeant ne peut pas quitter la guilde. &c/abandon"
    left: "Vous avez quitté la guilde."
@@ -382,10 +382,10 @@ chat:
    enteramount: "Merci de préciser le montant."
    pay:
     paid: "Vous avez payé &2$&c{AMOUNT} à la banque de guilde."
-    notenough: "Vous n''avez pas assez d''argent."
+    notenough: "Vous n'avez pas assez d'argent."
    withdraw:
     success: "Vous avez pris &2$&c{AMOUNT} de la banque de guilde."
-    notenough: "Il n''y a pas assez d''argent dans la banque."
+    notenough: "Il n'y a pas assez d'argent dans la banque."
   chatmode:
    success: "Canal de discution fixé à &c{MODE}."
    invalid: "Canal invalide. Essayez &cnormal&6/&cguilde&6/&calliance"
@@ -396,12 +396,12 @@ chat:
   
  player:
   entername: "Entrez le nom du joueur"
-  notexists: "Ce joueur n''existe pas."
-  notonline: "Ce joueur n''est pas en ligne"
+  notexists: "Ce joueur n'existe pas."
+  notonline: "Ce joueur n'est pas en ligne"
   hasguild: "Ce joueur a déjà une guilde."
-  hasnoguild: "Ce joueur n''a pas de guilde"
+  hasnoguild: "Ce joueur n'a pas de guilde"
   alreadyinvited: "Ce joueur a déjà été invité dans cette guilde."
-  notinyourguild: "Ce joueur n''est pas dans votre guilde!"
+  notinyourguild: "Ce joueur n'est pas dans votre guilde!"
   pvpmoney:
    kill: "Vous avez gagné &a{MONEY}$ pour avoir tué &c{PLAYERNAME}"
    revenge: "Vous avez gagné &a{MONEY}$ pour avoir pris la revanche sur &c{PLAYERNAME}"
@@ -409,13 +409,13 @@ chat:
    invited: "Le joueur a été invité à rejoindre la guilde."
    list:
     header: "Liste des guildes dans lequelles vous avez été invité:"
-    nothing: "vous n''êtes invité dans aucune guilde."
+    nothing: "vous n'êtes invité dans aucune guilde."
     item: "&c{GUILDNAME}"
     separator: "&f, "
-   notinvited: "Vous n''avez pas été invité à rejoindre cette guilde!"
+   notinvited: "Vous n'avez pas été invité à rejoindre cette guilde!"
    notify: "Vous avez été invité à rejoindre la guilde &a{GUILDNAME}"
    cancel:
-    success: "Annulation de l''invitation pour le joueur &c{PLAYERNAME}"
+    success: "Annulation de l'invitation pour le joueur &c{PLAYERNAME}"
     notify: "Votre invitation dans la guilde &a{GUILDNAME} a été annulé"
   info:
    header: "&4*** &6Information du joueur &4***"
@@ -433,23 +433,23 @@ chat:
   deleted: "Région détruite avec succès"
   deny:
    interact: "Vous ne pouvez pas interargir ici"
-   ridemob: "Vous ne pouvez pas chevaucher ce mob, c''est protégé!"
+   ridemob: "Vous ne pouvez pas chevaucher ce mob, c'est protégé!"
    attackmob: "Vous ne pouvez pas attaquer ce mob"
    unleash: "Vous ne pouvez pas retirer la laisse de ce mob"
    leash: "Vous ne pouvez pas mettre en laisse ce mob"
-  noregionhere: "Il n''y a pas de guilde ici."
-  regionhere: "Il y a d''autres territoire de guilde!"
+  noregionhere: "Il n'y a pas de guilde ici."
+  regionhere: "Il y a d'autres territoire de guilde!"
   validation:
    toosmall: "La zone selectionné est trop petite. &6(&6min: &c{MINSIZE}x&c{MINSIZE}&6)"
    toobig: "La zone selectionné est trop grande. &6(&6max: &c{MAXSIZE}x&c{MAXSIZE}&6)"
-   tooclose: "La zone selectionné est trop proche d''un autre territoire de guilde."
-   overlaps: "Cette zone chevauche le territoire d''une autre guilde"
-   notvalid: "La zone que vous avez selectionné n''est pas valide. Reessayez."
+   tooclose: "La zone selectionné est trop proche d'un autre territoire de guilde."
+   overlaps: "Cette zone chevauche le territoire d'une autre guilde"
+   notvalid: "La zone que vous avez selectionné n'est pas valide. Reessayez."
    valid: "Zone selectionné. &c/g rg buy"
    notselected: "Veillez selectionner la zone"
   size: "Taille de la zone séléctionné: &c{SIZE} blocks"
   price: "Acheter cette zone vous coutera: &c${PRICE}"
-  cnotafford: "Vous ne pouvez pas vous permettre d''acheter cette revendication. Vous devez avoir &c${NEEDMORE} en plus"
+  cnotafford: "Vous ne pouvez pas vous permettre d'acheter cette revendication. Vous devez avoir &c${NEEDMORE} en plus"
   created: "Région crée avec succès"
   mustveguild: "Vous devez avoir un guilde pour acheter cette zone. &c/create"
   entered: "Vous entre dans la région appartenant à la guilde &a{GUILDNAME}"
@@ -472,15 +472,15 @@ chat:
   
  createguild:
   disabledworld: "Les guildes sont désactivé dans ce monde."
-  notenoughmoney: "Pas assez d''argent"
+  notenoughmoney: "Pas assez d'argent"
   itemlist: "&c{AMOUNT} {ITEMNAME}"
   itemlistsep: "&f, "
-  noitems: "Vous n''avez pas les objets requis!"
+  noitems: "Vous n'avez pas les objets requis!"
   tagexists: "Il y a déja une guilde avec ce tag."
   nameexists: "Il y a déjà une guilde avec ce nom."
   hasguild: "Vous avez déjà une guilde"
   success: "Guilde crée"
-  regionhere: "Vous ne pouvez pas créer de guilde sur un emplacement d''une autre guilde"
+  regionhere: "Vous ne pouvez pas créer de guilde sur un emplacement d'une autre guilde"
   tooclosespawn: "Vous devez vous éloigner de {DISTANCE} blocks du spawn!"
   notallowedstring: "Ce que vous avez rentré contient des caractères non autorisé."
   tag:
@@ -534,7 +534,7 @@ chat:
 broadcast:
  admin:
   guild:
-   abandon: "L''administrateur &c{PLAYERNAME} a abandonné la guilde &a{GUILDNAME}"
+   abandon: "L'administrateur &c{PLAYERNAME} a abandonné la guilde &a{GUILDNAME}"
    cleanup: "La guilde &a{GUILDNAME} a été détruite pour inactivité"
  guild:
   war: "La guilde &a{GUILD1} ont commencé une &cguerre &6avec &a{GUILD2}"
@@ -551,7 +551,7 @@ broadcast:
   destroyed: "La guilde &a{GUILDNAME} a été détruire!"
   raid:
    finished: 
-    attackerwon: "Raid terminé! &a{ATTACKER} vs &a{DEFENDER}! l''attaquant a gagné."
+    attackerwon: "Raid terminé! &a{ATTACKER} vs &a{DEFENDER}! l'attaquant a gagné."
     defenderwon: "Raid terminé! &a{ATTACKER} vs &a{DEFENDER}! le défenseur a gagné."
  pvp:
   killed: "Le joueur {TAG1}&c{PLAYER1} a été tué par {TAG2}&c{PLAYER2}"
