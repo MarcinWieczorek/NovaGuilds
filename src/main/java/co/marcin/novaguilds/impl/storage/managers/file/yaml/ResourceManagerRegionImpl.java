@@ -179,7 +179,7 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 
 		if(!file.exists()) {
 			File nameFile = new File(getDirectory(), region.getGuild().getName() + ".yml");
-			if(!nameFile.renameTo(file)) {
+			if(nameFile.exists() && !nameFile.renameTo(file)) {
 				LoggerUtils.error("Failed to rename file " + nameFile.getName() + " to " + file.getName());
 			}
 		}
