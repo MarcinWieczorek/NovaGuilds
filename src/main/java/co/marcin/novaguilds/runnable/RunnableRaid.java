@@ -56,9 +56,12 @@ public class RunnableRaid implements Runnable {
 
 			LoggerUtils.debug(guildDefender.getName() + " raid scheduler working " + raid.getProgress());
 
-			//stepping progress
 			if(raid.getPlayersOccupying().size() > 0) {
+				//stepping progress
 				raid.addProgress((float) (raid.getPlayersOccupying().size() * Config.RAID_MULTIPLER.getDouble()));
+
+				//players raiding, update inactive time
+				raid.updateInactiveTime();
 			}
 			else {
 				raid.resetProgress();
@@ -68,11 +71,6 @@ public class RunnableRaid implements Runnable {
 			Map<VarKey, String> vars = new HashMap<>();
 			vars.put(VarKey.ATTACKER, raid.getGuildAttacker().getName());
 			vars.put(VarKey.DEFENDER, guildDefender.getName());
-
-			//players raiding, update inactive time
-			if(raid.getPlayersOccupying().size() > 0) {
-				raid.updateInactiveTime();
-			}
 
 			if(NumberUtils.systemSeconds() - raid.getInactiveTime() > Config.RAID_TIMEINACTIVE.getSeconds()) {
 				raid.setResult(NovaRaid.Result.TIMEOUT);
@@ -184,6 +182,9 @@ public class RunnableRaid implements Runnable {
 		return scheduledUUID != null;
 	}
 
+	/**
+	 * Schedules the runnable so it will run in a second
+	 */
 	public void schedule() {
 		if(scheduledUUID == null) {
 			scheduledUUID = taskUUID;

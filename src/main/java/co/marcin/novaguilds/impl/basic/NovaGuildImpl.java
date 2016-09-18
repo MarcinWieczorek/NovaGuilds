@@ -755,10 +755,15 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 			}
 		}
 
-		//remove guild invitations
 		for(NovaPlayer nPlayer : plugin.getPlayerManager().getPlayers()) {
+			//remove guild invitations
 			if(nPlayer.isInvitedTo(this)) {
 				nPlayer.deleteInvitation(this);
+			}
+
+			//remove from raid
+			if(nPlayer.isPartRaid()) {
+				nPlayer.getPartRaid().removePlayerOccupying(nPlayer);
 			}
 		}
 
