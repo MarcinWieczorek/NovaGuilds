@@ -69,6 +69,26 @@ public class TabCompleterGuild implements TabCompleter {
 						keys.add(guild.getName().toLowerCase());
 					}
 					break;
+				case "info":
+					for(NovaGuild guild : NovaGuilds.getInstance().getGuildManager().getGuilds()) {
+						keys.add(guild.getTag().toLowerCase());
+						keys.add(guild.getName().toLowerCase());
+					}
+
+					int limit = 0;
+					for(NovaPlayer nPlayerLoop : NovaGuilds.getInstance().getPlayerManager().getPlayers()) {
+						if(limit > 100) {
+							break;
+						}
+
+						if(!nPlayerLoop.getName().startsWith(args[args.length - 1])) {
+							continue;
+						}
+
+						keys.add(nPlayerLoop.getName());
+						limit++;
+					}
+					break;
 			}
 		}
 		else {
