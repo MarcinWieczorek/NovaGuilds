@@ -149,4 +149,30 @@ public final class IOUtils {
 			LoggerUtils.exception(e);
 		}
 	}
+
+	/**
+	 * Lists files inside the root recursively
+	 *
+	 * @param root root directory
+	 * @return list of files
+	 */
+	public static List<File> listFilesRecursively(File root) {
+		File[] list = root.listFiles();
+		final List<File> fileList = new ArrayList<>();
+
+		if(list == null) {
+			return fileList;
+		}
+
+		for(File f : list) {
+			if(f.isDirectory()) {
+				fileList.addAll(listFilesRecursively(f));
+			}
+			else {
+				fileList.add(f);
+			}
+		}
+
+		return fileList;
+	}
 }
