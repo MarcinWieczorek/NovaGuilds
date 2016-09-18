@@ -36,6 +36,7 @@ import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
@@ -143,7 +144,13 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public double getMoney() {
-		return NovaGuilds.getInstance().getDependencyManager().getEconomy().getBalance(Bukkit.getOfflinePlayer(getUUID()));
+		OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(getUUID());
+
+		if(!oPlayer.hasPlayedBefore() || oPlayer.getName() == null) {
+			return 0D;
+		}
+
+		return NovaGuilds.getInstance().getDependencyManager().getEconomy().getBalance(oPlayer);
 	}
 
 	@Override
@@ -406,7 +413,13 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void addMoney(double money) {
-		NovaGuilds.getInstance().getDependencyManager().getEconomy().depositPlayer(Bukkit.getOfflinePlayer(getUUID()), money);
+		OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(getUUID());
+
+		if(!oPlayer.hasPlayedBefore() || oPlayer.getName() == null) {
+			return;
+		}
+
+		NovaGuilds.getInstance().getDependencyManager().getEconomy().depositPlayer(oPlayer, money);
 	}
 
 	@Override
@@ -445,7 +458,13 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void takeMoney(double money) {
-		NovaGuilds.getInstance().getDependencyManager().getEconomy().withdrawPlayer(Bukkit.getOfflinePlayer(getUUID()), money);
+		OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(getUUID());
+
+		if(!oPlayer.hasPlayedBefore() || oPlayer.getName() == null) {
+			return;
+		}
+
+		NovaGuilds.getInstance().getDependencyManager().getEconomy().withdrawPlayer(oPlayer, money);
 	}
 
 	@Override
