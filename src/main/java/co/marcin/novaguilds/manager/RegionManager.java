@@ -323,6 +323,7 @@ public class RegionManager {
 
 		int min = radius1 + Config.REGION_MINDISTANCE.getInt();
 		Location centerLocation = RegionUtils.getCenterLocation(l1, l2);
+		centerLocation.setY(0);
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
 			if(!guildLoop.getHome().getWorld().equals(l1.getWorld())) {
@@ -335,9 +336,9 @@ public class RegionManager {
 				radius2 = guildLoop.getRegion().getDiagonal() / 2;
 			}
 
-			centerLocation.setY(guildLoop.getHome().getY());
+			centerLocation.setY(0);
 
-			double distance = centerLocation.distance(guildLoop.getHome());
+			double distance = centerLocation.distance(guildLoop.hasRegion() ? guildLoop.getRegion().getCenter() : guildLoop.getHome());
 			if(distance < min + radius2) {
 				list.add(guildLoop);
 			}
