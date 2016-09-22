@@ -24,6 +24,8 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.Bukkit;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public final class LoggerUtils {
@@ -43,6 +45,18 @@ public final class LoggerUtils {
 	 */
 	public static void error(String error, boolean classPrefix) {
 		logger.severe(StringUtils.fixColors(logPrefix + (classPrefix ? classPrefix() : "") + space(error) + error));
+	}
+
+	/**
+	 * Sends error message
+	 *
+	 * @param error       message string array
+	 * @param classPrefix include class prefix
+	 */
+	public static void error(List<String> error, boolean classPrefix) {
+		for(String string : error) {
+			error(string, classPrefix);
+		}
 	}
 
 	/**
@@ -129,49 +143,46 @@ public final class LoggerUtils {
 	 * @param exception the exception
 	 */
 	public static void exception(Throwable exception) {
+		final List<String> list = new ArrayList<>();
+		list.add("");
+		list.add("[NovaGuilds] Severe error: " + exception.getClass().getSimpleName());
+		list.add("");
+		list.add("Server Information:");
+		list.add("  NovaGuilds: #" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ")");
+		list.add("  Storage Type: " + (plugin.getConfigManager() == null || plugin.getConfigManager().getDataStorageType() == null ? "null" : plugin.getConfigManager().getDataStorageType().name()));
+		list.add("  Bukkit: " + Bukkit.getBukkitVersion());
+		list.add("  Java: " + System.getProperty("java.version"));
+		list.add("  Thread: " + Thread.currentThread());
+		list.add("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"));
+		list.add("  Exception Message: ");
+		list.add("   " + exception.getMessage());
+		list.add("");
+
+		for(StackTraceElement stackTraceElement : exception.getStackTrace()) {
+			list.add(" at " + stackTraceElement.toString());
+		}
+
+		list.add("");
+
 		Throwable cause = exception.getCause();
-		error("", false);
-		error("[NovaGuilds] Severe error: " + exception.getClass().getSimpleName(), false);
-		error("", false);
-		error("Server Information:", false);
-		error("  NovaGuilds: #" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ")", false);
-		error("  Storage Type: " + (plugin.getConfigManager() == null || plugin.getConfigManager().getDataStorageType() == null ? "null" : plugin.getConfigManager().getDataStorageType().name()), false);
-		error("  Bukkit: " + Bukkit.getBukkitVersion(), false);
-		error("  Java: " + System.getProperty("java.version"), false);
-		error("  Thread: " + Thread.currentThread(), false);
-		error("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"), false);
-		error("  Exception Message: ", false);
-		error("   " + exception.getMessage(), false);
-		error("", false);
-
-		error("Stack trace: ", false);
-		printStackTrace(exception.getStackTrace());
-		error("", false);
-
 		while(cause != null) {
-			error("Caused by: " + cause.getClass().getName(), false);
-			error("  " + cause.getMessage(), false);
+			list.add("Caused by: " + cause.getClass().getName());
+			list.add("  " + cause.getMessage());
 
-			printStackTrace(cause.getStackTrace());
-			error("", false);
+			for(StackTraceElement stackTraceElement : cause.getStackTrace()) {
+				list.add(" at " + stackTraceElement.toString());
+			}
+
+			list.add("");
 			cause = cause.getCause();
 		}
 
-		error("End of Error.", false);
-		error("", false);
+		list.add("End of Error.");
+		list.add("");
+
+		error(list, false);
 
 		//notify all permitted players
 		Message.CHAT_ERROROCCURED.broadcast(Permission.NOVAGUILDS_ERROR);
-	}
-
-	/**
-	 * Prints stacktrace
-	 *
-	 * @param stackTraceElements stacktrace elements
-	 */
-	private static void printStackTrace(StackTraceElement[] stackTraceElements) {
-		for(StackTraceElement st : stackTraceElements) {
-			error("	at " + st.toString(), false);
-		}
 	}
 }
