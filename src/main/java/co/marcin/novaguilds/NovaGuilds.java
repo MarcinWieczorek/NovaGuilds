@@ -30,6 +30,7 @@ import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
+import co.marcin.novaguilds.impl.util.logging.WrappedLogger;
 import co.marcin.novaguilds.listener.VanishListener;
 import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
@@ -48,6 +49,7 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
+import co.marcin.novaguilds.util.reflect.Reflections;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Bukkit;
@@ -60,6 +62,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
@@ -134,6 +137,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 			//Version check
 			VersionUtils.checkVersion();
+
+			//Setups the wrapped logger
+			setupWrappedLogger();
 
 			setUpStorage();
 
@@ -457,5 +463,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		}
 
 		return collection;
+	}
+
+	/**
+	 * Setups the wrapped logger
+	 *
+	 * @throws NoSuchFieldException   when something goes wrong
+	 * @throws IllegalAccessException when something goes wrong
+	 */
+	private void setupWrappedLogger() throws NoSuchFieldException, IllegalAccessException {
+		Field loggerField = Reflections.getPrivateField(JavaPlugin.class, "logger");
+		loggerField.set(this, new WrappedLogger(this));
 	}
 }
