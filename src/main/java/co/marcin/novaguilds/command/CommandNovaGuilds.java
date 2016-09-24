@@ -130,7 +130,12 @@ public class CommandNovaGuilds extends AbstractCommandExecutor implements Comman
 				sender.sendMessage("guildCreateSchematic = " + (group.getCreateSchematic() == null ? "no schematic" : group.getCreateSchematic().getName()));
 				sender.sendMessage("guildHomeItems = " + group.getItemStackList(NovaGroup.Key.HOME_ITEMS).toString());
 				sender.sendMessage("guildJoinItems = " + group.getItemStackList(NovaGroup.Key.JOIN_ITEMS).toString());
-				sender.sendMessage("guildEffectItems = " + group.getItemStackList(NovaGroup.Key.EFFECT_ITEMS).toString());
+				sender.sendMessage("guildBuyLifeItems = " + group.getItemStackList(NovaGroup.Key.BUY_LIFE_ITEMS).toString());
+				sender.sendMessage("guildBuySlotItems = " + group.getItemStackList(NovaGroup.Key.BUY_SLOT_ITEMS).toString());
+				sender.sendMessage("guildBuyBannerItems = " + group.getItemStackList(NovaGroup.Key.BUY_BANNER_ITEMS).toString());
+				sender.sendMessage("guildBuyLifeMoney = " + group.getDouble(NovaGroup.Key.BUY_LIFE_MONEY));
+				sender.sendMessage("guildBuySlotMoney = " + group.getDouble(NovaGroup.Key.BUY_SLOT_MONEY));
+				sender.sendMessage("guildBuyBannerMoney = " + group.getDouble(NovaGroup.Key.BUY_BANNER_MONEY));
 				sender.sendMessage("guildEffectMoney = " + group.getDouble(NovaGroup.Key.EFFECT_MONEY));
 				sender.sendMessage("guildTeleportDelay = " + group.getInt(NovaGroup.Key.HOME_DELAY) + "s");
 				sender.sendMessage("regionCreateMoney = " + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY));
