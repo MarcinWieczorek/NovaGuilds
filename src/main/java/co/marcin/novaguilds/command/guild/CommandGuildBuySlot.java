@@ -65,7 +65,7 @@ public class CommandGuildBuySlot extends AbstractCommandExecutor {
 		double money = group.getDouble(NovaGroup.Key.BUY_SLOT_MONEY);
 		List<ItemStack> items = group.getItemStackList(NovaGroup.Key.BUY_SLOT_ITEMS);
 
-		if(money > 0 && !nPlayer.hasMoney(money)) {
+		if(money > 0 && !nPlayer.getGuild().hasMoney(money)) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
 			return;
 		}
@@ -79,6 +79,9 @@ public class CommandGuildBuySlot extends AbstractCommandExecutor {
 				return;
 			}
 		}
+
+		nPlayer.getGuild().takeMoney(money);
+		InventoryUtils.removeItems(nPlayer.getPlayer(), items);
 
 		nPlayer.getGuild().addSlot();
 		Message.CHAT_GUILD_BUY_SLOT_SUCCESS.send(sender);
