@@ -60,7 +60,7 @@ lang:
 
 ###################################################
 # Use titles to display suitable messages         #
-usetitles: false
+usetitles: true
 
 bossbar:
  enabled: true
