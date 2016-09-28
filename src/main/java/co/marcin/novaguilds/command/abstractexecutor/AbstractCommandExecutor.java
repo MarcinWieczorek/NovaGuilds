@@ -20,38 +20,19 @@ package co.marcin.novaguilds.command.abstractexecutor;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.enums.Command;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
-	protected final Command command;
-
-	/**
-	 * The constructor
-	 *
-	 * @param command the command
-	 */
-	protected AbstractCommandExecutor(Command command) {
-		plugin.getCommandManager().registerExecutor(command, this);
-		this.command = command;
-	}
 
 	@Override
-	public final Command getCommand() {
-		return command;
+	public final CommandWrapper getCommand() {
+		return Command.getCommand(this);
 	}
 
 	public static abstract class Reversed<T> extends AbstractCommandExecutor implements CommandExecutor.Reversed<T> {
 		protected T parameter;
-
-		/**
-		 * The constructor
-		 *
-		 * @param command the command
-		 */
-		protected Reversed(Command command) {
-			super(command);
-		}
 
 		@SuppressWarnings("unchecked")
 		@Override

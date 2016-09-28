@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.region;
 
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
@@ -26,37 +27,28 @@ import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CommandAdminRegion extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_REGION_ACCESS;
-
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
-		put("bypass", Command.ADMIN_REGION_BYPASS);
-		put("bp", Command.ADMIN_REGION_BYPASS);
-
-		put("spectate", Command.ADMIN_REGION_SPECTATE);
-
-		put("delete", Command.ADMIN_REGION_DELETE);
-		put("del", Command.ADMIN_REGION_DELETE);
-
-		put("list", Command.ADMIN_REGION_LIST);
-
-		put("teleport", Command.ADMIN_REGION_TELEPORT);
-		put("tp", Command.ADMIN_REGION_TELEPORT);
-	}};
-
-	private static final List<Command> noGuildCommands = Arrays.asList(
-			Command.ADMIN_REGION_BYPASS,
-			Command.ADMIN_REGION_LIST,
-			Command.ADMIN_REGION_SPECTATE
-	);
+	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
+	private static final List<CommandWrapper> noGuildCommands = new ArrayList<>();
 
 	public CommandAdminRegion() {
-		super(command);
+		commandsMap.put("bypass",   Command.ADMIN_REGION_BYPASS);
+		commandsMap.put("bp",       Command.ADMIN_REGION_BYPASS);
+		commandsMap.put("spectate", Command.ADMIN_REGION_SPECTATE);
+		commandsMap.put("delete",   Command.ADMIN_REGION_DELETE);
+		commandsMap.put("del",      Command.ADMIN_REGION_DELETE);
+		commandsMap.put("list",     Command.ADMIN_REGION_LIST);
+		commandsMap.put("teleport", Command.ADMIN_REGION_TELEPORT);
+		commandsMap.put("tp",       Command.ADMIN_REGION_TELEPORT);
+
+		noGuildCommands.add(Command.ADMIN_REGION_BYPASS);
+		noGuildCommands.add(Command.ADMIN_REGION_LIST);
+		noGuildCommands.add(Command.ADMIN_REGION_SPECTATE);
 	}
 
 	@Override
@@ -68,7 +60,7 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 		}
 
 		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0 : 1];
-		Command subCommand = commandsMap.get(subCmd.toLowerCase());
+		CommandWrapper subCommand = commandsMap.get(subCmd.toLowerCase());
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);

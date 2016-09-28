@@ -20,7 +20,6 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
@@ -31,12 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildTop extends AbstractCommandExecutor {
-	private static final Command command = Command.GUILD_TOP;
-
-	public CommandGuildTop() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();

@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.command.admin.config;
 
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
@@ -35,12 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminConfigSet extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_CONFIG_SET;
-
-	public CommandAdminConfigSet() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		Config config = Config.fromPath(args[0]);

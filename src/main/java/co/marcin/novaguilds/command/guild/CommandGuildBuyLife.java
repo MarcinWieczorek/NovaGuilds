@@ -21,7 +21,6 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.GroupManager;
@@ -35,12 +34,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildBuyLife extends AbstractCommandExecutor {
-	private static final Command command = Command.GUILD_BUYLIFE;
-
-	public CommandGuildBuyLife() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);

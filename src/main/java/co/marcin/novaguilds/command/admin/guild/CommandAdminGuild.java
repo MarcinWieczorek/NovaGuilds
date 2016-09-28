@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
@@ -32,53 +33,42 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandAdminGuild extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_GUILD_ACCESS;
-
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
-		put("tp", Command.ADMIN_GUILD_TELEPORT);
-		put("teleport", Command.ADMIN_GUILD_TELEPORT);
-		put("abandon", Command.ADMIN_GUILD_ABANDON);
-
-		put("setname", Command.ADMIN_GUILD_SET_NAME);
-		put("name", Command.ADMIN_GUILD_SET_NAME);
-
-		put("settag", Command.ADMIN_GUILD_SET_TAG);
-		put("tag", Command.ADMIN_GUILD_SET_TAG);
-
-		put("setpoints", Command.ADMIN_GUILD_SET_POINTS);
-		put("points", Command.ADMIN_GUILD_SET_POINTS);
-
-		put("setslots", Command.ADMIN_GUILD_SET_SLOTS);
-		put("slots", Command.ADMIN_GUILD_SET_SLOTS);
-
-		put("promote", Command.ADMIN_GUILD_SET_LEADER);
-		put("leader", Command.ADMIN_GUILD_SET_LEADER);
-		put("setleader", Command.ADMIN_GUILD_SET_LEADER);
-
-		put("invite", Command.ADMIN_GUILD_INVITE);
-		put("pay", Command.ADMIN_GUILD_BANK_PAY);
-		put("withdraw", Command.ADMIN_GUILD_BANK_WITHDRAW);
-		put("timerest", Command.ADMIN_GUILD_SET_TIMEREST);
-		put("liveregentime", Command.ADMIN_GUILD_SET_LIVEREGENERATIONTIME);
-		put("lives", Command.ADMIN_GUILD_SET_LIVES);
-		put("purge", Command.ADMIN_GUILD_PURGE);
-		put("list", Command.ADMIN_GUILD_LIST);
-		put("inactive", Command.ADMIN_GUILD_INACTIVE);
-		put("kick", Command.ADMIN_GUILD_KICK);
-		put("resetpoints", Command.ADMIN_GUILD_RESET_POINTS);
-	}};
-
-	private static final List<Command> noGuildCommands = new ArrayList<Command>() {{
-		add(Command.ADMIN_GUILD_LIST);
-		add(Command.ADMIN_GUILD_KICK);
-		add(Command.ADMIN_GUILD_SET_LEADER);
-		add(Command.ADMIN_GUILD_PURGE);
-		add(Command.ADMIN_GUILD_INACTIVE);
-		add(Command.ADMIN_GUILD_RESET_POINTS);
-	}};
+	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
+	private static final List<CommandWrapper> noGuildCommands = new ArrayList<>();
 
 	public CommandAdminGuild() {
-		super(command);
+		commandsMap.put("tp",            Command.ADMIN_GUILD_TELEPORT);
+		commandsMap.put("teleport",      Command.ADMIN_GUILD_TELEPORT);
+		commandsMap.put("abandon",       Command.ADMIN_GUILD_ABANDON);
+		commandsMap.put("setname",       Command.ADMIN_GUILD_SET_NAME);
+		commandsMap.put("name",          Command.ADMIN_GUILD_SET_NAME);
+		commandsMap.put("settag",        Command.ADMIN_GUILD_SET_TAG);
+		commandsMap.put("tag",           Command.ADMIN_GUILD_SET_TAG);
+		commandsMap.put("setpoints",     Command.ADMIN_GUILD_SET_POINTS);
+		commandsMap.put("points",        Command.ADMIN_GUILD_SET_POINTS);
+		commandsMap.put("setslots",      Command.ADMIN_GUILD_SET_SLOTS);
+		commandsMap.put("slots",         Command.ADMIN_GUILD_SET_SLOTS);
+		commandsMap.put("promote",       Command.ADMIN_GUILD_SET_LEADER);
+		commandsMap.put("leader",        Command.ADMIN_GUILD_SET_LEADER);
+		commandsMap.put("setleader",     Command.ADMIN_GUILD_SET_LEADER);
+		commandsMap.put("invite",        Command.ADMIN_GUILD_INVITE);
+		commandsMap.put("pay",           Command.ADMIN_GUILD_BANK_PAY);
+		commandsMap.put("withdraw",      Command.ADMIN_GUILD_BANK_WITHDRAW);
+		commandsMap.put("timerest",      Command.ADMIN_GUILD_SET_TIMEREST);
+		commandsMap.put("liveregentime", Command.ADMIN_GUILD_SET_LIVEREGENERATIONTIME);
+		commandsMap.put("lives",         Command.ADMIN_GUILD_SET_LIVES);
+		commandsMap.put("purge",         Command.ADMIN_GUILD_PURGE);
+		commandsMap.put("list",          Command.ADMIN_GUILD_LIST);
+		commandsMap.put("inactive",      Command.ADMIN_GUILD_INACTIVE);
+		commandsMap.put("kick",          Command.ADMIN_GUILD_KICK);
+		commandsMap.put("resetpoints",   Command.ADMIN_GUILD_RESET_POINTS);
+
+		noGuildCommands.add(Command.ADMIN_GUILD_LIST);
+		noGuildCommands.add(Command.ADMIN_GUILD_KICK);
+		noGuildCommands.add(Command.ADMIN_GUILD_SET_LEADER);
+		noGuildCommands.add(Command.ADMIN_GUILD_PURGE);
+		noGuildCommands.add(Command.ADMIN_GUILD_INACTIVE);
+		noGuildCommands.add(Command.ADMIN_GUILD_RESET_POINTS);
 	}
 
 	@Override
@@ -91,7 +81,7 @@ public class CommandAdminGuild extends AbstractCommandExecutor {
 		}
 
 		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0 : 1];
-		Command subCommand = commandsMap.get(subCmd.toLowerCase());
+		CommandWrapper subCommand = commandsMap.get(subCmd.toLowerCase());
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);

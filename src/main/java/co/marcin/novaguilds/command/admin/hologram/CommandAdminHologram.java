@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.hologram;
 
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
@@ -32,34 +33,26 @@ import java.util.List;
 import java.util.Map;
 
 public class CommandAdminHologram extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_HOLOGRAM_ACCESS;
-
-	private static final List<Command> noHologramCommands = new ArrayList<Command>() {{
-		add(Command.ADMIN_HOLOGRAM_LIST);
-		add(Command.ADMIN_HOLOGRAM_ADD);
-		add(Command.ADMIN_HOLOGRAM_ADDTOP);
-	}};
-
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
-		put("list", Command.ADMIN_HOLOGRAM_LIST);
-		put("ls", Command.ADMIN_HOLOGRAM_LIST);
-
-		put("tp", Command.ADMIN_HOLOGRAM_TELEPORT);
-		put("teleport", Command.ADMIN_HOLOGRAM_TELEPORT);
-
-		put("add", Command.ADMIN_HOLOGRAM_ADD);
-		put("addtop", Command.ADMIN_HOLOGRAM_ADDTOP);
-
-		put("del", Command.ADMIN_HOLOGRAM_DELETE);
-		put("delete", Command.ADMIN_HOLOGRAM_DELETE);
-
-		put("tphere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
-		put("teleporthere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
-		put("movehere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
-	}};
+	private static final List<CommandWrapper> noHologramCommands = new ArrayList<>();
+	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
 
 	public CommandAdminHologram() {
-		super(command);
+
+		commandsMap.put("list",         Command.ADMIN_HOLOGRAM_LIST);
+		commandsMap.put("ls",           Command.ADMIN_HOLOGRAM_LIST);
+		commandsMap.put("tp",           Command.ADMIN_HOLOGRAM_TELEPORT);
+		commandsMap.put("teleport",     Command.ADMIN_HOLOGRAM_TELEPORT);
+//		commandsMap.put("add",          Command.ADMIN_HOLOGRAM_ADD);
+		commandsMap.put("addtop",       Command.ADMIN_HOLOGRAM_ADDTOP);
+		commandsMap.put("del",          Command.ADMIN_HOLOGRAM_DELETE);
+		commandsMap.put("delete",       Command.ADMIN_HOLOGRAM_DELETE);
+		commandsMap.put("tphere",       Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
+		commandsMap.put("teleporthere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
+		commandsMap.put("movehere",     Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
+
+		noHologramCommands.add(Command.ADMIN_HOLOGRAM_LIST);
+//		noHologramCommands.add(Command.ADMIN_HOLOGRAM_ADD);
+		noHologramCommands.add(Command.ADMIN_HOLOGRAM_ADDTOP);
 	}
 
 	@Override
@@ -77,7 +70,7 @@ public class CommandAdminHologram extends AbstractCommandExecutor {
 			return;
 		}
 
-		Command subCommand = commandsMap.get(args[isNoHologramCommand || args.length == 1 ? 0 : 1].toLowerCase());
+		CommandWrapper subCommand = commandsMap.get(args[isNoHologramCommand || args.length == 1 ? 0 : 1].toLowerCase());
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);

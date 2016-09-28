@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.api.basic;
 
-import co.marcin.novaguilds.enums.Command;
 import org.bukkit.command.CommandSender;
 
 public interface CommandExecutor {
@@ -36,7 +35,7 @@ public interface CommandExecutor {
 	 *
 	 * @return the command
 	 */
-	Command getCommand();
+	CommandWrapper getCommand();
 
 	interface Reversed<T> extends CommandExecutor {
 		/**

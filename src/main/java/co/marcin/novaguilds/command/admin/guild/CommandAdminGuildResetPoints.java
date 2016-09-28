@@ -20,7 +20,6 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
@@ -33,17 +32,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildResetPoints extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_GUILD_RESET_POINTS;
-
 	private enum ConditionType {
 		LARGER,
 		SMALLER,
 		EQUAL,
 		ALL
-	}
-
-	public CommandAdminGuildResetPoints() {
-		super(command);
 	}
 
 	@Override

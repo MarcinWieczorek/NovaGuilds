@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.config;
 
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
@@ -28,19 +29,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminConfig extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_CONFIG_ACCESS;
+	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
 
 	public CommandAdminConfig() {
-		super(command);
+		commandsMap.put("get",    Command.ADMIN_CONFIG_GET);
+		commandsMap.put("reload", Command.ADMIN_CONFIG_RELOAD);
+		commandsMap.put("reset",  Command.ADMIN_CONFIG_RESET);
+		commandsMap.put("save",   Command.ADMIN_CONFIG_SAVE);
+		commandsMap.put("set",    Command.ADMIN_CONFIG_SET);
 	}
-
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
-		put("get", Command.ADMIN_CONFIG_GET);
-		put("reload", Command.ADMIN_CONFIG_RELOAD);
-		put("reset", Command.ADMIN_CONFIG_RESET);
-		put("save", Command.ADMIN_CONFIG_SAVE);
-		put("set", Command.ADMIN_CONFIG_SET);
-	}};
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
@@ -49,7 +46,7 @@ public class CommandAdminConfig extends AbstractCommandExecutor {
 			return;
 		}
 
-		Command subCommand = commandsMap.get(args[0]);
+		CommandWrapper subCommand = commandsMap.get(args[0]);
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);

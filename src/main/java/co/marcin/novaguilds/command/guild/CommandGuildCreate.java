@@ -25,7 +25,6 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.Schematic;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
@@ -56,15 +55,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class CommandGuildCreate extends AbstractCommandExecutor implements CommandExecutor {
-	private static final Command command = Command.GUILD_CREATE;
-
-	public CommandGuildCreate() {
-		super(command);
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		command.execute(sender, args);
+		getCommand().execute(sender, args);
 		return true;
 	}
 

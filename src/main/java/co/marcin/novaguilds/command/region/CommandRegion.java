@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.region;
 
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
@@ -28,24 +29,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandRegion extends AbstractCommandExecutor {
-	private static final Command command = Command.REGION_ACCESS;
-
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
-		put("buy", Command.REGION_BUY);
-		put("create", Command.REGION_BUY);
-
-		put("delete", Command.REGION_DELETE);
-		put("del", Command.REGION_DELETE);
-	}};
+	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
 
 	public CommandRegion() {
-		super(command);
+		commandsMap.put("buy",    Command.REGION_BUY);
+		commandsMap.put("create", Command.REGION_BUY);
+		commandsMap.put("delete", Command.REGION_DELETE);
+		commandsMap.put("del",    Command.REGION_DELETE);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length > 0) {
-			Command subCommand = commandsMap.get(args[0].toLowerCase());
+			CommandWrapper subCommand = commandsMap.get(args[0].toLowerCase());
 
 			if(subCommand == null) {
 				Message.CHAT_UNKNOWNCMD.send(sender);

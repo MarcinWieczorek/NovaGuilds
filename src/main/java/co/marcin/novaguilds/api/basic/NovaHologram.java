@@ -18,11 +18,12 @@
 
 package co.marcin.novaguilds.api.basic;
 
+import co.marcin.novaguilds.api.storage.Resource;
 import org.bukkit.Location;
 
 import java.util.List;
 
-public interface NovaHologram {
+public interface NovaHologram extends Resource {
 	/**
 	 * Gets the name of the hologram
 	 *

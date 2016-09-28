@@ -19,17 +19,10 @@
 package co.marcin.novaguilds.command.admin.config;
 
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminConfigReload extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_CONFIG_RELOAD;
-
-	public CommandAdminConfigReload() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		plugin.getConfigManager().reload();

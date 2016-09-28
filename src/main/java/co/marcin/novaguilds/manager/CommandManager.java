@@ -20,6 +20,7 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.CommandConfirm;
 import co.marcin.novaguilds.command.CommandNovaGuilds;
@@ -95,7 +96,6 @@ import co.marcin.novaguilds.command.guild.CommandGuildWar;
 import co.marcin.novaguilds.command.region.CommandRegion;
 import co.marcin.novaguilds.command.region.CommandRegionBuy;
 import co.marcin.novaguilds.command.region.CommandRegionDelete;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
@@ -112,7 +112,7 @@ import java.util.Map;
 public class CommandManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, String> aliases = new HashMap<>();
-	private final Map<Command, CommandExecutor> executors = new HashMap<>();
+	private final Map<CommandWrapper, CommandExecutor> executors = new HashMap<>();
 
 	/**
 	 * Sets up the manager
@@ -250,7 +250,7 @@ public class CommandManager {
 	 * @param command  command enum
 	 * @param executor the executor
 	 */
-	public void registerExecutor(Command command, CommandExecutor executor) {
+	public void registerExecutor(CommandWrapper command, CommandExecutor executor) {
 		if(!executors.containsKey(command)) {
 			executors.put(command, executor);
 
@@ -277,7 +277,7 @@ public class CommandManager {
 	 * @param sender  sender instance
 	 * @param args    command arguments
 	 */
-	public void execute(Command command, CommandSender sender, String[] args) {
+	public void execute(CommandWrapper command, CommandSender sender, String[] args) {
 		CommandExecutor executor = getExecutor(command);
 
 		if(!command.hasPermission(sender)) {
@@ -292,7 +292,7 @@ public class CommandManager {
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if((sender instanceof Player) && (command.hasFlag(Command.Flag.CONFIRM) && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED))) {
+		if((sender instanceof Player) && (command.hasFlag(CommandWrapper.Flag.CONFIRM) && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED))) {
 			nPlayer.newCommandExecutorHandler(command, args);
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}
@@ -305,7 +305,7 @@ public class CommandManager {
 				executor.execute(sender, args);
 			}
 			catch(Exception e) {
-				LoggerUtils.exception(new CommandException("Unhandled exception executing command '" + command.name() + "' in plugin NovaGuilds", e));
+				LoggerUtils.exception(new CommandException("Unhandled exception executing command '" + command.getName() + "' in plugin NovaGuilds", e));
 			}
 		}
 	}
@@ -316,7 +316,7 @@ public class CommandManager {
 	 * @param command command enum
 	 * @return command executor
 	 */
-	public CommandExecutor getExecutor(Command command) {
+	public CommandExecutor getExecutor(CommandWrapper command) {
 		return executors.get(command);
 	}
 }

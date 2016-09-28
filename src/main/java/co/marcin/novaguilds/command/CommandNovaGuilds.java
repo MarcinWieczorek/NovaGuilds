@@ -37,15 +37,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandNovaGuilds extends AbstractCommandExecutor implements CommandExecutor {
-	private static final Command command = Command.NOVAGUILDS;
-
-	public CommandNovaGuilds() {
-		super(command);
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		command.execute(sender, args);
+		getCommand().execute(sender, args);
 		return true;
 	}
 

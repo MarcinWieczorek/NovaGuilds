@@ -21,7 +21,6 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
@@ -40,12 +39,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 
 public class CommandGuildEffect extends AbstractCommandExecutor {
-	private static final Command command = Command.GUILD_EFFECT;
-
-	public CommandGuildEffect() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);

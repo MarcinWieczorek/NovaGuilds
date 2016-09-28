@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.command.admin;
 
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -28,12 +27,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminReload extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_RELOAD;
-
-	public CommandAdminReload() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		Message.CHAT_RELOAD_RELOADING.send(sender);

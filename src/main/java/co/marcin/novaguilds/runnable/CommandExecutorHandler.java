@@ -19,7 +19,8 @@
 package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.api.basic.CommandWrapper;
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -30,11 +31,11 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class CommandExecutorHandler implements Runnable {
 	private final CommandSender sender;
-	private final Command command;
+	private final CommandWrapper command;
 	private final String[] args;
 	private CommandExecutorHandlerState state = CommandExecutorHandlerState.WAITING;
 	private final BukkitTask bukkitTask;
-	private Object executorVariable;
+	private Resource executorVariable;
 
 	/**
 	 * The constructor
@@ -43,20 +44,26 @@ public class CommandExecutorHandler implements Runnable {
 	 * @param sender  command sender
 	 * @param args    arguments
 	 */
-	public CommandExecutorHandler(Command command, CommandSender sender, String[] args) {
+	public CommandExecutorHandler(CommandWrapper command, CommandSender sender, String[] args) {
 		this.command = command;
 		this.sender = sender;
 		this.args = args;
 
-		bukkitTask = Bukkit.getScheduler().runTaskLater(NovaGuilds.getInstance(), this, Config.CHAT_CONFIRMTIMEOUT.getSeconds() * 20);
+		if(command.hasFlag(CommandWrapper.Flag.CONFIRM)) {
+			bukkitTask = Bukkit.getScheduler().runTaskLater(NovaGuilds.getInstance(), this, Config.CHAT_CONFIRMTIMEOUT.getSeconds() * 20);
+		}
+		else {
+			bukkitTask = null;
+		}
 	}
 
 	/**
 	 * Executes the command
 	 */
 	public void execute() {
-		if(getState() == CommandExecutorHandlerState.CONFIRMED) {
-			command.executorVariable(executorVariable).execute(sender, args);
+		if(getState() == CommandExecutorHandlerState.CONFIRMED || !command.hasFlag(CommandWrapper.Flag.CONFIRM)) {
+			command.executorVariable(executorVariable);
+			command.execute(sender, args);
 			PlayerManager.getPlayer(sender).removeCommandExecutorHandler();
 		}
 	}
@@ -94,14 +101,14 @@ public class CommandExecutorHandler implements Runnable {
 	 *
 	 * @return the command enum
 	 */
-	public Command getCommand() {
+	public CommandWrapper getCommand() {
 		return command;
 	}
 
 	/**
 	 * Gets execution status
 	 *
-	 * @return
+	 * @return get the state
 	 */
 	public CommandExecutorHandlerState getState() {
 		return state;
@@ -121,7 +128,7 @@ public class CommandExecutorHandler implements Runnable {
 	 *
 	 * @param executorVariable the object
 	 */
-	public void executorVariable(Object executorVariable) {
+	public void executorVariable(Resource executorVariable) {
 		this.executorVariable = executorVariable;
 	}
 }

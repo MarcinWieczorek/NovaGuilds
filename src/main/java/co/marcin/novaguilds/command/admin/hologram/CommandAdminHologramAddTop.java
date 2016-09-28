@@ -20,19 +20,12 @@ package co.marcin.novaguilds.command.admin.hologram;
 
 import co.marcin.novaguilds.api.basic.NovaHologram;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandAdminHologramAddTop extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_HOLOGRAM_ADDTOP;
-
-	public CommandAdminHologramAddTop() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaHologram hologram = plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());

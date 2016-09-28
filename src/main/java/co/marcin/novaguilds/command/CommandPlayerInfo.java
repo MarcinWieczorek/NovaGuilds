@@ -20,7 +20,6 @@ package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandExecutor;
@@ -28,15 +27,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandPlayerInfo extends AbstractCommandExecutor implements CommandExecutor {
-	private static final Command command = Command.PLAYERINFO;
-
-	public CommandPlayerInfo() {
-		super(command);
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		command.execute(sender, args);
+		getCommand().execute(sender, args);
 		return true;
 	}
 

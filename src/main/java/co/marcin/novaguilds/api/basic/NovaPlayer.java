@@ -21,7 +21,6 @@ package co.marcin.novaguilds.api.basic;
 import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.ChatMode;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
@@ -468,7 +467,7 @@ public interface NovaPlayer extends Resource {
 	 * @param command the command
 	 * @param args    array of arguments
 	 */
-	void newCommandExecutorHandler(Command command, String[] args);
+	void newCommandExecutorHandler(CommandWrapper command, String[] args);
 
 	/**
 	 * Deletes an invitation to a guild

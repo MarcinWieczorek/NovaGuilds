@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.basic;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -28,7 +29,6 @@ import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.ChatMode;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
@@ -439,7 +439,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	}
 
 	@Override
-	public void newCommandExecutorHandler(Command command, String[] args) {
+	public void newCommandExecutorHandler(CommandWrapper command, String[] args) {
 		commandExecutorHandler = new CommandExecutorHandler(command, getPlayer(), args);
 		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
 	}

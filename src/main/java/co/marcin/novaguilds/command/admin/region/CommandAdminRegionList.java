@@ -20,7 +20,6 @@ package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.manager.MessageManager;
@@ -31,12 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminRegionList extends AbstractCommandExecutor {
-	private static final Command command = Command.ADMIN_REGION_LIST;
-
-	public CommandAdminRegionList() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		Message.CHAT_REGION_LIST_HEADER.send(sender);

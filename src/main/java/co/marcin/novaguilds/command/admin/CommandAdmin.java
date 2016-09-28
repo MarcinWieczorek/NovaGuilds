@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin;
 
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
@@ -29,34 +30,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdmin extends AbstractCommandExecutor implements CommandExecutor {
-	private static final Command command = Command.ADMIN_ACCESS;
-
-	public static final Map<String, Command> commandsMap = new HashMap<String, Command>() {{
-		put("guild", Command.ADMIN_GUILD_ACCESS);
-		put("g", Command.ADMIN_GUILD_ACCESS);
-
-		put("region", Command.ADMIN_REGION_ACCESS);
-		put("rg", Command.ADMIN_REGION_ACCESS);
-
-		put("hologram", Command.ADMIN_HOLOGRAM_ACCESS);
-		put("h", Command.ADMIN_HOLOGRAM_ACCESS);
-
-		put("reload", Command.ADMIN_RELOAD);
-		put("save", Command.ADMIN_SAVE);
-
-		put("spy", Command.ADMIN_CHATSPY);
-		put("chatspy", Command.ADMIN_CHATSPY);
-
-		put("config", Command.ADMIN_CONFIG_ACCESS);
-	}};
+	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
 
 	public CommandAdmin() {
-		super(command);
+		commandsMap.put("guild",    Command.ADMIN_GUILD_ACCESS);
+		commandsMap.put("g",        Command.ADMIN_GUILD_ACCESS);
+		commandsMap.put("region",   Command.ADMIN_REGION_ACCESS);
+		commandsMap.put("rg",       Command.ADMIN_REGION_ACCESS);
+		commandsMap.put("hologram", Command.ADMIN_HOLOGRAM_ACCESS);
+		commandsMap.put("h",        Command.ADMIN_HOLOGRAM_ACCESS);
+		commandsMap.put("reload",   Command.ADMIN_RELOAD);
+		commandsMap.put("save",     Command.ADMIN_SAVE);
+		commandsMap.put("spy",      Command.ADMIN_CHATSPY);
+		commandsMap.put("chatspy",  Command.ADMIN_CHATSPY);
+		commandsMap.put("config",   Command.ADMIN_CONFIG_ACCESS);
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		command.execute(sender, args);
+		getCommand().execute(sender, args);
 		return true;
 	}
 
@@ -68,7 +60,7 @@ public class CommandAdmin extends AbstractCommandExecutor implements CommandExec
 			return;
 		}
 
-		Command subCommand = commandsMap.get(args[0]);
+		CommandWrapper subCommand = commandsMap.get(args[0]);
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);

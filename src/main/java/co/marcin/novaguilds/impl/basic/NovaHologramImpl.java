@@ -31,13 +31,17 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NovaHologramImpl implements NovaHologram {
+public class NovaHologramImpl extends AbstractResource implements NovaHologram {
 	private String name;
 	private Location location;
 	private final List<String> lines = new ArrayList<>();
 	private Hologram hologram;
 	private boolean isTop = false;
 	private boolean deleted = false;
+
+	public NovaHologramImpl() {
+		super(null);
+	}
 
 	@Override
 	public String getName() {

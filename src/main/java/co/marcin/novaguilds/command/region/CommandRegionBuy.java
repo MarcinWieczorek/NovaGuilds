@@ -24,7 +24,6 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
@@ -41,15 +40,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class CommandRegionBuy extends AbstractCommandExecutor implements CommandExecutor {
-	private static final Command command = Command.REGION_BUY;
-
-	public CommandRegionBuy() {
-		super(command);
-	}
-
 	@Override
 	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		command.execute(sender, args);
+		getCommand().execute(sender, args);
 		return true;
 	}
 

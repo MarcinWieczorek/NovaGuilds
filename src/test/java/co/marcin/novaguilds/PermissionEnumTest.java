@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds;
 
+import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Permission;
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +28,7 @@ public class PermissionEnumTest {
 	@Test
 	public void testPermissionEnum() throws Exception {
 		boolean passed = true;
-		for(Command command : Command.values()) {
+		for(CommandWrapper command : Command.values()) {
 			Permission permission = command.getPermission();
 
 			if(permission == null) {

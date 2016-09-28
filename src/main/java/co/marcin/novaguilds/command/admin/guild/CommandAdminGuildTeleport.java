@@ -21,7 +21,6 @@ package co.marcin.novaguilds.command.admin.guild;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
@@ -34,12 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildTeleport extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	private static final Command command = Command.ADMIN_GUILD_TELEPORT;
-
-	public CommandAdminGuildTeleport() {
-		super(command);
-	}
-
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaGuild guild = getParameter();
