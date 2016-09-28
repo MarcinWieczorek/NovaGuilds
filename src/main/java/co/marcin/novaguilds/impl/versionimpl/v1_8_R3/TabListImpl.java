@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.versionimpl.v1_8;
+package co.marcin.novaguilds.impl.versionimpl.v1_8_R3;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.impl.basic.AbstractTabList;

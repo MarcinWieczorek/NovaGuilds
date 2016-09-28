@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.versionimpl.v1_8.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_8_R3.packet;
 
 import co.marcin.novaguilds.api.util.BlockPositionWrapper;
 import co.marcin.novaguilds.impl.util.AbstractPacket;

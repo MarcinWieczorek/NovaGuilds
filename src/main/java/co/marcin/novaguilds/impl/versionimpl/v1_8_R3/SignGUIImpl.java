@@ -16,13 +16,13 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.versionimpl.v1_8;
+package co.marcin.novaguilds.impl.versionimpl.v1_8_R3;
 
 import co.marcin.novaguilds.api.util.Packet;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
-import co.marcin.novaguilds.impl.versionimpl.v1_8.packet.PacketPlayInUpdateSign;
+import co.marcin.novaguilds.impl.versionimpl.v1_8_R3.packet.PacketPlayInUpdateSign;
 import co.marcin.novaguilds.impl.versionimpl.v1_9_R1.packet.PacketPlayOutBlockChange;
 import co.marcin.novaguilds.impl.versionimpl.v1_9_R1.packet.PacketPlayOutOpenSignEditor;
 import co.marcin.novaguilds.impl.versionimpl.v1_9_R1.packet.PacketPlayOutUpdateSign;

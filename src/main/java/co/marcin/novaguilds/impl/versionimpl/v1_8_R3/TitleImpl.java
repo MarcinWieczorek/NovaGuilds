@@ -16,11 +16,11 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.versionimpl.v1_8;
+package co.marcin.novaguilds.impl.versionimpl.v1_8_R3;
 
 import co.marcin.novaguilds.api.util.Title;
 import co.marcin.novaguilds.impl.util.AbstractTitle;
-import co.marcin.novaguilds.impl.versionimpl.v1_8.packet.PacketPlayOutTitle;
+import co.marcin.novaguilds.impl.versionimpl.v1_8_R3.packet.PacketPlayOutTitle;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
