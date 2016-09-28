@@ -25,9 +25,11 @@ import co.marcin.novaguilds.api.storage.Storage;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 public abstract class AbstractResourceManager<T extends Resource> implements ResourceManager<T> {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Class<T> clazz;
 	private final Storage storage;
 	private final Collection<T> removalQueue = new HashSet<>();
 	private final Collection<T> saveQueue = new HashSet<>();
@@ -38,9 +40,15 @@ public abstract class AbstractResourceManager<T extends Resource> implements Res
 	 * @param storage the storage
 	 * @param clazz   type class
 	 */
-	protected AbstractResourceManager(Storage storage, Class clazz) {
+	protected AbstractResourceManager(Storage storage, Class<T> clazz) {
 		this.storage = storage;
+		this.clazz = clazz;
 		register(clazz);
+	}
+
+	@Override
+	public Class<T> getClazz() {
+		return clazz;
 	}
 
 	@Override
@@ -97,6 +105,13 @@ public abstract class AbstractResourceManager<T extends Resource> implements Res
 	@Override
 	public void addToSaveQueue(T t) {
 		saveQueue.add(t);
+	}
+
+	@Override
+	public void addToSaveQueue(List<T> list) {
+		for(T t : list) {
+			addToSaveQueue(t);
+		}
 	}
 
 	@Override

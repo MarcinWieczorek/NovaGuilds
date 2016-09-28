@@ -77,7 +77,7 @@ public enum Dependency {
 	/**
 	 * Checks if there are additional tasks
 	 *
-	 * @return
+	 * @return boolean
 	 */
 	public boolean hasAdditionalTasks() {
 		return additionalTasks.length > 0;

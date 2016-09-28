@@ -31,6 +31,7 @@ public interface Storage {
 	 *
 	 * @param clazz type class
 	 * @return the manager
+	 * @param <T> type parameter
 	 */
 	<T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz);
 
@@ -39,8 +40,9 @@ public interface Storage {
 	 *
 	 * @param clazz           type class
 	 * @param resourceManager the manager
+	 * @param <T> type parameter
 	 */
-	<T extends Resource> void registerResourceManager(Class clazz, ResourceManager<T> resourceManager);
+	<T extends Resource> void registerResourceManager(Class<T> clazz, ResourceManager<T> resourceManager);
 
 	/**
 	 * Registers managers

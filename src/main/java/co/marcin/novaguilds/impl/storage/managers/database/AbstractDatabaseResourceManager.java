@@ -41,7 +41,7 @@ public abstract class AbstractDatabaseResourceManager<T extends Resource> extend
 	 * @param clazz      type class
 	 * @param columnName column name in the database
 	 */
-	protected AbstractDatabaseResourceManager(Storage storage, Class clazz, String columnName) {
+	protected AbstractDatabaseResourceManager(Storage storage, Class<T> clazz, String columnName) {
 		super(storage, clazz);
 		this.columnName = columnName;
 	}

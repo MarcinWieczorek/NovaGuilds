@@ -55,7 +55,7 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 			UUID regionUUID;
 			boolean forceSave = false;
 
-			if(configuration == null || configuration.getKeys(true).size() == 0) {
+			if(configuration == null || configuration.getKeys(true).isEmpty()) {
 				LoggerUtils.error("Null or empty configuration for region " + trimExtension(regionFile));
 				continue;
 			}

@@ -56,7 +56,7 @@ public class RunnableRaid implements Runnable {
 
 			LoggerUtils.debug(guildDefender.getName() + " raid scheduler working " + raid.getProgress());
 
-			if(raid.getPlayersOccupying().size() > 0) {
+			if(!raid.getPlayersOccupying().isEmpty()) {
 				//stepping progress
 				raid.addProgress((float) (raid.getPlayersOccupying().size() * Config.RAID_MULTIPLER.getDouble()));
 

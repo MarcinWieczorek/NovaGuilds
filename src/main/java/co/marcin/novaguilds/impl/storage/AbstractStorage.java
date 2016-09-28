@@ -28,7 +28,7 @@ import java.util.Map;
 
 public abstract class AbstractStorage implements Storage {
 	protected static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<Class, ResourceManager> resourceManagers = new HashMap<>();
+	private final Map<Class<? extends Resource>, ResourceManager<? extends Resource>> resourceManagers = new HashMap<>();
 
 	@Override
 	public void save() {
@@ -45,7 +45,7 @@ public abstract class AbstractStorage implements Storage {
 	}
 
 	@Override
-	public <T extends Resource> void registerResourceManager(Class clazz, ResourceManager<T> resourceManager) {
+	public <T extends Resource> void registerResourceManager(Class<T> clazz, ResourceManager<T> resourceManager) {
 		resourceManagers.put(clazz, resourceManager);
 	}
 }

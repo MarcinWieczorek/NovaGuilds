@@ -111,11 +111,6 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 				List<NovaPlayer> memberList = new UUIDOrNameToPlayerConverterImpl().convert(memberStringList);
 
 				if(memberList.size() != memberStringList.size()) {
-					for(String m : memberStringList) {
-						LoggerUtils.debug(" " + m);
-					}
-					for(NovaPlayer novaPlayer : memberList) {
-					}
 					addToSaveQueue(rank);
 				}
 

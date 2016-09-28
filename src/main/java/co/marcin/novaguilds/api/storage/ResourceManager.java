@@ -23,6 +23,13 @@ import java.util.List;
 
 public interface ResourceManager<T extends Resource> {
 	/**
+	 * Gets the class of Resource
+	 *
+	 * @return the class
+	 */
+	Class<T> getClazz();
+
+	/**
 	 * Loads data
 	 *
 	 * @return list with data
@@ -72,6 +79,13 @@ public interface ResourceManager<T extends Resource> {
 	 * @param t instance
 	 */
 	void addToSaveQueue(T t);
+
+	/**
+	 * Adds a list of object to save queue
+	 *
+	 * @param list list of resources
+	 */
+	void addToSaveQueue(List<T> list);
 
 	/**
 	 * Removes an object from save queue

@@ -35,7 +35,7 @@ public class PacketPlayInUpdateSign extends AbstractPacket {
 	protected static Field linesField;
 	protected static Method getTextMethod;
 
-	private String[] lines = new String[4];
+	private final String[] lines = new String[4];
 	private BlockPositionWrapper blockPositionWrapper;
 
 	static {

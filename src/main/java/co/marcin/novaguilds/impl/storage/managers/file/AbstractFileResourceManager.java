@@ -41,7 +41,7 @@ public abstract class AbstractFileResourceManager<T extends Resource> extends Ab
 	 * @param clazz         manager type class
 	 * @param directoryPath resource directory path
 	 */
-	protected AbstractFileResourceManager(Storage storage, Class clazz, String directoryPath) {
+	protected AbstractFileResourceManager(Storage storage, Class<T> clazz, String directoryPath) {
 		super(storage, clazz);
 		directory = new File(getStorage().getDirectory(), directoryPath);
 	}
