@@ -228,8 +228,8 @@ public class CommandGuildCreate extends AbstractCommandExecutor implements Comma
 					}
 
 					//Supernova
-					//FIXME Particle library needs an update to 1.10
-					if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_10_R1)) {
+					if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_10_R1) //FIXME Particle library needs an update to 1.10
+							&& ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R3)) { //FIXME Does not work below 1.7.10
 						ParticleUtils.createSuperNova(player);
 					}
 
