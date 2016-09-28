@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.versionimpl.v1_9_R2.packet;
+package co.marcin.novaguilds.impl.versionimpl.v1_8_R1.packet;
 
 import co.marcin.novaguilds.api.util.BlockPositionWrapper;
 import co.marcin.novaguilds.impl.util.AbstractPacket;
@@ -25,20 +25,28 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class PacketPlayInUpdateSign extends AbstractPacket {
+	protected static Class<?> iChatBaseComponentClass;
 	protected static Class<?> packetInUpdateSignClass;
 	protected static Field blockPositionField;
-	protected static Reflections.FieldAccessor<String[]> linesField;
+	protected static Field linesField;
+	protected static Method getTextMethod;
 
-	private String[] lines;
+	private final String[] lines = new String[4];
 	private BlockPositionWrapper blockPositionWrapper;
 
 	static {
 		try {
 			packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
+			iChatBaseComponentClass = Reflections.getCraftClass("IChatBaseComponent");
+
 			blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
-			linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
+			linesField = Reflections.getPrivateField(packetInUpdateSignClass, "b");
+
+			getTextMethod = Reflections.getMethod(iChatBaseComponentClass, "getText");
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -49,11 +57,19 @@ public class PacketPlayInUpdateSign extends AbstractPacket {
 	 * Converts NMS packet
 	 *
 	 * @param packet NMS PacketPlayInUpdateSign object
-	 * @throws IllegalAccessException when something goes wrong
+	 * @throws IllegalAccessException    when something goes wrong
+	 * @throws InvocationTargetException when something goes wrong
 	 */
-	public PacketPlayInUpdateSign(Object packet) throws IllegalAccessException {
+	public PacketPlayInUpdateSign(Object packet) throws IllegalAccessException, InvocationTargetException {
 		blockPositionWrapper = new BlockPositionWrapperImpl(blockPositionField.get(packet));
-		lines = linesField.get(packet);
+		Object[] components = (Object[]) linesField.get(packet);
+
+		int index = 0;
+		for(Object component : components) {
+			Object line = getTextMethod.invoke(component);
+			lines[index] = (String) line;
+			index++;
+		}
 	}
 
 	/**

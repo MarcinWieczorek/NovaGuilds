@@ -176,7 +176,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 							new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketListenerImpl();
 						}
 						break;
+					case MINECRAFT_1_8_R1:
+						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
+
+						if(Config.SIGNGUI_ENABLED.getBoolean()) {
+							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8_R1.SignGUIImpl();
+						}
+						break;
 					case MINECRAFT_1_8_R2:
+					case MINECRAFT_1_8_R3:
 						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {
@@ -191,13 +199,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 						}
 						break;
 					case MINECRAFT_1_9_R2:
-						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
-
-						if(Config.SIGNGUI_ENABLED.getBoolean()) {
-							signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R2.SignGUIImpl();
-						}
-						break;
 					case MINECRAFT_1_10_R1:
+					case MINECRAFT_1_10_R2:
 						packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
 
 						if(Config.SIGNGUI_ENABLED.getBoolean()) {

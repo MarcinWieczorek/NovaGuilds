@@ -69,10 +69,13 @@ public class ConfigManager {
 
 	public enum ServerVersion {
 		MINECRAFT_1_7_R4,
+		MINECRAFT_1_8_R1,
 		MINECRAFT_1_8_R2,
+		MINECRAFT_1_8_R3,
 		MINECRAFT_1_9_R1,
 		MINECRAFT_1_9_R2,
-		MINECRAFT_1_10_R1;
+		MINECRAFT_1_10_R1,
+		MINECRAFT_1_10_R2;
 
 		/**
 		 * Detects server version
@@ -218,7 +221,7 @@ public class ConfigManager {
 
 		LoggerUtils.info("This server is using Bukkit: " + Bukkit.getBukkitVersion());
 
-		if(Config.USETITLES.getBoolean() && getServerVersion().isOlderThan(ServerVersion.MINECRAFT_1_8_R2)) {
+		if(Config.USETITLES.getBoolean() && getServerVersion().isOlderThan(ServerVersion.MINECRAFT_1_8_R1)) {
 			Config.USETITLES.set(false);
 			LoggerUtils.error("You can't use Titles with Bukkit other than 1.8");
 		}

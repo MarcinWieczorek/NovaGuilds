@@ -16,16 +16,16 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.impl.versionimpl.v1_9_R2;
+package co.marcin.novaguilds.impl.versionimpl.v1_8_R1;
 
 import co.marcin.novaguilds.api.util.Packet;
 import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
-import co.marcin.novaguilds.impl.versionimpl.v1_9_R2.packet.PacketPlayInUpdateSign;
-import co.marcin.novaguilds.impl.versionimpl.v1_9_R2.packet.PacketPlayOutBlockChange;
+import co.marcin.novaguilds.impl.versionimpl.v1_8_R1.packet.PacketPlayInUpdateSign;
+import co.marcin.novaguilds.impl.versionimpl.v1_8_R1.packet.PacketPlayOutBlockChange;
+import co.marcin.novaguilds.impl.versionimpl.v1_8_R1.packet.PacketPlayOutUpdateSign;
 import co.marcin.novaguilds.impl.versionimpl.v1_9_R2.packet.PacketPlayOutOpenSignEditor;
-import co.marcin.novaguilds.impl.versionimpl.v1_9_R2.packet.PacketPlayOutTileEntityData;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import org.bukkit.Bukkit;
@@ -55,7 +55,7 @@ public class SignGUIImpl extends AbstractSignGui {
 
 			if(defaultText != null) {
 				packets.add(new PacketPlayOutBlockChange(location, Material.SIGN_POST, 0));
-				packets.add(PacketPlayOutTileEntityData.getSignChange(location, defaultText));
+				packets.add(new PacketPlayOutUpdateSign(location, defaultText));
 			}
 
 			packets.add(new PacketPlayOutOpenSignEditor(location));
@@ -83,7 +83,6 @@ public class SignGUIImpl extends AbstractSignGui {
 				try {
 					final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
 					final Player player = event.getPlayer();
-
 					Location v = getSignLocations().remove(player.getUniqueId());
 
 					if(v == null
@@ -104,7 +103,7 @@ public class SignGUIImpl extends AbstractSignGui {
 						});
 					}
 				}
-				catch(IllegalAccessException e) {
+				catch(IllegalAccessException | InvocationTargetException e) {
 					LoggerUtils.exception(e);
 				}
 			}

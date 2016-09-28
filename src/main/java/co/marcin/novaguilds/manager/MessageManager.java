@@ -266,12 +266,17 @@ public class MessageManager {
 		switch(ConfigManager.getServerVersion()) {
 			case MINECRAFT_1_7_R4:
 				throw new IllegalArgumentException("Cannot send a title on 1.7 server");
+			case MINECRAFT_1_8_R1:
+				title = new co.marcin.novaguilds.impl.versionimpl.v1_8_R1.TitleImpl();
+				break;
 			case MINECRAFT_1_8_R2:
+			case MINECRAFT_1_8_R3:
 				title = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TitleImpl();
 				break;
 			case MINECRAFT_1_9_R1:
 			case MINECRAFT_1_9_R2:
 			case MINECRAFT_1_10_R1:
+			case MINECRAFT_1_10_R2:
 				title = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.TitleImpl();
 		}
 
