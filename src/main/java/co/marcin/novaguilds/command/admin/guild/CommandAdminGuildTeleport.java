@@ -39,7 +39,7 @@ public class CommandAdminGuildTeleport extends AbstractCommandExecutor.Reversed<
 
 		Location home = guild.getHome();
 
-		Player player = (Player) sender;
+		Player player;
 		boolean other = false;
 
 		Map<VarKey, String> vars = new HashMap<>();
@@ -66,6 +66,14 @@ public class CommandAdminGuildTeleport extends AbstractCommandExecutor.Reversed<
 
 			player = nPlayerOther.getPlayer();
 			other = true;
+		}
+		else {
+			if(!(sender instanceof Player)) {
+				Message.CHAT_CMDFROMCONSOLE.send(sender);
+				return;
+			}
+
+			player = (Player) sender;
 		}
 
 		if(other) {
