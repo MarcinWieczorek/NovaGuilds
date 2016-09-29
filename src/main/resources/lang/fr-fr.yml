@@ -577,40 +577,40 @@ inventory:
   name: Menu de la guilde
  gui:
   guildtop: "SIGN 1"
-  hometp: "ENDER_PEARL 1 nom:Foyer"
+  hometp: "ENDER_PEARL 1 name:Foyer"
   settings:
    title: "Réglages de la guilde"
    item:
-    icon: "WORKBENCH 1 nom:&4Réglages"
+    icon: "WORKBENCH 1 name:&4Réglages"
     set:
-     name: "SIGN 1 nom:&6Fixer_le_nom_de_la_guilde"
-     tag: "SIGN 1 nom:&6Fixer_le_tag_de_la_guilde"
-     home: "EYE_OF_ENDER 1 nom:&6Fixer_le_foyer_de_la_guilde"
+     name: "SIGN 1 name:&6Fixer_le_nom_de_la_guilde"
+     tag: "SIGN 1 name:&6Fixer_le_tag_de_la_guilde"
+     home: "EYE_OF_ENDER 1 name:&6Fixer_le_foyer_de_la_guilde"
     togglepvp:
-     'on': "GOLD_SWORD 1 nom:&2Tourner_la_guilde_en_PVP_OFF"
-     'off': "WOOD_SWORD 1 nom:&4Tourner_la_guilde_en_PVP_ON"
-    openinvitation: "FENCE_GATE 1 nom:&6Basculer_en_invitation_ouverte lore:Actuellement_{FLAG}"
-    buylife: "APPLE 1 nom:&6Acheter_de_la_vie"
-    buyslot: "MINECART 1 nom:&6Acheter_un_emplacement"
-    invite: "CAKE 1 nom:&6Inviter_des_joueurs"
+     'on': "GOLD_SWORD 1 name:&2Tourner_la_guilde_en_PVP_OFF"
+     'off': "WOOD_SWORD 1 name:&4Tourner_la_guilde_en_PVP_ON"
+    openinvitation: "FENCE_GATE 1 name:&6Basculer_en_invitation_ouverte lore:Actuellement_{FLAG}"
+    buylife: "APPLE 1 name:&6Acheter_de_la_vie"
+    buyslot: "MINECART 1 name:&6Acheter_un_emplacement"
+    invite: "CAKE 1 name:&6Inviter_des_joueurs"
    invite:
     title: "Invitation des joueurs"
-    item: "SKULL_ITEM:3 1 joueur:{PLAYERnom} nom:{PLAYERnom}"
-  back: "REDSTONE_TORCH_ON 1 nom:&cBack"
+    item: "SKULL_ITEM:3 1 joueur:{PLAYERNAME} name:{PLAYERNAME}"
+  back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "Players list"
-   iconitem: "SKULL_ITEM:3 1 nom:Liste_des_joueurs"
-   rowitem: "SKULL_ITEM:3 1 joueur:{PLAYERnom} nom:{PLAYERnom}"
+   iconitem: "SKULL_ITEM:3 1 name:Liste_des_joueurs"
+   rowitem: "SKULL_ITEM:3 1 joueur:{PLAYERNAME} name:{PLAYERNAME}"
   playersettings:
-   title: "{PLAYERnom} réglages"
+   title: "{PLAYERNAME} réglages"
    item:
-    rank: "BOOK_AND_QUILL 1 nom:Fixer_le_folklore_du_rang lore:{RANKnom}"
-    kick: "FERMENTED_SPIDER_EYE 1 nom:Kick"
+    rank: "BOOK_AND_QUILL 1 name:Fixer_le_folklore_du_rang lore:{RANKNAME}"
+    kick: "FERMENTED_SPIDER_EYE 1 name:Kick"
   ranks:
    title: "Ranks"
-   iconitem: "EMPTY_MAP 1 nom:Rangs"
-   rowitem: "BOOK 1 nom:{RANKNAME}"
-   additem: "BOOK_AND_QUILL 1 nom:Ajouter_un_rang"
+   iconitem: "EMPTY_MAP 1 name:Rangs"
+   rowitem: "BOOK 1 name:{RANKNAME}"
+   additem: "BOOK_AND_QUILL 1 name:Ajouter_un_rang"
    defaultname: "Rangs personnalisés"
    leadername: "Chef"
   rank:
@@ -618,17 +618,17 @@ inventory:
     title: "&l{RANKNAME} &rréglages"
     cloneprefix: "Clone de "
     item:
-     editpermissions: "BOOK_AND_QUILL 1 nom:&6Édition_des_permissions"
-     setdefault: "WOOD_DOOR 1 nom:&6Fixer_par_défaut"
-     clone: "GOLD_NUGGET 1 nom:&6Clone"
-     rename: "NAME_TAG 1 nom:&6Rebaptiser"
-     delete: "REDSTONE_BLOCK 1 nom:&cDétruire"
-     memberlist: "SKULL_ITEM:3 1 nom:Membres"
+     editpermissions: "BOOK_AND_QUILL 1 name:&6Édition_des_permissions"
+     setdefault: "WOOD_DOOR 1 name:&6Fixer_par_défaut"
+     clone: "GOLD_NUGGET 1 name:&6Clone"
+     rename: "NAME_TAG 1 name:&6Rebaptiser"
+     delete: "REDSTONE_BLOCK 1 name:&cDétruire"
+     memberlist: "SKULL_ITEM:3 1 name:Membres"
   permissions:
    title: "Editer les rangs: &l{RANKNAME}"
    item:
-    enabled: "STAINED_GLASS_PANE:5 1 nom:{PERMNAME}"
-    disabled: "STAINED_GLASS_PANE:14 1 nom:{PERMNAME}"
+    enabled: "STAINED_GLASS_PANE:5 1 name:{PERMNAME}"
+    disabled: "STAINED_GLASS_PANE:14 1 name:{PERMNAME}"
    names:
     block:
      break: "Casser_les_blocks"
