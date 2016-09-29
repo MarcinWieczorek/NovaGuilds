@@ -23,10 +23,9 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdmin extends AbstractCommandExecutor implements CommandExecutor {
+public class CommandAdmin extends AbstractCommandExecutor {
 	public CommandAdmin() {
 		commandsMap.put("guild",    Command.ADMIN_GUILD_ACCESS);
 		commandsMap.put("g",        Command.ADMIN_GUILD_ACCESS);
@@ -39,12 +38,6 @@ public class CommandAdmin extends AbstractCommandExecutor implements CommandExec
 		commandsMap.put("spy",      Command.ADMIN_CHATSPY);
 		commandsMap.put("chatspy",  Command.ADMIN_CHATSPY);
 		commandsMap.put("config",   Command.ADMIN_CONFIG_ACCESS);
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		getCommand().execute(sender, args);
-		return true;
 	}
 
 	@Override

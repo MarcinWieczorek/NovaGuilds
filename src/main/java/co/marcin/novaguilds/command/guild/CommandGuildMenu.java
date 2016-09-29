@@ -22,16 +22,9 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.impl.util.guiinventory.GUIInventoryGuildMenu;
 import co.marcin.novaguilds.manager.PlayerManager;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CommandGuildMenu extends AbstractCommandExecutor implements CommandExecutor {
-	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		getCommand().execute(sender, args);
-		return true;
-	}
-
+public class CommandGuildMenu extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);

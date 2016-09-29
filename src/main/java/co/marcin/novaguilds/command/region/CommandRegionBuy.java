@@ -33,19 +33,12 @@ import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 import java.util.UUID;
 
-public class CommandRegionBuy extends AbstractCommandExecutor implements CommandExecutor {
-	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		getCommand().execute(sender, args);
-		return true;
-	}
-
+public class CommandRegionBuy extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);

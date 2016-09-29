@@ -40,6 +40,19 @@ public class CommandManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, String> aliases = new HashMap<>();
 	private final Map<CommandWrapper, CommandExecutor> executors = new HashMap<>();
+	private static final org.bukkit.command.CommandExecutor genericExecutor = new org.bukkit.command.CommandExecutor() {
+		@Override
+		public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+			CommandWrapper commandWrapper = Command.getByGenericCommand(command.getName());
+
+			if(commandWrapper == null) {
+				return false;
+			}
+
+			commandWrapper.execute(sender, args);
+			return true;
+		}
+	};
 
 	/**
 	 * Sets up the manager
@@ -89,13 +102,14 @@ public class CommandManager {
 			executors.put(command, executor);
 
 			if(command.hasGenericCommand()) {
-				if(!(executor instanceof org.bukkit.command.CommandExecutor)) {
-					LoggerUtils.exception(new IllegalArgumentException("An executor has to implement CommandExecutor to allow having generic command."));
-					return;
-				}
-
 				PluginCommand genericCommand = plugin.getCommand(command.getGenericCommand());
-				genericCommand.setExecutor((org.bukkit.command.CommandExecutor) executor);
+
+				if(executor instanceof org.bukkit.command.CommandExecutor) {
+					genericCommand.setExecutor((org.bukkit.command.CommandExecutor) executor);
+				}
+				else {
+					genericCommand.setExecutor(genericExecutor);
+				}
 
 				if(command.hasTabCompleter()) {
 					genericCommand.setTabCompleter(command.getTabCompleter());

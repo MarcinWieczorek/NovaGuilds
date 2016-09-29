@@ -337,6 +337,16 @@ public final class Command extends CommandWrapperImpl {
 		return null;
 	}
 
+	public static CommandWrapper getByGenericCommand(String genericCommand) {
+		for(CommandWrapper wrapper : values()) {
+			if(wrapper.hasGenericCommand() && wrapper.getGenericCommand().equalsIgnoreCase(genericCommand)) {
+				return wrapper;
+			}
+		}
+
+		return null;
+	}
+
 	public static CommandWrapper[] values() {
 		return map.values().toArray(new CommandWrapper[0]);
 	}

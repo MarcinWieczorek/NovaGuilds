@@ -23,10 +23,9 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.runnable.CommandExecutorHandler;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CommandConfirm extends AbstractCommandExecutor implements CommandExecutor {
+public class CommandConfirm extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
@@ -38,11 +37,5 @@ public class CommandConfirm extends AbstractCommandExecutor implements CommandEx
 		}
 
 		handler.confirm();
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		getCommand().execute(sender, args);
-		return true;
 	}
 }

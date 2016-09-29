@@ -27,11 +27,10 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandGuild extends AbstractCommandExecutor implements CommandExecutor {
+public class CommandGuild extends AbstractCommandExecutor {
 	public CommandGuild() {
 		commandsMap.put("pay",      Command.GUILD_BANK_PAY);
 		commandsMap.put("withdraw", Command.GUILD_BANK_WITHDRAW);
@@ -111,11 +110,5 @@ public class CommandGuild extends AbstractCommandExecutor implements CommandExec
 				Message.CHAT_COMMANDS_GUILD_NOGUILD.prefix(false).send(sender);
 			}
 		}
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		getCommand().execute(sender, args);
-		return true;
 	}
 }
