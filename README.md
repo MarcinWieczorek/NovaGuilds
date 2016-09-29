@@ -33,7 +33,7 @@ The plugin works on all versions including and above <b>1.7.10</b>
 If you need support:<br/>
 <a href="https://github.com/MarcinWieczorek/NovaGuilds/issues">Visit issues page</a><br/>
 <a href="mailto:marcin@marcin.co">Send me an email</a><br/>
-Send me a message using XMPP: marcinwieczorek@jabbim.pl
+Send me a message using XMPP/Jabber: marcin@marcin.co
 <br/><br/><br/>
 
 <h2><b>How to compile NovaGuilds on your own?</b></h2>
