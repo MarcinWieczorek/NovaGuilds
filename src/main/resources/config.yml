@@ -48,6 +48,7 @@ deleteinvalid: false
 # de-de # German  #
 # zh-cn # Chinese #
 # nl-nl # Dutch   #
+# fr-fr # French  #
 # =-=-= # =-=-=-= #
 lang:
  name: en-en

@@ -150,7 +150,7 @@ chat:
     purge: "&4&l> &7/nga &cg &6purge &2- &6Supprime toutes les guiles"
     tp: "&4&l> &7/nga &cg &6<&cguild&6> &ctp &6[&cplayer&6] &2- &6TP au foyer de la guilde"
     reset:
-     points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Réinitialise les points de la guilde
+     points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Réinitialise les points de la guilde"
    region:
     access: "&4&l> &7/nga &crg &2- &6Commande de régions"
     list: "&4&l> &7/nga &crg &6list &2- &6Liste de la régions"
@@ -572,9 +572,9 @@ misc:
 
 inventory:
  requireditems:
-  nom: Objets requis
+  name: Objets requis
  ggui:
-  nom: Menu de la guilde
+  name: Menu de la guilde
  gui:
   guildtop: "SIGN 1"
   hometp: "ENDER_PEARL 1 nom:Foyer"
@@ -583,7 +583,7 @@ inventory:
    item:
     icon: "WORKBENCH 1 nom:&4Réglages"
     set:
-     nom: "SIGN 1 nom:&6Fixer_le_nom_de_la_guilde"
+     name: "SIGN 1 nom:&6Fixer_le_nom_de_la_guilde"
      tag: "SIGN 1 nom:&6Fixer_le_tag_de_la_guilde"
      home: "EYE_OF_ENDER 1 nom:&6Fixer_le_foyer_de_la_guilde"
     togglepvp:
@@ -723,4 +723,4 @@ timeunit:
   plural: mois
  year:
   singular: année
-plural: années
+  plural: années

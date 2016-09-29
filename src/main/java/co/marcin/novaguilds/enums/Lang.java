@@ -37,6 +37,8 @@ public enum Lang {
 	PL_PL,
 	DE_DE,
 	ZH_CN(Charset.forName("GBK")),
+	NL_NL,
+	FR_FR,
 	CUSTOM;
 
 	private Charset charset;

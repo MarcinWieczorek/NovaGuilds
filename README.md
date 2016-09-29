@@ -51,7 +51,8 @@ mvn clean install
 <h2>Special thanks:</h2>
 <a href="https://www.spigotmc.org/members/x_2088.65434/">@x_2088</a> for Chinese translation<br/>
 <a href="https://github.com/Mondanzo">@Mondanzo</a> for German translation<br/>
-<a href="https://github.com/SgtLegoTown">@SgtLegoTown</a> for Dutch translation
+<a href="https://github.com/SgtLegoTown">@SgtLegoTown</a> for Dutch translation<br/>
+<a href="https://github.com/Noiknez">@Noiknez</a> for French translation
 
 <h2>Screenshots</h2>
 <img src="http://novaguilds.pl/img/ss/ngss1.jpg" alt="ss" />
