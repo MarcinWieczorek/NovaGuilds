@@ -21,11 +21,9 @@ package co.marcin.novaguilds.command.tabcompleter;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.command.guild.CommandGuild;
-import co.marcin.novaguilds.command.region.CommandRegion;
 import co.marcin.novaguilds.enums.ChatMode;
+import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.manager.PlayerManager;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
@@ -36,7 +34,7 @@ import java.util.Set;
 
 public class TabCompleterGuild implements TabCompleter {
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		final List<String> list = new ArrayList<>();
 		final Set<String> keys = new HashSet<>();
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
@@ -45,7 +43,7 @@ public class TabCompleterGuild implements TabCompleter {
 			switch(args[0].toLowerCase()) {
 				case "rg":
 				case "region":
-					keys.addAll(CommandRegion.commandsMap.keySet());
+					keys.addAll(Command.REGION_ACCESS.getExecutor().getCommandsMap().keySet());
 					break;
 				case "c":
 				case "chat":
@@ -92,7 +90,7 @@ public class TabCompleterGuild implements TabCompleter {
 			}
 		}
 		else {
-			keys.addAll(CommandGuild.commandsMap.keySet());
+			keys.addAll(Command.GUILD_ACCESS.getExecutor().getCommandsMap().keySet());
 		}
 
 		for(String key : keys) {

@@ -26,12 +26,7 @@ import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CommandAdmin extends AbstractCommandExecutor implements CommandExecutor {
-	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
-
 	public CommandAdmin() {
 		commandsMap.put("guild",    Command.ADMIN_GUILD_ACCESS);
 		commandsMap.put("g",        Command.ADMIN_GUILD_ACCESS);

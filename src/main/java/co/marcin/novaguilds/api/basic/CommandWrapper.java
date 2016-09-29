@@ -119,6 +119,13 @@ public interface CommandWrapper {
 	Class<? extends CommandExecutor> getExecutorClass();
 
 	/**
+	 * Checks if the executor is reversed
+	 *
+	 * @return boolean
+	 */
+	boolean isReversed();
+
+	/**
 	 * Executes the command
 	 *
 	 * @param sender sender

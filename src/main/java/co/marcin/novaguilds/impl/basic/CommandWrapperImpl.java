@@ -105,6 +105,11 @@ public class CommandWrapperImpl implements CommandWrapper {
 	}
 
 	@Override
+	public boolean isReversed() {
+		return getExecutor() instanceof CommandExecutor.Reversed;
+	}
+
+	@Override
 	public void execute(CommandSender sender, String[] args) {
 		NovaGuilds.getInstance().getCommandManager().execute(this, sender, args);
 	}

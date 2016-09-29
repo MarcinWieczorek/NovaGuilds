@@ -27,17 +27,8 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class CommandAdminHologram extends AbstractCommandExecutor {
-	private static final List<CommandWrapper> noHologramCommands = new ArrayList<>();
-	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
-
 	public CommandAdminHologram() {
-
 		commandsMap.put("list",         Command.ADMIN_HOLOGRAM_LIST);
 		commandsMap.put("ls",           Command.ADMIN_HOLOGRAM_LIST);
 		commandsMap.put("tp",           Command.ADMIN_HOLOGRAM_TELEPORT);
@@ -49,10 +40,6 @@ public class CommandAdminHologram extends AbstractCommandExecutor {
 		commandsMap.put("tphere",       Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
 		commandsMap.put("teleporthere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
 		commandsMap.put("movehere",     Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
-
-		noHologramCommands.add(Command.ADMIN_HOLOGRAM_LIST);
-//		noHologramCommands.add(Command.ADMIN_HOLOGRAM_ADD);
-		noHologramCommands.add(Command.ADMIN_HOLOGRAM_ADDTOP);
 	}
 
 	@Override
@@ -62,22 +49,20 @@ public class CommandAdminHologram extends AbstractCommandExecutor {
 			return;
 		}
 
-		boolean isNoHologramCommand = args.length > 0 && noHologramCommands.contains(commandsMap.get(args[0]));
-
-		if(args.length == 0 || (args.length < 2 && !isNoHologramCommand)) {
+		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER.send(sender);
 			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS.send(sender);
 			return;
 		}
 
-		CommandWrapper subCommand = commandsMap.get(args[isNoHologramCommand || args.length == 1 ? 0 : 1].toLowerCase());
+		CommandWrapper subCommand = getCommandsMap().get(args[args.length >= 2 && getCommandsMap().get(args[1]) != null && getCommandsMap().get(args[1]).isReversed() ? 1 : 0]);
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);
 			return;
 		}
 
-		if(!noHologramCommands.contains(subCommand) && (args.length > 1 || !isNoHologramCommand)) {
+		if(subCommand.isReversed()) {
 			NovaHologram hologram = plugin.getHologramManager().getHologram(args[0]);
 
 			if(hologram == null) {
@@ -88,6 +73,6 @@ public class CommandAdminHologram extends AbstractCommandExecutor {
 			subCommand.executorVariable(hologram);
 		}
 
-		subCommand.execute(sender, StringUtils.parseArgs(args, isNoHologramCommand ? 1 : 2));
+		subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 2));
 	}
 }

@@ -106,7 +106,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Command extends CommandWrapperImpl {
+public final class Command extends CommandWrapperImpl {
 	public static final CommandWrapper ADMIN_ACCESS =                         new Command(CommandAdmin.class,                               Permission.NOVAGUILDS_ADMIN_ACCESS,                        "nga",                                                   new TabCompleterAdmin()                              );
 	public static final CommandWrapper ADMIN_RELOAD =                         new Command(CommandAdminReload.class,                         Permission.NOVAGUILDS_ADMIN_RELOAD                                                                                                                                       );
 	public static final CommandWrapper ADMIN_SAVE =                           new Command(CommandAdminSave.class,                           Permission.NOVAGUILDS_ADMIN_SAVE                                                                                                                                         );
@@ -217,7 +217,7 @@ public class Command extends CommandWrapperImpl {
 	 * @param tabCompleter   tab completer instance
 	 * @param flags          command flags
 	 */
-	Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, Message usageMessage, TabCompleter tabCompleter, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, Message usageMessage, TabCompleter tabCompleter, Flag... flags) {
 		this.permission = permission;
 		this.usageMessage = usageMessage;
 		this.genericCommand = genericCommand;
@@ -234,7 +234,7 @@ public class Command extends CommandWrapperImpl {
 	 * @param usageMessage   the usage message
 	 * @param flags          command flags
 	 */
-	Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, Message usageMessage, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, Message usageMessage, Flag... flags) {
 		this(commandExecutorClass, permission, genericCommand, usageMessage, null, flags);
 	}
 
@@ -246,7 +246,7 @@ public class Command extends CommandWrapperImpl {
 	 * @param tabCompleter   tab completer instance
 	 * @param flags          command flags
 	 */
-	Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, TabCompleter tabCompleter, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, TabCompleter tabCompleter, Flag... flags) {
 		this(commandExecutorClass, permission, genericCommand, null, tabCompleter, flags);
 	}
 
@@ -257,7 +257,7 @@ public class Command extends CommandWrapperImpl {
 	 * @param usageMessage the usage message
 	 * @param flags        command flags
 	 */
-	Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, Message usageMessage, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, Message usageMessage, Flag... flags) {
 		this(commandExecutorClass, permission, null, usageMessage, null, flags);
 	}
 
@@ -268,7 +268,7 @@ public class Command extends CommandWrapperImpl {
 	 * @param genericCommand the generic command string
 	 * @param flags          command flags
 	 */
-	Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, Flag... flags) {
 		this(commandExecutorClass, permission, genericCommand, null, null, flags);
 	}
 
@@ -278,7 +278,7 @@ public class Command extends CommandWrapperImpl {
 	 * @param permission the permission
 	 * @param flags      command flags
 	 */
-	Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, Flag... flags) {
 		this(commandExecutorClass, permission, null, null, null, flags);
 	}
 
@@ -339,5 +339,12 @@ public class Command extends CommandWrapperImpl {
 
 	public static CommandWrapper[] values() {
 		return map.values().toArray(new CommandWrapper[0]);
+	}
+
+	/**
+	 * This does nothing but forces the class to load it's fields
+	 */
+	public static void init() {
+
 	}
 }

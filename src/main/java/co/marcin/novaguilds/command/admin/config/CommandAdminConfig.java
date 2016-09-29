@@ -25,12 +25,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CommandAdminConfig extends AbstractCommandExecutor {
-	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
-
 	public CommandAdminConfig() {
 		commandsMap.put("get",    Command.ADMIN_CONFIG_GET);
 		commandsMap.put("reload", Command.ADMIN_CONFIG_RELOAD);

@@ -19,12 +19,7 @@
 package co.marcin.novaguilds.command.tabcompleter;
 
 import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.command.admin.CommandAdmin;
-import co.marcin.novaguilds.command.admin.config.CommandAdminConfig;
-import co.marcin.novaguilds.command.admin.guild.CommandAdminGuild;
-import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologram;
-import co.marcin.novaguilds.command.admin.region.CommandAdminRegion;
-import org.bukkit.command.Command;
+import co.marcin.novaguilds.enums.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
@@ -34,7 +29,7 @@ import java.util.Set;
 
 public class TabCompleterAdmin implements TabCompleter {
 	@Override
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+	public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
 		final List<String> list = new ArrayList<>();
 		Set<String> keys = null;
 
@@ -42,31 +37,28 @@ public class TabCompleterAdmin implements TabCompleter {
 			switch(args[0].toLowerCase()) {
 				case "g":
 				case "guild":
-					keys = CommandAdminGuild.commandsMap.keySet();
+					keys = Command.ADMIN_GUILD_ACCESS.getExecutor().getCommandsMap().keySet();
 					break;
-
 				case "rg":
 				case "region":
-					keys = CommandAdminRegion.commandsMap.keySet();
+					keys = Command.ADMIN_REGION_ACCESS.getExecutor().getCommandsMap().keySet();
 					break;
-
 				case "h":
 				case "hologram":
-					keys = CommandAdminHologram.commandsMap.keySet();
+					keys = Command.ADMIN_HOLOGRAM_ACCESS.getExecutor().getCommandsMap().keySet();
 					break;
-
 				case "config":
 					if(args.length == 3 && (args[1].equalsIgnoreCase("get") || args[1].equalsIgnoreCase("set"))) {
 						keys = NovaGuilds.getInstance().getConfigManager().getConfig().getKeys(true);
 					}
 					else if(args.length == 2) {
-						keys = CommandAdminConfig.commandsMap.keySet();
+						keys = Command.ADMIN_CONFIG_ACCESS.getExecutor().getCommandsMap().keySet();
 					}
 					break;
 			}
 		}
 		else {
-			keys = CommandAdmin.commandsMap.keySet();
+			keys = Command.ADMIN_ACCESS.getExecutor().getCommandsMap().keySet();
 		}
 
 		if(keys != null) {

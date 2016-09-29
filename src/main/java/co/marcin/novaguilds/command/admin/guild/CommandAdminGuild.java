@@ -27,15 +27,7 @@ import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class CommandAdminGuild extends AbstractCommandExecutor {
-	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
-	private static final List<CommandWrapper> noGuildCommands = new ArrayList<>();
-
 	public CommandAdminGuild() {
 		commandsMap.put("tp",            Command.ADMIN_GUILD_TELEPORT);
 		commandsMap.put("teleport",      Command.ADMIN_GUILD_TELEPORT);
@@ -62,13 +54,6 @@ public class CommandAdminGuild extends AbstractCommandExecutor {
 		commandsMap.put("inactive",      Command.ADMIN_GUILD_INACTIVE);
 		commandsMap.put("kick",          Command.ADMIN_GUILD_KICK);
 		commandsMap.put("resetpoints",   Command.ADMIN_GUILD_RESET_POINTS);
-
-		noGuildCommands.add(Command.ADMIN_GUILD_LIST);
-		noGuildCommands.add(Command.ADMIN_GUILD_KICK);
-		noGuildCommands.add(Command.ADMIN_GUILD_SET_LEADER);
-		noGuildCommands.add(Command.ADMIN_GUILD_PURGE);
-		noGuildCommands.add(Command.ADMIN_GUILD_INACTIVE);
-		noGuildCommands.add(Command.ADMIN_GUILD_RESET_POINTS);
 	}
 
 	@Override
@@ -80,15 +65,14 @@ public class CommandAdminGuild extends AbstractCommandExecutor {
 			return;
 		}
 
-		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0 : 1];
-		CommandWrapper subCommand = commandsMap.get(subCmd.toLowerCase());
+		CommandWrapper subCommand = getCommandsMap().get(args[args.length >= 2 && getCommandsMap().get(args[1]) != null && getCommandsMap().get(args[1]).isReversed() ? 1 : 0]);
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);
 			return;
 		}
 
-		if(!noGuildCommands.contains(subCommand) && (args.length > 1 || !noGuildCommands.contains(subCommand))) {
+		if(subCommand.isReversed()) {
 			NovaGuild guild = GuildManager.getGuildFind(args[0]);
 
 			if(guild == null) {
@@ -99,6 +83,6 @@ public class CommandAdminGuild extends AbstractCommandExecutor {
 			subCommand.executorVariable(guild);
 		}
 
-		subCommand.execute(sender, StringUtils.parseArgs(args, noGuildCommands.contains(subCommand) ? 1 : 2));
+		subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 2));
 	}
 }

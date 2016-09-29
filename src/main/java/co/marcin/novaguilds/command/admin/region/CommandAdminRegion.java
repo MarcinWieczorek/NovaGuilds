@@ -27,15 +27,7 @@ import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class CommandAdminRegion extends AbstractCommandExecutor {
-	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
-	private static final List<CommandWrapper> noGuildCommands = new ArrayList<>();
-
 	public CommandAdminRegion() {
 		commandsMap.put("bypass",   Command.ADMIN_REGION_BYPASS);
 		commandsMap.put("bp",       Command.ADMIN_REGION_BYPASS);
@@ -45,10 +37,6 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 		commandsMap.put("list",     Command.ADMIN_REGION_LIST);
 		commandsMap.put("teleport", Command.ADMIN_REGION_TELEPORT);
 		commandsMap.put("tp",       Command.ADMIN_REGION_TELEPORT);
-
-		noGuildCommands.add(Command.ADMIN_REGION_BYPASS);
-		noGuildCommands.add(Command.ADMIN_REGION_LIST);
-		noGuildCommands.add(Command.ADMIN_REGION_SPECTATE);
 	}
 
 	@Override
@@ -59,15 +47,14 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 			return;
 		}
 
-		String subCmd = args[args.length == 1 || noGuildCommands.contains(commandsMap.get(args[0])) ? 0 : 1];
-		CommandWrapper subCommand = commandsMap.get(subCmd.toLowerCase());
+		CommandWrapper subCommand = getCommandsMap().get(args[args.length >= 2 && getCommandsMap().get(args[1]) != null && getCommandsMap().get(args[1]).isReversed() ? 1 : 0]);
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);
 			return;
 		}
 
-		if(!noGuildCommands.contains(subCommand)) {
+		if(subCommand.isReversed()) {
 			NovaGuild guild = GuildManager.getGuildFind(args[0]);
 
 			if(guild == null) {
@@ -83,6 +70,6 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 			subCommand.executorVariable(guild.getRegion());
 		}
 
-		subCommand.execute(sender, StringUtils.parseArgs(args, noGuildCommands.contains(subCommand) ? 1 : 2));
+		subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 2));
 	}
 }

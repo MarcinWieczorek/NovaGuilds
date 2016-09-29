@@ -23,12 +23,21 @@ import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.enums.Command;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class AbstractCommandExecutor implements CommandExecutor {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
+	public final Map<String, CommandWrapper> commandsMap = new HashMap<>();
 
 	@Override
 	public final CommandWrapper getCommand() {
 		return Command.getCommand(this);
+	}
+
+	@Override
+	public final Map<String, CommandWrapper> getCommandsMap() {
+		return commandsMap;
 	}
 
 	public static abstract class Reversed<T> extends AbstractCommandExecutor implements CommandExecutor.Reversed<T> {
@@ -36,12 +45,12 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public final void set(Object parameter) {
-			this.parameter = (T) parameter;
+		public final void set(T parameter) {
+			this.parameter = parameter;
 		}
 
 		@Override
-		public T getParameter() {
+		public final T getParameter() {
 			return parameter;
 		}
 	}

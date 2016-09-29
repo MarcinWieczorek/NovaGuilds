@@ -31,12 +31,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CommandGuild extends AbstractCommandExecutor implements CommandExecutor {
-	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
-
 	public CommandGuild() {
 		commandsMap.put("pay",      Command.GUILD_BANK_PAY);
 		commandsMap.put("withdraw", Command.GUILD_BANK_WITHDRAW);

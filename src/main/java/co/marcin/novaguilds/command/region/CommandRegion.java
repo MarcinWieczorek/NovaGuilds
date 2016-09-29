@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandRegion extends AbstractCommandExecutor {
-	public static final Map<String, CommandWrapper> commandsMap = new HashMap<>();
-
 	public CommandRegion() {
 		commandsMap.put("buy",    Command.REGION_BUY);
 		commandsMap.put("create", Command.REGION_BUY);

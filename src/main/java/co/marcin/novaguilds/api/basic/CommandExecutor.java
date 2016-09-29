@@ -20,6 +20,8 @@ package co.marcin.novaguilds.api.basic;
 
 import org.bukkit.command.CommandSender;
 
+import java.util.Map;
+
 public interface CommandExecutor {
 	/**
 	 * Execute the command
@@ -37,13 +39,20 @@ public interface CommandExecutor {
 	 */
 	CommandWrapper getCommand();
 
+	/**
+	 * Gets the commands map
+	 *
+	 * @return the map
+	 */
+	Map<String, CommandWrapper> getCommandsMap();
+
 	interface Reversed<T> extends CommandExecutor {
 		/**
 		 * Sets the parameter
 		 *
 		 * @param parameter the parameter
 		 */
-		void set(Object parameter);
+		void set(T parameter);
 
 		/**
 		 * Gets the parameter
