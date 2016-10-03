@@ -306,7 +306,7 @@ public class ConfigManager {
 		}
 
 		//Bar style enum
-		if(getServerVersion().isNewerThan(ServerVersion.MINECRAFT_1_8_R2)) {
+		if(getServerVersion().isNewerThan(ServerVersion.MINECRAFT_1_8_R3)) {
 			if(Config.BOSSBAR_RAIDBAR_STYLE.toEnum(BarStyle.class) == null) {
 				LoggerUtils.error("Invalid BarStyle enum. Resetting to default.");
 				Config.BOSSBAR_RAIDBAR_STYLE.set(BarStyle.SOLID.name());
