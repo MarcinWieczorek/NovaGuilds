@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.util.guiinventory;
 
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
@@ -80,7 +81,7 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 			add(homeTeleportItem);
 			add(playersItem);
 
-			if(getViewer().hasPermission(GuildPermission.RANK_EDIT)) {
+			if(getViewer().hasPermission(GuildPermission.RANK_EDIT) && Config.RANK_GUI.getBoolean()) {
 				add(ranksItem);
 			}
 

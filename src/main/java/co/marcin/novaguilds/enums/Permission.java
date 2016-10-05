@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.enums;
 
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -52,6 +53,10 @@ public enum Permission {
 	NOVAGUILDS_ADMIN_GUILD_TELEPORT_OTHER,
 	NOVAGUILDS_ADMIN_GUILD_FULLINFO,
 	NOVAGUILDS_ADMIN_GUILD_RESET_POINTS,
+	NOVAGUILDS_ADMIN_GUILD_RANK_ACCESS,
+	NOVAGUILDS_ADMIN_GUILD_RANK_LIST,
+	NOVAGUILDS_ADMIN_GUILD_RANK_EDIT,
+	NOVAGUILDS_ADMIN_GUILD_RANK_DELETE,
 	NOVAGUILDS_ADMIN_HOLOGRAM_ACCESS,
 	NOVAGUILDS_ADMIN_HOLOGRAM_LIST,
 	NOVAGUILDS_ADMIN_HOLOGRAM_TELEPORT,
@@ -105,6 +110,10 @@ public enum Permission {
 	NOVAGUILDS_GUILD_OPENINVITATION,
 	NOVAGUILDS_GUILD_SET_NAME,
 	NOVAGUILDS_GUILD_SET_TAG,
+	NOVAGUILDS_GUILD_RANK_ACCESS,
+	NOVAGUILDS_GUILD_RANK_LIST,
+	NOVAGUILDS_GUILD_RANK_EDIT,
+	NOVAGUILDS_GUILD_RANK_DELETE,
 
 	NOVAGUILDS_REGION_ACCESS,
 	NOVAGUILDS_REGION_CREATE,
@@ -127,6 +136,16 @@ public enum Permission {
 	 */
 	public boolean has(CommandSender sender) {
 		return sender.hasPermission(getPath()) || sender.isOp();
+	}
+
+	/**
+	 * Checks if a player has required permission
+	 *
+	 * @param nPlayer the player
+	 * @return boolean
+	 */
+	public boolean has(NovaPlayer nPlayer) {
+		return has(nPlayer.getPlayer());
 	}
 
 	/**

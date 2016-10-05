@@ -129,7 +129,7 @@ public class RankManager {
 		genericRanks.add(leaderRank);
 		int count = 1;
 
-		ConfigurationSection section = Config.GUILD_DEFAULTRANKS.getConfigurationSection();
+		ConfigurationSection section = Config.RANK_DEFAULTRANKS.getConfigurationSection();
 		for(String rankName : section.getKeys(false)) {
 			NovaRank rank = new GenericRankImpl(rankName);
 
@@ -138,6 +138,13 @@ public class RankManager {
 			}
 
 			genericRanks.add(rank);
+			count++;
+		}
+
+		//In case of missing default rank
+		if(count == 1) {
+			NovaRank defaultRank = new GenericRankImpl("Member");
+			genericRanks.add(defaultRank);
 			count++;
 		}
 

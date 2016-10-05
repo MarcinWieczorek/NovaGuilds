@@ -135,6 +135,8 @@ public enum VarKey {
 	DATE_DAY,
 	INPUT,
 	ITEMNAME,
+	ID,
+	UUID,
 
 	//Tablist top: Guilds by points
 	GUILD_TOP_N1,

@@ -327,6 +327,12 @@ public final class Command extends CommandWrapperImpl {
 		throw new IllegalArgumentException("Not allowed for built in commands");
 	}
 
+	/**
+	 * Gets a wrapper by executor
+	 *
+	 * @param executor the executor
+	 * @return the wrapper
+	 */
 	public static CommandWrapper getCommand(CommandExecutor executor) {
 		for(CommandWrapper wrapper : values()) {
 			if(wrapper.getExecutor().equals(executor)) {
@@ -337,6 +343,12 @@ public final class Command extends CommandWrapperImpl {
 		return null;
 	}
 
+	/**
+	 * Gets a wrapper by its generic command
+	 *
+	 * @param genericCommand generic command string
+	 * @return the wrapper
+	 */
 	public static CommandWrapper getByGenericCommand(String genericCommand) {
 		for(CommandWrapper wrapper : values()) {
 			if(wrapper.hasGenericCommand() && wrapper.getGenericCommand().equalsIgnoreCase(genericCommand)) {
@@ -347,6 +359,11 @@ public final class Command extends CommandWrapperImpl {
 		return null;
 	}
 
+	/**
+	 * Gets all commands
+	 *
+	 * @return array of CommandWrappers
+	 */
 	public static CommandWrapper[] values() {
 		return map.values().toArray(new CommandWrapper[0]);
 	}

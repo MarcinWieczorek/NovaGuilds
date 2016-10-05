@@ -680,6 +680,7 @@ inventory:
      remove: "Usuwanie_regionów"
      resize: "Zmiana_rozmiaru_regionów"
     rank:
+     list: "Wyświetlanie_listy_rang"
      set: "Ustawianie_rang_graczom"
      edit: "Edycja_rang"
 

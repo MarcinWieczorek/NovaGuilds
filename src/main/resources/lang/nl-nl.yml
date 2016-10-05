@@ -680,6 +680,7 @@ inventory:
      remove: "Removing_regions"
      resize: "Resizing_regions"
     rank:
+     list: "Listing_ranks"
      set: "Setting_ranks"
      edit: "Editing_ranks"
 

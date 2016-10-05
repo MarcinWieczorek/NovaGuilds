@@ -61,6 +61,7 @@ public enum GuildPermission {
 	REGION_REMOVE,
 	REGION_RESIZE,
 
+	RANK_LIST,
 	RANK_SET,
 	RANK_EDIT;
 

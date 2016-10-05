@@ -680,6 +680,7 @@ inventory:
      remove: "移除区域"
      resize: "重设区域大小"
     rank:
+     list: "Listing_ranks"
      set: "设置头衔"
      edit: "编辑头衔"
 

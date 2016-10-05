@@ -680,6 +680,7 @@ inventory:
      remove: "Gebiet_entfernen"
      resize: "Gebietsgröße_ändern"
     rank:
+     list: "Listing_ranks"
      set: "Rang_vergeben"
      edit: "Rang_bearbeiten"
 

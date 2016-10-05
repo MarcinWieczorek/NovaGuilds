@@ -37,7 +37,7 @@ public class YamlEnumTest {
 				"aliases.",
 				"gguicmd",
 				"groups",
-				"guild.defaultranks",
+				"rank.defaultranks",
 		};
 	}
 

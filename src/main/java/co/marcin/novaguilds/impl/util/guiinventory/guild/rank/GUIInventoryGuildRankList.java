@@ -22,8 +22,10 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
@@ -80,8 +82,11 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 			slot++;
 		}
 
-		addRankItem = Message.INVENTORY_GUI_RANKS_ADDITEM.getItemStack();
-		add(addRankItem);
+		if((Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()) || getViewer().hasPermission(GuildPermission.RANK_EDIT))
+				&& guild.getRanks().size() < Config.RANK_MAXAMOUNT.getInt()) {
+			addRankItem = Message.INVENTORY_GUI_RANKS_ADDITEM.getItemStack();
+			add(addRankItem);
+		}
 	}
 
 	@Override

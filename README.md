@@ -306,6 +306,22 @@ mvn clean install
             <td>Reset guild's points</td>
         </tr>
         <tr>
+            <td>novaguilds.admin.guild.rank.access</td>
+            <td>Accessing admin rank commands</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.rank.list</td>
+            <td>Listing ranks</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.rank.edit</td>
+            <td>Editing ranks</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.guild.rank.delete</td>
+            <td>Deleting ranks</td>
+        </tr>
+        <tr>
             <td>novaguilds.admin.hologram.access</td>
             <td>/nga h</td>
         </tr>
@@ -512,6 +528,22 @@ mvn clean install
         <tr>
             <td>novaguilds.guild.set.tag</td>
             <td>Set guild's tag</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.rank.access</td>
+            <td>Accessing rank commands</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.rank.list</td>
+            <td>Listing ranks</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.rank.edit</td>
+            <td>Editing ranks</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.rank.delete</td>
+            <td>Deleting ranks</td>
         </tr>
         <tr>
             <td>novaguilds.region.access</td>
