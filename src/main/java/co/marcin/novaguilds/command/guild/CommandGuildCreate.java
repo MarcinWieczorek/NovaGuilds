@@ -68,9 +68,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 
 		//remove colors
 		guildName = StringUtils.removeColors(guildName);
-		if(!Config.GUILD_SETTINGS_TAG_COLOR.getBoolean()) {
-			tag = StringUtils.removeColors(tag);
-		}
+		tag = StringUtils.removeColors(tag);
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 		Map<VarKey, String> vars = new HashMap<>();

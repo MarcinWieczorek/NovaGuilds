@@ -297,9 +297,6 @@ guild:
  settings:
 
   tag:
-# allow colored tags                              #
-   color: true
-
 # length                                          #
    min: 2
    max: 6
