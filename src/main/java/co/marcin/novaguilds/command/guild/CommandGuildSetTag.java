@@ -23,6 +23,7 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
@@ -48,7 +49,7 @@ public class CommandGuildSetTag extends AbstractCommandExecutor {
 		}
 
 		String newTag = args[0];
-
+		newTag = StringUtils.removeColors(newTag);
 		Message validity = CommandGuildCreate.validTag(newTag);
 
 		if(validity != null) {

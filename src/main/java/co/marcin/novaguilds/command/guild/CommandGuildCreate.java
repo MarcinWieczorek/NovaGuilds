@@ -248,6 +248,8 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 	 * @return return message
 	 */
 	public static Message validTag(String tag) {
+		tag = StringUtils.removeColors(tag);
+
 		if(GuildManager.getGuildByTag(tag) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_TAGEXISTS;
 		}

@@ -159,7 +159,7 @@ public class ChatMessageImpl implements ChatMessage {
 	@Override
 	public void report() {
 		if(!reported && isReportToConsole()) {
-			LoggerUtils.info(parse());
+			LoggerUtils.info(co.marcin.novaguilds.util.StringUtils.removeColors(parse()), false);
 			reported = true;
 		}
 	}

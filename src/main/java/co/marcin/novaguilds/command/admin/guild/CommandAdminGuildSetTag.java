@@ -20,8 +20,10 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
+import co.marcin.novaguilds.command.guild.CommandGuildCreate;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.event.GuildCreateEvent;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -39,8 +41,9 @@ public class CommandAdminGuildSetTag extends AbstractCommandExecutor.Reversed<No
 
 		String newTag = args[0];
 
-		if(GuildManager.getGuildFind(newTag) != null) {
-			Message.CHAT_CREATEGUILD_TAGEXISTS.send(sender);
+		Message validityMessage = CommandGuildCreate.validTag(newTag);
+		if(validityMessage != null) {
+			validityMessage.send(sender);
 			return;
 		}
 
