@@ -364,9 +364,13 @@ chat:
   war:
    ally: "First you need to end your ally with that guild."
    yourguildwar: "You cannot start a war with yourself!"
-   nowarinv:
-    success: "You asked guild &a{GUILDNAME} to stop the war"
-    notify: "&a{GUILDNAME} asked you to stop the war"
+   nowar:
+    invite:
+     success: "You asked guild &a{GUILDNAME} to stop the war"
+     notify: "&a{GUILDNAME} asked you to stop the war"
+    cancel:
+     success: "You have canceled the no-war invitation for &a{GUILDNAME}"
+     notify: "&a{GUILDNAME} has canceled their invitation to stop the war"
    list:
     nowars: "No wars."
     warsheader: "List of wars:"
@@ -664,6 +668,7 @@ inventory:
     war:
      invite:
       send: "Invite_to_stop_war"
+      cancel: "Cancel_no-war_invitation"
       accept: "Accept_no-war_invitation"
      start: "Start_a_war"
     bank:

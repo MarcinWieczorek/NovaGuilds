@@ -364,9 +364,13 @@ chat:
   war:
    ally: "Je moet eerst een einde maken aan het bondgenootschap met deze guild."
    yourguildwar: "Je kunt geen oorlog beginnen met je eigen guild!"
-   nowarinv:
-    success: "Je hebt gevraagd aan guild : &a{GUILDNAME} om de oorlog te beeindigen"
-    notify: "&a{GUILDNAME} Vraagt je te stoppen met de oorlog"
+   nowar:
+    invite:
+     success: "Je hebt gevraagd aan guild : &a{GUILDNAME} om de oorlog te beeindigen"
+     notify: "&a{GUILDNAME} Vraagt je te stoppen met de oorlog"
+    cancel:
+     success: "You have canceled the no-war invitation for &a{GUILDNAME}"
+     notify: "&a{GUILDNAME} has canceled their invitation to stop the war"
    list:
     nowars: "Geen oorlogen."
     warsheader: "Lijst van oorlogen:"
@@ -664,6 +668,7 @@ inventory:
     war:
      invite:
       send: "Invite_to_stop_war"
+      cancel: "Cancel_no-war_invitation"
       accept: "Accept_no-war_invitation"
      start: "Start_a_war"
     bank:

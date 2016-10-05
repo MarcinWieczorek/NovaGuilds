@@ -364,9 +364,13 @@ chat:
   war:
    ally: "Premièrement vous devez arrêter votre alliance avec cette guilde."
    yourguildwar: "Vous ne pouvez pas commencer une guerre avec vous-même!"
-   nowarinv:
-    success: "Vous avez demandé à &a{GUILDNAME} d'arrêter la guerre"
-    notify: "&a{GUILDNAME} vous à demandé d'arrêter la guerre"
+   nowar:
+    invite:
+     success: "Vous avez demandé à &a{GUILDNAME} d'arrêter la guerre"
+     notify: "&a{GUILDNAME} vous à demandé d'arrêter la guerre"
+    cancel:
+     success: "You have canceled the no-war invitation for &a{GUILDNAME}"
+     notify: "&a{GUILDNAME} has canceled their invitation to stop the war"
    list:
     nowars: "Aucune guerre."
     warsheader: "Liste des guerres:"
@@ -664,6 +668,7 @@ inventory:
     war:
      invite:
       send: "Inviter_pour_stopper_la_guerre"
+      cancel: "Cancel_no-war_invitation"
       accept: "Accepter_les_invitation_de_non-guerre"
      start: "Commencer_une_guerre"
     bank:

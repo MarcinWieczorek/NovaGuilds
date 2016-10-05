@@ -364,9 +364,13 @@ chat:
   war:
    ally: "Najpierw zakoncz sojusz z ta gildia"
    yourguildwar: "Nie mozesz wywolac wojny sam ze soba"
-   nowarinv:
-    success: "Poprosiles &a{GUILDNAME} aby zakonczyc wojne"
-    notify: "&a{GUILDNAME} poprosila o zakonczenie wojny"
+   nowar:
+    invite:
+     success: "Poprosiles &a{GUILDNAME} aby zakonczyc wojne."
+     notify: "&a{GUILDNAME} poprosila o zakonczenie wojny."
+    cancel:
+     success: "Odwołałeś prośbę o zakończenie wojny z gildią &a{GUILDNAME}."
+     notify: "&a{GUILDNAME} odwołała swoją prośbę o zakończenie wojny."
    list:
     nowars: "Brak wojen."
     warsheader: "Lista wojen:"
@@ -664,6 +668,7 @@ inventory:
     war:
      invite:
       send: "Prośba_o_zakończenie_wojny"
+      cancel: "Confnięcie_prośby_końca_wojny"
       accept: "Zakończenie_wojny"
      start: "Rozpoczęcie_wojny"
     bank:

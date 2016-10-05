@@ -112,6 +112,7 @@ public class YamlEnumTest {
 		File motherFile = new File(YamlParseTest.resourcesDirectory, "lang/en-en.yml");
 		YamlConfiguration motherConfiguration = Lang.loadConfiguration(motherFile);
 		final List<String> messageEnumNames = new ArrayList<>();
+
 		for(Message v : Message.values()) {
 			messageEnumNames.add(v.name());
 		}
