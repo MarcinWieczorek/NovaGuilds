@@ -69,7 +69,7 @@ public class RegionInteractListener extends AbstractListener {
 	public RegionInteractListener() {
 		super();
 
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+		if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
 			new Non1_7Events();
 		}
 	}
