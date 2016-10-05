@@ -49,7 +49,7 @@ public class CommandGuildBuyLife extends AbstractCommandExecutor {
 			return;
 		}
 
-		if(nPlayer.getGuild().getLives() + 1 > Config.GUILD_MAXLIVES.getInt()) {
+		if(nPlayer.getGuild().getLives() + 1 > Config.GUILD_LIVES_MAX.getInt()) {
 			Message.CHAT_GUILD_BUY_LIFE_MAXREACHED.send(sender);
 			return;
 		}

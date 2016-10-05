@@ -166,7 +166,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 				guild.setHome(player.getLocation());
 				guild.addPlayer(nPlayer);
 				guild.updateInactiveTime();
-				guild.setLives(Config.GUILD_START_LIVES.getInt());
+				guild.setLives(Config.GUILD_LIVES_START.getInt());
 				guild.setPoints(Config.GUILD_START_POINTS.getInt());
 				guild.setMoney(Config.GUILD_START_MONEY.getInt());
 				guild.setSlots(Config.GUILD_SLOTS_START.getInt());

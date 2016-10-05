@@ -266,15 +266,16 @@ guild:
  start:
   points: 1000
   money: 0
-  lives: 2
 
 # slots amount; start and maximum amount          #
  slots:
   start: 10
   max: 50
 
-# maximum amount of lives
- maxlives: 3
+# lives amount; start and maximum amount          #
+ lives:
+  start: 2
+  max: 3
 
 # minimal distance from spawn                     #
  fromspawn: 100

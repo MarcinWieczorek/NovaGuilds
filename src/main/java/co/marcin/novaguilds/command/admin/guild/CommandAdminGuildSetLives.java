@@ -49,8 +49,8 @@ public class CommandAdminGuildSetLives extends AbstractCommandExecutor.Reversed<
 			return;
 		}
 
-		if(lives > Config.GUILD_MAXLIVES.getInt()) {
-			Message.CHAT_MAXAMOUNT.setVar(VarKey.AMOUNT, Config.GUILD_MAXLIVES.getInt()).send(sender);
+		if(lives > Config.GUILD_LIVES_MAX.getInt()) {
+			Message.CHAT_MAXAMOUNT.setVar(VarKey.AMOUNT, Config.GUILD_LIVES_MAX.getInt()).send(sender);
 			return;
 		}
 
