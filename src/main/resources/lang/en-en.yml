@@ -9,6 +9,7 @@ chat:
  delayedtpmoved: "You moved! Teleportation canceled!"
  erroroccured: "&cAn error occurred. Contact server administrator."
  update: "&4There is an update available! &6http://www.novaguilds.pl/"
+ maxamount: "Maximum allowed amount is: &c{AMOUNT}"
  basic:
   negativenumber: "Please give a number greater or equal to zero."
   'on': "ON"
@@ -352,8 +353,10 @@ chat:
   kickyourself: "You cannot kick yourself from the guild!"
   tooclose: "You are too close to other guild"
   isfull: "This guild has reached the limit of players"
-  buylife: "You bought a life for your guild."
   buy:
+   life:
+    success: "You bought a life for your guild."
+    maxreached: "You can't buy more lives."
    slot:
     success: "You bought an additional slot for your guild."
     maxreached: "The slot amount has reached the maximum value."

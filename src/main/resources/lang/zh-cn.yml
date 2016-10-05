@@ -9,6 +9,7 @@ chat:
  delayedtpmoved: "您的位置发生了移动,传送已取消.!"
  erroroccured: "&c错误,请联系服务器管理员."
  update: "&4发现版本更新！&a请点击查看：&6http://www.novaguilds.pl/"
+ maxamount: "Maximum allowed amount is: &c{AMOUNT}"
  basic:
   negativenumber: "请输入数字(不得小于0)"
   'on': "开"
@@ -352,8 +353,10 @@ chat:
   kickyourself: "你无法将自己踢出公会！"
   tooclose: "您的位置距离其他公会太近！"
   isfull: "公会成员数目已达到上限."
-  buylife: "为你的公会买一个生活区."
   buy:
+   life:
+    success: "为你的公会买一个生活区."
+    maxreached: "You can't buy more lives."
    slot:
     success: "为你公会购买了一个人数上限."
     maxreached: "The slot amount has reached the maximum value."

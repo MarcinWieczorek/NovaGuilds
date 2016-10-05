@@ -21,6 +21,7 @@ package co.marcin.novaguilds.command.guild;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.GroupManager;
@@ -48,6 +49,11 @@ public class CommandGuildBuyLife extends AbstractCommandExecutor {
 			return;
 		}
 
+		if(nPlayer.getGuild().getLives() + 1 > Config.GUILD_MAXLIVES.getInt()) {
+			Message.CHAT_GUILD_BUY_LIFE_MAXREACHED.send(sender);
+			return;
+		}
+
 		NovaGroup group = GroupManager.getGroup(sender);
 
 		List<ItemStack> items = group.getItemStackList(NovaGroup.Key.BUY_LIFE_ITEMS);
@@ -70,10 +76,9 @@ public class CommandGuildBuyLife extends AbstractCommandExecutor {
 
 		nPlayer.getGuild().takeMoney(money);
 		InventoryUtils.removeItems(nPlayer.getPlayer(), items);
-
 		nPlayer.getGuild().addLive();
 
-		Message.CHAT_GUILD_BUYLIFE.send(sender);
+		Message.CHAT_GUILD_BUY_LIFE_SUCCESS.send(sender);
 		TabUtils.refresh(nPlayer.getGuild());
 	}
 }

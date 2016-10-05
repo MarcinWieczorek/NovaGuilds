@@ -9,6 +9,7 @@ chat:
  delayedtpmoved: "Ruszyles sie, teleportacja anulowana."
  erroroccured: "Wystapil blad. Skontaktuj sie z administratorem"
  update: "&4Dostepna jest aktualizacja! &6http://www.novaguilds.pl/"
+ maxamount: "Maksymalna dozwolona wartość to: &c{AMOUNT}"
  basic:
   negativenumber: "Wprowadz liczbe wieksza lub rowna zeru."
   'on': "ON"
@@ -352,8 +353,10 @@ chat:
   kickyourself: "Nie mozesz wyrzucic siebie z gildii!"
   tooclose: "Jestes zbyt blisko innej gildii"
   isfull: "Ta gildia osiągnęła limit graczy."
-  buylife: "Kupiles dodatkowe zycie dla swojej gildii"
   buy:
+   life:
+    success: "Kupiles dodatkowe zycie dla swojej gildii"
+    maxreached: "Maksymalna ilość żyć została osiągnięta"
    slot:
     success: "Kupiles dodatkowy slot dla swojej gildii."
     maxreached: "Maksymalna ilość slotów została osiągnięta."

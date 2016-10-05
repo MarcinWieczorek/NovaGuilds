@@ -9,6 +9,7 @@ chat:
  delayedtpmoved: "Vous avez bougé! Téléportation annulé!"
  erroroccured: "&cUne erreur à eu lieu. Contactez l'administrateur du serveur."
  update: "&4Il y a une mise à jour disponible! &6http://www.novaguilds.pl/"
+ maxamount: "Maximum allowed amount is: &c{AMOUNT}"
  basic:
   negativenumber: "Merci de donner un nombre plus grand ou égal à zero."
   'on': "ON"
@@ -352,8 +353,10 @@ chat:
   kickyourself: "Vous ne pouvez pas vous éjecter vous même de la guilde!"
   tooclose: "Vous êtes trop proche d'une autre guilde"
   isfull: "Cette guilde à atteint sa limite de joueurs"
-  buylife: "Vous avez acheté une vie pour votre guilde."
   buy:
+   life:
+    success: "Vous avez acheté une vie pour votre guilde."
+    maxreached: "You can't buy more lives."
    slot:
     success: "Vous avez acheté un emplacement supplementaire pour votre guilde."
     maxreached: "Le montant des emplacement a atteint sa valeur maximum."

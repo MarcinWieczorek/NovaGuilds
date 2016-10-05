@@ -49,7 +49,7 @@ public class CommandGuildBuySlot extends AbstractCommandExecutor {
 			return;
 		}
 
-		if(nPlayer.getGuild().getSlots() >= Config.GUILD_SLOTS_MAX.getInt()) {
+		if(nPlayer.getGuild().getSlots() + 1 > Config.GUILD_SLOTS_MAX.getInt()) {
 			Message.CHAT_GUILD_BUY_SLOT_MAXREACHED.send(sender);
 			return;
 		}

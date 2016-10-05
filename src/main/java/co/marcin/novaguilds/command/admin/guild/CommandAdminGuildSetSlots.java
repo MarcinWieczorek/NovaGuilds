@@ -20,7 +20,9 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
@@ -49,6 +51,11 @@ public class CommandAdminGuildSetSlots extends AbstractCommandExecutor.Reversed<
 
 		if(slots < guild.getPlayers().size()) {
 			Message.CHAT_ADMIN_GUILD_SET_SLOTS_SMALLERTHANPLAYERS.send(sender);
+			return;
+		}
+
+		if(slots > Config.GUILD_SLOTS_MAX.getInt()) {
+			Message.CHAT_MAXAMOUNT.setVar(VarKey.AMOUNT, Config.GUILD_SLOTS_MAX.getInt()).send(sender);
 			return;
 		}
 

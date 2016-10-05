@@ -9,6 +9,7 @@ chat:
  delayedtpmoved: "Du hast dich bewegt. Teleportation wurde gestoppt."
  erroroccured: "Ein Fehler ist aufgetreten. Kontaktieren Sie Ihren Administrator!"
  update: "&cEs gibt ein Update! &6http://www.novaguilds.pl/"
+ maxamount: "Maximum allowed amount is: &c{AMOUNT}"
  basic:
   negativenumber: "Du musst eine positive Zahl eingeben."
   'on': "AN"
@@ -352,8 +353,10 @@ chat:
   kickyourself: "Du kannst dich selbst nicht von der Gilde entfernen!"
   tooclose: "Du bist zu nah an einer anderen Gilde!"
   isfull: "Die Gilde hat die maximale Anzahl an Spielern erreicht!"
-  buylife: "Du hast ein Leben für deine Gilde gekauft."
   buy:
+   life:
+    success: "Du hast ein Leben für deine Gilde gekauft."
+    maxreached: "You can't buy more lives."
    slot:
     success: "Du hast einen Extraplatz für deine Gilde gekauft."
     maxreached: "The slot amount has reached the maximum value."

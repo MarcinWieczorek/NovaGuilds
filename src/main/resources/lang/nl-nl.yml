@@ -9,6 +9,7 @@ chat:
  delayedtpmoved: "Je hebt bewogen! je wordt niet verplaatst!"
  erroroccured: "&cEr is een Fout opgetreden. Neem contact op met de beheerder."
  update: "&4Er is een nieuwe versie beschikbaar op : &6http://www.novaguilds.pl/"
+ maxamount: "Maximum allowed amount is: &c{AMOUNT}"
  basic:
   negativenumber: "Geef een waarde in hoger of gelijk aan nul."
   'on': "Aan"
@@ -352,8 +353,10 @@ chat:
   kickyourself: "Je kunt je zelf niet verwijderen uit de guild!"
   tooclose: "Er is een andere guild te dicht bij!"
   isfull: "Deze guild heeft het maximale aantal spelers bereikt"
-  buylife: "je hebt een leven voor je guild gekocht."
   buy:
+   life:
+    success: "je hebt een leven voor je guild gekocht."
+    maxreached: "You can't buy more lives."
    slot:
     success: "Je hebt een extra slot gekocht voor je guild."
     maxreached: "Deze guild heeft het maximale aantal spelers bereikt."

@@ -20,7 +20,9 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
@@ -44,6 +46,11 @@ public class CommandAdminGuildSetLives extends AbstractCommandExecutor.Reversed<
 
 		if(lives < 0) {
 			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+			return;
+		}
+
+		if(lives > Config.GUILD_MAXLIVES.getInt()) {
+			Message.CHAT_MAXAMOUNT.setVar(VarKey.AMOUNT, Config.GUILD_MAXLIVES.getInt()).send(sender);
 			return;
 		}
 
