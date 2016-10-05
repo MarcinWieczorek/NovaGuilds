@@ -39,6 +39,13 @@ public class TabCompleterGuild implements TabCompleter {
 		final Set<String> keys = new HashSet<>();
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
+		if(cmd.getName().equalsIgnoreCase("gi")) {
+			args = new String[] {
+					"info",
+					args.length == 0 ? "" : args[0]
+			};
+		}
+
 		if(args.length > 1) {
 			switch(args[0].toLowerCase()) {
 				case "rg":
