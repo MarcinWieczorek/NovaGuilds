@@ -6,7 +6,7 @@
 
     <groupId>co.marcin</groupId>
     <artifactId>novaguilds</artifactId>
-    <version>38-SNAPSHOT</version>
+    <version>38</version>
 
     <distributionManagement>
         <repository>
