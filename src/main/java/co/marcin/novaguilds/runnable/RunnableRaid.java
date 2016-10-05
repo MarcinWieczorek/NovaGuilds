@@ -99,7 +99,7 @@ public class RunnableRaid implements Runnable {
 						if(!guildAbandonEvent.isCancelled()) {
 							vars.put(VarKey.GUILDNAME, guildDefender.getName());
 							Message.BROADCAST_GUILD_DESTROYED.vars(vars).broadcast();
-							plugin.getGuildManager().delete(guildDefender);
+							plugin.getGuildManager().delete(guildAbandonEvent);
 						}
 						break;
 					case SUCCESS:

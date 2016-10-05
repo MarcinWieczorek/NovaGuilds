@@ -23,5 +23,7 @@ public enum AbandonCause {
 	ADMIN_ALL,
 	PLAYER,
 	INACTIVE,
-	RAID
+	RAID,
+	UNLOADED,
+	INVALID
 }

@@ -218,7 +218,7 @@ public class GuildManager {
 	 *
 	 * @param guild guild instance
 	 */
-	public void delete(NovaGuild guild) {
+	public void delete(NovaGuild guild, AbandonCause cause) {
 		getResourceManager().addToRemovalQueue(guild);
 
 		//remove region
@@ -227,7 +227,20 @@ public class GuildManager {
 		}
 
 		guilds.remove(guild.getName());
-		guild.destroy();
+		guild.destroy(cause);
+	}
+
+	/**
+	 * Deletes a guild
+	 *
+	 * @param event guild abandon event
+	 */
+	public void delete(GuildAbandonEvent event) {
+		if(event.isCancelled()) {
+			return;
+		}
+
+		delete(event.getGuild(), event.getCause());
 	}
 
 	/**
@@ -295,15 +308,16 @@ public class GuildManager {
 
 			if(remove) {
 				LoggerUtils.info("Unloaded guild " + guild.getName());
+
 				if(Config.DELETEINVALID.getBoolean()) {
-					delete(guild);
+					delete(guild, AbandonCause.INVALID);
 					LoggerUtils.info("DELETED guild " + guild.getName());
 				}
 				else {
 					guilds.remove(guild.getName());
+					guild.destroy(AbandonCause.UNLOADED);
 				}
 
-				guild.destroy();
 				guild.unload();
 				i++;
 			}
@@ -531,7 +545,7 @@ public class GuildManager {
 				LoggerUtils.info("Abandoned guild " + guild.getName() + " due to inactivity.");
 				count++;
 
-				plugin.getGuildManager().delete(guild);
+				plugin.getGuildManager().delete(guildAbandonEvent);
 			}
 		}
 

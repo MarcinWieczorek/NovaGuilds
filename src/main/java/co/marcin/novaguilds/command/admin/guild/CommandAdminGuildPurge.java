@@ -46,7 +46,7 @@ public class CommandAdminGuildPurge extends AbstractCommandExecutor {
 			//if event is not cancelled
 			if(!guildAbandonEvent.isCancelled()) {
 				//delete guild
-				plugin.getGuildManager().delete(guild);
+				plugin.getGuildManager().delete(guildAbandonEvent);
 
 				Map<VarKey, String> vars = new HashMap<>();
 				vars.put(VarKey.PLAYERNAME, sender.getName());

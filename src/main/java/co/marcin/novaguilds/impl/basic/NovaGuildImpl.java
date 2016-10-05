@@ -25,6 +25,7 @@ import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.IConverter;
+import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.impl.util.NonNullArrayList;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
@@ -738,6 +739,11 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public void destroy() {
+		destroy(AbandonCause.PLAYER);
+	}
+
+	@Override
+	public void destroy(AbandonCause cause) {
 		final NovaGuilds plugin = NovaGuilds.getInstance();
 
 		//remove players
@@ -800,7 +806,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		}
 
 		GuildManager.checkVaultDestroyed(this);
-		if(Config.DEBUG.getBoolean() && getVaultLocation() != null) {
+		if(cause != AbandonCause.UNLOADED && getVaultLocation() != null) {
 			getVaultLocation().getBlock().breakNaturally();
 			getVaultLocation().getWorld().playEffect(getVaultLocation(), Effect.SMOKE, 1000);
 		}

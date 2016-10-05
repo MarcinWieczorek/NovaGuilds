@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.api.basic;
 
 import co.marcin.novaguilds.api.storage.Resource;
+import co.marcin.novaguilds.enums.AbandonCause;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -654,7 +655,15 @@ public interface NovaGuild extends Resource {
 	/**
 	 * Destroys the guild
 	 */
+	@Deprecated
 	void destroy();
+
+	/**
+	 * Destroys the guild
+	 *
+	 * @param cause abandon cause
+	 */
+	void destroy(AbandonCause cause);
 
 	/**
 	 * Shows the vault hologram to a player

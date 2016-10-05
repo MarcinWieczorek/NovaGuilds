@@ -42,7 +42,7 @@ public class CommandAdminGuildAbandon extends AbstractCommandExecutor.Reversed<N
 
 		//if event is not cancelled
 		if(!guildAbandonEvent.isCancelled()) {
-			plugin.getGuildManager().delete(guild);
+			plugin.getGuildManager().delete(guildAbandonEvent);
 
 			Map<VarKey, String> vars = new HashMap<>();
 			vars.put(VarKey.PLAYERNAME, sender.getName());

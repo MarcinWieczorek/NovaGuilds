@@ -75,7 +75,7 @@ public class CommandGuildAbandon extends AbstractCommandExecutor implements Comm
 
 		//if event is not cancelled
 		if(!guildAbandonEvent.isCancelled()) {
-			plugin.getGuildManager().delete(guild);
+			plugin.getGuildManager().delete(guildAbandonEvent);
 
 			Message.CHAT_GUILD_ABANDONED.send(sender);
 
