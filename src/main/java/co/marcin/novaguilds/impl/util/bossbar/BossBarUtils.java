@@ -30,62 +30,74 @@ public class BossBarUtils {
 
 	static {
 		if(bossBarUtils == null) {
+			AbstractBossBarUtils abstractBossBarUtils = new AbstractBossBarUtils() {
+				@Override
+				public void setMessage(Player player, String message) {
+
+				}
+
+				@Override
+				public void setMessage(Player player, String message, float percent) {
+
+				}
+
+				@Override
+				public void setMessage(Player player, String message, int seconds) {
+
+				}
+
+				@Override
+				public boolean hasBar(Player player) {
+					return false;
+				}
+
+				@Override
+				public void removeBar(Player player) {
+
+				}
+
+				@Override
+				public void setHealth(Player player, float percent) {
+
+				}
+
+				@Override
+				public float getHealth(Player player) {
+					return 0;
+				}
+
+				@Override
+				public String getMessage(Player player) {
+					return null;
+				}
+			};
+
 			if(Config.BOSSBAR_ENABLED.getBoolean()) {
 				switch(ConfigManager.getServerVersion()) {
+					case MINECRAFT_1_7_R3:
 					case MINECRAFT_1_7_R4:
 					case MINECRAFT_1_8_R2:
-						boolean bossBarAPI = NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BOSSBARAPI);
-						bossBarUtils = bossBarAPI ? new BossBarUtilsBossBarImpl() : new BossBarUtilsBarAPIImpl();
+					case MINECRAFT_1_8_R3:
+						if(NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BOSSBARAPI)) {
+							bossBarUtils = new BossBarUtilsBossBarImpl();
+						}
+						else {
+							bossBarUtils = new BossBarUtilsBarAPIImpl();
+						}
 						break;
 					case MINECRAFT_1_9_R1:
 					case MINECRAFT_1_9_R2:
 					case MINECRAFT_1_10_R1:
+					case MINECRAFT_1_10_R2:
 						bossBarUtils = new BossBarUtilsBukkitImpl();
+						break;
+					default:
+						bossBarUtils = abstractBossBarUtils;
 						break;
 				}
 			}
 			else {
-				bossBarUtils = new AbstractBossBarUtils() {
-					@Override
-					public void setMessage(Player player, String message) {
-
-					}
-
-					@Override
-					public void setMessage(Player player, String message, float percent) {
-
-					}
-
-					@Override
-					public void setMessage(Player player, String message, int seconds) {
-
-					}
-
-					@Override
-					public boolean hasBar(Player player) {
-						return false;
-					}
-
-					@Override
-					public void removeBar(Player player) {
-
-					}
-
-					@Override
-					public void setHealth(Player player, float percent) {
-
-					}
-
-					@Override
-					public float getHealth(Player player) {
-						return 0;
-					}
-
-					@Override
-					public String getMessage(Player player) {
-						return null;
-					}
-				};
+				bossBarUtils = abstractBossBarUtils;
 			}
 		}
 	}
