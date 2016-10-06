@@ -43,8 +43,8 @@ public final class InventoryUtils {
 	 * @param items  list of items
 	 */
 	public static void removeItems(Player player, List<ItemStack> items) {
-		if(player.getGameMode() != GameMode.CREATIVE) {
-			for(ItemStack item : items) {
+		for(ItemStack item : items) {
+			if(player.getGameMode() != GameMode.CREATIVE || item.hasItemMeta()) {
 				player.getInventory().removeItem(item);
 			}
 		}
