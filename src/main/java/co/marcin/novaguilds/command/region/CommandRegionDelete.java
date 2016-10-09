@@ -19,10 +19,12 @@
 package co.marcin.novaguilds.command.region;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandRegionDelete extends AbstractCommandExecutor {
@@ -45,7 +47,29 @@ public class CommandRegionDelete extends AbstractCommandExecutor {
 			return;
 		}
 
+		NovaRegion region;
+		if(args.length == 0) {
+			region = nPlayer.getAtRegion();
+		}
+		else {
+			String indexString = args[0];
+
+			if(!NumberUtils.isNumeric(indexString)) {
+				Message.CHAT_ENTERINTEGER.send(sender);
+				return;
+			}
+
+			int index = Integer.parseInt(indexString);
+
+			region = nPlayer.getGuild().getRegion(index);
+		}
+
+		if(region == null) {
+			Message.CHAT_REGION_NOTFOUND.send(sender);
+			return;
+		}
+
 		Message.CHAT_REGION_DELETED.send(sender);
-		plugin.getRegionManager().remove(nPlayer.getGuild().getRegion());
+		plugin.getRegionManager().remove(region);
 	}
 }

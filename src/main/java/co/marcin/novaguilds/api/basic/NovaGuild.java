@@ -113,11 +113,19 @@ public interface NovaGuild extends Resource {
 	String getTag();
 
 	/**
-	 * Gets the region
+	 * Gets the region list
 	 *
 	 * @return the region instance
 	 */
-	NovaRegion getRegion();
+	List<NovaRegion> getRegions();
+
+	/**
+	 * Gets a region by it's index
+	 *
+	 * @param index region index
+	 * @return region instance
+	 */
+	NovaRegion getRegion(int index);
 
 	/**
 	 * Gets the vault hologram
@@ -261,11 +269,25 @@ public interface NovaGuild extends Resource {
 	void setTag(String tag);
 
 	/**
-	 * Sets the region
+	 * Sets the region list
 	 *
 	 * @param region the region instance
 	 */
-	void setRegion(NovaRegion region);
+	void setRegions(List<NovaRegion> region);
+
+	/**
+	 * Add a region
+	 *
+	 * @param region region instance
+	 */
+	void addRegion(NovaRegion region);
+
+	/**
+	 * Remove a region
+	 *
+	 * @param region region instance
+	 */
+	void removeRegion(NovaRegion region);
 
 	/**
 	 * Sets the leader name
@@ -480,6 +502,14 @@ public interface NovaGuild extends Resource {
 	 * @return boolean
 	 */
 	boolean hasRegion();
+
+	/**
+	 * Checks if the guild owns a region
+	 *
+	 * @param region region instance
+	 * @return boolean
+	 */
+	boolean ownsRegion(NovaRegion region);
 
 	/**
 	 * Checks if the guild is being raid

@@ -24,10 +24,12 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.enums.RegionValidity;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -35,7 +37,6 @@ import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
 import java.util.UUID;
 
 public class CommandRegionBuy extends AbstractCommandExecutor {
@@ -55,14 +56,9 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 			return;
 		}
 
-		if(guild.hasRegion() && nPlayer.getRegionMode() != RegionMode.RESIZE) {
-			Message.CHAT_GUILD_HASREGIONALREADY.send(sender);
-			return;
-		}
-
 		RegionSelection activeSelection = nPlayer.getActiveSelection();
 
-		if(activeSelection == null) {
+		if(activeSelection == null || !activeSelection.hasBothSelections()) {
 			Message.CHAT_REGION_VALIDATION_NOTSELECTED.send(sender);
 			return;
 		}
@@ -70,22 +66,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 		Location selectedLocation0 = activeSelection.getCorner(0);
 		Location selectedLocation1 = activeSelection.getCorner(1);
 
-		RegionValidity selectionValidity = plugin.getRegionManager().checkRegionSelect(selectedLocation0, selectedLocation1);
-
-		if(nPlayer.getRegionMode() == RegionMode.RESIZE && selectionValidity == RegionValidity.OVERLAPS) {
-			List<NovaRegion> regionsOverlapped = plugin.getRegionManager().getRegionsInsideArea(selectedLocation0, selectedLocation1);
-			if(regionsOverlapped.size() == 1 && regionsOverlapped.get(0).equals(nPlayer.getGuild().getRegion())) {
-				selectionValidity = RegionValidity.VALID;
-			}
-		}
-
-		if(selectionValidity == RegionValidity.TOOCLOSE) {
-			List<NovaGuild> guildsTooClose = plugin.getRegionManager().getGuildsTooClose(selectedLocation0, selectedLocation1);
-
-			if(guildsTooClose.size() == 1 && guildsTooClose.get(0).equals(nPlayer.getGuild())) {
-				selectionValidity = RegionValidity.VALID;
-			}
-		}
+		RegionValidity selectionValidity = plugin.getRegionManager().checkRegionSelect(activeSelection);
 
 		if(selectionValidity != RegionValidity.VALID) {
 			Message.CHAT_REGION_VALIDATION_NOTVALID.send(sender);
@@ -94,13 +75,18 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 
 		int regionSize = RegionUtils.checkRegionSize(selectedLocation0, selectedLocation1);
 
+		if(guild.getRegions().size() >= Config.REGION_MAXAMOUNT.getInt()) {
+			Message.CHAT_REGION_MAXAMOUNT.setVar(VarKey.AMOUNT, Config.REGION_MAXAMOUNT.getInt()).send(nPlayer);
+			return;
+		}
+
 		//region's price
 		double price;
 		NovaGroup group = GroupManager.getGroup(sender);
 		double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
 
 		if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
-			price = ppb * (regionSize - guild.getRegion().getSurface());
+			price = ppb * (regionSize - activeSelection.getSelectedRegion().getSurface());
 		}
 		else {
 			price = ppb * regionSize + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY);
@@ -112,19 +98,17 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 		}
 
 		if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
-			NovaRegion region = guild.getRegion();
+			NovaRegion region = activeSelection.getSelectedRegion();
 
 			region.setCorner(0, activeSelection.getCorner(0));
 			region.setCorner(1, activeSelection.getCorner(1));
 
-			region.getCorner(0).setY(0);
-			region.getCorner(1).setY(0);
 			Message.CHAT_REGION_RESIZE_SUCCESS.send(sender);
 		}
 		else {
 			NovaRegion region = new NovaRegionImpl(UUID.randomUUID(), nPlayer.getActiveSelection());
 
-			nPlayer.getGuild().setRegion(region);
+			nPlayer.getGuild().addRegion(region);
 			Message.CHAT_REGION_CREATED.send(sender);
 		}
 

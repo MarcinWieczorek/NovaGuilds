@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
@@ -222,8 +223,8 @@ public class GuildManager {
 		getResourceManager().addToRemovalQueue(guild);
 
 		//remove region
-		if(guild.hasRegion()) {
-			plugin.getRegionManager().remove(guild.getRegion());
+		for(NovaRegion region : new ArrayList<>(guild.getRegions())) {
+			plugin.getRegionManager().remove(region);
 		}
 
 		guilds.remove(guild.getName());

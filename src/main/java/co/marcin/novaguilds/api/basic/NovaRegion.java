@@ -88,6 +88,13 @@ public interface NovaRegion extends Resource {
 	Location getCenter();
 
 	/**
+	 * Returns region number
+	 *
+	 * @return region index
+	 */
+	Integer getIndex();
+
+	/**
 	 * Sets the world
 	 *
 	 * @param world the world
@@ -115,4 +122,11 @@ public interface NovaRegion extends Resource {
 	 * @param location the location
 	 */
 	void setCorner(int index, Location location);
+
+	/**
+	 * Sets the region index
+	 *
+	 * @param index new index
+	 */
+	void setIndex(Integer index);
 }

@@ -154,9 +154,9 @@ chat:
      points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's points"
    region:
     access: "&4&l> &7/nga &crg &2- &6Gebietsbefehle"
-    list: "&4&l> &7/nga &crg &6list &2- &6Gebieteliste"
-    delete: "&4&l> &7/nga &crg &6<&cGilde&6> &cdel &2- &6Löscht ein Gebiet"
-    teleport: "&4&l> &7/nga &crg &6<&cGilde&6> &ctp &2- &6Teleportiert zum Gildengebiet"
+    list: "&4&l> &7/nga &crg &6list &6[&cGilde&6] &2- &6Gebieteliste"
+    delete: "&4&l> &7/nga &crg &6<&cGilde&6> &cdel &6<&cindex&6> &2- &6Löscht ein Gebiet"
+    teleport: "&4&l> &7/nga &crg &6<&cGilde&6> &ctp &6<&cindex&6> &6[&cSpieler&6] &2- &6Teleportiert zum Gildengebiet"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cSpieler&6] &2- &6ändert den Umgehungsmodus"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
   guild:
@@ -193,7 +193,8 @@ chat:
   region:
    access: "&4&l> &7/g &crg &2- &6Gebietsbefehle"
    buy: "&4&l> &7/g &crg &6buy &2- &6Erstellt ein Gebiet"
-   delete: "&4&l> &7/g &crg &6delete &2- &6Löscht ein Gebiet"
+   delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Löscht ein Gebiet"
+   list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6Prüfe oder wähle dein Gebiet mit diesen Werkzeug!"
 
  commands:
@@ -347,7 +348,6 @@ chat:
    name: "Guild's name has been set."
    tag: "Guild's tag has been set."
   home: "Du wurdest zum Gilden Haus teleporiert."
-  hasregionalready: "Deine Gilde hat schon ein Bereich. Vergrößere oder lösche ihn!"
   joined: "Du bist der Gilde beigetreten!"
   explosionatregion: "Da war eine Explosion in deinem Gildengebiet!"
   kickyourself: "Du kannst dich selbst nicht von der Gilde entfernen!"
@@ -457,19 +457,22 @@ chat:
   size: "Die Größe des ausgewählten Gebietes ist: &c{SIZE} Blöcke groß!"
   price: "Dieses Gebiet zu kaufen kostet: &c${PRICE}"
   cnotafford: "Du kannst dieses Gebiet nicht kaufen. Du brauchst &c${NEEDMORE} mehr um dir das leisten zu können!"
+  maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "Gebiet erfolgreich erstellt!"
   mustveguild: "Du brauchst eine Gilde um das Gebiet kaufen zu können. &c/create"
   entered: "Du hast das Gebiet von der Gilde &a{GUILDNAME} betreten"
   exited: "Du hast das Gebiet von der Gilde &a{GUILDNAME} verlassen"
+  notfound: "Could not find the region"
   resize:
    start: "Gebietsgröße wird geändert... Setze es mit einem &cRechtsklick."
+   toggle: "Corner toggled."
    success: "Gebietsgröße erfolgreich geändert!"
   notifyguild:
    entered: "Spieler &c{PLAYERNAME} hat dein Gildengebiet betreten!"
-  belongsto: "Dieses Gebiet gehört zur Gilde &a{GUILDNAME}"
+  belongsto: "Dieses Gebiet gehört zur Gilde &a{GUILDNAME} (i=&a{INDEX})"
   list:
    header: "Gebiete Liste:"
-   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Gebietsmodus gewechselt. Momentan: &c{MODE}"
    modes:

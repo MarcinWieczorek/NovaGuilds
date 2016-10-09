@@ -154,9 +154,9 @@ chat:
      points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's points"
    region:
     access: "&4&l> &7/nga &crg &2- &6领地管理指令"
-    list: "&4&l> &7/nga &crg &6list &2- &6列出所有领地"
-    delete: "&4&l> &7/nga &crg &6del &6<&c公会名&6> &2- &6删除指定领地"
-    teleport: "&4&l> &7/nga &crg &6tp &6<&c公会名&6> &2- &6传送至指定领地"
+    list: "&4&l> &7/nga &crg &6list &6[&c公会名&6] &2- &6列出所有领地"
+    delete: "&4&l> &7/nga &crg &6<&c公会名&6> &6del &6<&cindex&6> &2- &6删除指定领地"
+    teleport: "&4&l> &7/nga &crg &6tp &6<&c公会名&6> &6<&cindex&6> &6[&c玩家&6] &2- &6传送至指定领地"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&c玩家&6] &2- &6更改通行权限"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
   guild:
@@ -193,7 +193,8 @@ chat:
   region:
    access: "&4&l> &7/g &crg &2- &6领地命令"
    buy: "&4&l> &7/g &crg &6buy &2- &6创建领地"
-   delete: "&4&l> &7/g &crg &6delete &2- &6删除领地"
+   delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6删除领地"
+   list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6用工具检查指定领地"
 
  commands:
@@ -347,7 +348,6 @@ chat:
    name: "Guild's name has been set."
    tag: "Guild's tag has been set."
   home: "已返回公会出生点."
-  hasregionalready: "你的公会已拥有领地,您可以扩张他的大小或删除他并重新在新的位置设置领地."
   joined: "您已加入该公会！"
   explosionatregion: "在您的公会领地内发生了一次爆炸！"
   kickyourself: "你无法将自己踢出公会！"
@@ -457,19 +457,22 @@ chat:
   size: "选择的区域大小: &c{SIZE} 方格."
   price: "购买该区域需支付的费用: &c${PRICE}"
   cnotafford: "无法购买该区域,你还需要&c${NEEDMORE}."
+  maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "领地购买成功."
   mustveguild: "你需要成立公会以购买该区域,请输入&c/create&6以成立公会."
   entered: "您已进入了 &a{GUILDNAME} 公会的领地."
   exited: "您退出了 &a{GUILDNAME} 公会的领地."
+  notfound: "Could not find the region"
   resize:
    start: "正在调整领地大小,请使用&c鼠标右键&6进行调整."
+   toggle: "Corner toggled."
    success: "领地大小调整完成."
   notifyguild:
    entered: "&c{PLAYERNAME}已进入您的公会领地！"
-  belongsto: "该领地属于&a{GUILDNAME}公会"
+  belongsto: "该领地属于&a{GUILDNAME}公会 (i=&a{INDEX})"
   list:
    header: "领地列表："
-   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "领地模式已更改,现在的模式为： &c{MODE}"
    modes:

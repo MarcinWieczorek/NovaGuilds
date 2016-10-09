@@ -32,6 +32,7 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	private int id;
 	private World world;
 	private NovaGuild guild;
+	private Integer index;
 
 	/**
 	 * The constructor
@@ -73,6 +74,10 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 
 	@Override
 	public Location getCorner(int index) {
+		if(index != 0 && index != 1) {
+			throw new IllegalArgumentException("Index can be either 0 or 1");
+		}
+
 		return corners[index];
 	}
 
@@ -105,6 +110,11 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	}
 
 	@Override
+	public Integer getIndex() {
+		return index;
+	}
+
+	@Override
 	public void setWorld(World world) {
 		this.world = world;
 		setChanged();
@@ -124,7 +134,22 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 
 	@Override
 	public void setCorner(int index, Location location) {
-		corners[index] = location;
+		if(index != 0 && index != 1) {
+			throw new IllegalArgumentException("Index can be either 0 or 1");
+		}
+
+		Location corner = null;
+		if(location != null) {
+			corner = location.clone();
+			corner.setY(0);
+		}
+
+		corners[index] = corner;
 		setChanged();
+	}
+
+	@Override
+	public void setIndex(Integer index) {
+		this.index = index;
 	}
 }

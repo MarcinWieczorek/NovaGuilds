@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.api.util;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.RegionValidity;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -61,6 +62,13 @@ public interface RegionSelection {
 	Location getCorner(Integer index);
 
 	/**
+	 * Getsd the resizing corner
+	 *
+	 * @return corner index
+	 */
+	Integer getResizingCorner();
+
+	/**
 	 * Gets selection type
 	 *
 	 * @return the type
@@ -73,6 +81,14 @@ public interface RegionSelection {
 	 * @return the list
 	 */
 	List<Block> getBlocks();
+
+	/**
+	 * Gets selected region
+	 * valid when resizing
+	 *
+	 * @return region instance
+	 */
+	NovaRegion getSelectedRegion();
 
 	/**
 	 * Gets the player
@@ -88,7 +104,7 @@ public interface RegionSelection {
 	 *
 	 * @return the list
 	 */
-	List<NovaPlayer> getPlayerList();
+	List<NovaPlayer> getSpectators();
 
 	/**
 	 * Gets region validity enum if present
@@ -105,12 +121,27 @@ public interface RegionSelection {
 	boolean isValid();
 
 	/**
+	 * Checks if both corners have been selected
+	 *
+	 * @return boolean
+	 */
+	boolean hasBothSelections();
+
+	/**
 	 * Sets a corner
 	 *
 	 * @param index    index (0/1)
 	 * @param location the location
 	 */
 	void setCorner(Integer index, Location location);
+
+	/**
+	 * Sets resizing corner
+	 * for resizing
+	 *
+	 * @param index index
+	 */
+	void setResizingCorner(Integer index);
 
 	/**
 	 * Sets region validity

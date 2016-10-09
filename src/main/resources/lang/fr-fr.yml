@@ -154,9 +154,9 @@ chat:
      points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Réinitialise les points de la guilde"
    region:
     access: "&4&l> &7/nga &crg &2- &6Commande de régions"
-    list: "&4&l> &7/nga &crg &6list &2- &6Liste de la régions"
-    delete: "&4&l> &7/nga &crg &6<&cguild&6> &cdel &2- &6Supprime la région"
-    teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &2- &6Teleportation à la région"
+    list: "&4&l> &7/nga &crg &6list &6[&cguild&6] &2- &6Liste de la régions"
+    delete: "&4&l> &7/nga &crg &6<&cguild&6> &cdel &6<&cindex&6> &2- &6Supprime la région"
+    teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &6<&cindex&6> &6[&cplayer&6] &2- &6Teleportation à la région"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cplayer&6] &2- &6Change le mode de contournement"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change le mode spectateur"
   guild:
@@ -193,7 +193,8 @@ chat:
   region:
    access: "&4&l> &7/g &crg &2- &6Commandes de régions"
    buy: "&4&l> &7/g &crg &6buy &2- &6Crée une région"
-   delete: "&4&l> &7/g &crg &6delete &2- &6Détruit la région"
+   delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Détruit la région"
+   list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6Vérifie ou sélectionne une zone avec l'outil!"
 
  commands:
@@ -347,7 +348,6 @@ chat:
    name: "Le nom de la guilde a été fixé."
    tag: "Le tag de la guilde a été fixé."
   home: "Téléporté au foyer de la guilde"
-  hasregionalready: "Votre guilde à déjà une région. Redimensionnez ou supprimez l'actuel région."
   joined: "Vous avez rejoins la guilde!"
   explosionatregion: "Il y a eu une explosion dans la région de votre guilde!"
   kickyourself: "Vous ne pouvez pas vous éjecter vous même de la guilde!"
@@ -457,19 +457,22 @@ chat:
   size: "Taille de la zone séléctionné: &c{SIZE} blocks"
   price: "Acheter cette zone vous coutera: &c${PRICE}"
   cnotafford: "Vous ne pouvez pas vous permettre d'acheter cette revendication. Vous devez avoir &c${NEEDMORE} en plus"
+  maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "Région crée avec succès"
   mustveguild: "Vous devez avoir un guilde pour acheter cette zone. &c/create"
   entered: "Vous entre dans la région appartenant à la guilde &a{GUILDNAME}"
   exited: "Vous sortez de la région appartenant à la guilde &a{GUILDNAME}"
+  notfound: "Could not find the region"
   resize:
    start: "Redimensionnement de la région... Fixez avec un &cclick-droit"
+   toggle: "Corner toggled."
    success: "Redimensionnement de la région effectué avec succès"
   notifyguild:
    entered: "Le joueur &c{PLAYERNAME} est entrée sur le territoire de votre guilde!"
-  belongsto: "Cette région appartient à &a{GUILDNAME}"
+  belongsto: "Cette région appartient à &a{GUILDNAME} (i=&a{INDEX})"
   list:
    header: "Liste de la région:"
-   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Mode de la région basculé. Actuellement: &c{MODE}"
    modes:

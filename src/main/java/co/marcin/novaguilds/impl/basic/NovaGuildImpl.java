@@ -39,6 +39,7 @@ import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -53,7 +54,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	private int id;
 	private String name;
 	private String tag;
-	private NovaRegion region;
+	private final List<NovaRegion> regions = new ArrayList<>();
 	private String leaderName;
 	private NovaPlayer leader;
 	private Location homeLocation;
@@ -124,8 +125,17 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public NovaRegion getRegion() {
-		return region;
+	public List<NovaRegion> getRegions() {
+		return regions;
+	}
+
+	@Override
+	public NovaRegion getRegion(int index) {
+		if(regions.size() >= index) {
+			return regions.get(index - 1);
+		}
+
+		return null;
 	}
 
 	@Override
@@ -299,15 +309,6 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	public void setName(String n) {
 		name = n;
 		setChanged();
-
-		//Force changed()
-		for(NovaPlayer nPlayer : getPlayers()) {
-			nPlayer.setChanged();
-		}
-
-		if(hasRegion()) {
-			getRegion().setChanged();
-		}
 	}
 
 	@Override
@@ -317,12 +318,29 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public void setRegion(NovaRegion region) {
-		this.region = region;
-
-		if(region != null) {
-			region.setGuild(this);
+	public void setRegions(List<NovaRegion> list) {
+		for(NovaRegion region : getRegions()) {
+			removeRegion(region);
 		}
+
+		for(NovaRegion region : list) {
+			addRegion(region);
+		}
+	}
+
+	@Override
+	public void addRegion(NovaRegion region) {
+		Validate.notNull(region);
+		regions.add(region);
+		region.setIndex(regions.size());
+		region.setGuild(this);
+	}
+
+	@Override
+	public void removeRegion(NovaRegion region) {
+		Validate.notNull(region);
+		regions.remove(region);
+		region.setIndex(0);
 	}
 
 	@Override
@@ -503,7 +521,12 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public boolean hasRegion() {
-		return region != null;
+		return !regions.isEmpty();
+	}
+
+	@Override
+	public boolean ownsRegion(NovaRegion region) {
+		return regions.contains(region);
 	}
 
 	@Override
@@ -826,8 +849,8 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		plugin.getRankManager().delete(this);
 
 		//Delete region
-		if(hasRegion()) {
-			plugin.getRegionManager().remove(getRegion());
+		for(NovaRegion region : getRegions()) {
+			plugin.getRegionManager().remove(region);
 		}
 
 		//Refresh top holograms

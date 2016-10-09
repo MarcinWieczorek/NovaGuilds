@@ -79,6 +79,7 @@ public class CommandAdminRegionList extends AbstractCommandExecutor {
 
 			if(display) {
 				vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+				vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
 				vars.put(VarKey.X, String.valueOf(region.getCorner(0).getBlockX()));
 				vars.put(VarKey.Z, String.valueOf(region.getCorner(0).getBlockZ()));
 

@@ -20,10 +20,12 @@ package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
@@ -43,7 +45,7 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
 			Message.CHAT_COMMANDS_ADMIN_REGION_HEADER.send(sender);
-			Message.CHAT_COMMANDS_ADMIN_REGION_ITEMS.send(sender);
+			Message.send(Message.CHAT_USAGE_NGA_REGION_ACCESS.getNeighbours(), sender);
 			return;
 		}
 
@@ -67,9 +69,32 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 				return;
 			}
 
-			subCommand.executorVariable(guild.getRegion());
+			if(args.length >= 3) {
+				String indexString = args[2];
+
+				if(!NumberUtils.isNumeric(indexString)) {
+					Message.CHAT_ENTERINTEGER.send(sender);
+					return;
+				}
+
+				int index = Integer.parseInt(indexString);
+
+				if(index <= 0) {
+					Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+					return;
+				}
+
+				NovaRegion region = guild.getRegion(index);
+
+				if(region == null) {
+					Message.CHAT_REGION_NOTFOUND.send(sender);
+					return;
+				}
+
+				subCommand.executorVariable(region);
+			}
 		}
 
-		subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 2));
+		subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 3));
 	}
 }

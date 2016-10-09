@@ -154,9 +154,9 @@ chat:
      points: "&4&l> &7/nga &cg &6resetpoints &6<&cwarunek&6> &6[&cvalue&6] &2- &6Resetuj punkty gildi"
    region:
     access: "&4&l> &7/nga &crg &2- &6Komendy regionów"
-    list: "&4&l> &7/nga &crg &6list &2- &6Lista regionów"
-    delete: "&4&l> &7/nga &crg &6<&cgildia&6> &cdel &2- &6Usuń region"
-    teleport: "&4&l> &7/nga &crg &6<&cgildia&6> &ctp &2- &6Teleport do regionu"
+    list: "&4&l> &7/nga &crg &6list &6[&cgildia&6] &2- &6Lista regionów"
+    delete: "&4&l> &7/nga &crg &6<&cgildia&6> &cdel &6<&cindex&6> &2- &6Usuń region"
+    teleport: "&4&l> &7/nga &crg &6<&cgildia&6> &ctp &6<&cindex&6> &6[&cgracz&6] &2- &6Teleport do regionu"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cgracz&6] &2- &6Zmiana trybu ignorowania regionów"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cgracz&6] &2- &6Zmiana trybu podglądu zaznaczenia"
   guild:
@@ -193,7 +193,8 @@ chat:
   region:
    access: "&4&l> &7/g &crg &2- &6Komendy regionów"
    buy: "&4&l> &7/g &crg &6buy &2- &6Stwórz region"
-   delete: "&4&l> &7/g &crg &6delete &2- &6Usuń region"
+   delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Usuń region"
+   list: "&4&l> &7/g &crg &6list &2- &6Lista regionów"
   tool: "&4&l> &7/ng &ctool &2- &6Sprawdź lub zaznacz teren patykiem!"
 
  commands:
@@ -347,7 +348,6 @@ chat:
    name: "Guild's name has been set."
    tag: "Guild's tag has been set."
   home: "Teleportowano do domu gildii"
-  hasregionalready: "Twoja gildia ma juz region. Usun lub edytuj istniejacy."
   joined: "Dolaczyles do gildii!"
   explosionatregion: "Na terenie Twojej gildii nastapil wybuch!"
   kickyourself: "Nie mozesz wyrzucic siebie z gildii!"
@@ -457,19 +457,22 @@ chat:
   size: "Rozmiar zaznaczonego terenu: &c{SIZE} blokow"
   price: "Kupienie terenu bedzie Cie kosztowalo: &c${PRICE}"
   cnotafford: "Nie stac Cie na ten teren. Potrzebujesz jeszcze &c${NEEDMORE}"
+  maxamount: "Osiągnąłeś maksymalną liczbę &a{AMOUNT} regionów."
   created: "Region stworzony pomyslnie."
   mustveguild: "Potrzebujesz gildii aby kupic teren. &c/create"
   entered: "Wkroczyles na teren gildii &a{GUILDNAME}"
   exited: "Opusciles teren gildii &a{GUILDNAME}"
+  notfound: "Nie udało się znaleźć regionu."
   resize:
    start: "Zmienianie rozmiaru regionu... Zaznacz rog &cprawym."
+   toggle: "Narożnik zmieniony na przeciwny."
    success: "Zmieniono rozmiar regionu."
   notifyguild:
    entered: "Gracz &c{PLAYERNAME} wkroczyl na teren Twojej gildii!"
-  belongsto: "Ten teren nalezy do &a{GUILDNAME}"
+  belongsto: "Ten teren nalezy do &a{GUILDNAME} (i=&a{INDEX})"
   list:
    header: "Lista regionow:"
-   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Zmieniono tryb. Obecnie: &c{MODE}"
    modes:

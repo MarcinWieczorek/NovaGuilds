@@ -142,7 +142,7 @@ public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<N
 					continue;
 				}
 
-				guild.setRegion(region);
+				guild.addRegion(region);
 				region.setUnchanged();
 				list.add(region);
 			}

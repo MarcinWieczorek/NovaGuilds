@@ -154,9 +154,9 @@ chat:
      points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's punten"
    region:
     access: "&4&l> &7/nga &crg &2- &6Regio commando's"
-    list: "&4&l> &7/nga &crg &6list &2- &6Regio lijst"
-    delete: "&4&l> &7/nga &crg &6<&cguild&6> &cdel &2- &6Verwijder region"
-    teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &2- &6Verplaats naar regio"
+    list: "&4&l> &7/nga &crg &6list &6[&cguild&6] &2- &6Regio lijst"
+    delete: "&4&l> &7/nga &crg &6<&cguild&6> &cdel &6<&cindex&6> &2- &6Verwijder region"
+    teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &6<&cindex&6> &6[&cplayer&6] &2- &6Verplaats naar regio"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cplayer&6] &2- &6Verander doorgang mode"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Verander toeschouwers mode"
   guild:
@@ -193,7 +193,8 @@ chat:
   region:
    access: "&4&l> &7/g &crg &2- &6Region commando's"
    buy: "&4&l> &7/g &crg &6buy &2- &6Maak een regio"
-   delete: "&4&l> &7/g &crg &6delete &2- &6Verwijder een regio"
+   delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Verwijder een regio"
+   list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6Controleer of kies een gebied met de tool!"
 
  commands:
@@ -347,7 +348,6 @@ chat:
    name: "Guildnaam is veranderd"
    tag: "Guild tag is veranderd."
   home: "verplaatst naar je guildbasis"
-  hasregionalready: "Je guild heefd reeds een regio. vergroot of verwijder deze."
   joined: "Je bent nu lid van de Guild!"
   explosionatregion: "Er was een ontploffing in je guilds regio!"
   kickyourself: "Je kunt je zelf niet verwijderen uit de guild!"
@@ -457,19 +457,22 @@ chat:
   size: "Geselecteerd gebied groote : &c{SIZE} blocks"
   price: "Als je dit gebied wil kopen kost het : &c${PRICE}"
   cnotafford: "je kiunt het gebied niet kopen. je hebt nog nodig : &c${NEEDMORE} "
+  maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "Regio succesvol gecreeerd"
   mustveguild: "Je hebt een guild nodig om dit gebied te kopen. &c/create"
   entered: "Je betreed het gebied van de guild : &a{GUILDNAME}"
   exited: "Je hebt het gebied van guild : &a{GUILDNAME} verlaten"
+  notfound: "Could not find the region"
   resize:
    start: "Aanpassen regio... Selecteer met &cright-click"
+   toggle: "Corner toggled."
    success: "Region succesvol aangepast"
   notifyguild:
    entered: "Speler : &c{PLAYERNAME} Betreed Guild gebied!"
-  belongsto: "Deze regio is van : &a{GUILDNAME}"
+  belongsto: "Deze regio is van : &a{GUILDNAME} (i=&a{INDEX})"
   list:
    header: "Regio lijst:"
-   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Regio Mode wisselen. Momenteel: &c{MODE}"
    modes:

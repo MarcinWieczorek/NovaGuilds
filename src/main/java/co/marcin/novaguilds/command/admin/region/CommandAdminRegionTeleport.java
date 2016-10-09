@@ -70,6 +70,7 @@ public class CommandAdminRegionTeleport extends AbstractCommandExecutor.Reversed
 
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+		vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
 		vars.put(VarKey.PLAYERNAME, player.getName());
 
 		Location location = region.getCenter().clone();

@@ -153,7 +153,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 			region.setCorner(1, c2);
 			region.setWorld(playerLocation.getWorld());
 
-			regionValid = plugin.getRegionManager().checkRegionSelect(c1, c2);
+			regionValid = plugin.getRegionManager().checkRegionSelect(nPlayer, c1, c2);
 		}
 
 		switch(regionValid) {
@@ -195,7 +195,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 
 					//autoregion
 					if(region != null) {
-						nPlayer.getGuild().setRegion(region);
+						nPlayer.getGuild().addRegion(region);
 
 						for(Player playerCheck : NovaGuilds.getOnlinePlayers()) {
 							if(region.equals(RegionManager.get(playerCheck))) {

@@ -23,10 +23,8 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CommandRegion extends AbstractCommandExecutor {
 	public CommandRegion() {
@@ -46,7 +44,7 @@ public class CommandRegion extends AbstractCommandExecutor {
 				return;
 			}
 
-			subCommand.execute(sender, null);
+			subCommand.execute(sender, StringUtils.parseArgs(args, 1));
 		}
 		else {
 			if(PlayerManager.getPlayer(sender).isLeader()) {

@@ -137,6 +137,7 @@ public enum VarKey {
 	ITEMNAME,
 	ID,
 	UUID,
+	INDEX,
 
 	//Tablist top: Guilds by points
 	GUILD_TOP_N1,

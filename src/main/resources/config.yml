@@ -619,6 +619,9 @@ region:
 # maximum region size                             #
  maxsize: 100
 
+# Maximum amount of regions #
+ maxamount: 3
+
 # particles when entering a region                #
  borderparticles: true
 

@@ -154,9 +154,9 @@ chat:
      points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's points"
    region:
     access: "&4&l> &7/nga &crg &2- &6Region commands"
-    list: "&4&l> &7/nga &crg &6list &2- &6Region list"
-    delete: "&4&l> &7/nga &crg &6<&cguild&6> &cdel &2- &6Delete region"
-    teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &2- &6Teleport to region"
+    list: "&4&l> &7/nga &crg &6list &6[&cguild&6] &2- &6Region list"
+    delete: "&4&l> &7/nga &crg &6<&cguild&6> &cdel &6<&cindex&6> &2- &6Delete region"
+    teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &6<&cindex&6> &6[&cplayer&6] &2- &6Teleport to region"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cplayer&6] &2- &6Change bypass mode"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
   guild:
@@ -193,7 +193,8 @@ chat:
   region:
    access: "&4&l> &7/g &crg &2- &6Region commands"
    buy: "&4&l> &7/g &crg &6buy &2- &6Create a region"
-   delete: "&4&l> &7/g &crg &6delete &2- &6Delete the region"
+   delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Delete the region"
+   list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6Check or select area with the tool!"
 
  commands:
@@ -347,7 +348,6 @@ chat:
    name: "Guild's name has been set."
    tag: "Guild's tag has been set."
   home: "Teleported to guild's home"
-  hasregionalready: "Your guild already has a region. Resize or delete current one."
   joined: "You have joined the guild!"
   explosionatregion: "There was an explosion at your guild's region!"
   kickyourself: "You cannot kick yourself from the guild!"
@@ -457,19 +457,22 @@ chat:
   size: "Selected area's size: &c{SIZE} blocks"
   price: "Buying this area will cost you: &c${PRICE}"
   cnotafford: "You can't afford this claim. You need &c${NEEDMORE} more"
+  maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "Region created successfully"
   mustveguild: "You need a guild to buy this area. &c/create"
   entered: "You entered the region of guild &a{GUILDNAME}"
   exited: "You exited the region of guild &a{GUILDNAME}"
+  notfound: "Could not find the region"
   resize:
    start: "Resizing the region... Set with a &cright-click"
+   toggle: "Corner toggled."
    success: "Region resized successfully"
   notifyguild:
    entered: "Player &c{PLAYERNAME} entered your guild's region!"
-  belongsto: "This region belongs to &a{GUILDNAME}"
+  belongsto: "This region belongs to &a{GUILDNAME} (i=&a{INDEX})"
   list:
    header: "Region list:"
-   item: "&a{GUILDNAME}&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Region Mode toggled. Currently: &c{MODE}"
    modes:

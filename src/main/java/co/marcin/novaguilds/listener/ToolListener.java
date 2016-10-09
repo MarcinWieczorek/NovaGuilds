@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.basic.NovaGroup;
-import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.RegionSelection;
@@ -45,7 +44,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 public class ToolListener extends AbstractListener {
@@ -65,7 +63,6 @@ public class ToolListener extends AbstractListener {
 
 		event.setCancelled(true);
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-		RegionSelection activeSelection = nPlayer.getActiveSelection();
 		Location pointedLocation = player.getTargetBlock((HashSet<Byte>) null, 200).getLocation();
 		Action action = event.getAction();
 		RegionSelection.Type selectionType = RegionSelection.Type.NONE;
@@ -73,12 +70,10 @@ public class ToolListener extends AbstractListener {
 		NovaRegion region = RegionManager.get(pointedLocation);
 		Location selectedLocation[] = new Location[2];
 
-		if(activeSelection != null && !(activeSelection.getType() == RegionSelection.Type.HIGHLIGHT || activeSelection.getType() == RegionSelection.Type.HIGHLIGHT_RESIZE)) {
-			selectedLocation[0] = activeSelection.getCorner(0);
-			selectedLocation[1] = activeSelection.getCorner(1);
+		if(nPlayer.getActiveSelection() != null && nPlayer.getActiveSelection().getType() != RegionSelection.Type.HIGHLIGHT) {
+			selectedLocation[0] = nPlayer.getActiveSelection().getCorner(0);
+			selectedLocation[1] = nPlayer.getActiveSelection().getCorner(1);
 		}
-
-		RegionValidity regionValidity = RegionValidity.VALID;
 
 		//Change RegionMode
 		if((action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) && player.isSneaking()) {
@@ -88,13 +83,15 @@ public class ToolListener extends AbstractListener {
 
 			nPlayer.setRegionMode(nPlayer.getRegionMode() == RegionMode.CHECK ? RegionMode.SELECT : RegionMode.CHECK);
 			nPlayer.cancelToolProgress();
-			selectionType = RegionSelection.Type.NONE;
 
 			//highlight corners for resizing
-			if(nPlayer.getRegionMode() == RegionMode.SELECT && nPlayer.hasPermission(GuildPermission.REGION_RESIZE) && nPlayer.getGuild().hasRegion()) {
+			if(nPlayer.isAtRegion()
+					&& nPlayer.getRegionMode() == RegionMode.SELECT
+					&& nPlayer.hasPermission(GuildPermission.REGION_RESIZE)
+					&& nPlayer.getGuild().ownsRegion(nPlayer.getAtRegion())) {
 				selectionType = RegionSelection.Type.HIGHLIGHT_RESIZE;
-				selectedLocation[0] = nPlayer.getGuild().getRegion().getCorner(0);
-				selectedLocation[1] = nPlayer.getGuild().getRegion().getCorner(1);
+				selectedLocation[0] = nPlayer.getAtRegion().getCorner(0);
+				selectedLocation[1] = nPlayer.getAtRegion().getCorner(1);
 			}
 
 			Message mode = nPlayer.getRegionMode() == RegionMode.SELECT ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
@@ -103,13 +100,15 @@ public class ToolListener extends AbstractListener {
 			Message.CHAT_REGION_TOOL_TOGGLEDMODE.vars(vars).send(nPlayer);
 		}
 		else if(nPlayer.getRegionMode() == RegionMode.CHECK && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
-			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player)) { //permissions check
+			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player)) {
 				return;
 			}
 
 			//Reset region highlighted already
-			if(activeSelection != null && (activeSelection.getType() == RegionSelection.Type.HIGHLIGHT || activeSelection.getType() == RegionSelection.Type.HIGHLIGHT_RESIZE)) {
-				activeSelection.reset();
+			if(nPlayer.getActiveSelection() != null
+					&& (nPlayer.getActiveSelection().getType() == RegionSelection.Type.HIGHLIGHT
+						|| nPlayer.getActiveSelection().getType() == RegionSelection.Type.HIGHLIGHT_RESIZE)) {
+				nPlayer.getActiveSelection().reset();
 			}
 
 			if(region != null) {
@@ -118,11 +117,11 @@ public class ToolListener extends AbstractListener {
 				selectedLocation[1] = region.getCorner(1);
 
 				vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+				vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
 				Message.CHAT_REGION_BELONGSTO.vars(vars).send(nPlayer);
 			}
 			else {
 				Message.CHAT_REGION_NOREGIONHERE.send(nPlayer);
-				selectionType = RegionSelection.Type.NONE;
 			}
 		}
 		else if(event.getAction() != Action.PHYSICAL && nPlayer.getRegionMode() != RegionMode.CHECK) { //CREATE MODE
@@ -133,22 +132,16 @@ public class ToolListener extends AbstractListener {
 					region == null ? 1 : pointedCornerLocation.distance(region.getCorner(1).getBlock().getLocation())
 			};
 
-			if(region != null && nPlayer.getRegionMode() != RegionMode.RESIZE && (cornerDistance[0] < 1 || cornerDistance[1] < 1)) { //resizing
+			if(region != null
+					&& nPlayer.getRegionMode() != RegionMode.RESIZE
+					&& (cornerDistance[0] < 1 || cornerDistance[1] < 1)
+					&& Permission.NOVAGUILDS_REGION_RESIZE.has(player)
+					&& region.getGuild().isMember(nPlayer)
+					&& nPlayer.hasPermission(GuildPermission.REGION_RESIZE)
+					&& nPlayer.getActiveSelection() != null
+					&& nPlayer.getActiveSelection().getType() == RegionSelection.Type.HIGHLIGHT_RESIZE) { //resizing
 				selectionType = RegionSelection.Type.RESIZE;
-
-				if(activeSelection != null && activeSelection.getType() == RegionSelection.Type.HIGHLIGHT_RESIZE) {
-					selectedLocation[0] = activeSelection.getCorner(0);
-					selectedLocation[1] = activeSelection.getCorner(1);
-				}
-
-				if(!Permission.NOVAGUILDS_REGION_RESIZE.has(player)) {
-					return;
-				}
-
-				if(!region.getGuild().isMember(nPlayer) || !nPlayer.hasPermission(GuildPermission.REGION_RESIZE)) {
-					return;
-				}
-
+				nPlayer.getActiveSelection().setResizingCorner(cornerDistance[0] < 1 ? 0 : 1);
 				nPlayer.setRegionMode(RegionMode.RESIZE);
 				Message.CHAT_REGION_RESIZE_START.send(nPlayer);
 			}
@@ -161,102 +154,35 @@ public class ToolListener extends AbstractListener {
 
 				int selectCorner = -1;
 
-				//Corner 0
-				if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
-					selectCorner = 0;
+				if(nPlayer.getActiveSelection() != null && nPlayer.getRegionMode() == RegionMode.RESIZE) {
+					//Toggle corner
+					if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+						nPlayer.getActiveSelection().setResizingCorner(nPlayer.getActiveSelection().getResizingCorner() == 0 ? 1 : 0);
+						Message.CHAT_REGION_RESIZE_TOGGLE.send(player);
+					}
+					else { //select
+						selectCorner = nPlayer.getActiveSelection().getResizingCorner();
+					}
 				}
-
-				//Corner 1
-				if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-					selectCorner = 1;
+				else {
+					//Corner 0
+					if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+						selectCorner = 0;
+					}
+					else { //Corner 1
+						selectCorner = 1;
+					}
 				}
 
 				if(selectCorner != -1) {
 					int oppositeCorner = selectCorner == 0 ? 1 : 0;
 
-					if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
-						selectedLocation[selectCorner] = pointedLocation;
-					}
-					else {
-						if(selectedLocation[oppositeCorner] != null && !pointedLocation.getWorld().equals(selectedLocation[oppositeCorner].getWorld())) {
-							return;
-						}
-
-						selectedLocation[selectCorner] = pointedLocation;
-					}
-				}
-
-				if(selectedLocation[0] != null && selectedLocation[1] != null) {
-					regionValidity = plugin.getRegionManager().checkRegionSelect(selectedLocation[0], selectedLocation[1]);
-
-					//When resizing if overlaps player's region
-					if(nPlayer.getRegionMode() == RegionMode.RESIZE && regionValidity == RegionValidity.OVERLAPS) {
-						List<NovaRegion> regionsOverlapped = plugin.getRegionManager().getRegionsInsideArea(selectedLocation[0], selectedLocation[1]);
-
-						if(regionsOverlapped.size() == 1 && regionsOverlapped.get(0).equals(nPlayer.getGuild().getRegion())) {
-							regionValidity = RegionValidity.VALID;
-						}
+					if(selectedLocation[oppositeCorner] != null && !pointedLocation.getWorld().equals(selectedLocation[oppositeCorner].getWorld())) {
+						nPlayer.cancelToolProgress();
+						return;
 					}
 
-					if(regionValidity == RegionValidity.TOOCLOSE) {
-						List<NovaGuild> guildsTooClose = plugin.getRegionManager().getGuildsTooClose(selectedLocation[0], selectedLocation[1]);
-
-						if(guildsTooClose.size() == 1 && guildsTooClose.get(0).equals(nPlayer.getGuild())) {
-							regionValidity = RegionValidity.VALID;
-						}
-					}
-
-					switch(regionValidity) {
-						case VALID:  //valid
-							if(nPlayer.hasGuild()) {
-								int regionSize = RegionUtils.checkRegionSize(selectedLocation[0], selectedLocation[1]);
-								NovaGroup group = GroupManager.getGroup(nPlayer.getPlayer());
-								double price;
-								double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
-
-								if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
-									price = ppb * (regionSize - nPlayer.getGuild().getRegion().getSurface());
-								}
-								else {
-									price = ppb * regionSize + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY);
-								}
-
-								vars.put(VarKey.SIZE, String.valueOf(regionSize));
-								vars.put(VarKey.PRICE, String.valueOf(price));
-
-								Message.CHAT_REGION_SIZE.vars(vars).send(nPlayer);
-
-								if(price > 0) {
-									Message.CHAT_REGION_PRICE.vars(vars).send(nPlayer);
-
-									if(!nPlayer.getGuild().hasMoney(price)) {
-										vars.put(VarKey.NEEDMORE, String.valueOf(price - nPlayer.getGuild().getMoney()));
-										Message.CHAT_REGION_CNOTAFFORD.vars(vars).send(nPlayer);
-										break;
-									}
-								}
-
-								Message.CHAT_REGION_VALIDATION_VALID.send(nPlayer);
-							}
-							else {
-								Message.CHAT_REGION_MUSTVEGUILD.send(nPlayer);
-							}
-							break;
-						case TOOSMALL:
-							vars.put(VarKey.MINSIZE, Config.REGION_MINSIZE.getString());
-							Message.CHAT_REGION_VALIDATION_TOOSMALL.vars(vars).send(nPlayer);
-							break;
-						case TOOBIG:
-							vars.put(VarKey.MAXSIZE, Config.REGION_MAXSIZE.getString());
-							Message.CHAT_REGION_VALIDATION_TOOBIG.vars(vars).send(nPlayer);
-							break;
-						case OVERLAPS:
-							Message.CHAT_REGION_VALIDATION_OVERLAPS.send(nPlayer);
-							break;
-						case TOOCLOSE:
-							Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(nPlayer);
-							break;
-					}
+					selectedLocation[selectCorner] = pointedLocation;
 				}
 			}
 		}
@@ -268,16 +194,80 @@ public class ToolListener extends AbstractListener {
 				selection = nPlayer.getActiveSelection();
 			}
 			else {
-				if(nPlayer.getActiveSelection() != null) {
-					nPlayer.getActiveSelection().reset();
-				}
+				RegionSelection activeSelection = nPlayer.getActiveSelection();
+				selection = new RegionSelectionImpl(nPlayer, selectionType, region);
 
-				selection = new RegionSelectionImpl(nPlayer, selectionType);
+				if(activeSelection != null) {
+					if(selectionType == RegionSelection.Type.RESIZE) {
+						selection.setResizingCorner(activeSelection.getResizingCorner());
+					}
+
+					activeSelection.reset();
+				}
 			}
 
 			selection.setCorner(0, selectedLocation[0]);
 			selection.setCorner(1, selectedLocation[1]);
-			selection.setValidity(regionValidity);
+
+			if(selection.hasBothSelections()
+					&& selectionType != RegionSelection.Type.HIGHLIGHT
+					&& selectionType != RegionSelection.Type.HIGHLIGHT_RESIZE) {
+				RegionValidity regionValidity = plugin.getRegionManager().checkRegionSelect(selection);
+				switch(regionValidity) {
+					case VALID:
+						if(nPlayer.hasGuild()) {
+							int regionSize = RegionUtils.checkRegionSize(selectedLocation[0], selectedLocation[1]);
+							NovaGroup group = GroupManager.getGroup(nPlayer.getPlayer());
+							double price;
+							double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
+
+							if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
+								price = ppb * (regionSize - selection.getSelectedRegion().getSurface());
+							}
+							else {
+								price = ppb * regionSize + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY);
+							}
+
+							vars.put(VarKey.SIZE, String.valueOf(regionSize));
+							vars.put(VarKey.PRICE, String.valueOf(price));
+
+							Message.CHAT_REGION_SIZE.vars(vars).send(nPlayer);
+
+							if(price > 0) {
+								Message.CHAT_REGION_PRICE.vars(vars).send(nPlayer);
+
+								if(!nPlayer.getGuild().hasMoney(price)) {
+									vars.put(VarKey.NEEDMORE, String.valueOf(price - nPlayer.getGuild().getMoney()));
+									Message.CHAT_REGION_CNOTAFFORD.vars(vars).send(nPlayer);
+									break;
+								}
+							}
+
+							Message.CHAT_REGION_VALIDATION_VALID.send(nPlayer);
+						}
+						else {
+							Message.CHAT_REGION_MUSTVEGUILD.send(nPlayer);
+						}
+						break;
+					case TOOSMALL:
+						vars.put(VarKey.MINSIZE, Config.REGION_MINSIZE.getString());
+						Message.CHAT_REGION_VALIDATION_TOOSMALL.vars(vars).send(nPlayer);
+						break;
+					case TOOBIG:
+						vars.put(VarKey.MAXSIZE, Config.REGION_MAXSIZE.getString());
+						Message.CHAT_REGION_VALIDATION_TOOBIG.vars(vars).send(nPlayer);
+						break;
+					case OVERLAPS:
+						Message.CHAT_REGION_VALIDATION_OVERLAPS.send(nPlayer);
+						break;
+					case TOOCLOSE:
+						Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(nPlayer);
+						break;
+				}
+
+				selection.setValidity(regionValidity);
+			}
+
 			selection.send();
 		}
 	}

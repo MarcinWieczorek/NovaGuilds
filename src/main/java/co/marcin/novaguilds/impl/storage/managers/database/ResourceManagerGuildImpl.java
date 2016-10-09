@@ -181,10 +181,6 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 				//set unchanged
 				guild.setUnchanged();
 
-				if(guild.getRegion() != null) {
-					guild.getRegion().setUnchanged();
-				}
-
 				//Fix slots amount
 				if(guild.getSlots() <= 0) {
 					guild.setSlots(Config.GUILD_SLOTS_START.getInt());

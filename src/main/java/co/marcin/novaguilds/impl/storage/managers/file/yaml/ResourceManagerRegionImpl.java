@@ -104,7 +104,7 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 			region.setCorner(0, corner1);
 			region.setCorner(1, corner2);
 			region.setWorld(world);
-			guild.setRegion(region);
+			guild.addRegion(region);
 			region.setUnchanged();
 
 			list.add(region);
@@ -164,11 +164,10 @@ public class ResourceManagerRegionImpl extends AbstractYAMLResourceManager<NovaR
 		}
 
 		if(getFile(region).delete()) {
-			LoggerUtils.info("Deleted guild " + region.getGuild().getName() + " region's file.");
 			return true;
 		}
 		else {
-			LoggerUtils.error("Failed to delete guild " + region.getGuild().getName() + " region's file.");
+			LoggerUtils.error("Failed to delete region " + region.getUUID() + " file.");
 			return false;
 		}
 	}

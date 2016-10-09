@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.storage.ResourceManager;
+import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
@@ -31,6 +32,7 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.event.PlayerEnterRegionEvent;
 import co.marcin.novaguilds.event.PlayerExitRegionEvent;
 import co.marcin.novaguilds.impl.storage.managers.database.AbstractDatabaseResourceManager;
+import co.marcin.novaguilds.impl.util.RegionSelectionImpl;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -113,7 +115,7 @@ public class RegionManager {
 
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
 			if(guild.hasRegion()) {
-				regions.add(guild.getRegion());
+				regions.addAll(guild.getRegions());
 			}
 		}
 
@@ -125,7 +127,7 @@ public class RegionManager {
 	 */
 	public void load() {
 		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			guild.setRegion(null);
+			guild.setRegions(new ArrayList<NovaRegion>());
 		}
 
 		getResourceManager().load();
@@ -172,7 +174,7 @@ public class RegionManager {
 		getResourceManager().addToRemovalQueue(region);
 
 		if(region.getGuild() != null) {
-			region.getGuild().setRegion(null);
+			region.getGuild().removeRegion(region);
 		}
 	}
 
@@ -183,7 +185,19 @@ public class RegionManager {
 	 * @param l2 second corner
 	 * @return region validity
 	 */
-	public RegionValidity checkRegionSelect(Location l1, Location l2) {
+	public RegionValidity checkRegionSelect(NovaPlayer nPlayer, Location l1, Location l2) {
+		RegionSelectionImpl selection = new RegionSelectionImpl(nPlayer, RegionSelection.Type.CREATE);
+		selection.setCorner(0, l1);
+		selection.setCorner(1, l2);
+		selection.reset();
+
+		return checkRegionSelect(selection);
+	}
+
+	public RegionValidity checkRegionSelect(RegionSelection selection) {
+		Location l1 = selection.getCorner(0);
+		Location l2 = selection.getCorner(1);
+
 		int x1 = l1.getBlockX();
 		int x2 = l2.getBlockX();
 		int z1 = l1.getBlockZ();
@@ -195,21 +209,35 @@ public class RegionManager {
 		int minSize = Config.REGION_MINSIZE.getInt();
 		int maxSize = Config.REGION_MAXSIZE.getInt();
 
+		List<NovaRegion> regionsInsideArea = getRegionsInsideArea(l1, l2);
+		List<NovaGuild> guildsTooClose = getGuildsTooClose(l1, l2);
+
 		if(difX < minSize || difZ < minSize) {
 			return RegionValidity.TOOSMALL;
 		}
 		else if(difX > maxSize || difZ > maxSize) {
 			return RegionValidity.TOOBIG;
 		}
-		else if(!getRegionsInsideArea(l1, l2).isEmpty()) {
-			return RegionValidity.OVERLAPS;
+		else if(!regionsInsideArea.isEmpty()) {
+			if(selection.getType() != RegionSelection.Type.RESIZE) {
+				return RegionValidity.OVERLAPS;
+			}
+
+			for(NovaRegion region : regionsInsideArea) {
+				if(!region.equals(selection.getSelectedRegion())) {
+					return RegionValidity.OVERLAPS;
+				}
+			}
 		}
-		else if(!isFarEnough(l1, l2)) {
-			return RegionValidity.TOOCLOSE;
+		else if(!guildsTooClose.isEmpty()) {
+			for(NovaGuild guild : guildsTooClose) {
+				if(!guild.isMember(selection.getPlayer())) {
+					return RegionValidity.TOOCLOSE;
+				}
+			}
 		}
-		else {
-			return RegionValidity.VALID;
-		}
+
+		return RegionValidity.VALID;
 	}
 
 	/**
@@ -296,17 +324,6 @@ public class RegionManager {
 	}
 
 	/**
-	 * Checks if a rectangle is far enough from other regions
-	 *
-	 * @param l1 first corner
-	 * @param l2 second corner
-	 * @return boolean
-	 */
-	private boolean isFarEnough(Location l1, Location l2) {
-		return getGuildsTooClose(l1, l2).isEmpty();
-	}
-
-	/**
 	 * Gets guilds too close to a rectangle
 	 * The distance is being taken from the config
 	 *
@@ -326,21 +343,31 @@ public class RegionManager {
 		centerLocation.setY(0);
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
-			if(!guildLoop.getHome().getWorld().equals(l1.getWorld())) {
-				continue;
-			}
-
-			int radius2 = 0;
-
 			if(guildLoop.hasRegion()) {
-				radius2 = guildLoop.getRegion().getDiagonal() / 2;
+				for(NovaRegion region : guildLoop.getRegions()) {
+					if(!region.getWorld().equals(l1.getWorld())) {
+						continue;
+					}
+
+					int radius2 = region.getDiagonal() / 2;
+
+					double distance = centerLocation.distance(region.getCenter());
+					if(distance < min + radius2) {
+						list.add(guildLoop);
+					}
+				}
 			}
+			else {
+				if(!guildLoop.getHome().getWorld().equals(l1.getWorld())) {
+					continue;
+				}
 
-			centerLocation.setY(0);
-
-			double distance = centerLocation.distance(guildLoop.hasRegion() ? guildLoop.getRegion().getCenter() : guildLoop.getHome());
-			if(distance < min + radius2) {
-				list.add(guildLoop);
+				Location homeLocation = guildLoop.getHome().clone();
+				homeLocation.setY(0);
+				double distance = centerLocation.distance(homeLocation);
+				if(distance < min) {
+					list.add(guildLoop);
+				}
 			}
 		}
 
@@ -443,7 +470,6 @@ public class RegionManager {
 		}
 
 		if(nPlayer.getAtRegion().getGuild().getHome().distance(nPlayer.getPlayer().getLocation()) > nPlayer.getAtRegion().getDiagonal()) {
-			LoggerUtils.debug(nPlayer.getAtRegion().getGuild().getHome().distance(nPlayer.getPlayer().getLocation()) + " > " + nPlayer.getAtRegion().getDiagonal());
 			return;
 		}
 

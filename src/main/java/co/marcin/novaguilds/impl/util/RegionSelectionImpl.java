@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Permission;
@@ -39,12 +40,14 @@ public class RegionSelectionImpl implements RegionSelection {
 	private final List<Location> corners = new ArrayList<>(2);
 	private final List<NovaPlayer> playerList = new ArrayList<>();
 	private final Type type;
-	private RegionValidity regionValidity;
+	private RegionValidity regionValidity = RegionValidity.VALID;
 
 	private Material cornerMaterial;
 	private Byte cornerData;
 	private Material borderMaterial;
 	private Byte borderData;
+	private NovaRegion selectedRegion;
+	private Integer resizingCorner = -1;
 
 	/**
 	 * Constructor for filling with corner locations
@@ -53,8 +56,21 @@ public class RegionSelectionImpl implements RegionSelection {
 	 * @param type    selection type
 	 */
 	public RegionSelectionImpl(NovaPlayer nPlayer, Type type) {
+		this(nPlayer, type, null);
+	}
+
+	/**
+	 * The constructor
+	 * for resizing
+	 *
+	 * @param nPlayer the player
+	 * @param type    selection type
+	 * @param region  region being resized
+	 */
+	public RegionSelectionImpl(NovaPlayer nPlayer, Type type, NovaRegion region) {
 		addSpectator(nPlayer);
 		this.type = type;
+		this.selectedRegion = region;
 
 		nPlayer.setActiveSelection(this);
 	}
@@ -75,7 +91,7 @@ public class RegionSelectionImpl implements RegionSelection {
 
 		loadMaterials();
 
-		for(NovaPlayer nPlayer : getPlayerList()) {
+		for(NovaPlayer nPlayer : getSpectators()) {
 			for(Block block : getBlocks()) {
 				RegionUtils.resetBlock(nPlayer.getPlayer(), block);
 			}
@@ -83,7 +99,7 @@ public class RegionSelectionImpl implements RegionSelection {
 
 		clearBlockList();
 
-		for(NovaPlayer nPlayer : getPlayerList()) {
+		for(NovaPlayer nPlayer : getSpectators()) {
 			Player player = nPlayer.getPlayer();
 
 			sendRectangle(player);
@@ -94,7 +110,7 @@ public class RegionSelectionImpl implements RegionSelection {
 
 	@Override
 	public void reset() {
-		for(NovaPlayer nPlayer : getPlayerList()) {
+		for(NovaPlayer nPlayer : getSpectators()) {
 			reset(nPlayer);
 		}
 
@@ -107,14 +123,37 @@ public class RegionSelectionImpl implements RegionSelection {
 			RegionUtils.resetBlock(nPlayer.getPlayer(), block);
 		}
 
-		if(getPlayerList().size() == 1 && getPlayerList().contains(nPlayer)) {
+		if(getSpectators().size() == 1 && getSpectators().contains(nPlayer)) {
 			clearBlockList();
+		}
+
+		if(nPlayer.getActiveSelection() == this) {
+			nPlayer.setActiveSelection(null);
 		}
 	}
 
 	@Override
 	public void setCorner(Integer index, Location location) {
-		corners.add(index, location);
+		if(index != 0 && index != 1) {
+			throw new IllegalArgumentException("Index can be either 0 or 1");
+		}
+
+		Location corner = null;
+		if(location != null) {
+			corner = location.clone();
+			corner.setY(0);
+		}
+
+		corners.add(index, corner);
+	}
+
+	@Override
+	public void setResizingCorner(Integer index) {
+		if(index != 0 && index != 1) {
+			throw new IllegalArgumentException("Index can be either 0 or 1");
+		}
+
+		this.resizingCorner = index;
 	}
 
 	@Override
@@ -131,6 +170,10 @@ public class RegionSelectionImpl implements RegionSelection {
 
 	@Override
 	public void removeSpectator(NovaPlayer nPlayer) {
+		if(getPlayer().equals(nPlayer)) {
+			return;
+		}
+
 		playerList.remove(nPlayer);
 	}
 
@@ -161,12 +204,22 @@ public class RegionSelectionImpl implements RegionSelection {
 
 	@Override
 	public boolean isValid() {
-		return regionValidity == RegionValidity.VALID;
+		return hasBothSelections() && regionValidity == RegionValidity.VALID;
+	}
+
+	@Override
+	public boolean hasBothSelections() {
+		return corners.get(0) != null && corners.get(1) != null;
 	}
 
 	@Override
 	public Location getCorner(Integer index) {
 		return corners.size() > index ? corners.get(index) : null;
+	}
+
+	@Override
+	public Integer getResizingCorner() {
+		return resizingCorner;
 	}
 
 	@Override
@@ -180,12 +233,17 @@ public class RegionSelectionImpl implements RegionSelection {
 	}
 
 	@Override
-	public NovaPlayer getPlayer() {
-		return getPlayerList().get(0);
+	public NovaRegion getSelectedRegion() {
+		return selectedRegion;
 	}
 
 	@Override
-	public List<NovaPlayer> getPlayerList() {
+	public NovaPlayer getPlayer() {
+		return getSpectators().get(0);
+	}
+
+	@Override
+	public List<NovaPlayer> getSpectators() {
 		return playerList;
 	}
 

@@ -152,7 +152,7 @@ public final class RegionUtils {
 		int newX = l1.getBlockX() + (l1.getBlockX() < l2.getBlockX() ? width : -width) / 2;
 		int newZ = l1.getBlockZ() + (l1.getBlockZ() < l2.getBlockZ() ? height : -height) / 2;
 
-		return new Location(l1.getWorld(), newX, l1.getBlockY(), newZ);
+		return new Location(l1.getWorld(), newX, 0, newZ);
 	}
 
 	/**
