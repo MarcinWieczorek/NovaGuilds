@@ -73,7 +73,6 @@ public class HologramManager {
 				nHologram.create();
 
 				holograms.add(nHologram);
-				LoggerUtils.info("Loaded hologram " + nHologram.getName());
 				count++;
 			}
 
