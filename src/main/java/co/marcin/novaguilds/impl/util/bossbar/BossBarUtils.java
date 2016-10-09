@@ -131,7 +131,9 @@ public class BossBarUtils {
 	}
 
 	public static void removeBar(Player player) {
-		bossBarUtils.removeBar(player);
+		if(hasBar(player)) {
+			bossBarUtils.removeBar(player);
+		}
 	}
 
 	public static void setHealth(Player player, float percent) {
