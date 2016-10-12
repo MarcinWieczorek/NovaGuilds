@@ -136,6 +136,9 @@ public class CommandNovaGuilds extends AbstractCommandExecutor {
 			case "tr":
 				TabUtils.refresh();
 				break;
+			case "confirm":
+				Command.CONFIRM.execute(sender, args);
+				break;
 			default:
 				Message.CHAT_UNKNOWNCMD.send(sender);
 				break;

@@ -37,6 +37,7 @@ public class CommandGuild extends AbstractCommandExecutor {
 		commandsMap.put("leader",   Command.GUILD_LEADER);
 		commandsMap.put("info",     Command.GUILD_INFO);
 		commandsMap.put("leave",    Command.GUILD_LEAVE);
+		commandsMap.put("menu",     Command.GUILD_MENU);
 		commandsMap.put("home",     Command.GUILD_HOME);
 		commandsMap.put("region",   Command.REGION_ACCESS);
 		commandsMap.put("rg",       Command.REGION_ACCESS);
@@ -62,6 +63,7 @@ public class CommandGuild extends AbstractCommandExecutor {
 		commandsMap.put("name",     Command.GUILD_SET_NAME);
 		commandsMap.put("settag",   Command.GUILD_SET_TAG);
 		commandsMap.put("tag",      Command.GUILD_SET_TAG);
+		commandsMap.put("pi",       Command.PLAYERINFO);
 	}
 
 	@Override

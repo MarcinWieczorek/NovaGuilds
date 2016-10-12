@@ -147,6 +147,7 @@ public class CommandManager {
 		else {
 			if(executor instanceof CommandExecutor.Reversed) {
 				((CommandExecutor.Reversed) executor).set(command.getExecutorVariable());
+				command.executorVariable(null);
 			}
 
 			try {
