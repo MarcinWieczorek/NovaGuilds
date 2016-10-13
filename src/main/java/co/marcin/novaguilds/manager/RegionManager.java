@@ -38,6 +38,7 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import com.earth2me.essentials.Essentials;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -388,7 +389,8 @@ public class RegionManager {
 			return;
 		}
 
-		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)) {
+		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)
+				|| plugin.getDependencyManager().isEnabled(Dependency.ESSENTIALS) && plugin.getDependencyManager().get(Dependency.ESSENTIALS, Essentials.class).getVanishedPlayers().contains(player.getName())) {
 			return;
 		}
 
