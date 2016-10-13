@@ -47,6 +47,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -378,6 +379,17 @@ public class RegionInteractListener extends AbstractListener {
 		Location location = event.getEntity().getLocation();
 
 		if(RegionManager.get(location) != null && (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
+			event.setCancelled(true);
+			Message.CHAT_REGION_DENY_INTERACT.send(player);
+		}
+	}
+
+	@EventHandler
+	public void onCauldronLevelChange(CauldronLevelChangeEvent event) {
+		Player player = (Player) event.getEntity();
+		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+
+		if(RegionManager.get(event.getBlock()) != null && (!plugin.getRegionManager().canInteract(player, event.getBlock()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_INTERACT.send(player);
 		}
