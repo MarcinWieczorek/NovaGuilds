@@ -32,6 +32,7 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class RunnableRaid implements Runnable {
 	public void run() {
 		boolean renewTask = false;
 
-		for(NovaGuild guildDefender : plugin.getGuildManager().getGuilds()) {
+		for(NovaGuild guildDefender : new ArrayList<>(plugin.getGuildManager().getGuilds())) {
 			if(!guildDefender.isRaid()) {
 				continue;
 			}
