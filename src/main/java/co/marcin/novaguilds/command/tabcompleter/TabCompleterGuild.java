@@ -90,6 +90,10 @@ public class TabCompleterGuild implements TabCompleter {
 							continue;
 						}
 
+						if(!nPlayerLoop.hasGuild()) {
+							continue;
+						}
+
 						keys.add(nPlayerLoop.getName());
 						limit++;
 					}
