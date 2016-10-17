@@ -22,14 +22,17 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
+import com.earth2me.essentials.Essentials;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.kitteh.vanish.VanishPlugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -296,6 +299,17 @@ public class PlayerManager {
 	 */
 	public List<NovaPlayer> getTopPlayersByKDR(int count) {
 		return limitList(getTopPlayersByKDR(), count);
+	}
+
+	/**
+	 * Checks if a player is vanished
+	 *
+	 * @param nPlayer player
+	 * @return boolean
+	 */
+	public boolean isVanished(NovaPlayer nPlayer) {
+		return plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(nPlayer.getPlayer())
+				|| plugin.getDependencyManager().isEnabled(Dependency.ESSENTIALS) && plugin.getDependencyManager().get(Dependency.ESSENTIALS, Essentials.class).getVanishedPlayers().contains(nPlayer.getName());
 	}
 
 	/**

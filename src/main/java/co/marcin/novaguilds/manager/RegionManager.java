@@ -25,7 +25,6 @@ import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
@@ -38,14 +37,12 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import com.earth2me.essentials.Essentials;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
-import org.kitteh.vanish.VanishPlugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -104,6 +101,14 @@ public class RegionManager {
 	 */
 	public static NovaRegion get(Entity entity) {
 		return get(entity.getLocation());
+	}
+
+	public static NovaRegion get(NovaPlayer nPlayer) {
+		if(nPlayer.isOnline()) {
+			return get(nPlayer.getPlayer());
+		}
+
+		return null;
 	}
 
 	/**
@@ -389,16 +394,15 @@ public class RegionManager {
 			return;
 		}
 
-		if(plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)
-				|| plugin.getDependencyManager().isEnabled(Dependency.ESSENTIALS) && plugin.getDependencyManager().get(Dependency.ESSENTIALS, Essentials.class).getVanishedPlayers().contains(player.getName())) {
-			return;
-		}
-
 		if(region == null) {
 			return;
 		}
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+
+		if(plugin.getPlayerManager().isVanished(nPlayer)) {
+			return;
+		}
 
 		//border particles
 		if(Config.REGION_BORDERPARTICLES.getBoolean()) {
@@ -410,10 +414,13 @@ public class RegionManager {
 		}
 
 		//Chat message
+		boolean sameGuildRegion = nPlayer.isAtRegion() && region.getGuild().ownsRegion(region);
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.GUILDNAME, region.getGuild().getName());
-		vars.put(VarKey.PLAYERNAME, player.getName());
-		Message.CHAT_REGION_ENTERED.vars(vars).send(player);
+		if(!sameGuildRegion) {
+			vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+			vars.put(VarKey.PLAYERNAME, player.getName());
+			Message.CHAT_REGION_ENTERED.vars(vars).send(player);
+		}
 
 		//Player is at region
 		nPlayer.setAtRegion(region);
@@ -421,7 +428,9 @@ public class RegionManager {
 		if(!region.getGuild().isMember(nPlayer)) {
 			checkRaidInit(nPlayer);
 
-			Message.CHAT_REGION_NOTIFYGUILD_ENTERED.vars(vars).broadcast(region.getGuild());
+			if(!sameGuildRegion) {
+				Message.CHAT_REGION_NOTIFYGUILD_ENTERED.vars(vars).broadcast(region.getGuild());
+			}
 		}
 
 		//Vehicle protection system
@@ -504,6 +513,36 @@ public class RegionManager {
 					Message.CHAT_RAID_RESTING.setVar(VarKey.TIMEREST, StringUtils.secondsToString(timeWait)).send(nPlayer);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Look checkAtRegionChange(NovaPlayer)
+	 * Checks all online players
+	 */
+	public void checkAtRegionChange() {
+		for(NovaPlayer nPlayer : plugin.getPlayerManager().getOnlinePlayers()) {
+			checkAtRegionChange(nPlayer);
+		}
+	}
+
+	/**
+	 * To be run when there are some changes
+	 * and it was possible for a player to
+	 * enter or exit a region
+	 *
+	 * @param nPlayer player
+	 */
+	public void checkAtRegionChange(NovaPlayer nPlayer) {
+		NovaRegion region = get(nPlayer);
+
+		if(nPlayer.isAtRegion()) {
+			if(region == null || plugin.getPlayerManager().isVanished(nPlayer)) {
+				playerExitedRegion(nPlayer.getPlayer());
+			}
+		}
+		else if(region != null && !plugin.getPlayerManager().isVanished(nPlayer)) {
+			playerEnteredRegion(nPlayer.getPlayer(), region);
 		}
 	}
 

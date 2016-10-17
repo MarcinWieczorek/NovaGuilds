@@ -21,7 +21,6 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
-import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -30,7 +29,6 @@ import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
-import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -58,10 +56,7 @@ public class LoginListener extends AbstractListener {
 			Message.CHAT_UPDATE.send(player);
 		}
 
-		NovaRegion region = RegionManager.get(player);
-		if(region != null) {
-			plugin.getRegionManager().playerEnteredRegion(player, region);
-		}
+		plugin.getRegionManager().checkAtRegionChange(nPlayer);
 
 		if(nPlayer.hasGuild()) {
 			for(Player onlinePlayer : NovaGuilds.getOnlinePlayers()) {
@@ -127,6 +122,10 @@ public class LoginListener extends AbstractListener {
 		//Guild inactive time
 		if(nPlayer.hasGuild()) {
 			nPlayer.getGuild().updateInactiveTime();
+		}
+
+		if(nPlayer.isAtRegion()) {
+			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
 		}
 	}
 }

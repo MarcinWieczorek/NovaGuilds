@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
@@ -25,6 +26,7 @@ import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.TagColor;
@@ -38,6 +40,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
+import java.util.concurrent.TimeUnit;
 
 public class ChatListener extends AbstractListener {
 	@EventHandler
@@ -147,7 +151,7 @@ public class ChatListener extends AbstractListener {
 			cmd = split[0];
 		}
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
+		final NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
 		if(!nPlayer.getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
 			NovaRegion region = RegionManager.get(event.getPlayer());
 
@@ -167,6 +171,20 @@ public class ChatListener extends AbstractListener {
 
 		if(plugin.getCommandManager().existsAlias(cmd)) {
 			event.setMessage(event.getMessage().replaceFirst(cmd, plugin.getCommandManager().getMainCommand(cmd)));
+		}
+
+		//Essentials vanish status change detect
+		if(plugin.getDependencyManager().isEnabled(Dependency.ESSENTIALS)
+				&& (cmd.equalsIgnoreCase("vanish")
+					|| cmd.equalsIgnoreCase("v")
+					|| cmd.equalsIgnoreCase("essentials:vanish")
+					|| cmd.equalsIgnoreCase("essentials:v"))) {
+			NovaGuilds.runTaskLater(new Runnable() {
+				@Override
+				public void run() {
+					plugin.getRegionManager().checkAtRegionChange(nPlayer);
+				}
+			}, 1, TimeUnit.MICROSECONDS);
 		}
 
 		//TODO: subCommands
