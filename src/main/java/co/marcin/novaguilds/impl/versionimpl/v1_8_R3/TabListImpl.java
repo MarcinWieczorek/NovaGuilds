@@ -19,37 +19,9 @@
 package co.marcin.novaguilds.impl.versionimpl.v1_8_R3;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.impl.basic.AbstractTabList;
-import co.marcin.novaguilds.util.StringUtils;
-import co.marcin.novaguilds.util.TabUtils;
-import tk.northpl.tab.API;
 
-public class TabListImpl extends AbstractTabList {
-	/**
-	 * The constructor
-	 *
-	 * @param nPlayer tablist owner
-	 */
+public class TabListImpl extends co.marcin.novaguilds.impl.versionimpl.v1_8_R1.TabListImpl {
 	public TabListImpl(NovaPlayer nPlayer) {
 		super(nPlayer);
-	}
-
-	@Override
-	public void send() {
-		if(!getPlayer().isOnline()) {
-			return;
-		}
-
-		TabUtils.fillVars(this);
-
-		int x = 0;
-		int y = 0;
-		for(String line : lines) {
-			line = StringUtils.replaceVarKeyMap(line, getVars());
-			line = StringUtils.fixColors(line);
-
-			API.setTabSlot(getPlayer().getPlayer(), x, y, line);
-			y++;
-		}
 	}
 }

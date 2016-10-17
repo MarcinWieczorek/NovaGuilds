@@ -39,6 +39,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class LoginListener extends AbstractListener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
@@ -90,12 +92,15 @@ public class LoginListener extends AbstractListener {
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
 			try {
-				TabList tabList = (TabList) Class.forName("co.marcin.novaguilds.impl.versionimpl." + ConfigManager.getServerVersion().getString() + ".TabListImpl").newInstance();
+				TabList tabList = (TabList) Class.forName("co.marcin.novaguilds.impl.versionimpl." + ConfigManager.getServerVersion().getString() + ".TabListImpl")
+						.getConstructor(NovaPlayer.class)
+						.newInstance(nPlayer);
 				nPlayer.setTabList(tabList);
 				TabUtils.refresh();
 			}
-			catch(ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+			catch(ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 				LoggerUtils.exception(e);
+				Config.TABLIST_ENABLED.set(false);
 			}
 		}
 
