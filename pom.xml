@@ -154,6 +154,11 @@
             <version>4.0.34.Final</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.games647</groupId>
+            <artifactId>scoreboardstats</artifactId>
+            <version>0.9.14</version>
+        </dependency>
     </dependencies>
 
     <build>

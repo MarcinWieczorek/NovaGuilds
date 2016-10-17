@@ -29,6 +29,7 @@ import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
+import co.marcin.novaguilds.impl.util.ScoreboardStatsHook;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
 import co.marcin.novaguilds.impl.util.logging.WrappedLogger;
 import co.marcin.novaguilds.listener.VanishListener;
@@ -253,6 +254,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 			if(getDependencyManager().isEnabled(Dependency.VANISHNOPACKET)) {
 				new VanishListener();
+			}
+
+			if(getDependencyManager().isEnabled(Dependency.SCOREBOARDSTATS)) {
+				new ScoreboardStatsHook();
 			}
 
 			//Tablist/tag update
