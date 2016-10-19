@@ -311,8 +311,13 @@ public class GuildManager {
 				LoggerUtils.info("Unloaded guild " + guild.getName());
 
 				if(Config.DELETEINVALID.getBoolean()) {
-					delete(guild, AbandonCause.INVALID);
-					LoggerUtils.info("DELETED guild " + guild.getName());
+					GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.INVALID);
+					plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
+
+					if(!guildAbandonEvent.isCancelled()) {
+						delete(guild, AbandonCause.INVALID);
+						LoggerUtils.info("DELETED guild " + guild.getName());
+					}
 				}
 				else {
 					guilds.remove(guild.getName());
