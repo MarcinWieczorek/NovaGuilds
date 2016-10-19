@@ -22,6 +22,9 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Packet;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PacketSender {
 	/**
 	 * Sends packets to players
@@ -42,30 +45,17 @@ public class PacketSender {
 	 * @param packets packets
 	 */
 	public static void sendPacket(Player player, Object... packets) {
-		NovaGuilds.getInstance().getPacketExtension().sendPacket(player, packets);
-	}
+		final List<Object> packetList = new ArrayList<>();
 
-	/**
-	 * Sends packets to a player
-	 *
-	 * @param player  player
-	 * @param packets packets
-	 */
-	public static void sendPacket(Player player, Packet... packets) {
-		for(Packet packet : packets) {
-			sendPacket(player, packet.getPacket());
+		for(Object packet : packets) {
+			if(packet instanceof Packet) {
+				packetList.add(((Packet) packet).getPacket());
+			}
+			else {
+				packetList.add(packet);
+			}
 		}
-	}
 
-	/**
-	 * Sends packets to players
-	 *
-	 * @param players array of players
-	 * @param packets packets
-	 */
-	public static void sendPacket(Player[] players, Packet... packets) {
-		for(Player player : players) {
-			sendPacket(player, packets);
-		}
+		NovaGuilds.getInstance().getPacketExtension().sendPacket(player, packetList.toArray());
 	}
 }

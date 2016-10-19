@@ -21,7 +21,6 @@ package co.marcin.novaguilds.impl.versionimpl.v1_7_R4;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.event.PacketSendEvent;
-import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -37,7 +36,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
-public class PacketExtensionImpl implements PacketExtension {
+public class PacketExtensionImpl extends co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl {
 	private static Reflections.FieldAccessor<Channel> clientChannel;
 	private static Field playerConnection;
 	private static Field networkManager;
@@ -112,27 +111,6 @@ public class PacketExtensionImpl implements PacketExtension {
 	public void unregisterChannel() {
 		for(Player player : NovaGuilds.getOnlinePlayers()) {
 			getChannel(player).pipeline().remove("NovaGuilds");
-		}
-	}
-
-	@Override
-	public void sendPacket(Player player, Object... packets) {
-		try {
-			Object craftPlayer = craftPlayerClass.cast(player);
-			Object handle = craftPlayerClass.getMethod("getHandle").invoke(craftPlayer);
-			Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
-			Method sendPacketMethod = playerConnection.getClass().getMethod("sendPacket", packetClass);
-
-			for(Object packet : packets) {
-				if(packet == null) {
-					continue;
-				}
-
-				sendPacketMethod.invoke(playerConnection, packet);
-			}
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
 		}
 	}
 }
