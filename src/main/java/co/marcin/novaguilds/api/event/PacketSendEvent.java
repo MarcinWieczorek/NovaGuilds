@@ -16,30 +16,52 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.event;
+package co.marcin.novaguilds.api.event;
 
-
-import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.util.packet.PacketEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class GuildCreateEvent extends Event implements Cancellable {
+public class PacketSendEvent extends Event implements Cancellable, PacketEvent {
+
 	private static final HandlerList handlers = new HandlerList();
-	private final NovaGuild guild;
-	private final Player creator;
+	private final Player player;
+	private final Object packet;
 	private boolean cancelled;
 
 	/**
 	 * The constructor
 	 *
-	 * @param guild   the guild
-	 * @param creator the creator
+	 * @param packet packet object
+	 * @param player receiver
 	 */
-	public GuildCreateEvent(NovaGuild guild, Player creator) {
-		this.guild = guild;
-		this.creator = creator;
+	public PacketSendEvent(Object packet, Player player) {
+		super(true);
+		this.packet = packet;
+		this.player = player;
+		this.cancelled = false;
+	}
+
+	@Override
+	public Player getPlayer() {
+		return player;
+	}
+
+	@Override
+	public Object getPacket() {
+		return packet;
+	}
+
+	@Override
+	public String getPacketName() {
+		return this.packet.getClass().getSimpleName();
+	}
+
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
 	}
 
 	@Override
@@ -48,37 +70,14 @@ public class GuildCreateEvent extends Event implements Cancellable {
 	}
 
 	@Override
-	public void setCancelled(boolean cancel) {
-		cancelled = cancel;
-	}
-
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
-
-	/**
-	 * Gets the player who created the guild
-	 *
-	 * @return the player
-	 */
-	public Player getCreator() {
-		return creator;
-	}
-
-	/**
-	 * Gets the guild
-	 *
-	 * @return the guild
-	 */
-	public NovaGuild getGuild() {
-		return guild;
+	public void setCancelled(boolean b) {
+		cancelled = b;
 	}
 
 	/**
 	 * Gets handler list
 	 *
-	 * @return the handler list
+	 * @return handler list
 	 */
 	public static HandlerList getHandlerList() {
 		return handlers;

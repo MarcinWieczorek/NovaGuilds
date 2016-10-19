@@ -20,12 +20,12 @@ package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.event.GuildAbandonEvent;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.event.GuildAbandonEvent;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;

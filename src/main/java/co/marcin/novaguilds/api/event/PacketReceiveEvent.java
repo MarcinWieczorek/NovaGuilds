@@ -16,28 +16,49 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.event;
+package co.marcin.novaguilds.api.event;
 
-import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.util.packet.PacketEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class PlayerEnterRegionEvent extends PlayerEvent implements Cancellable {
+public class PacketReceiveEvent extends Event implements Cancellable, PacketEvent {
 	private static final HandlerList handlers = new HandlerList();
+	private final Player player;
+	private final Object packet;
 	private boolean cancelled;
-	private final NovaRegion region;
 
 	/**
 	 * The constructor
 	 *
-	 * @param who    player
-	 * @param region region
+	 * @param packet the packet
+	 * @param player the receiver
 	 */
-	public PlayerEnterRegionEvent(Player who, NovaRegion region) {
-		super(who);
-		this.region = region;
+	public PacketReceiveEvent(Object packet, Player player) {
+		this.packet = packet;
+		this.player = player;
+	}
+
+	@Override
+	public Object getPacket() {
+		return packet;
+	}
+
+	@Override
+	public Player getPlayer() {
+		return player;
+	}
+
+	@Override
+	public String getPacketName() {
+		return packet.getClass().getSimpleName();
+	}
+
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
 	}
 
 	@Override
@@ -48,20 +69,6 @@ public class PlayerEnterRegionEvent extends PlayerEvent implements Cancellable {
 	@Override
 	public void setCancelled(boolean b) {
 		cancelled = b;
-	}
-
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
-
-	/**
-	 * Gets the region
-	 *
-	 * @return entered region
-	 */
-	public NovaRegion getRegion() {
-		return region;
 	}
 
 	/**

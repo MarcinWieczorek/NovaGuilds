@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.event;
+package co.marcin.novaguilds.api.event;
 
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-public class PlayerExitRegionEvent extends PlayerEvent implements Cancellable {
+public class PlayerEnterRegionEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
 	private final NovaRegion region;
@@ -35,7 +35,7 @@ public class PlayerExitRegionEvent extends PlayerEvent implements Cancellable {
 	 * @param who    player
 	 * @param region region
 	 */
-	public PlayerExitRegionEvent(Player who, NovaRegion region) {
+	public PlayerEnterRegionEvent(Player who, NovaRegion region) {
 		super(who);
 		this.region = region;
 	}
@@ -58,7 +58,7 @@ public class PlayerExitRegionEvent extends PlayerEvent implements Cancellable {
 	/**
 	 * Gets the region
 	 *
-	 * @return exited region
+	 * @return entered region
 	 */
 	public NovaRegion getRegion() {
 		return region;

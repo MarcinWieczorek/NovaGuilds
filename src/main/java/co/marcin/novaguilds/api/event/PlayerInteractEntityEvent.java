@@ -16,52 +16,32 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.event;
+package co.marcin.novaguilds.api.event;
 
-import co.marcin.novaguilds.api.util.packet.PacketEvent;
+import co.marcin.novaguilds.enums.EntityUseAction;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 
-public class PacketSendEvent extends Event implements Cancellable, PacketEvent {
-
+public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
-	private final Player player;
-	private final Object packet;
-	private boolean cancelled;
+	protected final Entity clickedEntity;
+	private final EntityUseAction action;
+	private boolean cancelled = false;
 
 	/**
 	 * The constructor
 	 *
-	 * @param packet packet object
-	 * @param player receiver
+	 * @param player        the player who clicked
+	 * @param clickedEntity clicked entity
+	 * @param action        action
 	 */
-	public PacketSendEvent(Object packet, Player player) {
-		super(true);
-		this.packet = packet;
-		this.player = player;
-		this.cancelled = false;
-	}
-
-	@Override
-	public Player getPlayer() {
-		return player;
-	}
-
-	@Override
-	public Object getPacket() {
-		return packet;
-	}
-
-	@Override
-	public String getPacketName() {
-		return this.packet.getClass().getSimpleName();
-	}
-
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
+	public PlayerInteractEntityEvent(Player player, Entity clickedEntity, EntityUseAction action) {
+		super(player);
+		this.clickedEntity = clickedEntity;
+		this.action = action;
 	}
 
 	@Override
@@ -70,14 +50,37 @@ public class PacketSendEvent extends Event implements Cancellable, PacketEvent {
 	}
 
 	@Override
-	public void setCancelled(boolean b) {
-		cancelled = b;
+	public void setCancelled(boolean cancel) {
+		this.cancelled = cancel;
+	}
+
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
+
+	/**
+	 * Gets the entity that was clicked by the player.
+	 *
+	 * @return entity clicked by player
+	 */
+	public Entity getEntity() {
+		return this.clickedEntity;
+	}
+
+	/**
+	 * Gets use action
+	 *
+	 * @return entity use action
+	 */
+	public EntityUseAction getAction() {
+		return action;
 	}
 
 	/**
 	 * Gets handler list
 	 *
-	 * @return handler list
+	 * @return the handler list
 	 */
 	public static HandlerList getHandlerList() {
 		return handlers;

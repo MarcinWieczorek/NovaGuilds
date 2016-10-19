@@ -19,11 +19,11 @@
 package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.event.GuildAbandonEvent;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.event.GuildAbandonEvent;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

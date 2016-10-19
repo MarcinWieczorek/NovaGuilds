@@ -23,8 +23,6 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.command.guild.CommandGuildCreate;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.event.GuildCreateEvent;
-import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;

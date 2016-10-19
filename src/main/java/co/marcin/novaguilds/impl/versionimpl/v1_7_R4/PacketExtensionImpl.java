@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.impl.versionimpl.v1_7_R4;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.event.PacketReceiveEvent;
+import co.marcin.novaguilds.api.event.PacketSendEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
-import co.marcin.novaguilds.event.PacketReceiveEvent;
-import co.marcin.novaguilds.event.PacketSendEvent;
 import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;

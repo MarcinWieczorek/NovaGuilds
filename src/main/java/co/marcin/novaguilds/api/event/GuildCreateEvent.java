@@ -16,32 +16,30 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.event;
+package co.marcin.novaguilds.api.event;
 
-import co.marcin.novaguilds.enums.EntityUseAction;
-import org.bukkit.entity.Entity;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 
-public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellable {
+public class GuildCreateEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
-	protected final Entity clickedEntity;
-	private final EntityUseAction action;
-	private boolean cancelled = false;
+	private final NovaGuild guild;
+	private final Player creator;
+	private boolean cancelled;
 
 	/**
 	 * The constructor
 	 *
-	 * @param player        the player who clicked
-	 * @param clickedEntity clicked entity
-	 * @param action        action
+	 * @param guild   the guild
+	 * @param creator the creator
 	 */
-	public PlayerInteractEntityEvent(Player player, Entity clickedEntity, EntityUseAction action) {
-		super(player);
-		this.clickedEntity = clickedEntity;
-		this.action = action;
+	public GuildCreateEvent(NovaGuild guild, Player creator) {
+		this.guild = guild;
+		this.creator = creator;
 	}
 
 	@Override
@@ -51,7 +49,7 @@ public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellabl
 
 	@Override
 	public void setCancelled(boolean cancel) {
-		this.cancelled = cancel;
+		cancelled = cancel;
 	}
 
 	@Override
@@ -60,21 +58,21 @@ public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellabl
 	}
 
 	/**
-	 * Gets the entity that was clicked by the player.
+	 * Gets the player who created the guild
 	 *
-	 * @return entity clicked by player
+	 * @return the player
 	 */
-	public Entity getEntity() {
-		return this.clickedEntity;
+	public Player getCreator() {
+		return creator;
 	}
 
 	/**
-	 * Gets use action
+	 * Gets the guild
 	 *
-	 * @return entity use action
+	 * @return the guild
 	 */
-	public EntityUseAction getAction() {
-		return action;
+	public NovaGuild getGuild() {
+		return guild;
 	}
 
 	/**

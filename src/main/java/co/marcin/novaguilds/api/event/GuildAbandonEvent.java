@@ -16,49 +16,30 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.event;
+package co.marcin.novaguilds.api.event;
 
-import co.marcin.novaguilds.api.util.packet.PacketEvent;
-import org.bukkit.entity.Player;
+
+import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.enums.AbandonCause;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PacketReceiveEvent extends Event implements Cancellable, PacketEvent {
+public class GuildAbandonEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
-	private final Player player;
-	private final Object packet;
+	private final NovaGuild guild;
 	private boolean cancelled;
+	private AbandonCause cause;
 
 	/**
 	 * The constructor
 	 *
-	 * @param packet the packet
-	 * @param player the receiver
+	 * @param guild the guild
+	 * @param cause abandon cause
 	 */
-	public PacketReceiveEvent(Object packet, Player player) {
-		this.packet = packet;
-		this.player = player;
-	}
-
-	@Override
-	public Object getPacket() {
-		return packet;
-	}
-
-	@Override
-	public Player getPlayer() {
-		return player;
-	}
-
-	@Override
-	public String getPacketName() {
-		return packet.getClass().getSimpleName();
-	}
-
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
+	public GuildAbandonEvent(NovaGuild guild, AbandonCause cause) {
+		this.guild = guild;
+		this.cause = cause;
 	}
 
 	@Override
@@ -67,8 +48,40 @@ public class PacketReceiveEvent extends Event implements Cancellable, PacketEven
 	}
 
 	@Override
-	public void setCancelled(boolean b) {
-		cancelled = b;
+	public void setCancelled(boolean cancel) {
+		cancelled = cancel;
+	}
+
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
+
+	/**
+	 * Gets the guild
+	 *
+	 * @return the guild
+	 */
+	public NovaGuild getGuild() {
+		return guild;
+	}
+
+	/**
+	 * Sets the cause
+	 *
+	 * @param cause the cause
+	 */
+	public void setCause(AbandonCause cause) {
+		this.cause = cause;
+	}
+
+	/**
+	 * Gets the cause
+	 *
+	 * @return the cause
+	 */
+	public AbandonCause getCause() {
+		return cause;
 	}
 
 	/**

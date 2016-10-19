@@ -18,8 +18,8 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_8_R3;
 
+import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
-import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;

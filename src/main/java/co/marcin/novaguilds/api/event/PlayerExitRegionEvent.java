@@ -16,30 +16,28 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.event;
+package co.marcin.novaguilds.api.event;
 
-
-import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.enums.AbandonCause;
+import co.marcin.novaguilds.api.basic.NovaRegion;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 
-public class GuildAbandonEvent extends Event implements Cancellable {
+public class PlayerExitRegionEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
-	private final NovaGuild guild;
 	private boolean cancelled;
-	private AbandonCause cause;
+	private final NovaRegion region;
 
 	/**
 	 * The constructor
 	 *
-	 * @param guild the guild
-	 * @param cause abandon cause
+	 * @param who    player
+	 * @param region region
 	 */
-	public GuildAbandonEvent(NovaGuild guild, AbandonCause cause) {
-		this.guild = guild;
-		this.cause = cause;
+	public PlayerExitRegionEvent(Player who, NovaRegion region) {
+		super(who);
+		this.region = region;
 	}
 
 	@Override
@@ -48,8 +46,8 @@ public class GuildAbandonEvent extends Event implements Cancellable {
 	}
 
 	@Override
-	public void setCancelled(boolean cancel) {
-		cancelled = cancel;
+	public void setCancelled(boolean b) {
+		cancelled = b;
 	}
 
 	@Override
@@ -58,30 +56,12 @@ public class GuildAbandonEvent extends Event implements Cancellable {
 	}
 
 	/**
-	 * Gets the guild
+	 * Gets the region
 	 *
-	 * @return the guild
+	 * @return exited region
 	 */
-	public NovaGuild getGuild() {
-		return guild;
-	}
-
-	/**
-	 * Sets the cause
-	 *
-	 * @param cause the cause
-	 */
-	public void setCause(AbandonCause cause) {
-		this.cause = cause;
-	}
-
-	/**
-	 * Gets the cause
-	 *
-	 * @return the cause
-	 */
-	public AbandonCause getCause() {
-		return cause;
+	public NovaRegion getRegion() {
+		return region;
 	}
 
 	/**

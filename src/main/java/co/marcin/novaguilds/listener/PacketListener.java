@@ -18,9 +18,9 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.enums.Config;
-import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.event.EventHandler;

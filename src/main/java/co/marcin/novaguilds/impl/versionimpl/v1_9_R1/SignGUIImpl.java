@@ -18,8 +18,8 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_9_R1;
 
+import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.util.Packet;
-import co.marcin.novaguilds.event.PacketReceiveEvent;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
 import co.marcin.novaguilds.impl.versionimpl.v1_9_R1.packet.PacketPlayInUpdateSign;

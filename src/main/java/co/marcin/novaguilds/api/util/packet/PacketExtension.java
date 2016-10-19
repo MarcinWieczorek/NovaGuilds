@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.api.util.packet;
 
-import co.marcin.novaguilds.event.PacketReceiveEvent;
+import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 

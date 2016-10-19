@@ -18,9 +18,9 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_7_R4;
 
+import co.marcin.novaguilds.api.event.PacketReceiveEvent;
+import co.marcin.novaguilds.api.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.enums.EntityUseAction;
-import co.marcin.novaguilds.event.PacketReceiveEvent;
-import co.marcin.novaguilds.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.util.LoggerUtils;
