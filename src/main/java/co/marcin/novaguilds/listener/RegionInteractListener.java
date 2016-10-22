@@ -73,6 +73,10 @@ public class RegionInteractListener extends AbstractListener {
 		if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
 			new Non1_7Events();
 		}
+
+		if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R3)) {
+			new Non1_8Events();
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -384,14 +388,16 @@ public class RegionInteractListener extends AbstractListener {
 		}
 	}
 
-	@EventHandler
-	public void onCauldronLevelChange(CauldronLevelChangeEvent event) {
-		Player player = (Player) event.getEntity();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+	private class Non1_8Events extends AbstractListener {
+		@EventHandler
+		public void onCauldronLevelChange(CauldronLevelChangeEvent event) {
+			Player player = (Player) event.getEntity();
+			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
-		if(RegionManager.get(event.getBlock()) != null && (!plugin.getRegionManager().canInteract(player, event.getBlock()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
-			event.setCancelled(true);
-			Message.CHAT_REGION_DENY_INTERACT.send(player);
+			if(RegionManager.get(event.getBlock()) != null && (!plugin.getRegionManager().canInteract(player, event.getBlock()) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.BLOCK_PLACE)))) {
+				event.setCancelled(true);
+				Message.CHAT_REGION_DENY_INTERACT.send(player);
+			}
 		}
 	}
 
