@@ -18,6 +18,8 @@
 
 package co.marcin.novaguilds.api.storage;
 
+import java.util.Map;
+
 public interface Storage {
 	/**
 	 * Set up the directories, connect to database etc.
@@ -34,6 +36,13 @@ public interface Storage {
 	 * @param <T> type parameter
 	 */
 	<T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz);
+
+	/**
+	 * Gets all resource managers
+	 *
+	 * @return list of resource managers
+	 */
+	Map<Class<? extends Resource>, ResourceManager<? extends Resource>> getResourceManagers();
 
 	/**
 	 * Registers resource manager

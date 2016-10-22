@@ -45,6 +45,11 @@ public abstract class AbstractStorage implements Storage {
 	}
 
 	@Override
+	public Map<Class<? extends Resource>, ResourceManager<? extends Resource>> getResourceManagers() {
+		return resourceManagers;
+	}
+
+	@Override
 	public <T extends Resource> void registerResourceManager(Class<T> clazz, ResourceManager<T> resourceManager) {
 		resourceManagers.put(clazz, resourceManager);
 	}
