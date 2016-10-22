@@ -20,7 +20,6 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -115,22 +114,16 @@ public class LoginListener extends AbstractListener {
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
-		nPlayer.setPlayer(null);
 
-		//remove player from raid
-		if(nPlayer.isPartRaid()) {
-			for(NovaRaid raid : plugin.getGuildManager().getRaidsTakingPart(nPlayer.getGuild())) {
-				raid.removePlayerOccupying(nPlayer);
-			}
+		if(nPlayer.isAtRegion()) {
+			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
 		}
+
+		nPlayer.setPlayer(null);
 
 		//Guild inactive time
 		if(nPlayer.hasGuild()) {
 			nPlayer.getGuild().updateInactiveTime();
-		}
-
-		if(nPlayer.isAtRegion()) {
-			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
 		}
 	}
 }
