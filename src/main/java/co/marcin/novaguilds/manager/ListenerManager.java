@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.manager;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.impl.util.logging.LoggedPluginManager;
 import co.marcin.novaguilds.listener.ChatListener;
 import co.marcin.novaguilds.listener.ChestGUIListener;
@@ -35,7 +34,7 @@ import org.bukkit.event.Event;
 
 public class ListenerManager {
 	private PacketListener packetListener;
-	private static final LoggedPluginManager loggedPluginManager = new LoggedPluginManager(NovaGuilds.getInstance()) {
+	private static final LoggedPluginManager loggedPluginManager = new LoggedPluginManager() {
 		@Override
 		protected void customHandler(Event event, Throwable e) {
 			LoggerUtils.exception(e);

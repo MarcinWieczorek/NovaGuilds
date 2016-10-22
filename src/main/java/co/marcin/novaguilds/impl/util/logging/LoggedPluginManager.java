@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.util.logging;
 
 import com.google.common.collect.Lists;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventException;
 import org.bukkit.event.EventPriority;
@@ -47,12 +48,10 @@ public abstract class LoggedPluginManager implements PluginManager {
 	private final PluginManager delegate;
 
 	/**
-	 * A constructor using Plugin instance
-	 *
-	 * @param plugin the plugin
+	 * The constructor
 	 */
-	public LoggedPluginManager(Plugin plugin) {
-		this(plugin.getServer().getPluginManager());
+	public LoggedPluginManager() {
+		this(Bukkit.getPluginManager());
 	}
 
 	/**
