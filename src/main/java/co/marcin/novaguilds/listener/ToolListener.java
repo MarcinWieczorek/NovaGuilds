@@ -63,7 +63,16 @@ public class ToolListener extends AbstractListener {
 
 		event.setCancelled(true);
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-		Location pointedLocation = player.getTargetBlock((HashSet<Byte>) null, 200).getLocation();
+
+		Location pointedLocation;
+		try {
+			pointedLocation = player.getTargetBlock((HashSet<Byte>) null, 200).getLocation();
+		}
+		catch(IllegalStateException ignored) {
+			//This happens.
+			return;
+		}
+
 		Action action = event.getAction();
 		RegionSelection.Type selectionType = RegionSelection.Type.NONE;
 		pointedLocation.setWorld(player.getWorld());
