@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.versionimpl.v1_8_R3;
 
 import co.marcin.novaguilds.api.event.PacketReceiveEvent;
+import co.marcin.novaguilds.api.event.PacketSendEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -91,7 +92,10 @@ public class PacketExtensionImpl implements PacketExtension {
 		ChannelHandler handler = new ChannelDuplexHandler() {
 			@Override
 			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-				if(msg == null) {
+				PacketSendEvent event = new PacketSendEvent(msg, player);
+				ListenerManager.getLoggedPluginManager().callEvent(event);
+
+				if(event.isCancelled() || event.getPacket() == null) {
 					return;
 				}
 
