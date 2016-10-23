@@ -22,7 +22,6 @@ import co.marcin.novaguilds.manager.DependencyManager;
 
 public enum Dependency {
 	VAULT("Vault", true),
-	NORTHTAB("NorthTab", false),
 	VANISHNOPACKET("VanishNoPacket", false),
 	ESSENTIALS("Essentials", false),
 	BOSSBARAPI("BossBarAPI", false),

@@ -18,6 +18,8 @@
 
 package co.marcin.novaguilds.api;
 
+import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.manager.CommandManager;
@@ -136,4 +138,12 @@ public interface NovaGuildsAPI {
 	 * @return the storage
 	 */
 	Storage getStorage();
+
+	/**
+	 * Creates a TabList for a player
+	 *
+	 * @param nPlayer player instance
+	 * @return tablist object
+	 */
+	TabList createTabList(NovaPlayer nPlayer);
 }

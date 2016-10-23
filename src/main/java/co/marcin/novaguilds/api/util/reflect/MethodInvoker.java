@@ -16,23 +16,15 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.runnable;
+package co.marcin.novaguilds.api.util.reflect;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.util.LoggerUtils;
-import co.marcin.novaguilds.util.TabUtils;
-import org.bukkit.entity.Player;
-
-import java.util.Collection;
-
-public class RunnableRefreshTabList implements Runnable {
-	@Override
-	public void run() {
-		TabUtils.refresh();
-
-		Collection<Player> onlinePlayers = NovaGuilds.getOnlinePlayers();
-		if(!onlinePlayers.isEmpty()) {
-			LoggerUtils.debug("TabList refreshed (" + onlinePlayers.size() + " players)");
-		}
-	}
+public interface MethodInvoker<T> {
+	/**
+	 * Invokes a method
+	 *
+	 * @param target    target object
+	 * @param arguments arguments
+	 * @return returned object
+	 */
+	T invoke(Object target, Object... arguments);
 }

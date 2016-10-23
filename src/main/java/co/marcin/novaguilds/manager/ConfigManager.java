@@ -227,18 +227,6 @@ public class ConfigManager {
 			LoggerUtils.error("You can't use Titles with Bukkit other than 1.8");
 		}
 
-		//Tablist
-		if(Config.TABLIST_ENABLED.getBoolean()) {
-			try {
-				Class.forName("co.marcin.novaguilds.impl.versionimpl." + getServerVersion().getString() + ".TabListImpl");
-				LoggerUtils.info("Loaded TabList implementation for version: " + getServerVersion().getString());
-			}
-			catch(ClassNotFoundException e) {
-				Config.TABLIST_ENABLED.set(false);
-				LoggerUtils.error("TabList not found for version " + getServerVersion().getString());
-			}
-		}
-
 		String primaryDataStorageTypeString = Config.DATASTORAGE_PRIMARY.getString().toUpperCase();
 		String secondaryDataStorageTypeString = Config.DATASTORAGE_SECONDARY.getString().toUpperCase();
 
@@ -321,7 +309,6 @@ public class ConfigManager {
 
 		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (getServerVersion().isNewerThan(ServerVersion.MINECRAFT_1_8_R2) || plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
 		Config.BOSSBAR_RAIDBAR_ENABLED.set(Config.BOSSBAR_RAIDBAR_ENABLED.getBoolean() && Config.BOSSBAR_ENABLED.getBoolean());
-		Config.TABLIST_ENABLED.set(Config.TABLIST_ENABLED.getBoolean() && (plugin.getDependencyManager().isEnabled(Dependency.NORTHTAB) && getServerVersion() == ServerVersion.MINECRAFT_1_8_R2));
 		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));
 
 		//Run tasks

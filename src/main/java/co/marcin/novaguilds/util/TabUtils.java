@@ -50,7 +50,7 @@ public final class TabUtils {
 	 *
 	 * @param nPlayer target player
 	 */
-	public static void refresh(NovaPlayer nPlayer) {
+	public static void refresh(final NovaPlayer nPlayer) {
 		if(!Config.TABLIST_ENABLED.getBoolean()) {
 			return;
 		}
@@ -59,7 +59,17 @@ public final class TabUtils {
 			return;
 		}
 
-		nPlayer.getTabList().send();
+		if(Bukkit.isPrimaryThread()) {
+			new Thread() {
+				@Override
+				public void run() {
+					nPlayer.getTabList().send();
+				}
+			}.start();
+		}
+		else {
+			nPlayer.getTabList().send();
+		}
 	}
 
 	/**
@@ -92,10 +102,15 @@ public final class TabUtils {
 	 *
 	 * @param list list of players
 	 */
-	public static void refresh(List<NovaPlayer> list) {
-		for(NovaPlayer nPlayer : list) {
-			refresh(nPlayer);
-		}
+	public static void refresh(final List<NovaPlayer> list) {
+		new Thread() {
+			@Override
+			public void run() {
+				for(NovaPlayer nPlayer : list) {
+					refresh(nPlayer);
+				}
+			}
+		}.start();
 	}
 
 	/**

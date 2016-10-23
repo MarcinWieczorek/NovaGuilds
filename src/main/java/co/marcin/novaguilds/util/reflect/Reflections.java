@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.util.reflect;
 
+import co.marcin.novaguilds.api.util.reflect.MethodInvoker;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -198,7 +199,38 @@ public class Reflections {
 				return m;
 			}
 		}
+
 		return null;
+	}
+
+	public static <T> MethodInvoker<T> getMethod(final Class<?> cl, final Class<T> type, final String methodName, final Class<?>... args) {
+		return new MethodInvoker<T>() {
+			private final Method method;
+
+			{
+				if(args.length == 0) {
+					method = getMethod(cl, methodName);
+				}
+				else {
+					method = getMethod(cl, methodName, args);
+				}
+
+				if(!method.getReturnType().equals(type)) {
+					throw new IllegalArgumentException("Invalid return type. " + type.getName() + " assumed, got " + method.getReturnType().getName());
+				}
+			}
+
+			@Override
+			@SuppressWarnings("unchecked")
+			public T invoke(Object target, Object... arguments) {
+				try {
+					return (T) method.invoke(target, arguments);
+				}
+				catch(IllegalAccessException | InvocationTargetException e) {
+					throw new RuntimeException("Cannot access reflection.", e);
+				}
+			}
+		};
 	}
 
 	/**
@@ -223,6 +255,26 @@ public class Reflections {
 	}
 
 	/**
+	 * Converts the value to an enum
+	 *
+	 * @param clazz enum class
+	 * @return enum value
+	 */
+	public static Enum getEnumConstant(Class<?> clazz, String name) {
+		if(!clazz.isEnum()) {
+			return null;
+		}
+
+		for(Object enumConstant : clazz.getEnumConstants()) {
+			if(((Enum)enumConstant).name().equalsIgnoreCase(name)) {
+				return (Enum) enumConstant;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Gets CraftBukkit version
 	 *
 	 * @return the version
@@ -240,17 +292,6 @@ public class Reflections {
 		 * @return instance
 		 */
 		Object invoke(Object... arguments);
-	}
-
-	public interface MethodInvoker {
-		/**
-		 * Invokes a method
-		 *
-		 * @param target    target object
-		 * @param arguments arguments
-		 * @return returned object
-		 */
-		Object invoke(Object target, Object... arguments);
 	}
 
 	public interface FieldAccessor<T> {

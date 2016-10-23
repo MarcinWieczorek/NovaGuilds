@@ -97,12 +97,9 @@ holographicdisplays:
  refresh: 15m
 
 ###################################################
-# That's some Cauldron magic (mod support etc)    #
-packets:
- enabled: true
-
 # Custom entities (Flan's mod tanks etc.)         #
- advancedentityuse: false
+# Vanilla Minecraft will work fine with this off  #
+advancedentityuse: false
 
 ###################################################
 # Save interval                                   #
@@ -220,7 +217,7 @@ raid:
 # (1.00 = 100s to take life)                      #
  multipler: 1.00
 
-# time guild has to rest in seconds (24h)         #
+# time guild has to rest after a raid (24h)       #
  timerest: 24h
 
 # inactive time after which the raid is over      #
@@ -472,14 +469,6 @@ vault:
 
 ###################################################
 # The Tablist                                     #
-# It is available only for 1.8 versions           #
-# and requires NorthTab plugin as a dependency    #
-# That plugin can be found in local               #
-# or remote maven repositories.                   #
-# http://repo.novaguilds.pl/tk/northpl/NorthTab/1.1-INDEV/NorthTab-1.1-INDEV.jar
-# It can be also found in                         #
-# ~/.m2/repository/tk/northpl/NorthTab/           #
-# if you've compiled the plugin yourself          #
 # All vars and info is available on the website   #
 # which is given on the top                       #
 #                                                 #
@@ -490,10 +479,17 @@ vault:
 # in the scheme. The plugin will do the rest      #
 tablist:
 # enabled?                                        #
- enabled: false
+ enabled: true
 
 # refresh interval                                #
  refresh: 30s
+
+# header and footer                               #
+ header: "NovaGuilds"
+ footer: "Marcin (CTRL) Wieczorek"
+
+# The skin to be displayed in the tab             #
+ texture: "MHF_Question"
 
 # top patterns                                    #
  toprow:

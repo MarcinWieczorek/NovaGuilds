@@ -20,9 +20,7 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
-import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.impl.util.AbstractListener;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.event.EventHandler;
 
 import java.util.HashMap;
@@ -37,11 +35,6 @@ public class PacketListener extends AbstractListener {
 	 * @param packetHandler the handler
 	 */
 	public static void register(PacketExtension.PacketHandler packetHandler) {
-		if(!Config.PACKETS_ENABLED.getBoolean()) {
-			LoggerUtils.info("Could not register " + packetHandler.getPacketName() + " handler. Packets are disabled.");
-			return;
-		}
-
 		PacketExtension.PacketHandler existingHandler = getHandler(packetHandler.getPacketName());
 		if(existingHandler != null && existingHandler.getPriority().getSlot() >= packetHandler.getPriority().getSlot()) {
 			return;

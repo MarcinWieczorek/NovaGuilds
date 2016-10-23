@@ -20,15 +20,12 @@ package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
-import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
-import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -37,8 +34,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class LoginListener extends AbstractListener {
 	@EventHandler
@@ -84,23 +79,14 @@ public class LoginListener extends AbstractListener {
 		}
 
 		//PacketExtension
-		if(Config.PACKETS_ENABLED.getBoolean()) {
+		if(plugin.getPacketExtension() != null) {
 			plugin.getPacketExtension().registerPlayer(player);
 		}
 
 		//Tab
 		if(Config.TABLIST_ENABLED.getBoolean()) {
-			try {
-				TabList tabList = (TabList) Class.forName("co.marcin.novaguilds.impl.versionimpl." + ConfigManager.getServerVersion().getString() + ".TabListImpl")
-						.getConstructor(NovaPlayer.class)
-						.newInstance(nPlayer);
-				nPlayer.setTabList(tabList);
-				TabUtils.refresh();
-			}
-			catch(ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-				LoggerUtils.exception(e);
-				Config.TABLIST_ENABLED.set(false);
-			}
+			nPlayer.setTabList(plugin.createTabList(nPlayer));
+			TabUtils.refresh(nPlayer);
 		}
 
 		//Guild inactive time
