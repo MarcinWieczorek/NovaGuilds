@@ -76,13 +76,18 @@ public class BossBarUtils {
 				switch(ConfigManager.getServerVersion()) {
 					case MINECRAFT_1_7_R3:
 					case MINECRAFT_1_7_R4:
+					case MINECRAFT_1_8_R1:
 					case MINECRAFT_1_8_R2:
 					case MINECRAFT_1_8_R3:
 						if(NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BOSSBARAPI)) {
 							bossBarUtils = new BossBarUtilsBossBarImpl();
 						}
-						else {
+						else if(NovaGuilds.getInstance().getDependencyManager().isEnabled(Dependency.BARAPI)) {
 							bossBarUtils = new BossBarUtilsBarAPIImpl();
+						}
+						else {
+							bossBarUtils = abstractBossBarUtils;
+							Config.BOSSBAR_ENABLED.set(false);
 						}
 						break;
 					case MINECRAFT_1_9_R1:
