@@ -212,6 +212,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					break;
 				case MINECRAFT_1_9_R1:
 					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
+					tabListClass = co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class;
 
 					if(Config.SIGNGUI_ENABLED.getBoolean()) {
 						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.SignGUIImpl();
