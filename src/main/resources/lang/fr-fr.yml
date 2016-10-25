@@ -588,6 +588,10 @@ inventory:
  gui:
   guildtop: "SIGN 1"
   hometp: "ENDER_PEARL 1 name:Foyer"
+  join:
+   title: "Joining a guild"
+   iconitem: "IRON_DOOR 1 name:Join_a_guild"
+   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILDNAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYERNAME}"
   settings:
    title: "Réglages de la guilde"
    item:

@@ -22,6 +22,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
+import co.marcin.novaguilds.impl.util.guiinventory.guild.GUIInventoryGuildJoin;
 import co.marcin.novaguilds.impl.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
 import co.marcin.novaguilds.impl.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
 import co.marcin.novaguilds.impl.util.guiinventory.guild.settings.GUIInventoryGuildSettings;
@@ -36,6 +37,7 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 	private ItemStack settingsItem;
 	private ItemStack homeTeleportItem;
 	private ItemStack guildTopItem;
+	private ItemStack joinItem;
 
 	/**
 	 * The constructor
@@ -60,6 +62,9 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 		else if(clickedItemStack.equals(homeTeleportItem)) {
 			Bukkit.dispatchCommand(getViewer().getPlayer(), "g home");
 		}
+		else if(clickedItemStack.equals(joinItem)) {
+			new GUIInventoryGuildJoin(getViewer().getInvitedTo()).open(getViewer());
+		}
 	}
 
 	@Override
@@ -71,6 +76,7 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 		settingsItem = Message.INVENTORY_GUI_SETTINGS_ITEM_ICON.getItemStack();
 		homeTeleportItem = Message.INVENTORY_GUI_HOMETP.getItemStack();
 		guildTopItem = Message.INVENTORY_GUI_GUILDTOP.getItemStack();
+		joinItem = Message.INVENTORY_GUI_JOIN_ICONITEM.getItemStack();
 
 		if(guildTopItem != null) {
 			add(guildTopItem);
@@ -86,6 +92,9 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 			}
 
 			add(settingsItem);
+		}
+		else {
+			add(joinItem);
 		}
 	}
 

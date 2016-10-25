@@ -114,9 +114,8 @@ public final class ItemStackUtils {
 			for(String detail : explode) {
 				if(detail != null) {
 					if(detail.contains(":")) {
-						String[] detailSplit = detail.split(":");
+						String[] detailSplit = detail.split(":", 2);
 						String value = detailSplit[1];
-						//Bukkit.getLogger().info(detailSplit[0] + " : " + value);
 						switch(detailSplit[0].toLowerCase()) {
 							case "name":
 								name = value;
