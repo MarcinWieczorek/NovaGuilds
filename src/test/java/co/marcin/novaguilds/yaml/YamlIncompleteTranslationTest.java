@@ -81,6 +81,7 @@ public class YamlIncompleteTranslationTest {
 
 		//Get keys from all langs
 		System.out.println("Testing lang files for missing keys...");
+		int globalMissingCount = 0;
 		for(Map.Entry<String, YamlConfiguration> entry : configurationMap.entrySet()) {
 			int missingCount = 0;
 			String name = entry.getKey();
@@ -101,12 +102,14 @@ public class YamlIncompleteTranslationTest {
 				}
 			}
 
-			if(missingCount == 0) {
-				System.out.println("Result: No missing keys");
-			}
-			else {
-				throw new Exception("Found " + missingCount + " missing keys in lang " + name);
-			}
+			globalMissingCount += missingCount;
+		}
+
+		if(globalMissingCount == 0) {
+			System.out.println("Result: No missing keys");
+		}
+		else {
+			throw new Exception("Found " + globalMissingCount + " missing keys in lang files");
 		}
 	}
 }
