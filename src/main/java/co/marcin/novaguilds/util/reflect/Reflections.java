@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.util.reflect;
 
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.api.util.reflect.MethodInvoker;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -26,6 +27,7 @@ import org.bukkit.entity.Entity;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 @SuppressWarnings("ConstantConditions")
 public class Reflections {
@@ -143,6 +145,16 @@ public class Reflections {
 					public boolean hasField(Object target) {
 						return field.getDeclaringClass().isAssignableFrom(target.getClass());
 					}
+
+					@Override
+					public void setNotFinal() {
+						try {
+							Reflections.setNotFinal(field);
+						}
+						catch(IllegalAccessException | NoSuchFieldException e) {
+							throw new RuntimeException("Cannot access reflection.", e);
+						}
+					}
 				};
 			}
 		}
@@ -201,6 +213,11 @@ public class Reflections {
 		}
 
 		return null;
+	}
+
+	public static void setNotFinal(Field field) throws IllegalAccessException, NoSuchFieldException {
+		Field modifiersField = getPrivateField(Field.class, "modifiers");
+		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 	}
 
 	public static <T> MethodInvoker<T> getMethod(final Class<?> cl, final Class<T> type, final String methodName, final Class<?>... args) {
@@ -292,31 +309,5 @@ public class Reflections {
 		 * @return instance
 		 */
 		Object invoke(Object... arguments);
-	}
-
-	public interface FieldAccessor<T> {
-		/**
-		 * Gets a field
-		 *
-		 * @param target target object
-		 * @return field
-		 */
-		T get(Object target);
-
-		/**
-		 * Sets a value to a field
-		 *
-		 * @param target target object
-		 * @param value  value
-		 */
-		void set(Object target, Object value);
-
-		/**
-		 * Checks if object has specified field
-		 *
-		 * @param target target object
-		 * @return boolean
-		 */
-		boolean hasField(Object target);
 	}
 }

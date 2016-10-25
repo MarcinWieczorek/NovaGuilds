@@ -21,6 +21,7 @@ package co.marcin.novaguilds.impl.versionimpl.v1_8_R3;
 import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.event.PacketSendEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -31,14 +32,13 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
 public class PacketExtensionImpl implements PacketExtension {
-	protected static Reflections.FieldAccessor<Channel> clientChannelField;
+	protected static FieldAccessor<Channel> clientChannelField;
 	protected static Field networkManagerField;
 	protected static Field playerConnectionField;
 	protected static Method handleMethod;

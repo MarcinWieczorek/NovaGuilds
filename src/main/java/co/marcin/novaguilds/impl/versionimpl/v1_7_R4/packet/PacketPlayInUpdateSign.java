@@ -18,16 +18,17 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet;
 
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.impl.util.AbstractPacket;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 
 public class PacketPlayInUpdateSign extends AbstractPacket {
 	protected static Class<?> packetInUpdateSignClass;
-	protected static Reflections.FieldAccessor<String[]> linesField;
-	protected static Reflections.FieldAccessor<Integer> xField;
-	protected static Reflections.FieldAccessor<Integer> yField;
-	protected static Reflections.FieldAccessor<Integer> zField;
+	protected static FieldAccessor<String[]> linesField;
+	protected static FieldAccessor<Integer> xField;
+	protected static FieldAccessor<Integer> yField;
+	protected static FieldAccessor<Integer> zField;
 
 	private final String[] lines;
 

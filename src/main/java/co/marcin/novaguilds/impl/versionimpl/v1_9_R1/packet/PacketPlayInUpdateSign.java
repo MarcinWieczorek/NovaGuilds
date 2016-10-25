@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.versionimpl.v1_9_R1.packet;
 
 import co.marcin.novaguilds.api.util.BlockPositionWrapper;
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.impl.util.AbstractPacket;
 import co.marcin.novaguilds.impl.versionimpl.v1_9_R1.BlockPositionWrapperImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -29,7 +30,7 @@ import java.lang.reflect.Field;
 public class PacketPlayInUpdateSign extends AbstractPacket {
 	protected static Class<?> packetInUpdateSignClass;
 	protected static Field blockPositionField;
-	protected static Reflections.FieldAccessor<String[]> linesField;
+	protected static FieldAccessor<String[]> linesField;
 
 	private String[] lines;
 	private BlockPositionWrapper blockPositionWrapper;

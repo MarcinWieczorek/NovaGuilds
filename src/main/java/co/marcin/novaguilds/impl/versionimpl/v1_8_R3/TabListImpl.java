@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.versionimpl.v1_8_R3;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.Packet;
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.api.util.reflect.MethodInvoker;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.impl.basic.AbstractTabList;
@@ -68,7 +69,7 @@ public class TabListImpl extends AbstractTabList {
 	protected static MethodInvoker<Collection> propertyMapGetMethod;
 	protected static Method propertyMapPutAllMethod;
 	protected static Field packetPlayerOutPlayerInfoBField;
-	protected static Field minecraftServerMinecraftSessionServiceField;
+	protected static FieldAccessor<?> minecraftServerMinecraftSessionServiceField;
 
 	protected final Object[] profiles = new Object[80];
 	protected boolean first = true;
@@ -97,7 +98,7 @@ public class TabListImpl extends AbstractTabList {
 			propertyMapGetMethod = Reflections.getMethod(propertyMapClass, Collection.class, "get");
 			propertyMapPutAllMethod = Reflections.getMethod(propertyMapClass, "putAll", Multimap.class);
 			packetPlayerOutPlayerInfoBField = Reflections.getPrivateField(packetPlayerOutPlayerInfoClass, "b");
-			minecraftServerMinecraftSessionServiceField = Reflections.getPrivateField(minecraftServerClass, "W");
+			minecraftServerMinecraftSessionServiceField = Reflections.getField(minecraftServerClass, minecraftSessionServiceClass, 0);
 
 			playerInfoDataConstructor = playerInfoDataClass.getConstructor(
 					packetPlayerOutPlayerInfoClass,

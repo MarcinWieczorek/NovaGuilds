@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.versionimpl.v1_7_R4;
 
 import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.event.PlayerInteractEntityEvent;
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
@@ -47,7 +48,7 @@ public class PacketListenerImpl extends AbstractListener {
 					Method nameMethod = Reflections.getMethod(enumAction.getClass(), "name");
 					EntityUseAction action = EntityUseAction.valueOf((String) nameMethod.invoke(enumAction));
 					Class<?> useEntityClass = Reflections.getCraftClass("PacketPlayInUseEntity");
-					Reflections.FieldAccessor<Integer> useEntityA = Reflections.getField(useEntityClass, int.class, 0);
+					FieldAccessor<Integer> useEntityA = Reflections.getField(useEntityClass, int.class, 0);
 					int id = useEntityA.get(packet);
 
 					Entity entity = null;
