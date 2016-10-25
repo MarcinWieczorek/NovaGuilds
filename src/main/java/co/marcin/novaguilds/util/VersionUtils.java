@@ -36,17 +36,12 @@ public class VersionUtils {
 
 	static {
 		if(!init) {
-			new Thread() {
-				@Override
-				public void run() {
-					try {
-						new VersionUtils();
-					}
-					catch(IOException e) {
-						LoggerUtils.exception(e);
-					}
-				}
-			}.run();
+			try {
+				new VersionUtils();
+			}
+			catch(IOException e) {
+				LoggerUtils.exception(e);
+			}
 		}
 	}
 
