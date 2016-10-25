@@ -189,6 +189,8 @@ chat:
     name: "&4&l> &7/g &csetname &2- &6Fixe le nom"
     tag: "&4&l> &7/g &csettag &2- &6Fixe le tag"
    top: "&4&l> &7/g &ctop &2- &6Top 5"
+   vault:
+    restore: "&4&l> &7/g &cvault &2- &6Restore vault item"
    war: "&4&l> &7/g &cwar &6[&cguild&6] &2- &6Guerre!"
   region:
    access: "&4&l> &7/g &crg &2- &6Commandes de régions"
@@ -260,6 +262,7 @@ chat:
     - "&4&l> &7/g &cc &2- &6Change le canal de discution"
     - "&4&l> &7/ng &ctool &2- &6Vérifiez ou sélectionnez la zone avec votre outil!"
     - "&4&l> &7/gg &2- &6Menu de la guilde"
+    - "{VAULT_PLACE}&4&l> &7/g &cvault &2- &6Restore vault item"
     - "{BUYLIFE}&4&l> &7/g &cbuylife &2- &6Achète une vie"
     - "{BUYSLOT}&4&l> &7/g &cbuyslot &2- &6Étend la limitation du nombre de joueurs!"
     - "{EFFECT}&4&l> &7/g &ceffect &2- &6Effets pour la guilde"
@@ -304,6 +307,9 @@ chat:
     notempty: "Le coffre fort n'est pas vide!"
     success: "Coffre-fort détruit."
    denyrelative: "Vous ne pouvez pas placer ce block près du coffre-fort"
+   restore:
+    hasalready: "You have the item already in your inventory."
+    success: "Vault item successfuly restored."
 
   compasstarget:
    'on': "La boussole pointe désormais vers le foyer de votre guilde."

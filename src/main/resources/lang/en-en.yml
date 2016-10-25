@@ -189,6 +189,8 @@ chat:
     name: "&4&l> &7/g &csetname &2- &6Set the name"
     tag: "&4&l> &7/g &csettag &2- &6Set the tag"
    top: "&4&l> &7/g &ctop &2- &6Top 5"
+   vault:
+    restore: "&4&l> &7/g &cvault &2- &6Restore vault item"
    war: "&4&l> &7/g &cwar &6[&cguild&6] &2- &6War!"
   region:
    access: "&4&l> &7/g &crg &2- &6Region commands"
@@ -260,6 +262,7 @@ chat:
     - "&4&l> &7/g &cc &2- &6Change chat mode"
     - "&4&l> &7/ng &ctool &2- &6Check or select area with the tool!"
     - "&4&l> &7/gg &2- &6Guild's menu"
+    - "{VAULT_PLACE}&4&l> &7/g &cvault &2- &6Restore vault item"
     - "{BUYLIFE}&4&l> &7/g &cbuylife &2- &6Buy a life"
     - "{BUYSLOT}&4&l> &7/g &cbuyslot &2- &6Extend players count limit!"
     - "{EFFECT}&4&l> &7/g &ceffect &2- &6Effect for guild"
@@ -304,6 +307,9 @@ chat:
     notempty: "The vault is not empty!"
     success: "Vault destroyed."
    denyrelative: "You cannot place this block next to the vault"
+   restore:
+    hasalready: "You have the item already in your inventory."
+    success: "Vault item successfuly restored."
 
   compasstarget:
    'on': "The compass is now pointing your guild's home."

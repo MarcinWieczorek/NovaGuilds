@@ -486,6 +486,10 @@ mvn clean install
             <td>/g top</td>
         </tr>
         <tr>
+            <td>novaguilds.guild.vault.restore</td>
+            <td>/g vault</td>
+        </tr>
+        <tr>
             <td>novaguilds.guild.war</td>
             <td>/g war [guild]</td>
         </tr>

@@ -91,6 +91,7 @@ import co.marcin.novaguilds.command.guild.CommandGuildRequiredItems;
 import co.marcin.novaguilds.command.guild.CommandGuildSetName;
 import co.marcin.novaguilds.command.guild.CommandGuildSetTag;
 import co.marcin.novaguilds.command.guild.CommandGuildTop;
+import co.marcin.novaguilds.command.guild.CommandGuildVaultRestore;
 import co.marcin.novaguilds.command.guild.CommandGuildWar;
 import co.marcin.novaguilds.command.region.CommandRegion;
 import co.marcin.novaguilds.command.region.CommandRegionBuy;
@@ -172,6 +173,7 @@ public final class Command extends CommandWrapperImpl {
 	public static final CommandWrapper GUILD_PVPTOGGLE =                      new Command(CommandGuildPvpToggle.class,                      Permission.NOVAGUILDS_GUILD_PVPTOGGLE,                                   Message.CHAT_USAGE_GUILD_PVPTOGGLE,                                 Flag.NOCONSOLE              );
 	public static final CommandWrapper GUILD_REQUIREDITEMS =                  new Command(CommandGuildRequiredItems.class,                  Permission.NOVAGUILDS_GUILD_REQUIREDITEMS,                               Message.CHAT_USAGE_GUILD_REQUIREDITEMS,                             Flag.NOCONSOLE              );
 	public static final CommandWrapper GUILD_TOP =                            new Command(CommandGuildTop.class,                            Permission.NOVAGUILDS_GUILD_TOP,                                         Message.CHAT_USAGE_GUILD_TOP                                                                    );
+	public static final CommandWrapper GUILD_VAULT_RESTORE =                  new Command(CommandGuildVaultRestore.class,                   Permission.NOVAGUILDS_GUILD_VAULT_RESTORE,                               Message.CHAT_USAGE_GUILD_VAULT_RESTORE,                             Flag.NOCONSOLE              );
 	public static final CommandWrapper GUILD_WAR =                            new Command(CommandGuildWar.class,                            Permission.NOVAGUILDS_GUILD_WAR,                                         Message.CHAT_USAGE_GUILD_WAR,                                       Flag.NOCONSOLE              );
 	public static final CommandWrapper GUILD_OPENINVITATION =                 new Command(CommandGuildOpenInvitation.class,                 Permission.NOVAGUILDS_GUILD_OPENINVITATION,                              Message.CHAT_USAGE_GUILD_OPENINVITATION,                            Flag.NOCONSOLE              );
 	public static final CommandWrapper GUILD_SET_NAME =                       new Command(CommandGuildSetName.class,                        Permission.NOVAGUILDS_GUILD_SET_NAME,                                    Message.CHAT_USAGE_GUILD_SET_NAME,                                  Flag.NOCONSOLE              );

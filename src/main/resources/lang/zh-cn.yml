@@ -189,6 +189,8 @@ chat:
     name: "&4&l> &7/g &csetname &2- &6Set the name"
     tag: "&4&l> &7/g &csettag &2- &6Set the tag"
    top: "&4&l> &7/g &ctop &2- &6查看公会排行前5的玩家"
+   vault:
+    restore: "&4&l> &7/g &cvault &2- &6Restore vault item"
    war: "&4&l> &7/g &cwar &6[&c公会名&6] &2- &6向指定公会宣战."
   region:
    access: "&4&l> &7/g &crg &2- &6领地命令"
@@ -260,6 +262,7 @@ chat:
     - "&4&l> &7/g &cc &2- &6Change chat mode"
     - "&4&l> &7/ng &ctool &2- &6用工具检查指定领地"
     - "&4&l> &7/gg &2- &6公会菜单"
+    - "{VAULT_PLACE}&4&l> &7/g &cvault &2- &6Restore vault item"
     - "{BUYLIFE}&4&l> &7/g &cbuylife &2- &6购买生活区"
     - "{BUYSLOT}&4&l> &7/g &cbuyslot &2- &6扩展公会玩家人数限制!"
     - "{EFFECT}&4&l> &7/g &ceffect &2- &6公会特效"
@@ -304,6 +307,9 @@ chat:
     notempty: "该公会仓库内尚有物品！"
     success: "公会仓库已移除."
    denyrelative: "不能把公会仓库放在这个地方"
+   restore:
+    hasalready: "You have the item already in your inventory."
+    success: "Vault item successfuly restored."
 
   compasstarget:
    'on': "指南针现在指向你的公会出生点."

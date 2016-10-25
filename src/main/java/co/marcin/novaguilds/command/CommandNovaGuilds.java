@@ -19,13 +19,11 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.api.basic.NovaGroup;
-import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.GroupManager;
-import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.VersionUtils;
@@ -81,19 +79,6 @@ public class CommandNovaGuilds extends AbstractCommandExecutor {
 		switch(args[0].toLowerCase()) {
 			case "tool":
 				Command.TOOL_GET.execute(sender, args);
-				break;
-			case "bank":
-				if(!sender.hasPermission("novaguilds.test.bank")) {
-					Message.CHAT_NOPERMISSIONS.send(sender);
-					return;
-				}
-
-				if(sender instanceof Player) {
-					NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-					if(nPlayer.hasGuild()) {
-						((Player) sender).getInventory().addItem(Config.VAULT_ITEM.getItemStack());
-					}
-				}
 				break;
 			case "admin":
 				Command.ADMIN_ACCESS.execute(sender, StringUtils.parseArgs(args, 1));
