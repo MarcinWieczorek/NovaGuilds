@@ -347,7 +347,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public boolean isPartRaid() {
-		return !(partRaid == null);
+		return partRaid != null;
 	}
 
 	@Override

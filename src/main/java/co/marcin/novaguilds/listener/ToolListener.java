@@ -277,6 +277,19 @@ public class ToolListener extends AbstractListener {
 				selection.setValidity(regionValidity);
 			}
 
+			if(selection.hasBothSelections()
+					&& selection.getValidity() == RegionValidity.TOOBIG
+					&& (selection.getWidth() > Config.REGION_MAXSIZE.getInt() * 1.5 || selection.getLength() > Config.REGION_MAXSIZE.getInt() * 1.5)) {
+				if(selection.isSent()) {
+					RegionSelection activeSelection = nPlayer.getActiveSelection();
+					selection.reset();
+
+					if(selection.equals(activeSelection)) {
+						nPlayer.setActiveSelection(selection);
+					}
+				}
+				return;
+			}
 			selection.send();
 		}
 	}

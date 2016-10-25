@@ -37,7 +37,7 @@ import java.util.List;
 
 public class RegionSelectionImpl implements RegionSelection {
 	private final List<Block> blockList = new ArrayList<>();
-	private final List<Location> corners = new ArrayList<>(2);
+	private final Location[] corners = new Location[2];
 	private final List<NovaPlayer> playerList = new ArrayList<>();
 	private final Type type;
 	private RegionValidity regionValidity = RegionValidity.VALID;
@@ -134,25 +134,19 @@ public class RegionSelectionImpl implements RegionSelection {
 
 	@Override
 	public void setCorner(Integer index, Location location) {
-		if(index != 0 && index != 1) {
-			throw new IllegalArgumentException("Index can be either 0 or 1");
-		}
-
+		checkCornerBounds(index);
 		Location corner = null;
 		if(location != null) {
 			corner = location.clone();
 			corner.setY(0);
 		}
 
-		corners.add(index, corner);
+		corners[index] = corner;
 	}
 
 	@Override
 	public void setResizingCorner(Integer index) {
-		if(index != 0 && index != 1) {
-			throw new IllegalArgumentException("Index can be either 0 or 1");
-		}
-
+		checkCornerBounds(index);
 		this.resizingCorner = index;
 	}
 
@@ -209,12 +203,28 @@ public class RegionSelectionImpl implements RegionSelection {
 
 	@Override
 	public boolean hasBothSelections() {
-		return corners.get(0) != null && corners.get(1) != null;
+		return getCorner(0) != null && getCorner(1) != null;
+	}
+
+	@Override
+	public boolean isSent() {
+		return !blockList.isEmpty();
+	}
+
+	@Override
+	public int getWidth() {
+		return Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX()) + 1;
+	}
+
+	@Override
+	public int getLength() {
+		return Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
 	}
 
 	@Override
 	public Location getCorner(Integer index) {
-		return corners.size() > index ? corners.get(index) : null;
+		checkCornerBounds(index);
+		return corners[index];
 	}
 
 	@Override
@@ -345,5 +355,11 @@ public class RegionSelectionImpl implements RegionSelection {
 
 		player.sendBlockChange(location, material, data);
 		getBlocks().add(location.getBlock());
+	}
+
+	protected final void checkCornerBounds(int index) {
+		if(index != 0 && index != 1) {
+			throw new IllegalArgumentException("Index can be either 0 or 1");
+		}
 	}
 }

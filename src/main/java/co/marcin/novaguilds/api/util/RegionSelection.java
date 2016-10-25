@@ -128,6 +128,27 @@ public interface RegionSelection {
 	boolean hasBothSelections();
 
 	/**
+	 * Checks if the selection has been sent
+	 *
+	 * @return boolean
+	 */
+	boolean isSent();
+
+	/**
+	 * Gets selection width
+	 *
+	 * @return width in blocks
+	 */
+	int getWidth();
+
+	/**
+	 * Gets selection length
+	 *
+	 * @return length in blocks
+	 */
+	int getLength();
+
+	/**
 	 * Sets a corner
 	 *
 	 * @param index    index (0/1)
