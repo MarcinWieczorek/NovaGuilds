@@ -213,7 +213,7 @@ public class TabListImpl extends AbstractTabList {
 		}
 	}
 
-	protected final String digit (int i) {
+	protected final String digit(int i) {
 		return i > 9 ? "" + i : "0" + i;
 	}
 }

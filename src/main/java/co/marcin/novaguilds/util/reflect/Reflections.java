@@ -283,7 +283,7 @@ public class Reflections {
 		}
 
 		for(Object enumConstant : clazz.getEnumConstants()) {
-			if(((Enum)enumConstant).name().equalsIgnoreCase(name)) {
+			if(((Enum) enumConstant).name().equalsIgnoreCase(name)) {
 				return (Enum) enumConstant;
 			}
 		}

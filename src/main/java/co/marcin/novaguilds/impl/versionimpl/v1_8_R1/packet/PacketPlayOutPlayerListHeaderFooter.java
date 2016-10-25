@@ -51,8 +51,8 @@ public class PacketPlayOutPlayerListHeaderFooter extends AbstractPacket {
 	 *
 	 * @param header header string
 	 * @param footer footer string
-	 * @throws IllegalAccessException when something goes wrong
-	 * @throws InstantiationException when something goes wrong
+	 * @throws IllegalAccessException    when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
 	 * @throws InvocationTargetException when something goes wrong
 	 */
 	public PacketPlayOutPlayerListHeaderFooter(String header, String footer) throws IllegalAccessException, InstantiationException, InvocationTargetException {

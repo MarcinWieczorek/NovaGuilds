@@ -253,7 +253,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				getPacketExtension().registerPlayer(p);
 			}
 
-			 if(!Config.ADVANCEDENTITYUSE.getBoolean()) {
+			if(!Config.ADVANCEDENTITYUSE.getBoolean()) {
 				getServer().getPluginManager().registerEvents(new Listener() {
 					@EventHandler
 					public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {

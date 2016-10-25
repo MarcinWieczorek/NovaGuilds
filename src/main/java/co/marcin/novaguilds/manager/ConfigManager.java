@@ -497,7 +497,6 @@ public class ConfigManager {
 	 * Gets material data
 	 * from a string after a colon
 	 * STONE:1
-	 *       ^
 	 *
 	 * @param path config path
 	 * @return the value

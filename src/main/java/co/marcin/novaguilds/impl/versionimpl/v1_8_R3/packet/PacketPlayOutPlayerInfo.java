@@ -61,11 +61,11 @@ public class PacketPlayOutPlayerInfo extends AbstractPacket {
 	/**
 	 * The constructor
 	 *
-	 * @param action action enum
+	 * @param action  action enum
 	 * @param players list of players
-	 * @throws IllegalAccessException when something goes wrong
+	 * @throws IllegalAccessException    when something goes wrong
 	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
 	 */
 	public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action, Iterable<Player> players) throws IllegalAccessException, InvocationTargetException, InstantiationException {
 		Object craftEnum = Reflections.getEnumConstant(enumPlayerInfoActionClass, action.name());
@@ -83,11 +83,11 @@ public class PacketPlayOutPlayerInfo extends AbstractPacket {
 	/**
 	 * The constructor
 	 *
-	 * @param action action enum
+	 * @param action  action enum
 	 * @param players array of players
-	 * @throws IllegalAccessException when something goes wrong
+	 * @throws IllegalAccessException    when something goes wrong
 	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
 	 */
 	public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action, Player... players) throws IllegalAccessException, InstantiationException, InvocationTargetException {
 		this(action, Arrays.asList(players));
@@ -98,9 +98,9 @@ public class PacketPlayOutPlayerInfo extends AbstractPacket {
 	 * The constructor with no players
 	 *
 	 * @param action action enum
-	 * @throws IllegalAccessException when something goes wrong
+	 * @throws IllegalAccessException    when something goes wrong
 	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
 	 */
 	public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action) throws IllegalAccessException, InstantiationException, InvocationTargetException {
 		this(action, new ArrayList<Player>());

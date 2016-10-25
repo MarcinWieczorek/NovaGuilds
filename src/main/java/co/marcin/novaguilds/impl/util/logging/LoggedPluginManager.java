@@ -178,17 +178,13 @@ public abstract class LoggedPluginManager implements PluginManager {
 	}
 
 	@Override
-	public void registerEvent(
-			Class<? extends Event> event, Listener listener, EventPriority priority,
-			EventExecutor executor, Plugin plugin) {
+	public void registerEvent(Class<? extends Event> event, Listener listener, EventPriority priority, EventExecutor executor, Plugin plugin) {
 
 		delegate.registerEvent(event, listener, priority, getWrappedExecutor(executor), plugin);
 	}
 
 	@Override
-	public void registerEvent(
-			Class<? extends Event> event, Listener listener,
-			EventPriority priority, EventExecutor executor, Plugin plugin, boolean ignoreCancel) {
+	public void registerEvent(Class<? extends Event> event, Listener listener, EventPriority priority, EventExecutor executor, Plugin plugin, boolean ignoreCancel) {
 
 		delegate.registerEvent(event, listener, priority, getWrappedExecutor(executor), plugin);
 	}
