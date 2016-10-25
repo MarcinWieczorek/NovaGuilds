@@ -14,9 +14,11 @@ Please leave feedback!<br/><br/>
 <br/><br/>
 
 <b>Vault</b> is required!<br/>
-<b>BarAPI/BossBarAPI</b> is optional<br/>
+<b>Essentials</b> is optional but <b>highly</b> recommended!<br/>
+<b>BarAPI/BossBarAPI</b> is optional (Not anymore since 1.9, it's not needed)<br/>
 <b>HolographicDisplays</b> is optional<br/>
-<b>VanishNoPacket</b> is optional<br/>
+<b>VanishNoPacket</b> is supported by the plugin<br/>
+<b>ScoreBoardStats</b> is optional<br/>
 <br/><br/>
 [![Join the chat at https://gitter.im/MarcinWieczorek/NovaGuilds](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MarcinWieczorek/NovaGuilds?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/MarcinWieczorek/NovaGuilds.svg?branch=master)](https://travis-ci.org/MarcinWieczorek/NovaGuilds)
