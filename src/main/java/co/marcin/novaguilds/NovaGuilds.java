@@ -70,7 +70,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
@@ -100,7 +102,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private PacketExtension packetExtension;
 	private Storage storage;
 	private SignGUI signGUI;
-	private Constructor<? extends TabList> tabListConstructor;
+	private final Map<ConfigManager.ServerVersion, Constructor<? extends TabList>> tabListConstructorMap = new HashMap<>();
 	private static Method getOnlinePlayersMethod;
 
 	static {
@@ -168,75 +170,81 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				getHologramManager().load();
 			}
 
-			Class<? extends TabList> tabListClass = null;
 
-			switch(ConfigManager.getServerVersion()) {
+			ConfigManager.ServerVersion serverVersion = ConfigManager.getServerVersion();
+			if(Config.ADVANCEDENTITYUSE.getBoolean() &&
+					(serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R3 || serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
+				new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketListenerImpl();
+			}
+
+			//Packet extension
+			switch(serverVersion) {
 				case MINECRAFT_1_7_R3:
 					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketExtensionImpl();
-
-					if(Config.SIGNGUI_ENABLED.getBoolean()) {
-						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7_R3.SignGUIImpl();
-					}
-
-					if(Config.ADVANCEDENTITYUSE.getBoolean()) {
-						new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketListenerImpl();
-					}
 					break;
 				case MINECRAFT_1_7_R4:
 					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketExtensionImpl();
-
-					if(Config.SIGNGUI_ENABLED.getBoolean()) {
-						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.SignGUIImpl();
-					}
-
-					if(Config.ADVANCEDENTITYUSE.getBoolean()) {
-						new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketListenerImpl();
-					}
 					break;
 				case MINECRAFT_1_8_R1:
-					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
-					tabListClass = co.marcin.novaguilds.impl.versionimpl.v1_8_R1.TabListImpl.class;
-
-					if(Config.SIGNGUI_ENABLED.getBoolean()) {
-						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8_R1.SignGUIImpl();
-					}
-					break;
 				case MINECRAFT_1_8_R2:
 				case MINECRAFT_1_8_R3:
-					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
-					tabListClass = co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class;
-
-					if(Config.SIGNGUI_ENABLED.getBoolean()) {
-						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.SignGUIImpl();
-					}
-					break;
 				case MINECRAFT_1_9_R1:
-					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
-					tabListClass = co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class;
-
-					if(Config.SIGNGUI_ENABLED.getBoolean()) {
-						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.SignGUIImpl();
-					}
-					break;
 				case MINECRAFT_1_9_R2:
 				case MINECRAFT_1_10_R1:
 				case MINECRAFT_1_10_R2:
-				default:
 					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
-
-					if(Config.SIGNGUI_ENABLED.getBoolean()) {
-						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R2.SignGUIImpl();
-					}
 					break;
 			}
 
-			if(Config.TABLIST_ENABLED.getBoolean()) {
-				if(tabListClass != null) {
-					tabListConstructor = tabListClass.getConstructor(NovaPlayer.class);
+			//SignGUI
+			if(Config.SIGNGUI_ENABLED.getBoolean()) {
+				switch(serverVersion) {
+					case MINECRAFT_1_7_R3:
+						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7_R3.SignGUIImpl();
+						break;
+					case MINECRAFT_1_7_R4:
+						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.SignGUIImpl();
+						break;
+					case MINECRAFT_1_8_R1:
+						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8_R1.SignGUIImpl();
+						break;
+					case MINECRAFT_1_8_R2:
+					case MINECRAFT_1_8_R3:
+						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.SignGUIImpl();
+						break;
+					case MINECRAFT_1_9_R1:
+						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.SignGUIImpl();
+						break;
+					case MINECRAFT_1_9_R2:
+					case MINECRAFT_1_10_R1:
+					case MINECRAFT_1_10_R2:
+						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R2.SignGUIImpl();
+						break;
 				}
-				else {
+			}
+
+			if(Config.TABLIST_ENABLED.getBoolean()) {
+				final Map<ConfigManager.ServerVersion, Class<? extends TabList>> tabListClassMap = new HashMap<>();
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_8_R1, co.marcin.novaguilds.impl.versionimpl.v1_8_R1.TabListImpl.class);
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_8_R2, co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class);
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_8_R3, co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class);
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_9_R1, co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class);
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_9_R2, co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class);
+
+				for(ConfigManager.ServerVersion version : ConfigManager.ServerVersion.values()) {
+					Class<? extends TabList> tabListClass = tabListClassMap.get(version);
+					Constructor<? extends TabList> tabListConstructor = null;
+
+					if(tabListClass != null) {
+						tabListConstructor = tabListClass.getConstructor(NovaPlayer.class);
+					}
+
+					tabListConstructorMap.put(version, tabListConstructor);
+				}
+
+				if(tabListConstructorMap.get(serverVersion) == null) {
 					Config.TABLIST_ENABLED.set(false);
-					LoggerUtils.error("TabList not found for version " + ConfigManager.getServerVersion().getString());
+					LoggerUtils.error("TabList not found for version " + serverVersion.getString());
 				}
 			}
 
@@ -400,6 +408,27 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 
 	@Override
+	public TabList createTabList(ConfigManager.ServerVersion serverVersion, NovaPlayer nPlayer) {
+		if(!Config.TABLIST_ENABLED.getBoolean()) {
+			throw new IllegalArgumentException("TabList is disabled");
+		}
+
+		try {
+			return tabListConstructorMap.get(serverVersion).newInstance(nPlayer);
+		}
+		catch(IllegalAccessException | InstantiationException | InvocationTargetException e) {
+			LoggerUtils.exception(e);
+			Config.TABLIST_ENABLED.set(false);
+			return null;
+		}
+	}
+
+	@Override
+	public TabList createTabList(NovaPlayer nPlayer) {
+		return createTabList(ConfigManager.getServerVersion(), nPlayer);
+	}
+
+	@Override
 	public RankManager getRankManager() {
 		return rankManager;
 	}
@@ -512,21 +541,5 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private void setupWrappedLogger() throws NoSuchFieldException, IllegalAccessException {
 		Field loggerField = Reflections.getPrivateField(JavaPlugin.class, "logger");
 		loggerField.set(this, new WrappedLogger(this));
-	}
-
-	@Override
-	public TabList createTabList(NovaPlayer nPlayer) {
-		if(!Config.TABLIST_ENABLED.getBoolean()) {
-			throw new IllegalArgumentException("TabList is disabled");
-		}
-
-		try {
-			return tabListConstructor.newInstance(nPlayer);
-		}
-		catch(IllegalAccessException | InstantiationException | InvocationTargetException e) {
-			LoggerUtils.exception(e);
-			Config.TABLIST_ENABLED.set(false);
-			return null;
-		}
 	}
 }

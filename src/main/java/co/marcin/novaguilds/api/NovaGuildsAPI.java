@@ -143,6 +143,15 @@ public interface NovaGuildsAPI {
 	 * Creates a TabList for a player
 	 *
 	 * @param nPlayer player instance
+	 * @param version version
+	 * @return tablist object
+	 */
+	TabList createTabList(ConfigManager.ServerVersion version, NovaPlayer nPlayer);
+
+	/**
+	 * Creates a TabList for a player
+	 *
+	 * @param nPlayer player instance
 	 * @return tablist object
 	 */
 	TabList createTabList(NovaPlayer nPlayer);
