@@ -23,7 +23,6 @@ import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.ChatMode;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.RegionMode;
-import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 

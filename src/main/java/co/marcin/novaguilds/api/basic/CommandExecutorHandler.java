@@ -16,24 +16,58 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.api.util;
+package co.marcin.novaguilds.api.basic;
 
-import java.util.List;
+import co.marcin.novaguilds.api.storage.Resource;
 
-public interface IConverter<K, V> {
-	/**
-	 * Converts a list
-	 *
-	 * @param list the list
-	 * @return converted list
-	 */
-	List<V> convert(List<K> list);
+public interface CommandExecutorHandler extends Runnable {
+	enum State {
+		WAITING,
+		CANCELED,
+		CONFIRMED
+	}
 
 	/**
-	 * Converts an object
-	 *
-	 * @param k the object
-	 * @return converted object
+	 * Executes the command
 	 */
-	V convert(K k);
+	void execute();
+
+	/**
+	 * Cancels the command
+	 */
+	void cancel();
+
+	/**
+	 * Sets command status as confirmed
+	 * and executes it
+	 */
+	void confirm();
+
+	/**
+	 * Gets the command
+	 *
+	 * @return the command enum
+	 */
+	CommandWrapper getCommand();
+
+	/**
+	 * Gets execution status
+	 *
+	 * @return get the state
+	 */
+	State getState();
+
+	/**
+	 * Gets executor variable
+	 *
+	 * @return the object
+	 */
+	Resource getExecutorVariable();
+
+	/**
+	 * Sets executor variable
+	 *
+	 * @param executorVariable the object
+	 */
+	void executorVariable(Resource executorVariable);
 }

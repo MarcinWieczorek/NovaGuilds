@@ -18,11 +18,11 @@
 
 package co.marcin.novaguilds.command;
 
+import co.marcin.novaguilds.api.basic.CommandExecutorHandler;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
-import co.marcin.novaguilds.runnable.CommandExecutorHandler;
 import org.bukkit.command.CommandSender;
 
 public class CommandConfirm extends AbstractCommandExecutor {

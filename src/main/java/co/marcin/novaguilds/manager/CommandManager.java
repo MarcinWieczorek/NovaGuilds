@@ -20,10 +20,10 @@ package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
+import co.marcin.novaguilds.api.basic.CommandExecutorHandler;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Command;
-import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -140,7 +140,7 @@ public class CommandManager {
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if((sender instanceof Player) && (command.hasFlag(CommandWrapper.Flag.CONFIRM) && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandlerState.CONFIRMED))) {
+		if((sender instanceof Player) && (command.hasFlag(CommandWrapper.Flag.CONFIRM) && !Permission.NOVAGUILDS_ADMIN_NOCONFIRM.has(sender) && (nPlayer.getCommandExecutorHandler() == null || nPlayer.getCommandExecutorHandler().getState() != CommandExecutorHandler.State.CONFIRMED))) {
 			nPlayer.newCommandExecutorHandler(command, args);
 			nPlayer.getCommandExecutorHandler().executorVariable(command.getExecutorVariable());
 		}

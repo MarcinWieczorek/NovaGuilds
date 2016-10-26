@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.runnable;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.CommandExecutorHandler;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.storage.Resource;
-import co.marcin.novaguilds.enums.CommandExecutorHandlerState;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -29,11 +29,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitTask;
 
-public class CommandExecutorHandler implements Runnable {
+public class CommandExecutorHandlerImpl implements CommandExecutorHandler {
 	private final CommandSender sender;
 	private final CommandWrapper command;
 	private final String[] args;
-	private CommandExecutorHandlerState state = CommandExecutorHandlerState.WAITING;
+	private State state = State.WAITING;
 	private final BukkitTask bukkitTask;
 	private Resource executorVariable;
 
@@ -44,7 +44,7 @@ public class CommandExecutorHandler implements Runnable {
 	 * @param sender  command sender
 	 * @param args    arguments
 	 */
-	public CommandExecutorHandler(CommandWrapper command, CommandSender sender, String[] args) {
+	public CommandExecutorHandlerImpl(CommandWrapper command, CommandSender sender, String[] args) {
 		this.command = command;
 		this.sender = sender;
 		this.args = args;
@@ -57,77 +57,54 @@ public class CommandExecutorHandler implements Runnable {
 		}
 	}
 
-	/**
-	 * Executes the command
-	 */
+	@Override
 	public void execute() {
-		if(getState() == CommandExecutorHandlerState.CONFIRMED || !command.hasFlag(CommandWrapper.Flag.CONFIRM)) {
+		if(getState() == State.CONFIRMED || !command.hasFlag(CommandWrapper.Flag.CONFIRM)) {
 			command.executorVariable(executorVariable);
 			command.execute(sender, args);
 			PlayerManager.getPlayer(sender).removeCommandExecutorHandler();
 		}
 	}
 
-	/**
-	 * Cancels the command
-	 */
+	@Override
 	public void cancel() {
-		state = CommandExecutorHandlerState.CANCELED;
+		state = State.CANCELED;
 		bukkitTask.cancel();
 		PlayerManager.getPlayer(sender).removeCommandExecutorHandler();
 	}
 
-	/**
-	 * Sets command status as confirmed
-	 * and executes it
-	 */
+	@Override
 	public void confirm() {
-		if(state != CommandExecutorHandlerState.CANCELED) {
-			state = CommandExecutorHandlerState.CONFIRMED;
+		if(state != State.CANCELED) {
+			state = State.CONFIRMED;
 			execute();
 		}
 	}
 
 	@Override
 	public void run() {
-		if(state == CommandExecutorHandlerState.WAITING) {
+		if(state == State.WAITING) {
 			cancel();
 			Message.CHAT_CONFIRM_TIMEOUT.send(sender);
 		}
 	}
 
-	/**
-	 * Gets the command
-	 *
-	 * @return the command enum
-	 */
+	@Override
 	public CommandWrapper getCommand() {
 		return command;
 	}
 
-	/**
-	 * Gets execution status
-	 *
-	 * @return get the state
-	 */
-	public CommandExecutorHandlerState getState() {
+	@Override
+	public State getState() {
 		return state;
 	}
 
-	/**
-	 * Gets executor variable
-	 *
-	 * @return the object
-	 */
-	public Object getExecutorVariable() {
+	@Override
+	public Resource getExecutorVariable() {
 		return executorVariable;
 	}
 
-	/**
-	 * Sets executor variable
-	 *
-	 * @param executorVariable the object
-	 */
+	@Override
 	public void executorVariable(Resource executorVariable) {
 		this.executorVariable = executorVariable;
 	}
