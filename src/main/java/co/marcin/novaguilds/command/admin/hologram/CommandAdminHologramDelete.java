@@ -30,6 +30,6 @@ public class CommandAdminHologramDelete extends AbstractCommandExecutor.Reversed
 		NovaHologram hologram = getParameter();
 
 		hologram.delete();
-		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.setVar(VarKey.NAME, hologram.getName()).send(sender);
+		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.clone().setVar(VarKey.NAME, hologram.getName()).send(sender);
 	}
 }

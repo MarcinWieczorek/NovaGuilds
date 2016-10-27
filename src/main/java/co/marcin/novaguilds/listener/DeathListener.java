@@ -76,7 +76,7 @@ public class DeathListener extends AbstractListener {
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYER1, victim.getName());
 		vars.put(VarKey.PLAYER2, attacker.getName());
-		ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.vars(vars).newChatBroadcast();
+		ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.clone().vars(vars).newChatBroadcast();
 		chatBroadcast.setTag(1, preparedTag1);
 		chatBroadcast.setTag(2, preparedTag2);
 		chatBroadcast.send();
@@ -117,7 +117,7 @@ public class DeathListener extends AbstractListener {
 
 				if(money > 0) {
 					vars.put(VarKey.MONEY, String.valueOf(money));
-					Message.CHAT_PLAYER_PVPMONEY_KILL.vars(vars).send(attacker);
+					Message.CHAT_PLAYER_PVPMONEY_KILL.clone().vars(vars).send(attacker);
 				}
 			}
 			else {
@@ -125,7 +125,7 @@ public class DeathListener extends AbstractListener {
 
 				if(money > 0) {
 					vars.put(VarKey.MONEY, String.valueOf(money));
-					Message.CHAT_PLAYER_PVPMONEY_REVENGE.vars(vars).send(attacker);
+					Message.CHAT_PLAYER_PVPMONEY_REVENGE.clone().vars(vars).send(attacker);
 				}
 			}
 

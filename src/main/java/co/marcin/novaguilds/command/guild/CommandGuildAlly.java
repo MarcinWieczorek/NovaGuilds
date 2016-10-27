@@ -68,7 +68,7 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 
 			if(!guild.isAlly(allyGuild)) {
 				if(guild.isWarWith(allyGuild)) {
-					Message.CHAT_GUILD_ALLY_WAR.vars(vars).send(sender);
+					Message.CHAT_GUILD_ALLY_WAR.clone().vars(vars).send(sender);
 					return;
 				}
 
@@ -81,9 +81,9 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 					allyGuild.addAlly(guild);
 					guild.addAlly(allyGuild);
 					guild.removeAllyInvitation(allyGuild);
-					Message.BROADCAST_GUILD_ALLIED.vars(vars).broadcast();
+					Message.BROADCAST_GUILD_ALLIED.clone().vars(vars).broadcast();
 
-					Message.CHAT_GUILD_ALLY_ACCEPTED.vars(vars).send(sender);
+					Message.CHAT_GUILD_ALLY_ACCEPTED.clone().vars(vars).send(sender);
 
 					//tags & tab
 					TagUtils.refresh();
@@ -97,8 +97,8 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 						}
 
 						allyGuild.addAllyInvitation(guild);
-						Message.CHAT_GUILD_ALLY_INVITED.vars(vars).send(sender);
-						Message.CHAT_GUILD_ALLY_NOTIFYGUILD.vars(vars).broadcast(allyGuild);
+						Message.CHAT_GUILD_ALLY_INVITED.clone().vars(vars).send(sender);
+						Message.CHAT_GUILD_ALLY_NOTIFYGUILD.clone().vars(vars).broadcast(allyGuild);
 					}
 					else { //cancel inv
 						if(!nPlayer.hasPermission(GuildPermission.ALLY_INVITE_CANCEL)) {
@@ -108,8 +108,8 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 
 						allyGuild.removeAllyInvitation(guild);
 
-						Message.CHAT_GUILD_ALLY_CANCELED.vars(vars).send(sender);
-						Message.CHAT_GUILD_ALLY_NOTIFYGUILDCANCELED.vars(vars).broadcast(allyGuild);
+						Message.CHAT_GUILD_ALLY_CANCELED.clone().vars(vars).send(sender);
+						Message.CHAT_GUILD_ALLY_NOTIFYGUILDCANCELED.clone().vars(vars).broadcast(allyGuild);
 					}
 				}
 			}
@@ -122,7 +122,7 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 				guild.removeAlly(allyGuild);
 				allyGuild.removeAlly(guild);
 
-				Message.BROADCAST_GUILD_ENDALLY.vars(vars).broadcast();
+				Message.BROADCAST_GUILD_ENDALLY.clone().vars(vars).broadcast();
 
 				TagUtils.refresh();
 				TabUtils.refresh();

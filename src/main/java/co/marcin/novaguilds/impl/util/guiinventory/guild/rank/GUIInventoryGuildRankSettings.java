@@ -54,7 +54,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	 * @param rank the rank
 	 */
 	public GUIInventoryGuildRankSettings(NovaRank rank) {
-		super(9, Message.INVENTORY_GUI_RANK_SETTINGS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
+		super(9, Message.INVENTORY_GUI_RANK_SETTINGS_TITLE.clone().setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
 	}
 
@@ -95,7 +95,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		}
 		else if(clickedItemStack.equals(renameItem)) {
 			if(Config.SIGNGUI_ENABLED.getBoolean()) {
-				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_RANKS_SET_NAME.setVar(VarKey.INPUT, rank.getName()));
+				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_RANKS_SET_NAME.clone().setVar(VarKey.INPUT, rank.getName()));
 				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
 					@Override
 					public void onSignDone(Player player, String[] lines) {

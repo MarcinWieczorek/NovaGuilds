@@ -57,7 +57,7 @@ public class CommandGuildChatMode extends AbstractCommandExecutor {
 
 		nPlayer.setChatMode(chatMode);
 
-		Message.CHAT_GUILD_CHATMODE_SUCCESS.setVar(VarKey.MODE, chatMode.getName().get()).send(sender);
+		Message.CHAT_GUILD_CHATMODE_SUCCESS.clone().setVar(VarKey.MODE, chatMode.getName().get()).send(sender);
 		TabUtils.refresh(nPlayer);
 	}
 }

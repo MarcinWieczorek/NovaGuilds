@@ -40,7 +40,7 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 	 * @param rank the rank
 	 */
 	public GUIInventoryGuildPermissionSelect(NovaRank rank) {
-		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.setVar(VarKey.RANKNAME, rank.getName()));
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.clone().setVar(VarKey.RANKNAME, rank.getName()));
 		this.rank = rank;
 	}
 
@@ -69,10 +69,10 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 			vars.put(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
 
 			if(rank.hasPermission(perm)) {
-				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).getItemStack();
+				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.clone().vars(vars).getItemStack();
 			}
 			else {
-				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.vars(vars).getItemStack();
+				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.clone().vars(vars).getItemStack();
 			}
 
 			add(itemStack);
@@ -112,10 +112,10 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 		vars.put(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
 
 		if(rank.hasPermission(perm)) {
-			itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.vars(vars).getItemStack();
+			itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.clone().vars(vars).getItemStack();
 		}
 		else {
-			itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.vars(vars).getItemStack();
+			itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.clone().vars(vars).getItemStack();
 		}
 
 		inventory.setItem(slot, itemStack);

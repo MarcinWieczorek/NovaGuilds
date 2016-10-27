@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.util.Title;
 import co.marcin.novaguilds.enums.Config;
@@ -161,10 +162,10 @@ public class MessageManager {
 	/**
 	 * Gets message string from configuration
 	 *
-	 * @param message Message enum
+	 * @param message Message wrapper
 	 * @return message string
 	 */
-	public static String getMessagesString(Message message) {
+	public static String getMessagesString(MessageWrapper message) {
 		String msg = StringUtils.fixColors(getMessages().getString(message.getPath()));
 
 		return msg == null ? message.getPath() : msg;
@@ -207,9 +208,9 @@ public class MessageManager {
 	 * Sends a list of messages to a player
 	 *
 	 * @param sender  receiver
-	 * @param message Message enum
+	 * @param message Message wrapper
 	 */
-	public static void sendMessagesList(CommandSender sender, Message message) {
+	public static void sendMessagesList(CommandSender sender, MessageWrapper message) {
 		List<String> list = getMessages().getStringList(message.getPath());
 		Map<VarKey, String> vars = message.getVars();
 		boolean prefix = message.isPrefix();
@@ -234,9 +235,9 @@ public class MessageManager {
 	 * Sends a message to a player
 	 *
 	 * @param sender  receiver
-	 * @param message Message enum
+	 * @param message Message wrapper
 	 */
-	public static void sendMessagesMsg(CommandSender sender, Message message) {
+	public static void sendMessagesMsg(CommandSender sender, MessageWrapper message) {
 		String msg = getMessagesString(message);
 		msg = replaceVarKeyMap(msg, message.getVars());
 		boolean title = message.getTitle();
@@ -287,10 +288,10 @@ public class MessageManager {
 	 * Broadcasts Message to players
 	 *
 	 * @param playerList List of Players
-	 * @param message    Message enum
+	 * @param message    Message wrapper
 	 * @param permission Permission enum (null for none)
 	 */
-	public static void broadcast(List<Player> playerList, Message message, Permission permission) {
+	public static void broadcast(List<Player> playerList, MessageWrapper message, Permission permission) {
 		for(Player player : playerList) {
 			if(permission == null || permission.has(player)) {
 				message.send(player);
@@ -301,19 +302,19 @@ public class MessageManager {
 	/**
 	 * Broadcasts message from file to all players with permission
 	 *
-	 * @param message    Message enum
+	 * @param message    Message wrapper
 	 * @param permission Permission enum
 	 */
-	public static void broadcast(Message message, Permission permission) {
+	public static void broadcast(MessageWrapper message, Permission permission) {
 		broadcast(new ArrayList<>(NovaGuilds.getOnlinePlayers()), message, permission);
 	}
 
 	/**
 	 * Broadcasts message to all players
 	 *
-	 * @param message Message enum
+	 * @param message Message wrapper
 	 */
-	public static void broadcast(Message message) {
+	public static void broadcast(MessageWrapper message) {
 		broadcast(message, null);
 	}
 
@@ -321,9 +322,9 @@ public class MessageManager {
 	 * Broadcasts message to guild members
 	 *
 	 * @param guild   Guild instance
-	 * @param message Message enum
+	 * @param message Message wrapper
 	 */
-	public static void broadcast(NovaGuild guild, Message message) {
+	public static void broadcast(NovaGuild guild, MessageWrapper message) {
 		broadcast(guild.getOnlinePlayers(), message, null);
 	}
 
@@ -387,20 +388,20 @@ public class MessageManager {
 	/**
 	 * Sets a message
 	 *
-	 * @param message message enum
+	 * @param message Message wrapper
 	 * @param string  the message
 	 */
-	public static void set(Message message, String string) {
+	public static void set(MessageWrapper message, String string) {
 		getMessages().set(message.getPath(), string);
 	}
 
 	/**
 	 * Sets a list of strings as a message
 	 *
-	 * @param message message enum
+	 * @param message Message wrapper
 	 * @param list    list of strings
 	 */
-	public static void set(Message message, List<String> list) {
+	public static void set(MessageWrapper message, List<String> list) {
 		getMessages().set(message.getPath(), list);
 	}
 }

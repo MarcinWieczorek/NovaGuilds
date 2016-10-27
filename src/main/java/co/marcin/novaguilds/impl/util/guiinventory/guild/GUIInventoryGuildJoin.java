@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.util.guiinventory.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
@@ -59,7 +60,7 @@ public class GUIInventoryGuildJoin extends AbstractGUIInventory {
 		int slot = 0;
 		slotGuildsMap.clear();
 		for(NovaGuild guild : guildList) {
-			Message msg = Message.INVENTORY_GUI_JOIN_ROWITEM
+			MessageWrapper msg = Message.INVENTORY_GUI_JOIN_ROWITEM.clone()
 					.setVar(VarKey.GUILDNAME, guild.getName())
 					.setVar(VarKey.TAG, guild.getTag())
 					.setVar(VarKey.PLAYERNAME, guild.getLeader().getName());

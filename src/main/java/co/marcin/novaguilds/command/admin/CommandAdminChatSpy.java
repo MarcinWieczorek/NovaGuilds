@@ -60,11 +60,11 @@ public class CommandAdminChatSpy extends AbstractCommandExecutor {
 		if(!nPlayer.equals(nPlayerChange)) {
 			vars.put(VarKey.PLAYERNAME, nPlayerChange.getName());
 
-			Message.CHAT_ADMIN_SPYMODE_NOTIFY.vars(vars).send(nPlayerChange);
-			Message.CHAT_ADMIN_SPYMODE_SUCCESS_OTHER.vars(vars).send(sender);
+			Message.CHAT_ADMIN_SPYMODE_NOTIFY.clone().vars(vars).send(nPlayerChange);
+			Message.CHAT_ADMIN_SPYMODE_SUCCESS_OTHER.clone().vars(vars).send(sender);
 			return;
 		}
 
-		Message.CHAT_ADMIN_SPYMODE_SUCCESS_SELF.vars(vars).send(sender);
+		Message.CHAT_ADMIN_SPYMODE_SUCCESS_SELF.clone().vars(vars).send(sender);
 	}
 }

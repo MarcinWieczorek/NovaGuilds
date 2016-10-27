@@ -48,11 +48,11 @@ public class CommandAdminHologramTeleport extends AbstractCommandExecutor.Revers
 		vars.put(VarKey.NAME, hologram.getName());
 
 		if(sender.equals(player)) {
-			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_SELF.vars(vars).send(sender);
+			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_SELF.clone().vars(vars).send(sender);
 		}
 		else {
-			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_OTHER.vars(vars).send(sender);
-			Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.vars(vars).send(player);
+			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_OTHER.clone().vars(vars).send(sender);
+			Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.clone().vars(vars).send(player);
 		}
 	}
 }

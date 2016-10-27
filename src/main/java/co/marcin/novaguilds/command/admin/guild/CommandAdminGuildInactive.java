@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Message;
@@ -57,7 +58,7 @@ public class CommandAdminGuildInactive extends AbstractCommandExecutor {
 
 				Map<VarKey, String> vars = new HashMap<>();
 				vars.put(VarKey.COUNT, String.valueOf(count));
-				Message.CHAT_ADMIN_GUILD_INACTIVE_UPDATED.vars(vars).send(sender);
+				Message.CHAT_ADMIN_GUILD_INACTIVE_UPDATED.clone().vars(vars).send(sender);
 				return;
 			}
 			else if(args[0].equalsIgnoreCase("clean")) {
@@ -101,10 +102,10 @@ public class CommandAdminGuildInactive extends AbstractCommandExecutor {
 			vars.put(VarKey.PAGES, String.valueOf(pages_number));
 
 			if(pages_number > page) {
-				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.vars(vars).send(sender);
+				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.clone().vars(vars).send(sender);
 			}
 			else {
-				Message.CHAT_ADMIN_GUILD_LIST_PAGE_NONEXT.vars(vars).send(sender);
+				Message.CHAT_ADMIN_GUILD_LIST_PAGE_NONEXT.clone().vars(vars).send(sender);
 			}
 		}
 
@@ -121,7 +122,7 @@ public class CommandAdminGuildInactive extends AbstractCommandExecutor {
 			if(display) {
 				String inactiveString = StringUtils.secondsToString(NumberUtils.systemSeconds() - guild.getInactiveTime(), TimeUnit.SECONDS);
 
-				Message agoNowMessage = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_AGO.setVar(VarKey.INACTIVE, inactiveString);
+				MessageWrapper agoNowMessage = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_AGO.clone().setVar(VarKey.INACTIVE, inactiveString);
 				if(inactiveString.isEmpty()) {
 					agoNowMessage = Message.CHAT_ADMIN_GUILD_INACTIVE_LIST_NOW;
 				}

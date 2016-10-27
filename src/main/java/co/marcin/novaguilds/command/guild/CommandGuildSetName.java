@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.GuildPermission;
@@ -48,7 +49,7 @@ public class CommandGuildSetName extends AbstractCommandExecutor {
 
 		String newName = args[0];
 
-		Message validity = CommandGuildCreate.validName(newName);
+		MessageWrapper validity = CommandGuildCreate.validName(newName);
 
 		if(validity != null) {
 			validity.send(sender);

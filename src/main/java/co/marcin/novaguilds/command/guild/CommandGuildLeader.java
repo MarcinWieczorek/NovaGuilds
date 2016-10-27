@@ -78,8 +78,8 @@ public class CommandGuildLeader extends AbstractCommandExecutor {
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYERNAME, newLeader.getName());
 		vars.put(VarKey.GUILDNAME, guild.getName());
-		Message.CHAT_GUILD_LEADER_SUCCESS.vars(vars).send(sender);
-		Message.BROADCAST_GUILD_SETLEADER.vars(vars).broadcast();
+		Message.CHAT_GUILD_LEADER_SUCCESS.clone().vars(vars).send(sender);
+		Message.BROADCAST_GUILD_SETLEADER.clone().vars(vars).broadcast();
 
 		//Tab and tags
 		TagUtils.refresh();

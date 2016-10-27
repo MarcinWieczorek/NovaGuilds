@@ -62,10 +62,10 @@ public class CommandAdminGuildInvite extends AbstractCommandExecutor.Reversed<No
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYERNAME, nPlayer.getName());
 		vars.put(VarKey.GUILDNAME, guild.getName());
-		Message.CHAT_ADMIN_GUILD_INVITED.vars(vars).send(sender);
+		Message.CHAT_ADMIN_GUILD_INVITED.clone().vars(vars).send(sender);
 
 		if(nPlayer.isOnline()) {
-			Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(nPlayer);
+			Message.CHAT_PLAYER_INVITE_NOTIFY.clone().vars(vars).send(nPlayer);
 		}
 	}
 }

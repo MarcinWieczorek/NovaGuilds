@@ -72,7 +72,7 @@ public class CommandGuildBankWithdraw extends AbstractCommandExecutor {
 
 		guild.takeMoney(money);
 		nPlayer.addMoney(money);
-		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.setVar(VarKey.AMOUNT, money).send(sender);
+		Message.CHAT_GUILD_BANK_WITHDRAW_SUCCESS.clone().setVar(VarKey.AMOUNT, money).send(sender);
 		TabUtils.refresh(nPlayer.getGuild());
 	}
 }

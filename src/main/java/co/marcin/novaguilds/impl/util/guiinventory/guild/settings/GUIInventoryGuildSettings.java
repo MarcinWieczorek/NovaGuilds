@@ -52,7 +52,7 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 		ItemStack clicked = event.getCurrentItem();
 		if(clicked.equals(setNameItem)) {
 			if(Config.SIGNGUI_ENABLED.getBoolean()) {
-				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_NAME.setVar(VarKey.INPUT, getViewer().getGuild().getName()));
+				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_NAME.clone().setVar(VarKey.INPUT, getViewer().getGuild().getName()));
 				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
 					@Override
 					public void onSignDone(Player player, String[] lines) {
@@ -64,7 +64,7 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 		}
 		else if(clicked.equals(setTagItem)) {
 			if(Config.SIGNGUI_ENABLED.getBoolean()) {
-				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_TAG.setVar(VarKey.INPUT, getViewer().getGuild().getTag()));
+				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_TAG.clone().setVar(VarKey.INPUT, getViewer().getGuild().getTag()));
 				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
 					@Override
 					public void onSignDone(Player player, String[] lines) {
@@ -105,7 +105,7 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 		setTagItem = Message.INVENTORY_GUI_SETTINGS_ITEM_SET_TAG.getItemStack();
 		setHomeItem = Message.INVENTORY_GUI_SETTINGS_ITEM_SET_HOME.getItemStack();
 		togglePvpItem = (getViewer().getGuild().getFriendlyPvp() ? Message.INVENTORY_GUI_SETTINGS_ITEM_TOGGLEPVP_ON : Message.INVENTORY_GUI_SETTINGS_ITEM_TOGGLEPVP_OFF).getItemStack();
-		openInvitationItem = Message.INVENTORY_GUI_SETTINGS_ITEM_OPENINVITATION.setVar(VarKey.FLAG, Message.getOnOff(getViewer().getGuild().isOpenInvitation())).getItemStack();
+		openInvitationItem = Message.INVENTORY_GUI_SETTINGS_ITEM_OPENINVITATION.clone().setVar(VarKey.FLAG, Message.getOnOff(getViewer().getGuild().isOpenInvitation())).getItemStack();
 		buyLifeItem = Message.INVENTORY_GUI_SETTINGS_ITEM_BUYLIFE.getItemStack();
 		buySlotItem = Message.INVENTORY_GUI_SETTINGS_ITEM_BUYSLOT.getItemStack();
 		inviteItem = Message.INVENTORY_GUI_SETTINGS_ITEM_INVITE.getItemStack();

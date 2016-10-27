@@ -78,10 +78,10 @@ public class CommandAdminGuildTeleport extends AbstractCommandExecutor.Reversed<
 
 		if(other) {
 			vars.put(VarKey.PLAYERNAME, player.getName());
-			Message.CHAT_ADMIN_GUILD_TELEPORTED_OTHER.vars(vars).send(sender);
+			Message.CHAT_ADMIN_GUILD_TELEPORTED_OTHER.clone().vars(vars).send(sender);
 		}
 		else {
-			Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.vars(vars).send(sender);
+			Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.clone().vars(vars).send(sender);
 		}
 
 		player.teleport(home);

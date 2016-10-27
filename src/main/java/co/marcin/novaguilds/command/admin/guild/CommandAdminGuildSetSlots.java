@@ -55,7 +55,7 @@ public class CommandAdminGuildSetSlots extends AbstractCommandExecutor.Reversed<
 		}
 
 		if(slots > Config.GUILD_SLOTS_MAX.getInt()) {
-			Message.CHAT_MAXAMOUNT.setVar(VarKey.AMOUNT, Config.GUILD_SLOTS_MAX.getInt()).send(sender);
+			Message.CHAT_MAXAMOUNT.clone().setVar(VarKey.AMOUNT, Config.GUILD_SLOTS_MAX.getInt()).send(sender);
 			return;
 		}
 

@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.api.basic.GUIInventory;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.Bukkit;
@@ -97,7 +98,7 @@ public class ChestGUIUtils {
 	 * @param title title message
 	 * @return the inventory
 	 */
-	public static Inventory createInventory(int size, Message title) {
+	public static Inventory createInventory(int size, MessageWrapper title) {
 		return createInventory(size, title.get());
 	}
 

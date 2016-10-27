@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -490,7 +491,7 @@ public class GuildManager {
 	 * @param location target location
 	 * @param message  teleport message
 	 */
-	public void delayedTeleport(Player player, Location location, Message message) {
+	public void delayedTeleport(Player player, Location location, MessageWrapper message) {
 		Runnable task = new RunnableTeleportRequest(player, location, message);
 		int delay = GroupManager.getGroup(player) == null ? 0 : GroupManager.getGroup(player).getInt(NovaGroup.Key.HOME_DELAY);
 
@@ -498,7 +499,7 @@ public class GuildManager {
 			Map<VarKey, String> vars = new HashMap<>();
 			vars.put(VarKey.DELAY, String.valueOf(GroupManager.getGroup(player).getInt(NovaGroup.Key.HOME_DELAY)));
 			NovaGuilds.runTaskLater(task, delay, TimeUnit.SECONDS);
-			Message.CHAT_DELAYEDTELEPORT.vars(vars).send(player);
+			Message.CHAT_DELAYEDTELEPORT.clone().vars(vars).send(player);
 		}
 		else {
 			task.run();
@@ -522,7 +523,7 @@ public class GuildManager {
 			vars.put(VarKey.GUILDNAME, guild.getName());
 			vars.put(VarKey.N, String.valueOf(i));
 			vars.put(VarKey.POINTS, String.valueOf(guild.getPoints()));
-			list.add(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).get());
+			list.add(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.clone().vars(vars).get());
 			i++;
 		}
 
@@ -547,7 +548,7 @@ public class GuildManager {
 			if(!guildAbandonEvent.isCancelled()) {
 				Map<VarKey, String> vars = new HashMap<>();
 				vars.put(VarKey.GUILDNAME, guild.getName());
-				Message.BROADCAST_ADMIN_GUILD_CLEANUP.vars(vars).broadcast();
+				Message.BROADCAST_ADMIN_GUILD_CLEANUP.clone().vars(vars).broadcast();
 				LoggerUtils.info("Abandoned guild " + guild.getName() + " due to inactivity.");
 				count++;
 

@@ -226,7 +226,7 @@ public class PlayerManager {
 		if(nCPlayer.hasGuild()) {
 			vars.put(VarKey.GUILDNAME, nCPlayer.getGuild().getName());
 			vars.put(VarKey.TAG, nCPlayer.getGuild().getTag());
-			guildRow = Message.CHAT_PLAYER_INFO_GUILDROW.vars(vars).get();
+			guildRow = Message.CHAT_PLAYER_INFO_GUILDROW.clone().vars(vars).get();
 		}
 
 		vars.put(VarKey.GUILDROW, guildRow);

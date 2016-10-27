@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.GuildPermission;
@@ -50,7 +51,7 @@ public class CommandGuildSetTag extends AbstractCommandExecutor {
 
 		String newTag = args[0];
 		newTag = StringUtils.removeColors(newTag);
-		Message validity = CommandGuildCreate.validTag(newTag);
+		MessageWrapper validity = CommandGuildCreate.validTag(newTag);
 
 		if(validity != null) {
 			validity.send(sender);

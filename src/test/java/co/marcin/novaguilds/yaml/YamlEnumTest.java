@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.yaml;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
@@ -108,13 +109,13 @@ public class YamlEnumTest {
 	@Test
 	public void testMessages() throws Exception {
 		System.out.println();
-		System.out.println("Testing message enums...");
+		System.out.println("Testing message wrappers...");
 		File motherFile = new File(YamlParseTest.resourcesDirectory, "lang/en-en.yml");
 		YamlConfiguration motherConfiguration = Lang.loadConfiguration(motherFile);
 		final List<String> messageEnumNames = new ArrayList<>();
 
-		for(Message v : Message.values()) {
-			messageEnumNames.add(v.name());
+		for(MessageWrapper v : Message.values()) {
+			messageEnumNames.add(v.getName());
 		}
 
 		int missingCount = 0;
@@ -133,10 +134,10 @@ public class YamlEnumTest {
 		}
 
 		if(missingCount == 0) {
-			System.out.println("All values are present in Message enum");
+			System.out.println("All values are present in Message class");
 		}
 		else {
-			throw new Exception("Found " + missingCount + " missing Message enums");
+			throw new Exception("Found " + missingCount + " missing Message wrappers");
 		}
 	}
 

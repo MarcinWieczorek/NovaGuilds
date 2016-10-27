@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.api.util;
 
-import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 
 public interface ChatBroadcast {
 	/**
@@ -45,7 +45,7 @@ public interface ChatBroadcast {
 	/**
 	 * Gets the message
 	 *
-	 * @return the enum
+	 * @return the wrapper
 	 */
-	Message getMessage();
+	MessageWrapper getMessage();
 }

@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
@@ -103,10 +104,10 @@ public class ToolListener extends AbstractListener {
 				selectedLocation[1] = nPlayer.getAtRegion().getCorner(1);
 			}
 
-			Message mode = nPlayer.getRegionMode() == RegionMode.SELECT ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
+			MessageWrapper mode = nPlayer.getRegionMode() == RegionMode.SELECT ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
 
 			vars.put(VarKey.MODE, mode.get());
-			Message.CHAT_REGION_TOOL_TOGGLEDMODE.vars(vars).send(nPlayer);
+			Message.CHAT_REGION_TOOL_TOGGLEDMODE.clone().vars(vars).send(nPlayer);
 		}
 		else if(nPlayer.getRegionMode() == RegionMode.CHECK && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
 			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player)) {
@@ -127,7 +128,7 @@ public class ToolListener extends AbstractListener {
 
 				vars.put(VarKey.GUILDNAME, region.getGuild().getName());
 				vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
-				Message.CHAT_REGION_BELONGSTO.vars(vars).send(nPlayer);
+				Message.CHAT_REGION_BELONGSTO.clone().vars(vars).send(nPlayer);
 			}
 			else {
 				Message.CHAT_REGION_NOREGIONHERE.send(nPlayer);
@@ -240,14 +241,14 @@ public class ToolListener extends AbstractListener {
 							vars.put(VarKey.SIZE, String.valueOf(regionSize));
 							vars.put(VarKey.PRICE, String.valueOf(price));
 
-							Message.CHAT_REGION_SIZE.vars(vars).send(nPlayer);
+							Message.CHAT_REGION_SIZE.clone().vars(vars).send(nPlayer);
 
 							if(price > 0) {
-								Message.CHAT_REGION_PRICE.vars(vars).send(nPlayer);
+								Message.CHAT_REGION_PRICE.clone().vars(vars).send(nPlayer);
 
 								if(!nPlayer.getGuild().hasMoney(price)) {
 									vars.put(VarKey.NEEDMORE, String.valueOf(price - nPlayer.getGuild().getMoney()));
-									Message.CHAT_REGION_CNOTAFFORD.vars(vars).send(nPlayer);
+									Message.CHAT_REGION_CNOTAFFORD.clone().vars(vars).send(nPlayer);
 									break;
 								}
 							}
@@ -260,11 +261,11 @@ public class ToolListener extends AbstractListener {
 						break;
 					case TOOSMALL:
 						vars.put(VarKey.MINSIZE, Config.REGION_MINSIZE.getString());
-						Message.CHAT_REGION_VALIDATION_TOOSMALL.vars(vars).send(nPlayer);
+						Message.CHAT_REGION_VALIDATION_TOOSMALL.clone().vars(vars).send(nPlayer);
 						break;
 					case TOOBIG:
 						vars.put(VarKey.MAXSIZE, Config.REGION_MAXSIZE.getString());
-						Message.CHAT_REGION_VALIDATION_TOOBIG.vars(vars).send(nPlayer);
+						Message.CHAT_REGION_VALIDATION_TOOBIG.clone().vars(vars).send(nPlayer);
 						break;
 					case OVERLAPS:
 						Message.CHAT_REGION_VALIDATION_OVERLAPS.send(nPlayer);

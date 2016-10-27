@@ -125,7 +125,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor {
 		double joinMoney = GroupManager.getGroup(sender).getDouble(NovaGroup.Key.JOIN_MONEY);
 		if(joinMoney > 0 && !nPlayer.hasMoney(joinMoney)) {
 			vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
-			Message.CHAT_GUILD_NOTENOUGHMONEY.vars(vars).send(sender);
+			Message.CHAT_GUILD_NOTENOUGHMONEY.clone().vars(vars).send(sender);
 			return;
 		}
 
@@ -152,6 +152,6 @@ public class CommandGuildJoin extends AbstractCommandExecutor {
 		vars.clear();
 		vars.put(VarKey.PLAYER, sender.getName());
 		vars.put(VarKey.GUILDNAME, guild.getName());
-		Message.BROADCAST_GUILD_JOINED.vars(vars).broadcast();
+		Message.BROADCAST_GUILD_JOINED.clone().vars(vars).broadcast();
 	}
 }

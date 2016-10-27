@@ -99,12 +99,12 @@ public class RunnableRaid implements Runnable {
 
 						if(!guildAbandonEvent.isCancelled()) {
 							vars.put(VarKey.GUILDNAME, guildDefender.getName());
-							Message.BROADCAST_GUILD_DESTROYED.vars(vars).broadcast();
+							Message.BROADCAST_GUILD_DESTROYED.clone().vars(vars).broadcast();
 							plugin.getGuildManager().delete(guildAbandonEvent);
 						}
 						break;
 					case SUCCESS:
-						Message.BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON.vars(vars).broadcast();
+						Message.BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON.clone().vars(vars).broadcast();
 						guildDefender.takeLive();
 						guildDefender.updateTimeRest();
 						guildDefender.updateLostLive();
@@ -112,7 +112,7 @@ public class RunnableRaid implements Runnable {
 						guildDefender.addPoints(pointsTake);
 						break;
 					case TIMEOUT:
-						Message.BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON.vars(vars).broadcast();
+						Message.BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON.clone().vars(vars).broadcast();
 						break;
 				}
 			}
@@ -147,7 +147,7 @@ public class RunnableRaid implements Runnable {
 
 			for(Player player : players) {
 				if(Config.BOSSBAR_ENABLED.getBoolean()) {
-					BossBarUtils.setMessage(player, Message.BARAPI_WARPROGRESS.setVar(VarKey.DEFENDER, raid.getGuildDefender().getName()).get(), raid.getProgress());
+					BossBarUtils.setMessage(player, Message.BARAPI_WARPROGRESS.clone().setVar(VarKey.DEFENDER, raid.getGuildDefender().getName()).get(), raid.getProgress());
 				}
 				else {
 					//TODO

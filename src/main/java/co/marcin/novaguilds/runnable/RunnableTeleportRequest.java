@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.runnable;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -26,7 +27,7 @@ public class RunnableTeleportRequest implements Runnable {
 	private final Player player;
 	private final Location location;
 	private final Location startLocation;
-	private final Message message;
+	private final MessageWrapper message;
 
 	/**
 	 * The constructor
@@ -35,7 +36,7 @@ public class RunnableTeleportRequest implements Runnable {
 	 * @param location target location
 	 * @param message  teleport message
 	 */
-	public RunnableTeleportRequest(Player player, Location location, Message message) {
+	public RunnableTeleportRequest(Player player, Location location, MessageWrapper message) {
 		this.player = player;
 		this.location = location;
 		startLocation = this.player.getLocation();

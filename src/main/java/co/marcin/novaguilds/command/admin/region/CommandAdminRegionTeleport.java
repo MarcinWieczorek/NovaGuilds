@@ -77,11 +77,11 @@ public class CommandAdminRegionTeleport extends AbstractCommandExecutor.Reversed
 		location.setY(location.getWorld().getHighestBlockYAt(location));
 
 		if(!player.equals(sender)) {
-			Message.CHAT_ADMIN_REGION_TELEPORT_OTHER.vars(vars).send(sender);
-			Message.CHAT_ADMIN_REGION_TELEPORT_NOTIFYOTHER.vars(vars).send(player);
+			Message.CHAT_ADMIN_REGION_TELEPORT_OTHER.clone().vars(vars).send(sender);
+			Message.CHAT_ADMIN_REGION_TELEPORT_NOTIFYOTHER.clone().vars(vars).send(player);
 		}
 		else {
-			Message.CHAT_ADMIN_REGION_TELEPORT_SELF.vars(vars).send(sender);
+			Message.CHAT_ADMIN_REGION_TELEPORT_SELF.clone().vars(vars).send(sender);
 		}
 
 		player.teleport(location);

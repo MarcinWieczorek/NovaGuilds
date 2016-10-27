@@ -50,7 +50,7 @@ public class CommandGuildTop extends AbstractCommandExecutor {
 			vars.put(VarKey.GUILDNAME, guild.getName());
 			vars.put(VarKey.N, String.valueOf(i));
 			vars.put(VarKey.POINTS, String.valueOf(guild.getPoints()));
-			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.vars(vars).send(sender);
+			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.clone().vars(vars).send(sender);
 			i++;
 		}
 	}

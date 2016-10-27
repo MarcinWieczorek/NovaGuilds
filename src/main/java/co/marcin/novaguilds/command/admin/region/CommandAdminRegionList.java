@@ -62,10 +62,10 @@ public class CommandAdminRegionList extends AbstractCommandExecutor {
 			vars.put(VarKey.PAGES, String.valueOf(pages_number));
 
 			if(pages_number > page) {
-				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.vars(vars).send(sender);
+				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.clone().vars(vars).send(sender);
 			}
 			else {
-				Message.CHAT_ADMIN_GUILD_LIST_PAGE_NONEXT.vars(vars).send(sender);
+				Message.CHAT_ADMIN_GUILD_LIST_PAGE_NONEXT.clone().vars(vars).send(sender);
 			}
 		}
 

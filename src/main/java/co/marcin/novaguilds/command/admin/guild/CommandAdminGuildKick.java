@@ -64,7 +64,7 @@ public class CommandAdminGuildKick extends AbstractCommandExecutor {
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYERNAME, nPlayerKick.getName());
 		vars.put(VarKey.GUILDNAME, guild.getName());
-		Message.BROADCAST_GUILD_KICKED.vars(vars).broadcast();
+		Message.BROADCAST_GUILD_KICKED.clone().vars(vars).broadcast();
 
 		//tab/tag
 		TagUtils.refresh();

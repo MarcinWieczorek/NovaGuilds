@@ -19,10 +19,10 @@
 package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.ChatBroadcast;
 import co.marcin.novaguilds.api.util.PreparedTag;
-import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.entity.Player;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChatBroadcastImpl implements ChatBroadcast {
-	private final Message message;
+	private final MessageWrapper message;
 	private final Map<Integer, PreparedTag> preparedTagMap = new HashMap<>();
 
 	/**
@@ -39,8 +39,8 @@ public class ChatBroadcastImpl implements ChatBroadcast {
 	 *
 	 * @param message the message
 	 */
-	public ChatBroadcastImpl(Message message) {
-		this.message = message;
+	public ChatBroadcastImpl(MessageWrapper message) {
+		this.message = message.clone();
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class ChatBroadcastImpl implements ChatBroadcast {
 	}
 
 	@Override
-	public Message getMessage() {
+	public MessageWrapper getMessage() {
 		return message;
 	}
 }

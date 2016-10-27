@@ -39,7 +39,7 @@ public class CommandAdminHologramList extends AbstractCommandExecutor {
 			vars.put(VarKey.Y, String.valueOf(hologram.getLocation().getBlockY()));
 			vars.put(VarKey.Z, String.valueOf(hologram.getLocation().getBlockZ()));
 
-			Message.CHAT_ADMIN_HOLOGRAM_LIST_ITEM.vars(vars).prefix(false).send(sender);
+			Message.CHAT_ADMIN_HOLOGRAM_LIST_ITEM.clone().vars(vars).prefix(false).send(sender);
 		}
 	}
 }

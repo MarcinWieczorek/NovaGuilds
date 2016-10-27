@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.yaml;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.enums.Lang;
 import co.marcin.novaguilds.enums.Message;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -38,7 +39,7 @@ public class YamlIncompleteTranslationTest {
 		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
 		int missingCount = 0;
 
-		for(Message message : Message.values()) {
+		for(MessageWrapper message : Message.values()) {
 			if(!motherConfiguration.contains(message.getPath())) {
 				System.out.println(" - " + message.getPath());
 				missingCount++;
@@ -49,7 +50,7 @@ public class YamlIncompleteTranslationTest {
 			System.out.println("Result: No missing keys");
 		}
 		else {
-			throw new Exception("Found " + missingCount + " missing keys in en-en file that are present in Message enum");
+			throw new Exception("Found " + missingCount + " missing keys in en-en file that are present in Message class");
 		}
 	}
 

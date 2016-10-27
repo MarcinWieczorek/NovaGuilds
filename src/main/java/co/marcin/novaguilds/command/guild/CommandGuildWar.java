@@ -118,8 +118,8 @@ public class CommandGuildWar extends AbstractCommandExecutor {
 					}
 
 					cmdGuild.removeNoWarInvitation(guild);
-					Message.CHAT_GUILD_WAR_NOWAR_CANCEL_SUCCESS.setVar(VarKey.GUILDNAME, cmdGuild.getName()).send(sender);
-					Message.CHAT_GUILD_WAR_NOWAR_CANCEL_NOTIFY.setVar(VarKey.GUILDNAME, guild.getName()).broadcast(cmdGuild);
+					Message.CHAT_GUILD_WAR_NOWAR_CANCEL_SUCCESS.clone().setVar(VarKey.GUILDNAME, cmdGuild.getName()).send(sender);
+					Message.CHAT_GUILD_WAR_NOWAR_CANCEL_NOTIFY.clone().setVar(VarKey.GUILDNAME, guild.getName()).broadcast(cmdGuild);
 				}
 				else { //inviting to no-war
 					if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_SEND)) {

@@ -79,6 +79,6 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.KEY, config.name());
 		vars.put(VarKey.VALUE, valueString);
-		Message.CHAT_ADMIN_CONFIG_SET.vars(vars).send(sender);
+		Message.CHAT_ADMIN_CONFIG_SET.clone().vars(vars).send(sender);
 	}
 }

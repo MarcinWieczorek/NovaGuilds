@@ -51,7 +51,7 @@ public class CommandAdminGuildPurge extends AbstractCommandExecutor {
 				Map<VarKey, String> vars = new HashMap<>();
 				vars.put(VarKey.PLAYERNAME, sender.getName());
 				vars.put(VarKey.GUILDNAME, guild.getName());
-				Message.BROADCAST_ADMIN_GUILD_ABANDON.vars(vars).broadcast();
+				Message.BROADCAST_ADMIN_GUILD_ABANDON.clone().vars(vars).broadcast();
 			}
 		}
 	}

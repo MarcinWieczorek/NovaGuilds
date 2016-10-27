@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.command.guild.CommandGuildCreate;
@@ -39,7 +40,7 @@ public class CommandAdminGuildSetTag extends AbstractCommandExecutor.Reversed<No
 
 		String newTag = args[0];
 
-		Message validityMessage = CommandGuildCreate.validTag(newTag);
+		MessageWrapper validityMessage = CommandGuildCreate.validTag(newTag);
 		if(validityMessage != null) {
 			validityMessage.send(sender);
 			return;
@@ -51,6 +52,6 @@ public class CommandAdminGuildSetTag extends AbstractCommandExecutor.Reversed<No
 		TagUtils.refresh();
 		TabUtils.refresh();
 
-		Message.CHAT_ADMIN_GUILD_SET_TAG.setVar(VarKey.TAG, newTag).send(sender);
+		Message.CHAT_ADMIN_GUILD_SET_TAG.clone().setVar(VarKey.TAG, newTag).send(sender);
 	}
 }

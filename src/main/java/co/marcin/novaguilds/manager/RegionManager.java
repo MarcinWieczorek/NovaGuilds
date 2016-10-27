@@ -419,7 +419,7 @@ public class RegionManager {
 		if(!sameGuildRegion) {
 			vars.put(VarKey.GUILDNAME, region.getGuild().getName());
 			vars.put(VarKey.PLAYERNAME, player.getName());
-			Message.CHAT_REGION_ENTERED.vars(vars).send(player);
+			Message.CHAT_REGION_ENTERED.clone().vars(vars).send(player);
 		}
 
 		//Player is at region
@@ -429,7 +429,7 @@ public class RegionManager {
 			checkRaidInit(nPlayer);
 
 			if(!sameGuildRegion) {
-				Message.CHAT_REGION_NOTIFYGUILD_ENTERED.vars(vars).broadcast(region.getGuild());
+				Message.CHAT_REGION_NOTIFYGUILD_ENTERED.clone().vars(vars).broadcast(region.getGuild());
 			}
 		}
 
@@ -463,7 +463,7 @@ public class RegionManager {
 		NovaGuild guild = region.getGuild();
 
 		nPlayer.setAtRegion(null);
-		Message.CHAT_REGION_EXITED.setVar(VarKey.GUILDNAME, region.getGuild().getName()).send(player);
+		Message.CHAT_REGION_EXITED.clone().setVar(VarKey.GUILDNAME, region.getGuild().getName()).send(player);
 
 		if(nPlayer.hasGuild() && nPlayer.getGuild().isWarWith(guild) && guild.isRaid()) {
 			guild.getRaid().removePlayerOccupying(nPlayer);
@@ -510,7 +510,7 @@ public class RegionManager {
 				else {
 					final long timeWait = Config.RAID_TIMEREST.getSeconds() - (NumberUtils.systemSeconds() - guildDefender.getTimeRest());
 
-					Message.CHAT_RAID_RESTING.setVar(VarKey.TIMEREST, StringUtils.secondsToString(timeWait)).send(nPlayer);
+					Message.CHAT_RAID_RESTING.clone().setVar(VarKey.TIMEREST, StringUtils.secondsToString(timeWait)).send(nPlayer);
 				}
 			}
 		}

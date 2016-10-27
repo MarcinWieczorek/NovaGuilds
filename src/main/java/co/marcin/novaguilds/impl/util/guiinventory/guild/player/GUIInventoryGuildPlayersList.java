@@ -65,7 +65,7 @@ public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 		int slot = 0;
 		slotPlayersMap.clear();
 		for(NovaPlayer nPlayer : playerList) {
-			ItemStack itemStack = Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.setVar(VarKey.PLAYERNAME, nPlayer.getName()).getItemStack();
+			ItemStack itemStack = Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.clone().setVar(VarKey.PLAYERNAME, nPlayer.getName()).getItemStack();
 
 			if(itemStack == null) {
 				continue;

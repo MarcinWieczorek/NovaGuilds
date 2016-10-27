@@ -26,7 +26,7 @@ public class GuildPermissionEnumTest {
 	@Test
 	public void testMessageEnum() throws Exception {
 		boolean passed = true;
-		System.out.println("Looking for GuildPermission values not present in Message enum");
+		System.out.println("Looking for GuildPermission values not present in Message class");
 
 		for(GuildPermission perm : GuildPermission.values()) {
 			try {
@@ -43,7 +43,7 @@ public class GuildPermissionEnumTest {
 		}
 
 		if(!passed) {
-			throw new Exception("Found missing Message enums!");
+			throw new Exception("Found missing Message wrappers!");
 		}
 		else {
 			System.out.println("Nothing is missing here.");

@@ -18,6 +18,8 @@
 
 package co.marcin.novaguilds.enums;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public enum ChatMode {
 	ALLY(Message.CHAT_GUILD_CHATMODE_NAMES_ALLY, Config.CHAT_ALLY_ENABLED);
 
 	private final Config enabledConfig;
-	private final Message name;
+	private final MessageWrapper name;
 
 	/**
 	 * Constructor with 'enabled' config
@@ -35,7 +37,7 @@ public enum ChatMode {
 	 * @param name   mode's lang name
 	 * @param config config enum to check if mode is enabled
 	 */
-	ChatMode(Message name, Config config) {
+	ChatMode(MessageWrapper name, Config config) {
 		this.name = name;
 		this.enabledConfig = config;
 	}
@@ -46,7 +48,7 @@ public enum ChatMode {
 	 *
 	 * @param name mode's lang name
 	 */
-	ChatMode(Message name) {
+	ChatMode(MessageWrapper name) {
 		this.name = name;
 		this.enabledConfig = null;
 	}
@@ -61,11 +63,11 @@ public enum ChatMode {
 	}
 
 	/**
-	 * Gets Message enum of mode's name
+	 * Gets Message wrapper of mode's name
 	 *
 	 * @return the Message
 	 */
-	public Message getName() {
+	public MessageWrapper getName() {
 		return name;
 	}
 

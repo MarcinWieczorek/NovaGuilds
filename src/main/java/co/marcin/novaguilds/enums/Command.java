@@ -21,6 +21,7 @@ package co.marcin.novaguilds.enums;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.command.CommandConfirm;
 import co.marcin.novaguilds.command.CommandNovaGuilds;
 import co.marcin.novaguilds.command.CommandPlayerInfo;
@@ -219,7 +220,7 @@ public final class Command extends CommandWrapperImpl {
 	 * @param tabCompleter   tab completer instance
 	 * @param flags          command flags
 	 */
-	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, Message usageMessage, TabCompleter tabCompleter, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, MessageWrapper usageMessage, TabCompleter tabCompleter, Flag... flags) {
 		this.permission = permission;
 		this.usageMessage = usageMessage;
 		this.genericCommand = genericCommand;
@@ -236,7 +237,7 @@ public final class Command extends CommandWrapperImpl {
 	 * @param usageMessage   the usage message
 	 * @param flags          command flags
 	 */
-	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, Message usageMessage, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, String genericCommand, MessageWrapper usageMessage, Flag... flags) {
 		this(commandExecutorClass, permission, genericCommand, usageMessage, null, flags);
 	}
 
@@ -259,7 +260,7 @@ public final class Command extends CommandWrapperImpl {
 	 * @param usageMessage the usage message
 	 * @param flags        command flags
 	 */
-	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, Message usageMessage, Flag... flags) {
+	private Command(Class<? extends CommandExecutor> commandExecutorClass, Permission permission, MessageWrapper usageMessage, Flag... flags) {
 		this(commandExecutorClass, permission, null, usageMessage, null, flags);
 	}
 
@@ -300,7 +301,7 @@ public final class Command extends CommandWrapperImpl {
 	}
 
 	@Override
-	public void setUsageMessage(Message message) {
+	public void setUsageMessage(MessageWrapper message) {
 		throw new IllegalArgumentException("Not allowed for built in commands");
 	}
 

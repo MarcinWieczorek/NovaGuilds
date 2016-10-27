@@ -45,7 +45,7 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 
 			nPlayer.toggleRegionSpectate();
 			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getRegionSpectate()));
-			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_SELF.vars(vars).send(sender);
+			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_SELF.clone().vars(vars).send(sender);
 		}
 		else { //for other
 			if(!Permission.NOVAGUILDS_ADMIN_REGION_CHANGE_SPECTATE_OTHER.has(sender)) {
@@ -65,10 +65,10 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getRegionSpectate()));
 
 			if(nPlayer.isOnline()) {
-				Message.CHAT_ADMIN_REGION_SPECTATE_NOTIFYOTHER.vars(vars).send(nPlayer);
+				Message.CHAT_ADMIN_REGION_SPECTATE_NOTIFYOTHER.clone().vars(vars).send(nPlayer);
 			}
 
-			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_OTHER.vars(vars).send(sender);
+			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_OTHER.clone().vars(vars).send(sender);
 		}
 	}
 }

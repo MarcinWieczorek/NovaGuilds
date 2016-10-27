@@ -18,22 +18,22 @@
 
 package co.marcin.novaguilds.impl.util.signgui;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.util.SignGUI;
-import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.MessageManager;
 
 import java.util.List;
 
 public class SignGUIPatternImpl implements SignGUI.SignGUIPattern {
-	private final Message message;
+	private final MessageWrapper message;
 	private int inputLine;
 
 	/**
 	 * The constructor
 	 *
-	 * @param message message enum of the pattern
+	 * @param message message wrapper of the pattern
 	 */
-	public SignGUIPatternImpl(Message message) {
+	public SignGUIPatternImpl(MessageWrapper message) {
 		this.message = message;
 	}
 

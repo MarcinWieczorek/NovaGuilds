@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.util;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
@@ -321,37 +322,37 @@ public final class StringUtils {
 		String stringYears = "", stringMonths = "", stringWeeks = "", stringDays = "", stringHours = "", stringSeconds = "", stringMinutes = "";
 
 		if(years > 0) {
-			Message form = years > 1 ? Message.TIMEUNIT_YEAR_PLURAL : Message.TIMEUNIT_YEAR_SINGULAR;
+			MessageWrapper form = years > 1 ? Message.TIMEUNIT_YEAR_PLURAL : Message.TIMEUNIT_YEAR_SINGULAR;
 			stringYears = years + " " + form.get() + " ";
 		}
 
 		if(months > 0) {
-			Message form = months > 1 ? Message.TIMEUNIT_MONTH_PLURAL : Message.TIMEUNIT_MONTH_SINGULAR;
+			MessageWrapper form = months > 1 ? Message.TIMEUNIT_MONTH_PLURAL : Message.TIMEUNIT_MONTH_SINGULAR;
 			stringMonths = months + " " + form.get() + " ";
 		}
 
 		if(weeks > 0) {
-			Message form = weeks > 1 ? Message.TIMEUNIT_WEEK_PLURAL : Message.TIMEUNIT_WEEK_SINGULAR;
+			MessageWrapper form = weeks > 1 ? Message.TIMEUNIT_WEEK_PLURAL : Message.TIMEUNIT_WEEK_SINGULAR;
 			stringWeeks = weeks + " " + form.get() + " ";
 		}
 
 		if(days > 0) {
-			Message form = days > 1 ? Message.TIMEUNIT_DAY_PLURAL : Message.TIMEUNIT_DAY_SINGULAR;
+			MessageWrapper form = days > 1 ? Message.TIMEUNIT_DAY_PLURAL : Message.TIMEUNIT_DAY_SINGULAR;
 			stringDays = days + " " + form.get() + " ";
 		}
 
 		if(hours > 0) {
-			Message form = hours > 1 ? Message.TIMEUNIT_HOUR_PLURAL : Message.TIMEUNIT_HOUR_SINGULAR;
+			MessageWrapper form = hours > 1 ? Message.TIMEUNIT_HOUR_PLURAL : Message.TIMEUNIT_HOUR_SINGULAR;
 			stringHours = hours + " " + form.get() + " ";
 		}
 
 		if(minutes > 0) {
-			Message form = minutes > 1 ? Message.TIMEUNIT_MINUTE_PLURAL : Message.TIMEUNIT_MINUTE_SINGULAR;
+			MessageWrapper form = minutes > 1 ? Message.TIMEUNIT_MINUTE_PLURAL : Message.TIMEUNIT_MINUTE_SINGULAR;
 			stringMinutes = minutes + " " + form.get() + " ";
 		}
 
 		if(seconds > 0 || (seconds == 0 && minutes == 0 && hours == 0 && days == 0 && weeks == 0 && months == 0 && years == 0)) {
-			Message form = seconds == 1 ? Message.TIMEUNIT_SECOND_SINGULAR : Message.TIMEUNIT_SECOND_PLURAL;
+			MessageWrapper form = seconds == 1 ? Message.TIMEUNIT_SECOND_SINGULAR : Message.TIMEUNIT_SECOND_PLURAL;
 			stringSeconds = seconds + " " + form.get() + " ";
 		}
 
@@ -471,7 +472,7 @@ public final class StringUtils {
 		String itemListString = "";
 		int i = 0;
 		for(ItemStack missingItemStack : items) {
-			Message rowMessage = Message.CHAT_CREATEGUILD_ITEMLIST;
+			MessageWrapper rowMessage = Message.CHAT_CREATEGUILD_ITEMLIST.clone();
 			rowMessage.setVar(VarKey.ITEMNAME, missingItemStack.getType().name());
 			rowMessage.setVar(VarKey.AMOUNT, missingItemStack.getAmount());
 

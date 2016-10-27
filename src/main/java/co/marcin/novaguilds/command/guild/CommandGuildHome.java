@@ -100,7 +100,7 @@ public class CommandGuildHome extends AbstractCommandExecutor {
 			//money
 			double homeMoney = GroupManager.getGroup(sender).getDouble(NovaGroup.Key.HOME_MONEY);
 			if(homeMoney > 0 && !nPlayer.hasMoney(homeMoney)) {
-				Message.CHAT_GUILD_NOTENOUGHMONEY.setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
+				Message.CHAT_GUILD_NOTENOUGHMONEY.clone().setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
 				return;
 			}
 

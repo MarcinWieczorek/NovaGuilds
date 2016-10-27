@@ -21,8 +21,8 @@ package co.marcin.novaguilds.impl.basic;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.storage.Resource;
-import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -38,7 +38,7 @@ public class CommandWrapperImpl implements CommandWrapper {
 	protected Permission permission;
 	protected TabCompleter tabCompleter;
 	protected CommandExecutor executor;
-	protected Message usageMessage;
+	protected MessageWrapper usageMessage;
 	protected Resource executorVariable;
 	protected String name;
 	protected String genericCommand;
@@ -115,12 +115,12 @@ public class CommandWrapperImpl implements CommandWrapper {
 	}
 
 	@Override
-	public Message getUsageMessage() {
+	public MessageWrapper getUsageMessage() {
 		return usageMessage;
 	}
 
 	@Override
-	public void setUsageMessage(Message message) {
+	public void setUsageMessage(MessageWrapper message) {
 		this.usageMessage = message;
 	}
 

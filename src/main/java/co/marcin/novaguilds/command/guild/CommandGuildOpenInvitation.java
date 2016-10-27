@@ -45,7 +45,7 @@ public class CommandGuildOpenInvitation extends AbstractCommandExecutor {
 		final boolean status = !nPlayer.getGuild().isOpenInvitation();
 		nPlayer.getGuild().setOpenInvitation(status);
 
-		Message.CHAT_GUILD_OPENINVITATION.setVar(VarKey.STATUS, Message.getOnOff(status)).send(sender);
+		Message.CHAT_GUILD_OPENINVITATION.clone().setVar(VarKey.STATUS, Message.getOnOff(status)).send(sender);
 
 		TabUtils.refresh(nPlayer.getGuild());
 	}

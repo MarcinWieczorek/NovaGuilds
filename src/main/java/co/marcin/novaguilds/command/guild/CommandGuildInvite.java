@@ -70,18 +70,18 @@ public class CommandGuildInvite extends AbstractCommandExecutor {
 
 		if(!invitePlayer.isInvitedTo(guild)) { //invite
 			invitePlayer.addInvitation(guild);
-			Message.CHAT_PLAYER_INVITE_INVITED.vars(vars).send(sender);
+			Message.CHAT_PLAYER_INVITE_INVITED.clone().vars(vars).send(sender);
 
 			if(invitePlayer.isOnline()) {
-				Message.CHAT_PLAYER_INVITE_NOTIFY.vars(vars).send(invitePlayer.getPlayer());
+				Message.CHAT_PLAYER_INVITE_NOTIFY.clone().vars(vars).send(invitePlayer.getPlayer());
 			}
 		}
 		else { //cancel invitation
 			invitePlayer.deleteInvitation(guild);
-			Message.CHAT_PLAYER_INVITE_CANCEL_SUCCESS.vars(vars).send(sender);
+			Message.CHAT_PLAYER_INVITE_CANCEL_SUCCESS.clone().vars(vars).send(sender);
 
 			if(invitePlayer.isOnline()) {
-				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.vars(vars).send(invitePlayer.getPlayer());
+				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.clone().vars(vars).send(invitePlayer.getPlayer());
 			}
 		}
 	}

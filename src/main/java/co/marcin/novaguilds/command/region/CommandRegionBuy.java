@@ -76,7 +76,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 		int regionSize = RegionUtils.checkRegionSize(selectedLocation0, selectedLocation1);
 
 		if(guild.getRegions().size() >= Config.REGION_MAXAMOUNT.getInt() && nPlayer.getRegionMode() != RegionMode.RESIZE) {
-			Message.CHAT_REGION_MAXAMOUNT.setVar(VarKey.AMOUNT, Config.REGION_MAXAMOUNT.getInt()).send(nPlayer);
+			Message.CHAT_REGION_MAXAMOUNT.clone().setVar(VarKey.AMOUNT, Config.REGION_MAXAMOUNT.getInt()).send(nPlayer);
 			return;
 		}
 

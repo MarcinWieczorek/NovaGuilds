@@ -60,7 +60,7 @@ public class CommandGuildLeave extends AbstractCommandExecutor {
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYER, sender.getName());
 		vars.put(VarKey.GUILDNAME, guild.getName());
-		Message.BROADCAST_GUILD_LEFT.vars(vars).broadcast();
+		Message.BROADCAST_GUILD_LEFT.clone().vars(vars).broadcast();
 
 		TagUtils.refresh();
 		TabUtils.refresh();

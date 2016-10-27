@@ -61,12 +61,12 @@ public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
 		vars.put(VarKey.GUILDNAME, guild.getName());
 
 		if(!guild.isMember(nPlayer)) { //is not member
-			Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.vars(vars).send(sender);
+			Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.clone().vars(vars).send(sender);
 			return;
 		}
 
 		if(nPlayer.isLeader()) { //already leader
-			Message.CHAT_ADMIN_GUILD_SET_LEADER_ALREADYLEADER.vars(vars).send(sender);
+			Message.CHAT_ADMIN_GUILD_SET_LEADER_ALREADYLEADER.clone().vars(vars).send(sender);
 			return;
 		}
 
@@ -86,7 +86,7 @@ public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
 			TabUtils.refresh(nPlayer);
 		}
 
-		Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.vars(vars).send(sender);
-		Message.BROADCAST_GUILD_NEWLEADER.vars(vars).broadcast();
+		Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.clone().vars(vars).send(sender);
+		Message.BROADCAST_GUILD_NEWLEADER.clone().vars(vars).broadcast();
 	}
 }

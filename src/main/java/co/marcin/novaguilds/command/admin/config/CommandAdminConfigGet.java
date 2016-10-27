@@ -52,7 +52,7 @@ public class CommandAdminConfigGet extends AbstractCommandExecutor {
 
 			vars.put(VarKey.DEPTH, "");
 			vars.put(VarKey.KEY, path);
-			Message.CHAT_ADMIN_CONFIG_GET_LIST_SECTION.vars(vars).send(sender);
+			Message.CHAT_ADMIN_CONFIG_GET_LIST_SECTION.clone().vars(vars).send(sender);
 
 			for(String string : config.getConfigurationSection(path).getKeys(true)) {
 				String[] prefixSplit = StringUtils.split(string, ".");
@@ -74,11 +74,11 @@ public class CommandAdminConfigGet extends AbstractCommandExecutor {
 					lastSection = string;
 
 					vars.put(VarKey.KEY, prefixSplit[prefixSplit.length - 1]);
-					Message.CHAT_ADMIN_CONFIG_GET_LIST_SECTION.vars(vars).send(sender);
+					Message.CHAT_ADMIN_CONFIG_GET_LIST_SECTION.clone().vars(vars).send(sender);
 				}
 				else { //key
 					vars.put(VarKey.KEY, StringUtils.removeStart(string, prefix + "."));
-					Message.CHAT_ADMIN_CONFIG_GET_LIST_KEY.vars(vars).send(sender);
+					Message.CHAT_ADMIN_CONFIG_GET_LIST_KEY.clone().vars(vars).send(sender);
 				}
 			}
 		}
@@ -95,7 +95,7 @@ public class CommandAdminConfigGet extends AbstractCommandExecutor {
 		vars.put(VarKey.VALUE, value);
 
 		if(!value.isEmpty()) {
-			Message.CHAT_ADMIN_CONFIG_GET_SINGLE.vars(vars).send(sender);
+			Message.CHAT_ADMIN_CONFIG_GET_SINGLE.clone().vars(vars).send(sender);
 		}
 	}
 }

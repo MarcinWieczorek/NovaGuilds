@@ -175,7 +175,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				getHologramManager().load();
 			}
 
-
 			ConfigManager.ServerVersion serverVersion = ConfigManager.getServerVersion();
 			if(Config.ADVANCEDENTITYUSE.getBoolean() &&
 					(serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R3 || serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
@@ -327,7 +326,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			getSignGUI().destroy();
 		}
 
-		//reset barapi
+		//remove boss bars
 		if(Config.BOSSBAR_ENABLED.getBoolean()) {
 			for(Player player : NovaGuilds.getOnlinePlayers()) {
 				BossBarUtils.removeBar(player);

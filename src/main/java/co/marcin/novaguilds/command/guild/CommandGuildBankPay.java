@@ -67,7 +67,7 @@ public class CommandGuildBankPay extends AbstractCommandExecutor {
 
 		nPlayer.takeMoney(money);
 		guild.addMoney(money);
-		Message.CHAT_GUILD_BANK_PAY_PAID.setVar(VarKey.AMOUNT, money).send(sender);
+		Message.CHAT_GUILD_BANK_PAY_PAID.clone().setVar(VarKey.AMOUNT, money).send(sender);
 		TabUtils.refresh(nPlayer.getGuild());
 	}
 }

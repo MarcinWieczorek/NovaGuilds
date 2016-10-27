@@ -19,7 +19,6 @@
 package co.marcin.novaguilds.api.basic;
 
 import co.marcin.novaguilds.api.storage.Resource;
-import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -138,14 +137,14 @@ public interface CommandWrapper {
 	 *
 	 * @return the message
 	 */
-	Message getUsageMessage();
+	MessageWrapper getUsageMessage();
 
 	/**
 	 * Sets the usage message
 	 *
 	 * @param message message
 	 */
-	void setUsageMessage(Message message);
+	void setUsageMessage(MessageWrapper message);
 
 	/**
 	 * Checks if a sender is allowed

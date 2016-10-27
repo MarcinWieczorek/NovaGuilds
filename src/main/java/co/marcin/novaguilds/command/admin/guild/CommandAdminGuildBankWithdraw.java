@@ -66,6 +66,6 @@ public class CommandAdminGuildBankWithdraw extends AbstractCommandExecutor.Rever
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.MONEY, moneyString);
 		vars.put(VarKey.GUILDNAME, guild.getName());
-		Message.CHAT_ADMIN_GUILD_BANK_WITHDREW.vars(vars).send(sender);
+		Message.CHAT_ADMIN_GUILD_BANK_WITHDREW.clone().vars(vars).send(sender);
 	}
 }

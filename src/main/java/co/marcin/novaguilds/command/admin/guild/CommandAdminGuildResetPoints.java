@@ -75,7 +75,7 @@ public class CommandAdminGuildResetPoints extends AbstractCommandExecutor {
 		vars.put(VarKey.CHAR, String.valueOf(condition.charAt(0)));
 
 		if(condition.length() == 1) {
-			Message.CHAT_ADMIN_GUILD_RESET_POINTS_NOVALUE.vars(vars).send(sender);
+			Message.CHAT_ADMIN_GUILD_RESET_POINTS_NOVALUE.clone().vars(vars).send(sender);
 			return;
 		}
 
@@ -138,6 +138,6 @@ public class CommandAdminGuildResetPoints extends AbstractCommandExecutor {
 		}
 		vars.put(VarKey.COUNT, String.valueOf(count));
 
-		Message.CHAT_ADMIN_GUILD_RESET_POINTS_SUCCESS.vars(vars).send(sender);
+		Message.CHAT_ADMIN_GUILD_RESET_POINTS_SUCCESS.clone().vars(vars).send(sender);
 	}
 }

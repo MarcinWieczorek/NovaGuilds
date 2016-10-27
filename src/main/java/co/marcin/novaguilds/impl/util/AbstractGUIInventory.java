@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.GUIInventory;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ChestGUIUtils;
@@ -37,7 +38,7 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	 * @param size  inventory size (multiply of 9)
 	 * @param title title message
 	 */
-	public AbstractGUIInventory(int size, Message title) {
+	public AbstractGUIInventory(int size, MessageWrapper title) {
 		inventory = ChestGUIUtils.createInventory(size, title);
 	}
 

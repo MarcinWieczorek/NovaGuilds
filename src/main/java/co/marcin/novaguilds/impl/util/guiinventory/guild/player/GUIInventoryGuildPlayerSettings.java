@@ -44,7 +44,7 @@ public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 	 * @param nPlayer the player who's settings are being edited
 	 */
 	public GUIInventoryGuildPlayerSettings(NovaPlayer nPlayer) {
-		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.setVar(VarKey.PLAYERNAME, nPlayer.getName()));
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.clone().setVar(VarKey.PLAYERNAME, nPlayer.getName()));
 		this.nPlayer = nPlayer;
 	}
 
@@ -68,7 +68,7 @@ public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 		vars.put(VarKey.RANKNAME, nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
 
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
-		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.vars(vars).getItemStack();
+		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.clone().vars(vars).getItemStack();
 
 		if(!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean()) {
 			add(kickItem);

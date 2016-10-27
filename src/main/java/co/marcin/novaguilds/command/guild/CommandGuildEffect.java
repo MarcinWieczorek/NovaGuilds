@@ -94,6 +94,6 @@ public class CommandGuildEffect extends AbstractCommandExecutor {
 		InventoryUtils.removeItems(player, guildEffectItems);
 
 		//message
-		Message.CHAT_GUILD_EFFECT_SUCCESS.setVar(VarKey.EFFECTTYPE, effectType.getName()).send(sender);
+		Message.CHAT_GUILD_EFFECT_SUCCESS.clone().setVar(VarKey.EFFECTTYPE, effectType.getName()).send(sender);
 	}
 }

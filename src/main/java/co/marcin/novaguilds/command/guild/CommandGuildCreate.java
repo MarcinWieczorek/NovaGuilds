@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.guild;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -79,8 +80,8 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 		}
 
 		//Check name and tag validity
-		Message validName = validName(guildName);
-		Message validTag = validTag(tag);
+		MessageWrapper validName = validName(guildName);
+		MessageWrapper validTag = validTag(tag);
 
 		if(validName != null) {
 			validName.send(sender);
@@ -107,7 +108,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 
 		if(spawnLocationBedrock.distance(playerLocationBedrock) < Config.GUILD_FROMSPAWN.getInt()) {
 			vars.put(VarKey.DISTANCE, String.valueOf(Config.GUILD_FROMSPAWN.getInt()));
-			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.vars(vars).send(sender);
+			Message.CHAT_CREATEGUILD_TOOCLOSESPAWN.clone().vars(vars).send(sender);
 			return;
 		}
 
@@ -125,7 +126,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 
 		if(requiredMoney > 0 && !nPlayer.hasMoney(requiredMoney)) {
 			vars.put(VarKey.REQUIREDMONEY, String.valueOf(requiredMoney));
-			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.vars(vars).send(sender);
+			Message.CHAT_CREATEGUILD_NOTENOUGHMONEY.clone().vars(vars).send(sender);
 			return;
 		}
 
@@ -229,7 +230,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 
 					vars.put(VarKey.GUILDNAME, guild.getName());
 					vars.put(VarKey.PLAYER, sender.getName());
-					Message.BROADCAST_GUILD_CREATED.vars(vars).broadcast();
+					Message.BROADCAST_GUILD_CREATED.clone().vars(vars).broadcast();
 				}
 				break;
 			case OVERLAPS:
@@ -247,7 +248,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 	 * @param tag tag string
 	 * @return return message
 	 */
-	public static Message validTag(String tag) {
+	public static MessageWrapper validTag(String tag) {
 		tag = StringUtils.removeColors(tag);
 
 		if(GuildManager.getGuildByTag(tag) != null) { //Check for an existing guild
@@ -275,7 +276,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 	 * @param name name string
 	 * @return return message
 	 */
-	public static Message validName(String name) {
+	public static MessageWrapper validName(String name) {
 		if(GuildManager.getGuildByName(name) != null) { //Check for an existing guild
 			return Message.CHAT_CREATEGUILD_NAMEEXISTS;
 		}
