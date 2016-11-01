@@ -54,6 +54,7 @@ public class CommandAdminGuild extends AbstractCommandExecutor {
 		commandsMap.put("inactive",      Command.ADMIN_GUILD_INACTIVE);
 		commandsMap.put("kick",          Command.ADMIN_GUILD_KICK);
 		commandsMap.put("resetpoints",   Command.ADMIN_GUILD_RESET_POINTS);
+		commandsMap.put("rank",          Command.ADMIN_GUILD_RANK_ACCESS);
 	}
 
 	@Override

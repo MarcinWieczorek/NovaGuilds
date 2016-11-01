@@ -75,6 +75,13 @@ chat:
      invalidconditiontype: "&cInvalid condition type &4(&a< > = all&4)"
      novalue: "Please add a value after &a{CHAR}"
      success: "Successfully reset &a{COUNT} guilds' points"
+   rank:
+    notfound: "Could not find the rank."
+    delete:
+     success: "The rank has been successfully deleted."
+    list:
+     header: "Rank list for guild {GUILDNAME}"
+     item: "&a{NAME}"
   region:
    bypass:
     toggled:
@@ -232,11 +239,18 @@ chat:
      - "&4&l> &7/nga &cg &6<&cGilde&6> &ctimerest &6<&cZeit&6> &2- &6Setzt Pausenzeit. (1y/d/m/h/s)"
      - "&4&l> &7/nga &cg &6<&cGilde&6> &cliveregentime &6<&cZeit&6> &2- &6Setzt Lebensregenerationszeit."
      - "&4&l> &7/nga &cg &6<&cGilde&6> &clives &6<&cLeben&6> &2- &6Setzt Leben"
+     - "&4&l> &7/nga &cg &6<&cguild&6> &crank &2- &6rank commands"
      - "&4&l> &7/nga &cg &6kick &6<&cSpieler&6> &2- &6Entfernt Spieler von der Gilde"
      - "&4&l> &7/nga &cg &6promote &6<&cSpieler&6> &2- &6Befördert Spieler zum Anführer"
      - "&4&l> &7/nga &cg &6list &2- &6Listet alle Gilden auf"
      - "&4&l> &7/nga &cg &6purge &2- &6Löscht alle Gilden"
      - "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's points"
+    rank:
+     main:
+      header: "Rank commands for admins"
+      items:
+       - "&4&l> &7/nga &cg rank &6<&cguild&6> &clist &2- &6list ranks"
+       - "&4&l> &7/nga &cg rank &6<&cguild&6> &cdel &6<&crank&6> &2- &6delete a rank"
    hologram:
     header: "Hologramm Befehle:"
     disabled: "&cThis command is disabled without HolographicDisplays plugin present."
@@ -279,8 +293,15 @@ chat:
     - "{SET_NAME}&4&l> &7/g &csetname &2- &6Set the name"
     - "{SET_TAG}&4&l> &7/g &csettag &2- &6Set the tag"
     - "&4&l> &7/g &crg &2- &6Gebietsbefehle"
+    - "&4&l> &7/g &crank &2- &6rank commands"
     - "{ABANDON}&4&l> &7/abandon &2- &6Löse deine Gilde auf"
     - "{INVITE}&4&l> &7/invite &6<&cSpieler&6> &2- &6Lädt Spieler in deine Gilde ein"
+   rank:
+    main:
+     header: "Rank commands"
+     items:
+      - "&4&l> &7/g &crank list &2- &6list ranks"
+      - "&4&l> &7/g &crank &6<&crank&6> &cdel &2- &6delete a rank"
   region:
    header: "Gebiet Befehle:"
    items:

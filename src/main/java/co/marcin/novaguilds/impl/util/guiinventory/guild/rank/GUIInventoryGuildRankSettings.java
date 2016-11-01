@@ -24,7 +24,9 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
@@ -143,7 +145,10 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 
 		if(!rank.isGeneric()) {
 			add(renameItem);
-			add(deleteItem);
+
+			if(getViewer().hasPermission(GuildPermission.RANK_DELETE) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_DELETE.has(getViewer())) {
+				add(deleteItem);
+			}
 		}
 
 		if(!GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {

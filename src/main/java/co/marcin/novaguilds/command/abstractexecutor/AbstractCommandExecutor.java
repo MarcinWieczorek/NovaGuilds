@@ -40,6 +40,18 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 		return commandsMap;
 	}
 
+	protected CommandWrapper getSubCommand(String[] args) {
+		int subCommandArg = 0;
+
+		if(args.length >= 2
+				&& getCommandsMap().get(args[1]) != null
+				&& getCommandsMap().get(args[1]).isReversed()) {
+			subCommandArg = 1;
+		}
+
+		return getCommandsMap().get(args[subCommandArg]);
+	}
+
 	public static abstract class Reversed<T> extends AbstractCommandExecutor implements CommandExecutor.Reversed<T> {
 		protected T parameter;
 

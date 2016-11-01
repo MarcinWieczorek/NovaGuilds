@@ -516,4 +516,49 @@ public final class StringUtils {
 	public static boolean isUUID(String string) {
 		return string.contains("-") && string.split("-").length == 5;
 	}
+
+	/**
+	 * Treats quoted text as one argument
+	 *
+	 * @param args input argument array
+	 * @return parsed argument array
+	 */
+	public static String[] parseQuotedArguments(String[] args) {
+		try {
+			final List<String> newArgs = new ArrayList<>();
+			String argCache = "";
+
+			for(String a : args) {
+				if((a.startsWith("\"") || a.startsWith("'") || !argCache.isEmpty()) && !a.startsWith("\\\"") && !a.startsWith("\\'")) {
+					argCache += a + " ";
+				}
+				else {
+					newArgs.add(a);
+					continue;
+				}
+
+				if(((argCache.startsWith("\"") && a.endsWith("\"")) || (argCache.startsWith("'") && a.endsWith("'"))) && !argCache
+						.isEmpty() && !a.endsWith("\\\"") && !a.endsWith("\\'")) {
+					newArgs.add(argCache.length() > 2 ? argCache.substring(1, argCache.length() - 2) : argCache);
+					argCache = "";
+				}
+			}
+
+			if(!argCache.isEmpty()) {
+				newArgs.add(argCache.length() > 2 ? argCache.substring(1, argCache.length() - 1) : argCache);
+			}
+
+			for(int i = 0; i < newArgs.size(); i++) {
+				String newString = org.apache.commons.lang.StringUtils.replace(newArgs.get(i), "\\'", "'");
+				newString = org.apache.commons.lang.StringUtils.replace(newString, "\\\"", "\"");
+				newArgs.set(i, newString);
+			}
+
+			return newArgs.toArray(new String[0]);
+		}
+		catch(Exception e) { //Returns original arguments in case of an exception
+			LoggerUtils.exception(e);
+			return args;
+		}
+	}
 }

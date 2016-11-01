@@ -75,6 +75,11 @@ chat:
      invalidconditiontype: "&cInvalid condition type &4(&a< > = all&4)"
      novalue: "Please add a value after &a{CHAR}"
      success: "Successfully reset &a{COUNT} guilds' points"
+   rank:
+    notfound: "Could not find the rank."
+    list:
+     header: "Rank list for guild {GUILDNAME}"
+     item: "&a{NAME}"
   region:
    bypass:
     toggled:
@@ -232,11 +237,18 @@ chat:
      - "&4&l> &7/nga &cg &6<&c公会&6> &ctimerest &6<&c时间&6> &2- &6设置剩余时间.(1y/d/m/h/s)"
      - "&4&l> &7/nga &cg &6<&c公会&6> &cliveregentime &6<&c时间&6> &2- &6设置生活区重置时间.(1y/d/m/h/s)"
      - "&4&l> &7/nga &cg &6<&c公会&6> &clives &6<&c生活区&6> &2- &6设置生活区"
+     - "&4&l> &7/nga &cg &6<&cguild&6> &crank &2- &6rank commands"
      - "&4&l> &7/nga &cg &6kick &6<&c玩家&6> &2- &6将玩家踢出公会"
      - "&4&l> &7/nga &cg &6promote &6<&c玩家&6> &2- &6将玩家升职为公会管理"
      - "&4&l> &7/nga &cg &6list &2- &6查看公会列表"
      - "&4&l> &7/nga &cg &6purge &2- &6删除所有公会"
      - "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's points"
+    rank:
+     main:
+      header: "Rank commands for admins"
+      items:
+       - "&4&l> &7/nga &cg rank &6<&cguild&6> &clist &2- &6list ranks"
+       - "&4&l> &7/nga &cg rank &6<&cguild&6> &cdel &6<&crank&6> &2- &6delete a rank"
    hologram:
     header: "全息图指令:"
     disabled: "&cThis command is disabled without HolographicDisplays plugin present."
@@ -279,8 +291,15 @@ chat:
     - "{SET_NAME}&4&l> &7/g &csetname &2- &6Set the name"
     - "{SET_TAG}&4&l> &7/g &csettag &2- &6Set the tag"
     - "&4&l> &7/g &crg &2- &6领地命令"
+    - "&4&l> &7/g &crank &2- &6rank commands"
     - "{ABANDON}&4&l> &7/abandon &2- &6删除你的公会."
     - "{INVITE}&4&l> &7/invite &6<&c玩家名&6> &2- &6邀请玩家加入你的公会."
+   rank:
+    main:
+     header: "Rank commands"
+     items:
+      - "&4&l> &7/g &crank list &2- &6list ranks"
+      - "&4&l> &7/g &crank &6<&crank&6> &cdel &2- &6delete a rank"
   region:
    header: "领地命令:"
    items:

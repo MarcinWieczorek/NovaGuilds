@@ -75,6 +75,13 @@ chat:
      invalidconditiontype: "&cNiepoprawny typ warunku &4(&a< > = all&4)"
      novalue: "Proszę dodaj wartość po &a{CHAR}"
      success: "Zresetowano punkty &a{COUNT} guildiom"
+   rank:
+    notfound: "Nie udało się znaleźć rangi."
+    delete:
+     success: "Ranga została pomyślnie usunięta."
+    list:
+     header: "Lista rang gildii {GUILDNAME}"
+     item: "&a{NAME}"
   region:
    bypass:
     toggled:
@@ -232,11 +239,18 @@ chat:
      - "&4&l> &7/nga &cg &6<&cgildia&6> &ctimerest &6<&cczas&6> &2- &6Ustaw czas odpoczynku. (1y/d/m/h/s)"
      - "&4&l> &7/nga &cg &6<&cgildia&6> &cliveregentime &6<&cczas&6> &2- &6Czas regeneracji zycia"
      - "&4&l> &7/nga &cg &6<&cgildia&6> &clives &6<&cilość&6> &2- &6Ustaw zycia"
+     - "&4&l> &7/nga &cg &6<&cguild&6> &crank &2- &6komendy rang"
      - "&4&l> &7/nga &cg &6kick &6<&cgracz&6> &2- &6Wyrzuc gracza z gildii"
      - "&4&l> &7/nga &cg &6promote &6<&cgracz&6> &2- &6Zmien lidera gildii"
      - "&4&l> &7/nga &cg &6list &2- &6Lista gildii"
      - "&4&l> &7/nga &cg &6purge &2- &6Usun wszystkie gildie"
      - "&4&l> &7/nga &cg &6resetpoints &6<&cwarunek&6> &6[&cvalue&6] &2- &6Reset guild's points"
+    rank:
+     main:
+      header: "Rank commands for admins"
+      items:
+       - "&4&l> &7/nga &cg rank &6<&cgildia&6> &clist &2- &6lista rang"
+       - "&4&l> &7/nga &cg rank &6<&cgildia&6> &cdel &6<&cranga&6> &2- &6usuń rank"
    hologram:
     header: "Komendy hologramow:"
     disabled: "&cTa komenda jest zablokowana gdy plugin HolographicDisplays nie jest obecny."
@@ -279,8 +293,15 @@ chat:
     - "{SET_NAME}&4&l> &7/g &csetname &2- &6Zmień nazwę"
     - "{SET_TAG}&4&l> &7/g &csettag &2- &6Zmień tag"
     - "&4&l> &7/g &crg &2- &6Komendy regionów"
+    - "&4&l> &7/g &crank &2- &6Komendy rang"
     - "{ABANDON}&4&l> &7/rozwiaz &2- &6Porzuć gildię"
     - "{INVITE}&4&l> &7/zapros &6<&cgracz&6> &2- &6Zaproś gracza do gildii"
+   rank:
+    main:
+     header: "Rank commands"
+     items:
+      - "&4&l> &7/g &crank list &2- &6lista rang"
+      - "&4&l> &7/g &crank &6<&cranga&6> &cdel &2- &6usuń rangę"
   region:
    header: "Komendy regionow:"
    items:

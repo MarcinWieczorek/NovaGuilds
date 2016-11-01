@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -49,7 +50,7 @@ public class CommandManager {
 				return false;
 			}
 
-			commandWrapper.execute(sender, args);
+			commandWrapper.execute(sender, StringUtils.parseQuotedArguments(args));
 			return true;
 		}
 	};

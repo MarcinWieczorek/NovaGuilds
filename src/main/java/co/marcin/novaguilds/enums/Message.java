@@ -92,6 +92,11 @@ public class Message {
 	public static MessageWrapper CHAT_ADMIN_GUILD_RESET_POINTS_NOVALUE;
 	public static MessageWrapper CHAT_ADMIN_GUILD_RESET_POINTS_SUCCESS;
 
+	public static MessageWrapper CHAT_ADMIN_GUILD_RANK_NOTFOUND;
+	public static MessageWrapper CHAT_ADMIN_GUILD_RANK_DELETE_SUCCESS;
+	public static MessageWrapper CHAT_ADMIN_GUILD_RANK_LIST_HEADER;
+	public static MessageWrapper CHAT_ADMIN_GUILD_RANK_LIST_ITEM;
+
 	public static MessageWrapper CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF;
 	public static MessageWrapper CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER;
 	public static MessageWrapper CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER;
@@ -355,11 +360,15 @@ public class Message {
 	public static MessageWrapper CHAT_COMMANDS_ADMIN_REGION_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 	public static MessageWrapper CHAT_COMMANDS_ADMIN_GUILD_HEADER;
 	public static MessageWrapper CHAT_COMMANDS_ADMIN_GUILD_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
+	public static MessageWrapper CHAT_COMMANDS_ADMIN_GUILD_RANK_MAIN_HEADER;
+	public static MessageWrapper CHAT_COMMANDS_ADMIN_GUILD_RANK_MAIN_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 	public static MessageWrapper CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER;
 	public static MessageWrapper CHAT_COMMANDS_ADMIN_HOLOGRAM_DISABLED;
 	public static MessageWrapper CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 	public static MessageWrapper CHAT_COMMANDS_GUILD_HASGUILD = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 	public static MessageWrapper CHAT_COMMANDS_GUILD_NOGUILD = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
+	public static MessageWrapper CHAT_COMMANDS_GUILD_RANK_MAIN_HEADER;
+	public static MessageWrapper CHAT_COMMANDS_GUILD_RANK_MAIN_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 	public static MessageWrapper CHAT_COMMANDS_REGION_HEADER;
 	public static MessageWrapper CHAT_COMMANDS_REGION_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 

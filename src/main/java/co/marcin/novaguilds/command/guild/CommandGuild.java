@@ -65,6 +65,7 @@ public class CommandGuild extends AbstractCommandExecutor {
 		commandsMap.put("tag",      Command.GUILD_SET_TAG);
 		commandsMap.put("vault",    Command.GUILD_VAULT_RESTORE);
 		commandsMap.put("pi",       Command.PLAYERINFO);
+		commandsMap.put("rank",     Command.GUILD_RANK_ACCESS);
 	}
 
 	@Override
