@@ -77,6 +77,8 @@ chat:
      success: "Successfully reset &a{COUNT} guilds' points"
    rank:
     notfound: "Could not find the rank."
+    delete:
+     success: "The rank has been successfully deleted."
     list:
      header: "Rank list for guild {GUILDNAME}"
      item: "&a{NAME}"
