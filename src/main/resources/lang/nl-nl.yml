@@ -729,14 +729,14 @@ signgui:
    set:
     name:
      - "nieuwe naam"
+     - "---------------"
      - "{INPUT}"
-     - ""
-     - ""
+     - "---------------"
     tag:
      - "nieuwe tag"
+     - "---------------"
      - "{INPUT}"
-     - ""
-     - ""
+     - "---------------"
   ranks:
    set:
     name:
