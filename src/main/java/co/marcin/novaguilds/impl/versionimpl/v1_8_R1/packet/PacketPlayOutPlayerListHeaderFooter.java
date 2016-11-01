@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.versionimpl.v1_8_R1.packet;
 
 import co.marcin.novaguilds.impl.util.AbstractPacket;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 
 import java.lang.reflect.Field;
@@ -56,8 +57,8 @@ public class PacketPlayOutPlayerListHeaderFooter extends AbstractPacket {
 	 * @throws InvocationTargetException when something goes wrong
 	 */
 	public PacketPlayOutPlayerListHeaderFooter(String header, String footer) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-		Object[] iChatBaseComponentHeader = (Object[]) craftChatMessageFromStringMethod.invoke(null, header);
-		Object[] iChatBaseComponentFooter = (Object[]) craftChatMessageFromStringMethod.invoke(null, footer);
+		Object[] iChatBaseComponentHeader = (Object[]) craftChatMessageFromStringMethod.invoke(null, StringUtils.fixColors(header));
+		Object[] iChatBaseComponentFooter = (Object[]) craftChatMessageFromStringMethod.invoke(null, StringUtils.fixColors(footer));
 		packet = PacketPlayOutPlayerListHeaderFooterClass.newInstance();
 		PacketPlayOutPlayerListHeaderFooterAField.set(packet, iChatBaseComponentHeader[0]);
 		PacketPlayOutPlayerListHeaderFooterBField.set(packet, iChatBaseComponentFooter[0]);
