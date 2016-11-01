@@ -9,7 +9,7 @@ chat:
  delayedtpmoved: "Vous avez bougé! Téléportation annulé!"
  erroroccured: "&cUne erreur à eu lieu. Contactez l'administrateur du serveur."
  update: "&4Il y a une mise à jour disponible! &6http://www.novaguilds.pl/"
- maxamount: "Maximum allowed amount is: &c{AMOUNT}"
+ maxamount: "Le montant maximum autorisé est : &c{AMOUNT}"
  basic:
   negativenumber: "Merci de donner un nombre plus grand ou égal à zero."
   'on': "ON"
@@ -51,7 +51,7 @@ chat:
     paid: "vous avez versé &c${MONEY} dans la banque de &a{GUILDNAME}."
     withdrew: "Vous avez prélevé &c${MONEY} de la banque de &a{GUILDNAME}."
    kick:
-    leader: "Vous ne pouvez pas éxpulser le dirigeant. Vous devez abandonner la guilde."
+    leader: "Vous ne pouvez pas expulser le dirigeant. Vous devez abandonner la guilde."
    invited: "joueur &c{PLAYERNAME} invité à &a{GUILDNAME}"
    teleported:
     self: "Teleportation au foyer de &a{GUILDNAME}"
@@ -96,7 +96,7 @@ chat:
    delete:
     success: "Territoire de guilde supprimé avec succès."
    teleport:
-    self: "Vous à téléporté au territoire de& a{GUILDNAME}."
+    self: "Vous a téléporté au territoire de& a{GUILDNAME}."
     other: "&c{PLAYERNAME} téléporté au territoire de &a{GUILDNAME}"
     notifyother: "Vous avez été téléporté au territoire de &a{GUILDNAME}"
   save:
@@ -132,7 +132,7 @@ chat:
   players: "Joueurs chargé!"
   guilds: "Guildes chargé!"
   regions: "Regions chargé!"
-  newmsgfile: "Fichier des nouveaux messages crée!"
+  newmsgfile: "Fichier des nouveaux messages créée!"
   groups: "Groupes chargé!"
   ranks: "Rangs chargé!"
   reloaded: "NovaGuilds rechargé!"
@@ -176,7 +176,7 @@ chat:
     life: "&4&l> &7/g &cbuylife &2- &6Achète une vie"
     slot: "&4&l> &7/g &cbuyslot &2- &6Extend la limite de joueurs!"
    chatmode: "&4&l> &7/g &cc &2- &6Change le canal de discution"
-   compass: "&4&l> &7/g &ccompass &2- &6Laisse votre bousolle pointer le foyer de votre guilde!"
+   compass: "&4&l> &7/g &ccompass &2- &6Laisse votre bousole pointer le foyer de votre guilde!"
    create: "&4&l> &7/create &6<&ctag&6> &6<&cname&6> &2- &6Créer une guilde"
    effect: "&4&l> &7/g &ceffect &2- &6Effets pour la guilde"
    home:
@@ -262,25 +262,25 @@ chat:
      - "&4&l> &7/nga &ch &6<&cname&6> &6tphere &2- &6Teleporte un hologramme"
   guild:
    noguild:
-    - "&4&l> &7/create &6<&ctag&6> <&cname&6> &2- &6Create a guild"
-    - "&4&l> &7/join &6[&cguild&6] &2- &6Join a guild"
-    - "&4&l> &7/gi &6[&cguild/tag/player&6] &2- &6Guild's info"
+    - "&4&l> &7/create &6<&ctag&6> <&cname&6> &2- &6créer une guilde"
+    - "&4&l> &7/join &6[&cguild&6] &2- &6Rejoindre une guilde"
+    - "&4&l> &7/gi &6[&cguild/tag/player&6] &2- &6Informations sur la guilde"
     - "&4&l> &7/g &ctop &2- &6Top 5"
-    - "&4&l> &7/g &citems &2- &6Required items"
-    - "&4&l> &7/gg &2- &6Guild's menu"
+    - "&4&l> &7/g &citems &2- &6Objets requis"
+    - "&4&l> &7/gg &2- &6Menu de guilde"
    hasguild:
     - "&4&l> &7/gi &2- &6Information de la guilde."
     - "&4&l> &7/leave &2- &6Quitte la guilde"
-    - "&4&l> &7/g &ccompass &2- &6Laisse votre bousolle pointer le foyer de votre guilde!"
+    - "&4&l> &7/g &ccompass &2- &6Laisse votre boussole pointer le foyer de votre guilde!"
     - "&4&l> &7/g &ctop &2- &6Top 5"
-    - "&4&l> &7/g &cc &2- &6Change le canal de discution"
+    - "&4&l> &7/g &cc &2- &6Change le canal de discussion"
     - "&4&l> &7/ng &ctool &2- &6Vérifiez ou sélectionnez la zone avec votre outil!"
     - "&4&l> &7/gg &2- &6Menu de la guilde"
     - "{VAULT_PLACE}&4&l> &7/g &cvault &2- &6Restore vault item"
     - "{BUYLIFE}&4&l> &7/g &cbuylife &2- &6Achète une vie"
     - "{BUYSLOT}&4&l> &7/g &cbuyslot &2- &6Étend la limitation du nombre de joueurs!"
     - "{EFFECT}&4&l> &7/g &ceffect &2- &6Effets pour la guilde"
-    - "{HOME_TELEPORT}&4&l> &7/g &chome &2- &6TP vers le foyer de la guilde"
+    - "{HOME_TELEPORT}&4&l> &7/g &chome &2- &6Téléporte vers le foyer de la guilde"
     - "{HOME_SET}&4&l> &7/g &chome set &2- &6Fixe le foyer de votre guilde"
     - "{BANK_PAY}&4&l> &7/g &cpay &6<&camount&6> &2- &6Verse de l'argent dans la banque de guilde"
     - "{BANK_WITHDRAW}&4&l> &7/g &cwithdraw &6<&camount&6> &2- &6Prélève de l'argent dans la banque de guilde"
@@ -329,8 +329,8 @@ chat:
     success: "Coffre-fort détruit."
    denyrelative: "Vous ne pouvez pas placer ce block près du coffre-fort"
    restore:
-    hasalready: "You have the item already in your inventory."
-    success: "Vault item successfuly restored."
+    hasalready: "Vous avez déjà l'objet dans vôtre inventaire."
+    success: "Objet du coffre-fort restauré avec succès."
 
   compasstarget:
    'on': "La boussole pointe désormais vers le foyer de votre guilde."
@@ -383,7 +383,7 @@ chat:
   buy:
    life:
     success: "Vous avez acheté une vie pour votre guilde."
-    maxreached: "You can't buy more lives."
+    maxreached: "Vous ne pouvez pas acheter plus de vie."
    slot:
     success: "Vous avez acheté un emplacement supplementaire pour votre guilde."
     maxreached: "Le montant des emplacement a atteint sa valeur maximum."
@@ -394,10 +394,10 @@ chat:
    nowar:
     invite:
      success: "Vous avez demandé à &a{GUILDNAME} d'arrêter la guerre"
-     notify: "&a{GUILDNAME} vous à demandé d'arrêter la guerre"
+     notify: "&a{GUILDNAME} vous a demandé d'arrêter la guerre"
     cancel:
-     success: "You have canceled the no-war invitation for &a{GUILDNAME}"
-     notify: "&a{GUILDNAME} has canceled their invitation to stop the war"
+     success: "Vous avez annulé  l'invitation d'arrêter la guerre avec &a{GUILDNAME}"
+     notify: "&a{GUILDNAME} a annulé son invitation pour arrêter la guerre"
    list:
     nowars: "Aucune guerre."
     warsheader: "Liste des guerres:"
@@ -463,7 +463,7 @@ chat:
    - "&4&l> &7KDR: &6{KDR}"
 
  region:
-  blockedcmd: "Cette commande est bloqué dans les régions."
+  blockedcmd: "Cette commande est bloquée dans les régions."
   deleted: "Région détruite avec succès"
   deny:
    interact: "Vous ne pouvez pas interargir ici"
@@ -480,19 +480,19 @@ chat:
    overlaps: "Cette zone chevauche le territoire d'une autre guilde"
    notvalid: "La zone que vous avez selectionné n'est pas valide. Reessayez."
    valid: "Zone selectionné. &c/g rg buy"
-   notselected: "Veillez selectionner la zone"
+   notselected: "Veuillez selectionner la zone"
   size: "Taille de la zone séléctionné: &c{SIZE} blocks"
   price: "Acheter cette zone vous coutera: &c${PRICE}"
   cnotafford: "Vous ne pouvez pas vous permettre d'acheter cette revendication. Vous devez avoir &c${NEEDMORE} en plus"
-  maxamount: "You have reached the max amount of &c${AMOUNT} regions"
+  maxamount: "Vous avez atteint le montant maximum de &c${AMOUNT} regions"
   created: "Région crée avec succès"
   mustveguild: "Vous devez avoir un guilde pour acheter cette zone. &c/create"
   entered: "Vous entre dans la région appartenant à la guilde &a{GUILDNAME}"
   exited: "Vous sortez de la région appartenant à la guilde &a{GUILDNAME}"
-  notfound: "Could not find the region"
+  notfound: "Impossible de trouver la région"
   resize:
    start: "Redimensionnement de la région... Fixez avec un &cclick-droit"
-   toggle: "Corner toggled."
+   toggle: "Coin sélectionné."
    success: "Redimensionnement de la région effectué avec succès"
   notifyguild:
    entered: "Le joueur &c{PLAYERNAME} est entrée sur le territoire de votre guilde!"
@@ -578,7 +578,7 @@ broadcast:
   nowar: "La guilde &a{GUILD1} et &a{GUILD2} ont arrêté la guerre"
   joined: "Le joueur &c{PLAYER} a rejoint &a{GUILDNAME}"
   left: "Le joueur &c{PLAYER} a quitté &a{GUILDNAME}"
-  created: "Le joueur &c{PLAYER} à crée la guilde &a{GUILDNAME}"
+  created: "Le joueur &c{PLAYER} a créée la guilde &a{GUILDNAME}"
   abandoned: "Le joueur &c{PLAYER} a abandonné &a{GUILDNAME}"
   setleader: "Le joueur &c{PLAYERNAME} est désormais le dirigeant de &a{GUILDNAME}"
   allied: "&a{GUILDNAME} et &a{ALLYNAME} sont désormais alliés!"
@@ -616,7 +616,7 @@ inventory:
   guildtop: "SIGN 1"
   hometp: "ENDER_PEARL 1 name:Foyer"
   join:
-   title: "Joining a guild"
+   title: "Rejoindre une guilde"
    iconitem: "IRON_DOOR 1 name:Join_a_guild"
    rowitem: "ENCHANTED_BOOK 1 name:&a{GUILDNAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYERNAME}"
   settings:
