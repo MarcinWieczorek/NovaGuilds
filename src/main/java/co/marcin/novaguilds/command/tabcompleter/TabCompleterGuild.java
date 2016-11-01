@@ -98,6 +98,15 @@ public class TabCompleterGuild implements TabCompleter {
 						limit++;
 					}
 					break;
+				case "leader":
+					if(nPlayer.hasGuild()) {
+						for(NovaPlayer guildMember : nPlayer.getGuild().getPlayers()) {
+							if(!guildMember.isLeader()) {
+								keys.add(guildMember.getName());
+							}
+						}
+					}
+					break;
 			}
 		}
 		else {
