@@ -23,12 +23,12 @@ import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.enums.Command;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
-	public final Map<String, CommandWrapper> commandsMap = new HashMap<>();
+	public final Map<String, CommandWrapper> commandsMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 	@Override
 	public final CommandWrapper getCommand() {
