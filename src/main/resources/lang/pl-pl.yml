@@ -74,7 +74,7 @@ chat:
     points:
      invalidconditiontype: "&cNiepoprawny typ warunku &4(&a< > = all&4)"
      novalue: "Proszę dodaj wartość po &a{CHAR}"
-     success: "Zresetowano punkty &a{COUNT} guildiom"
+     success: "Zresetowano punkty &a{COUNT} gildiom"
    rank:
     notfound: "Nie udało się znaleźć rangi."
     delete:
@@ -244,7 +244,7 @@ chat:
      - "&4&l> &7/nga &cg &6promote &6<&cgracz&6> &2- &6Zmien lidera gildii"
      - "&4&l> &7/nga &cg &6list &2- &6Lista gildii"
      - "&4&l> &7/nga &cg &6purge &2- &6Usun wszystkie gildie"
-     - "&4&l> &7/nga &cg &6resetpoints &6<&cwarunek&6> &6[&cvalue&6] &2- &6Reset guild's points"
+     - "&4&l> &7/nga &cg &6resetpoints &6<&cwarunek&6> &6[&cvalue&6] &2- &6Resetuj punkty gildii"
     rank:
      main:
       header: "Rank commands for admins"
@@ -372,8 +372,8 @@ chat:
    outsideregion: "Nie mozesz ustawic domu poza regionem gildii"
    overlaps: "Nie mozesz ustawic domu na terenie innej gildii"
   set:
-   name: "Guild's name has been set."
-   tag: "Guild's tag has been set."
+   name: "Nazwa gildii została zmieniona."
+   tag: "Tag gildii został zmieniony."
   home: "Teleportowano do domu gildii"
   joined: "Dolaczyles do gildii!"
   explosionatregion: "Na terenie Twojej gildii nastapil wybuch!"
@@ -620,7 +620,7 @@ inventory:
    iconitem: "IRON_DOOR 1 name:Dołącz_do_gildii"
    rowitem: "ENCHANTED_BOOK 1 name:&a{GUILDNAME} lore:&7Tag:_&a{TAG}|&7Lider:_&c{PLAYERNAME}"
   settings:
-   title: "Guild settings"
+   title: "Ustawienia gildii"
    item:
     icon: "WORKBENCH 1 name:&4Ustawienia"
     set:
