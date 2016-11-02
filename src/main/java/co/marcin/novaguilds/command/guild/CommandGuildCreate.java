@@ -172,6 +172,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 				guild.setMoney(Config.GUILD_START_MONEY.getInt());
 				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 				guild.setTimeCreated(NumberUtils.systemSeconds());
+				guild.setFriendlyPvp(Config.GUILD_DEFAULTPVP.getBoolean());
 
 				//fire event
 				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(guild, (Player) sender);

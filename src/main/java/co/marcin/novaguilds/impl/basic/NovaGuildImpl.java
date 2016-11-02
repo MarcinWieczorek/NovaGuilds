@@ -403,6 +403,8 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	public void setWars(List<NovaGuild> list) {
 		war.clear();
 		war.addAll(list);
+
+		setChanged();
 	}
 
 	@Override
@@ -476,27 +478,33 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	@Override
 	public void setFriendlyPvp(boolean pvp) {
 		friendlyPvp = pvp;
+		setChanged();
 	}
 
 	@Override
 	public void setTimeCreated(long time) {
 		this.timeCreated = time;
+		setChanged();
 	}
 
 	@Override
 	public void setSlots(int slots) {
 		this.slots = slots;
+		setChanged();
 	}
 
 	@Override
 	public void setBannerMeta(BannerMeta bannerMeta) {
 		this.bannerMeta = bannerMeta;
+		setChanged();
 	}
 
 	@Override
 	public void setRanks(List<NovaRank> ranks) {
 		this.ranks.clear();
 		this.ranks.addAll(ranks);
+
+		setChanged();
 	}
 
 	@Override

@@ -277,6 +277,9 @@ guild:
 # minimal distance from spawn                     #
  fromspawn: 100
 
+# default guild pvp setting. false = no pvp       #
+ defaultpvp: false
+
 # allowed strings                                 #
  stringcheck:
 # checking enabled                                #
