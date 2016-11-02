@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.impl.util.signgui.SignGUIPatternImpl;
@@ -110,35 +111,39 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 		buySlotItem = Message.INVENTORY_GUI_SETTINGS_ITEM_BUYSLOT.getItemStack();
 		inviteItem = Message.INVENTORY_GUI_SETTINGS_ITEM_INVITE.getItemStack();
 
-		if(getViewer().hasPermission(GuildPermission.SET_NAME)) {
+		if(getViewer().hasPermission(GuildPermission.SET_NAME) && Permission.NOVAGUILDS_GUILD_SET_NAME.has(getViewer())) {
 			add(setNameItem);
 		}
 
-		if(getViewer().hasPermission(GuildPermission.SET_TAG)) {
+		if(getViewer().hasPermission(GuildPermission.SET_TAG) && Permission.NOVAGUILDS_GUILD_SET_TAG.has(getViewer())) {
 			add(setTagItem);
 		}
 
-		if(getViewer().hasPermission(GuildPermission.HOME_SET)) {
+		if(getViewer().hasPermission(GuildPermission.HOME_SET) && Permission.NOVAGUILDS_GUILD_HOME_SET.has(getViewer())) {
 			add(setHomeItem);
 		}
 
-		if(getViewer().hasPermission(GuildPermission.PVPTOGGLE)) {
+		if(getViewer().hasPermission(GuildPermission.PVPTOGGLE) && Permission.NOVAGUILDS_GUILD_PVPTOGGLE.has(getViewer())) {
 			add(togglePvpItem);
 		}
 
-		if(getViewer().hasPermission(GuildPermission.OPENINVITATION)) {
+		if(getViewer().hasPermission(GuildPermission.OPENINVITATION) && Permission.NOVAGUILDS_GUILD_OPENINVITATION.has(getViewer())) {
 			add(openInvitationItem);
 		}
 
-		if(getViewer().hasPermission(GuildPermission.BUYLIFE)) {
+		if(getViewer().hasPermission(GuildPermission.BUYLIFE)
+				&& Permission.NOVAGUILDS_GUILD_BUYLIFE.has(getViewer())
+				&& getViewer().getGuild().getLives() < Config.GUILD_LIVES_MAX.getInt()) {
 			add(buyLifeItem);
 		}
 
-		if(getViewer().hasPermission(GuildPermission.BUYSLOT)) {
+		if(getViewer().hasPermission(GuildPermission.BUYSLOT)
+				&& Permission.NOVAGUILDS_GUILD_BUYSLOT.has(getViewer())
+				&& getViewer().getGuild().getSlots() < Config.GUILD_SLOTS_MAX.getInt()) {
 			add(buySlotItem);
 		}
 
-		if(getViewer().hasPermission(GuildPermission.INVITE)) {
+		if(getViewer().hasPermission(GuildPermission.INVITE) && Permission.NOVAGUILDS_GUILD_INVITE.has(getViewer())) {
 			add(inviteItem);
 		}
 

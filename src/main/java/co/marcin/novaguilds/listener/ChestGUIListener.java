@@ -26,6 +26,7 @@ import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.InventoryUtils;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -54,7 +55,9 @@ public class ChestGUIListener extends AbstractListener {
 				return;
 			}
 
-			guiInventory.onClick(event);
+			if(event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
+				guiInventory.onClick(event);
+			}
 		}
 	}
 

@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.impl.util.guiinventory.guild.player;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -70,11 +70,13 @@ public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
 		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.clone().vars(vars).getItemStack();
 
-		if(!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean()) {
+		if(!nPlayer.equals(getViewer())
+				&& (getViewer().hasPermission(GuildPermission.KICK) && Permission.NOVAGUILDS_GUILD_KICK.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_KICK.has(getViewer()))) {
 			add(kickItem);
 		}
 
-		if(!nPlayer.equals(getViewer()) || Config.DEBUG.getBoolean()) {
+		if(!nPlayer.equals(getViewer())
+				&& (getViewer().hasPermission(GuildPermission.RANK_SET) && Permission.NOVAGUILDS_GUILD_RANK_SET.has(getViewer())|| Permission.NOVAGUILDS_ADMIN_GUILD_RANK_SET.has(getViewer()))) {
 			add(rankItem);
 		}
 	}

@@ -131,22 +131,29 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 
 		boolean isLeaderRank = RankManager.getLeaderRank().equals(rank);
 
-		if(!rank.isGeneric()) {
+		if(!rank.isGeneric()
+				&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
 			add(editPermissionsItem);
 		}
 
-		if((rank.isGeneric() || !rank.equals(getGuild().getDefaultRank())) && !isLeaderRank) {
+		if((rank.isGeneric() || !rank.equals(getGuild().getDefaultRank()))
+				&& !isLeaderRank
+				&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
 			add(setDefaultItem);
 		}
 
-		if(!RankManager.getLeaderRank().equals(rank)) {
+		if(!RankManager.getLeaderRank().equals(rank)
+				&& rank.getGuild().getRanks().size() < Config.RANK_MAXAMOUNT.getInt()
+				&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
 			add(cloneItem);
 		}
 
 		if(!rank.isGeneric()) {
-			add(renameItem);
+			if(getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer())) {
+				add(renameItem);
+			}
 
-			if(getViewer().hasPermission(GuildPermission.RANK_DELETE) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_DELETE.has(getViewer())) {
+			if(getViewer().hasPermission(GuildPermission.RANK_DELETE) && Permission.NOVAGUILDS_GUILD_RANK_DELETE.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_DELETE.has(getViewer())) {
 				add(deleteItem);
 			}
 		}

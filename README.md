@@ -324,6 +324,10 @@ mvn clean install
             <td>Deleting ranks</td>
         </tr>
         <tr>
+            <td>novaguilds.admin.guild.rank.set</td>
+            <td>Setting ranks</td>
+        </tr>
+        <tr>
             <td>novaguilds.admin.hologram.access</td>
             <td>/nga h</td>
         </tr>
@@ -550,6 +554,10 @@ mvn clean install
         <tr>
             <td>novaguilds.guild.rank.delete</td>
             <td>Deleting ranks</td>
+        </tr>
+        <tr>
+            <td>novaguilds.guild.rank.set</td>
+            <td>Setting ranks</td>
         </tr>
         <tr>
             <td>novaguilds.region.access</td>

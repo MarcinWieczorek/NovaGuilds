@@ -82,7 +82,7 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 			slot++;
 		}
 
-		if((Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()) || getViewer().hasPermission(GuildPermission.RANK_EDIT))
+		if((getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))
 				&& guild.getRanks().size() < Config.RANK_MAXAMOUNT.getInt()) {
 			addRankItem = Message.INVENTORY_GUI_RANKS_ADDITEM.getItemStack();
 			add(addRankItem);
