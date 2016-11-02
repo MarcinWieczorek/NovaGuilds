@@ -123,6 +123,13 @@ public interface NovaRank extends Resource {
 	void addPermission(GuildPermission permission);
 
 	/**
+	 * Adds permissions
+	 *
+	 * @param list list of permissions
+	 */
+	void addPermissions(List<GuildPermission> list);
+
+	/**
 	 * Adds a member
 	 *
 	 * @param nPlayer the player
@@ -135,6 +142,13 @@ public interface NovaRank extends Resource {
 	 * @param permission the permission
 	 */
 	void removePermission(GuildPermission permission);
+
+	/**
+	 * Removes permissions
+	 *
+	 * @param list list of permissions
+	 */
+	void removePermission(List<GuildPermission> list);
 
 	/**
 	 * Removes a member

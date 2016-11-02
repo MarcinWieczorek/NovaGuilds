@@ -159,6 +159,13 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 	}
 
 	@Override
+	public void addPermissions(List<GuildPermission> list) {
+		for(GuildPermission guildPermission : list) {
+			addPermission(guildPermission);
+		}
+	}
+
+	@Override
 	public void addMember(NovaPlayer nPlayer) {
 		if(!members.contains(nPlayer)) {
 			members.add(nPlayer);
@@ -172,6 +179,13 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 		if(permissions.contains(permission)) {
 			permissions.remove(permission);
 			setChanged();
+		}
+	}
+
+	@Override
+	public void removePermission(List<GuildPermission> list) {
+		for(GuildPermission guildPermission : list) {
+			removePermission(guildPermission);
 		}
 	}
 

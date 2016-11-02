@@ -34,8 +34,11 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RankManager {
@@ -129,16 +132,47 @@ public class RankManager {
 		genericRanks.add(leaderRank);
 		int count = 1;
 
+		final Map<String, List<String>> parentMap = new HashMap<>(); //rank name, list of parents
+
 		ConfigurationSection section = Config.RANK_DEFAULTRANKS.getConfigurationSection();
 		for(String rankName : section.getKeys(false)) {
+			ConfigurationSection rankSection = section.getConfigurationSection(rankName);
 			NovaRank rank = new GenericRankImpl(rankName);
+			final List<String> parents = new ArrayList<>();
 
-			for(String permName : section.getStringList(rankName)) {
+			for(String permName : rankSection.getStringList("permissions")) {
 				rank.addPermission(GuildPermission.valueOf(permName.toUpperCase()));
 			}
 
+			if(rankSection.contains("inherit")) {
+				for(String parentName : (rankSection.isList("inherit") ? rankSection.getStringList("inherit") : Collections.singletonList(rankSection.getString("inherit")))) {
+					parents.add(parentName);
+				}
+			}
+
+			parentMap.put(rankName, parents);
 			genericRanks.add(rank);
 			count++;
+		}
+
+		for(Map.Entry<String, List<String>> parentMapEntry : parentMap.entrySet()) {
+			NovaRank rank = getGeneric(parentMapEntry.getKey());
+
+			if(rank == null) {
+				LoggerUtils.error("Invalid rank: '" + parentMapEntry.getKey() + "'");
+				continue;
+			}
+
+			for(String parentName : parentMapEntry.getValue()) {
+				NovaRank parent = getGeneric(parentName);
+
+				if(parent == null) {
+					LoggerUtils.error("Invalid rank: '" + parentName + "'");
+					continue;
+				}
+
+				rank.addPermissions(parent.getPermissions());
+			}
 		}
 
 		//In case of missing default rank
@@ -177,6 +211,22 @@ public class RankManager {
 		}
 
 		return collection;
+	}
+
+	/**
+	 * Gets a generic rank by its name
+	 *
+	 * @param name rank name
+	 * @return the rank
+	 */
+	public NovaRank getGeneric(String name) {
+		for(NovaRank rankLoop : getGenericRanks()) {
+			if(rankLoop.getName().equalsIgnoreCase(name)) {
+				return rankLoop;
+			}
+		}
+
+		return null;
 	}
 
 	/**
