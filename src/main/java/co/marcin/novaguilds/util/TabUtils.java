@@ -124,8 +124,19 @@ public final class TabUtils {
 		Map<VarKey, String> vars = tabList.getVars();
 		tabList.clear();
 
+		//Online players excluding vanished
+		int onlinePlayersCount = 0;
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
+			NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
+
+			if(!plugin.getPlayerManager().isVanished(nPlayerLoop)) {
+				onlinePlayersCount++;
+			}
+		}
+
 		//Server vars
-		vars.put(VarKey.SERVER_ONLINE, String.valueOf(NovaGuilds.getOnlinePlayers().size()));
+		vars.put(VarKey.SERVER_ONLINE, String.valueOf(onlinePlayersCount));
+		vars.put(VarKey.SERVER_ONLINE_ALL, String.valueOf(NovaGuilds.getOnlinePlayers().size())); //Including vanished players
 		vars.put(VarKey.SERVER_MAX, String.valueOf(Bukkit.getMaxPlayers()));
 
 		//Time
