@@ -20,6 +20,7 @@ package co.marcin.novaguilds.command.region;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.event.RegionDeleteEvent;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
@@ -69,7 +70,12 @@ public class CommandRegionDelete extends AbstractCommandExecutor {
 			return;
 		}
 
-		Message.CHAT_REGION_DELETED.send(sender);
-		plugin.getRegionManager().remove(region);
+		RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.DELETE);
+		plugin.getServer().getPluginManager().callEvent(event);
+
+		if(!event.isCancelled()) {
+			Message.CHAT_REGION_DELETED.send(sender);
+			plugin.getRegionManager().remove(region);
+		}
 	}
 }

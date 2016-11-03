@@ -24,6 +24,7 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.event.RegionDeleteEvent;
 import co.marcin.novaguilds.api.util.IConverter;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
@@ -858,7 +859,12 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 		//Delete region
 		for(NovaRegion region : getRegions()) {
-			plugin.getRegionManager().remove(region);
+			RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.fromGuildAbandonCause(cause));
+			plugin.getServer().getPluginManager().callEvent(event);
+
+			if(!event.isCancelled()) {
+				plugin.getRegionManager().remove(region);
+			}
 		}
 
 		//Refresh top holograms

@@ -26,6 +26,7 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRaid;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.event.GuildAbandonEvent;
+import co.marcin.novaguilds.api.event.RegionDeleteEvent;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.Config;
@@ -225,7 +226,12 @@ public class GuildManager {
 
 		//remove region
 		for(NovaRegion region : new ArrayList<>(guild.getRegions())) {
-			plugin.getRegionManager().remove(region);
+			RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.fromGuildAbandonCause(cause));
+			plugin.getServer().getPluginManager().callEvent(event);
+
+			if(!event.isCancelled()) {
+				plugin.getRegionManager().remove(region);
+			}
 		}
 
 		guilds.remove(guild.getName());
