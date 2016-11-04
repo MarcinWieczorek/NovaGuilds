@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.NovaGuilds;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -96,7 +95,7 @@ public class ParticleUtils {
 		double squared = range * range;
 		List<Player> list = new ArrayList<>();
 
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			if(player.getWorld().equals(center.getWorld()) && player.getLocation().distanceSquared(center) <= squared) {
 				list.add(player);
 			}

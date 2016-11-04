@@ -29,6 +29,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import com.earth2me.essentials.Essentials;
@@ -306,7 +307,7 @@ public class MessageManager {
 	 * @param permission Permission enum
 	 */
 	public static void broadcast(MessageWrapper message, Permission permission) {
-		broadcast(new ArrayList<>(NovaGuilds.getOnlinePlayers()), message, permission);
+		broadcast(new ArrayList<>(CompatibilityUtils.getOnlinePlayers()), message, permission);
 	}
 
 	/**

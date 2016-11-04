@@ -47,6 +47,7 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.manager.TaskManager;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -55,7 +56,6 @@ import co.marcin.novaguilds.util.reflect.Reflections;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -67,11 +67,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -103,16 +99,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private Storage storage;
 	private SignGUI signGUI;
 	private final Map<ConfigManager.ServerVersion, Constructor<? extends TabList>> tabListConstructorMap = new HashMap<>();
-	private static Method getOnlinePlayersMethod;
-
-	static {
-		try {
-			getOnlinePlayersMethod = Server.class.getMethod("getOnlinePlayers");
-		}
-		catch(NoSuchMethodException e) {
-			LoggerUtils.exception(e);
-		}
-	}
 
 	public NovaGuilds() {
 		instance = this;
@@ -254,7 +240,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 
 			//Register players (for reload)
-			for(Player p : NovaGuilds.getOnlinePlayers()) {
+			for(Player p : CompatibilityUtils.getOnlinePlayers()) {
 				getPacketExtension().registerPlayer(p);
 			}
 
@@ -329,7 +315,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 		//remove boss bars
 		if(Config.BOSSBAR_ENABLED.getBoolean()) {
-			for(Player player : NovaGuilds.getOnlinePlayers()) {
+			for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 				BossBarUtils.removeBar(player);
 			}
 		}
@@ -344,7 +330,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 		}
 
-		for(Player p : NovaGuilds.getOnlinePlayers()) {
+		for(Player p : CompatibilityUtils.getOnlinePlayers()) {
 			PlayerManager.getPlayer(p).cancelToolProgress();
 		}
 
@@ -510,31 +496,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	 */
 	public SignGUI getSignGUI() {
 		return signGUI;
-	}
-
-	/**
-	 * Gets online players
-	 *
-	 * @return Collection of online players
-	 */
-	@SuppressWarnings("unchecked")
-	public static Collection<Player> getOnlinePlayers() {
-		Collection<Player> collection = new HashSet<>();
-
-		try {
-			if(getOnlinePlayersMethod.getReturnType().equals(Collection.class)) {
-				collection = ((Collection) getOnlinePlayersMethod.invoke(Bukkit.getServer()));
-			}
-			else {
-				Player[] array = ((Player[]) getOnlinePlayersMethod.invoke(Bukkit.getServer()));
-				Collections.addAll(collection, array);
-			}
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
-		}
-
-		return collection;
 	}
 
 	/**

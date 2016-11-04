@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
@@ -38,6 +37,7 @@ import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.ParticleUtils;
@@ -199,7 +199,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 					if(region != null) {
 						nPlayer.getGuild().addRegion(region);
 
-						for(Player playerCheck : NovaGuilds.getOnlinePlayers()) {
+						for(Player playerCheck : CompatibilityUtils.getOnlinePlayers()) {
 							if(region.equals(RegionManager.get(playerCheck))) {
 								plugin.getRegionManager().playerEnteredRegion(playerCheck, region);
 							}

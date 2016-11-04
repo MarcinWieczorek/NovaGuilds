@@ -49,7 +49,7 @@ public final class TagUtils {
 		}
 
 		Scoreboard board = p.getScoreboard();
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
 
 			String tName = "ng_" + player.getName();
@@ -90,7 +90,7 @@ public final class TagUtils {
 	 * Refreshes tags of all players online
 	 */
 	public static void refresh() {
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			refresh(player);
 		}
 	}

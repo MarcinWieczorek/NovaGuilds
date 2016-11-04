@@ -269,7 +269,7 @@ public class ParticleEffect {
 	 */
 	public void send(Location center, float offsetX, float offsetY, float offsetZ, float speed, int amount, ParticleData data, List<Player> players) throws IllegalAccessException, InstantiationException, InvocationTargetException {
 		if(players == null) {
-			players = new ArrayList<>(NovaGuilds.getOnlinePlayers());
+			players = new ArrayList<>(CompatibilityUtils.getOnlinePlayers());
 		}
 
 		Packet packet = new ParticlePacket(center, this, offsetX, offsetY, offsetZ, speed, amount, isLongDistance(center, players), data);

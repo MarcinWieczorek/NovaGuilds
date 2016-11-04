@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.runnable;
 
-import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.entity.Player;
@@ -30,7 +30,7 @@ public class RunnableRefreshTabList implements Runnable {
 	public void run() {
 		TabUtils.refresh();
 
-		Collection<Player> onlinePlayers = NovaGuilds.getOnlinePlayers();
+		Collection<Player> onlinePlayers = CompatibilityUtils.getOnlinePlayers();
 		if(!onlinePlayers.isEmpty()) {
 			LoggerUtils.debug("TabList refreshed (" + onlinePlayers.size() + " players)");
 		}

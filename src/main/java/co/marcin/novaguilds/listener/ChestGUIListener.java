@@ -25,7 +25,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import co.marcin.novaguilds.util.InventoryUtils;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class ChestGUIListener extends AbstractListener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		Inventory inventory = InventoryUtils.getClickedInventory(event);
+		Inventory inventory = CompatibilityUtils.getClickedInventory(event);
 		if(inventory == null || event.getCurrentItem() == null || !inventory.equals(event.getView().getTopInventory())) {
 			return;
 		}

@@ -31,7 +31,7 @@ import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
-import co.marcin.novaguilds.util.InventoryUtils;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -212,7 +212,7 @@ public class RegionInteractListener extends AbstractListener {
 			}
 			else {
 				if(!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_RIDE))) {
-					if(entity.getType() == EntityType.SHEEP && InventoryUtils.getItemInHand(player).getType() == Material.SHEARS) {
+					if(entity.getType() == EntityType.SHEEP && CompatibilityUtils.getItemInMainHand(player).getType() == Material.SHEARS) {
 						event.setCancelled(true);
 						Message.CHAT_REGION_DENY_RIDEMOB.send(player);
 					}

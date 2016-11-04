@@ -18,8 +18,8 @@
 
 package co.marcin.novaguilds.impl.util;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Title;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -180,7 +180,7 @@ public abstract class AbstractTitle implements Title {
 
 	@Override
 	public void broadcast() {
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			send(player);
 		}
 	}

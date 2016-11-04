@@ -18,13 +18,13 @@
 
 package co.marcin.novaguilds.impl.util.guiinventory.guild.settings;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +39,7 @@ public class GUIInventoryGuildInvite extends AbstractGUIInventory {
 	 * The constructor
 	 */
 	public GUIInventoryGuildInvite() {
-		super(ChestGUIUtils.getChestSize(NovaGuilds.getOnlinePlayers().size()), Message.INVENTORY_GUI_SETTINGS_INVITE_TITLE);
+		super(ChestGUIUtils.getChestSize(CompatibilityUtils.getOnlinePlayers().size()), Message.INVENTORY_GUI_SETTINGS_INVITE_TITLE);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class GUIInventoryGuildInvite extends AbstractGUIInventory {
 	@Override
 	public void generateContent() {
 		int index = 0;
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 			if(nPlayer.hasGuild() || plugin.getPlayerManager().isVanished(nPlayer)) {

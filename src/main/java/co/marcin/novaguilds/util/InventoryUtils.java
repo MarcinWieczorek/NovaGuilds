@@ -18,14 +18,11 @@
 
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.manager.ConfigManager;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -119,28 +116,6 @@ public final class InventoryUtils {
 	}
 
 	/**
-	 * Gets clicked inventory
-	 * For API older than 1.8
-	 *
-	 * @param event inventory click event
-	 * @return inventory
-	 */
-	public static Inventory getClickedInventory(InventoryClickEvent event) {
-		int slot = event.getRawSlot();
-		InventoryView view = event.getView();
-
-		if(slot < 0) {
-			return null;
-		}
-		else if(view.getTopInventory() != null && slot < view.getTopInventory().getSize()) {
-			return view.getTopInventory();
-		}
-		else {
-			return view.getBottomInventory();
-		}
-	}
-
-	/**
 	 * Checks if an inventory contains required amount of an item
 	 *
 	 * @param inventory inventory
@@ -150,22 +125,5 @@ public final class InventoryUtils {
 	 */
 	public static boolean containsAtLeast(Inventory inventory, ItemStack itemStack, int amount) {
 		return getTotalAmountOfItemStackInInventory(inventory, itemStack) >= amount;
-	}
-
-	/**
-	 * Gets item in player's hand
-	 * Fixes issues with 2 hands introduced in 1.9
-	 *
-	 * @param player player
-	 * @return boolean
-	 */
-	@SuppressWarnings("deprecation")
-	public static ItemStack getItemInHand(Player player) {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_9_R1)) {
-			return player.getItemInHand();
-		}
-		else {
-			return player.getInventory().getItemInMainHand();
-		}
 	}
 }

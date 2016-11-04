@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -95,7 +96,7 @@ public class VaultListener extends AbstractListener {
 			return;
 		}
 
-		if(!event.getView().getTopInventory().equals(InventoryUtils.getClickedInventory(event))) {
+		if(!event.getView().getTopInventory().equals(CompatibilityUtils.getClickedInventory(event))) {
 			return;
 		}
 
@@ -158,7 +159,7 @@ public class VaultListener extends AbstractListener {
 
 		if(plugin.getRegionManager().canInteract(player, event.getBlock())) {
 			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-			Material itemType = InventoryUtils.getItemInHand(player).getType();
+			Material itemType = CompatibilityUtils.getItemInMainHand(player).getType();
 
 			if(itemType == Config.VAULT_ITEM.getItemStack().getType()) {
 				for(BlockFace face : doubleChestFaces) {

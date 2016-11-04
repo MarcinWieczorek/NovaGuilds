@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaPlayerImpl;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import com.earth2me.essentials.Essentials;
 import org.apache.commons.lang.Validate;
@@ -109,7 +110,7 @@ public class PlayerManager {
 	public Collection<NovaPlayer> getOnlinePlayers() {
 		Collection<NovaPlayer> collection = new HashSet<>();
 
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			collection.add(getPlayer(player));
 		}
 

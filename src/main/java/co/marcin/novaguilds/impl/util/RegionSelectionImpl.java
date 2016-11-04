@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.impl.util;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.RegionSelection;
@@ -26,6 +25,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -77,7 +77,7 @@ public class RegionSelectionImpl implements RegionSelection {
 
 	@Override
 	public void send() {
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			if(!Permission.NOVAGUILDS_ADMIN_REGION_SPECTATE.has(player)) {
 				continue;
 			}

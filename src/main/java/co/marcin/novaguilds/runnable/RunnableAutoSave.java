@@ -21,6 +21,7 @@ package co.marcin.novaguilds.runnable;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.entity.Player;
 
@@ -36,7 +37,7 @@ public class RunnableAutoSave implements Runnable {
 		LoggerUtils.info("Saved data.");
 
 		//send message to admins
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			if(Permission.NOVAGUILDS_ADMIN_SAVE_NOTIFY.has(player)) {
 				Message.CHAT_ADMIN_SAVE_AUTOSAVE.send(player);
 			}

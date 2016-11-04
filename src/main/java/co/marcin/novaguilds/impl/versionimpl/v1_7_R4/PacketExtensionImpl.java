@@ -18,12 +18,12 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_7_R4;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.event.PacketSendEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.manager.ListenerManager;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import net.minecraft.util.io.netty.channel.Channel;
@@ -111,7 +111,7 @@ public class PacketExtensionImpl implements PacketExtension {
 
 	@Override
 	public void unregisterChannel() {
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			getChannel(player).pipeline().remove("NovaGuilds");
 		}
 	}

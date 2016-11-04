@@ -18,13 +18,13 @@
 
 package co.marcin.novaguilds.impl.util;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.ChatBroadcast;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class ChatBroadcastImpl implements ChatBroadcast {
 
 	@Override
 	public void send() {
-		for(Player player : NovaGuilds.getOnlinePlayers()) {
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			for(Map.Entry<Integer, PreparedTag> entry : preparedTagMap.entrySet()) {
 				NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 				PreparedTag tag = entry.getValue();
