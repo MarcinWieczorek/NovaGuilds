@@ -110,6 +110,19 @@ public class Reflections {
 	 * @param target    class
 	 * @param name      field name
 	 * @param fieldType field type
+	 * @param <T>       type
+	 * @return field accessor
+	 */
+	public static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType) {
+		return getField(target, name, fieldType, 0);
+	}
+
+	/**
+	 * Gets a field
+	 *
+	 * @param target    class
+	 * @param name      field name
+	 * @param fieldType field type
 	 * @param index     index
 	 * @param <T>       type
 	 * @return field accessor

@@ -20,22 +20,36 @@ package co.marcin.novaguilds.util.reflect;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Packet;
+import co.marcin.novaguilds.util.ParticleUtils;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PacketSender {
 	/**
 	 * Sends packets to players
 	 *
-	 * @param players array of players
+	 * @param players list of players
 	 * @param packets packets
 	 */
-	public static void sendPacket(Player[] players, Object... packets) {
+	public static void sendPacket(List<Player> players, Object... packets) {
 		for(Player player : players) {
 			sendPacket(player, packets);
 		}
+	}
+
+	/**
+	 * Sends packets to players
+	 *
+	 * @param players array of players
+	 * @param packets packets
+	 */
+	@Deprecated
+	public static void sendPacket(Player[] players, Object... packets) {
+		sendPacket(Arrays.asList(players), packets);
 	}
 
 	/**
@@ -57,5 +71,16 @@ public class PacketSender {
 		}
 
 		NovaGuilds.getInstance().getPacketExtension().sendPacket(player, packetList.toArray());
+	}
+
+	/**
+	 * Sends packets to players in radius
+	 *
+	 * @param center  center location
+	 * @param range   range
+	 * @param packets packets
+	 */
+	public void sendPacket(Location center, double range, Object... packets) {
+		sendPacket(ParticleUtils.getPlayersInRadius(center, range), packets);
 	}
 }

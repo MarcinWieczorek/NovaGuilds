@@ -18,11 +18,13 @@
 
 package co.marcin.novaguilds.util;
 
-import com.darkblade12.particleeffect.ParticleEffect;
+import co.marcin.novaguilds.NovaGuilds;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class ParticleUtils {
 	 *
 	 * @param entity target entity
 	 */
-	public static void createSuperNova(Entity entity) {
+	public static void createSuperNova(Entity entity) throws IllegalAccessException, InvocationTargetException, InstantiationException {
 		createSuperNova(entity.getLocation());
 	}
 
@@ -67,7 +69,7 @@ public class ParticleUtils {
 	 *
 	 * @param location target location
 	 */
-	public static void createSuperNova(Location location) {
+	public static void createSuperNova(Location location) throws IllegalAccessException, InstantiationException, InvocationTargetException {
 		float speed = 1F;
 		double range = 15D;
 
@@ -75,7 +77,31 @@ public class ParticleUtils {
 		location.add(0, 0.5, 0);
 
 		for(Vector vector : getCircleVectors(15, 100)) {
-			ParticleEffect.SNOW_SHOVEL.display(vector, speed, location, range);
+			ParticleEffect.SNOW_SHOVEL.send(location, vector, speed, 0, null, range);
 		}
+	}
+
+	/**
+	 * Gets players in a radius
+	 *
+	 * @param center center location
+	 * @param range  range
+	 * @return list of players
+	 */
+	public static List<Player> getPlayersInRadius(Location center, double range) {
+		if(range < 1.0D) {
+			throw new IllegalArgumentException("The range is lower than 1");
+		}
+
+		double squared = range * range;
+		List<Player> list = new ArrayList<>();
+
+		for(Player player : NovaGuilds.getOnlinePlayers()) {
+			if(player.getWorld().equals(center.getWorld()) && player.getLocation().distanceSquared(center) <= squared) {
+				list.add(player);
+			}
+		}
+
+		return list;
 	}
 }
