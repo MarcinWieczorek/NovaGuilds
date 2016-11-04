@@ -37,7 +37,7 @@ public class CommandRegion extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length > 0) {
-			CommandWrapper subCommand = commandsMap.get(args[0].toLowerCase());
+			CommandWrapper subCommand = getSubCommand(args);
 
 			if(subCommand == null) {
 				Message.CHAT_UNKNOWNCMD.send(sender);

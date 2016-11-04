@@ -71,14 +71,14 @@ public class CommandGuild extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length > 0) {
-			CommandWrapper command = commandsMap.get(args[0].toLowerCase());
+			CommandWrapper subCommand = getSubCommand(args);
 			String[] newArgs = StringUtils.parseArgs(args, 1);
 
-			if(command == null) {
+			if(subCommand == null) {
 				Message.CHAT_UNKNOWNCMD.send(sender);
 			}
 			else {
-				command.execute(sender, newArgs);
+				subCommand.execute(sender, newArgs);
 			}
 		}
 		else {

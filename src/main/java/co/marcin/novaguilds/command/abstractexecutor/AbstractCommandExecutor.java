@@ -55,7 +55,6 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 	public static abstract class Reversed<T> extends AbstractCommandExecutor implements CommandExecutor.Reversed<T> {
 		protected T parameter;
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public final void set(T parameter) {
 			this.parameter = parameter;

@@ -48,7 +48,7 @@ public class CommandAdmin extends AbstractCommandExecutor {
 			return;
 		}
 
-		CommandWrapper subCommand = commandsMap.get(args[0]);
+		CommandWrapper subCommand = getSubCommand(args);
 
 		if(subCommand == null) {
 			Message.CHAT_UNKNOWNCMD.send(sender);
