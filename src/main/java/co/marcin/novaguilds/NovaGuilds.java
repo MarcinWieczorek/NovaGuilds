@@ -63,12 +63,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -519,7 +519,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	 * @throws IllegalAccessException when something goes wrong
 	 */
 	private void setupWrappedLogger() throws NoSuchFieldException, IllegalAccessException {
-		Field loggerField = Reflections.getPrivateField(JavaPlugin.class, "logger");
+		FieldAccessor<PluginLogger> loggerField = Reflections.getField(JavaPlugin.class, "logger", PluginLogger.class);
 		loggerField.set(this, new WrappedLogger(this));
 	}
 }

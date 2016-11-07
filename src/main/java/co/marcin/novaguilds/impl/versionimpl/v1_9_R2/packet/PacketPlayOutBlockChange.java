@@ -47,11 +47,8 @@ public class PacketPlayOutBlockChange extends AbstractPacket {
 			worldClass = Reflections.getCraftClass("World");
 			craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
 
-			blockPositionField = Reflections.getField(packetBlockChangeClass, "a");
-			blockDataField = Reflections.getField(packetBlockChangeClass, "block");
-
-			blockPositionField.setAccessible(true);
-			blockDataField.setAccessible(true);
+			blockPositionField = Reflections.getPrivateField(packetBlockChangeClass, "a");
+			blockDataField = Reflections.getPrivateField(packetBlockChangeClass, "block");
 
 			getBlockMethod = Reflections.getMethod(craftMagicNumbersClass, "getBlock", Material.class);
 			fromLegacyDataMethod = Reflections.getMethod(blockClass, "fromLegacyData");

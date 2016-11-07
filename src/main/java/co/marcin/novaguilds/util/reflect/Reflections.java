@@ -314,13 +314,13 @@ public class Reflections {
 		return name.substring(name.lastIndexOf('.') + 1) + ".";
 	}
 
-	public interface ConstructorInvoker {
+	public interface ConstructorInvoker<T> {
 		/**
 		 * Invokes a constructor
 		 *
 		 * @param arguments arguments
 		 * @return instance
 		 */
-		Object invoke(Object... arguments);
+		T invoke(Object... arguments);
 	}
 }

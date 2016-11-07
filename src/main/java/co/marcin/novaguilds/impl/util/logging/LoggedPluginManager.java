@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.util.logging;
 
+import co.marcin.novaguilds.util.reflect.Reflections;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
@@ -148,7 +149,7 @@ public abstract class LoggedPluginManager implements PluginManager {
 	 */
 	private HandlerList getEventListeners(Class<? extends Event> type) {
 		try {
-			Method method = getRegistrationClass(type).getDeclaredMethod("getHandlerList");
+			Method method = Reflections.getMethod(type, "getHandlerList");
 			method.setAccessible(true);
 			return (HandlerList) method.invoke(null);
 		}

@@ -42,13 +42,9 @@ public class PacketPlayOutUpdateSign extends AbstractPacket {
 			packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
 			chatComponentTextClass = Reflections.getCraftClass("ChatComponentText");
 
-			worldField = Reflections.getField(packetOutUpdateSignClass, "a");
-			blockPositionField = Reflections.getField(packetOutUpdateSignClass, "b");
-			linesField = Reflections.getField(packetOutUpdateSignClass, "c");
-
-			worldField.setAccessible(true);
-			blockPositionField.setAccessible(true);
-			linesField.setAccessible(true);
+			worldField = Reflections.getPrivateField(packetOutUpdateSignClass, "a");
+			blockPositionField = Reflections.getPrivateField(packetOutUpdateSignClass, "b");
+			linesField = Reflections.getPrivateField(packetOutUpdateSignClass, "c");
 
 			chatComponentTextConstructor = chatComponentTextClass.getConstructor(String.class);
 		}
