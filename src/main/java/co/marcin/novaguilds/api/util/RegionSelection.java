@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.enums.RegionValidity;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import java.util.List;
@@ -147,6 +148,21 @@ public interface RegionSelection {
 	 * @return length in blocks
 	 */
 	int getLength();
+
+	/**
+	 * Gets center location
+	 *
+	 * @return center location
+	 */
+	Location getCenter();
+
+	/**
+	 * Gets the world
+	 * Only if selection was made
+	 *
+	 * @return world instance
+	 */
+	World getWorld();
 
 	/**
 	 * Sets a corner

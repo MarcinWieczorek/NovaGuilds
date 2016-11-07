@@ -87,21 +87,19 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	}
 
 	@Override
-	public int getHeight() {
+	public int getLength() {
 		return Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
 	}
 
 	@Override
 	public int getDiagonal() {
-		int w = getWidth();
-		int h = getHeight();
-		int sumSquare = (int) (Math.pow(w, 2) + Math.pow(h, 2));
+		int sumSquare = (int) (Math.pow(getWidth(), 2) + Math.pow(getLength(), 2));
 		return Math.round((int) Math.sqrt(sumSquare));
 	}
 
 	@Override
 	public int getSurface() {
-		return getHeight() * getWidth();
+		return getLength() * getWidth();
 	}
 
 	@Override

@@ -60,11 +60,11 @@ public interface NovaRegion extends Resource {
 	int getWidth();
 
 	/**
-	 * Gets region's height
+	 * Gets region's length
 	 *
 	 * @return size in blocks
 	 */
-	int getHeight();
+	int getLength();
 
 	/**
 	 * Gets region's diagonal

@@ -204,19 +204,14 @@ public class RegionManager {
 		Location l1 = selection.getCorner(0);
 		Location l2 = selection.getCorner(1);
 
-		int x1 = l1.getBlockX();
-		int x2 = l2.getBlockX();
-		int z1 = l1.getBlockZ();
-		int z2 = l2.getBlockZ();
-
-		int difX = Math.abs(x1 - x2) + 1;
-		int difZ = Math.abs(z1 - z2) + 1;
+		int difX = selection.getWidth();
+		int difZ = selection.getLength();
 
 		int minSize = Config.REGION_MINSIZE.getInt();
 		int maxSize = Config.REGION_MAXSIZE.getInt();
 
 		List<NovaRegion> regionsInsideArea = getRegionsInsideArea(l1, l2);
-		List<NovaGuild> guildsTooClose = getGuildsTooClose(l1, l2);
+		List<NovaGuild> guildsTooClose = getGuildsTooClose(selection);
 
 		if(difX < minSize || difZ < minSize) {
 			return RegionValidity.TOOSMALL;
@@ -333,25 +328,19 @@ public class RegionManager {
 	 * Gets guilds too close to a rectangle
 	 * The distance is being taken from the config
 	 *
-	 * @param l1 first corner
-	 * @param l2 second corner
+	 * @param selection region selection
 	 * @return list of guilds
 	 */
-	public List<NovaGuild> getGuildsTooClose(Location l1, Location l2) {
+	public List<NovaGuild> getGuildsTooClose(RegionSelection selection) {
 		final List<NovaGuild> list = new ArrayList<>();
-
-		int width = Math.abs(l1.getBlockX() - l2.getBlockX()) + 1;
-		int height = Math.abs(l1.getBlockZ() - l2.getBlockZ()) + 1;
-		int radius1 = Math.round((int) Math.sqrt((int) (Math.pow(width, 2) + Math.pow(height, 2))) / 2);
-
+		int radius1 = Math.round((int) Math.sqrt((int) (Math.pow(selection.getWidth(), 2) + Math.pow(selection.getLength(), 2))) / 2);
 		int min = radius1 + Config.REGION_MINDISTANCE.getInt();
-		Location centerLocation = RegionUtils.getCenterLocation(l1, l2);
-		centerLocation.setY(0);
+		Location centerLocation = selection.getCenter();
 
 		for(NovaGuild guildLoop : plugin.getGuildManager().getGuilds()) {
 			if(guildLoop.hasRegion()) {
 				for(NovaRegion region : guildLoop.getRegions()) {
-					if(!region.getWorld().equals(l1.getWorld())) {
+					if(!region.getWorld().equals(selection.getWorld())) {
 						continue;
 					}
 
@@ -364,7 +353,7 @@ public class RegionManager {
 				}
 			}
 			else {
-				if(!guildLoop.getHome().getWorld().equals(l1.getWorld())) {
+				if(!guildLoop.getHome().getWorld().equals(selection.getWorld())) {
 					continue;
 				}
 

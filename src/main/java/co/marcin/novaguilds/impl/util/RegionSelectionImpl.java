@@ -29,6 +29,7 @@ import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -213,12 +214,37 @@ public class RegionSelectionImpl implements RegionSelection {
 
 	@Override
 	public int getWidth() {
+		if(!hasBothSelections()) {
+			return 0;
+		}
+
 		return Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX()) + 1;
 	}
 
 	@Override
 	public int getLength() {
+		if(!hasBothSelections()) {
+			return 0;
+		}
+
 		return Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
+	}
+
+	@Override
+	public Location getCenter() {
+		int newX = getCorner(0).getBlockX() + (getCorner(0).getBlockX() < getCorner(1).getBlockX() ? getWidth() : -getWidth()) / 2;
+		int newZ = getCorner(0).getBlockZ() + (getCorner(0).getBlockZ() < getCorner(1).getBlockZ() ? getLength() : -getLength()) / 2;
+
+		return new Location(getWorld(), newX, 0, newZ);
+	}
+
+	@Override
+	public World getWorld() {
+		if(!hasBothSelections()) {
+			return null;
+		}
+
+		return getCorner(0).getWorld();
 	}
 
 	@Override
