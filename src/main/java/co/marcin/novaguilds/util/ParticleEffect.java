@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.util;
 
-import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Packet;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.util.reflect.PacketSender;

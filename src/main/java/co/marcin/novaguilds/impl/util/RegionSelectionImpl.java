@@ -383,6 +383,12 @@ public class RegionSelectionImpl implements RegionSelection {
 		getBlocks().add(location.getBlock());
 	}
 
+	/**
+	 * Checks corner bounds
+	 * Can be 0 or 1
+	 *
+	 * @param index index
+	 */
 	protected final void checkCornerBounds(int index) {
 		if(index != 0 && index != 1) {
 			throw new IllegalArgumentException("Index can be either 0 or 1");

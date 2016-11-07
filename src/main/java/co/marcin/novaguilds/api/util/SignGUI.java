@@ -62,7 +62,6 @@ public interface SignGUI {
 	 */
 	Map<UUID, Location> getSignLocations();
 
-
 	interface SignGUIListener {
 		/**
 		 * Gets executed when a player is done editing

@@ -30,6 +30,9 @@ import com.github.games647.scoreboardstats.variables.VariableReplacer;
 import org.bukkit.entity.Player;
 
 public class ScoreboardStatsHook {
+	/**
+	 * The constructor
+	 */
 	public ScoreboardStatsHook() {
 		final NovaGuilds plugin = NovaGuilds.getInstance();
 		ScoreboardStats scoreboardStats = plugin.getDependencyManager().get(Dependency.SCOREBOARDSTATS, ScoreboardStats.class);

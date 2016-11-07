@@ -22,7 +22,6 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

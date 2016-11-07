@@ -43,6 +43,11 @@ public class DatabaseAnalyzerImpl implements DatabaseAnalyzer {
 	private final List<Missmatch> missmatches = new ArrayList<>();
 	private final Map<String, String> sqlConstraints = new HashMap<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param connection connection
+	 */
 	public DatabaseAnalyzerImpl(Connection connection) {
 		this.connection = connection;
 	}

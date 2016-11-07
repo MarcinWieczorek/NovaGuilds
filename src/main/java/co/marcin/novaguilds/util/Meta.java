@@ -51,6 +51,7 @@ public class Meta {
 				return value;
 			}
 		}
+
 		return null;
 	}
 
@@ -89,6 +90,7 @@ public class Meta {
 	 * @return boolean
 	 */
 	public static boolean isProtected(Block block) {
-		return getMetadata(block, "protected") != null && getMetadata(block, "protected").asBoolean();
+		MetadataValue metadataValue = getMetadata(block, "protected");
+		return metadataValue != null && metadataValue.asBoolean();
 	}
 }

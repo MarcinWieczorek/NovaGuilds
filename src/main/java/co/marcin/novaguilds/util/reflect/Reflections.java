@@ -228,6 +228,13 @@ public class Reflections {
 		return null;
 	}
 
+	/**
+	 * Sets the field as not final
+	 *
+	 * @param field field
+	 * @throws IllegalAccessException when something goes wrong
+	 * @throws NoSuchFieldException   when something goes wrong
+	 */
 	public static void setNotFinal(Field field) throws IllegalAccessException, NoSuchFieldException {
 		Field modifiersField = getPrivateField(Field.class, "modifiers");
 		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);

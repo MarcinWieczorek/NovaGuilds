@@ -213,6 +213,12 @@ public class TabListImpl extends AbstractTabList {
 		}
 	}
 
+	/**
+	 * Adds a zero to one digit numbers
+	 *
+	 * @param i integer
+	 * @return string
+	 */
 	protected final String digit(int i) {
 		return i > 9 ? "" + i : "0" + i;
 	}

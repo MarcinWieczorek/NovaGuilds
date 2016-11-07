@@ -68,7 +68,7 @@ public class RunnableRaid implements Runnable {
 				raid.resetProgress();
 			}
 
-			//vars hashmap
+			//vars map
 			Map<VarKey, String> vars = new HashMap<>();
 			vars.put(VarKey.ATTACKER, raid.getGuildAttacker().getName());
 			vars.put(VarKey.DEFENDER, guildDefender.getName());

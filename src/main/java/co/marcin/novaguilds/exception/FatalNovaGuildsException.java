@@ -26,15 +26,29 @@ import java.util.concurrent.TimeUnit;
 public class FatalNovaGuildsException extends Exception {
 	public static boolean fatal;
 
+	/**
+	 * The constructor
+	 */
 	public FatalNovaGuildsException() {
 		disable();
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param message exception message
+	 */
 	public FatalNovaGuildsException(String message) {
 		super(message);
 		disable();
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param message exception message
+	 * @param cause   cause
+	 */
 	public FatalNovaGuildsException(String message, Throwable cause) {
 		super(message, cause);
 		disable();

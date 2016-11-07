@@ -40,6 +40,12 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 		return commandsMap;
 	}
 
+	/**
+	 * Gets the subcommand based on args
+	 *
+	 * @param args arguments
+	 * @return subcommand
+	 */
 	protected CommandWrapper getSubCommand(String[] args) {
 		int subCommandArg = 0;
 

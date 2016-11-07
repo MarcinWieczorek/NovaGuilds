@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.UUID;
 
 public final class RegionUtils {
-
 	private RegionUtils() {
+
 	}
 
 	/**

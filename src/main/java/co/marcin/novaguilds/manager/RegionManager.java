@@ -103,6 +103,12 @@ public class RegionManager {
 		return get(entity.getLocation());
 	}
 
+	/**
+	 * Gets the region at NovaPlayer's location
+	 *
+	 * @param nPlayer NovaPlayer
+	 * @return region
+	 */
 	public static NovaRegion get(NovaPlayer nPlayer) {
 		if(nPlayer.isOnline()) {
 			return get(nPlayer.getPlayer());
@@ -200,6 +206,12 @@ public class RegionManager {
 		return checkRegionSelect(selection);
 	}
 
+	/**
+	 * Checks region selection
+	 *
+	 * @param selection region selection
+	 * @return region validity enum
+	 */
 	public RegionValidity checkRegionSelect(RegionSelection selection) {
 		Location l1 = selection.getCorner(0);
 		Location l2 = selection.getCorner(1);

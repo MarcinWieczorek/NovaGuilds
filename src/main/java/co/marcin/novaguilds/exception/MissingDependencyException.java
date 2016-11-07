@@ -19,13 +19,28 @@
 package co.marcin.novaguilds.exception;
 
 public class MissingDependencyException extends Exception {
+	/**
+	 * The constructor
+	 */
 	public MissingDependencyException() {
+
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param message exception message
+	 */
 	public MissingDependencyException(String message) {
 		super(message);
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param message exception message
+	 * @param cause   cause
+	 */
 	public MissingDependencyException(String message, Throwable cause) {
 		super(message, cause);
 	}

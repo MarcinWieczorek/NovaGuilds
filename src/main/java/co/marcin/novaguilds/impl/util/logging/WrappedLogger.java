@@ -25,6 +25,11 @@ import org.bukkit.plugin.PluginLogger;
 import java.util.logging.Level;
 
 public class WrappedLogger extends PluginLogger {
+	/**
+	 * The constructor
+	 *
+	 * @param context plugin instance
+	 */
 	public WrappedLogger(Plugin context) {
 		super(context);
 	}

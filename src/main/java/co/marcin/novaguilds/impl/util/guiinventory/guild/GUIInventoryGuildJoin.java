@@ -38,6 +38,11 @@ public class GUIInventoryGuildJoin extends AbstractGUIInventory {
 	private final Map<Integer, NovaGuild> slotGuildsMap = new HashMap<>();
 	private final List<NovaGuild> guildList = new ArrayList<>();
 
+	/**
+	 * The constructor
+	 *
+	 * @param guilds list of guilds
+	 */
 	public GUIInventoryGuildJoin(List<NovaGuild> guilds) {
 		super(ChestGUIUtils.getChestSize(guilds.size()), Message.INVENTORY_GUI_JOIN_TITLE);
 		guildList.addAll(guilds);

@@ -22,6 +22,7 @@ import java.util.Random;
 
 public final class NumberUtils {
 	private NumberUtils() {
+
 	}
 
 	/**

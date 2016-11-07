@@ -280,6 +280,10 @@ public class MessageManager {
 				title = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.TitleImpl();
 		}
 
+		if(title == null) {
+			return;
+		}
+
 		title.setSubtitleColor(instance.prefixColor);
 		title.setSubtitle(StringUtils.fixColors(msg));
 		title.send(player);
