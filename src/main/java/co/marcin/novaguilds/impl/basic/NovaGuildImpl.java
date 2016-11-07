@@ -858,7 +858,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		plugin.getRankManager().delete(this);
 
 		//Delete region
-		for(NovaRegion region : getRegions()) {
+		for(NovaRegion region : new ArrayList<>(getRegions())) {
 			RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.fromGuildAbandonCause(cause));
 			plugin.getServer().getPluginManager().callEvent(event);
 
