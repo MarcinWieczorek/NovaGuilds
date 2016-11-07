@@ -29,6 +29,7 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagChatImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.entity.Player;
@@ -81,7 +82,7 @@ public class DeathListener extends AbstractListener {
 		chatBroadcast.setTag(2, preparedTag2);
 		chatBroadcast.send();
 
-		//guildpoints and money
+		//guild points and money
 		if(nPlayerAttacker.canGetKillPoints(victim)) {
 			//Guild points
 			if(nPlayer.hasGuild()) {
@@ -113,7 +114,7 @@ public class DeathListener extends AbstractListener {
 			vars.put(VarKey.PLAYERNAME, victim.getName());
 			double money;
 			if(nPlayer.canGetKillPoints(attacker)) {
-				money = (Config.KILLING_MONEYFORKILL.getPercent() + bonusPercentMoney) * nPlayer.getMoney();
+				money = NumberUtils.roundOffTo2DecPlaces((Config.KILLING_MONEYFORKILL.getPercent() + bonusPercentMoney) * nPlayer.getMoney());
 
 				if(money > 0) {
 					vars.put(VarKey.MONEY, String.valueOf(money));
@@ -121,7 +122,7 @@ public class DeathListener extends AbstractListener {
 				}
 			}
 			else {
-				money = (Config.KILLING_MONEYFORREVENGE.getPercent() + bonusPercentMoney) * nPlayer.getMoney();
+				money = NumberUtils.roundOffTo2DecPlaces((Config.KILLING_MONEYFORREVENGE.getPercent() + bonusPercentMoney) * nPlayer.getMoney());
 
 				if(money > 0) {
 					vars.put(VarKey.MONEY, String.valueOf(money));
