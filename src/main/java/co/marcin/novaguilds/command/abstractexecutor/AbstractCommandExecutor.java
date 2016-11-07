@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.util.LoggerUtils;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -56,6 +57,21 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 		}
 
 		return getCommandsMap().get(args[subCommandArg]);
+	}
+
+	/**
+	 * Dumps arguments to the console
+	 * For debug purposes
+	 *
+	 * @param args arguments
+	 */
+	protected final void dumpArgs(String[] args) {
+		int index = 0;
+		LoggerUtils.debug("Command arguments dump. (" + args.length + " items)");
+		for(String arg : args) {
+			LoggerUtils.debug(index + ": " + arg);
+			index++;
+		}
 	}
 
 	public static abstract class Reversed<T> extends AbstractCommandExecutor implements CommandExecutor.Reversed<T> {

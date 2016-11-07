@@ -91,7 +91,7 @@ public class CommandAdminGuildRank extends AbstractCommandExecutor.Reversed<Nova
 		}
 
 		int argCut = 1;
-		if(subCommand.equals(Command.ADMIN_GUILD_RANK_LIST)) {
+		if(subCommand == Command.ADMIN_GUILD_RANK_LIST || subCommand == Command.GUILD_RANK_LIST) {
 			subCommand.executorVariable(guild);
 		}
 		else {

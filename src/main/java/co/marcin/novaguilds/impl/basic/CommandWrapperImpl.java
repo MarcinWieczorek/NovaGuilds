@@ -106,7 +106,7 @@ public class CommandWrapperImpl implements CommandWrapper {
 
 	@Override
 	public boolean isReversed() {
-		return getExecutor() instanceof CommandExecutor.Reversed;
+		return CommandExecutor.Reversed.class.isAssignableFrom(getExecutorClass());
 	}
 
 	@Override

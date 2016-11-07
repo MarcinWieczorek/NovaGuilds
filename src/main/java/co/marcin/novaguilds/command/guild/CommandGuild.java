@@ -70,6 +70,8 @@ public class CommandGuild extends AbstractCommandExecutor {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+
 		if(args.length > 0) {
 			CommandWrapper subCommand = getSubCommand(args);
 			String[] newArgs = StringUtils.parseArgs(args, 1);
@@ -78,6 +80,10 @@ public class CommandGuild extends AbstractCommandExecutor {
 				Message.CHAT_UNKNOWNCMD.send(sender);
 			}
 			else {
+				if(subCommand.isReversed() && subCommand == Command.GUILD_RANK_ACCESS) {
+					subCommand.executorVariable(nPlayer.getGuild());
+				}
+
 				subCommand.execute(sender, newArgs);
 			}
 		}
@@ -87,7 +93,6 @@ public class CommandGuild extends AbstractCommandExecutor {
 				return;
 			}
 
-			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 			if(nPlayer.hasGuild()) {
 				for(String message : Message.CHAT_COMMANDS_GUILD_HASGUILD.getList()) {
 					GuildPermission guildPermission = null;
