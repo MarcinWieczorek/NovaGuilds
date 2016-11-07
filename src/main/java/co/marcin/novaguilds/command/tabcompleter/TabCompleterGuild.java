@@ -107,6 +107,15 @@ public class TabCompleterGuild implements TabCompleter {
 						}
 					}
 					break;
+				case "kick":
+					if(nPlayer.hasGuild()) {
+						for(NovaPlayer guildMember : nPlayer.getGuild().getPlayers()) {
+							if(!guildMember.isLeader() && !guildMember.equals(nPlayer)) {
+								keys.add(guildMember.getName());
+							}
+						}
+					}
+					break;
 			}
 		}
 		else {
