@@ -25,6 +25,7 @@ import co.marcin.novaguilds.api.event.PlayerInteractEntityEvent;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.EntityUseAction;
@@ -48,6 +49,7 @@ import co.marcin.novaguilds.manager.RankManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.manager.TaskManager;
 import co.marcin.novaguilds.util.CompatibilityUtils;
+import co.marcin.novaguilds.util.EnchantmentGlow;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -56,6 +58,7 @@ import co.marcin.novaguilds.util.reflect.Reflections;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -284,6 +287,17 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 			//metrics
 			setupMetrics();
+
+			//Register glow enchantment
+			try {
+				FieldAccessor<Boolean> acceptingNewField = Reflections.getField(Enchantment.class, "acceptingNew", boolean.class);
+				acceptingNewField.set(null, true);
+				Enchantment.registerEnchantment(new EnchantmentGlow());
+				acceptingNewField.set(null, false);
+			}
+			catch(Exception e) {
+				LoggerUtils.exception(e);
+			}
 
 			LoggerUtils.info("#" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ") Enabled");
 		}

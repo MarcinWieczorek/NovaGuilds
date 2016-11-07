@@ -251,6 +251,9 @@ public final class ItemStackUtils {
 							case "lure":
 								enchantments.put(Enchantment.LURE, Integer.valueOf(value));
 								break;
+							case "glow":
+								enchantments.put(new EnchantmentGlow(), 1);
+								break;
 						}
 					}
 				}

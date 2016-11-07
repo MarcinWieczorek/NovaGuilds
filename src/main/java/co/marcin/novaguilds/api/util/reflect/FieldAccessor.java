@@ -33,7 +33,7 @@ public interface FieldAccessor<T> {
 	 * @param target target object
 	 * @param value  value
 	 */
-	void set(Object target, Object value);
+	void set(Object target, T value);
 
 	/**
 	 * Checks if object has specified field
