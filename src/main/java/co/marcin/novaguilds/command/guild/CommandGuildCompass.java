@@ -36,13 +36,13 @@ public class CommandGuildCompass extends AbstractCommandExecutor {
 			return;
 		}
 
-		if(nPlayer.isCompassPointingGuild()) { //disable
-			nPlayer.setCompassPointingGuild(false);
+		if(nPlayer.getPreferences().isCompassPointingGuild()) { //disable
+			nPlayer.getPreferences().setCompassPointingGuild(false);
 			player.setCompassTarget(player.getWorld().getSpawnLocation());
 			Message.CHAT_GUILD_COMPASSTARGET_OFF.send(sender);
 		}
 		else { //enable
-			nPlayer.setCompassPointingGuild(true);
+			nPlayer.getPreferences().setCompassPointingGuild(true);
 			player.setCompassTarget(nPlayer.getGuild().getHome());
 			Message.CHAT_GUILD_COMPASSTARGET_ON.send(sender);
 		}

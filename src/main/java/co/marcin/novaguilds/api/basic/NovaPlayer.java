@@ -65,20 +65,6 @@ public interface NovaPlayer extends Resource {
 	RegionSelection getActiveSelection();
 
 	/**
-	 * Gets player's region bypass
-	 *
-	 * @return the bypass flag
-	 */
-	boolean getBypass();
-
-	/**
-	 * Gets player's region spectate
-	 *
-	 * @return the flag
-	 */
-	boolean getRegionSpectate();
-
-	/**
 	 * Gets a region that the player is at
 	 *
 	 * @return the region
@@ -119,13 +105,6 @@ public interface NovaPlayer extends Resource {
 	 * @return the amount
 	 */
 	double getMoney();
-
-	/**
-	 * Gets region mode
-	 *
-	 * @return RegionMode enum
-	 */
-	RegionMode getRegionMode();
 
 	/**
 	 * Gets the tablist
@@ -170,20 +149,6 @@ public interface NovaPlayer extends Resource {
 	NovaRank getGuildRank();
 
 	/**
-	 * Gets player's chat mode
-	 *
-	 * @return the chat mode enum
-	 */
-	ChatMode getChatMode();
-
-	/**
-	 * Gets player's spy mode
-	 *
-	 * @return spy mode flag
-	 */
-	boolean getSpyMode();
-
-	/**
 	 * Gets player's ID
 	 *
 	 * @return the ID
@@ -196,6 +161,13 @@ public interface NovaPlayer extends Resource {
 	 * @param guild the guild
 	 */
 	void setGuild(NovaGuild guild);
+
+	/**
+	 * Gets user preferences
+	 *
+	 * @return preferences
+	 */
+	Preferences getPreferences();
 
 	/**
 	 * Sets the player
@@ -219,13 +191,6 @@ public interface NovaPlayer extends Resource {
 	void setInvitedTo(List<NovaGuild> invitedTo);
 
 	/**
-	 * Sets the region mode flag
-	 *
-	 * @param regionMode RegionMode enum
-	 */
-	void setRegionMode(RegionMode regionMode);
-
-	/**
 	 * Setting active selection
 	 *
 	 * @param selection RegionSelection
@@ -245,13 +210,6 @@ public interface NovaPlayer extends Resource {
 	 * @param points the amount
 	 */
 	void setPoints(int points);
-
-	/**
-	 * Sets whether the compass should point the guild's home
-	 *
-	 * @param compassPointingGuild the flag
-	 */
-	void setCompassPointingGuild(boolean compassPointingGuild);
 
 	/**
 	 * Sets the deaths
@@ -275,16 +233,6 @@ public interface NovaPlayer extends Resource {
 	void setTabList(TabList tabList);
 
 	/**
-	 * Toggles bypass
-	 */
-	void toggleBypass();
-
-	/**
-	 * Toggles player's region spectate
-	 */
-	void toggleRegionSpectate();
-
-	/**
 	 * Sets the raid the player is taking part in
 	 *
 	 * @param partRaid the raid
@@ -306,32 +254,11 @@ public interface NovaPlayer extends Resource {
 	void setGuildRank(NovaRank guildRank);
 
 	/**
-	 * Sets the chat mode
-	 *
-	 * @param chatMode the ChatMode enum
-	 */
-	void setChatMode(ChatMode chatMode);
-
-	/**
-	 * Sets the spy mode
-	 *
-	 * @param spyMode the flag
-	 */
-	void setSpyMode(boolean spyMode);
-
-	/**
 	 * Sets the ID
 	 *
 	 * @param id the ID
 	 */
 	void setId(int id);
-
-	/**
-	 * Checks if the compass is pointing guild
-	 *
-	 * @return the flag
-	 */
-	boolean isCompassPointingGuild();
 
 	/**
 	 * Checks if the player has a guild
@@ -503,4 +430,110 @@ public interface NovaPlayer extends Resource {
 	 * Removes last gui inventory from the history
 	 */
 	void removeLastGUIInventoryHistory();
+
+	interface Preferences {
+		/**
+		 * Gets player's region bypass
+		 *
+		 * @return the bypass flag
+		 */
+		boolean getBypass();
+
+		/**
+		 * Gets player's chat mode
+		 *
+		 * @return the chat mode enum
+		 */
+		ChatMode getChatMode();
+
+		/**
+		 * Checks if the compass is pointing guild
+		 *
+		 * @return the flag
+		 */
+		boolean isCompassPointingGuild();
+
+		/**
+		 * Gets region mode
+		 *
+		 * @return RegionMode enum
+		 */
+		RegionMode getRegionMode();
+
+		/**
+		 * Gets player's region spectate
+		 *
+		 * @return the flag
+		 */
+		boolean getRegionSpectate();
+
+		/**
+		 * Gets player's spy mode
+		 *
+		 * @return spy mode flag
+		 */
+		boolean getSpyMode();
+
+		/**
+		 * Sets the bypass mode
+		 *
+		 * @param bypass flag
+		 */
+		void setBypass(boolean bypass);
+
+		/**
+		 * Sets the chat mode
+		 *
+		 * @param chatMode the ChatMode enum
+		 */
+		void setChatMode(ChatMode chatMode);
+
+		/**
+		 * Sets whether the compass should point the guild's home
+		 *
+		 * @param compassPointingGuild the flag
+		 */
+		void setCompassPointingGuild(boolean compassPointingGuild);
+
+		/**
+		 * Sets the spy mode
+		 *
+		 * @param spyMode the flag
+		 */
+		void setSpyMode(boolean spyMode);
+
+		/**
+		 * Sets the region mode flag
+		 *
+		 * @param regionMode RegionMode enum
+		 */
+		void setRegionMode(RegionMode regionMode);
+
+		/**
+		 * Sets region spectate flag
+		 *
+		 * @param regionSpectate flag
+		 */
+		void setRegionSpectate(boolean regionSpectate);
+
+		/**
+		 * Toggles bypass
+		 */
+		void toggleBypass();
+
+		/**
+		 * Toggles player's region spectate
+		 */
+		void toggleRegionSpectate();
+
+		/**
+		 * Toggles spy mode
+		 */
+		void toggleSpyMode();
+
+		/**
+		 * Toggles compass pointing guild
+		 */
+		void toggleCompassPointingGuild();
+	}
 }

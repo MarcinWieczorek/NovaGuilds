@@ -43,8 +43,8 @@ public class CommandAdminRegionBypass extends AbstractCommandExecutor {
 
 			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-			nPlayer.toggleBypass();
-			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getBypass()));
+			nPlayer.getPreferences().toggleBypass();
+			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
 			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF.clone().vars(vars).send(sender);
 		}
 		else { //for other
@@ -60,9 +60,9 @@ public class CommandAdminRegionBypass extends AbstractCommandExecutor {
 				return;
 			}
 
-			nPlayer.toggleBypass();
+			nPlayer.getPreferences().toggleBypass();
 			vars.put(VarKey.PLAYER, nPlayer.getName());
-			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getBypass()));
+			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
 
 			if(nPlayer.isOnline()) {
 				Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.clone().vars(vars).send(nPlayer);

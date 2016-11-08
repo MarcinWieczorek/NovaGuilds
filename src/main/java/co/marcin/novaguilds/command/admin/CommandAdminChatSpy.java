@@ -52,9 +52,9 @@ public class CommandAdminChatSpy extends AbstractCommandExecutor {
 			nPlayerChange = nPlayer;
 		}
 
-		nPlayerChange.setSpyMode(!nPlayerChange.getSpyMode());
+		nPlayerChange.getPreferences().toggleSpyMode();
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.MODE, Message.getOnOff(nPlayerChange.getSpyMode()));
+		vars.put(VarKey.MODE, Message.getOnOff(nPlayerChange.getPreferences().getSpyMode()));
 
 		//Notify message
 		if(!nPlayer.equals(nPlayerChange)) {

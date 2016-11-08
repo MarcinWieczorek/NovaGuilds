@@ -43,8 +43,8 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 
 			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-			nPlayer.toggleRegionSpectate();
-			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getRegionSpectate()));
+			nPlayer.getPreferences().toggleRegionSpectate();
+			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getPreferences().getRegionSpectate()));
 			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_SELF.clone().vars(vars).send(sender);
 		}
 		else { //for other
@@ -60,9 +60,9 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 				return;
 			}
 
-			nPlayer.toggleRegionSpectate();
+			nPlayer.getPreferences().toggleRegionSpectate();
 			vars.put(VarKey.PLAYER, nPlayer.getName());
-			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getRegionSpectate()));
+			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getPreferences().getRegionSpectate()));
 
 			if(nPlayer.isOnline()) {
 				Message.CHAT_ADMIN_REGION_SPECTATE_NOTIFYOTHER.clone().vars(vars).send(nPlayer);

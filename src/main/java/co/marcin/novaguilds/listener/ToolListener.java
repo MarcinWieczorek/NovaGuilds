@@ -91,12 +91,12 @@ public class ToolListener extends AbstractListener {
 				return;
 			}
 
-			nPlayer.setRegionMode(nPlayer.getRegionMode() == RegionMode.CHECK ? RegionMode.SELECT : RegionMode.CHECK);
+			nPlayer.getPreferences().setRegionMode(nPlayer.getPreferences().getRegionMode() == RegionMode.CHECK ? RegionMode.SELECT : RegionMode.CHECK);
 			nPlayer.cancelToolProgress();
 
 			//highlight corners for resizing
 			if(nPlayer.isAtRegion()
-					&& nPlayer.getRegionMode() == RegionMode.SELECT
+					&& nPlayer.getPreferences().getRegionMode() == RegionMode.SELECT
 					&& nPlayer.hasPermission(GuildPermission.REGION_RESIZE)
 					&& nPlayer.getGuild().ownsRegion(nPlayer.getAtRegion())) {
 				selectionType = RegionSelection.Type.HIGHLIGHT_RESIZE;
@@ -104,12 +104,12 @@ public class ToolListener extends AbstractListener {
 				selectedLocation[1] = nPlayer.getAtRegion().getCorner(1);
 			}
 
-			MessageWrapper mode = nPlayer.getRegionMode() == RegionMode.SELECT ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
+			MessageWrapper mode = nPlayer.getPreferences().getRegionMode() == RegionMode.SELECT ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
 
 			vars.put(VarKey.MODE, mode.get());
 			Message.CHAT_REGION_TOOL_TOGGLEDMODE.clone().vars(vars).send(nPlayer);
 		}
-		else if(nPlayer.getRegionMode() == RegionMode.CHECK && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
+		else if(nPlayer.getPreferences().getRegionMode() == RegionMode.CHECK && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
 			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player)) {
 				return;
 			}
@@ -134,7 +134,7 @@ public class ToolListener extends AbstractListener {
 				Message.CHAT_REGION_NOREGIONHERE.send(nPlayer);
 			}
 		}
-		else if(event.getAction() != Action.PHYSICAL && nPlayer.getRegionMode() != RegionMode.CHECK) { //CREATE MODE
+		else if(event.getAction() != Action.PHYSICAL && nPlayer.getPreferences().getRegionMode() != RegionMode.CHECK) { //CREATE MODE
 			Location pointedCornerLocation = pointedLocation.clone();
 			pointedCornerLocation.setY(0);
 			double[] cornerDistance = new double[]{
@@ -143,7 +143,7 @@ public class ToolListener extends AbstractListener {
 			};
 
 			if(region != null
-					&& nPlayer.getRegionMode() != RegionMode.RESIZE
+					&& nPlayer.getPreferences().getRegionMode() != RegionMode.RESIZE
 					&& (cornerDistance[0] < 1 || cornerDistance[1] < 1)
 					&& Permission.NOVAGUILDS_REGION_RESIZE.has(player)
 					&& region.getGuild().isMember(nPlayer)
@@ -152,11 +152,11 @@ public class ToolListener extends AbstractListener {
 					&& nPlayer.getActiveSelection().getType() == RegionSelection.Type.HIGHLIGHT_RESIZE) { //resizing
 				selectionType = RegionSelection.Type.RESIZE;
 				nPlayer.getActiveSelection().setResizingCorner(cornerDistance[0] < 1 ? 0 : 1);
-				nPlayer.setRegionMode(RegionMode.RESIZE);
+				nPlayer.getPreferences().setRegionMode(RegionMode.RESIZE);
 				Message.CHAT_REGION_RESIZE_START.send(nPlayer);
 			}
 			else {
-				selectionType = nPlayer.getRegionMode() == RegionMode.RESIZE ? RegionSelection.Type.RESIZE : RegionSelection.Type.CREATE;
+				selectionType = nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE ? RegionSelection.Type.RESIZE : RegionSelection.Type.CREATE;
 
 				if(!Permission.NOVAGUILDS_REGION_CREATE.has(player)) {
 					return;
@@ -164,7 +164,7 @@ public class ToolListener extends AbstractListener {
 
 				int selectCorner = -1;
 
-				if(nPlayer.getActiveSelection() != null && nPlayer.getRegionMode() == RegionMode.RESIZE) {
+				if(nPlayer.getActiveSelection() != null && nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
 					//Toggle corner
 					if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
 						nPlayer.getActiveSelection().setResizingCorner(nPlayer.getActiveSelection().getResizingCorner() == 0 ? 1 : 0);
@@ -231,7 +231,7 @@ public class ToolListener extends AbstractListener {
 							double price;
 							double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
 
-							if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
+							if(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
 								price = ppb * (regionSize - selection.getSelectedRegion().getSurface());
 							}
 							else {

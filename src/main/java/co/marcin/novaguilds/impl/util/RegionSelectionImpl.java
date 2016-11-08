@@ -85,7 +85,7 @@ public class RegionSelectionImpl implements RegionSelection {
 
 			NovaPlayer onlineNovaPlayer = PlayerManager.getPlayer(player);
 
-			if(onlineNovaPlayer.getRegionSpectate()) {
+			if(onlineNovaPlayer.getPreferences().getRegionSpectate()) {
 				addSpectator(onlineNovaPlayer);
 			}
 		}

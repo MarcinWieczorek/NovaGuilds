@@ -161,9 +161,9 @@ public final class TabUtils {
 		vars.put(VarKey.PLAYER_KILLS, String.valueOf(nPlayer.getKills()));
 		vars.put(VarKey.PLAYER_DEATHS, String.valueOf(nPlayer.getDeaths()));
 		vars.put(VarKey.PLAYER_KDR, String.valueOf(nPlayer.getKillDeathRate()));
-		vars.put(VarKey.PLAYER_CHATMODE, nPlayer.getChatMode().getName().get());
-		vars.put(VarKey.PLAYER_SPYMODE, Message.getOnOff(nPlayer.getSpyMode()));
-		vars.put(VarKey.PLAYER_BYPASS, Message.getOnOff(nPlayer.getBypass()));
+		vars.put(VarKey.PLAYER_CHATMODE, nPlayer.getPreferences().getChatMode().getName().get());
+		vars.put(VarKey.PLAYER_SPYMODE, Message.getOnOff(nPlayer.getPreferences().getSpyMode()));
+		vars.put(VarKey.PLAYER_BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
 
 		//Guild vars
 		NovaGuild guild = nPlayer.getGuild();

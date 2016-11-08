@@ -311,7 +311,7 @@ public class RegionManager {
 	public boolean canInteract(Player player, Location location) {
 		NovaRegion region = get(location);
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-		return region == null || nPlayer.getBypass() || (nPlayer.hasGuild() && region.getGuild().isMember(nPlayer));
+		return region == null || nPlayer.getPreferences().getBypass() || (nPlayer.hasGuild() && region.getGuild().isMember(nPlayer));
 	}
 
 	/**

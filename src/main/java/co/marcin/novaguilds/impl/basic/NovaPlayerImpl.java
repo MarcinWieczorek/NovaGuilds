@@ -44,6 +44,7 @@ import org.bukkit.entity.Vehicle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
@@ -58,21 +59,15 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	private final List<Vehicle> vehicles = new ArrayList<>();
 	private final List<NovaGuild> invitedTo = new ArrayList<>();
 	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
-	private final HashMap<UUID, Long> killingHistory = new HashMap<>();
+	private final Map<UUID, Long> killingHistory = new HashMap<>();
+	private final Preferences preferences = new PreferencesImpl();
 
-	private boolean bypass = false;
-	private boolean compassPointingGuild = false;
-
-	private boolean spyMode = false;
 	private NovaRaid partRaid;
 	private NovaRank guildRank;
 	private NovaRegion atRegion;
 	private TabList tabList;
 	private CommandExecutorHandler commandExecutorHandler;
-	private RegionMode regionMode = RegionMode.CHECK;
-	private ChatMode chatMode = ChatMode.NORMAL;
 	private RegionSelection activeSelection;
-	private boolean regionSpectate;
 
 	/**
 	 * The constructor
@@ -106,16 +101,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	@Override
 	public RegionSelection getActiveSelection() {
 		return activeSelection;
-	}
-
-	@Override
-	public boolean getBypass() {
-		return bypass;
-	}
-
-	@Override
-	public boolean getRegionSpectate() {
-		return regionSpectate;
 	}
 
 	@Override
@@ -155,11 +140,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	}
 
 	@Override
-	public RegionMode getRegionMode() {
-		return regionMode;
-	}
-
-	@Override
 	public TabList getTabList() {
 		return tabList;
 	}
@@ -190,16 +170,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	}
 
 	@Override
-	public ChatMode getChatMode() {
-		return chatMode;
-	}
-
-	@Override
-	public boolean getSpyMode() {
-		return spyMode;
-	}
-
-	@Override
 	public int getId() {
 		return id;
 	}
@@ -208,6 +178,11 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	public void setGuild(NovaGuild guild) {
 		this.guild = guild;
 		setChanged();
+	}
+
+	@Override
+	public Preferences getPreferences() {
+		return preferences;
 	}
 
 	@Override
@@ -229,11 +204,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	}
 
 	@Override
-	public void setRegionMode(RegionMode regionMode) {
-		this.regionMode = regionMode;
-	}
-
-	@Override
 	public void setActiveSelection(RegionSelection selection) {
 		activeSelection = selection;
 	}
@@ -247,11 +217,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	public void setPoints(int points) {
 		this.points = points;
 		setChanged();
-	}
-
-	@Override
-	public void setCompassPointingGuild(boolean compassPointingGuild) {
-		this.compassPointingGuild = compassPointingGuild;
 	}
 
 	@Override
@@ -269,16 +234,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	@Override
 	public void setTabList(TabList tabList) {
 		this.tabList = tabList;
-	}
-
-	@Override
-	public void toggleBypass() {
-		bypass = !bypass;
-	}
-
-	@Override
-	public void toggleRegionSpectate() {
-		regionSpectate = !regionSpectate;
 	}
 
 	@Override
@@ -312,23 +267,8 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	}
 
 	@Override
-	public void setChatMode(ChatMode chatMode) {
-		this.chatMode = chatMode;
-	}
-
-	@Override
-	public void setSpyMode(boolean spyMode) {
-		this.spyMode = spyMode;
-	}
-
-	@Override
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	@Override
-	public boolean isCompassPointingGuild() {
-		return compassPointingGuild;
 	}
 
 	@Override
@@ -475,8 +415,8 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 				getActiveSelection().reset();
 			}
 
-			if(getRegionMode() == RegionMode.RESIZE) {
-				setRegionMode(RegionMode.CHECK);
+			if(getPreferences().getRegionMode() == RegionMode.RESIZE) {
+				getPreferences().setRegionMode(RegionMode.CHECK);
 			}
 		}
 	}
@@ -489,5 +429,94 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	@Override
 	public void removeLastGUIInventoryHistory() {
 		getGuiInventoryHistory().remove(getGuiInventoryHistory().size() - 1);
+	}
+
+	public class PreferencesImpl implements Preferences {
+		private boolean bypass;
+		private boolean compassPointingGuild;
+		private boolean spyMode;
+		private boolean regionSpectate;
+		private ChatMode chatMode = ChatMode.NORMAL;
+		private RegionMode regionMode = RegionMode.CHECK;
+
+		@Override
+		public boolean getBypass() {
+			return bypass;
+		}
+
+		@Override
+		public ChatMode getChatMode() {
+			return chatMode;
+		}
+
+		@Override
+		public boolean isCompassPointingGuild() {
+			return compassPointingGuild;
+		}
+
+		@Override
+		public RegionMode getRegionMode() {
+			return regionMode;
+		}
+
+		@Override
+		public boolean getRegionSpectate() {
+			return regionSpectate;
+		}
+
+		@Override
+		public boolean getSpyMode() {
+			return spyMode;
+		}
+
+		@Override
+		public void setBypass(boolean bypass) {
+			this.bypass = bypass;
+		}
+
+		@Override
+		public void setChatMode(ChatMode chatMode) {
+			this.chatMode = chatMode;
+		}
+
+		@Override
+		public void setCompassPointingGuild(boolean compassPointingGuild) {
+			this.compassPointingGuild = compassPointingGuild;
+		}
+
+		@Override
+		public void setSpyMode(boolean spyMode) {
+			this.spyMode = spyMode;
+		}
+
+		@Override
+		public void setRegionMode(RegionMode regionMode) {
+			this.regionMode = regionMode;
+		}
+
+		@Override
+		public void setRegionSpectate(boolean regionSpectate) {
+			this.regionSpectate = regionSpectate;
+		}
+
+		@Override
+		public void toggleBypass() {
+			bypass = !bypass;
+		}
+
+		@Override
+		public void toggleRegionSpectate() {
+			regionSpectate = !regionSpectate;
+		}
+
+		@Override
+		public void toggleSpyMode() {
+			spyMode = !spyMode;
+		}
+
+		@Override
+		public void toggleCompassPointingGuild() {
+			compassPointingGuild = !compassPointingGuild;
+		}
 	}
 }

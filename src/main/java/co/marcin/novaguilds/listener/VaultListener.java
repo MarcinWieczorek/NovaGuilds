@@ -108,7 +108,7 @@ public class VaultListener extends AbstractListener {
 			return;
 		}
 
-		if(nPlayer.getBypass()) {
+		if(nPlayer.getPreferences().getBypass()) {
 			return;
 		}
 
@@ -121,7 +121,7 @@ public class VaultListener extends AbstractListener {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		if(plugin.getGuildManager().isVaultBlock(event.getBlock())) {
-			if(nPlayer.getBypass()) {
+			if(nPlayer.getPreferences().getBypass()) {
 				return;
 			}
 

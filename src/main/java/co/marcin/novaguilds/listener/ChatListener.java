@@ -64,7 +64,7 @@ public class ChatListener extends AbstractListener {
 		boolean isAllyPrefix = msg.startsWith(prefixChatAlly);
 		boolean isGuildPrefix = msg.startsWith(prefixChatGuild) && !isAllyPrefix;
 
-		if(nPlayer.hasGuild() && !isGuildPrefix && (isAllyPrefix || nPlayer.getChatMode() == ChatMode.ALLY)) { //ally chat
+		if(nPlayer.hasGuild() && !isGuildPrefix && (isAllyPrefix || nPlayer.getPreferences().getChatMode() == ChatMode.ALLY)) { //ally chat
 			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
 				preparedTag.setLeaderPrefix(preparedTag.isLeaderPrefix() && Config.CHAT_ALLY_LEADERPREFIX.getBoolean());
 
@@ -75,7 +75,7 @@ public class ChatListener extends AbstractListener {
 				cFormat = StringUtils.fixColors(cFormat);
 
 				//Trim prefix
-				if(nPlayer.getChatMode() != ChatMode.ALLY) {
+				if(nPlayer.getPreferences().getChatMode() != ChatMode.ALLY) {
 					msg = msg.substring(prefixChatAlly.length(), msg.length());
 
 					if(msg.length() == 0) {
@@ -84,7 +84,7 @@ public class ChatListener extends AbstractListener {
 				}
 
 				for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-					if(nPlayerLoop.getSpyMode() || (nPlayerLoop.hasGuild() && (nPlayerLoop.getGuild().isAlly(guild) || guild.isMember(nPlayerLoop)))) {
+					if(nPlayerLoop.getPreferences().getSpyMode() || (nPlayerLoop.hasGuild() && (nPlayerLoop.getGuild().isAlly(guild) || guild.isMember(nPlayerLoop)))) {
 						nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
 					}
 				}
@@ -92,7 +92,7 @@ public class ChatListener extends AbstractListener {
 				return;
 			}
 		}
-		else if(nPlayer.hasGuild() && (isGuildPrefix || nPlayer.getChatMode() == ChatMode.GUILD)) { //guild chat
+		else if(nPlayer.hasGuild() && (isGuildPrefix || nPlayer.getPreferences().getChatMode() == ChatMode.GUILD)) { //guild chat
 			if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
 				String rank = Config.CHAT_GUILD_LEADERPREFIX.getBoolean() && nPlayer.isLeader() ? Config.CHAT_LEADERPREFIX.getString() : "";
 
@@ -102,7 +102,7 @@ public class ChatListener extends AbstractListener {
 				cFormat = StringUtils.fixColors(cFormat);
 
 				//Trim prefix
-				if(nPlayer.getChatMode() != ChatMode.GUILD) {
+				if(nPlayer.getPreferences().getChatMode() != ChatMode.GUILD) {
 					msg = msg.substring(prefixChatGuild.length(), msg.length());
 
 					if(msg.length() == 0) {
@@ -111,7 +111,7 @@ public class ChatListener extends AbstractListener {
 				}
 
 				for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-					if(guild.isMember(nPlayerLoop) || nPlayerLoop.getSpyMode()) {
+					if(guild.isMember(nPlayerLoop) || nPlayerLoop.getPreferences().getSpyMode()) {
 						nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
 					}
 				}
@@ -152,7 +152,7 @@ public class ChatListener extends AbstractListener {
 		}
 
 		final NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
-		if(!nPlayer.getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
+		if(!nPlayer.getPreferences().getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
 			NovaRegion region = RegionManager.get(event.getPlayer());
 
 			if(region != null) {

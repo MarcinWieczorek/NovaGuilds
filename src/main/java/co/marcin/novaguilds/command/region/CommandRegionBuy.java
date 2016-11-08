@@ -51,7 +51,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 
 		NovaGuild guild = nPlayer.getGuild();
 
-		if(!nPlayer.hasPermission(nPlayer.getRegionMode() == RegionMode.RESIZE ? GuildPermission.REGION_RESIZE : GuildPermission.REGION_CREATE)) {
+		if(!nPlayer.hasPermission(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE ? GuildPermission.REGION_RESIZE : GuildPermission.REGION_CREATE)) {
 			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
@@ -75,7 +75,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 
 		int regionSize = RegionUtils.checkRegionSize(selectedLocation0, selectedLocation1);
 
-		if(guild.getRegions().size() >= Config.REGION_MAXAMOUNT.getInt() && nPlayer.getRegionMode() != RegionMode.RESIZE) {
+		if(guild.getRegions().size() >= Config.REGION_MAXAMOUNT.getInt() && nPlayer.getPreferences().getRegionMode() != RegionMode.RESIZE) {
 			Message.CHAT_REGION_MAXAMOUNT.clone().setVar(VarKey.AMOUNT, Config.REGION_MAXAMOUNT.getInt()).send(nPlayer);
 			return;
 		}
@@ -85,7 +85,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 		NovaGroup group = GroupManager.getGroup(sender);
 		double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
 
-		if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
+		if(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
 			price = ppb * (regionSize - activeSelection.getSelectedRegion().getSurface());
 		}
 		else {
@@ -97,7 +97,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 			return;
 		}
 
-		if(nPlayer.getRegionMode() == RegionMode.RESIZE) {
+		if(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
 			NovaRegion region = activeSelection.getSelectedRegion();
 
 			region.setCorner(0, activeSelection.getCorner(0));

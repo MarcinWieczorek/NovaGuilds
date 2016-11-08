@@ -39,7 +39,7 @@ public class CommandGuildChatMode extends AbstractCommandExecutor {
 
 		ChatMode chatMode;
 		if(args.length == 0) {
-			chatMode = nPlayer.getChatMode().next();
+			chatMode = nPlayer.getPreferences().getChatMode().next();
 		}
 		else {
 			chatMode = ChatMode.fromString(args[0]);
@@ -55,7 +55,7 @@ public class CommandGuildChatMode extends AbstractCommandExecutor {
 			return;
 		}
 
-		nPlayer.setChatMode(chatMode);
+		nPlayer.getPreferences().setChatMode(chatMode);
 
 		Message.CHAT_GUILD_CHATMODE_SUCCESS.clone().setVar(VarKey.MODE, chatMode.getName().get()).send(sender);
 		TabUtils.refresh(nPlayer);
