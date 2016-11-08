@@ -29,6 +29,7 @@ import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
@@ -39,7 +40,9 @@ public class ChestGUIListener extends AbstractListener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 		Inventory inventory = CompatibilityUtils.getClickedInventory(event);
-		if(inventory == null || event.getCurrentItem() == null || !inventory.equals(event.getView().getTopInventory())) {
+		if(inventory == null
+				|| event.getCurrentItem() == null
+				|| (!inventory.equals(event.getView().getTopInventory()) && event.getClick() != ClickType.SHIFT_LEFT && event.getClick() != ClickType.SHIFT_RIGHT)) {
 			return;
 		}
 

@@ -143,7 +143,7 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		}
 
 		if(!RankManager.getLeaderRank().equals(rank)
-				&& rank.getGuild().getRanks().size() < Config.RANK_MAXAMOUNT.getInt()
+				&& getGuild().getRanks().size() < Config.RANK_MAXAMOUNT.getInt()
 				&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
 			add(cloneItem);
 		}
