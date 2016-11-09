@@ -40,7 +40,7 @@ public class PacketPlayInUpdateSign extends AbstractPacket {
 			yField = Reflections.getField(packetInUpdateSignClass, int.class, 1);
 			zField = Reflections.getField(packetInUpdateSignClass, int.class, 2);
 		}
-		catch(ClassNotFoundException e) {
+		catch(ClassNotFoundException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
 		}
 	}

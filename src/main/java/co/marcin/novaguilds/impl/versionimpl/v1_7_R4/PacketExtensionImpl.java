@@ -39,21 +39,23 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
 public class PacketExtensionImpl implements PacketExtension {
-	private static FieldAccessor<Channel> clientChannel;
-	private static Field playerConnection;
-	private static Field networkManager;
-	private static Method handleMethod;
 	protected static Class<?> packetClass;
 	protected static Class<?> craftPlayerClass;
+	protected static Class<?> playerConnectionClass;
+	protected static FieldAccessor<Channel> clientChannelField;
+	protected static Field playerConnectionField;
+	protected static Field networkManagerField;
+	protected static Method sendPacketMethod;
 
 	static {
 		try {
-			clientChannel = Reflections.getField(Reflections.getCraftClass("NetworkManager"), Channel.class, 0);
-			playerConnection = Reflections.getField(Reflections.getCraftClass("EntityPlayer"), "playerConnection");
-			networkManager = Reflections.getField(Reflections.getCraftClass("PlayerConnection"), "networkManager");
-			handleMethod = Reflections.getMethod(Reflections.getBukkitClass("entity.CraftEntity"), "getHandle");
 			packetClass = Reflections.getCraftClass("Packet");
 			craftPlayerClass = Reflections.getBukkitClass("entity.CraftPlayer");
+			playerConnectionClass = Reflections.getCraftClass("PlayerConnection");
+			clientChannelField = Reflections.getField(Reflections.getCraftClass("NetworkManager"), Channel.class, 0);
+			playerConnectionField = Reflections.getField(Reflections.getCraftClass("EntityPlayer"), "playerConnection");
+			networkManagerField = Reflections.getField(playerConnectionClass, "networkManager");
+			sendPacketMethod = playerConnectionClass.getMethod("sendPacket", packetClass);
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -68,8 +70,8 @@ public class PacketExtensionImpl implements PacketExtension {
 	 */
 	private static Channel getChannel(Player player) {
 		try {
-			Object eP = handleMethod.invoke(player);
-			return clientChannel.get(networkManager.get(playerConnection.get(eP)));
+			Object entity = Reflections.getHandle(player);
+			return clientChannelField.get(networkManagerField.get(playerConnectionField.get(entity)));
 		}
 		catch(Exception e) {
 			LoggerUtils.exception(e);
@@ -97,6 +99,7 @@ public class PacketExtensionImpl implements PacketExtension {
 			public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 				PacketReceiveEvent event = new PacketReceiveEvent(msg, player);
 				ListenerManager.getLoggedPluginManager().callEvent(event);
+
 				if(event.isCancelled() || event.getPacket() == null) {
 					return;
 				}
@@ -119,10 +122,8 @@ public class PacketExtensionImpl implements PacketExtension {
 	@Override
 	public void sendPacket(Player player, Object... packets) {
 		try {
-			Object craftPlayer = craftPlayerClass.cast(player);
-			Object handle = craftPlayerClass.getMethod("getHandle").invoke(craftPlayer);
-			Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
-			Method sendPacketMethod = playerConnection.getClass().getMethod("sendPacket", packetClass);
+			Object handle = Reflections.getHandle(player);
+			Object playerConnection = playerConnectionField.get(handle);
 
 			for(Object packet : packets) {
 				if(packet == null) {

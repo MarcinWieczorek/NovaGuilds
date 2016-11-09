@@ -55,7 +55,7 @@ public class PacketPlayOutBlockChange extends AbstractPacket {
 			getBlockAtMethod = Reflections.getMethod(worldClass, "getType", int.class, int.class, int.class);
 			getByIdMethod = Reflections.getMethod(blockClass, "e");
 		}
-		catch(NoSuchFieldException | ClassNotFoundException e) {
+		catch(NoSuchFieldException | ClassNotFoundException | NoSuchMethodException e) {
 			LoggerUtils.exception(e);
 		}
 	}

@@ -88,7 +88,7 @@ public class PacketPlayOutTileEntityData extends AbstractPacket {
 			craftChatMessageFromStringMethod = Reflections.getMethod(craftChatMessageClass, "fromString", String.class);
 			chatSerializerAMethod = Reflections.getMethod(chatSerializerClass, "a", iChatBaseComponentClass);
 		}
-		catch(ClassNotFoundException e) {
+		catch(ClassNotFoundException | NoSuchMethodException e) {
 			LoggerUtils.exception(e);
 		}
 	}

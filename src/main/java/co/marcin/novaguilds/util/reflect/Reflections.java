@@ -20,6 +20,7 @@ package co.marcin.novaguilds.util.reflect;
 
 import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.api.util.reflect.MethodInvoker;
+import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -29,8 +30,24 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-@SuppressWarnings("ConstantConditions")
-public class Reflections {
+public final class Reflections {
+	private static Method entityGetHandleMethod;
+	private static Method worldGetHandleMethod;
+	private static Field modifiersField;
+
+	static {
+		try {
+			Class<?> craftWorldClass = getBukkitClass("CraftWorld");
+			Class<?> craftEntityClass = getBukkitClass("entity.CraftEntity");
+			worldGetHandleMethod = getMethod(craftWorldClass, "getHandle");
+			entityGetHandleMethod = getMethod(craftEntityClass, "getHandle");
+			modifiersField = getPrivateField(Field.class, "modifiers");
+		}
+		catch(NoSuchFieldException | ClassNotFoundException | NoSuchMethodException e) {
+			LoggerUtils.exception(e);
+		}
+	}
+
 	/**
 	 * Gets NMS class
 	 *
@@ -64,7 +81,7 @@ public class Reflections {
 	 * @throws IllegalAccessException    when something goes wrong
 	 */
 	public static Object getHandle(Entity entity) throws InvocationTargetException, IllegalAccessException {
-		return getMethod(entity.getClass(), "getHandle").invoke(entity);
+		return entityGetHandleMethod.invoke(entity);
 	}
 
 	/**
@@ -76,19 +93,19 @@ public class Reflections {
 	 * @throws IllegalAccessException    when something goes wrong
 	 */
 	public static Object getHandle(World world) throws InvocationTargetException, IllegalAccessException {
-		return getMethod(world.getClass(), "getHandle").invoke(world);
+		return worldGetHandleMethod.invoke(world);
 	}
 
 	/**
 	 * Gets a field
 	 *
-	 * @param cl        class
+	 * @param clazz     class
 	 * @param fieldName field name
 	 * @return field
 	 * @throws NoSuchFieldException when something goes wrong
 	 */
-	public static Field getField(Class<?> cl, String fieldName) throws NoSuchFieldException {
-		return cl.getDeclaredField(fieldName);
+	public static Field getField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+		return clazz.getDeclaredField(fieldName);
 	}
 
 	/**
@@ -99,8 +116,9 @@ public class Reflections {
 	 * @param index     index
 	 * @param <T>       type
 	 * @return field accessor
+	 * @throws NoSuchFieldException when something goes wrong
 	 */
-	public static <T> FieldAccessor<T> getField(Class<?> target, Class<T> fieldType, int index) {
+	public static <T> FieldAccessor<T> getField(Class<?> target, Class<T> fieldType, int index) throws NoSuchFieldException {
 		return getField(target, null, fieldType, index);
 	}
 
@@ -112,8 +130,9 @@ public class Reflections {
 	 * @param fieldType field type
 	 * @param <T>       type
 	 * @return field accessor
+	 * @throws NoSuchFieldException when something goes wrong
 	 */
-	public static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType) {
+	public static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType) throws NoSuchFieldException {
 		return getField(target, name, fieldType, 0);
 	}
 
@@ -126,8 +145,9 @@ public class Reflections {
 	 * @param index     index
 	 * @param <T>       type
 	 * @return field accessor
+	 * @throws NoSuchFieldException when something goes wrong
 	 */
-	private static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType, int index) {
+	private static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType, int index) throws NoSuchFieldException {
 		for(final Field field : target.getDeclaredFields()) {
 			if((name == null || field.getName().equals(name)) && fieldType.isAssignableFrom(field.getType()) && index-- <= 0) {
 				field.setAccessible(true);
@@ -164,7 +184,7 @@ public class Reflections {
 						try {
 							Reflections.setNotFinal(field);
 						}
-						catch(IllegalAccessException | NoSuchFieldException e) {
+						catch(IllegalAccessException e) {
 							throw new RuntimeException("Cannot access reflection.", e);
 						}
 					}
@@ -176,19 +196,20 @@ public class Reflections {
 			return getField(target.getSuperclass(), name, fieldType, index);
 		}
 
-		throw new IllegalArgumentException("Cannot find field with type " + fieldType);
+		throw new NoSuchFieldException("Cannot find field with type " + fieldType);
 	}
 
 	/**
 	 * Gets a private field
 	 *
-	 * @param cl        class
+	 * @param clazz     class
 	 * @param fieldName field name
 	 * @return field
 	 * @throws NoSuchFieldException when a field doesn't exist
+	 * @throws NoSuchFieldException when something goes wrong
 	 */
-	public static Field getPrivateField(Class<?> cl, String fieldName) throws NoSuchFieldException {
-		Field field = cl.getDeclaredField(fieldName);
+	public static Field getPrivateField(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+		Field field = clazz.getDeclaredField(fieldName);
 		field.setAccessible(true);
 		return field;
 	}
@@ -196,36 +217,38 @@ public class Reflections {
 	/**
 	 * Gets a method
 	 *
-	 * @param cl     class
+	 * @param clazz  class
 	 * @param method method name
 	 * @param args   argument classes
 	 * @return method
+	 * @throws NoSuchMethodException when something goes wrong
 	 */
-	public static Method getMethod(Class<?> cl, String method, Class<?>... args) {
-		for(Method m : cl.getMethods()) {
+	public static Method getMethod(Class<?> clazz, String method, Class<?>... args) throws NoSuchMethodException {
+		for(Method m : clazz.getMethods()) {
 			if(m.getName().equals(method) && classListEqual(args, m.getParameterTypes())) {
 				return m;
 			}
 		}
 
-		return null;
+		throw new NoSuchMethodException("Could not access the method");
 	}
 
 	/**
 	 * Gets a method
 	 *
-	 * @param cl     class
+	 * @param clazz  class
 	 * @param method method name
 	 * @return method
+	 * @throws NoSuchMethodException when something goes wrong
 	 */
-	public static Method getMethod(Class<?> cl, String method) {
-		for(Method m : cl.getMethods()) {
+	public static Method getMethod(Class<?> clazz, String method) throws NoSuchMethodException {
+		for(Method m : clazz.getMethods()) {
 			if(m.getName().equals(method)) {
 				return m;
 			}
 		}
 
-		return null;
+		throw new NoSuchMethodException("Could not access the method");
 	}
 
 	/**
@@ -233,23 +256,32 @@ public class Reflections {
 	 *
 	 * @param field field
 	 * @throws IllegalAccessException when something goes wrong
-	 * @throws NoSuchFieldException   when something goes wrong
 	 */
-	public static void setNotFinal(Field field) throws IllegalAccessException, NoSuchFieldException {
-		Field modifiersField = getPrivateField(Field.class, "modifiers");
+	public static void setNotFinal(Field field) throws IllegalAccessException {
 		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 	}
 
-	public static <T> MethodInvoker<T> getMethod(final Class<?> cl, final Class<T> type, final String methodName, final Class<?>... args) {
+	/**
+	 * Gets a method
+	 *
+	 * @param clazz      class
+	 * @param type       return type
+	 * @param methodName method name
+	 * @param args       argument types
+	 * @param <T>        return type
+	 * @return method invoker
+	 * @throws NoSuchMethodException when something goes wrong
+	 */
+	public static <T> MethodInvoker<T> getMethod(final Class<?> clazz, final Class<T> type, final String methodName, final Class<?>... args) throws NoSuchMethodException {
 		return new MethodInvoker<T>() {
 			private final Method method;
 
 			{
 				if(args.length == 0) {
-					method = getMethod(cl, methodName);
+					method = getMethod(clazz, methodName);
 				}
 				else {
-					method = getMethod(cl, methodName, args);
+					method = getMethod(clazz, methodName, args);
 				}
 
 				if(!method.getReturnType().equals(type)) {
@@ -299,7 +331,7 @@ public class Reflections {
 	 */
 	public static Enum getEnumConstant(Class<?> clazz, String name) {
 		if(!clazz.isEnum()) {
-			return null;
+			throw new IllegalArgumentException("Class" + clazz.getName() + " is not an enum");
 		}
 
 		for(Object enumConstant : clazz.getEnumConstants()) {
@@ -308,7 +340,7 @@ public class Reflections {
 			}
 		}
 
-		return null;
+		throw new IllegalArgumentException("Could not find enum constant");
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class PacketPlayOutPlayerListHeaderFooter extends AbstractPacket {
 			PacketPlayOutPlayerListHeaderFooterAField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, "a");
 			PacketPlayOutPlayerListHeaderFooterBField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, "b");
 		}
-		catch(ClassNotFoundException | NoSuchFieldException e) {
+		catch(ClassNotFoundException | NoSuchFieldException | NoSuchMethodException e) {
 			LoggerUtils.exception(e);
 		}
 	}
