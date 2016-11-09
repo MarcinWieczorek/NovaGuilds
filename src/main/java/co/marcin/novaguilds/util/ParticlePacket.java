@@ -54,6 +54,8 @@ public class ParticlePacket extends AbstractPacket {
 		try {
 			if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
 				enumParticleClass = Reflections.getCraftClass("EnumParticle");
+				jField = Reflections.getField(packetClass, "j", boolean.class);
+				kField = Reflections.getField(packetClass, "k", int[].class);
 			}
 
 			packetClass = Reflections.getCraftClass(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R3)
@@ -70,8 +72,6 @@ public class ParticlePacket extends AbstractPacket {
 			gField = Reflections.getField(packetClass, "g", float.class);
 			hField = Reflections.getField(packetClass, "h", float.class);
 			iField = Reflections.getField(packetClass, "i", int.class);
-			jField = Reflections.getField(packetClass, "j", boolean.class);
-			kField = Reflections.getField(packetClass, "k", int[].class);
 		}
 		catch(ClassNotFoundException | NoSuchMethodException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
