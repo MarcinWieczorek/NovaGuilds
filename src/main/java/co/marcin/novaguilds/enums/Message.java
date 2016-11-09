@@ -511,6 +511,7 @@ public class Message {
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_RANK_LIST;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_RANK_SET;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_RANK_EDIT;
+	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_RANK_DELETE;
 
 	public static MessageWrapper SIGNGUI_GUILD_SETTINGS_SET_NAME;
 	public static MessageWrapper SIGNGUI_GUILD_SETTINGS_SET_TAG;
@@ -623,7 +624,13 @@ public class Message {
 	 * @return wrapper
 	 */
 	public static MessageWrapper valueOf(String name) {
-		return wrapperMap.get(name);
+		MessageWrapper wrapper = wrapperMap.get(name);
+
+		if(wrapper == null) {
+			throw new IllegalArgumentException("Missing message wrapper: " + name);
+		}
+
+		return wrapper;
 	}
 
 	/**

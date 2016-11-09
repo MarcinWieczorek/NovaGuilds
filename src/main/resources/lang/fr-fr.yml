@@ -719,6 +719,7 @@ inventory:
      remove: "Suppression_de_la_regions"
      resize: "Redimensionnement_de_la_regions"
     rank:
+     delete: "Deleting_ranks"
      list: "Listing_ranks"
      set: "Réglage_rangs"
      edit: "Edition_rangs"
