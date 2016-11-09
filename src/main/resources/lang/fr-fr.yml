@@ -478,6 +478,7 @@ chat:
    toobig: "La zone selectionné est trop grande. &6(&6max: &c{MAXSIZE}x&c{MAXSIZE}&6)"
    tooclose: "La zone selectionné est trop proche d'un autre territoire de guilde."
    overlaps: "Cette zone chevauche le territoire d'une autre guilde"
+   worldguard: "This area overlaps a WorldGuard region"
    notvalid: "La zone que vous avez selectionné n'est pas valide. Reessayez."
    valid: "Zone selectionné. &c/g rg buy"
    notselected: "Veuillez selectionner la zone"

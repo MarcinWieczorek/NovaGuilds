@@ -273,6 +273,7 @@ public class Message {
 	public static MessageWrapper CHAT_REGION_VALIDATION_TOOBIG;
 	public static MessageWrapper CHAT_REGION_VALIDATION_TOOCLOSE;
 	public static MessageWrapper CHAT_REGION_VALIDATION_OVERLAPS;
+	public static MessageWrapper CHAT_REGION_VALIDATION_WORLDGUARD;
 	public static MessageWrapper CHAT_REGION_VALIDATION_NOTSELECTED;
 	public static MessageWrapper CHAT_REGION_VALIDATION_NOTVALID;
 	public static MessageWrapper CHAT_REGION_VALIDATION_VALID;

@@ -273,6 +273,9 @@ public class ToolListener extends AbstractListener {
 					case TOOCLOSE:
 						Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(nPlayer);
 						break;
+					case WORLDGUARD:
+						Message.CHAT_REGION_VALIDATION_WORLDGUARD.send(nPlayer);
+						break;
 				}
 
 				selection.setValidity(regionValidity);

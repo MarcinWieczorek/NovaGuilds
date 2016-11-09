@@ -23,5 +23,6 @@ public enum RegionValidity {
 	TOOSMALL,
 	TOOBIG,
 	TOOCLOSE,
+	WORLDGUARD,
 	OVERLAPS
 }

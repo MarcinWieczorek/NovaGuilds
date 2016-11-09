@@ -478,6 +478,7 @@ chat:
    toobig: "Zaznaczony teren jest za duzy. &6(&6max: &c{MAXSIZE}x&c{MAXSIZE}&6)"
    tooclose: "Zaznaczony teren jest zbyt blisko innej gildii."
    overlaps: "Zaznaczony teren nachodzi na region innej gildii"
+   worldguard: "Zaznaczony teren nachodzi na region WorldGuard"
    notvalid: "Zaznaczony teren jest niepoprawny."
    valid: "Teren zaznaczony. &c/g rg buy"
    notselected: "Prosze zaznaczyc teren"

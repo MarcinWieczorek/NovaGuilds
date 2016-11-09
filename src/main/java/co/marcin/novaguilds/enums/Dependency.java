@@ -27,6 +27,7 @@ public enum Dependency {
 	BOSSBARAPI("BossBarAPI", false),
 	BARAPI("BarAPI", false),
 	SCOREBOARDSTATS("ScoreboardStats", false),
+	WORLDGUARD("WorldGuard", false),
 	HOLOGRAPHICDISPLAYS("HolographicDisplays", false, new DependencyManager.HolographicDisplaysAPIChecker());
 
 	private final String name;

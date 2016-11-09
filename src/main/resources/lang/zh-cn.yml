@@ -478,6 +478,7 @@ chat:
    toobig: "选定的区域过大.&6(&6最大区域: &c{MAXSIZE}x&c{MAXSIZE}&6)"
    tooclose: "选择的区域与其他公会的领地过近."
    overlaps: "该区域与其他公会的领地重叠."
+   worldguard: "This area overlaps a WorldGuard region"
    notvalid: "选定的区域无效,请重试."
    valid: "区域已选择,请输入&c/g rg buy&6购买领地."
    notselected: "请先选择区域."

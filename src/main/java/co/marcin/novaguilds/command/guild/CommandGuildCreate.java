@@ -239,6 +239,9 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 			case TOOCLOSE:
 				Message.CHAT_REGION_VALIDATION_TOOCLOSE.send(sender);
 				break;
+			case WORLDGUARD:
+				Message.CHAT_REGION_VALIDATION_WORLDGUARD.send(nPlayer);
+				break;
 		}
 	}
 

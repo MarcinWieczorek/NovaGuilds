@@ -478,6 +478,7 @@ chat:
    toobig: "Geselecteerd gebied is te groot. &6(&6maximaal: &c{MAXSIZE}x&c{MAXSIZE}&6)"
    tooclose: "Geselecteerd gebied is te dicht bij ander geselecteerd gebied."
    overlaps: "Geselecteerd gebied kruist met een andere Guild regio"
+   worldguard: "This area overlaps a WorldGuard region"
    notvalid: "Geselecteerd gebied is niet geldig probeer het nogmaals."
    valid: "Gebied geselecteerd. &c/g rg buy"
    notselected: "Delecteer gebied"

@@ -478,6 +478,7 @@ chat:
    toobig: "Selected area is too big. &6(&6max: &c{MAXSIZE}x&c{MAXSIZE}&6)"
    tooclose: "Selected area is too close to other region."
    overlaps: "This area overlaps other guild's region"
+   worldguard: "This area overlaps a WorldGuard region"
    notvalid: "Area you selected is not valid. Try again."
    valid: "Area selected. &c/g rg buy"
    notselected: "Please select the area"
