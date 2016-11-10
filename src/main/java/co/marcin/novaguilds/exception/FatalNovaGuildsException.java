@@ -60,11 +60,13 @@ public class FatalNovaGuildsException extends Exception {
 	private void disable() {
 		fatal = true;
 
-		NovaGuilds.runTaskLater(new Runnable() {
-			@Override
-			public void run() {
-				ListenerManager.getLoggedPluginManager().disablePlugin(NovaGuilds.getInstance());
-			}
-		}, 1, TimeUnit.MILLISECONDS);
+		if(NovaGuilds.getInstance().isEnabled()) {
+			NovaGuilds.runTaskLater(new Runnable() {
+				@Override
+				public void run() {
+					ListenerManager.getLoggedPluginManager().disablePlugin(NovaGuilds.getInstance());
+				}
+			}, 1, TimeUnit.MILLISECONDS);
+		}
 	}
 }

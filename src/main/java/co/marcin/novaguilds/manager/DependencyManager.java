@@ -18,17 +18,25 @@
 
 package co.marcin.novaguilds.manager;
 
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.exception.MissingDependencyException;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.reflect.Reflections;
+import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.Flag;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DependencyManager {
@@ -43,7 +51,6 @@ public class DependencyManager {
 	public void setUp() throws FatalNovaGuildsException {
 		try {
 			checkDependencies();
-			setupEconomy();
 		}
 		catch(MissingDependencyException e) {
 			throw new FatalNovaGuildsException("Could not satisfy dependencies", e);
@@ -101,7 +108,7 @@ public class DependencyManager {
 	/**
 	 * Setups economy
 	 */
-	private void setupEconomy() {
+	public void setupEconomy() {
 		RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
 		economy = rsp.getProvider();
 		Validate.notNull(economy);
@@ -134,6 +141,25 @@ public class DependencyManager {
 		@Override
 		public void run() throws ClassNotFoundException {
 			Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
+		}
+	}
+
+	public static class WorldGuardFlagInjector implements RunnableWithException {
+		@Override
+		public void run() throws Exception {
+			if(!Config.REGION_WORLDGUARD.getBoolean()) {
+				LoggerUtils.info("Skipping WorldGuardFlag Injector. Disabled in config");
+				return;
+			}
+
+			FieldAccessor<Flag[]> defaultFlagFlagListField = Reflections.getField(DefaultFlag.class, "flagsList", Flag[].class);
+			defaultFlagFlagListField.setNotFinal();
+			Flag[] array = defaultFlagFlagListField.get(null);
+			List<Flag> list = new ArrayList<>();
+			Collections.addAll(list, array);
+			list.add(RegionManager.WORLDGUARD_FLAG);
+			defaultFlagFlagListField.set(null, list.toArray(new Flag[0]));
+			LoggerUtils.info("Successfully injected WorldGuard Flag");
 		}
 	}
 

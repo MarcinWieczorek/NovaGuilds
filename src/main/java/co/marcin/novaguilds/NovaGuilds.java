@@ -121,11 +121,21 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 
 	@Override
+	public void onLoad() {
+		try {
+			getConfigManager().reload();
+			getDependencyManager().setUp();
+		}
+		catch(Exception e) {
+			LoggerUtils.exception(e);
+		}
+	}
+
+	@Override
 	public void onEnable() {
 		try {
 			//managers
-			getDependencyManager().setUp();
-			getConfigManager().reload();
+			getDependencyManager().setupEconomy();
 			getMessageManager().load();
 			getCommandManager().setUp();
 			getGroupManager().load();

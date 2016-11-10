@@ -4,7 +4,7 @@ author: Marcin Wieczorek
 description: The best polish guilds plugin!
 website: http://novaguilds.pl/
 version: 39
-softdepend: [HolographicDisplays, BarAPI, BossBarAPI, VanishNoPacket, Vault]
+softdepend: [HolographicDisplays, BarAPI, BossBarAPI, VanishNoPacket, Vault, WorldGuard, ScoreboardStats, Essentials]
 commands:
    novaguilds:
       description: Main NovaGuilds command

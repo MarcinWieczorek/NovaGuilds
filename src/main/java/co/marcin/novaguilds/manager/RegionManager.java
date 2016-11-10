@@ -27,6 +27,7 @@ import co.marcin.novaguilds.api.event.PlayerExitRegionEvent;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
@@ -37,6 +38,9 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -44,6 +48,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
+import java.awt.Rectangle;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,6 +60,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	public static final StateFlag WORLDGUARD_FLAG = new StateFlag("ngregion", false, null);
 
 	/**
 	 * Gets the region at a location
@@ -228,10 +235,12 @@ public class RegionManager {
 		if(difX < minSize || difZ < minSize) {
 			return RegionValidity.TOOSMALL;
 		}
-		else if(difX > maxSize || difZ > maxSize) {
+
+		if(difX > maxSize || difZ > maxSize) {
 			return RegionValidity.TOOBIG;
 		}
-		else if(!regionsInsideArea.isEmpty()) {
+
+		if(!regionsInsideArea.isEmpty()) {
 			if(selection.getType() != RegionSelection.Type.RESIZE) {
 				return RegionValidity.OVERLAPS;
 			}
@@ -242,12 +251,17 @@ public class RegionManager {
 				}
 			}
 		}
-		else if(!guildsTooClose.isEmpty()) {
+
+		if(!guildsTooClose.isEmpty()) {
 			for(NovaGuild guild : guildsTooClose) {
 				if(!guild.isMember(selection.getPlayer())) {
 					return RegionValidity.TOOCLOSE;
 				}
 			}
+		}
+
+		if(Config.REGION_WORLDGUARD.getBoolean() && !checkWorldGuardValidity(selection)) {
+			return RegionValidity.WORLDGUARD;
 		}
 
 		return RegionValidity.VALID;
@@ -554,5 +568,55 @@ public class RegionManager {
 	 */
 	public ResourceManager<NovaRegion> getResourceManager() {
 		return plugin.getStorage().getResourceManager(NovaRegion.class);
+	}
+
+	/**
+	 * Checks WorldGuard validity if possible
+	 *
+	 * @param selection region selection
+	 * @return true if valid
+	 */
+	private boolean checkWorldGuardValidity(RegionSelection selection) {
+		if(!plugin.getDependencyManager().isEnabled(Dependency.WORLDGUARD)) {
+			return true;
+		}
+
+		WorldGuardPlugin worldGuard = plugin.getDependencyManager().get(Dependency.WORLDGUARD, WorldGuardPlugin.class);
+		Area selectionArea = new Area(new Rectangle(
+				selection.getCorner(selection.getCorner(0).getBlockX() < selection.getCorner(1).getBlockX() ? 0 : 1).getBlockX(),
+				selection.getCorner(selection.getCorner(0).getBlockZ() < selection.getCorner(1).getBlockZ() ? 0 : 1).getBlockZ(),
+				selection.getWidth(),
+				selection.getLength())
+		);
+
+		for(ProtectedRegion region : worldGuard.getRegionManager(selection.getWorld()).getRegions().values()) {
+			if(region.getFlag(RegionManager.WORLDGUARD_FLAG) == StateFlag.State.ALLOW) {
+				continue;
+			}
+
+
+			Area regionArea = toArea(region);
+
+			regionArea.intersect(selectionArea);
+			if(!regionArea.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Converts a WorldGuard region to Area
+	 *
+	 * @param region region
+	 * @return area
+	 */
+	protected static Area toArea(ProtectedRegion region) {
+		int x = region.getMinimumPoint().getBlockX();
+		int z = region.getMinimumPoint().getBlockZ();
+		int width = region.getMaximumPoint().getBlockX() - x;
+		int height = region.getMaximumPoint().getBlockZ() - z;
+		return new Area(new Rectangle(x, z, width, height));
 	}
 }

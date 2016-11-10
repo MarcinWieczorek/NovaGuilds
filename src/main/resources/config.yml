@@ -632,6 +632,10 @@ region:
 # Disallow lava/water 5 blocks outside the region #
  fluidprotect: 5
 
+# Block creating regions on WorldGuard areas      #
+# Set 'ngregion' flag to ALLOW to override        #
+ worldguard: true
+
 # commands blocked at region                      #
 # when player is not member and not ally          #
 # ! commands have to be lowercase !               #
