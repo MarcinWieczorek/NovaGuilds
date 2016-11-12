@@ -36,6 +36,13 @@ public interface FieldAccessor<T> {
 	void set(Object target, T value);
 
 	/**
+	 * Sets a value to a static field
+	 *
+	 * @param value value
+	 */
+	void set(T value);
+
+	/**
 	 * Checks if object has specified field
 	 *
 	 * @param target target object

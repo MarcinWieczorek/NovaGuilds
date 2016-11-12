@@ -165,6 +165,11 @@ public final class Reflections {
 					}
 
 					@Override
+					public void set(T value) {
+						set(null, value);
+					}
+
+					@Override
 					public void set(Object target, Object value) {
 						try {
 							field.set(target, value);

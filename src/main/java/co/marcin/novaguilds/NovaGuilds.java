@@ -302,9 +302,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			//Register glow enchantment
 			try {
 				FieldAccessor<Boolean> acceptingNewField = Reflections.getField(Enchantment.class, "acceptingNew", boolean.class);
-				acceptingNewField.set(null, true);
+				acceptingNewField.set(true);
 				Enchantment.registerEnchantment(new EnchantmentGlow());
-				acceptingNewField.set(null, false);
+				acceptingNewField.set(false);
 			}
 			catch(Exception e) {
 				LoggerUtils.exception(e);
