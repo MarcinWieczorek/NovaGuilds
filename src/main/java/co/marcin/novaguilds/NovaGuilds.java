@@ -31,6 +31,7 @@ import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
+import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.ScoreboardStatsHook;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
 import co.marcin.novaguilds.impl.util.logging.WrappedLogger;
@@ -61,7 +62,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -258,21 +259,21 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			}
 
 			if(!Config.ADVANCEDENTITYUSE.getBoolean()) {
-				getServer().getPluginManager().registerEvents(new Listener() {
-					@EventHandler
+				new AbstractListener() {
+					@EventHandler(priority = EventPriority.LOWEST)
 					public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {
 						PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
 						getServer().getPluginManager().callEvent(clickEvent);
 						event.setCancelled(clickEvent.isCancelled());
 					}
 
-					@EventHandler
+					@EventHandler(priority = EventPriority.LOWEST)
 					public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
 						PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
 						ListenerManager.getLoggedPluginManager().callEvent(interactEntityEvent);
 						event.setCancelled(interactEntityEvent.isCancelled());
 					}
-				}, this);
+				};
 			}
 
 			if(signGUI == null) {
