@@ -495,7 +495,8 @@ public class RegionManager {
 			return;
 		}
 
-		if(nPlayer.getAtRegion().getGuild().getHome().distance(nPlayer.getPlayer().getLocation()) > nPlayer.getAtRegion().getDiagonal()) {
+		if(!nPlayer.getAtRegion().getGuild().getHome().getWorld().equals(nPlayer.getPlayer().getLocation().getWorld())
+				|| nPlayer.getAtRegion().getGuild().getHome().distance(nPlayer.getPlayer().getLocation()) > nPlayer.getAtRegion().getDiagonal()) {
 			return;
 		}
 
