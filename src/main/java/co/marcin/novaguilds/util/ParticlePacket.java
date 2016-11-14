@@ -52,15 +52,15 @@ public class ParticlePacket extends AbstractPacket {
 
 	static {
 		try {
+			packetClass = Reflections.getCraftClass(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R3)
+					? "Packet63WorldParticles"
+					: "PacketPlayOutWorldParticles");
+
 			if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
 				enumParticleClass = Reflections.getCraftClass("EnumParticle");
 				jField = Reflections.getField(packetClass, "j", boolean.class);
 				kField = Reflections.getField(packetClass, "k", int[].class);
 			}
-
-			packetClass = Reflections.getCraftClass(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R3)
-					? "Packet63WorldParticles"
-					: "PacketPlayOutWorldParticles");
 			packetConstructor = packetClass.getConstructor();
 
 			aField = Reflections.getPrivateField(packetClass, "a");
