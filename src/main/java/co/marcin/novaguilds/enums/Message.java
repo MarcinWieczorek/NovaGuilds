@@ -418,7 +418,7 @@ public class Message {
 	public static MessageWrapper BROADCAST_GUILD_RAID_FINISHED_ATTACKERWON;
 	public static MessageWrapper BROADCAST_GUILD_RAID_FINISHED_DEFENDERWON;
 
-	public static MessageWrapper BROADCAST_PVP_KILLED;
+	public static MessageWrapper BROADCAST_PVP_KILLED = new MessageWrapperImpl(MessageWrapper.Flag.NOPREFIX);
 
 	public static MessageWrapper HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER;
 	public static MessageWrapper HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW = new MessageWrapperImpl(MessageWrapper.Flag.NOPREFIX);

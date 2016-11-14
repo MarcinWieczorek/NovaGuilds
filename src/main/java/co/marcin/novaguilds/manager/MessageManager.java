@@ -201,7 +201,7 @@ public class MessageManager {
 	 */
 	public static void sendMessage(CommandSender sender, String msg) {
 		if(!msg.equals("none")) {
-			sender.sendMessage(StringUtils.fixColors(msg));
+			sender.sendMessage(instance.prefixColor + StringUtils.fixColors(msg));
 		}
 	}
 

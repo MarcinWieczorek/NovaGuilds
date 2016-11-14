@@ -57,9 +57,6 @@ public class DeathListener extends AbstractListener {
 		Player attacker = event.getEntity().getKiller();
 		NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
 
-		nPlayerAttacker.addKill();
-		nPlayer.addDeath();
-
 		if(nPlayer.isPartRaid() && nPlayerAttacker.isPartRaid() && nPlayer.getPartRaid().equals(nPlayerAttacker.getPartRaid()) && !nPlayer.getGuild().isMember(nPlayerAttacker)) {
 			NovaRaid raid = nPlayer.getPartRaid();
 
@@ -71,19 +68,22 @@ public class DeathListener extends AbstractListener {
 			}
 		}
 
-		PreparedTag preparedTag1 = new PreparedTagChatImpl(nPlayer, false);
-		PreparedTag preparedTag2 = new PreparedTagChatImpl(nPlayerAttacker, false);
-
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYER1, victim.getName());
-		vars.put(VarKey.PLAYER2, attacker.getName());
-		ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.clone().vars(vars).newChatBroadcast();
-		chatBroadcast.setTag(1, preparedTag1);
-		chatBroadcast.setTag(2, preparedTag2);
-		chatBroadcast.send();
-
-		//guild points and money
 		if(nPlayerAttacker.canGetKillPoints(victim)) {
+			PreparedTag preparedTag1 = new PreparedTagChatImpl(nPlayer, false);
+			PreparedTag preparedTag2 = new PreparedTagChatImpl(nPlayerAttacker, false);
+
+			Map<VarKey, String> vars = new HashMap<>();
+			vars.put(VarKey.PLAYER1, victim.getName());
+			vars.put(VarKey.PLAYER2, attacker.getName());
+			ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.clone().vars(vars).newChatBroadcast();
+			chatBroadcast.setTag(1, preparedTag1);
+			chatBroadcast.setTag(2, preparedTag2);
+			chatBroadcast.send();
+
+			//Kill and death point
+			nPlayerAttacker.addKill();
+			nPlayer.addDeath();
+
 			//Guild points
 			if(nPlayer.hasGuild()) {
 				NovaGuild guildVictim = nPlayer.getGuild();
