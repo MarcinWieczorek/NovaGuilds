@@ -21,6 +21,7 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Dependency;
+import co.marcin.novaguilds.exception.AdditionalTaskException;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.exception.MissingDependencyException;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -73,13 +74,22 @@ public class DependencyManager {
 				LoggerUtils.info("Found plugin " + dependency.getName());
 
 				if(dependency.hasAdditionalTasks()) {
-					for(RunnableWithException additionalTask : dependency.getAdditionalTasks()) {
+					for(AdditionalTask additionalTask : dependency.getAdditionalTasks()) {
 						try {
 							LoggerUtils.info("Running additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName());
 							additionalTask.run();
+							additionalTask.onSuccess();
 						}
 						catch(Exception e) {
-							throw new MissingDependencyException("Could not pass additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName(), e);
+							additionalTask.onFail();
+							AdditionalTaskException taskException = new AdditionalTaskException("Could not pass additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName(), e);
+
+							if(!additionalTask.isFatal()) {
+								LoggerUtils.exception(taskException);
+								continue;
+							}
+
+							throw new MissingDependencyException("Invalid dependency " + dependency.getName(), taskException);
 						}
 					}
 				}
@@ -133,18 +143,26 @@ public class DependencyManager {
 	 * @return plugin instance
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T get(Dependency dependency, Class<T> cast) {
+	public <T extends Plugin> T get(Dependency dependency, Class<T> cast) {
 		return (T) pluginMap.get(dependency);
 	}
 
-	public static class HolographicDisplaysAPIChecker implements RunnableWithException {
+	public static class HolographicDisplaysAPIChecker extends AdditionalTask {
+		public HolographicDisplaysAPIChecker() {
+			super(true);
+		}
+
 		@Override
 		public void run() throws ClassNotFoundException {
 			Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
 		}
 	}
 
-	public static class WorldGuardFlagInjector implements RunnableWithException {
+	public static class WorldGuardFlagInjector extends AdditionalTask {
+		public WorldGuardFlagInjector() {
+			super(false);
+		}
+
 		@Override
 		public void run() throws Exception {
 			if(!Config.REGION_WORLDGUARD.getBoolean()) {
@@ -161,6 +179,12 @@ public class DependencyManager {
 			defaultFlagFlagListField.set(list.toArray(new Flag[0]));
 			LoggerUtils.info("Successfully injected WorldGuard Flag");
 		}
+
+		@Override
+		public void onFail() {
+			Config.REGION_WORLDGUARD.set(false);
+			LoggerUtils.info("WorldGuard region checking disabled due to additional task failure.");
+		}
 	}
 
 	public interface RunnableWithException {
@@ -170,6 +194,42 @@ public class DependencyManager {
 		 * @throws Exception when something goes wrong
 		 */
 		void run() throws Exception;
+	}
+
+	public static abstract class AdditionalTask implements RunnableWithException {
+		private final boolean fatal;
+
+		/**
+		 * The constructor
+		 *
+		 * @param fatal should a failure cause the plugin to disable?
+		 */
+		public AdditionalTask(boolean fatal) {
+			this.fatal = fatal;
+		}
+
+		/**
+		 * Checks if the task is fatal
+		 *
+		 * @return boolean
+		 */
+		public boolean isFatal() {
+			return fatal;
+		}
+
+		/**
+		 * Gets invoked on failure
+		 */
+		public void onFail() {
+
+		}
+
+		/**
+		 * Gets invoked on success
+		 */
+		public void onSuccess() {
+
+		}
 	}
 
 	/**

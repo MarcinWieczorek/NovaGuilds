@@ -20,6 +20,10 @@ package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.manager.DependencyManager;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public enum Dependency {
 	VAULT("Vault", true),
 	VANISHNOPACKET("VanishNoPacket", false),
@@ -32,7 +36,7 @@ public enum Dependency {
 
 	private final String name;
 	private final boolean hardDependency;
-	private DependencyManager.RunnableWithException[] additionalTasks = new DependencyManager.RunnableWithException[0];
+	private final Set<DependencyManager.AdditionalTask> additionalTasks = new HashSet<>();
 
 	/**
 	 * The constructor
@@ -52,9 +56,9 @@ public enum Dependency {
 	 * @param hardDependency  true if required
 	 * @param additionalTasks additional tasks
 	 */
-	Dependency(String name, boolean hardDependency, DependencyManager.RunnableWithException... additionalTasks) {
+	Dependency(String name, boolean hardDependency, DependencyManager.AdditionalTask... additionalTasks) {
 		this(name, hardDependency);
-		this.additionalTasks = additionalTasks;
+		Collections.addAll(this.additionalTasks, additionalTasks);
 	}
 
 	/**
@@ -81,15 +85,15 @@ public enum Dependency {
 	 * @return boolean
 	 */
 	public boolean hasAdditionalTasks() {
-		return additionalTasks.length > 0;
+		return !additionalTasks.isEmpty();
 	}
 
 	/**
 	 * Gets additional tasks
 	 *
-	 * @return array of runables
+	 * @return set of runnables
 	 */
-	public DependencyManager.RunnableWithException[] getAdditionalTasks() {
+	public Set<DependencyManager.AdditionalTask> getAdditionalTasks() {
 		return additionalTasks;
 	}
 }

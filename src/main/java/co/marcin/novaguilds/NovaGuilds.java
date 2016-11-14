@@ -135,6 +135,10 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	@Override
 	public void onEnable() {
 		try {
+			if(FatalNovaGuildsException.fatal) {
+				throw new FatalNovaGuildsException("The plugin has crashed");
+			}
+
 			//managers
 			getDependencyManager().setupEconomy();
 			getMessageManager().load();
