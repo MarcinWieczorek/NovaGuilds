@@ -26,10 +26,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class PlayerInfoListener extends AbstractListener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerClickPlayer(PlayerInteractEntityEvent event) {
+		if(event.getHand() == EquipmentSlot.OFF_HAND) {
+			return;
+		}
+
 		Player player = event.getPlayer();
 		if((event.getRightClicked() instanceof Player) && player.isSneaking()) {
 			if(Permission.NOVAGUILDS_PLAYERINFO.has(player)) {
