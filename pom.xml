@@ -97,6 +97,12 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.6</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>me.confuser</groupId>
@@ -109,6 +115,12 @@
             <artifactId>bossbarapi</artifactId>
             <version>2.3.7</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.gmail.filoghost</groupId>
@@ -156,6 +168,12 @@
             <groupId>com.sk89q</groupId>
             <artifactId>worldguard</artifactId>
             <version>6.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

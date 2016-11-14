@@ -96,7 +96,7 @@ public class CommandGuild extends AbstractCommandExecutor {
 			if(nPlayer.hasGuild()) {
 				for(String message : Message.CHAT_COMMANDS_GUILD_HASGUILD.getList()) {
 					GuildPermission guildPermission = null;
-					if(org.apache.commons.lang.StringUtils.startsWith(message, "{") && org.apache.commons.lang.StringUtils.contains(message, "}")) {
+					if(message.startsWith("{") && org.apache.commons.lang.StringUtils.contains(message, "}")) {
 						message = message.substring(1);
 						String[] split = org.apache.commons.lang.StringUtils.split(message, '}');
 						guildPermission = GuildPermission.fromString(split[0]);
