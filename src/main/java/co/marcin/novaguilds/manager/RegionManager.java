@@ -200,6 +200,7 @@ public class RegionManager {
 	/**
 	 * Checks selection validity
 	 *
+	 * @param nPlayer player
 	 * @param l1 first corner
 	 * @param l2 second corner
 	 * @return region validity

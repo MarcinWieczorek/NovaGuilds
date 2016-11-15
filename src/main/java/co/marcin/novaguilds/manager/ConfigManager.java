@@ -189,6 +189,11 @@ public class ConfigManager {
 			return index;
 		}
 
+		/**
+		 * Gets the version as string
+		 *
+		 * @return version string
+		 */
 		public String getString() {
 			return "v" + name().substring(10);
 		}

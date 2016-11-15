@@ -47,6 +47,7 @@ public class MessageWrapperImpl implements MessageWrapper {
 	/**
 	 * The constructor
 	 *
+	 * @param path  message path
 	 * @param flags flags
 	 */
 	public MessageWrapperImpl(String path, Flag... flags) {

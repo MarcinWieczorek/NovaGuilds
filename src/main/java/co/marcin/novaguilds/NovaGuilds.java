@@ -104,6 +104,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private SignGUI signGUI;
 	private final Map<ConfigManager.ServerVersion, Constructor<? extends TabList>> tabListConstructorMap = new HashMap<>();
 
+	/**
+	 * The constructor
+	 */
 	public NovaGuilds() {
 		instance = this;
 

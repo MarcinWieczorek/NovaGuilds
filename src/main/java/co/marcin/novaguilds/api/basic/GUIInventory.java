@@ -90,8 +90,6 @@ public interface GUIInventory {
 	void close();
 
 	interface Executor {
-		int getSlot();
-
 		/**
 		 * Gets icon ItemStack
 		 *

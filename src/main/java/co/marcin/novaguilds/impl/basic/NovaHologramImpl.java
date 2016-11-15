@@ -39,6 +39,9 @@ public class NovaHologramImpl extends AbstractResource implements NovaHologram {
 	private boolean isTop = false;
 	private boolean deleted = false;
 
+	/**
+	 * The constructor
+	 */
 	public NovaHologramImpl() {
 		super(null);
 	}

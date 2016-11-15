@@ -220,6 +220,7 @@ public class GuildManager {
 	 * Deletes a guild
 	 *
 	 * @param guild guild instance
+	 * @param cause abandon cause
 	 */
 	public void delete(NovaGuild guild, AbandonCause cause) {
 		getResourceManager().addToRemovalQueue(guild);

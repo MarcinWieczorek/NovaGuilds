@@ -33,6 +33,10 @@ import java.util.List;
 public class YamlEnumTest {
 	private String[] ignoreConfig;
 
+	/**
+	 * The constructor
+	 * Defines ignored sections
+	 */
 	public YamlEnumTest() {
 		ignoreConfig = new String[]{
 				"aliases.",

@@ -213,6 +213,11 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		return leader;
 	}
 
+	/**
+	 * Gets leader name as string
+	 *
+	 * @return leader name
+	 */
 	public String getLeaderName() {
 		return leaderName;
 	}

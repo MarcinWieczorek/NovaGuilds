@@ -180,19 +180,39 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 
 	public class CommandExecutor extends Executor {
 		private final String command;
+		private final boolean close;
 
-		public CommandExecutor(ItemStack itemStack, String command) {
+		/**
+		 * The constructor
+		 *
+		 * @param itemStack item
+		 * @param command   command string
+		 * @param close     close flag
+		 */
+		public CommandExecutor(ItemStack itemStack, String command, boolean close) {
 			super(itemStack);
 			this.command = command;
+			this.close = close;
 		}
 
-		public CommandExecutor(MessageWrapper messageWrapper, String command) {
-			this(messageWrapper.getItemStack(), command);
+		/**
+		 * The constructor
+		 *
+		 * @param messageWrapper message wrapper
+		 * @param command        command string
+		 * @param close          close flag
+		 */
+		public CommandExecutor(MessageWrapper messageWrapper, String command, boolean close) {
+			this(messageWrapper.getItemStack(), command, close);
 		}
 
 		@Override
 		public void execute() {
 			Bukkit.dispatchCommand(getViewer().getPlayer(), command);
+
+			if(close) {
+				close();
+			}
 		}
 	}
 }

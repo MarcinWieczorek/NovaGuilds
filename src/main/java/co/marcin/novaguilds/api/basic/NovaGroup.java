@@ -94,6 +94,14 @@ public interface NovaGroup {
 	Schematic getCreateSchematic();
 
 	/**
+	 * Gets a value
+	 *
+	 * @param key the key
+	 * @return value as object
+	 */
+	Object get(Key key);
+
+	/**
 	 * Gets a double
 	 *
 	 * @param key the key

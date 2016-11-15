@@ -148,6 +148,9 @@ public class DependencyManager {
 	}
 
 	public static class HolographicDisplaysAPIChecker extends AdditionalTask {
+		/**
+		 * Checks if HolographicDisplays' API class is present
+		 */
 		public HolographicDisplaysAPIChecker() {
 			super(true);
 		}
@@ -159,6 +162,9 @@ public class DependencyManager {
 	}
 
 	public static class WorldGuardFlagInjector extends AdditionalTask {
+		/**
+		 * Injects WorldGuard flag to the plugin
+		 */
 		public WorldGuardFlagInjector() {
 			super(false);
 		}

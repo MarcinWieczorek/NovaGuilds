@@ -36,6 +36,8 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 
 	/**
 	 * The constructor
+	 *
+	 * @param uuid region UUID
 	 */
 	public NovaRegionImpl(UUID uuid) {
 		super(uuid);
@@ -44,6 +46,7 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	/**
 	 * Create from RegionSelection
 	 *
+	 * @param uuid      region UUID
 	 * @param selection the selection
 	 */
 	public NovaRegionImpl(UUID uuid, RegionSelection selection) {

@@ -129,6 +129,8 @@ public interface NovaRaid {
 
 	/**
 	 * Adds some progress
+	 *
+	 * @param progress progress
 	 */
 	void addProgress(float progress);
 

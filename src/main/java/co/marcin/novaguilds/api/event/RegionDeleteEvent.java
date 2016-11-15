@@ -32,6 +32,12 @@ public class RegionDeleteEvent extends Event implements Cancellable {
 		ABANDON,
 		RAID;
 
+		/**
+		 * Gets a Cause from AbandonCause enum
+		 *
+		 * @param abandonCause guild abandon cause
+		 * @return cause enum
+		 */
 		public static Cause fromGuildAbandonCause(AbandonCause abandonCause) {
 			switch(abandonCause) {
 				case ADMIN:
@@ -59,7 +65,8 @@ public class RegionDeleteEvent extends Event implements Cancellable {
 	/**
 	 * The constructor
 	 *
-	 * @param region  region
+	 * @param region region
+	 * @param cause  the cause
 	 */
 	public RegionDeleteEvent(NovaRegion region, Cause cause) {
 		Validate.notNull(cause, "Region delete cause cannot be null");

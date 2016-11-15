@@ -64,6 +64,8 @@ public class MessageManager {
 
 	/**
 	 * Detects the language basing on Essentials and config
+	 *
+	 * @throws FileNotFoundException when something goes wrong
 	 */
 	public void detectLanguage() throws FileNotFoundException {
 		detectEssentialsLocale();
@@ -92,6 +94,8 @@ public class MessageManager {
 
 	/**
 	 * Loads messages
+	 *
+	 * @throws FatalNovaGuildsException when something goes wrong
 	 */
 	public void load() throws FatalNovaGuildsException {
 		setupDirectories();
@@ -337,7 +341,7 @@ public class MessageManager {
 	 * Replaces a map of vars preserving the prefix color
 	 *
 	 * @param msg  message string
-	 * @param vars Map<String, String> of variables
+	 * @param vars Map of variables
 	 * @return String
 	 */
 	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars) {

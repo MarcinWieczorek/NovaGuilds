@@ -366,6 +366,7 @@ public class ParticleEffect {
 	 * @param speed    speed
 	 * @param amount   amount
 	 * @param data     particle data
+	 * @param range    range
 	 * @throws IllegalAccessException    when something goes wrong
 	 * @throws InstantiationException    when something goes wrong
 	 * @throws InvocationTargetException when something goes wrong

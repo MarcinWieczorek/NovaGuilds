@@ -63,6 +63,7 @@ public interface ResourceManager<T extends Resource> {
 	 * Removes data
 	 *
 	 * @param t instance
+	 * @return true on success
 	 */
 	boolean remove(T t);
 
@@ -70,6 +71,7 @@ public interface ResourceManager<T extends Resource> {
 	 * Removes data from a list
 	 *
 	 * @param list the list
+	 * @return amount of removed items
 	 */
 	int remove(Collection<T> list);
 

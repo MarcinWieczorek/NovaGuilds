@@ -332,6 +332,7 @@ public final class Reflections {
 	 * Converts the value to an enum
 	 *
 	 * @param clazz enum class
+	 * @param name enum constant name
 	 * @return enum value
 	 */
 	public static Enum getEnumConstant(Class<?> clazz, String name) {

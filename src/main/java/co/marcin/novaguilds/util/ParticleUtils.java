@@ -32,6 +32,9 @@ public class ParticleUtils {
 	 * Creates supernova effect where an entity exists
 	 *
 	 * @param entity target entity
+	 * @throws IllegalAccessException    when something goes wrong
+	 * @throws InvocationTargetException when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
 	 */
 	public static void createSuperNova(Entity entity) throws IllegalAccessException, InvocationTargetException, InstantiationException {
 		createSuperNova(entity.getLocation());
@@ -67,6 +70,9 @@ public class ParticleUtils {
 	 * Creates supernova effect
 	 *
 	 * @param location target location
+	 * @throws IllegalAccessException    when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
+	 * @throws InvocationTargetException when something goes wrong
 	 */
 	public static void createSuperNova(Location location) throws IllegalAccessException, InstantiationException, InvocationTargetException {
 		float speed = 1F;
