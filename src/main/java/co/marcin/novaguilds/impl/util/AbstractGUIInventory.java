@@ -23,13 +23,19 @@ import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.util.ChestGUIUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class AbstractGUIInventory implements GUIInventory {
 	protected final Inventory inventory;
 	private NovaPlayer viewer;
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final Set<GUIInventory.Executor> executors = new HashSet<>();
 
 	/**
 	 * The constructor
@@ -49,6 +55,31 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	@Override
 	public final void setViewer(NovaPlayer nPlayer) {
 		this.viewer = nPlayer;
+	}
+
+	@Override
+	public void registerExecutor(GUIInventory.Executor executor) {
+		if(executors.contains(executor)) {
+			return;
+		}
+
+		executors.add(executor);
+	}
+
+	@Override
+	public Set<GUIInventory.Executor> getExecutors() {
+		return executors;
+	}
+
+	@Override
+	public void onClick(InventoryClickEvent event) {
+		ItemStack clickedItemStack = event.getCurrentItem();
+
+		for(GUIInventory.Executor executor : getExecutors()) {
+			if(executor.getItem().equals(clickedItemStack)) {
+				executor.execute();
+			}
+		}
 	}
 
 	@Override
@@ -83,11 +114,85 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 		}
 	}
 
+	protected void add(GUIInventory.Executor executor) {
+		if(!getExecutors().contains(executor)) {
+			throw new IllegalArgumentException("Trying to add not registered executor to the inventory");
+		}
+
+		add(executor.getItem());
+	}
+
+	protected void registerAndAdd(GUIInventory.Executor executor) {
+		registerExecutor(executor);
+		add(executor);
+	}
+
 	/**
 	 * Reopens the GUI
 	 */
 	protected void reopen() {
 		close();
 		open(getViewer());
+	}
+
+	public abstract class Executor implements GUIInventory.Executor {
+		private ItemStack itemStack;
+
+		/**
+		 * The constructor
+		 *
+		 * @param itemStack icon item
+		 */
+		public Executor(ItemStack itemStack) {
+			this.itemStack = itemStack;
+		}
+
+		/**
+		 * The constructor
+		 * ItemStack is generated from message
+		 *
+		 * @param messageWrapper message wrapper
+		 */
+		public Executor(MessageWrapper messageWrapper) {
+			this(messageWrapper.getItemStack());
+		}
+
+		@Override
+		public ItemStack getItem() {
+			return itemStack;
+		}
+	}
+
+	public class EmptyExecutor extends Executor {
+		public EmptyExecutor(ItemStack itemStack) {
+			super(itemStack);
+		}
+
+		public EmptyExecutor(MessageWrapper messageWrapper) {
+			super(messageWrapper);
+		}
+
+		@Override
+		public final void execute() {
+
+		}
+	}
+
+	public class CommandExecutor extends Executor {
+		private final String command;
+
+		public CommandExecutor(ItemStack itemStack, String command) {
+			super(itemStack);
+			this.command = command;
+		}
+
+		public CommandExecutor(MessageWrapper messageWrapper, String command) {
+			this(messageWrapper.getItemStack(), command);
+		}
+
+		@Override
+		public void execute() {
+			Bukkit.dispatchCommand(getViewer().getPlayer(), command);
+		}
 	}
 }

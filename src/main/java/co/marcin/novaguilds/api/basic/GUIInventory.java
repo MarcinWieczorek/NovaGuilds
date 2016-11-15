@@ -20,6 +20,9 @@ package co.marcin.novaguilds.api.basic;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Set;
 
 public interface GUIInventory {
 	/**
@@ -68,7 +71,37 @@ public interface GUIInventory {
 	void setViewer(NovaPlayer nPlayer);
 
 	/**
+	 * Registers a new executor
+	 *
+	 * @param executor the executor
+	 */
+	void registerExecutor(Executor executor);
+
+	/**
+	 * Gets a set of executors
+	 *
+	 * @return the set
+	 */
+	Set<Executor> getExecutors();
+
+	/**
 	 * Closes the GUI
 	 */
 	void close();
+
+	interface Executor {
+		int getSlot();
+
+		/**
+		 * Gets icon ItemStack
+		 *
+		 * @return item
+		 */
+		ItemStack getItem();
+
+		/**
+		 * Executes
+		 */
+		void execute();
+	}
 }

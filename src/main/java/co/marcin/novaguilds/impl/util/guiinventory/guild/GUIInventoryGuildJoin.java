@@ -24,18 +24,12 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GUIInventoryGuildJoin extends AbstractGUIInventory {
-	private final Map<Integer, NovaGuild> slotGuildsMap = new HashMap<>();
 	private final List<NovaGuild> guildList = new ArrayList<>();
 
 	/**
@@ -49,37 +43,18 @@ public class GUIInventoryGuildJoin extends AbstractGUIInventory {
 	}
 
 	@Override
-	public void onClick(InventoryClickEvent event) {
-		NovaGuild guild = slotGuildsMap.get(event.getRawSlot());
-
-		if(guild == null) {
-			return;
-		}
-
-		Bukkit.dispatchCommand(getViewer().getPlayer(), "g join " + guild.getName());
-	}
-
-	@Override
 	public void generateContent() {
 		inventory.clear();
-		int slot = 0;
-		slotGuildsMap.clear();
-		for(NovaGuild guild : guildList) {
+		for(final NovaGuild guild : guildList) {
 			MessageWrapper msg = Message.INVENTORY_GUI_JOIN_ROWITEM.clone()
 					.setVar(VarKey.GUILDNAME, guild.getName())
 					.setVar(VarKey.TAG, guild.getTag())
-					.setVar(VarKey.PLAYERNAME, guild.getLeader().getName());
-			LoggerUtils.debug(msg.get());
-			ItemStack itemStack = msg.getItemStack();
+					.setVar(VarKey.PLAYERNAME, guild.getLeader().getName())
+					.setVar(VarKey.GUILD_POINTS, guild.getPoints())
+					.setVar(VarKey.GUILD_LIVES, guild.getLives());
+			registerAndAdd(new CommandExecutor(msg, "novaguilds:guild join " + guild.getName(), true));
 
-			if(itemStack == null) {
-				continue;
-			}
-
-			add(itemStack);
-			slotGuildsMap.put(slot, guild);
 			close();
-			slot++;
 		}
 	}
 }
