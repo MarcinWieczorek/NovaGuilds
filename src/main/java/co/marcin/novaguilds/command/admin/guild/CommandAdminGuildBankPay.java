@@ -60,7 +60,7 @@ public class CommandAdminGuildBankPay extends AbstractCommandExecutor.Reversed<N
 
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.MONEY, moneyString);
-		vars.put(VarKey.GUILDNAME, guild.getName());
+		vars.put(VarKey.GUILD_NAME, guild.getName());
 		Message.CHAT_ADMIN_GUILD_BANK_PAID.clone().vars(vars).send(sender);
 	}
 }

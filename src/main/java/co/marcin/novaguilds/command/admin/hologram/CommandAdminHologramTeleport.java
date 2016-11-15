@@ -44,7 +44,7 @@ public class CommandAdminHologramTeleport extends AbstractCommandExecutor.Revers
 		player.teleport(hologram.getLocation());
 
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYERNAME, player.getName());
+		vars.put(VarKey.PLAYER_NAME, player.getName());
 		vars.put(VarKey.NAME, hologram.getName());
 
 		if(sender.equals(player)) {

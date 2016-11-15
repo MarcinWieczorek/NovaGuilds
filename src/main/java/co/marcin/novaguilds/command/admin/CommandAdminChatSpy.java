@@ -58,7 +58,7 @@ public class CommandAdminChatSpy extends AbstractCommandExecutor {
 
 		//Notify message
 		if(!nPlayer.equals(nPlayerChange)) {
-			vars.put(VarKey.PLAYERNAME, nPlayerChange.getName());
+			vars.put(VarKey.PLAYER_NAME, nPlayerChange.getName());
 
 			Message.CHAT_ADMIN_SPYMODE_NOTIFY.clone().vars(vars).send(nPlayerChange);
 			Message.CHAT_ADMIN_SPYMODE_SUCCESS_OTHER.clone().vars(vars).send(sender);

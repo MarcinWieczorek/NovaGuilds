@@ -69,9 +69,9 @@ public class CommandAdminRegionTeleport extends AbstractCommandExecutor.Reversed
 		}
 
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+		vars.put(VarKey.GUILD_NAME, region.getGuild().getName());
 		vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
-		vars.put(VarKey.PLAYERNAME, player.getName());
+		vars.put(VarKey.PLAYER_NAME, player.getName());
 
 		Location location = region.getCenter().clone();
 		location.setY(location.getWorld().getHighestBlockYAt(location));

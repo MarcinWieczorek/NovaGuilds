@@ -126,7 +126,7 @@ public class ToolListener extends AbstractListener {
 				selectedLocation[0] = region.getCorner(0);
 				selectedLocation[1] = region.getCorner(1);
 
-				vars.put(VarKey.GUILDNAME, region.getGuild().getName());
+				vars.put(VarKey.GUILD_NAME, region.getGuild().getName());
 				vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
 				Message.CHAT_REGION_BELONGSTO.clone().vars(vars).send(nPlayer);
 			}

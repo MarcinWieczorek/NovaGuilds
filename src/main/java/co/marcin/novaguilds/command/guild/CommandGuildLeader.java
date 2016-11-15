@@ -76,8 +76,8 @@ public class CommandGuildLeader extends AbstractCommandExecutor {
 		plugin.getGuildManager().save(guild);
 
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYERNAME, newLeader.getName());
-		vars.put(VarKey.GUILDNAME, guild.getName());
+		vars.put(VarKey.PLAYER_NAME, newLeader.getName());
+		vars.put(VarKey.GUILD_NAME, guild.getName());
 		Message.CHAT_GUILD_LEADER_SUCCESS.clone().vars(vars).send(sender);
 		Message.BROADCAST_GUILD_SETLEADER.clone().vars(vars).broadcast();
 

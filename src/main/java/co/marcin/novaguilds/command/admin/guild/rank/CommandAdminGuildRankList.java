@@ -55,13 +55,13 @@ public class CommandAdminGuildRankList extends AbstractCommandExecutor.Reversed<
 			}
 		}
 
-		Message.CHAT_ADMIN_GUILD_RANK_LIST_HEADER.clone().setVar(VarKey.GUILDNAME, getParameter().getName()).send(sender);
+		Message.CHAT_ADMIN_GUILD_RANK_LIST_HEADER.clone().setVar(VarKey.GUILD_NAME, getParameter().getName()).send(sender);
 		List<MessageWrapper> itemList = new ArrayList<>();
 
 		for(NovaRank rank : getParameter().getRanks()) {
 			MessageWrapper row = Message.CHAT_ADMIN_GUILD_RANK_LIST_ITEM.clone();
 			row.setVar(VarKey.NAME, rank.getName());
-			row.setVar(VarKey.GUILDNAME, rank.getGuild().getName());
+			row.setVar(VarKey.GUILD_NAME, rank.getGuild().getName());
 			row.setVar(VarKey.UUID, rank.getUUID().toString());
 			itemList.add(row);
 		}

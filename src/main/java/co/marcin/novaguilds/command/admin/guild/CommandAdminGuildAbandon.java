@@ -45,8 +45,8 @@ public class CommandAdminGuildAbandon extends AbstractCommandExecutor.Reversed<N
 			plugin.getGuildManager().delete(guildAbandonEvent);
 
 			Map<VarKey, String> vars = new HashMap<>();
-			vars.put(VarKey.PLAYERNAME, sender.getName());
-			vars.put(VarKey.GUILDNAME, guild.getName());
+			vars.put(VarKey.PLAYER_NAME, sender.getName());
+			vars.put(VarKey.GUILD_NAME, guild.getName());
 			Message.BROADCAST_ADMIN_GUILD_ABANDON.clone().vars(vars).broadcast();
 		}
 

@@ -151,7 +151,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor {
 
 		vars.clear();
 		vars.put(VarKey.PLAYER, sender.getName());
-		vars.put(VarKey.GUILDNAME, guild.getName());
+		vars.put(VarKey.GUILD_NAME, guild.getName());
 		Message.BROADCAST_GUILD_JOINED.clone().vars(vars).broadcast();
 	}
 }

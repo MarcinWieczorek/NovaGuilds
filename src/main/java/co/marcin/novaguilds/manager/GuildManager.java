@@ -527,9 +527,9 @@ public class GuildManager {
 
 		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
 			vars.clear();
-			vars.put(VarKey.GUILDNAME, guild.getName());
+			vars.put(VarKey.GUILD_NAME, guild.getName());
 			vars.put(VarKey.N, String.valueOf(i));
-			vars.put(VarKey.POINTS, String.valueOf(guild.getPoints()));
+			vars.put(VarKey.GUILD_POINTS, String.valueOf(guild.getPoints()));
 			list.add(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.clone().vars(vars).get());
 			i++;
 		}
@@ -554,7 +554,7 @@ public class GuildManager {
 
 			if(!guildAbandonEvent.isCancelled()) {
 				Map<VarKey, String> vars = new HashMap<>();
-				vars.put(VarKey.GUILDNAME, guild.getName());
+				vars.put(VarKey.GUILD_NAME, guild.getName());
 				Message.BROADCAST_ADMIN_GUILD_CLEANUP.clone().vars(vars).broadcast();
 				LoggerUtils.info("Abandoned guild " + guild.getName() + " due to inactivity.");
 				count++;

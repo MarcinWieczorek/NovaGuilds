@@ -43,7 +43,7 @@ public class CommandAdminGuildTeleport extends AbstractCommandExecutor.Reversed<
 		boolean other = false;
 
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.GUILDNAME, guild.getName());
+		vars.put(VarKey.GUILD_NAME, guild.getName());
 
 		if(args.length == 1) {
 			if(!Permission.NOVAGUILDS_ADMIN_GUILD_TELEPORT_OTHER.has(sender)) {
@@ -77,7 +77,7 @@ public class CommandAdminGuildTeleport extends AbstractCommandExecutor.Reversed<
 		}
 
 		if(other) {
-			vars.put(VarKey.PLAYERNAME, player.getName());
+			vars.put(VarKey.PLAYER_NAME, player.getName());
 			Message.CHAT_ADMIN_GUILD_TELEPORTED_OTHER.clone().vars(vars).send(sender);
 		}
 		else {

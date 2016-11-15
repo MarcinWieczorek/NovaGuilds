@@ -44,7 +44,7 @@ public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 	 * @param nPlayer the player who's settings are being edited
 	 */
 	public GUIInventoryGuildPlayerSettings(NovaPlayer nPlayer) {
-		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.clone().setVar(VarKey.PLAYERNAME, nPlayer.getName()));
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()));
 		this.nPlayer = nPlayer;
 	}
 

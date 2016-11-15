@@ -65,8 +65,8 @@ public class CommandGuildInvite extends AbstractCommandExecutor {
 
 		NovaGuild guild = nPlayer.getGuild();
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.GUILDNAME, guild.getName());
-		vars.put(VarKey.PLAYERNAME, invitePlayer.getName());
+		vars.put(VarKey.GUILD_NAME, guild.getName());
+		vars.put(VarKey.PLAYER_NAME, invitePlayer.getName());
 
 		if(!invitePlayer.isInvitedTo(guild)) { //invite
 			invitePlayer.addInvitation(guild);

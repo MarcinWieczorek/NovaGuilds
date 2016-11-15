@@ -39,23 +39,23 @@ chat:
     page:
      hasnext: "&7-- &cPagina &7{PAGE} &cvan &7{PAGES} -- &c/nga g list {NEXT} &7--"
      nonext: "&7-- &cPagina &7{PAGE} &cvan &7{PAGES} --"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &6Leider: &c{PLAYERNAME} ({PLAYERSCOUNT} spelers)"
+    item: " &2- &a{GUILD_NAME} &7[&a{TAG}&7] &6Leider: &c{PLAYER_NAME} ({PLAYERSCOUNT} spelers)"
    inactive:
     updated: "De Guilds niet aktieve tijd is bijgewerkt. (&c{COUNT} guilds)"
     list:
      header: "Niet aktieve Guilds"
-     item: " &2- &a{GUILDNAME} Akitef {AGONOW}"
+     item: " &2- &a{GUILD_NAME} Akitef {AGONOW}"
      ago: "&c{INACTIVE} geleden"
      now: "&cNu"
    bank:
-    paid: "Je hebt &c${MONEY} betaald aan &a{GUILDNAME}'s bank."
-    withdrew: "je heb &c${MONEY} opgenomen , van &a{GUILDNAME}'s bank."
+    paid: "Je hebt &c${MONEY} betaald aan &a{GUILD_NAME}'s bank."
+    withdrew: "je heb &c${MONEY} opgenomen , van &a{GUILD_NAME}'s bank."
    kick:
     leader: "Je kunt de Guild leider niet verwijderen. Je moet de Guild ontbinden."
-   invited: "Uitgenodigd speler &c{PLAYERNAME} in &a{GUILDNAME}"
+   invited: "Uitgenodigd speler &c{PLAYER_NAME} in &a{GUILD_NAME}"
    teleported:
-    self: "Je wordt verplaatst naar het guildhuis van &a{GUILDNAME}"
-    other: "&c{PLAYERNAME} is verplaatst naar het guildhuis van &a{GUILDNAME}"
+    self: "Je wordt verplaatst naar het guildhuis van &a{GUILD_NAME}"
+    other: "&c{PLAYER_NAME} is verplaatst naar het guildhuis van &a{GUILD_NAME}"
    set:
     tag: "Tag is veranderd naar &a{TAG}"
     points: "punten bewaard."
@@ -67,8 +67,8 @@ chat:
      enternewname: "Voer nieuwe Guild naam in "
      success: "Guild's naam is veranderd."
     leader:
-     notinguild: "Deze speler zit niet in Guild &a{GUILDNAME}"
-     alreadyleader: "Speler &c{PLAYERNAME} is reeds de leider!"
+     notinguild: "Deze speler zit niet in Guild &a{GUILD_NAME}"
+     alreadyleader: "Speler &c{PLAYER_NAME} is reeds de leider!"
      success: "Er is een nieuwe leider!"
    reset:
     points:
@@ -80,7 +80,7 @@ chat:
     delete:
      success: "The rank has been successfully deleted."
     list:
-     header: "Rank list for guild {GUILDNAME}"
+     header: "Rank list for guild {GUILD_NAME}"
      item: "&a{NAME}"
   region:
    bypass:
@@ -96,9 +96,9 @@ chat:
    delete:
     success: "Met succes Guild regio verwijderd."
    teleport:
-    self: "Je Bent verplaatst naar &a{GUILDNAME}'s regio."
-    other: "Speler &c{PLAYERNAME} verplaatst naar &a{GUILDNAME}'s regio"
-    notifyother: "Je bent verplaatst naar &a{GUILDNAME}'s regio"
+    self: "Je Bent verplaatst naar &a{GUILD_NAME}'s regio."
+    other: "Speler &c{PLAYER_NAME} verplaatst naar &a{GUILD_NAME}'s regio"
+    notifyother: "Je bent verplaatst naar &a{GUILD_NAME}'s regio"
   save:
    players: "Spelers opgeslagen."
    guilds: "Guilds opgeslagen."
@@ -110,7 +110,7 @@ chat:
    notfound: "Kan geen Hologram vinden met deze naam."
    teleport:
     self: "Je bent verplaatst naar &a{NAME}"
-    other: "Speler verplaatst van &c{PLAYERNAME} naar &a{NAME}"
+    other: "Speler verplaatst van &c{PLAYER_NAME} naar &a{NAME}"
    add:
     success: "Hologram is met succes toegevoegd : &a{NAME}"
    delete:
@@ -122,7 +122,7 @@ chat:
    notify: "Geheime status is veranderd. Momenteel &c{MODE}"
    success:
     self: "geheime status is veranderd. Momenteel &c{MODE}"
-    other: "&c{PLAYERNAME}'s geheime status is veranderd naar : &c{MODE}"
+    other: "&c{PLAYER_NAME}'s geheime status is veranderd naar : &c{MODE}"
 
  reload:
   reloading: "Herladen NovaGuilds..."
@@ -313,7 +313,7 @@ chat:
   ally: "Je kunt geen vrienden aanvallen."
 
  raid:
-  resting: "je moet nog &c{TIMEREST} wachten voor je deze guild kan aanvallen."
+  resting: "je moet nog &c{GUILD_TIME_REST} wachten voor je deze guild kan aanvallen."
   protection: "Dit is een nieuwe guild en deze is nog beschermd. probeer het morgen eens ...!"
 
  guild:
@@ -337,7 +337,7 @@ chat:
    'off': "Het kompass wijst nu naar de spawn."
   noguilds: "Geen guild gevonden."
   openinvitation: "Verander uitnodig status, Momenteel: &c{STATUS}"
-  fpvptoggled: "Verander Vriendelijke PVP voor je guild. Momenteel: &c{FPVP}"
+  fpvptoggled: "Verander Vriendelijke PVP voor je guild. Momenteel: &c{GUILD_PVP}"
   effect:
    success: "Je kocht &a{EFFECTTYPE} effect Voor al je teamleden!"
 
@@ -346,15 +346,15 @@ chat:
    samename: "Je kunt geen bondgenoot zijn met je eigen guild!"
    invited: "je hebt &a{ALLYNAME} uitgenodigd om een bondgenoot te worden."
    accepted: "Je hebt de uitnodiging geacepteerd van : &a{ALLYNAME}"
-   notifyguild: "Guild &a{GUILDNAME} Vraagt je om bondgenoot te worden."
-   notifyguildcanceled: "Guild &a{GUILDNAME} heeft zich bedacht om bondgenoot te worden"
+   notifyguild: "Guild &a{GUILD_NAME} Vraagt je om bondgenoot te worden."
+   notifyguildcanceled: "Guild &a{GUILD_NAME} heeft zich bedacht om bondgenoot te worden"
    canceled: "Trek uitnodiging in van bondgenoodschap met guild &a{ALLYNAME}"
    list:
     noallies: "Geen bondgenoten."
     header:
      allies: "Lijst van bondgenoten:"
      invitations: "Lijst van bondgenoodschap uitnodigingen:"
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
 
   couldnotfind: "Kan guild niet vinden."
@@ -393,20 +393,20 @@ chat:
    yourguildwar: "Je kunt geen oorlog beginnen met je eigen guild!"
    nowar:
     invite:
-     success: "Je hebt gevraagd aan guild : &a{GUILDNAME} om de oorlog te beeindigen"
-     notify: "&a{GUILDNAME} Vraagt je te stoppen met de oorlog"
+     success: "Je hebt gevraagd aan guild : &a{GUILD_NAME} om de oorlog te beeindigen"
+     notify: "&a{GUILD_NAME} Vraagt je te stoppen met de oorlog"
     cancel:
-     success: "You have canceled the no-war invitation for &a{GUILDNAME}"
-     notify: "&a{GUILDNAME} has canceled their invitation to stop the war"
+     success: "You have canceled the no-war invitation for &a{GUILD_NAME}"
+     notify: "&a{GUILD_NAME} has canceled their invitation to stop the war"
    list:
     nowars: "Geen oorlogen."
     warsheader: "Lijst van oorlogen:"
     nowarinvheader: "Lijst van uitnodigingen om de oorlog te beeindigen:"
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
 
   leader:
-   success: "&a{PLAYERNAME} is nu de leider!"
+   success: "&a{PLAYER_NAME} is nu de leider!"
    samenick: "je bent al de leider!"
    notsameguild: "Deze speler zit niet in je guild."
   leave:
@@ -437,29 +437,29 @@ chat:
   alreadyinvited: "Deze speler heeft al een uitnodiging voor deze guild."
   notinyourguild: "Deze speler zit niet in je guild!"
   pvpmoney:
-   kill: "je hebt &a{MONEY}$ verdient, voor de overwinning op &c{PLAYERNAME}"
-   revenge: "je hebt &a{MONEY}$ verdient voor de wraakiverwinning op &c{PLAYERNAME}"
+   kill: "je hebt &a{MONEY}$ verdient, voor de overwinning op &c{PLAYER_NAME}"
+   revenge: "je hebt &a{MONEY}$ verdient voor de wraakiverwinning op &c{PLAYER_NAME}"
   invite:
    invited: "Speler is uitgenodigd in je guild."
    list:
     header: "Lijst van guilds die je uitgenodigd hebben :"
     nothing: "Er zijn geen guilds die je uitgenodigd hebben."
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
    notinvited: "je bent niet uitgenodigd in deze guild!"
-   notify: "Je bent uitgenodigd voor guild : &a{GUILDNAME}"
+   notify: "Je bent uitgenodigd voor guild : &a{GUILD_NAME}"
    cancel:
-    success: "Uitnodeging ingetrokken voor speler : &c{PLAYERNAME}"
-    notify: "Je uitnodiging voor de guild &a{GUILDNAME} is ingetrokken"
+    success: "Uitnodeging ingetrokken voor speler : &c{PLAYER_NAME}"
+    notify: "Je uitnodiging voor de guild &a{GUILD_NAME} is ingetrokken"
   info:
    header: "&4*** &6Speler informatie &4***"
-   guildrow: "&4&l> &7Guild: &7[&a{TAG}&7] &6{GUILDNAME}"
+   guildrow: "&4&l> &7Guild: &7[&a{TAG}&7] &6{GUILD_NAME}"
    items:
-   - "&4&l> &7Nick: &6{PLAYERNAME}"
+   - "&4&l> &7Nick: &6{PLAYER_NAME}"
    - "{GUILDROW}"
-   - "&4&l> &7Punten: &6{POINTS}"
-   - "&4&l> &7Overwinningen: &6{KILLS}"
-   - "&4&l> &7gedood: &6{DEATHS}"
+   - "&4&l> &7Punten: &6{GUILD_POINTS}"
+   - "&4&l> &7Overwinningen: &6{PLAYER_KILLS}"
+   - "&4&l> &7gedood: &6{PLAYER_DEATHS}"
    - "&4&l> &7KDR: &6{KDR}"
 
  region:
@@ -488,19 +488,19 @@ chat:
   maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "Regio succesvol gecreeerd"
   mustveguild: "Je hebt een guild nodig om dit gebied te kopen. &c/create"
-  entered: "Je betreed het gebied van de guild : &a{GUILDNAME}"
-  exited: "Je hebt het gebied van guild : &a{GUILDNAME} verlaten"
+  entered: "Je betreed het gebied van de guild : &a{GUILD_NAME}"
+  exited: "Je hebt het gebied van guild : &a{GUILD_NAME} verlaten"
   notfound: "Could not find the region"
   resize:
    start: "Aanpassen regio... Selecteer met &cright-click"
    toggle: "Corner toggled."
    success: "Region succesvol aangepast"
   notifyguild:
-   entered: "Speler : &c{PLAYERNAME} Betreed Guild gebied!"
-  belongsto: "Deze regio is van : &a{GUILDNAME} (i=&a{INDEX})"
+   entered: "Speler : &c{PLAYER_NAME} Betreed Guild gebied!"
+  belongsto: "Deze regio is van : &a{GUILD_NAME} (i=&a{INDEX})"
   list:
    header: "Regio lijst:"
-   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILD_NAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Regio Mode wisselen. Momenteel: &c{MODE}"
    modes:
@@ -534,59 +534,59 @@ chat:
   playercolor:
    online: "&a"
    offline: "&f"
-  ally: "&5{GUILDNAME}"
-  war: "&c{GUILDNAME}"
+  ally: "&5{GUILD_NAME}"
+  war: "&c{GUILD_NAME}"
   fullinfo:
    - "&4*** &6Guild informatie &4***"
-   - "&4&l> &7Naam: &6{GUILDNAME}"
+   - "&4&l> &7Naam: &6{GUILD_NAME}"
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Leider: &6{LEADER}"
    - "&4&l> &7Opgericht: &6{CREATEDAGO} &2ago"
    - "&4&l> &7Open uitnodigingen: &6{OPENINV}"
    - "&4&l> &7Bescherming: &6{PROTLEFT} &2left"
-   - "&4&l> &7Levens: &6{LIVES}"
+   - "&4&l> &7Levens: &6{GUILD_LIVES}"
    - "&4&l> &7Levens herstel over: &6{LIVEREGENERATIONTIME}"
-   - "&4&l> &7Rust tijd: &6{TIMEREST}"
-   - "&4&l> &7Locatie: &6{SP_X}&2,&6{SP_Y}&2,&6{SP_Z}"
+   - "&4&l> &7Rust tijd: &6{GUILD_TIME_REST}"
+   - "&4&l> &7Locatie: &6{X}&2,&6{Y}&2,&6{Z}"
    - "&4&l> &7Spelers: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - "&4&l> &7Bontgenoten: {ALLIES}"
    - "&4&l> &7Oorlogen: {WARS}"
    - "&4&l> &7Geld: &6{MONEY}"
-   - "&4&l> &7Punten: &6{POINTS}"
+   - "&4&l> &7Punten: &6{GUILD_POINTS}"
   info:
    - "&4*** &6Guild informatie &4***"
-   - "&4&l> &7Naam: &6{GUILDNAME}"
+   - "&4&l> &7Naam: &6{GUILD_NAME}"
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Leider: &6{LEADER}"
    - "&4&l> &7Opgericht: &6{CREATEDAGO} &2ago"
    - "&4&l> &7Open uitnodigingen: &6{OPENINV}"
    - "&4&l> &7Bescherming: &6{PROTLEFT} &2left"
-   - "&4&l> &7Levens: &6{LIVES}"
-   - "&4&l> &7Rust tijd: &6{TIMEREST}"
+   - "&4&l> &7Levens: &6{GUILD_LIVES}"
+   - "&4&l> &7Rust tijd: &6{GUILD_TIME_REST}"
    - "&4&l> &7Spelers: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - "&4&l> &7Bondgenoten: {ALLIES}"
    - "&4&l> &7oorlogen: {WARS}"
-   - "&4&l> &7Punten: &6{POINTS}"
+   - "&4&l> &7Punten: &6{GUILD_POINTS}"
 
 #broadcast messages:
 broadcast:
  admin:
   guild:
-   abandon: "Admin &c{PLAYERNAME} heeft guild : &a{GUILDNAME} opgeheven"
-   cleanup: "Guild &a{GUILDNAME} is wegens geen activiteit niet langer een guild"
+   abandon: "Admin &c{PLAYER_NAME} heeft guild : &a{GUILD_NAME} opgeheven"
+   cleanup: "Guild &a{GUILD_NAME} is wegens geen activiteit niet langer een guild"
  guild:
   war: "Guild &a{GUILD1} is een oorlog &cbegonnen &6met &a{GUILD2}"
   nowar: "Guild &a{GUILD1} en &a{GUILD2} hebben hun oorlog beeindigd"
-  joined: "Speler &c{PLAYER} is een lid geworden van : &a{GUILDNAME}"
-  left: "Speler &c{PLAYER} Heeft &a{GUILDNAME} verlaten"
-  created: "Speler &c{PLAYER} heeft &a{GUILDNAME} opgericht"
-  abandoned: "Speler &c{PLAYER} heeft &a{GUILDNAME} ontbonden!"
-  setleader: "Speler &c{PLAYERNAME} is nu de guildleider van : &a{GUILDNAME}"
-  allied: "&a{GUILDNAME} en &a{ALLYNAME} zijn nu bondgenoten!"
-  endally: "&a{GUILDNAME} en &a{ALLYNAME} zijn geen bondgenoten meer !"
-  kicked: "Speler &c{PLAYERNAME} is verwijderd uit &a{GUILDNAME}"
-  newleader: "Speler &c{PLAYERNAME} is nu de nieuwe guildleider van &a{GUILDNAME}"
-  destroyed: "Guild &a{GUILDNAME} is vernietigd!"
+  joined: "Speler &c{PLAYER} is een lid geworden van : &a{GUILD_NAME}"
+  left: "Speler &c{PLAYER} Heeft &a{GUILD_NAME} verlaten"
+  created: "Speler &c{PLAYER} heeft &a{GUILD_NAME} opgericht"
+  abandoned: "Speler &c{PLAYER} heeft &a{GUILD_NAME} ontbonden!"
+  setleader: "Speler &c{PLAYER_NAME} is nu de guildleider van : &a{GUILD_NAME}"
+  allied: "&a{GUILD_NAME} en &a{ALLYNAME} zijn nu bondgenoten!"
+  endally: "&a{GUILD_NAME} en &a{ALLYNAME} zijn geen bondgenoten meer !"
+  kicked: "Speler &c{PLAYER_NAME} is verwijderd uit &a{GUILD_NAME}"
+  newleader: "Speler &c{PLAYER_NAME} is nu de nieuwe guildleider van &a{GUILD_NAME}"
+  destroyed: "Guild &a{GUILD_NAME} is vernietigd!"
   raid:
    finished:
     attackerwon: "Raid Beeindigd! &a{ATTACKER} vs &a{DEFENDER}! Aanvaller heeft gewonnen."
@@ -599,7 +599,7 @@ holographicdisplays:
   topguilds:
  topguilds:
   header: "&2Guilds &cTOP5"
-  row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
+  row: "&6[&2{N}&6] &a{GUILD_NAME} &2- &c{GUILD_POINTS}"
 
 #no prefix, start with color
 barapi:
@@ -619,7 +619,7 @@ inventory:
   join:
    title: "Joining a guild"
    iconitem: "IRON_DOOR 1 name:Join_a_guild"
-   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILDNAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYERNAME}"
+   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILD_NAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYER_NAME}"
   settings:
    title: "Guild instellingen"
    item:
@@ -637,14 +637,14 @@ inventory:
     invite: "CAKE 1 name:&6Nodig_uit"
    invite:
     title: "Spelers_uitnodigen"
-    item: "SKULL_ITEM:3 1 player:{PLAYERNAME} naam:{PLAYERNAME}"
+    item: "SKULL_ITEM:3 1 player:{PLAYER_NAME} naam:{PLAYER_NAME}"
   back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "Spelers_lijst"
    iconitem: "SKULL_ITEM:3 1 name:Spelers_lijst"
-   rowitem: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+   rowitem: "SKULL_ITEM:3 1 player:{PLAYER_NAME} name:{PLAYER_NAME}"
   playersettings:
-   title: "{PLAYERNAME} Instellingen"
+   title: "{PLAYER_NAME} Instellingen"
    item:
     rank: "BOOK_AND_QUILL 1 name:Set_rank lore:{RANKNAME}"
     kick: "FERMENTED_SPIDER_EYE 1 name:Kick"

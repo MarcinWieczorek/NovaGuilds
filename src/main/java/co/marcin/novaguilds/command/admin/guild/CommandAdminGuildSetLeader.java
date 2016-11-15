@@ -50,7 +50,7 @@ public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
 		}
 
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYERNAME, nPlayer.getName());
+		vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
 
 		if(!nPlayer.hasGuild()) { //has no guild
 			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
@@ -58,7 +58,7 @@ public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
-		vars.put(VarKey.GUILDNAME, guild.getName());
+		vars.put(VarKey.GUILD_NAME, guild.getName());
 
 		if(!guild.isMember(nPlayer)) { //is not member
 			Message.CHAT_ADMIN_GUILD_SET_LEADER_NOTINGUILD.clone().vars(vars).send(sender);

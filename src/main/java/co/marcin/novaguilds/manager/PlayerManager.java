@@ -217,15 +217,15 @@ public class PlayerManager {
 	 */
 	public void sendPlayerInfo(CommandSender sender, NovaPlayer nCPlayer) {
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYERNAME, nCPlayer.getName());
-		vars.put(VarKey.POINTS, String.valueOf(nCPlayer.getPoints()));
-		vars.put(VarKey.KILLS, String.valueOf(nCPlayer.getKills()));
-		vars.put(VarKey.DEATHS, String.valueOf(nCPlayer.getDeaths()));
+		vars.put(VarKey.PLAYER_NAME, nCPlayer.getName());
+		vars.put(VarKey.GUILD_POINTS, String.valueOf(nCPlayer.getPoints()));
+		vars.put(VarKey.PLAYER_KILLS, String.valueOf(nCPlayer.getKills()));
+		vars.put(VarKey.PLAYER_DEATHS, String.valueOf(nCPlayer.getDeaths()));
 		vars.put(VarKey.KDR, String.valueOf(nCPlayer.getKillDeathRate()));
 
 		String guildRow = "";
 		if(nCPlayer.hasGuild()) {
-			vars.put(VarKey.GUILDNAME, nCPlayer.getGuild().getName());
+			vars.put(VarKey.GUILD_NAME, nCPlayer.getGuild().getName());
 			vars.put(VarKey.TAG, nCPlayer.getGuild().getTag());
 			guildRow = Message.CHAT_PLAYER_INFO_GUILDROW.clone().vars(vars).get();
 		}

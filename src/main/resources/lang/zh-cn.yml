@@ -39,23 +39,23 @@ chat:
     page:
      hasnext: "&7-- &c第 &7{PAGE} &c页,共 &7{PAGES} 页-- &c/nga g list {NEXT} &7--"
      nonext: "&7-- &c第 &7{PAGE} &c页,共 &7{PAGES} 页--"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &6会长: &c{PLAYERNAME} ({PLAYERSCOUNT} 个玩家)"
+    item: " &2- &a{GUILD_NAME} &7[&a{TAG}&7] &6会长: &c{PLAYER_NAME} ({PLAYERSCOUNT} 个玩家)"
    inactive:
     updated: "所有的公会活动时间更新. (&c{COUNT} 个公会)"
     list:
      header: "大多数不活跃的公会"
-     item: " &2- &a{GUILDNAME} 活跃的 {AGONOW}"
+     item: " &2- &a{GUILD_NAME} 活跃的 {AGONOW}"
      ago: "&c{INACTIVE}之前"
      now: "&c现在"
    bank:
-    paid: "你支付了 &c${MONEY} 给 &a{GUILDNAME}公会的银行."
-    withdrew: "你取出了 &c${MONEY} 从 &a{GUILDNAME}公会的银行."
+    paid: "你支付了 &c${MONEY} 给 &a{GUILD_NAME}公会的银行."
+    withdrew: "你取出了 &c${MONEY} 从 &a{GUILD_NAME}公会的银行."
    kick:
     leader: "你不能踢会长,除非你要删除公会."
-   invited: "邀请了玩家 &c{PLAYERNAME} 到 &a{GUILDNAME} 公会"
+   invited: "邀请了玩家 &c{PLAYER_NAME} 到 &a{GUILD_NAME} 公会"
    teleported:
-    self: "被传送到 &a{GUILDNAME} 公会的传送点"
-    other: "传送玩家 &c{PLAYERNAME} 到达 &a{GUILDNAME} 公会的传送点"
+    self: "被传送到 &a{GUILD_NAME} 公会的传送点"
+    other: "传送玩家 &c{PLAYER_NAME} 到达 &a{GUILD_NAME} 公会的传送点"
    set:
     tag: "前缀已更改为&a{TAG}"
     points: "点设置."
@@ -67,8 +67,8 @@ chat:
      enternewname: "输入新的名字"
      success: "公会名称已修改."
     leader:
-     notinguild: "该尚未加入&a{GUILDNAME}公会"
-     alreadyleader: "玩家 &c{PLAYERNAME} 已成为会长！"
+     notinguild: "该尚未加入&a{GUILD_NAME}公会"
+     alreadyleader: "玩家 &c{PLAYER_NAME} 已成为会长！"
      success: "新的会长已设置！"
    reset:
     points:
@@ -80,7 +80,7 @@ chat:
     delete:
      success: "The rank has been successfully deleted."
     list:
-     header: "Rank list for guild {GUILDNAME}"
+     header: "Rank list for guild {GUILD_NAME}"
      item: "&a{NAME}"
   region:
    bypass:
@@ -96,9 +96,9 @@ chat:
    delete:
     success: "成功删除公会领地."
    teleport:
-    self: "您已传送至&a{GUILDNAME}公会"
-    other: "已将玩家&c{PLAYERNAME}传送至&a{GUILDNAME}公会"
-    notifyother: "您已被传送至&a{GUILDNAME}公会"
+    self: "您已传送至&a{GUILD_NAME}公会"
+    other: "已将玩家&c{PLAYER_NAME}传送至&a{GUILD_NAME}公会"
+    notifyother: "您已被传送至&a{GUILD_NAME}公会"
   save:
    players: "玩家数据已保存."
    guilds: "公会数据已保存."
@@ -110,7 +110,7 @@ chat:
    notfound: "找不到该名称的全息图"
    teleport:
     self: "传送到 &a{NAME}"
-    other: "传送玩家 &c{PLAYERNAME} 到 &a{NAME}"
+    other: "传送玩家 &c{PLAYER_NAME} 到 &a{NAME}"
    add:
     success: "添加一个全息图: &a{NAME}"
    delete:
@@ -122,7 +122,7 @@ chat:
    notify: "Your spy mode has been changed. Currently &c{MODE}"
    success:
     self: "Spy mode changed. Currently &c{MODE}"
-    other: "&c{PLAYERNAME}'s spy mode has been changed to &c{MODE}"
+    other: "&c{PLAYER_NAME}'s spy mode has been changed to &c{MODE}"
 
  reload:
   reloading: "正在重载公会系统..."
@@ -313,7 +313,7 @@ chat:
   ally: "你无法攻击盟友."
 
  raid:
-  resting: "你还需等待&c{TIMEREST}才可以攻击该公会."
+  resting: "你还需等待&c{GUILD_TIME_REST}才可以攻击该公会."
   protection: "该公会刚刚成立,尚处在保护状态,请明天再试."
 
  guild:
@@ -337,7 +337,7 @@ chat:
    'off': "指南针现在指向您的个人出生点."
   noguilds: "公会不存在."
   openinvitation: "玩家邀请开放, 现在的状态为: &c{STATUS}"
-  fpvptoggled: "已更改会内PVP的开关状态,现在的状态为：&c{FPVP}"
+  fpvptoggled: "已更改会内PVP的开关状态,现在的状态为：&c{GUILD_PVP}"
   effect:
    success: "您已为您的队友够了买了&a{EFFECTTYPE}特效！"
 
@@ -346,15 +346,15 @@ chat:
    samename: "您无法与自己结盟！"
    invited: "您已向&a{ALLYNAME}公会发出了结盟申请."
    accepted: "您已接受&a{ALLYNAME}公会的结盟申请."
-   notifyguild: "&a{GUILDNAME}公会向您发出了结盟申请."
-   notifyguildcanceled: "&a{GUILDNAME}取消了他们的结盟申请."
+   notifyguild: "&a{GUILD_NAME}公会向您发出了结盟申请."
+   notifyguildcanceled: "&a{GUILD_NAME}取消了他们的结盟申请."
    canceled: "您已取消向&a{ALLYNAME}的结盟申请."
    list:
     noallies: "No allies."
     header:
      allies: "List of allies:"
      invitations: "List of alliance invitations:"
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
 
   couldnotfind: "该公会不存在."
@@ -393,20 +393,20 @@ chat:
    yourguildwar: "您无法与自己宣战！"
    nowar:
     invite:
-     success: "您向&a{GUILDNAME}发出了停战请求."
-     notify: "&a{GUILDNAME}向您发出了停战请求."
+     success: "您向&a{GUILD_NAME}发出了停战请求."
+     notify: "&a{GUILD_NAME}向您发出了停战请求."
     cancel:
-     success: "You have canceled the no-war invitation for &a{GUILDNAME}"
-     notify: "&a{GUILDNAME} has canceled their invitation to stop the war"
+     success: "You have canceled the no-war invitation for &a{GUILD_NAME}"
+     notify: "&a{GUILD_NAME} has canceled their invitation to stop the war"
    list:
     nowars: "无公会战争发生."
     warsheader: "进行中的公会战争:"
     nowarinvheader: "停战请求列表:"
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
 
   leader:
-   success: "&a{PLAYERNAME}已成为公会会长！"
+   success: "&a{PLAYER_NAME}已成为公会会长！"
    samenick: "您已成为公会会长！"
    notsameguild: "该玩家不在您的公会内"
   leave:
@@ -437,29 +437,29 @@ chat:
   alreadyinvited: "该玩家已接收到入会邀请."
   notinyourguild: "该玩家不在您的公会内！"
   pvpmoney:
-   kill: "你击杀了 {PLAYERNAME} 了获得了 &a{MONEY} 金币"
-   revenge: "&6你报复了 &c{PLAYERNAME} 获得 &a{MONEY}$ 金币"
+   kill: "你击杀了 {PLAYER_NAME} 了获得了 &a{MONEY} 金币"
+   revenge: "&6你报复了 &c{PLAYER_NAME} 获得 &a{MONEY}$ 金币"
   invite:
    invited: "已向该玩家发出入会邀请."
    list:
     header: "向您发出的入会邀请："
     nothing: "没有向您发出的入会邀请."
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
    notinvited: "该公会未向您发出入会邀请！"
-   notify: "&a{GUILDNAME}公会已向您发出入会邀请."
+   notify: "&a{GUILD_NAME}公会已向您发出入会邀请."
    cancel:
-    success: "已取消向&c{PLAYERNAME}的入会邀请."
-    notify: "您向&a{GUILDNAME}公会发出的请求已取消."
+    success: "已取消向&c{PLAYER_NAME}的入会邀请."
+    notify: "您向&a{GUILD_NAME}公会发出的请求已取消."
   info:
    header: "&4*** &6玩家信息 &4***"
-   guildrow: "&4&l> &7公会: &7[&a{TAG}&7] &6{GUILDNAME}"
+   guildrow: "&4&l> &7公会: &7[&a{TAG}&7] &6{GUILD_NAME}"
    items:
-   - "&4&l> &7昵称: &6{PLAYERNAME}"
+   - "&4&l> &7昵称: &6{PLAYER_NAME}"
    - "{GUILDROW}"
-   - "&4&l> &7公会点数: &6{POINTS}"
-   - "&4&l> &7击杀次数: &6{KILLS}"
-   - "&4&l> &7死亡次数: &6{DEATHS}"
+   - "&4&l> &7公会点数: &6{GUILD_POINTS}"
+   - "&4&l> &7击杀次数: &6{PLAYER_KILLS}"
+   - "&4&l> &7死亡次数: &6{PLAYER_DEATHS}"
    - "&4&l> &7击杀/死亡比: &6{KDR}"
 
  region:
@@ -488,19 +488,19 @@ chat:
   maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "领地购买成功."
   mustveguild: "你需要成立公会以购买该区域,请输入&c/create&6以成立公会."
-  entered: "您已进入了 &a{GUILDNAME} 公会的领地."
-  exited: "您退出了 &a{GUILDNAME} 公会的领地."
+  entered: "您已进入了 &a{GUILD_NAME} 公会的领地."
+  exited: "您退出了 &a{GUILD_NAME} 公会的领地."
   notfound: "Could not find the region"
   resize:
    start: "正在调整领地大小,请使用&c鼠标右键&6进行调整."
    toggle: "Corner toggled."
    success: "领地大小调整完成."
   notifyguild:
-   entered: "&c{PLAYERNAME}已进入您的公会领地！"
-  belongsto: "该领地属于&a{GUILDNAME}公会 (i=&a{INDEX})"
+   entered: "&c{PLAYER_NAME}已进入您的公会领地！"
+  belongsto: "该领地属于&a{GUILD_NAME}公会 (i=&a{INDEX})"
   list:
    header: "领地列表："
-   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILD_NAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "领地模式已更改,现在的模式为： &c{MODE}"
    modes:
@@ -534,59 +534,59 @@ chat:
   playercolor:
    online: "&a"
    offline: "&f"
-  ally: "&5{GUILDNAME}"
-  war: "&c{GUILDNAME}"
+  ally: "&5{GUILD_NAME}"
+  war: "&c{GUILD_NAME}"
   fullinfo:
    - "&4*** &6公会信息 &4***"
-   - "&4&l> &7公会名称: &6{GUILDNAME}"
+   - "&4&l> &7公会名称: &6{GUILD_NAME}"
    - "&4&l> &7公会前缀: &6{TAG}"
    - "&4&l> &7公会会长: &6{LEADER}"
    - "&4&l> &7创建时间: &6{CREATEDAGO}&2前"
    - "&4&l> &7邀请状态: &6{OPENINV}"
    - "&4&l> &7保护: &6{PROTLEFT}&2left"
-   - "&4&l> &7生活区: &6{LIVES}"
+   - "&4&l> &7生活区: &6{GUILD_LIVES}"
    - "&4&l> &7Live Regeneration in: &6{LIVEREGENERATIONTIME}"
-   - "&4&l> &7剩余时间: &6{TIMEREST}"
-   - "&4&l> &7公会区域: &6{SP_X}&2,&6{SP_Y}&2,&6{SP_Z}"
+   - "&4&l> &7剩余时间: &6{GUILD_TIME_REST}"
+   - "&4&l> &7公会区域: &6{X}&2,&6{Y}&2,&6{Z}"
    - "&4&l> &7玩家: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - "&4&l> &7公会盟友: {ALLIES}"
    - "&4&l> &7战争状态: {WARS}"
    - "&4&l> &7公会存款: &6{MONEY}"
-   - "&4&l> &7公会点数: &6{POINTS}"
+   - "&4&l> &7公会点数: &6{GUILD_POINTS}"
   info:
    - "&4*** &6公会信息 &4***"
-   - "&4&l> &7公会名称: &6{GUILDNAME}"
+   - "&4&l> &7公会名称: &6{GUILD_NAME}"
    - "&4&l> &7公会前缀: &6{TAG}"
    - "&4&l> &7公会会长: &6{LEADER}"
    - "&4&l> &7创建时间: &6{CREATEDAGO}&2ago"
    - "&4&l> &7邀请状态: &6{OPENINV}"
    - "&4&l> &7保护: &6{PROTLEFT}&2left"
-   - "&4&l> &7生活区: &6{LIVES}"
-   - "&4&l> &7剩余时间: &6{TIMEREST}"
+   - "&4&l> &7生活区: &6{GUILD_LIVES}"
+   - "&4&l> &7剩余时间: &6{GUILD_TIME_REST}"
    - " &c* &玩家: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - "&4&l> &7公会盟友: {ALLIES}"
    - "&4&l> &7战争状态: {WARS}"
-   - "&4&l> &7公会点数: &6{POINTS}"
+   - "&4&l> &7公会点数: &6{GUILD_POINTS}"
 
 #broadcast messages:
 broadcast:
  admin:
   guild:
-   abandon: "管理员&c{PLAYERNAME}废弃了&a{GUILDNAME}公会."
-   cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"
+   abandon: "管理员&c{PLAYER_NAME}废弃了&a{GUILD_NAME}公会."
+   cleanup: "Guild &a{GUILD_NAME} has been deleted due to inactivity"
  guild:
   war: "&a{GUILD1}&公会向&a{GUILD2}公会发起了一场&c战争."
   nowar: "&a{GUILD1}公会已与&a{GUILD2}公会停战."
-  joined: "&c{PLAYER}加入了&a{GUILDNAME}."
-  left: "&c{PLAYER}离开了&a{GUILDNAME}"
-  created: "&c{PLAYER}创建了&a{GUILDNAME}公会."
-  abandoned: "&c{PLAYER}解散了&a{GUILDNAME}公会."
-  setleader: "&c{PLAYERNAME}已成为&a{GUILDNAME}公会的会长."
-  allied: "&a{GUILDNAME}公会已与&a{ALLYNAME}公会结盟！"
-  endally: "&a{GUILDNAME}公会已取消了与&a{ALLYNAME}公会的结盟！"
-  kicked: "&c{PLAYERNAME}已被&a{GUILDNAME}公会踢出."
-  newleader: "&c{PLAYERNAME}已成为&a{GUILDNAME}公会的会长."
-  destroyed: "&a{GUILDNAME}已被摧毁！"
+  joined: "&c{PLAYER}加入了&a{GUILD_NAME}."
+  left: "&c{PLAYER}离开了&a{GUILD_NAME}"
+  created: "&c{PLAYER}创建了&a{GUILD_NAME}公会."
+  abandoned: "&c{PLAYER}解散了&a{GUILD_NAME}公会."
+  setleader: "&c{PLAYER_NAME}已成为&a{GUILD_NAME}公会的会长."
+  allied: "&a{GUILD_NAME}公会已与&a{ALLYNAME}公会结盟！"
+  endally: "&a{GUILD_NAME}公会已取消了与&a{ALLYNAME}公会的结盟！"
+  kicked: "&c{PLAYER_NAME}已被&a{GUILD_NAME}公会踢出."
+  newleader: "&c{PLAYER_NAME}已成为&a{GUILD_NAME}公会的会长."
+  destroyed: "&a{GUILD_NAME}已被摧毁！"
   raid:
    finished:
     attackerwon: "团队战结束！ &a{ATTACKER} vs &a{DEFENDER}！ 攻击方获胜！"
@@ -599,7 +599,7 @@ holographicdisplays:
   topguilds:
  topguilds:
   header: "&2公会 &c排行榜"
-  row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
+  row: "&6[&2{N}&6] &a{GUILD_NAME} &2- &c{GUILD_POINTS}"
 
 #no prefix, start with color
 barapi:
@@ -619,7 +619,7 @@ inventory:
   join:
    title: "Joining a guild"
    iconitem: "IRON_DOOR 1 name:Join_a_guild"
-   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILDNAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYERNAME}"
+   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILD_NAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYER_NAME}"
   settings:
    title: "Guild settings"
    item:
@@ -637,14 +637,14 @@ inventory:
     invite: "CAKE 1 name:&6Invite_players"
    invite:
     title: "Inviting players"
-    item: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+    item: "SKULL_ITEM:3 1 player:{PLAYER_NAME} name:{PLAYER_NAME}"
   back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "队员列表"
    iconitem: "SKULL_ITEM:3 1 name:队员列表"
-   rowitem: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+   rowitem: "SKULL_ITEM:3 1 player:{PLAYER_NAME} name:{PLAYER_NAME}"
   playersettings:
-   title: "{PLAYERNAME} 个人设置"
+   title: "{PLAYER_NAME} 个人设置"
    item:
     rank: "BOOK_AND_QUILL 1 name:设置头衔 lore:{RANKNAME}"
     kick: "FERMENTED_SPIDER_EYE 1 name:移除"

@@ -141,15 +141,15 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 		}
 
 		vars.put(VarKey.RANK, "");
-		vars.put(VarKey.GUILDNAME, guild.getName());
+		vars.put(VarKey.GUILD_NAME, guild.getName());
 		vars.put(VarKey.LEADER, guild.getLeader().getName());
-		vars.put(VarKey.TAG, guild.getTag());
+		vars.put(VarKey.TAG, guild.getTag()); //TODO replcae with GUILD_TAG (in lang too)
 		vars.put(VarKey.MONEY, String.valueOf(guild.getMoney()));
 		vars.put(VarKey.PLAYERS, players);
 		vars.put(VarKey.PLAYERSCOUNT, String.valueOf(guild.getPlayers().size()));
 		vars.put(VarKey.SLOTS, String.valueOf(guild.getSlots()));
-		vars.put(VarKey.POINTS, String.valueOf(guild.getPoints()));
-		vars.put(VarKey.LIVES, String.valueOf(guild.getLives()));
+		vars.put(VarKey.GUILD_POINTS, String.valueOf(guild.getPoints())); //TODO replace with GUILD_POINTS (in lang too)
+		vars.put(VarKey.GUILD_LIVES, String.valueOf(guild.getLives())); //TODO replace with GUILD_LIVES (in lang too)
 		vars.put(VarKey.OPENINV, Message.getOnOff(guild.isOpenInvitation()));
 
 		//live regeneration time
@@ -159,7 +159,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 		long timeWait = (guild.getTimeRest() + Config.RAID_TIMEREST.getSeconds()) - NumberUtils.systemSeconds();
 
 		vars.put(VarKey.LIVEREGENERATIONTIME, liveRegenerationString);
-		vars.put(VarKey.TIMEREST, StringUtils.secondsToString(timeWait));
+		vars.put(VarKey.GUILD_TIME_REST, StringUtils.secondsToString(timeWait));
 
 		//time created and protection
 		long createdAgo = NumberUtils.systemSeconds() - guild.getTimeCreated();
@@ -171,9 +171,9 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 		//home location coordinates
 		Location sp = guild.getHome();
 		if(sp != null) {
-			vars.put(VarKey.SP_X, String.valueOf(sp.getBlockX()));
-			vars.put(VarKey.SP_Y, String.valueOf(sp.getBlockY()));
-			vars.put(VarKey.SP_Z, String.valueOf(sp.getBlockZ()));
+			vars.put(VarKey.X, String.valueOf(sp.getBlockX()));
+			vars.put(VarKey.Y, String.valueOf(sp.getBlockY()));
+			vars.put(VarKey.Z, String.valueOf(sp.getBlockZ()));
 		}
 
 		//put wars and allies into vars

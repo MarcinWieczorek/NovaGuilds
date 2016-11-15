@@ -81,7 +81,7 @@ public class CommandGuildAbandon extends AbstractCommandExecutor implements Comm
 
 			Map<VarKey, String> vars = new HashMap<>();
 			vars.put(VarKey.PLAYER, sender.getName());
-			vars.put(VarKey.GUILDNAME, guild.getName());
+			vars.put(VarKey.GUILD_NAME, guild.getName());
 			Message.BROADCAST_GUILD_ABANDONED.clone().vars(vars).broadcast();
 			TagUtils.refresh();
 			TabUtils.refresh();

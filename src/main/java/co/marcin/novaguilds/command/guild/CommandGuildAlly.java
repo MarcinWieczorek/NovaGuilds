@@ -63,7 +63,7 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 			}
 
 			Map<VarKey, String> vars = new HashMap<>();
-			vars.put(VarKey.GUILDNAME, guild.getName());
+			vars.put(VarKey.GUILD_NAME, guild.getName());
 			vars.put(VarKey.ALLYNAME, allyGuild.getName());
 
 			if(!guild.isAlly(allyGuild)) {

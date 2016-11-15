@@ -221,9 +221,9 @@ public final class TabUtils {
 				String row = Config.TABLIST_TOPROW_GUILDS.getString();
 				Map<VarKey, String> rowVars = new HashMap<>();
 				rowVars.put(VarKey.N, String.valueOf(i));
-				rowVars.put(VarKey.GUILDNAME, guildTop.getName());
-				rowVars.put(VarKey.GUILDTAG, guildTop.getTag());
-				rowVars.put(VarKey.POINTS, String.valueOf(guildTop.getPoints()));
+				rowVars.put(VarKey.GUILD_NAME, guildTop.getName());
+				rowVars.put(VarKey.GUILD_TAG, guildTop.getTag());
+				rowVars.put(VarKey.GUILD_POINTS, String.valueOf(guildTop.getPoints()));
 				row = StringUtils.replaceVarKeyMap(row, rowVars);
 
 				vars.put(VarKey.valueOf("GUILD_TOP_N" + i), row);
@@ -247,11 +247,11 @@ public final class TabUtils {
 					String row = listDisplay.getRowPattern().getString();
 					Map<VarKey, String> rowVars = new HashMap<>();
 					rowVars.put(VarKey.N, String.valueOf(i));
-					rowVars.put(VarKey.PLAYERNAME, nPlayerTop.getName());
-					rowVars.put(VarKey.KILLS, String.valueOf(nPlayerTop.getKills()));
-					rowVars.put(VarKey.DEATHS, String.valueOf(nPlayerTop.getDeaths()));
+					rowVars.put(VarKey.PLAYER_NAME, nPlayerTop.getName());
+					rowVars.put(VarKey.PLAYER_KILLS, String.valueOf(nPlayerTop.getKills()));
+					rowVars.put(VarKey.PLAYER_DEATHS, String.valueOf(nPlayerTop.getDeaths()));
 					rowVars.put(VarKey.KDR, String.valueOf(nPlayerTop.getKillDeathRate()));
-					rowVars.put(VarKey.POINTS, String.valueOf(nPlayerTop.getPoints()));
+					rowVars.put(VarKey.GUILD_POINTS, String.valueOf(nPlayerTop.getPoints()));
 					row = StringUtils.replaceVarKeyMap(row, rowVars);
 
 					vars.put(VarKey.valueOf("PLAYER_TOP_" + listDisplay.getVarKey() + "_N" + i), row);

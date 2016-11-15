@@ -39,23 +39,23 @@ chat:
     page: 
      hasnext: "&7-- &cPage &7{PAGE} &cof &7{PAGES} -- &c/nga g list {NEXT} &7--"
      nonext: "&7-- &cPage &7{PAGE} &cof &7{PAGES} --"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &6Leader: &c{PLAYERNAME} ({PLAYERSCOUNT} players)"
+    item: " &2- &a{GUILD_NAME} &7[&a{TAG}&7] &6Leader: &c{PLAYER_NAME} ({PLAYERSCOUNT} players)"
    inactive:
     updated: "All guild's inactive time updated. (&c{COUNT} guilds)"
     list:
      header: "Most inactive guilds"
-     item: " &2- &a{GUILDNAME} active {AGONOW}"
+     item: " &2- &a{GUILD_NAME} active {AGONOW}"
      ago: "&c{INACTIVE} ago"
      now: "&cnow"
    bank:
-    paid: "You paid &c${MONEY} to &a{GUILDNAME}'s bank."
-    withdrew: "You took &c${MONEY} from &a{GUILDNAME}'s bank."
+    paid: "You paid &c${MONEY} to &a{GUILD_NAME}'s bank."
+    withdrew: "You took &c${MONEY} from &a{GUILD_NAME}'s bank."
    kick:
     leader: "You can't kick the leader. You have to abandon the guild."
-   invited: "Invited player &c{PLAYERNAME} to &a{GUILDNAME}"
+   invited: "Invited player &c{PLAYER_NAME} to &a{GUILD_NAME}"
    teleported:
-    self: "Teleported to home of &a{GUILDNAME}"
-    other: "Teleported &c{PLAYERNAME} to home of &a{GUILDNAME}"
+    self: "Teleported to home of &a{GUILD_NAME}"
+    other: "Teleported &c{PLAYER_NAME} to home of &a{GUILD_NAME}"
    set:
     tag: "Tag changed to &a{TAG}"
     points: "Points set."
@@ -67,8 +67,8 @@ chat:
      enternewname: "Enter new name"
      success: "Guild's name changed."
     leader:
-     notinguild: "This player is not in guild &a{GUILDNAME}"
-     alreadyleader: "Player &c{PLAYERNAME} already is the leader!"
+     notinguild: "This player is not in guild &a{GUILD_NAME}"
+     alreadyleader: "Player &c{PLAYER_NAME} already is the leader!"
      success: "New leader set!"
    reset:
     points:
@@ -80,7 +80,7 @@ chat:
     delete:
      success: "The rank has been successfully deleted."
     list:
-     header: "Rank list for guild {GUILDNAME}"
+     header: "Rank list for guild {GUILD_NAME}"
      item: "&a{NAME}"
   region:
    bypass:
@@ -96,9 +96,9 @@ chat:
    delete:
     success: "Successfully deleted guild's region."
    teleport:
-    self: "Teleported you to &a{GUILDNAME}'s region."
-    other: "Teleported player &c{PLAYERNAME} to &a{GUILDNAME}'s region"
-    notifyother: "You have been teleported to &a{GUILDNAME}'s region"
+    self: "Teleported you to &a{GUILD_NAME}'s region."
+    other: "Teleported player &c{PLAYER_NAME} to &a{GUILD_NAME}'s region"
+    notifyother: "You have been teleported to &a{GUILD_NAME}'s region"
   save:
    players: "Players saved."
    guilds: "Guilds saved."
@@ -110,7 +110,7 @@ chat:
    notfound: "Could not find a hologram with this name."
    teleport:
     self: "Teleported you to &a{NAME}"
-    other: "Teleported player &c{PLAYERNAME} to &a{NAME}"
+    other: "Teleported player &c{PLAYER_NAME} to &a{NAME}"
    add:
     success: "Successfuly added a hologram: &a{NAME}"
    delete:
@@ -122,7 +122,7 @@ chat:
    notify: "Your spy mode has been changed. Currently &c{MODE}"
    success:
     self: "Spy mode changed. Currently &c{MODE}"
-    other: "&c{PLAYERNAME}'s spy mode has been changed to &c{MODE}"
+    other: "&c{PLAYER_NAME}'s spy mode has been changed to &c{MODE}"
  
  reload:
   reloading: "Reloading NovaGuilds..."
@@ -313,7 +313,7 @@ chat:
   ally: "You cannot hurt your allies."
  
  raid:
-  resting: "You have to wait &c{TIMEREST} before attacking this guild."
+  resting: "You have to wait &c{GUILD_TIME_REST} before attacking this guild."
   protection: "This guild is new and still protected. Try tomorrow."
  
  guild:
@@ -337,7 +337,7 @@ chat:
    'off': "The compass is now pointing the spawn."
   noguilds: "No guilds found."
   openinvitation: "Toggled open invitations, currently: &c{STATUS}"
-  fpvptoggled: "Toggled friendly PVP for your guild. Currently: &c{FPVP}"
+  fpvptoggled: "Toggled friendly PVP for your guild. Currently: &c{GUILD_PVP}"
   effect:
    success: "You bought &a{EFFECTTYPE} effect for all your teammates!"
  
@@ -346,15 +346,15 @@ chat:
    samename: "You cannot be allies with your own guild!"
    invited: "You invited &a{ALLYNAME} to an ally."
    accepted: "You accepted ally invitation with &a{ALLYNAME}"
-   notifyguild: "Guild &a{GUILDNAME} invited you to an ally."
-   notifyguildcanceled: "Guild &a{GUILDNAME} canceled their ally invitation"
+   notifyguild: "Guild &a{GUILD_NAME} invited you to an ally."
+   notifyguildcanceled: "Guild &a{GUILD_NAME} canceled their ally invitation"
    canceled: "Canceled ally invitation with guild &a{ALLYNAME}"
    list:
     noallies: "No allies."
     header:
      allies: "List of allies:"
      invitations: "List of alliance invitations:"
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
    
   couldnotfind: "Couldn't find the guild."
@@ -393,20 +393,20 @@ chat:
    yourguildwar: "You cannot start a war with yourself!"
    nowar:
     invite:
-     success: "You asked guild &a{GUILDNAME} to stop the war"
-     notify: "&a{GUILDNAME} asked you to stop the war"
+     success: "You asked guild &a{GUILD_NAME} to stop the war"
+     notify: "&a{GUILD_NAME} asked you to stop the war"
     cancel:
-     success: "You have canceled the no-war invitation for &a{GUILDNAME}"
-     notify: "&a{GUILDNAME} has canceled their invitation to stop the war"
+     success: "You have canceled the no-war invitation for &a{GUILD_NAME}"
+     notify: "&a{GUILD_NAME} has canceled their invitation to stop the war"
    list:
     nowars: "No wars."
     warsheader: "List of wars:"
     nowarinvheader: "List of invitations to stop the war:"
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
   
   leader:
-   success: "&a{PLAYERNAME} is now the leader!"
+   success: "&a{PLAYER_NAME} is now the leader!"
    samenick: "You already are the leader!"
    notsameguild: "This player is not in your guild."
   leave:
@@ -437,29 +437,29 @@ chat:
   alreadyinvited: "This player is already invited to that guild."
   notinyourguild: "That player is not in your guild!"
   pvpmoney:
-   kill: "You earned &a{MONEY}$ for killing &c{PLAYERNAME}"
-   revenge: "You earned &a{MONEY}$ for taking revenge on &c{PLAYERNAME}"
+   kill: "You earned &a{MONEY}$ for killing &c{PLAYER_NAME}"
+   revenge: "You earned &a{MONEY}$ for taking revenge on &c{PLAYER_NAME}"
   invite:
    invited: "Player has been invited to the guild."
    list:
     header: "List of guilds you've been invited to:"
     nothing: "You aren't invited to any guild."
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
    notinvited: "You aren't invited to this guild!"
-   notify: "You have been invited to guild &a{GUILDNAME}"
+   notify: "You have been invited to guild &a{GUILD_NAME}"
    cancel:
-    success: "Canceled invitation for player &c{PLAYERNAME}"
-    notify: "Your invitation to guild &a{GUILDNAME} has been canceled"
+    success: "Canceled invitation for player &c{PLAYER_NAME}"
+    notify: "Your invitation to guild &a{GUILD_NAME} has been canceled"
   info:
    header: "&4*** &6Player information &4***"
-   guildrow: "&4&l> &7Guild: &7[&a{TAG}&7] &6{GUILDNAME}"
+   guildrow: "&4&l> &7Guild: &7[&a{TAG}&7] &6{GUILD_NAME}"
    items:
-   - "&4&l> &7Nick: &6{PLAYERNAME}"
+   - "&4&l> &7Nick: &6{PLAYER_NAME}"
    - "{GUILDROW}"
-   - "&4&l> &7Points: &6{POINTS}"
-   - "&4&l> &7Kills: &6{KILLS}"
-   - "&4&l> &7Deaths: &6{DEATHS}"
+   - "&4&l> &7Points: &6{GUILD_POINTS}"
+   - "&4&l> &7Kills: &6{PLAYER_KILLS}"
+   - "&4&l> &7Deaths: &6{PLAYER_DEATHS}"
    - "&4&l> &7KDR: &6{KDR}"
 
  region:
@@ -488,19 +488,19 @@ chat:
   maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "Region created successfully"
   mustveguild: "You need a guild to buy this area. &c/create"
-  entered: "You entered the region of guild &a{GUILDNAME}"
-  exited: "You exited the region of guild &a{GUILDNAME}"
+  entered: "You entered the region of guild &a{GUILD_NAME}"
+  exited: "You exited the region of guild &a{GUILD_NAME}"
   notfound: "Could not find the region"
   resize:
    start: "Resizing the region... Set with a &cright-click"
    toggle: "Corner toggled."
    success: "Region resized successfully"
   notifyguild:
-   entered: "Player &c{PLAYERNAME} entered your guild's region!"
-  belongsto: "This region belongs to &a{GUILDNAME} (i=&a{INDEX})"
+   entered: "Player &c{PLAYER_NAME} entered your guild's region!"
+  belongsto: "This region belongs to &a{GUILD_NAME} (i=&a{INDEX})"
   list:
    header: "Region list:"
-   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILD_NAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Region Mode toggled. Currently: &c{MODE}"
    modes:
@@ -534,59 +534,59 @@ chat:
   playercolor:
    online: "&a"
    offline: "&f"
-  ally: "&5{GUILDNAME}"
-  war: "&c{GUILDNAME}"
+  ally: "&5{GUILD_NAME}"
+  war: "&c{GUILD_NAME}"
   fullinfo:
    - "&4*** &6Guild information &4***"
-   - "&4&l> &7Name: &6{GUILDNAME}"
+   - "&4&l> &7Name: &6{GUILD_NAME}"
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Leader: &6{LEADER}"
    - "&4&l> &7Created: &6{CREATEDAGO} &2ago"
    - "&4&l> &7Open invitation: &6{OPENINV}"
    - "&4&l> &7Protection: &6{PROTLEFT} &2left"
-   - "&4&l> &7Lives: &6{LIVES}"
+   - "&4&l> &7Lives: &6{GUILD_LIVES}"
    - "&4&l> &7Live Regeneration in: &6{LIVEREGENERATIONTIME}"
-   - "&4&l> &7Resting time: &6{TIMEREST}"
-   - "&4&l> &7Location: &6{SP_X}&2,&6{SP_Y}&2,&6{SP_Z}"
+   - "&4&l> &7Resting time: &6{GUILD_TIME_REST}"
+   - "&4&l> &7Location: &6{X}&2,&6{Y}&2,&6{Z}"
    - "&4&l> &7Players: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - "&4&l> &7Allies: {ALLIES}"
    - "&4&l> &7Wars: {WARS}"
    - "&4&l> &7Money: &6{MONEY}"
-   - "&4&l> &7Points: &6{POINTS}"
+   - "&4&l> &7Points: &6{GUILD_POINTS}"
   info:
    - "&4*** &6Guild information &4***"
-   - "&4&l> &7Name: &6{GUILDNAME}"
+   - "&4&l> &7Name: &6{GUILD_NAME}"
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Leader: &6{LEADER}"
    - "&4&l> &7Created: &6{CREATEDAGO} &2ago"
    - "&4&l> &7Open invitation: &6{OPENINV}"
    - "&4&l> &7Protection: &6{PROTLEFT} &2left"
-   - "&4&l> &7Lives: &6{LIVES}"
-   - "&4&l> &7Resting time: &6{TIMEREST}"
+   - "&4&l> &7Lives: &6{GUILD_LIVES}"
+   - "&4&l> &7Resting time: &6{GUILD_TIME_REST}"
    - "&4&l> &7Players: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - "&4&l> &7Allies: {ALLIES}"
    - "&4&l> &7Wars: {WARS}"
-   - "&4&l> &7Points: &6{POINTS}"
+   - "&4&l> &7Points: &6{GUILD_POINTS}"
    
 #broadcast messages:
 broadcast:
  admin:
   guild:
-   abandon: "Admin &c{PLAYERNAME} abandoned guild &a{GUILDNAME}"
-   cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"
+   abandon: "Admin &c{PLAYER_NAME} abandoned guild &a{GUILD_NAME}"
+   cleanup: "Guild &a{GUILD_NAME} has been deleted due to inactivity"
  guild:
   war: "Guild &a{GUILD1} has started a &cwar &6with &a{GUILD2}"
   nowar: "Guild &a{GUILD1} and &a{GUILD2} have stopped the war"
-  joined: "Player &c{PLAYER} joined &a{GUILDNAME}"
-  left: "Player &c{PLAYER} left &a{GUILDNAME}"
-  created: "Player &c{PLAYER} created guild &a{GUILDNAME}"
-  abandoned: "Player &c{PLAYER} abandoned &a{GUILDNAME}"
-  setleader: "Player &c{PLAYERNAME} is now the leader of &a{GUILDNAME}"
-  allied: "&a{GUILDNAME} and &a{ALLYNAME} are allies now!"
-  endally: "&a{GUILDNAME} and &a{ALLYNAME} ended their ally!"
-  kicked: "Player &c{PLAYERNAME} has been kicked from &a{GUILDNAME}"
-  newleader: "Player &c{PLAYERNAME} is now the leader of &a{GUILDNAME}"
-  destroyed: "Guild &a{GUILDNAME} has been destroyed!"
+  joined: "Player &c{PLAYER} joined &a{GUILD_NAME}"
+  left: "Player &c{PLAYER} left &a{GUILD_NAME}"
+  created: "Player &c{PLAYER} created guild &a{GUILD_NAME}"
+  abandoned: "Player &c{PLAYER} abandoned &a{GUILD_NAME}"
+  setleader: "Player &c{PLAYER_NAME} is now the leader of &a{GUILD_NAME}"
+  allied: "&a{GUILD_NAME} and &a{ALLYNAME} are allies now!"
+  endally: "&a{GUILD_NAME} and &a{ALLYNAME} ended their ally!"
+  kicked: "Player &c{PLAYER_NAME} has been kicked from &a{GUILD_NAME}"
+  newleader: "Player &c{PLAYER_NAME} is now the leader of &a{GUILD_NAME}"
+  destroyed: "Guild &a{GUILD_NAME} has been destroyed!"
   raid:
    finished: 
     attackerwon: "Raid finished! &a{ATTACKER} vs &a{DEFENDER}! Attacker won."
@@ -599,7 +599,7 @@ holographicdisplays:
   topguilds: 
  topguilds:
   header: "&2Guilds &cTOP5"
-  row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
+  row: "&6[&2{N}&6] &a{GUILD_NAME} &2- &c{GUILD_POINTS}"
   
 #no prefix, start with color
 barapi:
@@ -619,7 +619,7 @@ inventory:
   join:
    title: "Joining a guild"
    iconitem: "IRON_DOOR 1 name:Join_a_guild"
-   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILDNAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYERNAME}"
+   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILD_NAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYER_NAME}"
   settings:
    title: "Guild settings"
    item:
@@ -637,14 +637,14 @@ inventory:
     invite: "CAKE 1 name:&6Invite_players"
    invite:
     title: "Inviting players"
-    item: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+    item: "SKULL_ITEM:3 1 player:{PLAYER_NAME} name:{PLAYER_NAME}"
   back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "Players list"
    iconitem: "SKULL_ITEM:3 1 name:Players_list"
-   rowitem: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+   rowitem: "SKULL_ITEM:3 1 player:{PLAYER_NAME} name:{PLAYER_NAME}"
   playersettings:
-   title: "{PLAYERNAME} settings"
+   title: "{PLAYER_NAME} settings"
    item:
     rank: "BOOK_AND_QUILL 1 name:Set_rank lore:{RANKNAME}"
     kick: "FERMENTED_SPIDER_EYE 1 name:Kick"

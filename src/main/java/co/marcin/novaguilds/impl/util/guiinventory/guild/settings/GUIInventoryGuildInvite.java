@@ -57,7 +57,7 @@ public class GUIInventoryGuildInvite extends AbstractGUIInventory {
 				continue;
 			}
 
-			ItemStack itemStack = Message.INVENTORY_GUI_SETTINGS_INVITE_ITEM.clone().setVar(VarKey.PLAYERNAME, nPlayer.getName()).getItemStack();
+			ItemStack itemStack = Message.INVENTORY_GUI_SETTINGS_INVITE_ITEM.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()).getItemStack();
 
 			add(itemStack);
 			playerMap.put(index, nPlayer);

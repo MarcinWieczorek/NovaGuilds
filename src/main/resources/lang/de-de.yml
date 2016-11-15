@@ -39,23 +39,23 @@ chat:
     page:
      hasnext: "&7-- &cSeite &7{PAGE} &von &7{PAGES} -- &c/nga g Liste {NEXT} &7--"
      nonext: "&7-- &cSeite &7{PAGE} &von &7{PAGES} --"
-    item: " &2- &a{GUILDNAME} &7[&a{TAG}&7] &6Leiter: &c{PLAYERNAME} ({PLAYERSCOUNT} Spielern)"
+    item: " &2- &a{GUILD_NAME} &7[&a{TAG}&7] &6Leiter: &c{PLAYER_NAME} ({PLAYERSCOUNT} Spielern)"
    inactive:
     updated: "Die Inaktivitätszeit aller Gilden wurde aktualisiert. (&c{COUNT} Gilden)"
     list:
      header: "Meist inaktive Gilden."
-     item: " &2- &a{GUILDNAME} aktiv {AGONOW}."
+     item: " &2- &a{GUILD_NAME} aktiv {AGONOW}."
      ago: "&c{INACTIVE} vor."
      now: "&cjetzt."
    bank:
-    paid: "Du hast &c${MONEY} in &a{GUILDNAME}s Bank gezahlt."
-    withdrew: "Du hast &c${MONEY} von &a{GUILDNAME}s Bank abgehoben."
+    paid: "Du hast &c${MONEY} in &a{GUILD_NAME}s Bank gezahlt."
+    withdrew: "Du hast &c${MONEY} von &a{GUILD_NAME}s Bank abgehoben."
    kick:
     leader: "Du kannst den Anführer nicht entfernen, du must die Gilde verlassen."
-   invited: "Spieler &c{PLAYERNAME} eingeladen zu &a{GUILDNAME}"
+   invited: "Spieler &c{PLAYER_NAME} eingeladen zu &a{GUILD_NAME}"
    teleported:
-    self: "Du wurdest zum Home von &a{GUILDNAME} teleportiert."
-    other: "&c{PLAYERNAME} wurde zum Home von &a{GUILDNAME} teleportiert."
+    self: "Du wurdest zum Home von &a{GUILD_NAME} teleportiert."
+    other: "&c{PLAYER_NAME} wurde zum Home von &a{GUILD_NAME} teleportiert."
    set:
     tag: "Abkürzung gewechselt zu &a{TAG}"
     points: "Punkte gesetzt."
@@ -67,8 +67,8 @@ chat:
      enternewname: "Gebe den neuen Namen ein"
      success: "Gilden Name geändert."
     leader:
-     notinguild: "Dieser Spieler ist nicht in der Gilde: &a{GUILDNAME}"
-     alreadyleader: "Spieler &c{PLAYERNAME} ist schon der Anführer"
+     notinguild: "Dieser Spieler ist nicht in der Gilde: &a{GUILD_NAME}"
+     alreadyleader: "Spieler &c{PLAYER_NAME} ist schon der Anführer"
      success: "Anführer neu gesetzt!"
    reset:
     points:
@@ -80,7 +80,7 @@ chat:
     delete:
      success: "The rank has been successfully deleted."
     list:
-     header: "Rank list for guild {GUILDNAME}"
+     header: "Rank list for guild {GUILD_NAME}"
      item: "&a{NAME}"
   region:
    bypass:
@@ -96,9 +96,9 @@ chat:
    delete:
     success: "Gildenbereich erfolgreich gelöscht."
    teleport:
-    self: "Du wurdest zu &a{GUILDNAME}'s Bereich teleporiert."
-    other: "Spieler &c{PLAYERNAME} wurde zum Bereich von &a{GUILDNAME}'s teleportiert."
-    notifyother: "Du wurdest zum Bereich von &a{GUILDNAME}'s teleportiert."
+    self: "Du wurdest zu &a{GUILD_NAME}'s Bereich teleporiert."
+    other: "Spieler &c{PLAYER_NAME} wurde zum Bereich von &a{GUILD_NAME}'s teleportiert."
+    notifyother: "Du wurdest zum Bereich von &a{GUILD_NAME}'s teleportiert."
   save:
    players: "Spieler gespeichert."
    guilds: "Gilden gespeichert."
@@ -110,7 +110,7 @@ chat:
    notfound: "Es wurde kein Hologramm mit diesem Namen gefunden."
    teleport:
     self: "Du wurdest zu &a{NAME} teleporiert."
-    other: "Spieler: &c{PLAYERNAME} wurde zu &a{NAME} teleportiert."
+    other: "Spieler: &c{PLAYER_NAME} wurde zu &a{NAME} teleportiert."
    add:
     success: "Das Hologramm &a{NAME} wurde hinzugefügt."
    delete:
@@ -122,7 +122,7 @@ chat:
    notify: "Your spy mode has been changed. Currently &c{MODE}"
    success:
     self: "Spy mode changed. Currently &c{MODE}"
-    other: "&c{PLAYERNAME}'s spy mode has been changed to &c{MODE}"
+    other: "&c{PLAYER_NAME}'s spy mode has been changed to &c{MODE}"
 
  reload:
   reloading: "NovaGuilds wird neu geladen..."
@@ -313,7 +313,7 @@ chat:
   ally: "Du kannst deine Verbündeten nicht verletzen."
 
  raid:
-  resting: "Du musst noch &c{TIMEREST} warten bevor du diese Gilde angreifen kannst."
+  resting: "Du musst noch &c{GUILD_TIME_REST} warten bevor du diese Gilde angreifen kannst."
   protection: "Diese Gilde ist neu und ist noch Geschützt. Versuche es Morgen nochmal."
 
  guild:
@@ -337,7 +337,7 @@ chat:
    'off': "Der Kompass zeigt nun auf den Spawn"
   noguilds: "Keine Gilden gefunden."
   openinvitation: "Offene Einladungen umgeschaltet. Momentan: &c{STATUS}"
-  fpvptoggled: "PvP innerhalb der Gilde umgeschaltet. Momentan: &c{FPVP}"
+  fpvptoggled: "PvP innerhalb der Gilde umgeschaltet. Momentan: &c{GUILD_PVP}"
   effect:
    success: "Du hast den &a{EFFECTTYPE} Effekt erfolgreich für alle deine Teamkameraden gekauft!"
 
@@ -346,15 +346,15 @@ chat:
    samename: "Du kannst nicht mit deiner eigenen Gilde verbündet sein!"
    invited: "Du hast &a{ALLYNAME} als Verbündete eingalden."
    accepted: "Du hast die Verbündeteneinladung von &a{ALLYNAME} angenommen."
-   notifyguild: "Die Gilde &a{GUILDNAME} hat euch eingeladen Verbündete zu sein."
-   notifyguildcanceled: "Die Gilde &a{GUILDNAME} haben ihre Verbündeteneinladung abgebrochen."
+   notifyguild: "Die Gilde &a{GUILD_NAME} hat euch eingeladen Verbündete zu sein."
+   notifyguildcanceled: "Die Gilde &a{GUILD_NAME} haben ihre Verbündeteneinladung abgebrochen."
    canceled: "Verbündeteneinladung von &a{ALLYNAME} abgebrochen "
    list:
     noallies: "No allies."
     header:
      allies: "List of allies:"
      invitations: "List of alliance invitations:"
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
 
   couldnotfind: "Diese Gilde wurde nicht gefunden."
@@ -393,20 +393,20 @@ chat:
    yourguildwar: "Du kannst kein Krieg mit dir selbst haben!"
    nowar:
     invite:
-     success: "Du hast die Gilde &a{GUILDNAME} gefragt den Krieg zu beenden."
-     notify: "&a{GUILDNAME} fragte ob ihr den Krieg beendet."
+     success: "Du hast die Gilde &a{GUILD_NAME} gefragt den Krieg zu beenden."
+     notify: "&a{GUILD_NAME} fragte ob ihr den Krieg beendet."
     cancel:
-     success: "You have canceled the no-war invitation for &a{GUILDNAME}"
-     notify: "&a{GUILDNAME} has canceled their invitation to stop the war"
+     success: "You have canceled the no-war invitation for &a{GUILD_NAME}"
+     notify: "&a{GUILD_NAME} has canceled their invitation to stop the war"
    list:
     nowars: "Keine Kriege."
     warsheader: "Liste von Kriegen:"
     nowarinvheader: "List von Anfragen auf Stopp des Krieges:"
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
 
   leader:
-   success: "&a{PLAYERNAME} ist jetzt der Anführer!"
+   success: "&a{PLAYER_NAME} ist jetzt der Anführer!"
    samenick: "Du bist schon der Anführer!"
    notsameguild: "Dieser Spieler ist nicht in deiner Gilde."
   leave:
@@ -437,29 +437,29 @@ chat:
   alreadyinvited: "Dieser Spieler wurde schon zur Gilde eingeladen."
   notinyourguild: "Dieser Spieler ist nicht in deiner Gilde!"
   pvpmoney:
-   kill: "Du hast &a{MONEY}$ fürs Töten von &c{PLAYERNAME} erhalten"
-   revenge: "Du hast &a{MONEY}$ fürs Rächen an &c{PLAYERNAME} erhalten"
+   kill: "Du hast &a{MONEY}$ fürs Töten von &c{PLAYER_NAME} erhalten"
+   revenge: "Du hast &a{MONEY}$ fürs Rächen an &c{PLAYER_NAME} erhalten"
   invite:
    invited: "Der Spieler wurde zur Gilde eingeladen."
    list:
     header: "Liste von Gilden die dich eingeladen haben:"
     nothing: "Du wurdest zu keiner Gilde eingeladen."
-    item: "&c{GUILDNAME}"
+    item: "&c{GUILD_NAME}"
     separator: "&f, "
    notinvited: "Du wurdest nicht zu dieser Gilde eingeladen."
-   notify: "Du wurdest zur Gilde &a{GUILDNAME} eingeladen."
+   notify: "Du wurdest zur Gilde &a{GUILD_NAME} eingeladen."
    cancel:
-    success: "Einladung an den Spieler &c{PLAYERNAME} abgebrochen."
-    notify: "Die Einladung von der Gilde &a{GUILDNAME} wurde abgebrochen."
+    success: "Einladung an den Spieler &c{PLAYER_NAME} abgebrochen."
+    notify: "Die Einladung von der Gilde &a{GUILD_NAME} wurde abgebrochen."
   info:
    header: "&4*** &6Spieler Informationen &4***"
-   guildrow: "&4&l> &7Gilde: &7[&a{TAG}&7] &6{GUILDNAME}"
+   guildrow: "&4&l> &7Gilde: &7[&a{TAG}&7] &6{GUILD_NAME}"
    items:
-   - "&4&l> &7Nick: &6{PLAYERNAME}"
+   - "&4&l> &7Nick: &6{PLAYER_NAME}"
    - "{GUILDROW}"
-   - "&4&l> &7Punkte: &6{POINTS}"
-   - "&4&l> &7Kills: &6{KILLS}"
-   - "&4&l> &7Tode: &6{DEATHS}"
+   - "&4&l> &7Punkte: &6{GUILD_POINTS}"
+   - "&4&l> &7Kills: &6{PLAYER_KILLS}"
+   - "&4&l> &7Tode: &6{PLAYER_DEATHS}"
    - "&4&l> &7KDR: &6{KDR}"
 
  region:
@@ -488,19 +488,19 @@ chat:
   maxamount: "You have reached the max amount of &c${AMOUNT} regions"
   created: "Gebiet erfolgreich erstellt!"
   mustveguild: "Du brauchst eine Gilde um das Gebiet kaufen zu können. &c/create"
-  entered: "Du hast das Gebiet von der Gilde &a{GUILDNAME} betreten"
-  exited: "Du hast das Gebiet von der Gilde &a{GUILDNAME} verlassen"
+  entered: "Du hast das Gebiet von der Gilde &a{GUILD_NAME} betreten"
+  exited: "Du hast das Gebiet von der Gilde &a{GUILD_NAME} verlassen"
   notfound: "Could not find the region"
   resize:
    start: "Gebietsgröße wird geändert... Setze es mit einem &cRechtsklick."
    toggle: "Corner toggled."
    success: "Gebietsgröße erfolgreich geändert!"
   notifyguild:
-   entered: "Spieler &c{PLAYERNAME} hat dein Gildengebiet betreten!"
-  belongsto: "Dieses Gebiet gehört zur Gilde &a{GUILDNAME} (i=&a{INDEX})"
+   entered: "Spieler &c{PLAYER_NAME} hat dein Gildengebiet betreten!"
+  belongsto: "Dieses Gebiet gehört zur Gilde &a{GUILD_NAME} (i=&a{INDEX})"
   list:
    header: "Gebiete Liste:"
-   item: "&a{GUILDNAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
+   item: "&a{GUILD_NAME} (&a{INDEX})&7 - &2{X}&6;&2{Z}"
   tool:
    toggledmode: "Gebietsmodus gewechselt. Momentan: &c{MODE}"
    modes:
@@ -534,59 +534,59 @@ chat:
   playercolor:
    online: "&a"
    offline: "&f"
-  ally: "&5{GUILDNAME}"
-  war: "&c{GUILDNAME}"
+  ally: "&5{GUILD_NAME}"
+  war: "&c{GUILD_NAME}"
   fullinfo:
    - "&4*** &6Gilden Informationen &4***"
-   - "&4&l> &7Name: &6{GUILDNAME}"
+   - "&4&l> &7Name: &6{GUILD_NAME}"
    - "&4&l> &7Abkürzung: &6{TAG}"
    - "&4&l> &7Anführer: &6{LEADER}"
    - "&4&l> &7Erstellt vor &6{CREATEDAGO}"
    - "&4&l> &7Einladungen offen: &6{OPENINV}"
    - "&4&l> &7Schutz: &6{PROTLEFT} &2beendet"
-   - "&4&l> &7Leben: &6{LIVES}"
+   - "&4&l> &7Leben: &6{GUILD_LIVES}"
    - "&4&l> &7Lebensregeneration in: &6{LIVEREGENERATIONTIME}"
-   - "&4&l> &7Erholungszeit: &6{TIMEREST}"
-   - "&4&l> &7Position: &6{SP_X}&2,&6{SP_Y}&2,&6{SP_Z}"
+   - "&4&l> &7Erholungszeit: &6{GUILD_TIME_REST}"
+   - "&4&l> &7Position: &6{X}&2,&6{Y}&2,&6{Z}"
    - "&4&l> &7Spieler: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - "&4&l> &7Verbündete: {ALLIES}"
    - "&4&l> &7Kriege: {WARS}"
    - "&4&l> &7Geld: &6{MONEY}"
-   - "&4&l> &7Punkte: &6{POINTS}"
+   - "&4&l> &7Punkte: &6{GUILD_POINTS}"
   info:
    - "&4*** &6Gilden Informationen &4***"
-   - "&4&l> &7Name: &6{GUILDNAME}"
+   - "&4&l> &7Name: &6{GUILD_NAME}"
    - "&4&l> &7Abkürzung: &6{TAG}"
    - "&4&l> &7Anführer: &6{LEADER}"
    - "&4&l> &7Erstellt vor &6{CREATEDAGO}"
    - "&4&l> &7Einladungen offen: &6{OPENINV}"
    - "&4&l> &7Schutz: &6{PROTLEFT} &2beendet"
-   - "&4&l> &7Leben: &6{LIVES}"
-   - "&4&l> &7Erholungszeit: &6{TIMEREST}"
+   - "&4&l> &7Leben: &6{GUILD_LIVES}"
+   - "&4&l> &7Erholungszeit: &6{GUILD_TIME_REST}"
    - "&4&l> &7Spieler: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
    - "&4&l> &7Verbündete: {ALLIES}"
    - "&4&l> &7Kriege: {WARS}"
-   - "&4&l> &7Punkte: &6{POINTS}"
+   - "&4&l> &7Punkte: &6{GUILD_POINTS}"
 
 #broadcast messages:
 broadcast:
  admin:
   guild:
-   abandon: "Admin &c{PLAYERNAME} hat die Gilde &a{GUILDNAME} aufgelöst!"
-   cleanup: "Guild &a{GUILDNAME} has been deleted due to inactivity"
+   abandon: "Admin &c{PLAYER_NAME} hat die Gilde &a{GUILD_NAME} aufgelöst!"
+   cleanup: "Guild &a{GUILD_NAME} has been deleted due to inactivity"
  guild:
   war: "Gilde &a{GUILD1} hat den &cKrieg &6gegen &a{GUILD2} begonnen"
   nowar: "Gilde &a{GUILD1} und &a{GUILD2} haben ihren Krieg gestoppt."
-  joined: "Spieler &c{PLAYER} tritt &a{GUILDNAME} bei"
-  left: "Spieler &c{PLAYER} verliess &a{GUILDNAME}"
-  created: "Spieler &c{PLAYER} erstellte die Gilde &a{GUILDNAME}"
-  abandoned: "Spieler &c{PLAYER} hat &a{GUILDNAME} aufgelöst!"
-  setleader: "Spieler &c{PLAYERNAME} ist jetzt der Anführer von &a{GUILDNAME}!"
-  allied: "&a{GUILDNAME} und &a{ALLYNAME} sind nun Verbündet!"
-  endally: "&a{GUILDNAME} und &a{ALLYNAME} haben ihren Verbund beendet!"
-  kicked: "Spieler &c{PLAYERNAME} wurde aus &a{GUILDNAME} entfernt!"
-  newleader: "Spieler &c{PLAYERNAME} ist nun der Anführer von &a{GUILDNAME}!"
-  destroyed: "Die Gilde &a{GUILDNAME} wurde zerstört!"
+  joined: "Spieler &c{PLAYER} tritt &a{GUILD_NAME} bei"
+  left: "Spieler &c{PLAYER} verliess &a{GUILD_NAME}"
+  created: "Spieler &c{PLAYER} erstellte die Gilde &a{GUILD_NAME}"
+  abandoned: "Spieler &c{PLAYER} hat &a{GUILD_NAME} aufgelöst!"
+  setleader: "Spieler &c{PLAYER_NAME} ist jetzt der Anführer von &a{GUILD_NAME}!"
+  allied: "&a{GUILD_NAME} und &a{ALLYNAME} sind nun Verbündet!"
+  endally: "&a{GUILD_NAME} und &a{ALLYNAME} haben ihren Verbund beendet!"
+  kicked: "Spieler &c{PLAYER_NAME} wurde aus &a{GUILD_NAME} entfernt!"
+  newleader: "Spieler &c{PLAYER_NAME} ist nun der Anführer von &a{GUILD_NAME}!"
+  destroyed: "Die Gilde &a{GUILD_NAME} wurde zerstört!"
   raid:
    finished:
     attackerwon: "Angriff beendet! &a{ATTACKER} vs &a{DEFENDER}! Angreifer haben gewonnen."
@@ -599,7 +599,7 @@ holographicdisplays:
   topguilds:
  topguilds:
   header: "&2Guilds &cTOP 5"
-  row: "&6[&2{N}&6] &a{GUILDNAME} &2- &c{POINTS}"
+  row: "&6[&2{N}&6] &a{GUILD_NAME} &2- &c{GUILD_POINTS}"
 
 #no prefix, start with color
 barapi:
@@ -619,7 +619,7 @@ inventory:
   join:
    title: "Joining a guild"
    iconitem: "IRON_DOOR 1 name:Join_a_guild"
-   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILDNAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYERNAME}"
+   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILD_NAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYER_NAME}"
   settings:
    title: "Guild settings"
    item:
@@ -637,14 +637,14 @@ inventory:
     invite: "CAKE 1 name:&6Invite_players"
    invite:
     title: "Inviting players"
-    item: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+    item: "SKULL_ITEM:3 1 player:{PLAYER_NAME} name:{PLAYER_NAME}"
   back: "REDSTONE_TORCH_ON 1 name:&cBack"
   playerslist:
    title: "Spieker Liste"
    iconitem: "SKULL_ITEM:3 1 name:Spieler_Liste"
-   rowitem: "SKULL_ITEM:3 1 player:{PLAYERNAME} name:{PLAYERNAME}"
+   rowitem: "SKULL_ITEM:3 1 player:{PLAYER_NAME} name:{PLAYER_NAME}"
   playersettings:
-   title: "{PLAYERNAME} Einstellungen"
+   title: "{PLAYER_NAME} Einstellungen"
    item:
     rank: "BOOK_AND_QUILL 1 name:Setze_Rang lore:{RANKNAME}"
     kick: "FERMENTED_SPIDER_EYE 1 name:Entfernen"

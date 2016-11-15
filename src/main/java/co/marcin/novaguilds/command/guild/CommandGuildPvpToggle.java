@@ -45,6 +45,6 @@ public class CommandGuildPvpToggle extends AbstractCommandExecutor {
 		nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
 		TabUtils.refresh(nPlayer.getGuild());
 
-		Message.CHAT_GUILD_FPVPTOGGLED.clone().setVar(VarKey.FPVP, Message.getOnOff(nPlayer.getGuild().getFriendlyPvp())).send(sender);
+		Message.CHAT_GUILD_FPVPTOGGLED.clone().setVar(VarKey.GUILD_PVP, Message.getOnOff(nPlayer.getGuild().getFriendlyPvp())).send(sender);
 	}
 }

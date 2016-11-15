@@ -111,7 +111,7 @@ public class DeathListener extends AbstractListener {
 
 			//money
 			vars.clear();
-			vars.put(VarKey.PLAYERNAME, victim.getName());
+			vars.put(VarKey.PLAYER_NAME, victim.getName());
 			double money;
 			if(nPlayer.canGetKillPoints(attacker)) {
 				money = NumberUtils.roundOffTo2DecPlaces((Config.KILLING_MONEYFORKILL.getPercent() + bonusPercentMoney) * nPlayer.getMoney());

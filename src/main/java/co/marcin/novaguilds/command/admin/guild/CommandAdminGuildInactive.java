@@ -128,8 +128,8 @@ public class CommandAdminGuildInactive extends AbstractCommandExecutor {
 				}
 
 				Map<VarKey, String> vars = new HashMap<>();
-				vars.put(VarKey.GUILDNAME, guild.getName());
-				vars.put(VarKey.PLAYERNAME, guild.getLeader().getName());
+				vars.put(VarKey.GUILD_NAME, guild.getName());
+				vars.put(VarKey.PLAYER_NAME, guild.getLeader().getName());
 				vars.put(VarKey.TAG, guild.getTag());
 				vars.put(VarKey.PLAYERSCOUNT, String.valueOf(guild.getPlayers().size()));
 				vars.put(VarKey.AGONOW, agoNowMessage.get());
