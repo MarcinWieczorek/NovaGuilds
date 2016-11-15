@@ -467,11 +467,7 @@ public class RegionManager {
 		PlayerExitRegionEvent regionEvent = new PlayerExitRegionEvent(player, region);
 		plugin.getServer().getPluginManager().callEvent(regionEvent);
 
-		if(regionEvent.isCancelled()) {
-			return;
-		}
-
-		if(region == null) {
+		if(regionEvent.isCancelled() || region == null) {
 			return;
 		}
 
@@ -596,7 +592,7 @@ public class RegionManager {
 			}
 
 
-			Area regionArea = toArea(region);
+			Area regionArea = RegionUtils.toArea(region);
 
 			regionArea.intersect(selectionArea);
 			if(!regionArea.isEmpty()) {
@@ -605,19 +601,5 @@ public class RegionManager {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Converts a WorldGuard region to Area
-	 *
-	 * @param region region
-	 * @return area
-	 */
-	protected static Area toArea(ProtectedRegion region) {
-		int x = region.getMinimumPoint().getBlockX();
-		int z = region.getMinimumPoint().getBlockZ();
-		int width = region.getMaximumPoint().getBlockX() - x;
-		int height = region.getMaximumPoint().getBlockZ() - z;
-		return new Area(new Rectangle(x, z, width, height));
 	}
 }

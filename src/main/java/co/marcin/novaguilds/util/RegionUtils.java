@@ -20,6 +20,7 @@ package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,6 +29,8 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.awt.Rectangle;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -215,5 +218,19 @@ public final class RegionUtils {
 	public static Location deserializeLocation2D(String string) {
 		String[] split = string.split(";");
 		return new Location(null, Integer.parseInt(split[0]), 0, Integer.parseInt(split[1]));
+	}
+
+	/**
+	 * Converts a WorldGuard region to Area
+	 *
+	 * @param region region
+	 * @return area
+	 */
+	public static Area toArea(ProtectedRegion region) {
+		int x = region.getMinimumPoint().getBlockX();
+		int z = region.getMinimumPoint().getBlockZ();
+		int width = region.getMaximumPoint().getBlockX() - x;
+		int height = region.getMaximumPoint().getBlockZ() - z;
+		return new Area(new Rectangle(x, z, width, height));
 	}
 }

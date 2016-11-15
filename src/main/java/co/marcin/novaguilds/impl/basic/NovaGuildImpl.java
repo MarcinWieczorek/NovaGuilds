@@ -803,6 +803,15 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 			if(nPlayer.isPartRaid()) {
 				nPlayer.getPartRaid().removePlayerOccupying(nPlayer);
 			}
+
+			if(nPlayer.isOnline() && nPlayer.isAtRegion()) {
+				NovaRegion atRegion = nPlayer.getAtRegion();
+
+				//Exit from region
+				if(atRegion.getGuild().equals(this)) {
+					plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
+				}
+			}
 		}
 
 		//remove allies and wars
