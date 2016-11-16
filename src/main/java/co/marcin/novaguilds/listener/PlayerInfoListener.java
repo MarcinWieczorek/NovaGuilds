@@ -21,6 +21,7 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +32,7 @@ import org.bukkit.inventory.EquipmentSlot;
 public class PlayerInfoListener extends AbstractListener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerClickPlayer(PlayerInteractEntityEvent event) {
-		if(event.getHand() == EquipmentSlot.OFF_HAND) {
+		if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R3) && event.getHand() == EquipmentSlot.OFF_HAND) {
 			return;
 		}
 
