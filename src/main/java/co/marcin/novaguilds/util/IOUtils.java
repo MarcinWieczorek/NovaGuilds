@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,5 +176,21 @@ public final class IOUtils {
 		}
 
 		return fileList;
+	}
+
+	/**
+	 * Gets content of a website
+	 *
+	 * @param urlString url
+	 * @return page contents
+	 * @throws IOException when connection fails
+	 */
+	public static String getContent(String urlString) throws IOException {
+		URL url = new URL(urlString);
+		URLConnection con = url.openConnection();
+		InputStream in = con.getInputStream();
+		String encoding = con.getContentEncoding();
+		encoding = encoding == null ? "UTF-8" : encoding;
+		return IOUtils.toString(in, encoding);
 	}
 }

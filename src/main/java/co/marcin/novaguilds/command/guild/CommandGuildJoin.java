@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -35,7 +36,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -69,23 +72,16 @@ public class CommandGuildJoin extends AbstractCommandExecutor {
 		else {
 			if(args.length == 0) {
 				Message.CHAT_PLAYER_INVITE_LIST_HEADER.send(sender);
+				Collection<MessageWrapper> invitedGuildNamesSet = new HashSet<>();
 
-				String invitedListString = "";
-				int i = 0;
 				for(NovaGuild invitedGuild : invitedTo) {
-					String guildRow = Message.CHAT_PLAYER_INVITE_LIST_ITEM.get();
-					guildRow = org.apache.commons.lang.StringUtils.replace(guildRow, "{GUILDNAME}", invitedGuild.getName());
-					guildRow = org.apache.commons.lang.StringUtils.replace(guildRow, "{TAG}", invitedGuild.getTag());
-
-					invitedListString += guildRow;
-
-					if(i < invitedTo.size() - 1) {
-						invitedListString += Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR.get();
-					}
-					i++;
+					invitedGuildNamesSet.add(Message.CHAT_PLAYER_INVITE_LIST_ITEM
+							.clone()
+							.setVar(VarKey.GUILD_NAME, invitedGuild.getName())
+							.setVar(VarKey.TAG, invitedGuild.getTag()));
 				}
 
-				sender.sendMessage(StringUtils.fixColors(invitedListString));
+				sender.sendMessage(StringUtils.join(invitedGuildNamesSet, Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR));
 				return;
 			}
 			else {
@@ -114,7 +110,6 @@ public class CommandGuildJoin extends AbstractCommandExecutor {
 			if(!missingItems.isEmpty()) {
 				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
 				sender.sendMessage(StringUtils.getItemList(missingItems));
-
 				return;
 			}
 		}
@@ -123,6 +118,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor {
 
 		//money
 		double joinMoney = GroupManager.getGroup(sender).getDouble(NovaGroup.Key.JOIN_MONEY);
+
 		if(joinMoney > 0 && !nPlayer.hasMoney(joinMoney)) {
 			vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
 			Message.CHAT_GUILD_NOTENOUGHMONEY.clone().vars(vars).send(sender);

@@ -534,8 +534,10 @@ chat:
   playercolor:
    online: "&a"
    offline: "&f"
-  ally: "&5{GUILD_NAME}"
-  war: "&c{GUILD_NAME}"
+  row:
+   ally: "&5{GUILD_NAME}"
+   player: "{COLOR}{LEADER_PREFIX}{PLAYER_NAME}"
+   war: "&c{GUILD_NAME}"
   fullinfo:
    - "&4*** &6Information de la guilde &4***"
    - "&4&l> &7Nom: &6{GUILD_NAME}"

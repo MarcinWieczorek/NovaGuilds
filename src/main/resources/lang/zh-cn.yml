@@ -534,8 +534,10 @@ chat:
   playercolor:
    online: "&a"
    offline: "&f"
-  ally: "&5{GUILD_NAME}"
-  war: "&c{GUILD_NAME}"
+  row:
+   ally: "&5{GUILD_NAME}"
+   player: "{COLOR}{LEADER_PREFIX}{PLAYER_NAME}"
+   war: "&c{GUILD_NAME}"
   fullinfo:
    - "&4*** &6公会信息 &4***"
    - "&4&l> &7公会名称: &6{GUILD_NAME}"

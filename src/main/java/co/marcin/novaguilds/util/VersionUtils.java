@@ -67,8 +67,8 @@ public class VersionUtils {
 		currentString = org.apache.commons.lang.StringUtils.replace(currentString, "-SNAPSHOT", "");
 		buildCurrent = Integer.parseInt(currentString);
 
-		String latestString = StringUtils.getContent("http://novaguilds.pl/latest.info");
-		String devString = StringUtils.getContent("http://novaguilds.pl/dev.info");
+		String latestString = IOUtils.getContent("http://novaguilds.pl/latest.info");
+		String devString = IOUtils.getContent("http://novaguilds.pl/dev.info");
 
 		buildLatest = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(latestString, "-SNAPSHOT", ""));
 		buildDev = Integer.parseInt(org.apache.commons.lang.StringUtils.replace(devString, "-SNAPSHOT", ""));

@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
@@ -34,7 +35,9 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -72,9 +75,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 		}
 
 		Map<VarKey, String> vars = new HashMap<>();
-
 		List<String> guildInfoMessages;
-		String separator = Message.CHAT_GUILDINFO_PLAYERSEPARATOR.get();
 
 		if((sender instanceof Player && nPlayer.hasGuild() && guild.isMember(nPlayer)) || Permission.NOVAGUILDS_ADMIN_GUILD_FULLINFO.has(sender)) {
 			guildInfoMessages = Message.CHAT_GUILDINFO_FULLINFO.getList();
@@ -87,13 +88,12 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 
 		int i;
 		List<NovaPlayer> playerList = guild.getPlayers();
-		String leader = guild.getLeader().getName();
-		String players = "";
 		String playerColor;
-		String leaderPrefixString; //String to insert to playername (leader prefix)
-		String leaderPrefixFormat = Message.CHAT_GUILDINFO_LEADERPREFIX.get();
 
 		//players list
+		MessageWrapper playerRowFormat = Message.CHAT_GUILDINFO_ROW_PLAYER;
+		Collection<MessageWrapper> playerNamesSet = new HashSet<>();
+
 		if(!playerList.isEmpty()) {
 			for(NovaPlayer nPlayerList : guild.getPlayers()) {
 				if(nPlayerList.isOnline() && plugin.getPlayerManager().isVanished(nPlayerList)) {
@@ -103,53 +103,53 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 					playerColor = Message.CHAT_GUILDINFO_PLAYERCOLOR_OFFLINE.get();
 				}
 
-				leaderPrefixString = "";
-				if(nPlayerList.getName().equalsIgnoreCase(leader)) {
-					leaderPrefixString = leaderPrefixFormat;
-				}
-
-				players += playerColor + leaderPrefixString + nPlayerList.getName();
-
-				if(!nPlayerList.equals(playerList.get(playerList.size() - 1))) {
-					players += separator;
-				}
+				playerNamesSet.add(playerRowFormat
+						.clone()
+						.setVar(VarKey.COLOR, playerColor)
+						.setVar(VarKey.PLAYER_NAME, nPlayerList.getName())
+						.setVar(VarKey.LEADER_PREFIX, nPlayerList.isLeader() ? Message.CHAT_GUILDINFO_LEADERPREFIX.get() : "")
+				);
 			}
 		}
+
+		String players = StringUtils.join(playerNamesSet, Message.CHAT_GUILDINFO_PLAYERSEPARATOR);
 
 		//allies
 		String allies = "";
 		if(!guild.getAllies().isEmpty()) {
-			String allyFormat = Message.CHAT_GUILDINFO_ALLY.get();
+			MessageWrapper allyFormat = Message.CHAT_GUILDINFO_ROW_ALLY;
+			Collection<MessageWrapper> allySet = new HashSet<>();
+
 			for(NovaGuild allyGuild : guild.getAllies()) {
-				String allyName = org.apache.commons.lang.StringUtils.replace(allyFormat, "{GUILDNAME}", allyGuild.getName());
-				allies = allies + allyName + separator;
+				allySet.add(allyFormat.clone().setVar(VarKey.GUILD_NAME, allyGuild.getName()));
 			}
 
-			allies = allies.substring(0, allies.length() - separator.length());
+			allies = StringUtils.join(allySet, Message.CHAT_GUILDINFO_PLAYERSEPARATOR);
 		}
 
 		//wars
 		String wars = "";
 		if(!guild.getWars().isEmpty()) {
-			String warFormat = Message.CHAT_GUILDINFO_WAR.get();
+			MessageWrapper warFormat = Message.CHAT_GUILDINFO_ROW_WAR;
+			final Collection<MessageWrapper> warSet = new HashSet<>();
+
 			for(NovaGuild war : guild.getWars()) {
-				String warName = org.apache.commons.lang.StringUtils.replace(warFormat, "{GUILDNAME}", war.getName());
-				wars = wars + warName + separator;
+				warSet.add(warFormat.clone().setVar(VarKey.GUILD_NAME, war.getName()));
 			}
 
-			wars = wars.substring(0, wars.length() - separator.length());
+			wars = StringUtils.join(warSet, Message.CHAT_GUILDINFO_PLAYERSEPARATOR);
 		}
 
 		vars.put(VarKey.RANK, "");
 		vars.put(VarKey.GUILD_NAME, guild.getName());
 		vars.put(VarKey.LEADER, guild.getLeader().getName());
-		vars.put(VarKey.TAG, guild.getTag()); //TODO replcae with GUILD_TAG (in lang too)
+		vars.put(VarKey.TAG, guild.getTag());
 		vars.put(VarKey.MONEY, String.valueOf(guild.getMoney()));
 		vars.put(VarKey.PLAYERS, players);
 		vars.put(VarKey.PLAYERSCOUNT, String.valueOf(guild.getPlayers().size()));
 		vars.put(VarKey.SLOTS, String.valueOf(guild.getSlots()));
-		vars.put(VarKey.GUILD_POINTS, String.valueOf(guild.getPoints())); //TODO replace with GUILD_POINTS (in lang too)
-		vars.put(VarKey.GUILD_LIVES, String.valueOf(guild.getLives())); //TODO replace with GUILD_LIVES (in lang too)
+		vars.put(VarKey.GUILD_POINTS, String.valueOf(guild.getPoints()));
+		vars.put(VarKey.GUILD_LIVES, String.valueOf(guild.getLives()));
 		vars.put(VarKey.OPENINV, Message.getOnOff(guild.isOpenInvitation()));
 
 		//live regeneration time
@@ -169,11 +169,11 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 		vars.put(VarKey.PROTLEFT, StringUtils.secondsToString(protectionLeft, TimeUnit.HOURS));
 
 		//home location coordinates
-		Location sp = guild.getHome();
-		if(sp != null) {
-			vars.put(VarKey.X, String.valueOf(sp.getBlockX()));
-			vars.put(VarKey.Y, String.valueOf(sp.getBlockY()));
-			vars.put(VarKey.Z, String.valueOf(sp.getBlockZ()));
+		Location homeLocation = guild.getHome();
+		if(homeLocation != null) {
+			vars.put(VarKey.X, String.valueOf(homeLocation.getBlockX()));
+			vars.put(VarKey.Y, String.valueOf(homeLocation.getBlockY()));
+			vars.put(VarKey.Z, String.valueOf(homeLocation.getBlockZ()));
 		}
 
 		//put wars and allies into vars

@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
@@ -32,9 +33,9 @@ import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 
 public class CommandGuildAlly extends AbstractCommandExecutor {
@@ -133,17 +134,16 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 
 		//List allies
 		Message.CHAT_GUILD_ALLY_LIST_HEADER_ALLIES.send(sender);
-		String separator = Message.CHAT_GUILD_ALLY_LIST_SEPARATOR.get();
-		String guildNameFormat = Message.CHAT_GUILD_ALLY_LIST_ITEM.get();
+		MessageWrapper allyRowFormat = Message.CHAT_GUILD_ALLY_LIST_ITEM;
 
 		if(!guild.getAllies().isEmpty()) {
-			final List<String> alliesNamesList = new ArrayList<>();
+			final Collection<MessageWrapper> alliesSet = new HashSet<>();
 
 			for(NovaGuild guildLoop : guild.getAllies()) {
-				alliesNamesList.add(guildLoop.getName());
+				alliesSet.add(allyRowFormat.clone().setVar(VarKey.GUILD_NAME, guildLoop.getName()));
 			}
 
-			MessageManager.sendMessage(sender, StringUtils.join(alliesNamesList, guildNameFormat, separator, "GUILDNAME"));
+			MessageManager.sendMessage(sender, StringUtils.join(alliesSet, Message.CHAT_GUILD_ALLY_LIST_SEPARATOR));
 		}
 		else {
 			Message.CHAT_GUILD_ALLY_LIST_NOALLIES.send(sender);
@@ -152,12 +152,12 @@ public class CommandGuildAlly extends AbstractCommandExecutor {
 		if(!guild.getAllyInvitations().isEmpty()) {
 			Message.CHAT_GUILD_ALLY_LIST_HEADER_INVITATIONS.send(sender);
 
-			final List<String> allyInvitationNames = new ArrayList<>();
+			final Collection<MessageWrapper> allyInvitationSet = new HashSet<>();
 			for(NovaGuild guildLoop : guild.getAllyInvitations()) {
-				allyInvitationNames.add(guildLoop.getName());
+				allyInvitationSet.add(allyRowFormat.clone().setVar(VarKey.GUILD_NAME, guildLoop.getName()));
 			}
 
-			MessageManager.sendMessage(sender, StringUtils.join(allyInvitationNames, guildNameFormat, separator, "GUILDNAME"));
+			MessageManager.sendMessage(sender, StringUtils.join(allyInvitationSet, Message.CHAT_GUILD_ALLY_LIST_SEPARATOR));
 		}
 	}
 }

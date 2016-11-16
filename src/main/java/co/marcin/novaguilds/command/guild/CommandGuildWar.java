@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
@@ -32,9 +33,9 @@ import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 
 public class CommandGuildWar extends AbstractCommandExecutor {
@@ -51,17 +52,15 @@ public class CommandGuildWar extends AbstractCommandExecutor {
 
 		if(args.length == 0) { //List wars
 			Message.CHAT_GUILD_WAR_LIST_WARSHEADER.send(sender);
-			String separator = Message.CHAT_GUILD_WAR_LIST_SEPARATOR.get();
-			String guildNameFormat = Message.CHAT_GUILD_WAR_LIST_ITEM.get();
+			MessageWrapper guildNameFormat = Message.CHAT_GUILD_WAR_LIST_ITEM;
 
 			if(!guild.getWars().isEmpty()) {
-				final List<String> warNames = new ArrayList<>();
+				final Collection<MessageWrapper> warNamesSet = new HashSet<>();
 				for(NovaGuild guildLoop : guild.getWars()) {
-					warNames.add(guildLoop.getName());
+					warNamesSet.add(guildNameFormat.clone().setVar(VarKey.GUILD_NAME, guildLoop.getName()));
 				}
 
-				String warString = StringUtils.join(warNames, guildNameFormat, separator, "GUILDNAME");
-				MessageManager.sendPrefixMessage(sender, warString);
+				MessageManager.sendPrefixMessage(sender, StringUtils.join(warNamesSet, Message.CHAT_GUILD_WAR_LIST_SEPARATOR));
 			}
 			else {
 				Message.CHAT_GUILD_WAR_LIST_NOWARS.send(sender);
@@ -69,15 +68,13 @@ public class CommandGuildWar extends AbstractCommandExecutor {
 
 			if(!guild.getNoWarInvitations().isEmpty()) {
 				Message.CHAT_GUILD_WAR_LIST_NOWARINVHEADER.send(sender);
+				final Collection<MessageWrapper> noWarInvitationNamesSet = new HashSet<>();
 
-				final List<String> noWarInvitationNames = new ArrayList<>();
 				for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
-					noWarInvitationNames.add(guildLoop.getName());
+					noWarInvitationNamesSet.add(guildNameFormat.clone().setVar(VarKey.GUILD_NAME, guildLoop.getName()));
 				}
 
-				String noWarInvitationsString = StringUtils.join(noWarInvitationNames, guildNameFormat, separator, "GUILDNAME");
-
-				MessageManager.sendPrefixMessage(sender, noWarInvitationsString);
+				MessageManager.sendPrefixMessage(sender, StringUtils.join(noWarInvitationNamesSet, Message.CHAT_GUILD_WAR_LIST_SEPARATOR));
 			}
 
 			return;

@@ -28,12 +28,10 @@ import org.bukkit.inventory.ItemStack;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -85,22 +83,6 @@ public final class StringUtils {
 	 */
 	public static String removeColors(String msg) {
 		return ChatColor.stripColor(fixColors(msg));
-	}
-
-	/**
-	 * Gets content of a website
-	 *
-	 * @param urlString url
-	 * @return page contents
-	 * @throws IOException when connection fails
-	 */
-	public static String getContent(String urlString) throws IOException {
-		URL url = new URL(urlString);
-		URLConnection con = url.openConnection();
-		InputStream in = con.getInputStream();
-		String encoding = con.getContentEncoding();
-		encoding = encoding == null ? "UTF-8" : encoding;
-		return IOUtils.toString(in, encoding);
 	}
 
 	/**
@@ -172,30 +154,6 @@ public final class StringUtils {
 	/**
 	 * Joins together elements from a list
 	 *
-	 * @param items     list of strings
-	 * @param pattern   pattern
-	 * @param separator separator
-	 * @param varName   variable name
-	 * @return string
-	 */
-	public static String join(List<String> items, String pattern, String separator, String varName) {
-		String joined = "";
-
-		if(!items.isEmpty()) {
-			for(String row : items) {
-				row = org.apache.commons.lang.StringUtils.replace(pattern, "{" + varName + "}", row);
-				joined = joined + row + separator;
-			}
-
-			joined = joined.substring(0, joined.length() - separator.length());
-		}
-
-		return joined;
-	}
-
-	/**
-	 * Joins together elements from a list
-	 *
 	 * @param items     list
 	 * @param separator separator
 	 * @return string
@@ -231,6 +189,31 @@ public final class StringUtils {
 			}
 
 			joined = joined.substring(0, joined.length() - separator.length());
+		}
+
+		return joined;
+	}
+
+	/**
+	 * Joins messages together
+	 *
+	 * @param list      list of message wrappers
+	 * @param separator separator message wrapper
+	 * @return string
+	 */
+	public static String join(Collection<MessageWrapper> list, MessageWrapper separator) {
+		String joined = "";
+
+		if(!list.isEmpty()) {
+			Iterator<MessageWrapper> iterator = list.iterator();
+			while(iterator.hasNext()) {
+				MessageWrapper row = iterator.next();
+				joined += row.get();
+
+				if(iterator.hasNext()) {
+					joined += separator.get();
+				}
+			}
 		}
 
 		return joined;
