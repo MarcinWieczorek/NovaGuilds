@@ -28,6 +28,7 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.StateFlag;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -157,7 +158,7 @@ public class DependencyManager {
 
 		@Override
 		public void run() throws ClassNotFoundException {
-			Class.forName("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
+			Reflections.getClass("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
 		}
 	}
 
@@ -181,7 +182,7 @@ public class DependencyManager {
 			Flag[] array = defaultFlagFlagListField.get(null);
 			List<Flag> list = new ArrayList<>();
 			Collections.addAll(list, array);
-			list.add(RegionManager.WORLDGUARD_FLAG);
+			list.add((StateFlag) RegionManager.WORLDGUARD_FLAG);
 			defaultFlagFlagListField.set(list.toArray(new Flag[0]));
 			LoggerUtils.info("Successfully injected WorldGuard Flag");
 		}

@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.reflect.Reflections;
 
 import java.io.IOException;
 import java.sql.DriverManager;
@@ -64,7 +65,7 @@ public class MySQLStorageImpl extends AbstractDatabaseStorage {
 			return;
 		}
 
-		Class.forName("com.mysql.jdbc.Driver");
+		Reflections.getClass("com.mysql.jdbc.Driver");
 		connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database + "?autoReconnect=true", username, password);
 	}
 

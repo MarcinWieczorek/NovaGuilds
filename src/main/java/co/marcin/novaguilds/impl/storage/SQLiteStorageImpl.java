@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.storage.Database;
 import co.marcin.novaguilds.exception.StorageConnectionFailedException;
+import co.marcin.novaguilds.util.reflect.Reflections;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class SQLiteStorageImpl extends AbstractDatabaseStorage implements Databa
 			}
 		}
 
-		Class.forName("org.sqlite.JDBC");
+		Reflections.getClass("org.sqlite.JDBC");
 		connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toPath().toString() + "/" + databaseFile.getName());
 	}
 

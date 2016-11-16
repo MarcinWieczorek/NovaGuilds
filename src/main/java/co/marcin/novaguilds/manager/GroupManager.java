@@ -100,6 +100,7 @@ public class GroupManager {
 		if(groups.containsKey(groupName)) {
 			return groups.get(groupName);
 		}
+
 		return null;
 	}
 

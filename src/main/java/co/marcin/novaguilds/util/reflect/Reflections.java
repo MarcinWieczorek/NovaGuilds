@@ -49,6 +49,17 @@ public final class Reflections {
 	}
 
 	/**
+	 * Gets a class
+	 *
+	 * @param name class name
+	 * @return class instance
+	 * @throws ClassNotFoundException when the class doesn't exist
+	 */
+	public static Class<?> getClass(String name) throws ClassNotFoundException {
+		return Class.forName(name);
+	}
+
+	/**
 	 * Gets NMS class
 	 *
 	 * @param name class name
@@ -56,8 +67,7 @@ public final class Reflections {
 	 * @throws ClassNotFoundException when the class doesn't exist
 	 */
 	public static Class<?> getCraftClass(String name) throws ClassNotFoundException {
-		String className = "net.minecraft.server." + getVersion() + name;
-		return Class.forName(className);
+		return getClass("net.minecraft.server." + getVersion() + name);
 	}
 
 	/**
@@ -68,8 +78,7 @@ public final class Reflections {
 	 * @throws ClassNotFoundException when the class doesn't exist
 	 */
 	public static Class<?> getBukkitClass(String name) throws ClassNotFoundException {
-		String className = "org.bukkit.craftbukkit." + getVersion() + name;
-		return Class.forName(className);
+		return getClass("org.bukkit.craftbukkit." + getVersion() + name);
 	}
 
 	/**

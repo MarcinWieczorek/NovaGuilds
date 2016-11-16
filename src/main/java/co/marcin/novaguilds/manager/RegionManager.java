@@ -38,7 +38,9 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import co.marcin.novaguilds.util.reflect.Reflections;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Effect;
@@ -50,6 +52,7 @@ import org.bukkit.entity.Vehicle;
 
 import java.awt.Rectangle;
 import java.awt.geom.Area;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -60,7 +63,28 @@ import java.util.concurrent.TimeUnit;
 
 public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	public static final StateFlag WORLDGUARD_FLAG = new StateFlag("ngregion", false, null);
+	public static Object WORLDGUARD_FLAG;
+
+	public RegionManager() {
+		if(plugin.getDependencyManager().isEnabled(Dependency.WORLDGUARD)) {
+			try {
+				Class<?> stateFlagClass = Reflections.getClass("com.sk89q.worldguard.protection.flags.StateFlag");
+				Class<?> regionGroupClass = Reflections.getClass("com.sk89q.worldguard.protection.flags.RegionGroup");
+				WORLDGUARD_FLAG = stateFlagClass.getConstructor(
+						String.class,
+						boolean.class,
+						regionGroupClass
+				).newInstance(
+						"ngregion",
+						false,
+						null
+				);
+			}
+			catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	/**
 	 * Gets the region at a location
@@ -588,10 +612,9 @@ public class RegionManager {
 		);
 
 		for(ProtectedRegion region : worldGuard.getRegionManager(selection.getWorld()).getRegions().values()) {
-			if(region.getFlag(RegionManager.WORLDGUARD_FLAG) == StateFlag.State.ALLOW) {
+			if(region.getFlag((Flag) RegionManager.WORLDGUARD_FLAG) == StateFlag.State.ALLOW) {
 				continue;
 			}
-
 
 			Area regionArea = RegionUtils.toArea(region);
 

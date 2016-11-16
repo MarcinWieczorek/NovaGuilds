@@ -82,12 +82,12 @@ public class TabListImpl extends AbstractTabList {
 			playerInfoDataClass = Reflections.getCraftClass("PlayerInfoData");
 			iChatBaseComponentClass = Reflections.getCraftClass("IChatBaseComponent");
 			craftChatMessageClass = Reflections.getBukkitClass("util.CraftChatMessage");
-			gameProfileClass = Class.forName("com.mojang.authlib.GameProfile");
+			gameProfileClass = Reflections.getClass("com.mojang.authlib.GameProfile");
 			entityPlayerClass = Reflections.getCraftClass("EntityPlayer");
 			craftOfflinePlayerClass = Reflections.getBukkitClass("CraftOfflinePlayer");
-			minecraftSessionServiceClass = Class.forName("com.mojang.authlib.minecraft.MinecraftSessionService");
+			minecraftSessionServiceClass = Reflections.getClass("com.mojang.authlib.minecraft.MinecraftSessionService");
 			minecraftServerClass = Reflections.getCraftClass("MinecraftServer");
-			propertyMapClass = Class.forName("com.mojang.authlib.properties.PropertyMap");
+			propertyMapClass = Reflections.getClass("com.mojang.authlib.properties.PropertyMap");
 			craftChatMessageFromStringMethod = Reflections.getMethod(craftChatMessageClass, "fromString", String.class);
 			minecraftServerGetMinecraftServerMethod = Reflections.getMethod(minecraftServerClass, "getServer");
 			craftOfflinePlayerGetProfileMethod = Reflections.getMethod(craftOfflinePlayerClass, "getProfile");
