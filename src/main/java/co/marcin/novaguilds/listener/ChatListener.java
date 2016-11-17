@@ -186,7 +186,5 @@ public class ChatListener extends AbstractListener {
 				}
 			}, 1, TimeUnit.MICROSECONDS);
 		}
-
-		//TODO: subCommands
 	}
 }

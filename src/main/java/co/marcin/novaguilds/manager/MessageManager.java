@@ -281,6 +281,7 @@ public class MessageManager {
 			case MINECRAFT_1_9_R2:
 			case MINECRAFT_1_10_R1:
 			case MINECRAFT_1_10_R2:
+			case MINECRAFT_1_11_R1:
 				title = new co.marcin.novaguilds.impl.versionimpl.v1_9_R1.TitleImpl();
 		}
 
