@@ -229,7 +229,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);
 
 					vars.put(VarKey.GUILD_NAME, guild.getName());
-					vars.put(VarKey.PLAYER, sender.getName());
+					vars.put(VarKey.PLAYER_NAME, sender.getName());
 					Message.BROADCAST_GUILD_CREATED.clone().vars(vars).broadcast();
 				}
 				break;

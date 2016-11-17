@@ -86,12 +86,12 @@ chat:
    bypass:
     toggled:
      self: "Zmieniono tryb ignorowania regionow. Aktualnie: &c{BYPASS}"
-     other: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER}. Aktualnie: &c{BYPASS}"
+     other: "Zmieniono tryb ignorowania regionow graczowi &c{PLAYER_NAME}. Aktualnie: &c{BYPASS}"
     notifyother: "Twoj tryb ignorowania regionow zostal zmieniony. Aktualnie: &c{BYPASS}"
    spectate:
     toggled:
      self: "Zmieniono tryb podglądu zaznaczenia. Aktualnie: &c{FLAG}"
-     other: "Zmieniono tryb podglądu zaznaczenia graczowi &c{PLAYER}. Aktualnie: &c{FLAG}"
+     other: "Zmieniono tryb podglądu zaznaczenia graczowi &c{PLAYER_NAME}. Aktualnie: &c{FLAG}"
     notifyother: "Twoj tryb podglądu zaznaczenia zostal zmieniony. Aktualnie: &c{FLAG}"
    delete:
     success: "Pomyslnie usunieto region"
@@ -544,7 +544,7 @@ chat:
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Lider: &6{LEADER}"
    - "&4&l> &7Stworzona: &6{CREATEDAGO} &2temu"
-   - "&4&l> &7Otwarte zaproszenie: &6{OPENINV}"
+   - "&4&l> &7Otwarte zaproszenie: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7Ochrona: &6{PROTLEFT}"
    - "&4&l> &7Zycia: &6{GUILD_LIVES}"
    - "&4&l> &7Regenaracja zycia: &6{LIVEREGENERATIONTIME}"
@@ -561,7 +561,7 @@ chat:
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Lider: &6{LEADER}"
    - "&4&l> &7Stworzona: &6{CREATEDAGO} &2temu"
-   - "&4&l> &7Otwarte zaproszenie: &6{OPENINV}"
+   - "&4&l> &7Otwarte zaproszenie: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7Ochrona: &6{PROTLEFT}"
    - "&4&l> &7Zycia: &6{GUILD_LIVES}"
    - "&4&l> &7Czas odpoczynku: &6{GUILD_TIME_REST}"
@@ -579,10 +579,10 @@ broadcast:
  guild:
   war: "Gildia &a{GUILD1} rozpoczela &cwojne &6z &a{GUILD2}"
   nowar: "Gildie &a{GUILD1} i &a{GUILD2} zakonczyly wojne"
-  joined: "Gracz &c{PLAYER} dolaczyl do &a{GUILD_NAME}"
-  left: "Gracz &c{PLAYER} opuscil &a{GUILD_NAME}"
-  created: "Gracz &c{PLAYER} zalozyl gildie &a{GUILD_NAME}"
-  abandoned: "Gracz &c{PLAYER} porzucil gildie &a{GUILD_NAME}"
+  joined: "Gracz &c{PLAYER_NAME} dolaczyl do &a{GUILD_NAME}"
+  left: "Gracz &c{PLAYER_NAME} opuscil &a{GUILD_NAME}"
+  created: "Gracz &c{PLAYER_NAME} zalozyl gildie &a{GUILD_NAME}"
+  abandoned: "Gracz &c{PLAYER_NAME} porzucil gildie &a{GUILD_NAME}"
   setleader: "Gracz &c{PLAYER_NAME} jest teraz liderem &a{GUILD_NAME}"
   allied: "&a{GUILD_NAME} i &a{ALLYNAME} sa teraz sojusznikami!"
   endally: "&a{GUILD_NAME} i &a{ALLYNAME} zakonczyli sojusz!"

@@ -86,12 +86,12 @@ chat:
    bypass:
     toggled:
      self: "Contournement de région basculé. Actuellement: &c{BYPASS}"
-     other: "Contournement de région basculé pour le joueur &c{PLAYER}. Actuellement: &c{BYPASS}"
+     other: "Contournement de région basculé pour le joueur &c{PLAYER_NAME}. Actuellement: &c{BYPASS}"
     notifyother: "Votre contournement de région à été basculé. Actuellement: &c{BYPASS}"
    spectate:
     toggled:
      self: "Mode spectateur de région basculé. Actuellement: &c{FLAG}"
-     other: "Mode spectateur de territoire basculé pour le joueur &c{PLAYER}. Actuellement: &c{FLAG}"
+     other: "Mode spectateur de territoire basculé pour le joueur &c{PLAYER_NAME}. Actuellement: &c{FLAG}"
     notifyother: "Votre mode spectateur de votre territoire à été basculé. Actuellement: &c{FLAG}"
    delete:
     success: "Territoire de guilde supprimé avec succès."
@@ -544,7 +544,7 @@ chat:
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Chef: &6{LEADER}"
    - "&4&l> &7Création: &6{CREATEDAGO} &2ago"
-   - "&4&l> &7Invitation ouverte: &6{OPENINV}"
+   - "&4&l> &7Invitation ouverte: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7Protection: &6{PROTLEFT} &2left"
    - "&4&l> &7Vies: &6{GUILD_LIVES}"
    - "&4&l> &7Regénération de la vie dans: &6{LIVEREGENERATIONTIME}"
@@ -561,7 +561,7 @@ chat:
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Chef: &6{LEADER}"
    - "&4&l> &7Création: &6{CREATEDAGO} &2ago"
-   - "&4&l> &7Invitation ouverte: &6{OPENINV}"
+   - "&4&l> &7Invitation ouverte: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7Protection: &6{PROTLEFT} &2left"
    - "&4&l> &7Vies: &6{GUILD_LIVES}"
    - "&4&l> &7Temps restant: &6{GUILD_TIME_REST}"
@@ -579,10 +579,10 @@ broadcast:
  guild:
   war: "La guilde &a{GUILD1} ont commencé une &cguerre &6avec &a{GUILD2}"
   nowar: "La guilde &a{GUILD1} et &a{GUILD2} ont arrêté la guerre"
-  joined: "Le joueur &c{PLAYER} a rejoint &a{GUILD_NAME}"
-  left: "Le joueur &c{PLAYER} a quitté &a{GUILD_NAME}"
-  created: "Le joueur &c{PLAYER} a créée la guilde &a{GUILD_NAME}"
-  abandoned: "Le joueur &c{PLAYER} a abandonné &a{GUILD_NAME}"
+  joined: "Le joueur &c{PLAYER_NAME} a rejoint &a{GUILD_NAME}"
+  left: "Le joueur &c{PLAYER_NAME} a quitté &a{GUILD_NAME}"
+  created: "Le joueur &c{PLAYER_NAME} a créée la guilde &a{GUILD_NAME}"
+  abandoned: "Le joueur &c{PLAYER_NAME} a abandonné &a{GUILD_NAME}"
   setleader: "Le joueur &c{PLAYER_NAME} est désormais le dirigeant de &a{GUILD_NAME}"
   allied: "&a{GUILD_NAME} et &a{ALLYNAME} sont désormais alliés!"
   endally: "&a{GUILD_NAME} et &a{ALLYNAME} ont terminé leurs alliances!"

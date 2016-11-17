@@ -86,12 +86,12 @@ chat:
    bypass:
     toggled:
      self: "Umgehung des Bereiches gewechselt. Aktuell: &c{BYPASS}"
-     other: "Umgehung des Bereiches gewechselt für den Spieler: &c{PLAYER}. Aktuell: &c{BYPASS}"
+     other: "Umgehung des Bereiches gewechselt für den Spieler: &c{PLAYER_NAME}. Aktuell: &c{BYPASS}"
     notifyother: "Deine Bereichsumgehung wurde gewechselt. Aktuell: &c{BYPASS}"
    spectate:
     toggled:
      self: "Region spectate toggled. Currently: &c{FLAG}"
-     other: "Region spectate toggled for player &c{PLAYER}. Currently: &c{FLAG}"
+     other: "Region spectate toggled for player &c{PLAYER_NAME}. Currently: &c{FLAG}"
     notifyother: "Your region spectate has been toggled. Currently: &c{FLAG}"
    delete:
     success: "Gildenbereich erfolgreich gelöscht."
@@ -544,7 +544,7 @@ chat:
    - "&4&l> &7Abkürzung: &6{TAG}"
    - "&4&l> &7Anführer: &6{LEADER}"
    - "&4&l> &7Erstellt vor &6{CREATEDAGO}"
-   - "&4&l> &7Einladungen offen: &6{OPENINV}"
+   - "&4&l> &7Einladungen offen: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7Schutz: &6{PROTLEFT} &2beendet"
    - "&4&l> &7Leben: &6{GUILD_LIVES}"
    - "&4&l> &7Lebensregeneration in: &6{LIVEREGENERATIONTIME}"
@@ -561,7 +561,7 @@ chat:
    - "&4&l> &7Abkürzung: &6{TAG}"
    - "&4&l> &7Anführer: &6{LEADER}"
    - "&4&l> &7Erstellt vor &6{CREATEDAGO}"
-   - "&4&l> &7Einladungen offen: &6{OPENINV}"
+   - "&4&l> &7Einladungen offen: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7Schutz: &6{PROTLEFT} &2beendet"
    - "&4&l> &7Leben: &6{GUILD_LIVES}"
    - "&4&l> &7Erholungszeit: &6{GUILD_TIME_REST}"
@@ -579,10 +579,10 @@ broadcast:
  guild:
   war: "Gilde &a{GUILD1} hat den &cKrieg &6gegen &a{GUILD2} begonnen"
   nowar: "Gilde &a{GUILD1} und &a{GUILD2} haben ihren Krieg gestoppt."
-  joined: "Spieler &c{PLAYER} tritt &a{GUILD_NAME} bei"
-  left: "Spieler &c{PLAYER} verliess &a{GUILD_NAME}"
-  created: "Spieler &c{PLAYER} erstellte die Gilde &a{GUILD_NAME}"
-  abandoned: "Spieler &c{PLAYER} hat &a{GUILD_NAME} aufgelöst!"
+  joined: "Spieler &c{PLAYER_NAME} tritt &a{GUILD_NAME} bei"
+  left: "Spieler &c{PLAYER_NAME} verliess &a{GUILD_NAME}"
+  created: "Spieler &c{PLAYER_NAME} erstellte die Gilde &a{GUILD_NAME}"
+  abandoned: "Spieler &c{PLAYER_NAME} hat &a{GUILD_NAME} aufgelöst!"
   setleader: "Spieler &c{PLAYER_NAME} ist jetzt der Anführer von &a{GUILD_NAME}!"
   allied: "&a{GUILD_NAME} und &a{ALLYNAME} sind nun Verbündet!"
   endally: "&a{GUILD_NAME} und &a{ALLYNAME} haben ihren Verbund beendet!"

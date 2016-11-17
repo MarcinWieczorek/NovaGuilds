@@ -146,7 +146,7 @@ public class CommandGuildJoin extends AbstractCommandExecutor {
 		guild.showVaultHologram(nPlayer.getPlayer());
 
 		vars.clear();
-		vars.put(VarKey.PLAYER, sender.getName());
+		vars.put(VarKey.PLAYER_NAME, sender.getName());
 		vars.put(VarKey.GUILD_NAME, guild.getName());
 		Message.BROADCAST_GUILD_JOINED.clone().vars(vars).broadcast();
 	}

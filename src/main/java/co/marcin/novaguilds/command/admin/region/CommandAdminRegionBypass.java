@@ -61,7 +61,7 @@ public class CommandAdminRegionBypass extends AbstractCommandExecutor {
 			}
 
 			nPlayer.getPreferences().toggleBypass();
-			vars.put(VarKey.PLAYER, nPlayer.getName());
+			vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
 			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
 
 			if(nPlayer.isOnline()) {

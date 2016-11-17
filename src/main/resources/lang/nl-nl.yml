@@ -86,12 +86,12 @@ chat:
    bypass:
     toggled:
      self: "Regio doorgang gewijzigd. momenteel: &c{BYPASS}"
-     other: "Regio doorgang gewijzigd voor speler &c{PLAYER}. Momenteel: &c{BYPASS}"
+     other: "Regio doorgang gewijzigd voor speler &c{PLAYER_NAME}. Momenteel: &c{BYPASS}"
     notifyother: "Jouw regio doorgang is gewijzigd. Momenteel: &c{BYPASS}"
    spectate:
     toggled:
      self: "Regio Toegschouwer is gewijzigd. Momenteel: &c{FLAG}"
-     other: "Regio Toegschouwer gewijzigd voor speler &c{PLAYER}. Momenteel: &c{FLAG}"
+     other: "Regio Toegschouwer gewijzigd voor speler &c{PLAYER_NAME}. Momenteel: &c{FLAG}"
     notifyother: "Je regio Toegschouwer is gewijzigd. Momenteel: &c{FLAG}"
    delete:
     success: "Met succes Guild regio verwijderd."
@@ -544,7 +544,7 @@ chat:
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Leider: &6{LEADER}"
    - "&4&l> &7Opgericht: &6{CREATEDAGO} &2ago"
-   - "&4&l> &7Open uitnodigingen: &6{OPENINV}"
+   - "&4&l> &7Open uitnodigingen: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7Bescherming: &6{PROTLEFT} &2left"
    - "&4&l> &7Levens: &6{GUILD_LIVES}"
    - "&4&l> &7Levens herstel over: &6{LIVEREGENERATIONTIME}"
@@ -561,7 +561,7 @@ chat:
    - "&4&l> &7Tag: &6{TAG}"
    - "&4&l> &7Leider: &6{LEADER}"
    - "&4&l> &7Opgericht: &6{CREATEDAGO} &2ago"
-   - "&4&l> &7Open uitnodigingen: &6{OPENINV}"
+   - "&4&l> &7Open uitnodigingen: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7Bescherming: &6{PROTLEFT} &2left"
    - "&4&l> &7Levens: &6{GUILD_LIVES}"
    - "&4&l> &7Rust tijd: &6{GUILD_TIME_REST}"
@@ -579,10 +579,10 @@ broadcast:
  guild:
   war: "Guild &a{GUILD1} is een oorlog &cbegonnen &6met &a{GUILD2}"
   nowar: "Guild &a{GUILD1} en &a{GUILD2} hebben hun oorlog beeindigd"
-  joined: "Speler &c{PLAYER} is een lid geworden van : &a{GUILD_NAME}"
-  left: "Speler &c{PLAYER} Heeft &a{GUILD_NAME} verlaten"
-  created: "Speler &c{PLAYER} heeft &a{GUILD_NAME} opgericht"
-  abandoned: "Speler &c{PLAYER} heeft &a{GUILD_NAME} ontbonden!"
+  joined: "Speler &c{PLAYER_NAME} is een lid geworden van : &a{GUILD_NAME}"
+  left: "Speler &c{PLAYER_NAME} Heeft &a{GUILD_NAME} verlaten"
+  created: "Speler &c{PLAYER_NAME} heeft &a{GUILD_NAME} opgericht"
+  abandoned: "Speler &c{PLAYER_NAME} heeft &a{GUILD_NAME} ontbonden!"
   setleader: "Speler &c{PLAYER_NAME} is nu de guildleider van : &a{GUILD_NAME}"
   allied: "&a{GUILD_NAME} en &a{ALLYNAME} zijn nu bondgenoten!"
   endally: "&a{GUILD_NAME} en &a{ALLYNAME} zijn geen bondgenoten meer !"

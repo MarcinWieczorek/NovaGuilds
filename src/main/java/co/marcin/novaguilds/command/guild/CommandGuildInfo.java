@@ -150,7 +150,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 		vars.put(VarKey.SLOTS, String.valueOf(guild.getSlots()));
 		vars.put(VarKey.GUILD_POINTS, String.valueOf(guild.getPoints()));
 		vars.put(VarKey.GUILD_LIVES, String.valueOf(guild.getLives()));
-		vars.put(VarKey.OPENINV, Message.getOnOff(guild.isOpenInvitation()));
+		vars.put(VarKey.GUILD_OPENINVITATION, Message.getOnOff(guild.isOpenInvitation()));
 
 		//live regeneration time
 		long liveRegenerationTime = Config.LIVEREGENERATION_REGENTIME.getSeconds() - (NumberUtils.systemSeconds() - guild.getLostLiveTime());

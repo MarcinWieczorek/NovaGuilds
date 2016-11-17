@@ -86,12 +86,12 @@ chat:
    bypass:
     toggled:
      self: "您在该领地的通行权限已被修改,现在的状态为：&c{BYPASS}"
-     other: "玩家 &c{PLAYER}在该领地的通行权限已被修改,现在的状态为：&c{BYPASS}"
+     other: "玩家 &c{PLAYER_NAME}在该领地的通行权限已被修改,现在的状态为：&c{BYPASS}"
     notifyother: "您的领地通行权限已被修改,现在的状态为：&c{BYPASS}"
    spectate:
     toggled:
      self: "Region spectate toggled. Currently: &c{FLAG}"
-     other: "Region spectate toggled for player &c{PLAYER}. Currently: &c{FLAG}"
+     other: "Region spectate toggled for player &c{PLAYER_NAME}. Currently: &c{FLAG}"
     notifyother: "Your region spectate has been toggled. Currently: &c{FLAG}"
    delete:
     success: "成功删除公会领地."
@@ -544,7 +544,7 @@ chat:
    - "&4&l> &7公会前缀: &6{TAG}"
    - "&4&l> &7公会会长: &6{LEADER}"
    - "&4&l> &7创建时间: &6{CREATEDAGO}&2前"
-   - "&4&l> &7邀请状态: &6{OPENINV}"
+   - "&4&l> &7邀请状态: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7保护: &6{PROTLEFT}&2left"
    - "&4&l> &7生活区: &6{GUILD_LIVES}"
    - "&4&l> &7Live Regeneration in: &6{LIVEREGENERATIONTIME}"
@@ -561,7 +561,7 @@ chat:
    - "&4&l> &7公会前缀: &6{TAG}"
    - "&4&l> &7公会会长: &6{LEADER}"
    - "&4&l> &7创建时间: &6{CREATEDAGO}&2ago"
-   - "&4&l> &7邀请状态: &6{OPENINV}"
+   - "&4&l> &7邀请状态: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7保护: &6{PROTLEFT}&2left"
    - "&4&l> &7生活区: &6{GUILD_LIVES}"
    - "&4&l> &7剩余时间: &6{GUILD_TIME_REST}"
@@ -579,10 +579,10 @@ broadcast:
  guild:
   war: "&a{GUILD1}&公会向&a{GUILD2}公会发起了一场&c战争."
   nowar: "&a{GUILD1}公会已与&a{GUILD2}公会停战."
-  joined: "&c{PLAYER}加入了&a{GUILD_NAME}."
-  left: "&c{PLAYER}离开了&a{GUILD_NAME}"
-  created: "&c{PLAYER}创建了&a{GUILD_NAME}公会."
-  abandoned: "&c{PLAYER}解散了&a{GUILD_NAME}公会."
+  joined: "&c{PLAYER_NAME}加入了&a{GUILD_NAME}."
+  left: "&c{PLAYER_NAME}离开了&a{GUILD_NAME}"
+  created: "&c{PLAYER_NAME}创建了&a{GUILD_NAME}公会."
+  abandoned: "&c{PLAYER_NAME}解散了&a{GUILD_NAME}公会."
   setleader: "&c{PLAYER_NAME}已成为&a{GUILD_NAME}公会的会长."
   allied: "&a{GUILD_NAME}公会已与&a{ALLYNAME}公会结盟！"
   endally: "&a{GUILD_NAME}公会已取消了与&a{ALLYNAME}公会的结盟！"

@@ -175,7 +175,7 @@ public class ChatMessageImpl implements ChatMessage {
 
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.DISPLAYNAME, getPlayer().getDisplayName());
-		vars.put(VarKey.PLAYER, getPlayer().getName());
+		vars.put(VarKey.PLAYER_NAME, getPlayer().getName());
 		vars.put(VarKey.WORLD, getPlayer().getWorld().getName());
 		vars.put(VarKey.WORLDNAME, getPlayer().getWorld().getName());
 		vars.put(VarKey.PLAYER_POINTS, String.valueOf(PlayerManager.getPlayer(getPlayer()).getPoints()));

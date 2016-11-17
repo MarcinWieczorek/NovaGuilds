@@ -61,7 +61,7 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 			}
 
 			nPlayer.getPreferences().toggleRegionSpectate();
-			vars.put(VarKey.PLAYER, nPlayer.getName());
+			vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
 			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getPreferences().getRegionSpectate()));
 
 			if(nPlayer.isOnline()) {
