@@ -322,6 +322,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				LoggerUtils.exception(e);
 			}
 
+			//Run tasks
+			getTaskManager().runTasks();
+
 			LoggerUtils.info("#" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ") Enabled");
 		}
 		catch(Exception e) {

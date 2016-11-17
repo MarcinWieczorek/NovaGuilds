@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.manager;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Dependency;
@@ -42,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DependencyManager {
+	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<Dependency, Plugin> pluginMap = new HashMap<>();
 	private Economy economy;
 
@@ -104,6 +106,11 @@ public class DependencyManager {
 				}
 			}
 		}
+
+		//Set config values varying if dependencies are missing
+		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2) || plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
+		Config.BOSSBAR_RAIDBAR_ENABLED.set(Config.BOSSBAR_RAIDBAR_ENABLED.getBoolean() && Config.BOSSBAR_ENABLED.getBoolean());
+		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));
 	}
 
 	/**
