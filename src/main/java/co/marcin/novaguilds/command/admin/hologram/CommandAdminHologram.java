@@ -40,6 +40,7 @@ public class CommandAdminHologram extends AbstractCommandExecutor {
 		commandsMap.put("tphere",       Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
 		commandsMap.put("teleporthere", Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
 		commandsMap.put("movehere",     Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
+		commandsMap.put("move",         Command.ADMIN_HOLOGRAM_TELEPORT_HERE);
 	}
 
 	@Override
