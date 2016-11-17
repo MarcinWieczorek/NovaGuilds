@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
@@ -177,6 +178,7 @@ public class ChatMessageImpl implements ChatMessage {
 		vars.put(VarKey.PLAYER, getPlayer().getName());
 		vars.put(VarKey.WORLD, getPlayer().getWorld().getName());
 		vars.put(VarKey.WORLDNAME, getPlayer().getWorld().getName());
+		vars.put(VarKey.PLAYER_POINTS, String.valueOf(PlayerManager.getPlayer(getPlayer()).getPoints()));
 		vars.put(VarKey.TAG, tag.get());
 
 		format = co.marcin.novaguilds.util.StringUtils.replaceVarKeyMap(format, vars);
