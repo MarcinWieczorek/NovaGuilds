@@ -19,16 +19,19 @@
 package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.VarKeyApplicable;
 import co.marcin.novaguilds.manager.ConfigManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public enum Config {
+public enum Config implements VarKeyApplicable<Config> {
 	MYSQL_HOST,
 	MYSQL_PORT,
 	MYSQL_USERNAME,
@@ -182,12 +185,47 @@ public enum Config {
 
 	private static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
 	private final String path;
+	private final Map<VarKey, String> vars = new HashMap<>();
 
 	/**
 	 * The constructor
 	 */
 	Config() {
 		path = StringUtils.replace(name(), "_", ".").toLowerCase();
+	}
+
+	@Override
+	public Map<VarKey, String> getVars() {
+		return vars;
+	}
+
+	@Override
+	public void setVars(Map<VarKey, String> vars) {
+		this.vars.clear();
+		this.vars.putAll(vars);
+	}
+
+	@Override
+	public Config vars(Map<VarKey, String> vars) {
+		this.vars.clear();
+		this.vars.putAll(vars);
+		return this;
+	}
+
+	@Override
+	public Config setVar(VarKey varKey, String value) {
+		vars.put(varKey, value);
+		return this;
+	}
+
+	@Override
+	public Config setVar(VarKey varKey, Integer value) {
+		return setVar(varKey, String.valueOf(value));
+	}
+
+	@Override
+	public Config setVar(VarKey varKey, Double value) {
+		return setVar(varKey, String.valueOf(value));
 	}
 
 	/**
@@ -205,7 +243,7 @@ public enum Config {
 	 * @return the string
 	 */
 	public String getString() {
-		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path);
+		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path, vars);
 		cM.putInCache(this, r);
 		return r;
 	}
@@ -216,7 +254,7 @@ public enum Config {
 	 * @return the list
 	 */
 	public List<String> getStringList() {
-		List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path);
+		List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path, vars);
 		cM.putInCache(this, r);
 		return r;
 	}
@@ -227,7 +265,7 @@ public enum Config {
 	 * @return the list
 	 */
 	public List<ItemStack> getItemStackList() {
-		List<ItemStack> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path);
+		List<ItemStack> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path, vars);
 		cM.putInCache(this, r);
 		return r;
 	}
@@ -238,7 +276,7 @@ public enum Config {
 	 * @return the list
 	 */
 	public List<Material> getMaterialList() {
-		List<Material> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path);
+		List<Material> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path, vars);
 		cM.putInCache(this, r);
 		return r;
 	}
@@ -304,7 +342,7 @@ public enum Config {
 	 * @return itemstack
 	 */
 	public ItemStack getItemStack() {
-		ItemStack r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof ItemStack ? (ItemStack) cM.getEnumConfig(this) : cM.getItemStack(path);
+		ItemStack r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof ItemStack ? (ItemStack) cM.getEnumConfig(this) : cM.getItemStack(path, vars);
 		cM.putInCache(this, r);
 		return r;
 	}

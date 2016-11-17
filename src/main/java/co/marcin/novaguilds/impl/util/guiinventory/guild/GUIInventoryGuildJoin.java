@@ -24,7 +24,6 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.List;

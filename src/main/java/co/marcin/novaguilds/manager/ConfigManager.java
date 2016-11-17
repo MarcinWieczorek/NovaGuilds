@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Dependency;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
@@ -408,20 +409,41 @@ public class ConfigManager {
 	 * Gets a string
 	 *
 	 * @param path config path
+	 * @param vars variable map
 	 * @return the value
 	 */
-	public String getString(String path) {
-		return config.getString(path) == null ? "" : config.getString(path);
+	public String getString(String path, Map<VarKey, String> vars) {
+		String string = config.getString(path);
+
+		if(string == null) {
+			return "";
+		}
+
+		string = MessageManager.replaceVarKeyMap(string, vars, false);
+		return StringUtils.fixColors(string);
 	}
 
 	/**
 	 * Gets a string list
 	 *
 	 * @param path config path
+	 * @param vars variable map
 	 * @return the value
 	 */
-	public List<String> getStringList(String path) {
-		return config.getStringList(path) == null ? new ArrayList<String>() : config.getStringList(path);
+	public List<String> getStringList(String path, Map<VarKey, String> vars) {
+		List<String> list = config.getStringList(path);
+
+		if(list == null) {
+			return new ArrayList<>();
+		}
+
+		list = MessageManager.replaceVarKeyMap(list, vars, false);
+
+		for(int i = 0; i < list.size(); i++) {
+			list.set(i, StringUtils.fixColors(list.get(i)));
+		}
+
+		return list;
 	}
 
 	/**
@@ -473,7 +495,7 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public int getSeconds(String path) {
-		return StringUtils.stringToSeconds(getString(path));
+		return StringUtils.stringToSeconds(getString(path, null));
 	}
 
 	/**
@@ -482,10 +504,11 @@ public class ConfigManager {
 	 * STONE:1 1 etc.
 	 *
 	 * @param path config path
+	 * @param vars variable map
 	 * @return the value
 	 */
-	public ItemStack getItemStack(String path) {
-		return ItemStackUtils.stringToItemStack(getString(path));
+	public ItemStack getItemStack(String path, Map<VarKey, String> vars) {
+		return ItemStackUtils.stringToItemStack(getString(path, vars));
 	}
 
 	/**
@@ -495,7 +518,7 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public Material getMaterial(String path) {
-		return Material.getMaterial((getString(path).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path), ':')[0] : getString(path)).toUpperCase());
+		return Material.getMaterial((getString(path, null).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path, null), ':')[0] : getString(path, null)).toUpperCase());
 	}
 
 	/**
@@ -507,17 +530,18 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public byte getMaterialData(String path) {
-		return Byte.valueOf(getString(path).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path), ':')[1] : "0");
+		return Byte.valueOf(getString(path, null).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path, null), ':')[1] : "0");
 	}
 
 	/**
 	 * Gets itemstack list
 	 *
 	 * @param path config path
+	 * @param vars variable map
 	 * @return the value
 	 */
-	public List<ItemStack> getItemStackList(String path) {
-		final List<String> stringList = getStringList(path);
+	public List<ItemStack> getItemStackList(String path, Map<VarKey, String> vars) {
+		final List<String> stringList = getStringList(path, vars);
 		final List<ItemStack> itemStackList = new ArrayList<>();
 
 		for(String string : stringList) {
@@ -535,10 +559,11 @@ public class ConfigManager {
 	 * Gets material list
 	 *
 	 * @param path config path
+	 * @param vars variable map
 	 * @return the value
 	 */
-	public List<Material> getMaterialList(String path) {
-		final List<String> stringList = getStringList(path);
+	public List<Material> getMaterialList(String path, Map<VarKey, String> vars) {
+		final List<String> stringList = getStringList(path, vars);
 		final List<Material> materialList = new ArrayList<>();
 
 		for(String string : stringList) {

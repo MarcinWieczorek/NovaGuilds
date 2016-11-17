@@ -24,7 +24,7 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.ChatBroadcast;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.util.AbstractVarKeyApplicable;
 import co.marcin.novaguilds.impl.util.ChatBroadcastImpl;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.ItemStackUtils;
@@ -35,13 +35,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class MessageWrapperImpl implements MessageWrapper {
-	private String path = null;
-	private final Map<VarKey, String> vars = new HashMap<>();
+public class MessageWrapperImpl extends AbstractVarKeyApplicable<MessageWrapper> implements MessageWrapper {
+	private String path;
 	private final List<Flag> flags = new ArrayList<>();
 
 	/**
@@ -131,17 +128,6 @@ public class MessageWrapperImpl implements MessageWrapper {
 	}
 
 	@Override
-	public Map<VarKey, String> getVars() {
-		return vars;
-	}
-
-	@Override
-	public void setVars(Map<VarKey, String> vars) {
-		this.vars.clear();
-		this.vars.putAll(vars);
-	}
-
-	@Override
 	public void send(CommandSender sender) {
 		if(hasFlag(Flag.LIST)) {
 			MessageManager.sendMessagesList(sender, this);
@@ -156,29 +142,6 @@ public class MessageWrapperImpl implements MessageWrapper {
 		if(nPlayer.isOnline()) {
 			send(nPlayer.getPlayer());
 		}
-	}
-
-	@Override
-	public MessageWrapper vars(Map<VarKey, String> vars) {
-		this.vars.clear();
-		this.vars.putAll(vars);
-		return this;
-	}
-
-	@Override
-	public MessageWrapper setVar(VarKey varKey, String value) {
-		vars.put(varKey, value);
-		return this;
-	}
-
-	@Override
-	public MessageWrapper setVar(VarKey varKey, Integer value) {
-		return setVar(varKey, String.valueOf(value));
-	}
-
-	@Override
-	public MessageWrapper setVar(VarKey varKey, Double value) {
-		return setVar(varKey, String.valueOf(value));
 	}
 
 	@Override

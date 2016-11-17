@@ -457,10 +457,10 @@ chat:
    items:
    - "&4&l> &7昵称: &6{PLAYER_NAME}"
    - "{GUILDROW}"
-   - "&4&l> &7公会点数: &6{GUILD_POINTS}"
+   - "&4&l> &7公会点数: &6{PLAYER_POINTS}"
    - "&4&l> &7击杀次数: &6{PLAYER_KILLS}"
    - "&4&l> &7死亡次数: &6{PLAYER_DEATHS}"
-   - "&4&l> &7击杀/死亡比: &6{KDR}"
+   - "&4&l> &7击杀/死亡比: &6{PLAYER_KDR}"
 
  region:
   blockedcmd: "该地区禁止使用这个指令."

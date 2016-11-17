@@ -357,8 +357,10 @@ public class MessageManager {
 	 * @return replaced string
 	 */
 	public static String replaceVarKeyMap(String msg, Map<VarKey, String> vars, boolean usePrefixColor) {
-		for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
-			vars.put(entry.getKey(), entry.getValue() + (usePrefixColor ? instance.prefixColor : ""));
+		if(vars != null) {
+			for(Map.Entry<VarKey, String> entry : vars.entrySet()) {
+				vars.put(entry.getKey(), entry.getValue() + (usePrefixColor ? instance.prefixColor : ""));
+			}
 		}
 
 		return StringUtils.replaceVarKeyMap(msg, vars);

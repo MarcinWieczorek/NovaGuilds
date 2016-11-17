@@ -164,6 +164,7 @@ public final class TabUtils {
 		vars.put(VarKey.PLAYER_CHATMODE, nPlayer.getPreferences().getChatMode().getName().get());
 		vars.put(VarKey.PLAYER_SPYMODE, Message.getOnOff(nPlayer.getPreferences().getSpyMode()));
 		vars.put(VarKey.PLAYER_BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
+		vars.put(VarKey.PLAYER_POINTS, String.valueOf(nPlayer.getPoints()));
 
 		//Guild vars
 		NovaGuild guild = nPlayer.getGuild();
@@ -235,8 +236,8 @@ public final class TabUtils {
 
 		//Players TOP
 		final List<ListDisplay> listDisplays = new ArrayList<>();
-		listDisplays.add(new ListDisplay(Config.TABLIST_TOPROW_PLAYERS_POINTS, "POINTS", plugin.getPlayerManager().getTopPlayersByPoints(20)));
-		listDisplays.add(new ListDisplay(Config.TABLIST_TOPROW_PLAYERS_KDR, "KDR", plugin.getPlayerManager().getTopPlayersByKDR(20)));
+		listDisplays.add(new ListDisplay(Config.TABLIST_TOPROW_PLAYERS_POINTS, VarKey.PLAYER_POINTS, plugin.getPlayerManager().getTopPlayersByPoints(20)));
+		listDisplays.add(new ListDisplay(Config.TABLIST_TOPROW_PLAYERS_KDR, VarKey.PLAYER_KDR, plugin.getPlayerManager().getTopPlayersByKDR(20)));
 
 		for(ListDisplay listDisplay : listDisplays) {
 			List<NovaPlayer> topPlayersList = listDisplay.getList();
@@ -250,8 +251,8 @@ public final class TabUtils {
 					rowVars.put(VarKey.PLAYER_NAME, nPlayerTop.getName());
 					rowVars.put(VarKey.PLAYER_KILLS, String.valueOf(nPlayerTop.getKills()));
 					rowVars.put(VarKey.PLAYER_DEATHS, String.valueOf(nPlayerTop.getDeaths()));
-					rowVars.put(VarKey.KDR, String.valueOf(nPlayerTop.getKillDeathRate()));
-					rowVars.put(VarKey.GUILD_POINTS, String.valueOf(nPlayerTop.getPoints()));
+					rowVars.put(VarKey.PLAYER_KDR, String.valueOf(nPlayerTop.getKillDeathRate()));
+					rowVars.put(VarKey.PLAYER_POINTS, String.valueOf(nPlayerTop.getPoints()));
 					row = StringUtils.replaceVarKeyMap(row, rowVars);
 
 					vars.put(VarKey.valueOf("PLAYER_TOP_" + listDisplay.getVarKey() + "_N" + i), row);
@@ -265,7 +266,7 @@ public final class TabUtils {
 
 	private static class ListDisplay {
 		private final Config rowPattern;
-		private final String varKey;
+		private final VarKey varKey;
 		private final List<NovaPlayer> list;
 
 		/**
@@ -275,7 +276,7 @@ public final class TabUtils {
 		 * @param varKey     variable key
 		 * @param list       list of players
 		 */
-		ListDisplay(Config rowPattern, String varKey, List<NovaPlayer> list) {
+		ListDisplay(Config rowPattern, VarKey varKey, List<NovaPlayer> list) {
 			this.rowPattern = rowPattern;
 			this.varKey = varKey;
 			this.list = list;
@@ -295,7 +296,7 @@ public final class TabUtils {
 		 *
 		 * @return the var key
 		 */
-		public String getVarKey() {
+		public VarKey getVarKey() {
 			return varKey;
 		}
 

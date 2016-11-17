@@ -193,14 +193,14 @@ chat:
   prefix: "!!"
   enabled: true
   leaderprefix: true
-  format: "&6[&5Ally&6] &a{TAG}&8{PLAYERNAME}&6:&r "
+  format: "&6[&5Ally&6] &a{GUILD_TAG}&8{PLAYER_NAME}&6:&r "
 
 # guild chat settings
  guild:
   prefix: "!"
   enabled: true
   leaderprefix: true
-  format: "&6[&7Guild&6] &a{LEADERPREFIX}&8{PLAYERNAME}&6:&r "
+  format: "&6[&7Guild&6] &a{LEADER_PREFIX}&8{PLAYER_NAME}&6:&r "
 
 ###################################################
 # Raid settings                                   #
@@ -439,7 +439,6 @@ groups:
   region:
    autoregionsize: 10
 
-
 ###################################################
 # Guild's vault                                   #
 vault:
@@ -469,8 +468,10 @@ vault:
 # which is given on the top                       #
 #                                                 #
 # Players top:                                    #
-# By points: {PLAYER_TOP_POINTS_Nx}               #
-# By KDR (kills/deaths): {PLAYER_TOP_KDR_Nx}      #
+# By points: {PLAYER_TOP_PLAYER_POINTS_Nx}        #
+# By KDR: {PLAYER_TOP_PLAYER_KDR_Nx}              #
+# Guilds top:                                     #
+# By points: {GUILD_TOP_Nx}                       #
 # Replace 'x' with numbers 1-20 and place lines   #
 # in the scheme. The plugin will do the rest      #
 tablist:
@@ -490,9 +491,9 @@ tablist:
 # top patterns                                    #
  toprow:
   players:
-   points: "&6[&2{N}&6] &a{PLAYERNAME} &c{POINTS}"
-   kdr: "&6[&2{N}&6] &a{PLAYERNAME} &c{KDR}"
-  guilds: "&6[&2{N}&6] &a{GUILDNAME} &c{POINTS}"
+   points: "&6[&2{N}&6] &a{PLAYER_NAME} &c{PLAYER_POINTS}"
+   kdr: "&6[&2{N}&6] &a{PLAYER_NAME} &c{PLAYER_KDR}"
+  guilds: "&6[&2{N}&6] &a{GUILD_NAME} &c{GUILD_POINTS}"
  scheme:
   - "{PLAYER_NAME}"
   - "Money: &2{PLAYER_BALANCE}$"
@@ -555,16 +556,16 @@ tablist:
   - ""
   - ""
   - "Players TOP (kdr)"
-  - "{PLAYER_TOP_KDR_N1}"
-  - "{PLAYER_TOP_KDR_N2}"
-  - "{PLAYER_TOP_KDR_N3}"
-  - "{PLAYER_TOP_KDR_N4}"
-  - "{PLAYER_TOP_KDR_N5}"
-  - "{PLAYER_TOP_KDR_N6}"
-  - "{PLAYER_TOP_KDR_N7}"
-  - "{PLAYER_TOP_KDR_N8}"
-  - "{PLAYER_TOP_KDR_N9}"
-  - "{PLAYER_TOP_KDR_N10}"
+  - "{PLAYER_TOP_PLAYER_KDR_N1}"
+  - "{PLAYER_TOP_PLAYER_KDR_N2}"
+  - "{PLAYER_TOP_PLAYER_KDR_N3}"
+  - "{PLAYER_TOP_PLAYER_KDR_N4}"
+  - "{PLAYER_TOP_PLAYER_KDR_N5}"
+  - "{PLAYER_TOP_PLAYER_KDR_N6}"
+  - "{PLAYER_TOP_PLAYER_KDR_N7}"
+  - "{PLAYER_TOP_PLAYER_KDR_N8}"
+  - "{PLAYER_TOP_PLAYER_KDR_N9}"
+  - "{PLAYER_TOP_PLAYER_KDR_N10}"
 
 ###################################################
 # Region settings                                 #

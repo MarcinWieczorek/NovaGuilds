@@ -30,12 +30,12 @@ import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.TagColor;
+import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.ChatMessageImpl;
 import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagChatImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
-import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -69,10 +69,10 @@ public class ChatListener extends AbstractListener {
 				preparedTag.setLeaderPrefix(preparedTag.isLeaderPrefix() && Config.CHAT_ALLY_LEADERPREFIX.getBoolean());
 
 				preparedTag.setColor(TagColor.NEUTRAL);
-				String cFormat = Config.CHAT_ALLY_FORMAT.getString();
-				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{TAG}", preparedTag.get());
-				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
-				cFormat = StringUtils.fixColors(cFormat);
+				String cFormat = Config.CHAT_ALLY_FORMAT
+						.setVar(VarKey.GUILD_TAG, preparedTag.get())
+						.setVar(VarKey.PLAYER_NAME, nPlayer.getName())
+						.getString();
 
 				//Trim prefix
 				if(nPlayer.getPreferences().getChatMode() != ChatMode.ALLY) {
@@ -96,10 +96,10 @@ public class ChatListener extends AbstractListener {
 			if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
 				String rank = Config.CHAT_GUILD_LEADERPREFIX.getBoolean() && nPlayer.isLeader() ? Config.CHAT_LEADERPREFIX.getString() : "";
 
-				String cFormat = Config.CHAT_GUILD_FORMAT.getString();
-				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{LEADERPREFIX}", rank);
-				cFormat = org.apache.commons.lang.StringUtils.replace(cFormat, "{PLAYERNAME}", nPlayer.getName());
-				cFormat = StringUtils.fixColors(cFormat);
+				String cFormat = Config.CHAT_GUILD_FORMAT
+						.setVar(VarKey.LEADER_PREFIX, rank)
+						.setVar(VarKey.PLAYER_NAME, nPlayer.getName())
+						.getString();
 
 				//Trim prefix
 				if(nPlayer.getPreferences().getChatMode() != ChatMode.GUILD) {

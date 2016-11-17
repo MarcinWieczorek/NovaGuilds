@@ -19,16 +19,15 @@
 package co.marcin.novaguilds.api.basic;
 
 import co.marcin.novaguilds.api.util.ChatBroadcast;
+import co.marcin.novaguilds.api.util.VarKeyApplicable;
 import co.marcin.novaguilds.enums.Permission;
-import co.marcin.novaguilds.enums.VarKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.Map;
 
-public interface MessageWrapper extends Cloneable {
+public interface MessageWrapper extends Cloneable, VarKeyApplicable<MessageWrapper> {
 	enum Flag {
 		/**
 		 * Should not be displayed with prefix
@@ -103,20 +102,6 @@ public interface MessageWrapper extends Cloneable {
 	boolean isPrefix();
 
 	/**
-	 * Gets the map of variables
-	 *
-	 * @return The Map
-	 */
-	Map<VarKey, String> getVars();
-
-	/**
-	 * Sets the vars
-	 *
-	 * @param vars map with variables
-	 */
-	void setVars(Map<VarKey, String> vars);
-
-	/**
 	 * Sends the Message to a player
 	 *
 	 * @param sender receiver
@@ -129,41 +114,6 @@ public interface MessageWrapper extends Cloneable {
 	 * @param nPlayer receiver NovaPlayer
 	 */
 	void send(NovaPlayer nPlayer);
-
-	/**
-	 * Adds a map of vars;
-	 *
-	 * @param vars Map of variables
-	 * @return Message instance
-	 */
-	MessageWrapper vars(Map<VarKey, String> vars);
-
-	/**
-	 * Set a var
-	 *
-	 * @param varKey key enum
-	 * @param value  the value
-	 * @return message instance
-	 */
-	MessageWrapper setVar(VarKey varKey, String value);
-
-	/**
-	 * Set a var
-	 *
-	 * @param varKey key enum
-	 * @param value  the value
-	 * @return message instance
-	 */
-	MessageWrapper setVar(VarKey varKey, Integer value);
-
-	/**
-	 * Set a var
-	 *
-	 * @param varKey key enum
-	 * @param value  the value
-	 * @return message instance
-	 */
-	MessageWrapper setVar(VarKey varKey, Double value);
 
 	/**
 	 * Sets whether the prefix should be displayed
@@ -235,7 +185,7 @@ public interface MessageWrapper extends Cloneable {
 	ConfigurationSection getConfigurationSection();
 
 	/**
-	 * Gets Message's neighbours (excluding itslef)
+	 * Gets Message's neighbours (excluding itself)
 	 *
 	 * @return a list of Messages in one ConfigurationSection
 	 */

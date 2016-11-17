@@ -65,6 +65,10 @@ public class RegionManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	public static Object WORLDGUARD_FLAG;
 
+	/**
+	 * The constructor
+	 * Creates a WorldGuard flag if possible
+	 */
 	public RegionManager() {
 		if(plugin.getDependencyManager().isEnabled(Dependency.WORLDGUARD)) {
 			try {

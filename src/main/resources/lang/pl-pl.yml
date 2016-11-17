@@ -457,10 +457,10 @@ chat:
    items:
    - "&4&l> &7Nick: &6{PLAYER_NAME}"
    - "{GUILDROW}"
-   - "&4&l> &7Punkty: &6{GUILD_POINTS}"
+   - "&4&l> &7Punkty: &6{PLAYER_POINTS}"
    - "&4&l> &7Zabicia: &6{PLAYER_KILLS}"
    - "&4&l> &7Smierci: &6{PLAYER_DEATHS}"
-   - "&4&l> &7KDR: &6{KDR}"
+   - "&4&l> &7KDR: &6{PLAYER_KDR}"
 
  region:
   blockedcmd: "Ta komenda jest zablokowana na regionach."
