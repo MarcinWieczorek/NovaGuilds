@@ -20,7 +20,6 @@ package co.marcin.novaguilds.impl.util.guiinventory.guild.rank;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
@@ -29,22 +28,16 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaRankImpl;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
-import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 	private final NovaGuild guild;
-	protected final Map<Integer, NovaRank> slotRanksMap = new HashMap<>();
-	protected ItemStack addRankItem;
 
 	/**
 	 * The constructor
@@ -60,65 +53,43 @@ public class GUIInventoryGuildRankList extends AbstractGUIInventory {
 
 	@Override
 	public void generateContent() {
-		inventory.clear();
-		slotRanksMap.clear();
-
-		int slot = 0;
 		final List<NovaRank> ranks = new ArrayList<>();
 		ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
 		ranks.addAll(guild.getRanks());
 
-		for(NovaRank rank : ranks) {
-			NovaRank cloneOfGeneric = guild.getCloneOfGenericRank(rank);
-
-			if(cloneOfGeneric != null) {
+		for(final NovaRank rank : ranks) {
+			if(guild.getCloneOfGenericRank(rank) != null) {
 				continue;
 			}
 
 			ItemStack itemStack = Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).getItemStack();
 
-			inventory.setItem(slot, itemStack);
-			slotRanksMap.put(slot, rank);
-			slot++;
+			registerAndAdd(new Executor(itemStack) {
+				@Override
+				public void execute() {
+					GUIInventoryGuildRankSettings guiInventory = new GUIInventoryGuildRankSettings(rank);
+					guiInventory.open(getViewer());
+				}
+			});
 		}
 
 		if((getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))
 				&& guild.getRanks().size() < Config.RANK_MAXAMOUNT.getInt()) {
-			addRankItem = Message.INVENTORY_GUI_RANKS_ADDITEM.getItemStack();
-			add(addRankItem);
-		}
-	}
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_RANKS_ADDITEM) {
+				@Override
+				public void execute() {
+					String rankName = Message.INVENTORY_GUI_RANKS_DEFAULTNAME.get();
+					for(NovaRank rank : guild.getRanks()) {
+						if(rank.getName().equals(rankName)) {
+							rankName = rankName + " " + NumberUtils.randInt(1, 999);
+						}
+					}
 
-	@Override
-	public void onClick(InventoryClickEvent event) {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getWhoClicked());
-
-		if(!nPlayer.hasPermission(GuildPermission.RANK_EDIT)) {
-			return;
-		}
-
-		ItemStack clickedItemStack = event.getCurrentItem();
-
-		if(clickedItemStack.equals(addRankItem)) {
-			String rankName = Message.INVENTORY_GUI_RANKS_DEFAULTNAME.get();
-			for(NovaRank rank : guild.getRanks()) {
-				if(rank.getName().equals(rankName)) {
-					rankName = rankName + " " + NumberUtils.randInt(1, 999);
+					NovaRank rank = new NovaRankImpl(rankName);
+					guild.addRank(rank);
+					reopen();
 				}
-			}
-
-			NovaRank rank = new NovaRankImpl(rankName);
-			guild.addRank(rank);
-			generateContent();
-			ChestGUIUtils.addBackItem(this);
-		}
-		else {
-			NovaRank rank = slotRanksMap.get(event.getRawSlot());
-
-			if(rank != null) {
-				GUIInventoryGuildRankSettings guiInventory = new GUIInventoryGuildRankSettings(rank);
-				guiInventory.open(nPlayer);
-			}
+			});
 		}
 	}
 

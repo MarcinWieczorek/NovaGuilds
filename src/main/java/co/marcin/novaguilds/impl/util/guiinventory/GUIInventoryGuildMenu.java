@@ -28,18 +28,10 @@ import co.marcin.novaguilds.impl.util.guiinventory.guild.player.GUIInventoryGuil
 import co.marcin.novaguilds.impl.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
 import co.marcin.novaguilds.impl.util.guiinventory.guild.settings.GUIInventoryGuildSettings;
 import org.bukkit.Bukkit;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class GUIInventoryGuildMenu extends AbstractGUIInventory {
-	private ItemStack ranksItem;
-	private ItemStack playersItem;
-	private ItemStack settingsItem;
-	private ItemStack homeTeleportItem;
-	private ItemStack guildTopItem;
-	private ItemStack joinItem;
-
 	/**
 	 * The constructor
 	 */
@@ -48,66 +40,48 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 	}
 
 	@Override
-	public void onClick(InventoryClickEvent event) {
-		ItemStack clickedItemStack = event.getCurrentItem();
-
-		if(clickedItemStack.equals(ranksItem)) {
-			new GUIInventoryGuildRankList(getViewer().getGuild()).open(getViewer());
-		}
-		else if(clickedItemStack.equals(playersItem)) {
-			new GUIInventoryGuildPlayersList(getViewer().getGuild()).open(getViewer());
-		}
-		else if(clickedItemStack.equals(settingsItem)) {
-			new GUIInventoryGuildSettings().open(getViewer());
-		}
-		else if(clickedItemStack.equals(homeTeleportItem)) {
-			Bukkit.dispatchCommand(getViewer().getPlayer(), "g home");
-		}
-		else if(clickedItemStack.equals(joinItem)) {
-			new GUIInventoryGuildJoin(getViewer().getInvitedTo()).open(getViewer());
-		}
-	}
-
-	@Override
 	public void generateContent() {
-		inventory.clear();
-
-		ranksItem = Message.INVENTORY_GUI_RANKS_ICONITEM.getItemStack();
-		playersItem = Message.INVENTORY_GUI_PLAYERSLIST_ICONITEM.getItemStack();
-		settingsItem = Message.INVENTORY_GUI_SETTINGS_ITEM_ICON.getItemStack();
-		homeTeleportItem = Message.INVENTORY_GUI_HOMETP.getItemStack();
-		guildTopItem = Message.INVENTORY_GUI_GUILDTOP.getItemStack();
-		joinItem = Message.INVENTORY_GUI_JOIN_ICONITEM.getItemStack();
-
-		if(guildTopItem != null) {
-			add(guildTopItem);
-			updateGuiTop();
-		}
+		ItemStack topItemStack = Message.INVENTORY_GUI_GUILDTOP.getItemStack();
+		ItemMeta meta = Bukkit.getItemFactory().getItemMeta(topItemStack.getType());
+		meta.setDisplayName(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
+		meta.setLore(plugin.getGuildManager().getTopGuilds());
+		topItemStack.setItemMeta(meta);
+		registerAndAdd(new EmptyExecutor(topItemStack));
 
 		if(getViewer().hasGuild()) {
-			add(homeTeleportItem);
-			add(playersItem);
+			registerAndAdd(new CommandExecutor(Message.INVENTORY_GUI_HOMETP, "novaguilds:guild home", true));
+
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_PLAYERSLIST_ICONITEM) {
+				@Override
+				public void execute() {
+					new GUIInventoryGuildPlayersList(getViewer().getGuild()).open(getViewer());
+				}
+			});
 
 			if(Config.RANK_GUI.getBoolean()
 					&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
-				add(ranksItem);
+				registerAndAdd(new Executor(Message.INVENTORY_GUI_RANKS_ICONITEM) {
+					@Override
+					public void execute() {
+						new GUIInventoryGuildRankList(getViewer().getGuild()).open(getViewer());
+					}
+				});
 			}
 
-			add(settingsItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_SETTINGS_ITEM_ICON) {
+				@Override
+				public void execute() {
+					new GUIInventoryGuildSettings().open(getViewer());
+				}
+			});
 		}
 		else {
-			add(joinItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_JOIN_ICONITEM) {
+				@Override
+				public void execute() {
+					new GUIInventoryGuildJoin(getViewer().getInvitedTo()).open(getViewer());
+				}
+			});
 		}
-	}
-
-	/**
-	 * Updates guild top item
-	 */
-	protected void updateGuiTop() {
-		ItemMeta meta = Bukkit.getItemFactory().getItemMeta(guildTopItem.getType());
-		meta.setDisplayName(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
-		meta.setLore(plugin.getGuildManager().getTopGuilds());
-		guildTopItem.setItemMeta(meta);
-		getInventory().setItem(0, guildTopItem);
 	}
 }

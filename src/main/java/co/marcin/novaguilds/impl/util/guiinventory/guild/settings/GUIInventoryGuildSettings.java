@@ -26,20 +26,10 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.impl.util.signgui.SignGUIPatternImpl;
-import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class GUIInventoryGuildSettings extends AbstractGUIInventory {
-	private ItemStack setNameItem;
-	private ItemStack setTagItem;
-	private ItemStack setHomeItem;
-	private ItemStack togglePvpItem;
-	private ItemStack openInvitationItem;
-	private ItemStack buyLifeItem;
-	private ItemStack buySlotItem;
-	private ItemStack inviteItem;
 
 	/**
 	 * The constructor
@@ -49,104 +39,104 @@ public class GUIInventoryGuildSettings extends AbstractGUIInventory {
 	}
 
 	@Override
-	public void onClick(InventoryClickEvent event) {
-		ItemStack clicked = event.getCurrentItem();
-		if(clicked.equals(setNameItem)) {
-			if(Config.SIGNGUI_ENABLED.getBoolean()) {
-				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_NAME.clone().setVar(VarKey.INPUT, getViewer().getGuild().getName()));
-				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
-					@Override
-					public void onSignDone(Player player, String[] lines) {
-						player.performCommand("g setname " + lines[pattern.getInputLine()]);
-						reopen();
-					}
-				});
-			}
-		}
-		else if(clicked.equals(setTagItem)) {
-			if(Config.SIGNGUI_ENABLED.getBoolean()) {
-				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_TAG.clone().setVar(VarKey.INPUT, getViewer().getGuild().getTag()));
-				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
-					@Override
-					public void onSignDone(Player player, String[] lines) {
-						player.performCommand("g settag " + lines[pattern.getInputLine()]);
-						reopen();
-					}
-				});
-			}
-		}
-		else if(clicked.equals(setHomeItem)) {
-			getViewer().getPlayer().performCommand("g home set");
-		}
-		else if(clicked.equals(togglePvpItem)) {
-			getViewer().getPlayer().performCommand("g pvp");
-			generateContent();
-		}
-		else if(clicked.equals(openInvitationItem)) {
-			getViewer().getPlayer().performCommand("g openinv");
-			generateContent();
-		}
-		else if(clicked.equals(buyLifeItem)) {
-			getViewer().getPlayer().performCommand("g buylife");
-			generateContent();
-		}
-		else if(clicked.equals(buySlotItem)) {
-			getViewer().getPlayer().performCommand("g buyslot");
-			generateContent();
-		}
-		else if(clicked.equals(inviteItem)) {
-			new GUIInventoryGuildInvite().open(getViewer());
-		}
-	}
-
-	@Override
 	public void generateContent() {
-		inventory.clear();
-		setNameItem = Message.INVENTORY_GUI_SETTINGS_ITEM_SET_NAME.getItemStack();
-		setTagItem = Message.INVENTORY_GUI_SETTINGS_ITEM_SET_TAG.getItemStack();
-		setHomeItem = Message.INVENTORY_GUI_SETTINGS_ITEM_SET_HOME.getItemStack();
-		togglePvpItem = (getViewer().getGuild().getFriendlyPvp() ? Message.INVENTORY_GUI_SETTINGS_ITEM_TOGGLEPVP_ON : Message.INVENTORY_GUI_SETTINGS_ITEM_TOGGLEPVP_OFF).getItemStack();
-		openInvitationItem = Message.INVENTORY_GUI_SETTINGS_ITEM_OPENINVITATION.clone().setVar(VarKey.FLAG, Message.getOnOff(getViewer().getGuild().isOpenInvitation())).getItemStack();
-		buyLifeItem = Message.INVENTORY_GUI_SETTINGS_ITEM_BUYLIFE.getItemStack();
-		buySlotItem = Message.INVENTORY_GUI_SETTINGS_ITEM_BUYSLOT.getItemStack();
-		inviteItem = Message.INVENTORY_GUI_SETTINGS_ITEM_INVITE.getItemStack();
+		ItemStack togglePvpItem = (getViewer().getGuild().getFriendlyPvp()
+				? Message.INVENTORY_GUI_SETTINGS_ITEM_TOGGLEPVP_ON
+				: Message.INVENTORY_GUI_SETTINGS_ITEM_TOGGLEPVP_OFF).getItemStack();
 
-		if(getViewer().hasPermission(GuildPermission.SET_NAME) && Permission.NOVAGUILDS_GUILD_SET_NAME.has(getViewer())) {
-			add(setNameItem);
+		if(Config.SIGNGUI_ENABLED.getBoolean()
+				&& getViewer().hasPermission(GuildPermission.SET_NAME)
+				&& Permission.NOVAGUILDS_GUILD_SET_NAME.has(getViewer())) {
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_SETTINGS_ITEM_SET_NAME) {
+				@Override
+				public void execute() {
+					final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_NAME.clone().setVar(VarKey.INPUT, getViewer().getGuild().getName()));
+					plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
+						@Override
+						public void onSignDone(Player player, String[] lines) {
+							player.performCommand("novaguilds:guild setname " + lines[pattern.getInputLine()]);
+							reopen();
+						}
+					});
+				}
+			});
 		}
 
-		if(getViewer().hasPermission(GuildPermission.SET_TAG) && Permission.NOVAGUILDS_GUILD_SET_TAG.has(getViewer())) {
-			add(setTagItem);
+		if(Config.SIGNGUI_ENABLED.getBoolean()
+				&& getViewer().hasPermission(GuildPermission.SET_TAG)
+				&& Permission.NOVAGUILDS_GUILD_SET_TAG.has(getViewer())) {
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_SETTINGS_ITEM_SET_TAG) {
+				@Override
+				public void execute() {
+					final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_SETTINGS_SET_TAG.clone().setVar(VarKey.INPUT, getViewer().getGuild().getTag()));
+					plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
+						@Override
+						public void onSignDone(Player player, String[] lines) {
+							player.performCommand("novaguilds:guild settag " + lines[pattern.getInputLine()]);
+							reopen();
+						}
+					});
+				}
+			});
 		}
 
 		if(getViewer().hasPermission(GuildPermission.HOME_SET) && Permission.NOVAGUILDS_GUILD_HOME_SET.has(getViewer())) {
-			add(setHomeItem);
+			registerAndAdd(new CommandExecutor(Message.INVENTORY_GUI_SETTINGS_ITEM_SET_HOME, "novaguilds:guild home set", true));
 		}
 
 		if(getViewer().hasPermission(GuildPermission.PVPTOGGLE) && Permission.NOVAGUILDS_GUILD_PVPTOGGLE.has(getViewer())) {
-			add(togglePvpItem);
+			registerAndAdd(new Executor(togglePvpItem) {
+				@Override
+				public void execute() {
+					getViewer().getPlayer().performCommand("novaguilds:guild pvp");
+					regenerate();
+				}
+			});
 		}
 
 		if(getViewer().hasPermission(GuildPermission.OPENINVITATION) && Permission.NOVAGUILDS_GUILD_OPENINVITATION.has(getViewer())) {
-			add(openInvitationItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_SETTINGS_ITEM_OPENINVITATION
+					.clone()
+					.setVar(VarKey.FLAG, Message.getOnOff(getViewer().getGuild().isOpenInvitation()))) {
+				@Override
+				public void execute() {
+					getViewer().getPlayer().performCommand("novaguilds:guild openinv");
+					regenerate();
+				}
+			});
 		}
 
 		if(getViewer().hasPermission(GuildPermission.BUYLIFE)
 				&& Permission.NOVAGUILDS_GUILD_BUYLIFE.has(getViewer())
 				&& getViewer().getGuild().getLives() < Config.GUILD_LIVES_MAX.getInt()) {
-			add(buyLifeItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_SETTINGS_ITEM_BUYLIFE) {
+				@Override
+				public void execute() {
+					getViewer().getPlayer().performCommand("novaguilds:guild buylife");
+					regenerate();
+				}
+			});
 		}
 
 		if(getViewer().hasPermission(GuildPermission.BUYSLOT)
 				&& Permission.NOVAGUILDS_GUILD_BUYSLOT.has(getViewer())
 				&& getViewer().getGuild().getSlots() < Config.GUILD_SLOTS_MAX.getInt()) {
-			add(buySlotItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_SETTINGS_ITEM_BUYSLOT) {
+				@Override
+				public void execute() {
+					getViewer().getPlayer().performCommand("novaguilds:guild buyslot");
+					regenerate();
+				}
+			});
 		}
 
 		if(getViewer().hasPermission(GuildPermission.INVITE) && Permission.NOVAGUILDS_GUILD_INVITE.has(getViewer())) {
-			add(inviteItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_SETTINGS_ITEM_INVITE) {
+				@Override
+				public void execute() {
+					new GUIInventoryGuildInvite().open(getViewer());
+				}
+			});
 		}
-
-		ChestGUIUtils.addBackItem(this);
 	}
 }

@@ -24,19 +24,11 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
-import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 	private final NovaPlayer nPlayer;
-	private ItemStack kickItem;
-	private ItemStack rankItem;
 
 	/**
 	 * The constructor
@@ -49,35 +41,22 @@ public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
 	}
 
 	@Override
-	public void onClick(InventoryClickEvent event) {
-		if(event.getCurrentItem().equals(rankItem)) {
-			if(PlayerManager.getPlayer(event.getWhoClicked()).hasPermission(GuildPermission.RANK_SET)) {
-				new GUIInventoryGuildPlayerSettingsRank(nPlayer).open(getViewer());
-			}
-		}
-		else if(event.getCurrentItem().equals(kickItem)) {
-			getViewer().getPlayer().performCommand("g kick " + nPlayer.getName());
-		}
-	}
-
-	@Override
 	public void generateContent() {
-		inventory.clear();
-
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.RANKNAME, nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"));
-
-		kickItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK.getItemStack();
-		rankItem = Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK.clone().vars(vars).getItemStack();
-
 		if(!nPlayer.equals(getViewer())
 				&& (getViewer().hasPermission(GuildPermission.KICK) && Permission.NOVAGUILDS_GUILD_KICK.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_KICK.has(getViewer()))) {
-			add(kickItem);
+			registerAndAdd(new CommandExecutor(Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK, "novaguilds:guild kick " + nPlayer.getName(), true));
 		}
 
 		if(!nPlayer.equals(getViewer())
 				&& (getViewer().hasPermission(GuildPermission.RANK_SET) && Permission.NOVAGUILDS_GUILD_RANK_SET.has(getViewer())|| Permission.NOVAGUILDS_ADMIN_GUILD_RANK_SET.has(getViewer()))) {
-			add(rankItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK
+					.clone()
+					.setVar(VarKey.RANKNAME, nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"))) {
+				@Override
+				public void execute() {
+					new GUIInventoryGuildPlayerSettingsRank(nPlayer).open(getViewer());
+				}
+			});
 		}
 	}
 }

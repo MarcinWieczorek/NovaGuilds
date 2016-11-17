@@ -169,7 +169,6 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 	public void addMember(NovaPlayer nPlayer) {
 		if(!members.contains(nPlayer)) {
 			members.add(nPlayer);
-			nPlayer.setGuildRank(this);
 			setChanged();
 		}
 	}
@@ -193,7 +192,6 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 	public void removeMember(NovaPlayer nPlayer) {
 		if(members.contains(nPlayer)) {
 			members.remove(nPlayer);
-			nPlayer.setGuildRank(null);
 			setChanged();
 		}
 	}
@@ -210,10 +208,9 @@ public class NovaRankImpl extends AbstractResource implements NovaRank {
 
 	@Override
 	public void delete() {
-		if(!isDefault()) {
-			for(NovaPlayer nPlayer : new ArrayList<>(getMembers())) {
-				nPlayer.setGuildRank(getGuild().getDefaultRank());
-			}
+		setDefault(false);
+		for(NovaPlayer nPlayer : new ArrayList<>(getMembers())) {
+			nPlayer.setGuildRank(getGuild().getDefaultRank());
 		}
 
 		NovaGuilds.getInstance().getRankManager().delete(this);

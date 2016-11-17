@@ -33,22 +33,14 @@ import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.impl.util.guiinventory.GUIInventoryGuildPermissionSelect;
 import co.marcin.novaguilds.impl.util.signgui.SignGUIPatternImpl;
 import co.marcin.novaguilds.manager.RankManager;
-import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	private final NovaRank rank;
-
-	private ItemStack editPermissionsItem;
-	private ItemStack setDefaultItem;
-	private ItemStack cloneItem;
-	private ItemStack renameItem;
-	private ItemStack deleteItem;
-	private ItemStack memberListItem;
 
 	/**
 	 * The constructor
@@ -61,108 +53,101 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 	}
 
 	@Override
-	public void onClick(InventoryClickEvent event) {
-		ItemStack clickedItemStack = event.getCurrentItem();
-
-		if(clickedItemStack.equals(editPermissionsItem)) {
-			new GUIInventoryGuildPermissionSelect(rank).open(getViewer());
-		}
-		else if(clickedItemStack.equals(setDefaultItem)) {
-			NovaRank clonedRank = rank;
-			if(rank.isGeneric()) {
-				clonedRank = cloneRank();
-			}
-			else {
-				rank.setDefault(false);
-			}
-
-			if(!getGuild().getDefaultRank().isGeneric()) {
-				getGuild().getDefaultRank().setDefault(false);
-			}
-
-			clonedRank.setDefault(true);
-
-			if(rank.isGeneric()) {
-				close();
-				new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
-				return;
-			}
-
-			generateContent();
-		}
-		else if(clickedItemStack.equals(cloneItem)) {
-			NovaRank clonedRank = cloneRank();
-			close();
-			new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
-		}
-		else if(clickedItemStack.equals(renameItem)) {
-			if(Config.SIGNGUI_ENABLED.getBoolean()) {
-				final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_RANKS_SET_NAME.clone().setVar(VarKey.INPUT, rank.getName()));
-				plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
-					@Override
-					public void onSignDone(Player player, String[] lines) {
-						rank.setName(lines[pattern.getInputLine()]);
-						close();
-						GUIInventoryGuildRankSettings gui = new GUIInventoryGuildRankSettings(rank);
-						gui.open(getViewer());
-					}
-				});
-			}
-		}
-		else if(clickedItemStack.equals(deleteItem)) {
-			rank.delete();
-			close();
-		}
-		else if(clickedItemStack.equals(memberListItem)) {
-			new GUIInventoryGuildRankMembers(getGuild(), rank).open(getViewer());
-		}
-	}
-
-	@Override
 	public void generateContent() {
-		inventory.clear();
-
-		editPermissionsItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_EDITPERMISSIONS.getItemStack();
-		setDefaultItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_SETDEFAULT.getItemStack();
-		cloneItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_CLONE.getItemStack();
-		renameItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME.getItemStack();
-		deleteItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE.getItemStack();
-		memberListItem = Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST.getItemStack();
-
-		boolean isLeaderRank = RankManager.getLeaderRank().equals(rank);
-
 		if(!rank.isGeneric()
 				&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
-			add(editPermissionsItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_EDITPERMISSIONS) {
+				@Override
+				public void execute() {
+					new GUIInventoryGuildPermissionSelect(rank).open(getViewer());
+				}
+			});
 		}
 
 		if((rank.isGeneric() || !rank.equals(getGuild().getDefaultRank()))
-				&& !isLeaderRank
+				&& !RankManager.getLeaderRank().equals(rank)
 				&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
-			add(setDefaultItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_SETDEFAULT.getItemStack()) {
+				@Override
+				public void execute() {
+					NovaRank clonedRank = rank;
+					if(rank.isGeneric()) {
+						clonedRank = cloneRank();
+					}
+					else {
+						rank.setDefault(false);
+					}
+
+					if(!getGuild().getDefaultRank().isGeneric()) {
+						getGuild().getDefaultRank().setDefault(false);
+					}
+
+					clonedRank.setDefault(true);
+
+					if(rank.isGeneric()) {
+						close();
+						new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
+						return;
+					}
+
+					regenerate();
+				}
+			});
 		}
 
 		if(!RankManager.getLeaderRank().equals(rank)
 				&& getGuild().getRanks().size() < Config.RANK_MAXAMOUNT.getInt()
 				&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
-			add(cloneItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_CLONE) {
+				@Override
+				public void execute() {
+					NovaRank clonedRank = cloneRank();
+					close();
+					new GUIInventoryGuildRankSettings(clonedRank).open(getViewer());
+				}
+			});
 		}
 
 		if(!rank.isGeneric()) {
-			if(getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer())) {
-				add(renameItem);
+			if(Config.SIGNGUI_ENABLED.getBoolean()
+					&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
+				registerAndAdd(new Executor(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_RENAME) {
+					@Override
+					public void execute() {
+						final SignGUIPatternImpl pattern = new SignGUIPatternImpl(Message.SIGNGUI_GUILD_RANKS_SET_NAME.clone().setVar(VarKey.INPUT, rank.getName()));
+						plugin.getSignGUI().open(getViewer().getPlayer(), pattern, new SignGUI.SignGUIListener() {
+							@Override
+							public void onSignDone(Player player, String[] lines) {
+								rank.setName(lines[pattern.getInputLine()]);
+								close();
+								GUIInventoryGuildRankSettings gui = new GUIInventoryGuildRankSettings(rank);
+								gui.open(getViewer());
+							}
+						});
+					}
+				});
 			}
 
-			if(getViewer().hasPermission(GuildPermission.RANK_DELETE) && Permission.NOVAGUILDS_GUILD_RANK_DELETE.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_DELETE.has(getViewer())) {
-				add(deleteItem);
+			if(!rank.isDefault()
+					&& (getViewer().hasPermission(GuildPermission.RANK_DELETE) && Permission.NOVAGUILDS_GUILD_RANK_DELETE.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_DELETE.has(getViewer()))) {
+				registerAndAdd(new Executor(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_DELETE) {
+					@Override
+					public void execute() {
+						rank.delete();
+						close();
+					}
+				});
 			}
 		}
 
 		if(!GUIInventoryGuildRankMembers.getMembers(getGuild(), rank).isEmpty()) {
-			add(memberListItem);
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_RANK_SETTINGS_ITEM_MEMBERLIST) {
+				@Override
+				public void execute() {
+					new GUIInventoryGuildRankMembers(getGuild(), rank).open(getViewer());
+				}
+			});
 		}
-
-		ChestGUIUtils.addBackItem(this);
 	}
 
 	/**
@@ -230,9 +215,8 @@ public class GUIInventoryGuildRankSettings extends AbstractGUIInventory {
 		guild.addRank(clone);
 
 		//Move players
-		for(NovaPlayer nPlayer : rank.getMembers()) {
-			rank.removeMember(nPlayer);
-			clone.addMember(nPlayer);
+		for(NovaPlayer nPlayer : new ArrayList<>(rank.getMembers())) {
+			nPlayer.setGuildRank(clone);
 		}
 
 		return clone;

@@ -43,7 +43,6 @@ public class GUIInventoryGuildJoin extends AbstractGUIInventory {
 
 	@Override
 	public void generateContent() {
-		inventory.clear();
 		for(final NovaGuild guild : guildList) {
 			MessageWrapper msg = Message.INVENTORY_GUI_JOIN_ROWITEM.clone()
 					.setVar(VarKey.GUILD_NAME, guild.getName())
@@ -52,8 +51,6 @@ public class GUIInventoryGuildJoin extends AbstractGUIInventory {
 					.setVar(VarKey.GUILD_POINTS, guild.getPoints())
 					.setVar(VarKey.GUILD_LIVES, guild.getLives());
 			registerAndAdd(new CommandExecutor(msg, "novaguilds:guild join " + guild.getName(), true));
-
-			close();
 		}
 	}
 }

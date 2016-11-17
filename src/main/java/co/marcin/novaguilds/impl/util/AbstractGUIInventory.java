@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.basic.GUIInventory;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.util.ChestGUIUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -59,6 +60,8 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 
 	@Override
 	public void registerExecutor(GUIInventory.Executor executor) {
+		Validate.notNull(executor.getItem());
+
 		if(executors.contains(executor)) {
 			return;
 		}
@@ -75,7 +78,7 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	public void onClick(InventoryClickEvent event) {
 		ItemStack clickedItemStack = event.getCurrentItem();
 
-		for(GUIInventory.Executor executor : getExecutors()) {
+		for(GUIInventory.Executor executor : new HashSet<>(getExecutors())) {
 			if(executor.getItem().equals(clickedItemStack)) {
 				executor.execute();
 			}
@@ -104,24 +107,24 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	}
 
 	/**
-	 * Adds an item if not null
+	 * Adds an item to the inventory
 	 *
-	 * @param itemStack the itemstack
+	 * @param executor executor instance
 	 */
-	protected void add(ItemStack itemStack) {
-		if(itemStack != null) {
-			getInventory().addItem(itemStack);
-		}
-	}
-
 	protected void add(GUIInventory.Executor executor) {
 		if(!getExecutors().contains(executor)) {
 			throw new IllegalArgumentException("Trying to add not registered executor to the inventory");
 		}
 
-		add(executor.getItem());
+		getInventory().addItem(executor.getItem());
 	}
 
+	/**
+	 * Register an executor
+	 * and add it to the inventory
+	 *
+	 * @param executor executor
+	 */
 	protected void registerAndAdd(GUIInventory.Executor executor) {
 		registerExecutor(executor);
 		add(executor);
@@ -133,6 +136,16 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	protected void reopen() {
 		close();
 		open(getViewer());
+	}
+
+	/**
+	 * Regenerates GUI content
+	 */
+	protected void regenerate() {
+		inventory.clear();
+		getExecutors().clear();
+		generateContent();
+		ChestGUIUtils.addBackItem(this);
 	}
 
 	public abstract class Executor implements GUIInventory.Executor {

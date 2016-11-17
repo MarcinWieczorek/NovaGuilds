@@ -88,7 +88,7 @@ public class ResourceManagerRankImpl extends AbstractYAMLResourceManager<NovaRan
 					continue;
 				}
 
-				rank.addMember(nPlayer);
+				nPlayer.setGuildRank(rank);
 			}
 
 			rank.setDefault(configuration.getBoolean("def"));

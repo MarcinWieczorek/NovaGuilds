@@ -115,7 +115,7 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 				}
 
 				for(NovaPlayer nPlayer : memberList) {
-					rank.addMember(nPlayer);
+					nPlayer.setGuildRank(rank);
 				}
 
 				rank.setDefault(res.getBoolean("def"));

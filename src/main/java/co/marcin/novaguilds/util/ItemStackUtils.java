@@ -277,6 +277,12 @@ public final class ItemStackUtils {
 			itemStack.addUnsafeEnchantments(enchantments);
 			ItemMeta itemMeta = itemStack.getItemMeta();
 
+			if(player != null && itemStack.getType() == Material.SKULL_ITEM) {
+				SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+				skullMeta.setOwner(player);
+				itemStack.setItemMeta(skullMeta);
+			}
+
 			if(!name.isEmpty()) {
 				itemMeta.setDisplayName(name);
 			}
@@ -292,12 +298,6 @@ public final class ItemStackUtils {
 
 			itemStack.setDurability(durability);
 			itemStack.setItemMeta(itemMeta);
-
-			if(player != null && itemStack.getType() == Material.SKULL_ITEM) {
-				SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
-				skullMeta.setOwner(player);
-				itemStack.setItemMeta(skullMeta);
-			}
 
 			return itemStack;
 		}

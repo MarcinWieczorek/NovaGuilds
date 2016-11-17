@@ -18,13 +18,22 @@
 
 package co.marcin.novaguilds.impl.util.guiinventory.guild.player;
 
+import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
-import co.marcin.novaguilds.impl.util.guiinventory.guild.rank.GUIInventoryGuildRankList;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
+import co.marcin.novaguilds.util.ChestGUIUtils;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.inventory.ItemStack;
 
-public class GUIInventoryGuildPlayerSettingsRank extends GUIInventoryGuildRankList {
+import java.util.ArrayList;
+import java.util.List;
+
+public class GUIInventoryGuildPlayerSettingsRank extends AbstractGUIInventory {
 	private final NovaPlayer nPlayer;
 
 	/**
@@ -33,23 +42,32 @@ public class GUIInventoryGuildPlayerSettingsRank extends GUIInventoryGuildRankLi
 	 * @param nPlayer player who's rank are being set
 	 */
 	public GUIInventoryGuildPlayerSettingsRank(NovaPlayer nPlayer) {
-		super(nPlayer.getGuild());
+		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE);
 		this.nPlayer = nPlayer;
 	}
 
 	@Override
-	public void onClick(InventoryClickEvent event) {
-		if(getViewer().hasPermission(GuildPermission.RANK_SET)) {
-			NovaRank rank = slotRanksMap.get(event.getRawSlot());
+	public void generateContent() {
+		NovaGuild guild = nPlayer.getGuild();
 
-			if(rank != null) {
-				nPlayer.setGuildRank(rank);
+		final List<NovaRank> ranks = new ArrayList<>();
+		ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
+		ranks.addAll(guild.getRanks());
+
+		for(final NovaRank rank : ranks) {
+			if(guild.getCloneOfGenericRank(rank) != null) {
+				continue;
 			}
-		}
-	}
 
-	@Override
-	public void onOpen() {
-		getInventory().remove(addRankItem);
+			ItemStack itemStack = Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).getItemStack();
+
+			registerAndAdd(new Executor(itemStack) {
+				@Override
+				public void execute() {
+					nPlayer.setGuildRank(rank);
+					close();
+				}
+			});
+		}
 	}
 }

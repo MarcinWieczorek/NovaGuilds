@@ -23,7 +23,6 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.impl.util.guiinventory.guild.player.GUIInventoryGuildPlayersList;
-import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +39,6 @@ public class GUIInventoryGuildRankMembers extends GUIInventoryGuildPlayersList {
 	public GUIInventoryGuildRankMembers(NovaGuild guild, NovaRank rank) {
 		super(guild);
 		this.rank = rank;
-	}
-
-	@Override
-	public void onClick(InventoryClickEvent event) {
-
 	}
 
 	@Override

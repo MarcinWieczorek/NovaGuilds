@@ -26,15 +26,8 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class GUIInventoryGuildInvite extends AbstractGUIInventory {
-	private final Map<Integer, NovaPlayer> playerMap = new HashMap<>();
-
 	/**
 	 * The constructor
 	 */
@@ -43,25 +36,15 @@ public class GUIInventoryGuildInvite extends AbstractGUIInventory {
 	}
 
 	@Override
-	public void onClick(InventoryClickEvent event) {
-		getViewer().getPlayer().performCommand("g invite " + playerMap.get(event.getRawSlot()).getName());
-	}
-
-	@Override
 	public void generateContent() {
-		int index = 0;
 		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
-			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+			final NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 			if(nPlayer.hasGuild() || plugin.getPlayerManager().isVanished(nPlayer)) {
 				continue;
 			}
 
-			ItemStack itemStack = Message.INVENTORY_GUI_SETTINGS_INVITE_ITEM.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()).getItemStack();
-
-			add(itemStack);
-			playerMap.put(index, nPlayer);
-			index++;
+			registerAndAdd(new CommandExecutor(Message.INVENTORY_GUI_SETTINGS_INVITE_ITEM.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()), "novaguilds:guild invite " + nPlayer.getName(), false));
 		}
 	}
 }

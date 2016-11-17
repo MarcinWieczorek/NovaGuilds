@@ -62,13 +62,12 @@ public class ChestGUIUtils {
 				guiContinueList.add(nPlayer);
 			}
 
+			guiInventory.getInventory().clear();
+			guiInventory.getExecutors().clear();
 			guiInventory.generateContent();
-
-			Inventory inventory = guiInventory.getInventory();
-
 			addBackItem(guiInventory);
 
-			nPlayer.getPlayer().openInventory(inventory);
+			nPlayer.getPlayer().openInventory(guiInventory.getInventory());
 
 			guiContinueList.remove(nPlayer);
 

@@ -18,21 +18,16 @@
 
 package co.marcin.novaguilds.impl.util.guiinventory;
 
+import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaRank;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 	private final NovaRank rank;
-	private final Map<Integer, GuildPermission> slotPermissionsMap = new HashMap<>();
 
 	/**
 	 * The constructor
@@ -45,79 +40,36 @@ public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
 	}
 
 	@Override
-	public void onClick(InventoryClickEvent event) {
-		event.setCancelled(true);
-		int slot = event.getRawSlot();
-
-		if(event.getInventory() == null || !slotPermissionsMap.containsKey(slot)) {
-			return;
-		}
-
-		togglePermission(slotPermissionsMap.get(slot));
-		refreshSlot(slot);
-	}
-
-	@Override
 	public void generateContent() {
-		inventory.clear();
-		int slot = 0;
-		Map<VarKey, String> vars = new HashMap<>();
+		final MessageWrapper messageWrapperEnabled = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED;
+		final MessageWrapper messageWrapperDisabled = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED;
 
-		for(GuildPermission perm : GuildPermission.values()) {
-			ItemStack itemStack;
-			vars.clear();
-			vars.put(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
+		for(final GuildPermission perm : GuildPermission.values()) {
+			MessageWrapper message;
 
 			if(rank.hasPermission(perm)) {
-				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.clone().vars(vars).getItemStack();
+				message = messageWrapperEnabled;
 			}
 			else {
-				itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.clone().vars(vars).getItemStack();
+				message = messageWrapperDisabled;
 			}
 
-			add(itemStack);
-			slotPermissionsMap.put(slot, perm);
-			slot++;
-		}
-	}
+			registerAndAdd(new Executor(message
+					.clone()
+					.setVar(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get())
+					.getItemStack()) {
+				@Override
+				public void execute() {
+					if(rank.hasPermission(perm)) {
+						rank.removePermission(perm);
+					}
+					else {
+						rank.addPermission(perm);
+					}
 
-	/**
-	 * Toggles permission
-	 *
-	 * @param permission the permission
-	 */
-	private void togglePermission(GuildPermission permission) {
-		if(rank.hasPermission(permission)) {
-			rank.removePermission(permission);
+					reopen();
+				}
+			});
 		}
-		else {
-			rank.addPermission(permission);
-		}
-	}
-
-	/**
-	 * Refreshes item in slot
-	 *
-	 * @param slot the slot
-	 */
-	private void refreshSlot(int slot) {
-		ItemStack itemStack;
-		GuildPermission perm = slotPermissionsMap.get(slot);
-
-		if(perm == null) {
-			return;
-		}
-
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get());
-
-		if(rank.hasPermission(perm)) {
-			itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED.clone().vars(vars).getItemStack();
-		}
-		else {
-			itemStack = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED.clone().vars(vars).getItemStack();
-		}
-
-		inventory.setItem(slot, itemStack);
 	}
 }

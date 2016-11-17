@@ -259,8 +259,12 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 			this.guildRank.removeMember(this);
 		}
 
-		if(guildRank != null && !hasPermission(GuildPermission.REGION_CREATE) && !hasPermission(GuildPermission.REGION_RESIZE)) {
-			cancelToolProgress();
+		if(guildRank != null) {
+			if(!hasPermission(GuildPermission.REGION_CREATE) && !hasPermission(GuildPermission.REGION_RESIZE)) {
+				cancelToolProgress();
+			}
+
+			guildRank.addMember(this);
 		}
 
 		this.guildRank = guildRank;

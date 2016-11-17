@@ -24,18 +24,11 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
-import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.ChestGUIUtils;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
-	private final Map<Integer, NovaPlayer> slotPlayersMap = new HashMap<>();
 	protected final NovaGuild guild;
 
 	/**
@@ -61,32 +54,15 @@ public class GUIInventoryGuildPlayersList extends AbstractGUIInventory {
 	 * @param playerList list of players
 	 */
 	public void generateContent(List<NovaPlayer> playerList) {
-		inventory.clear();
-		int slot = 0;
-		slotPlayersMap.clear();
-		for(NovaPlayer nPlayer : playerList) {
-			ItemStack itemStack = Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()).getItemStack();
-
-			if(itemStack == null) {
-				continue;
-			}
-
-			ItemMeta meta = itemStack.getItemMeta();
-			meta.setDisplayName(nPlayer.getName());
-
-			itemStack.setItemMeta(meta);
-			add(itemStack);
-			slotPlayersMap.put(slot, nPlayer);
-			slot++;
+		for(final NovaPlayer nPlayer : playerList) {
+			registerAndAdd(new Executor(Message.INVENTORY_GUI_PLAYERSLIST_ROWITEM
+					.clone()
+					.setVar(VarKey.PLAYER_NAME, nPlayer.getName())) {
+				@Override
+				public void execute() {
+					new GUIInventoryGuildPlayerSettings(nPlayer).open(getViewer());
+				}
+			});
 		}
-	}
-
-	@Override
-	public void onClick(InventoryClickEvent event) {
-		if(slotPlayersMap.get(event.getRawSlot()) == null) {
-			return;
-		}
-
-		new GUIInventoryGuildPlayerSettings(slotPlayersMap.get(event.getRawSlot())).open(PlayerManager.getPlayer(event.getWhoClicked()));
 	}
 }
