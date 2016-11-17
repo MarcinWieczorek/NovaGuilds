@@ -21,7 +21,6 @@ package co.marcin.novaguilds.manager;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
-import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -407,7 +406,7 @@ public class ConfigManager {
 	 * @param vars variable map
 	 * @return the value
 	 */
-	public String getString(String path, Map<VarKey, String> vars) {
+	public String getString(String path, Map<VarKey, String> vars, boolean fixColors) {
 		String string = config.getString(path);
 
 		if(string == null) {
@@ -415,7 +414,12 @@ public class ConfigManager {
 		}
 
 		string = MessageManager.replaceVarKeyMap(string, vars, false);
-		return StringUtils.fixColors(string);
+
+		if(fixColors) {
+			string = StringUtils.fixColors(string);
+		}
+
+		return string;
 	}
 
 	/**
@@ -425,7 +429,7 @@ public class ConfigManager {
 	 * @param vars variable map
 	 * @return the value
 	 */
-	public List<String> getStringList(String path, Map<VarKey, String> vars) {
+	public List<String> getStringList(String path, Map<VarKey, String> vars, boolean fixColors) {
 		List<String> list = config.getStringList(path);
 
 		if(list == null) {
@@ -434,8 +438,10 @@ public class ConfigManager {
 
 		list = MessageManager.replaceVarKeyMap(list, vars, false);
 
-		for(int i = 0; i < list.size(); i++) {
-			list.set(i, StringUtils.fixColors(list.get(i)));
+		if(fixColors) {
+			for(int i = 0; i < list.size(); i++) {
+				list.set(i, StringUtils.fixColors(list.get(i)));
+			}
 		}
 
 		return list;
@@ -490,7 +496,7 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public int getSeconds(String path) {
-		return StringUtils.stringToSeconds(getString(path, null));
+		return StringUtils.stringToSeconds(getString(path, null, false));
 	}
 
 	/**
@@ -503,7 +509,7 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public ItemStack getItemStack(String path, Map<VarKey, String> vars) {
-		return ItemStackUtils.stringToItemStack(getString(path, vars));
+		return ItemStackUtils.stringToItemStack(getString(path, vars, true));
 	}
 
 	/**
@@ -513,7 +519,8 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public Material getMaterial(String path) {
-		return Material.getMaterial((getString(path, null).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path, null), ':')[0] : getString(path, null)).toUpperCase());
+		String string = getString(path, null, false);
+		return Material.getMaterial((string.contains(":") ? org.apache.commons.lang.StringUtils.split(string, ':')[0] : string).toUpperCase());
 	}
 
 	/**
@@ -525,7 +532,7 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public byte getMaterialData(String path) {
-		return Byte.valueOf(getString(path, null).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path, null), ':')[1] : "0");
+		return Byte.valueOf(getString(path, null, false).contains(":") ? org.apache.commons.lang.StringUtils.split(getString(path, null, false), ':')[1] : "0");
 	}
 
 	/**
@@ -536,7 +543,7 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public List<ItemStack> getItemStackList(String path, Map<VarKey, String> vars) {
-		final List<String> stringList = getStringList(path, vars);
+		final List<String> stringList = getStringList(path, vars, true);
 		final List<ItemStack> itemStackList = new ArrayList<>();
 
 		for(String string : stringList) {
@@ -558,7 +565,7 @@ public class ConfigManager {
 	 * @return the value
 	 */
 	public List<Material> getMaterialList(String path, Map<VarKey, String> vars) {
-		final List<String> stringList = getStringList(path, vars);
+		final List<String> stringList = getStringList(path, vars, false);
 		final List<Material> materialList = new ArrayList<>();
 
 		for(String string : stringList) {

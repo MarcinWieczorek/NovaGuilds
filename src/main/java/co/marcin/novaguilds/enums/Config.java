@@ -32,12 +32,12 @@ import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public enum Config implements VarKeyApplicable<Config> {
-	MYSQL_HOST,
-	MYSQL_PORT,
-	MYSQL_USERNAME,
-	MYSQL_PASSWORD,
-	MYSQL_DATABASE,
-	MYSQL_PREFIX,
+	MYSQL_HOST(false),
+	MYSQL_PORT(false),
+	MYSQL_USERNAME(false),
+	MYSQL_PASSWORD(false),
+	MYSQL_DATABASE(false),
+	MYSQL_PREFIX(false),
 
 	DATASTORAGE_PRIMARY,
 	DATASTORAGE_SECONDARY,
@@ -186,12 +186,18 @@ public enum Config implements VarKeyApplicable<Config> {
 	private static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
 	private final String path;
 	private final Map<VarKey, String> vars = new HashMap<>();
+	private final boolean fixColors;
 
 	/**
 	 * The constructor
 	 */
 	Config() {
+		this(true);
+	}
+
+	Config(boolean fixColors) {
 		path = StringUtils.replace(name(), "_", ".").toLowerCase();
+		this.fixColors = fixColors;
 	}
 
 	@Override
@@ -243,7 +249,7 @@ public enum Config implements VarKeyApplicable<Config> {
 	 * @return the string
 	 */
 	public String getString() {
-		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path, vars);
+		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path, vars, fixColors);
 		cM.putInCache(this, r);
 		return r;
 	}
@@ -254,7 +260,7 @@ public enum Config implements VarKeyApplicable<Config> {
 	 * @return the list
 	 */
 	public List<String> getStringList() {
-		List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path, vars);
+		List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path, vars, fixColors);
 		cM.putInCache(this, r);
 		return r;
 	}
