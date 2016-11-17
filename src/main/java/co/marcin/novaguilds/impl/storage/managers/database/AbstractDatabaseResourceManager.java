@@ -29,6 +29,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractDatabaseResourceManager<T extends Resource> extends AbstractResourceManager<T> {
 	protected final String columnName;
@@ -49,6 +50,15 @@ public abstract class AbstractDatabaseResourceManager<T extends Resource> extend
 	@Override
 	protected final AbstractDatabaseStorage getStorage() {
 		return (AbstractDatabaseStorage) super.getStorage();
+	}
+
+	@Override
+	public int executeSave() {
+		long startTime = System.nanoTime();
+		int count = executeUpdateUUID();
+		LoggerUtils.info("UUIDs updated in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " resources)");
+
+		return super.executeSave();
 	}
 
 	/**

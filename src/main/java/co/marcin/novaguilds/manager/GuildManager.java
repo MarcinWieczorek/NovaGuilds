@@ -34,7 +34,6 @@ import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
-import co.marcin.novaguilds.impl.storage.managers.database.AbstractDatabaseResourceManager;
 import co.marcin.novaguilds.runnable.RunnableTeleportRequest;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -200,14 +199,6 @@ public class GuildManager {
 	 */
 	public void save() {
 		long startTime = System.nanoTime();
-
-		if(getResourceManager() instanceof AbstractDatabaseResourceManager) {
-			AbstractDatabaseResourceManager<NovaGuild> databaseResourceManager = (AbstractDatabaseResourceManager<NovaGuild>) getResourceManager();
-			int count = databaseResourceManager.executeUpdateUUID();
-			LoggerUtils.info("Guild UUIDs updated in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
-		}
-
-		startTime = System.nanoTime();
 		int count = getResourceManager().executeSave() + getResourceManager().save(getGuilds());
 		LoggerUtils.info("Guilds data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " guilds)");
 

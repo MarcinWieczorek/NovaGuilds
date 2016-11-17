@@ -157,7 +157,7 @@ public enum Permission {
 	 * @return the path string
 	 */
 	public String getPath() {
-		return name().replaceAll("_", ".").toLowerCase();
+		return StringUtils.replace(name(), "_", ".").toLowerCase();
 	}
 
 	/**

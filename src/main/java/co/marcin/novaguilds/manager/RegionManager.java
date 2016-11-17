@@ -31,7 +31,6 @@ import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
-import co.marcin.novaguilds.impl.storage.managers.database.AbstractDatabaseResourceManager;
 import co.marcin.novaguilds.impl.util.RegionSelectionImpl;
 import co.marcin.novaguilds.runnable.RunnableRaid;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -196,14 +195,6 @@ public class RegionManager {
 	 */
 	public void save() {
 		long startTime = System.nanoTime();
-
-		if(getResourceManager() instanceof AbstractDatabaseResourceManager) {
-			AbstractDatabaseResourceManager<NovaRegion> databaseResourceManager = (AbstractDatabaseResourceManager<NovaRegion>) getResourceManager();
-			int count = databaseResourceManager.executeUpdateUUID();
-			LoggerUtils.info("Region UUIDs updated in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
-		}
-
-		startTime = System.nanoTime();
 		int count = getResourceManager().executeSave() + getResourceManager().save(getRegions());
 		LoggerUtils.info("Regions data saved in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0 + "s (" + count + " regions)");
 
