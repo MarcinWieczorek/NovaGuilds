@@ -65,31 +65,6 @@ public class RegionManager {
 	public static Object WORLDGUARD_FLAG;
 
 	/**
-	 * The constructor
-	 * Creates a WorldGuard flag if possible
-	 */
-	public RegionManager() {
-		if(plugin.getDependencyManager().isEnabled(Dependency.WORLDGUARD)) {
-			try {
-				Class<?> stateFlagClass = Reflections.getClass("com.sk89q.worldguard.protection.flags.StateFlag");
-				Class<?> regionGroupClass = Reflections.getClass("com.sk89q.worldguard.protection.flags.RegionGroup");
-				WORLDGUARD_FLAG = stateFlagClass.getConstructor(
-						String.class,
-						boolean.class,
-						regionGroupClass
-				).newInstance(
-						"ngregion",
-						false,
-						null
-				);
-			}
-			catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	/**
 	 * Gets the region at a location
 	 *
 	 * @param location the location
@@ -620,5 +595,32 @@ public class RegionManager {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Creates WorldGuard flag
+	 *
+	 * @throws NoSuchMethodException     when something goes wrong
+	 * @throws IllegalAccessException    when something goes wrong
+	 * @throws InvocationTargetException when something goes wrong
+	 * @throws InstantiationException    when something goes wrong
+	 * @throws ClassNotFoundException    when something goes wrong
+	 */
+	public void createWorldGuardFlag() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+		if(WORLDGUARD_FLAG != null) {
+			throw new IllegalArgumentException("WorldGuard flag has been already created");
+		}
+
+		Class<?> stateFlagClass = Reflections.getClass("com.sk89q.worldguard.protection.flags.StateFlag");
+		Class<?> regionGroupClass = Reflections.getClass("com.sk89q.worldguard.protection.flags.RegionGroup");
+		WORLDGUARD_FLAG = stateFlagClass.getConstructor(
+				String.class,
+				boolean.class,
+				regionGroupClass
+		).newInstance(
+				"ngregion",
+				false,
+				null
+		);
 	}
 }

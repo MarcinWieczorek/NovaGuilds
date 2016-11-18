@@ -184,6 +184,7 @@ public class DependencyManager {
 				return;
 			}
 
+			plugin.getRegionManager().createWorldGuardFlag();
 			FieldAccessor<Flag[]> defaultFlagFlagListField = Reflections.getField(DefaultFlag.class, "flagsList", Flag[].class);
 			defaultFlagFlagListField.setNotFinal();
 			Flag[] array = defaultFlagFlagListField.get(null);
