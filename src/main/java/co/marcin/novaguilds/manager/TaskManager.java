@@ -144,6 +144,16 @@ public class TaskManager {
 	public void stopTask(Task task) {
 		if(isStarted(task)) {
 			taskRunnableMap.get(task).cancel(true);
+			LoggerUtils.info("Task " + task.name() + " has been stopped");
+		}
+	}
+
+	/**
+	 * Stops all tasks
+	 */
+	public void stopTasks() {
+		for(Task task : taskRunnableMap.keySet()) {
+			stopTask(task);
 		}
 	}
 

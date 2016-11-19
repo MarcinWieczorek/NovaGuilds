@@ -339,6 +339,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			return;
 		}
 
+		getTaskManager().stopTasks();
 		getGuildManager().save();
 		getRegionManager().save();
 		getPlayerManager().save();
