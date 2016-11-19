@@ -20,6 +20,7 @@ package co.marcin.novaguilds.api;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.TabList;
+import co.marcin.novaguilds.api.manager.ErrorManager;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.manager.CommandManager;
@@ -131,6 +132,13 @@ public interface NovaGuildsAPI {
 	 * @return the DependencyManager
 	 */
 	DependencyManager getDependencyManager();
+
+	/**
+	 * Returns the ErrorManager
+	 *
+	 * @return the ErrorManager
+	 */
+	ErrorManager getErrorManager();
 
 	/**
 	 * Returns the storage

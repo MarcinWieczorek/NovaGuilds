@@ -177,10 +177,22 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 	}
 
 	public class EmptyExecutor extends Executor {
+
+		/**
+		 * The constructor
+		 *
+		 * @param itemStack icon item
+		 */
 		public EmptyExecutor(ItemStack itemStack) {
 			super(itemStack);
 		}
 
+		/**
+		 * The constructor
+		 * ItemStack is generated from message
+		 *
+		 * @param messageWrapper message wrapper
+		 */
 		public EmptyExecutor(MessageWrapper messageWrapper) {
 			super(messageWrapper);
 		}

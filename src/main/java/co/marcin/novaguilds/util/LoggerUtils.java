@@ -19,13 +19,13 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.util.exceptionparser.IError;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
-import org.bukkit.Bukkit;
+import co.marcin.novaguilds.impl.util.exceptionparser.ErrorImpl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.logging.Logger;
 
 public final class LoggerUtils {
@@ -53,7 +53,7 @@ public final class LoggerUtils {
 	 * @param error       message string array
 	 * @param classPrefix include class prefix
 	 */
-	public static void error(List<String> error, boolean classPrefix) {
+	public static void error(Collection<String> error, boolean classPrefix) {
 		for(String string : error) {
 			error(string, classPrefix);
 		}
@@ -143,44 +143,9 @@ public final class LoggerUtils {
 	 * @param exception the exception
 	 */
 	public static void exception(Throwable exception) {
-		final List<String> list = new ArrayList<>();
-		list.add("");
-		list.add("[NovaGuilds] Severe error: " + exception.getClass().getSimpleName());
-		list.add("");
-		list.add("Server Information:");
-		list.add("  NovaGuilds: #" + VersionUtils.getBuildCurrent() + " (" + VersionUtils.getCommit() + ")");
-		list.add("  Storage Type: " + (plugin.getConfigManager() == null || plugin.getConfigManager().getDataStorageType() == null ? "null" : plugin.getConfigManager().getDataStorageType().name()));
-		list.add("  Bukkit: " + Bukkit.getBukkitVersion());
-		list.add("  Java: " + System.getProperty("java.version"));
-		list.add("  Thread: " + Thread.currentThread());
-		list.add("  Running CraftBukkit: " + Bukkit.getServer().getClass().getName().equals("org.bukkit.craftbukkit.CraftServer"));
-		list.add("  Exception Message: ");
-		list.add("   " + exception.getMessage());
-		list.add("");
-
-		for(StackTraceElement stackTraceElement : exception.getStackTrace()) {
-			list.add(" at " + stackTraceElement.toString());
-		}
-
-		list.add("");
-
-		Throwable cause = exception.getCause();
-		while(cause != null) {
-			list.add("Caused by: " + cause.getClass().getName());
-			list.add("  " + cause.getMessage());
-
-			for(StackTraceElement stackTraceElement : cause.getStackTrace()) {
-				list.add(" at " + stackTraceElement.toString());
-			}
-
-			list.add("");
-			cause = cause.getCause();
-		}
-
-		list.add("End of Error.");
-		list.add("");
-
-		error(list, false);
+		IError error = new ErrorImpl(exception);
+		error(error.getConsoleOutput(), false);
+		plugin.getErrorManager().addError(error);
 
 		//notify all permitted players
 		Message.CHAT_ERROROCCURED.broadcast(Permission.NOVAGUILDS_ERROR);

@@ -402,8 +402,9 @@ public class ConfigManager {
 	/**
 	 * Gets a string
 	 *
-	 * @param path config path
-	 * @param vars variable map
+	 * @param path      config path
+	 * @param vars      variable map
+	 * @param fixColors fix colors flag
 	 * @return the value
 	 */
 	public String getString(String path, Map<VarKey, String> vars, boolean fixColors) {
@@ -425,8 +426,9 @@ public class ConfigManager {
 	/**
 	 * Gets a string list
 	 *
-	 * @param path config path
-	 * @param vars variable map
+	 * @param path      config path
+	 * @param vars      variable map
+	 * @param fixColors fix colors flag
 	 * @return the value
 	 */
 	public List<String> getStringList(String path, Map<VarKey, String> vars, boolean fixColors) {

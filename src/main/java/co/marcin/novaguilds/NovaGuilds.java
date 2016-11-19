@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.NovaGuildsAPI;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.TabList;
 import co.marcin.novaguilds.api.event.PlayerInteractEntityEvent;
+import co.marcin.novaguilds.api.manager.ErrorManager;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.SignGUI;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
@@ -40,6 +41,7 @@ import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.DependencyManager;
+import co.marcin.novaguilds.manager.ErrorManagerImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
@@ -94,6 +96,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private final RegionManager     regionManager;
 	private final PlayerManager     playerManager;
 	private final ConfigManager     configManager;
+	private final ErrorManager      errorManager;
 	private final GuildManager      guildManager;
 	private final GroupManager      groupManager;
 	private final RankManager       rankManager;
@@ -118,6 +121,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		regionManager     = new RegionManager();
 		playerManager     = new PlayerManager();
 		configManager     = new ConfigManager();
+		errorManager      = new ErrorManagerImpl();
 		guildManager      = new GuildManager();
 		groupManager      = new GroupManager();
 		rankManager       = new RankManager();
@@ -432,6 +436,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	@Override
 	public ListenerManager getListenerManager() {
 		return listenerManager;
+	}
+
+	@Override
+	public ErrorManager getErrorManager() {
+		return errorManager;
 	}
 
 	@Override
