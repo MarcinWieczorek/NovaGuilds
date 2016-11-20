@@ -20,6 +20,7 @@ package co.marcin.novaguilds.command.admin.guild;
 
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -28,6 +29,11 @@ import org.bukkit.command.CommandSender;
 public class CommandAdminGuildSetPoints extends AbstractCommandExecutor.Reversed<NovaGuild> {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
+		if(Config.GUILD_PLAYERPOINTS.getBoolean()) {
+			Message.CHAT_UNKNOWNCMD.send(sender);
+			return;
+		}
+
 		NovaGuild guild = getParameter();
 
 		if(args.length != 1) { //no new name

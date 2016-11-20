@@ -323,6 +323,10 @@ guild:
    - INCREASE_DAMAGE
    - HEAL
 
+# If this is set to true the points of the guild  #
+# Are the sum of points of all its members        #
+ playerpoints: false
+
 ###################################################
 # Guild ranks                                     #
 rank:

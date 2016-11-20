@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.IConverter;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.PreparedStatements;
+import co.marcin.novaguilds.impl.basic.NovaGuildIkkaImpl;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.util.converter.ResourceToUUIDConverterImpl;
 import co.marcin.novaguilds.impl.util.converter.StringToUUIDConverterImpl;
@@ -153,7 +154,14 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 					updateUUID = true;
 				}
 
-				NovaGuild guild = new NovaGuildImpl(guildUUID, loadingWrapper);
+				NovaGuild guild;
+				if(Config.GUILD_PLAYERPOINTS.getBoolean()) {
+					guild = new NovaGuildIkkaImpl(guildUUID, loadingWrapper);
+				}
+				else {
+					guild = new NovaGuildImpl(guildUUID, loadingWrapper);
+				}
+
 				guild.setAdded();
 				guild.setId(res.getInt("id"));
 				guild.setMoney(res.getDouble("money"));

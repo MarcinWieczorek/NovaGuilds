@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.api.util.IConverter;
 import co.marcin.novaguilds.enums.Config;
+import co.marcin.novaguilds.impl.basic.NovaGuildIkkaImpl;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.util.converter.ResourceToUUIDConverterImpl;
 import co.marcin.novaguilds.impl.util.converter.StringToUUIDConverterImpl;
@@ -83,7 +84,14 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 					forceSave = true;
 				}
 
-				NovaGuild guild = new NovaGuildImpl(UUID.fromString(trimExtension(guildFile)), loadingWrapper);
+				NovaGuild guild;
+				if(Config.GUILD_PLAYERPOINTS.getBoolean()) {
+					guild = new NovaGuildIkkaImpl(UUID.fromString(trimExtension(guildFile)), loadingWrapper);
+				}
+				else {
+					guild = new NovaGuildImpl(UUID.fromString(trimExtension(guildFile)), loadingWrapper);
+				}
+
 				guild.setAdded();
 				guild.setId(configuration.getInt("id"));
 				guild.setName(configuration.getString("name"));
