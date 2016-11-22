@@ -57,6 +57,11 @@ public class EnchantmentGlow extends Enchantment {
 	}
 
 	@Override
+	public boolean isCursed() {
+		return false;
+	}
+
+	@Override
 	public boolean conflictsWith(Enchantment enchantment) {
 		return false;
 	}

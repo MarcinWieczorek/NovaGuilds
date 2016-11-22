@@ -64,28 +64,14 @@ public final class ItemStackUtils {
 			Map<Enchantment, Integer> enchantments = new HashMap<>();
 
 			String[] explode = str.split(" ");
-
+			String[] dataSplit = null;
 			String materialString = explode[0];
 
 			DyeColor color;
 
 			if(explode[0].contains(":")) {
-				String[] dataSplit = explode[0].split(":");
+				dataSplit = explode[0].split(":");
 				materialString = dataSplit[0];
-				String dataString = dataSplit[1];
-
-				if(NumberUtils.isNumeric(dataString)) {
-					durability = Short.parseShort(dataString);
-					data = Byte.parseByte(dataString);
-				}
-				else {
-					color = DyeColor.valueOf(dataString.toUpperCase());
-					if(color != null) {
-						data = color.getData();
-					}
-
-					durability = data;
-				}
 			}
 
 			if(NumberUtils.isNumeric(materialString)) {
@@ -97,6 +83,27 @@ public final class ItemStackUtils {
 
 			if(material == null) {
 				return stringToItemStack("DIRT 1 name:&cINVALID_ITEM");
+			}
+
+			if(explode[0].contains(":")) {
+				String dataString = dataSplit[1];
+				if(NumberUtils.isNumeric(dataString)) {
+					durability = Short.parseShort(dataString);
+					data = Byte.parseByte(dataString);
+				}
+				else {
+					color = DyeColor.valueOf(dataString.toUpperCase());
+					if(color != null) {
+						if(material == Material.INK_SACK) {
+							data = color.getDyeData();
+						}
+						else {
+							data = color.getWoolData();
+						}
+					}
+
+					durability = data;
+				}
 			}
 
 			if(explode.length > 1) { //amount
