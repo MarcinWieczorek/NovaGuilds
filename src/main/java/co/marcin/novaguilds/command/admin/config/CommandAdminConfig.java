@@ -37,7 +37,10 @@ public class CommandAdminConfig extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
-			Message.send(Message.CHAT_USAGE_NGA_CONFIG_ACCESS.getNeighbours(), sender);
+			Message.CHAT_COMMANDS_HEADER_ADMIN_CONFIG.send(sender);
+			for(CommandWrapper commandWrapper : getSubCommands()) {
+				commandWrapper.getUsageMessage().send(sender);
+			}
 			return;
 		}
 

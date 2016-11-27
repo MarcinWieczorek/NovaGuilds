@@ -46,13 +46,15 @@ public class CommandAdminHologram extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(!Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean()) {
-			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_DISABLED.send(sender);
+			Message.CHAT_ADMIN_HOLOGRAM_DISABLED.send(sender);
 			return;
 		}
 
 		if(args.length == 0) {
-			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER.send(sender);
-			Message.CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS.send(sender);
+			Message.CHAT_COMMANDS_HEADER_ADMIN_HOLOGRAM.send(sender);
+			for(CommandWrapper commandWrapper : getSubCommands()) {
+				commandWrapper.getUsageMessage().send(sender);
+			}
 			return;
 		}
 

@@ -61,8 +61,10 @@ public class CommandAdminGuild extends AbstractCommandExecutor {
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		//command list
 		if(args.length == 0) {
-			Message.CHAT_COMMANDS_ADMIN_GUILD_HEADER.send(sender);
-			Message.CHAT_COMMANDS_ADMIN_GUILD_ITEMS.send(sender);
+			Message.CHAT_COMMANDS_HEADER_ADMIN_GUILD_MAIN.send(sender);
+			for(CommandWrapper commandWrapper : getSubCommands()) {
+				commandWrapper.getUsageMessage().send(sender);
+			}
 			return;
 		}
 

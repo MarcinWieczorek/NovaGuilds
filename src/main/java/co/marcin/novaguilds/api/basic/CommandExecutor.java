@@ -21,6 +21,7 @@ package co.marcin.novaguilds.api.basic;
 import org.bukkit.command.CommandSender;
 
 import java.util.Map;
+import java.util.Set;
 
 public interface CommandExecutor {
 	/**
@@ -45,6 +46,13 @@ public interface CommandExecutor {
 	 * @return the map
 	 */
 	Map<String, CommandWrapper> getCommandsMap();
+
+	/**
+	 * Gets a set with subcommands
+	 *
+	 * @return set
+	 */
+	Set<CommandWrapper> getSubCommands();
 
 	interface Reversed<T> extends CommandExecutor {
 		/**

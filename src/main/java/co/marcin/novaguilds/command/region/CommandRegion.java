@@ -48,8 +48,10 @@ public class CommandRegion extends AbstractCommandExecutor {
 		}
 		else {
 			if(PlayerManager.getPlayer(sender).isLeader()) {
-				Message.CHAT_COMMANDS_REGION_HEADER.send(sender);
-				Message.CHAT_COMMANDS_REGION_ITEMS.send(sender);
+				Message.CHAT_COMMANDS_HEADER_REGION.send(sender);
+				for(CommandWrapper commandWrapper : getSubCommands()) {
+					commandWrapper.getUsageMessage().send(sender);
+				}
 			}
 		}
 	}

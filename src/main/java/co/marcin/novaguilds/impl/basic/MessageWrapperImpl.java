@@ -35,11 +35,13 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MessageWrapperImpl extends AbstractVarKeyApplicable<MessageWrapper> implements MessageWrapper {
 	private String path;
-	private final List<Flag> flags = new ArrayList<>();
+	private final Set<Flag> flags = new HashSet<>();
 
 	/**
 	 * The constructor
@@ -84,13 +86,13 @@ public class MessageWrapperImpl extends AbstractVarKeyApplicable<MessageWrapper>
 	 * @param wrapper wrapper to clone
 	 */
 	public MessageWrapperImpl(MessageWrapper wrapper) {
-		this(wrapper.getPath(), wrapper.getFlags());
+		this(wrapper.getPath(), wrapper.getFlags().toArray(new Flag[wrapper.getFlags().size()]));
 		setVars(wrapper.getVars());
 	}
 
 	@Override
-	public Flag[] getFlags() {
-		return flags.toArray(new Flag[0]);
+	public Set<Flag> getFlags() {
+		return flags;
 	}
 
 	@Override

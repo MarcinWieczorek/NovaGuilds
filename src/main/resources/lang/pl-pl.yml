@@ -107,6 +107,7 @@ chat:
    all: "Zapisano wszystkie dane. (Gracze, gildie, regiony, rangi)"
    autosave: "Zakonczono automatyczny zapis."
   hologram:
+   disabled: "&cTa komenda jest zablokowana gdy plugin HolographicDisplays nie jest obecny."
    notfound: "Nie udalo sie znalezc hologramu o takiej nazwie."
    teleport:
     self: "Teleportowano Cie do &a{NAME}"
@@ -139,6 +140,10 @@ chat:
 
  usage:
   nga:
+   access: "&4&l> &7/nga &2- &6Komendy admina"
+   reload: "&4&l> &7/nga &creload &2- &6Przeładuj &4&l[&7NovaGuilds&4&l]"
+   save: "&4&l> &7/nga &csave &6[&cplayers&6/&cguilds&6/&cregions&6/&cranks&6] &2- &6Zapisz dane"
+   chatspy: "&4&l> &7/nga &cspy &2- &6Przełącz szpiegowanie czatu"
    config:
     access: "&4&l> &7/nga &cconfig &2- &6Komendy konfiguracji"
     reload: "&4&l> &7/nga &cconfig &6reload &2- &6Przeładuj konfigurację"
@@ -147,18 +152,33 @@ chat:
     get: "&4&l> &7/nga &cconfig &6get &6<&cklucz&6> &2- &6Pobierz wartość"
     set: "&4&l> &7/nga &cconfig &6set &6<&cklucz&6> &6<&cvalue&6> &2- &6Ustaw wartość"
    guild:
+    access: "&4&l> &7/nga &cg &2- &6Komendy gildyjne"
     set:
      slots: "&4&l> &7/nga &cg &6<&cgildia&6> &cslots &6<&cilość&6> &2- &6Zmien ilość slotow"
      points: "&4&l> &7/nga &cg &6<&cgildia&6> &cpoints &6<&cpunkty&6> &2- &6Zmien punkty"
      lives: "&4&l> &7/nga &cg &6lives &6<&cilość&6> &2- &6ustaw zycia"
+     timerest: "&4&l> &7/nga &cg &6<&cgildia&6> &ctimerest &6<&ctime&6> &2- &6Ustaw czas odpoczynku. (1y/d/m/h/s)"
+     name: "&4&l> &7/nga &cg &6<&cgildia&6> &csetname &6<&cname&6> &2- &6Zmień nazwę"
+     tag: "&4&l> &7/nga &cg &6<&cgildia&6> &csettag &6<&ctag&6> &2- &6Zmień tag"
+     leader: "&4&l> &7/nga &cg &6promote &6<&cgracz&6> &2- &6Zmien lidera gildii"
+     liveregenerationtime: "&4&l> &7/nga &cg &6<&cgildia&6> &cliveregentime &6<&ctime&6> &2- &6Czas regeneracji zycia"
     abandon: "&4&l> &7/nga &cg &6abandon &6<&cgildia&6> &2- &6porzuc gildie"
     bank:
      pay: "&7/nga &cg &6pay &6<&cgildia&6> &6<&cilość&6>"
      withdraw: "&7/nga &cg &6withdraw &6<&cgildia&6> &6<&cilość&6>"
+    inactive:
+     list: "&4&l> &7/nga &cg &6inactive &2- &6Ostatnia aktywność"
+    invite: "&4&l> &7/nga &cg &6<&cgildia&6> &cinvite &6<&cgracz&6> &2- &6Zaproś gracza do gildii"
+    kick: "&4&l> &7/nga &cg &6kick &6<&cgracz&6> &2- &6Wyrzuć gracza z gildii"
+    list: "&4&l> &7/nga &cg &6list &2- &6Lista gildii"
     purge: "&4&l> &7/nga &cg &6purge &2- &6Usuń wszystkie gildie"
     tp: "&7/nga &cg &6tp &6<&cgildia&6> &6[&cgracz&6]"
     reset:
      points: "&4&l> &7/nga &cg &6resetpoints &6<&cwarunek&6> &6[&cvalue&6] &2- &6Resetuj punkty gildi"
+    rank:
+     access: "&4&l> &7/nga &cg &6<&cgildia&6> &crank &2- &6Komendy tang"
+     delete: "&4&l> &7/nga &cg rank &6<&cgildia&6> &clist &2- &6Lista rang"
+     list: "&4&l> &7/nga &cg rank &6<&cgildia&6> &cdel &6<&crank&6> &2- &6Usuń rangę"
    region:
     access: "&4&l> &7/nga &crg &2- &6Komendy regionów"
     list: "&4&l> &7/nga &crg &6list &6[&cgildia&6] &2- &6Lista regionów"
@@ -166,7 +186,16 @@ chat:
     teleport: "&4&l> &7/nga &crg &6<&cgildia&6> &ctp &6<&cindex&6> &6[&cgracz&6] &2- &6Teleport do regionu"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cgracz&6] &2- &6Zmiana trybu ignorowania regionów"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cgracz&6] &2- &6Zmiana trybu podglądu zaznaczenia"
+   hologram:
+    access: "&4&l> &7/nga &ch &2- &6Komendy hologramów"
+    list: "&4&l> &7/nga &ch &6list &2- &6Lista hologramów"
+    teleport:
+     self: "&4&l> &7/nga &ch &6<&cname&6> &6tp &6[&cgracz&6] &2- &6Teleport do hologramu"
+     here: "&4&l> &7/nga &ch &6<&cname&6> &6tphere &2- &6Teleportuj hologram"
+    delete: "&4&l> &7/nga &ch &6<&cname&6> &6del &2- &6Usuń hologram"
+    addtop: "&4&l> &7/nga &ch &6addtop &2- &6Dodaj hologram z rankingiem"
   guild:
+   access: "&4&l> &7/g &2- &6Komendy gildii"
    abandon: "&4&l> &7/rozwiaz &2- &6Porzuć gildię"
    ally: "&4&l> &7/g &cally &6<&cgildia&6> &2- &6Zaproś do sojuszu"
    bank:
@@ -195,6 +224,10 @@ chat:
    set:
     name: "&4&l> &7/g &csetname &2- &6Zmień nazwę"
     tag: "&4&l> &7/g &csettag &2- &6Zmień tag"
+   rank:
+    access: "&4&l> &7/g &crank &2- &6Komendy rang"
+    delete: "&4&l> &7/g &crank &6<&crank&6> &cdel &2- &6Usuń rangę"
+    list: "&4&l> &7/g &crank list &2- &6Lista rang"
    top: "&4&l> &7/g &ctop &2- &6Top 5"
    vault:
     restore: "&4&l> &7/g &cvault &2- &6Przywróć skarbiec"
@@ -205,61 +238,23 @@ chat:
    delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Usuń region"
    list: "&4&l> &7/g &crg &6list &2- &6Lista regionów"
   tool: "&4&l> &7/ng &ctool &2- &6Sprawdź lub zaznacz teren patykiem!"
+  player:
+   info: "&4&l> &7/pi &2- &6Informacje o graczu"
+  confirm: "&4&l> &7/confirm &2- &6Potwierdzenie komendy"
 
  commands:
-  admin:
-   main:
-    header: "Komendy Admina:"
-    items:
-     - "&4&l> &7/nga &cconfig &2- &6Komendy konfiguracji"
-     - "&4&l> &7/nga &crg &2- &6Komendy regionow"
-     - "&4&l> &7/nga &cg &2- &6Komendy gildii"
-     - "&4&l> &7/nga &ch &2- &6Komendy hologramow"
-     - "&4&l> &7/nga &cspy &2- &6Zmień tryb szpiegowania"
-     - "&4&l> &7/nga &creload &2- &6Przeladuj &4&l[&7NovaGuilds&4&l]"
-     - "&4&l> &7/nga &csave &6[&cplayers&6/&cguilds&6/&cregions&6/&cranks&6] &2- &6Zapisz dane"
-   region:
-    header: "Komendy Admina, regiony:"
-    items:
-     - "&4&l> &7/nga &crg &6list &2- &6Lista regionow"
-     - "&4&l> &7/nga &crg &6<&cgildia&6> &cdel &2- &6Usun region"
-     - "&4&l> &7/nga &crg &6<&cgildia&6> &ctp &2- &6Teleport do regionu"
-     - "&4&l> &7/nga &crg &6bypass &6[&cgracz&6] &2- &6Zmiana trybu ignorowania regionow"
+  header:
+   admin:
+    main: "Komendy Admina:"
+    config: "Komendy konfiguracji:"
+    region: "Komendy Admina, regiony:"
+    guild:
+     main: "Komendy Admina, gildie:"
+     rank: "Rank commands for admins"
+    hologram: "Komendy hologramow:"
    guild:
-    header: "Komendy Admina, gildie:"
-    items:
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &ctp &6[&cgracz&6] &2- &6Teleport do gildii"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &cabandon &2- &6Rozwiaz gildie"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &csetname &6<&cnazwa&6> &2- &6Zmien nazwe"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &csettag &6<&ctag&6> &2- &6Zmien tag"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &csetpoints &6<&cpunkty&6> &2- &6Zmien punkty"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &cinvite &6<&cgracz&6> &2- &6Zapros gracza do gildii"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &cpay &6<&cilość&6> &2- &6Wplac pieniadze do banku gildii"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &cwithdraw &6<&cilość&6> &2- &6Zabierz pieniadze z banku gildii"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &ctimerest &6<&cczas&6> &2- &6Ustaw czas odpoczynku. (1y/d/m/h/s)"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &cliveregentime &6<&cczas&6> &2- &6Czas regeneracji zycia"
-     - "&4&l> &7/nga &cg &6<&cgildia&6> &clives &6<&cilość&6> &2- &6Ustaw zycia"
-     - "&4&l> &7/nga &cg &6<&cguild&6> &crank &2- &6komendy rang"
-     - "&4&l> &7/nga &cg &6kick &6<&cgracz&6> &2- &6Wyrzuc gracza z gildii"
-     - "&4&l> &7/nga &cg &6promote &6<&cgracz&6> &2- &6Zmien lidera gildii"
-     - "&4&l> &7/nga &cg &6list &2- &6Lista gildii"
-     - "&4&l> &7/nga &cg &6purge &2- &6Usun wszystkie gildie"
-     - "&4&l> &7/nga &cg &6resetpoints &6<&cwarunek&6> &6[&cvalue&6] &2- &6Resetuj punkty gildii"
-    rank:
-     main:
-      header: "Rank commands for admins"
-      items:
-       - "&4&l> &7/nga &cg rank &6<&cgildia&6> &clist &2- &6lista rang"
-       - "&4&l> &7/nga &cg rank &6<&cgildia&6> &cdel &6<&cranga&6> &2- &6usuń rank"
-   hologram:
-    header: "Komendy hologramow:"
-    disabled: "&cTa komenda jest zablokowana gdy plugin HolographicDisplays nie jest obecny."
-    items:
-     - "&4&l> &7/nga &ch &6list &2- &6Lista hologramow"
-     - "&4&l> &7/nga &ch &6addtop &2- &6Dodaj hologram TOPki"
-     - "&4&l> &7/nga &ch &6<&cnazwa&6> &6del &2- &6Usun hologram"
-     - "&4&l> &7/nga &ch &6<&cnazwa&6> &6tp &2- &6Teleportuj do hologramu"
-     - "&4&l> &7/nga &ch &6<&cnazwa&6> &6tphere &2- &6Teleportuj hologram"
+    rank: "Komendy rang:"
+   region: "Komendy regionów:"
   guild:
    noguild:
     - "&4&l> &7/zaloz &6<&ctag&6> <&cnazwa&6> &2- &6Zaloz gildie"
@@ -296,17 +291,6 @@ chat:
     - "&4&l> &7/g &crank &2- &6Komendy rang"
     - "{ABANDON}&4&l> &7/rozwiaz &2- &6Porzuć gildię"
     - "{INVITE}&4&l> &7/zapros &6<&cgracz&6> &2- &6Zaproś gracza do gildii"
-   rank:
-    main:
-     header: "Rank commands"
-     items:
-      - "&4&l> &7/g &crank list &2- &6lista rang"
-      - "&4&l> &7/g &crank &6<&cranga&6> &cdel &2- &6usuń rangę"
-  region:
-   header: "Komendy regionow:"
-   items:
-    - "&4&l> &7/g &crg &6buy &2- &6Stworz region"
-    - "&4&l> &7/g &crg &6delete &2- &6Usun region"
 
  pvp:
   team: "Nie mozesz bic swoich kolegow z gildii"

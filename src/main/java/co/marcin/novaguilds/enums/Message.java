@@ -122,6 +122,7 @@ public class Message {
 	public static MessageWrapper CHAT_ADMIN_SPYMODE_SUCCESS_SELF;
 	public static MessageWrapper CHAT_ADMIN_SPYMODE_SUCCESS_OTHER;
 
+	public static MessageWrapper CHAT_ADMIN_HOLOGRAM_DISABLED;
 	public static MessageWrapper CHAT_ADMIN_HOLOGRAM_TELEPORT_SELF;
 	public static MessageWrapper CHAT_ADMIN_HOLOGRAM_TELEPORT_OTHER;
 	public static MessageWrapper CHAT_ADMIN_HOLOGRAM_NOTFOUND;
@@ -296,6 +297,10 @@ public class Message {
 	public static MessageWrapper CHAT_REGION_BLOCKEDCMD;
 	public static MessageWrapper CHAT_REGION_DELETED;
 
+	public static MessageWrapper CHAT_USAGE_NGA_ACCESS;
+	public static MessageWrapper CHAT_USAGE_NGA_RELOAD;
+	public static MessageWrapper CHAT_USAGE_NGA_SAVE;
+	public static MessageWrapper CHAT_USAGE_NGA_CHATSPY;
 	public static MessageWrapper CHAT_USAGE_NGA_CONFIG_ACCESS = new MessageWrapperImpl(MessageWrapper.Flag.NOPREFIX);
 	public static MessageWrapper CHAT_USAGE_NGA_CONFIG_GET;
 	public static MessageWrapper CHAT_USAGE_NGA_CONFIG_RELOAD;
@@ -303,15 +308,36 @@ public class Message {
 	public static MessageWrapper CHAT_USAGE_NGA_CONFIG_SAVE;
 	public static MessageWrapper CHAT_USAGE_NGA_CONFIG_SET;
 
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_ACCESS;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_POINTS;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_LIVES;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_TIMEREST;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_NAME;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_TAG;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_SLOTS;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_LEADER;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_LIVEREGENERATIONTIME;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_ABANDON;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_BANK_PAY;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_BANK_WITHDRAW;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_INACTIVE_LIST;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_INVITE;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_KICK;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_LIST;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_PURGE;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_TP;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_RESET_POINTS;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_RANK_ACCESS;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_RANK_DELETE;
+	public static MessageWrapper CHAT_USAGE_NGA_GUILD_RANK_LIST;
+
+	public static MessageWrapper CHAT_USAGE_NGA_HOLOGRAM_ACCESS;
+	public static MessageWrapper CHAT_USAGE_NGA_HOLOGRAM_LIST;
+	public static MessageWrapper CHAT_USAGE_NGA_HOLOGRAM_TELEPORT_SELF;
+	public static MessageWrapper CHAT_USAGE_NGA_HOLOGRAM_TELEPORT_HERE;
+	public static MessageWrapper CHAT_USAGE_NGA_HOLOGRAM_DELETE;
+	public static MessageWrapper CHAT_USAGE_NGA_HOLOGRAM_ADDTOP;
+	public static MessageWrapper CHAT_USAGE_GUILD_ACCESS;
 
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_ACCESS = new MessageWrapperImpl(MessageWrapper.Flag.NOPREFIX);
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_BYPASS;
@@ -344,6 +370,9 @@ public class Message {
 	public static MessageWrapper CHAT_USAGE_GUILD_REQUIREDITEMS;
 	public static MessageWrapper CHAT_USAGE_GUILD_SET_NAME;
 	public static MessageWrapper CHAT_USAGE_GUILD_SET_TAG;
+	public static MessageWrapper CHAT_USAGE_GUILD_RANK_ACCESS;
+	public static MessageWrapper CHAT_USAGE_GUILD_RANK_DELETE;
+	public static MessageWrapper CHAT_USAGE_GUILD_RANK_LIST;
 	public static MessageWrapper CHAT_USAGE_GUILD_TOP;
 	public static MessageWrapper CHAT_USAGE_GUILD_VAULT_RESTORE;
 	public static MessageWrapper CHAT_USAGE_GUILD_WAR;
@@ -354,24 +383,20 @@ public class Message {
 	public static MessageWrapper CHAT_USAGE_REGION_LIST;
 
 	public static MessageWrapper CHAT_USAGE_TOOL;
+	public static MessageWrapper CHAT_USAGE_PLAYER_INFO;
+	public static MessageWrapper CHAT_USAGE_CONFIRM;
 
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_MAIN_HEADER;
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_MAIN_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_REGION_HEADER;
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_REGION_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_GUILD_HEADER;
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_GUILD_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_GUILD_RANK_MAIN_HEADER;
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_GUILD_RANK_MAIN_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_HOLOGRAM_HEADER;
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_HOLOGRAM_DISABLED;
-	public static MessageWrapper CHAT_COMMANDS_ADMIN_HOLOGRAM_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
+	public static MessageWrapper CHAT_COMMANDS_HEADER_ADMIN_MAIN;
+	public static MessageWrapper CHAT_COMMANDS_HEADER_ADMIN_CONFIG;
+	public static MessageWrapper CHAT_COMMANDS_HEADER_ADMIN_REGION;
+	public static MessageWrapper CHAT_COMMANDS_HEADER_ADMIN_GUILD_MAIN;
+	public static MessageWrapper CHAT_COMMANDS_HEADER_ADMIN_GUILD_RANK;
+	public static MessageWrapper CHAT_COMMANDS_HEADER_ADMIN_PLAYER;
+	public static MessageWrapper CHAT_COMMANDS_HEADER_ADMIN_HOLOGRAM;
+	public static MessageWrapper CHAT_COMMANDS_HEADER_GUILD_RANK;
+	public static MessageWrapper CHAT_COMMANDS_HEADER_REGION;
 	public static MessageWrapper CHAT_COMMANDS_GUILD_HASGUILD = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 	public static MessageWrapper CHAT_COMMANDS_GUILD_NOGUILD = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
-	public static MessageWrapper CHAT_COMMANDS_GUILD_RANK_MAIN_HEADER;
-	public static MessageWrapper CHAT_COMMANDS_GUILD_RANK_MAIN_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
-	public static MessageWrapper CHAT_COMMANDS_REGION_HEADER;
-	public static MessageWrapper CHAT_COMMANDS_REGION_ITEMS = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 
 	public static MessageWrapper CHAT_CREATEGUILD_NOTENOUGHMONEY;
 	public static MessageWrapper CHAT_CREATEGUILD_ITEMLIST;
@@ -552,6 +577,10 @@ public class Message {
 				}
 				else {
 					wrapper.setPath(path);
+				}
+
+				if(wrapper.getName().startsWith("CHAT_USAGE_")) {
+					wrapper.getFlags().add(MessageWrapper.Flag.NOPREFIX);
 				}
 
 				wrapperMap.put(field.getName(), wrapper);

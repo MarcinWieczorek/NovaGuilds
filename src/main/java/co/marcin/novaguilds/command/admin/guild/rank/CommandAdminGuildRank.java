@@ -60,8 +60,10 @@ public class CommandAdminGuildRank extends AbstractCommandExecutor.Reversed<Nova
 
 		if(admin) {
 			if(args.length == 0) {
-				Message.CHAT_COMMANDS_ADMIN_GUILD_RANK_MAIN_HEADER.send(sender);
-				Message.CHAT_COMMANDS_ADMIN_GUILD_RANK_MAIN_ITEMS.send(sender);
+				Message.CHAT_COMMANDS_HEADER_ADMIN_GUILD_RANK.send(sender);
+				for(CommandWrapper commandWrapper : getSubCommands()) {
+					commandWrapper.getUsageMessage().send(sender);
+				}
 				return;
 			}
 
@@ -69,8 +71,10 @@ public class CommandAdminGuildRank extends AbstractCommandExecutor.Reversed<Nova
 		}
 		else {
 			if(args.length == 0) {
-				Message.CHAT_COMMANDS_GUILD_RANK_MAIN_HEADER.send(sender);
-				Message.CHAT_COMMANDS_GUILD_RANK_MAIN_ITEMS.send(sender);
+				Message.CHAT_COMMANDS_HEADER_GUILD_RANK.send(sender);
+				for(CommandWrapper commandWrapper : getSubCommands()) {
+					commandWrapper.getUsageMessage().send(sender);
+				}
 				return;
 			}
 

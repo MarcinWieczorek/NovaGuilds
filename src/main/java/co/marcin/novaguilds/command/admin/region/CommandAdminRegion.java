@@ -44,8 +44,10 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
-			Message.CHAT_COMMANDS_ADMIN_REGION_HEADER.send(sender);
-			Message.send(Message.CHAT_USAGE_NGA_REGION_ACCESS.getNeighbours(), sender);
+			Message.CHAT_COMMANDS_HEADER_ADMIN_REGION.send(sender);
+			for(CommandWrapper commandWrapper : getSubCommands()) {
+				commandWrapper.getUsageMessage().send(sender);
+			}
 			return;
 		}
 

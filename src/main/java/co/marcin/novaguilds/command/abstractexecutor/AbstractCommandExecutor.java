@@ -24,7 +24,9 @@ import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.util.LoggerUtils;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
@@ -39,6 +41,11 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 	@Override
 	public final Map<String, CommandWrapper> getCommandsMap() {
 		return commandsMap;
+	}
+
+	@Override
+	public Set<CommandWrapper> getSubCommands() {
+		return new HashSet<>(commandsMap.values());
 	}
 
 	/**

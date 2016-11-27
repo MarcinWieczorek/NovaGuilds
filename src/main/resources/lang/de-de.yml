@@ -107,6 +107,7 @@ chat:
    all: "Alle Daten gespeichert. (Spieler, Bereiche, Gilden, Ranks)"
    autosave: "Automatisches Speichern abgeschlossen."
   hologram:
+   disabled: "&cThis command is disabled without HolographicDisplays plugin present."
    notfound: "Es wurde kein Hologramm mit diesem Namen gefunden."
    teleport:
     self: "Du wurdest zu &a{NAME} teleporiert."
@@ -139,6 +140,10 @@ chat:
 
  usage:
   nga:
+   access: "&4&l> &7/nga &2- &6Admin commands"
+   reload: "&4&l> &7/nga &creload &2- &6[&5NovaGuilds&6] &6neu laden"
+   save: "&4&l> &7/nga &csave &6[&cplayers&6/&cguilds&6/&cregions&6/&cranks] &2- &6Daten Speichern"
+   chatspy: "&4&l> &7/nga &cspy &2- &6Toggle spy mode"
    config:
     access: "&4&l> &7/nga &cconfig &2- &6Config commands"
     reload: "&4&l> &7/nga &cconfig &6reload &2- &6Reload the config"
@@ -147,18 +152,33 @@ chat:
     get: "&4&l> &7/nga &cconfig &6get &6<&ckey&6> &2- &6Get a value"
     set: "&4&l> &7/nga &cconfig &6set &6<&ckey&6> &6<&cvalue&6> &2- &6Set a value"
    guild:
+    access: "&4&l> &7/nga &cg &2- &6Gildenbefehle"
     set:
      slots: "&4&l> &7/nga &cg &6<&cGilde&6> &cslots &6<&cMenge&6> &2- &6Setze Plätze"
      points: "&4&l> &7/nga &cg &6<&cGilde&6> &cpoints &6<&cPunkte&6> &2- &6Setze Punkte"
      lives: "&4&l> &7/nga &cg &6<&cGilde&6> &clives &6<&cLeben&6> &2- &6Setze Leben"
+     timerest: "&4&l> &7/nga &cg &6<&cGilde&6> &ctimerest &6<&cZeit&6> &2- &6Setzt Pausenzeit. (1y/d/m/h/s)"
+     name: "&4&l> &7/nga &cg &6<&cGilde&6> &csetname &6<&cName&6> &2- &6Benne die Gilde um"
+     tag: "&4&l> &7/nga &cg &6<&cGilde&6> &csettag &6<&ctag&6> &2- &6Setze die Abkürzung"
+     leader: "&4&l> &7/nga &cg &6promote &6<&cSpieler&6> &2- &6Befördert Spieler zum Anführer"
+     liveregenerationtime: "&4&l> &7/nga &cg &6<&cGilde&6> &cliveregentime &6<&cZeit&6> &2- &6Setzt Lebensregenerationszeit."
     abandon: "&4&l> &7/nga &cg &6<&cGilde&6> &cabandon &2- &6Löse die Gilde auf"
     bank:
      pay: "&4&l> &7/nga &cg &6<&cGilde&6> &cpay &6<&cMenge&6> &2- &6Zahle Geld in die Gildenbank ein"
      withdraw: "&4&l> &7/nga &cg &6<&cGilde&6> &cwithdraw &6<&cMenge&6> &2- &6Hebe Geld von der Gildenbank ab"
+    inactive:
+     list: "&4&l> &7/nga &cg &6inactive &2- &6Show last activity"
+    invite: "&4&l> &7/nga &cg &6<&cGilde&6> &cinvite &6<&cSpieler&6> &2- &6Lädt jmd. in die Gilde ein."
+    kick: "&4&l> &7/nga &cg &6kick &6<&cSpieler&6> &2- &6Entfernt Spieler von der Gilde"
+    list: "&4&l> &7/nga &cg &6list &2- &6Listet alle Gilden auf"
     purge: "&4&l> &7/nga &cg &6purge &2- &6Delete all the guilds"
     tp: "&4&l> &7/nga &cg &6<&cGilde&6> &ctp &6[&cSpieler&6] &2- &6Teleportiert zu Gilden Haus"
     reset:
      points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's points"
+    rank:
+     access: "&4&l> &7/nga &cg &6<&cguild&6> &crank &2- &6rank commands"
+     delete: "&4&l> &7/nga &cg rank &6<&cguild&6> &clist &2- &6list ranks"
+     list: "&4&l> &7/nga &cg rank &6<&cguild&6> &cdel &6<&crank&6> &2- &6delete a rank"
    region:
     access: "&4&l> &7/nga &crg &2- &6Gebietsbefehle"
     list: "&4&l> &7/nga &crg &6list &6[&cGilde&6] &2- &6Gebieteliste"
@@ -166,7 +186,16 @@ chat:
     teleport: "&4&l> &7/nga &crg &6<&cGilde&6> &ctp &6<&cindex&6> &6[&cSpieler&6] &2- &6Teleportiert zum Gildengebiet"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cSpieler&6] &2- &6ändert den Umgehungsmodus"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
+   hologram:
+    access: "&4&l> &7/nga &ch &2- &6Hologrammbefehle"
+    list: "&4&l> &7/nga &ch &6list &2- &6Listet alle Hologramme auf"
+    teleport:
+     self: "&4&l> &7/nga &ch &6<&cName&6> &6tp &6[&cSpieler&6] &2- &6Teleportiert das Hologramm"
+     here: "&4&l> &7/nga &ch &6<&cName&6> &6tphere &2- &6Teleportiert das Hologramm zu dir"
+    delete: "&4&l> &7/nga &ch &6<&cName&6> &6del &2- &6Löscht das Hologrammm"
+    addtop: "&4&l> &7/nga &ch &6addtop &2- &6Fügt eine Zeile OBEN hinzu"
   guild:
+   access: "&4&l> &7/g &2- &6Guild commands"
    abandon: "&4&l> &7/abandon &2- &6Löse deine Gilde auf"
    ally: "&4&l> &7/g &cally &6<&cGilde&6> &2- &6Lade sie als Verbündete ein"
    bank:
@@ -195,6 +224,10 @@ chat:
    set:
     name: "&4&l> &7/g &csetname &2- &6Set the name"
     tag: "&4&l> &7/g &csettag &2- &6Set the tag"
+   rank:
+    access: "&4&l> &7/g &crank &2- &6rank commands"
+    delete: "&4&l> &7/g &crank &6<&crank&6> &cdel &2- &6delete a rank"
+    list: "&4&l> &7/g &crank list &2- &6list ranks"
    top: "&4&l> &7/g &ctop &2- &6Top 5"
    vault:
     restore: "&4&l> &7/g &cvault &2- &6Restore vault item"
@@ -205,61 +238,23 @@ chat:
    delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Löscht ein Gebiet"
    list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6Prüfe oder wähle dein Gebiet mit diesen Werkzeug!"
+  player:
+   info: "&4&l> &7/pi &2- &6Player info"
+  confirm: "&4&l> &7/confirm &2- &6Command confirmation"
 
  commands:
-  admin:
-   main:
-    header: "Admin Befehle:"
-    items:
-     - "&4&l> &7/nga &cconfig &2- &6Config commands"
-     - "&4&l> &7/nga &crg &2- &6Gebietsbefehle"
-     - "&4&l> &7/nga &cg &2- &6Gildenbefehle"
-     - "&4&l> &7/nga &ch &2- &6Hologrammbefehle"
-     - "&4&l> &7/nga &cspy &2- &6Toggle spy mode"
-     - "&4&l> &7/nga &creload &2- &6[&5NovaGuilds&6] &6neu laden"
-     - "&4&l> &7/nga &csave &6[&cplayers&6/&cguilds&6/&cregions&6/&cranks] &2- &6Daten Speichern"
-   region:
-    header: "Admin Gebiet Befehle:"
-    items:
-     - "&4&l> &7/nga &crg &6list &2- &6Gebieteliste"
-     - "&4&l> &7/nga &crg &6<&cGilde&6> &cdel &2- &6Löscht ein Gebiet"
-     - "&4&l> &7/nga &crg &6<&cGilde&6> &ctp &2- &6Teleportiert zum Gildengebiet"
-     - "&4&l> &7/nga &crg &6bypass &6[&cSpieler&6] &2- &6ändert den Umgehungsmodus"
+  header:
+   admin:
+    main: "Admin Befehle:"
+    config: "Admin config commands:"
+    region: "Admin Gebiet Befehle:"
+    guild:
+     main: "Gilden Befehle für Admins:"
+     rank: "Rank commands for admins"
+    hologram: "Hologramm Befehle:"
    guild:
-    header: "Gilden Befehle für Admins:"
-    items:
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &ctp &6[&cSpieler&6] &2- &6Teleportiert zum Gilden Haus"
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &cabandon &2- &6Löse die Gilde auf"
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &csetname &6<&cName&6> &2- &6Benne die Gilde um"
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &csettag &6<&ctag&6> &2- &6Setze die Abkürzung"
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &csetpoints &6<&cPunkte&6> &2- &6Setze die Punkte"
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &cinvite &6<&cSpieler&6> &2- &6Lädt jmd. in die Gilde ein."
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &cpay &6<&cMenge&6> &2- &6Zahle Geld in die Gildenbank ein"
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &cwithdraw &6<&cMenge&6> &2- &6Hebe Geld von der Gildenbank ab"
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &ctimerest &6<&cZeit&6> &2- &6Setzt Pausenzeit. (1y/d/m/h/s)"
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &cliveregentime &6<&cZeit&6> &2- &6Setzt Lebensregenerationszeit."
-     - "&4&l> &7/nga &cg &6<&cGilde&6> &clives &6<&cLeben&6> &2- &6Setzt Leben"
-     - "&4&l> &7/nga &cg &6<&cguild&6> &crank &2- &6rank commands"
-     - "&4&l> &7/nga &cg &6kick &6<&cSpieler&6> &2- &6Entfernt Spieler von der Gilde"
-     - "&4&l> &7/nga &cg &6promote &6<&cSpieler&6> &2- &6Befördert Spieler zum Anführer"
-     - "&4&l> &7/nga &cg &6list &2- &6Listet alle Gilden auf"
-     - "&4&l> &7/nga &cg &6purge &2- &6Löscht alle Gilden"
-     - "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's points"
-    rank:
-     main:
-      header: "Rank commands for admins"
-      items:
-       - "&4&l> &7/nga &cg rank &6<&cguild&6> &clist &2- &6list ranks"
-       - "&4&l> &7/nga &cg rank &6<&cguild&6> &cdel &6<&crank&6> &2- &6delete a rank"
-   hologram:
-    header: "Hologramm Befehle:"
-    disabled: "&cThis command is disabled without HolographicDisplays plugin present."
-    items:
-     - "&4&l> &7/nga &ch &6list &2- &6Listet alle Hologramme auf"
-     - "&4&l> &7/nga &ch &6addtop &2- &6Fügt eine Zeile OBEN hinzu"
-     - "&4&l> &7/nga &ch &6<&cName&6> &6del &2- &6Löscht das Hologrammm"
-     - "&4&l> &7/nga &ch &6<&cName&6> &6tp &6[&cSpieler&6] &2- &6Teleportiert das Hologramm"
-     - "&4&l> &7/nga &ch &6<&cName&6> &6tphere &2- &6Teleportiert das Hologramm zu dir"
+    rank: "Rank commands"
+   region: "Gebiet Befehle:"
   guild:
    noguild:
     - "&4&l> &7/create &6<&ctag&6> <&cName&6> &2- &6Erstelle eine Gilde"
@@ -296,17 +291,6 @@ chat:
     - "&4&l> &7/g &crank &2- &6rank commands"
     - "{ABANDON}&4&l> &7/abandon &2- &6Löse deine Gilde auf"
     - "{INVITE}&4&l> &7/invite &6<&cSpieler&6> &2- &6Lädt Spieler in deine Gilde ein"
-   rank:
-    main:
-     header: "Rank commands"
-     items:
-      - "&4&l> &7/g &crank list &2- &6list ranks"
-      - "&4&l> &7/g &crank &6<&crank&6> &cdel &2- &6delete a rank"
-  region:
-   header: "Gebiet Befehle:"
-   items:
-    - "&4&l> &7/g &crg &6buy &2- &6Erstellt ein Gebiet"
-    - "&4&l> &7/g &crg &6delete &2- &6Löscht ein Gebiet"
 
  pvp:
   team: "Du kannst dein Team nicht verletzen"

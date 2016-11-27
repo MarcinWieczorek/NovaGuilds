@@ -43,8 +43,10 @@ public class CommandAdmin extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
-			Message.CHAT_COMMANDS_ADMIN_MAIN_HEADER.send(sender);
-			Message.CHAT_COMMANDS_ADMIN_MAIN_ITEMS.send(sender);
+			Message.CHAT_COMMANDS_HEADER_ADMIN_MAIN.send(sender);
+			for(CommandWrapper commandWrapper : getSubCommands()) {
+				commandWrapper.getUsageMessage().send(sender);
+			}
 			return;
 		}
 

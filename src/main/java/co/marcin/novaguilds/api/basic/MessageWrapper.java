@@ -26,6 +26,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Set;
 
 public interface MessageWrapper extends Cloneable, VarKeyApplicable<MessageWrapper> {
 	enum Flag {
@@ -53,9 +54,9 @@ public interface MessageWrapper extends Cloneable, VarKeyApplicable<MessageWrapp
 	/**
 	 * Gets the flags
 	 *
-	 * @return array with flags
+	 * @return set with flags
 	 */
-	Flag[] getFlags();
+	Set<Flag> getFlags();
 
 	/**
 	 * Gets a flag
