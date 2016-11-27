@@ -28,7 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Set;
 
-public interface MessageWrapper extends Cloneable, VarKeyApplicable<MessageWrapper> {
+public interface MessageWrapper extends VarKeyApplicable<MessageWrapper> {
 	enum Flag {
 		/**
 		 * Should not be displayed with prefix

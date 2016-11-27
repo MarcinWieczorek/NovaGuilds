@@ -18,10 +18,12 @@
 
 package co.marcin.novaguilds.impl.util;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
+import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.CompatibilityUtils;
@@ -172,13 +174,36 @@ public class ChatMessageImpl implements ChatMessage {
 	 */
 	private String parse() {
 		String format = getFormat();
-
+		NovaPlayer nPlayer = PlayerManager.getPlayer(getPlayer());
 		Map<VarKey, String> vars = new HashMap<>();
+
+		int topAmount = Config.CHAT_TOP_AMOUNT.getInt();
+		if(topAmount > 0) {
+			List<NovaPlayer> list;
+
+			if(Config.CHAT_TOP_POINTS.getBoolean()) {
+				list = NovaGuilds.getInstance().getPlayerManager().getTopPlayersByPoints(topAmount);
+			}
+			else {
+				list = NovaGuilds.getInstance().getPlayerManager().getTopPlayersByKDR(topAmount);
+			}
+
+			int rank = list.indexOf(nPlayer);
+
+			String rankString = "";
+			if(rank != -1 && rank < topAmount) {
+				rankString = Config.CHAT_TOP_FORMAT.getString();
+				rankString = StringUtils.replace(rankString, "{"+VarKey.INDEX.name()+"}", String.valueOf(rank + 1));
+			}
+
+			vars.put(VarKey.NOVAGUILDS_TOP, rankString);
+		}
+
 		vars.put(VarKey.DISPLAYNAME, getPlayer().getDisplayName());
 		vars.put(VarKey.PLAYER_NAME, getPlayer().getName());
 		vars.put(VarKey.WORLD, getPlayer().getWorld().getName());
 		vars.put(VarKey.WORLDNAME, getPlayer().getWorld().getName());
-		vars.put(VarKey.PLAYER_POINTS, String.valueOf(PlayerManager.getPlayer(getPlayer()).getPoints()));
+		vars.put(VarKey.PLAYER_POINTS, String.valueOf(nPlayer.getPoints()));
 		vars.put(VarKey.TAG, tag.get());
 
 		format = co.marcin.novaguilds.util.StringUtils.replaceVarKeyMap(format, vars);

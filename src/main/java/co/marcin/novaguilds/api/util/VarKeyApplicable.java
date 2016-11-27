@@ -22,7 +22,7 @@ import co.marcin.novaguilds.enums.VarKey;
 
 import java.util.Map;
 
-public interface VarKeyApplicable<T> {
+public interface VarKeyApplicable<T> extends Cloneable {
 	/**
 	 * Gets the map of variables
 	 *

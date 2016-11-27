@@ -195,12 +195,20 @@ chat:
   leaderprefix: true
   format: "&6[&5Ally&6] &a{GUILD_TAG}&8{PLAYER_NAME}&6:&r "
 
-# guild chat settings
+# guild chat settings                             #
  guild:
   prefix: "!"
   enabled: true
   leaderprefix: true
   format: "&6[&7Guild&6] &a{LEADER_PREFIX}&8{PLAYER_NAME}&6:&r "
+
+# Top players have their rank displayed in chat   #
+# Put {NOVAGUILDS_TOP} in Essentials' config      #
+# true = points, false = kdr                      #
+ top:
+  amount: 3
+  format: "&7[&b{INDEX}&7] "
+  points: true
 
 ###################################################
 # Raid settings                                   #

@@ -127,6 +127,9 @@ public enum VarKey {
 	UUID,
 	INDEX,
 
+	//global keys
+	NOVAGUILDS_TOP,
+
 	//Tablist top: Guilds by points
 	GUILD_TOP_N1,
 	GUILD_TOP_N2,
