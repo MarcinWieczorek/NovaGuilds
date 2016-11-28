@@ -56,6 +56,20 @@ public final class StringUtils {
 	}
 
 	/**
+	 * Replaces '&' with section sign
+	 *
+	 * @param list list
+	 * @return new list
+	 */
+	public static List<String> fixColors(List<String> list) {
+		for(int i = 0; i < list.size(); i++) {
+			list.set(i, fixColors(list.get(i)));
+		}
+
+		return list;
+	}
+
+	/**
 	 * Reverses color character replacement
 	 *
 	 * @param msg colored message

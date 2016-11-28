@@ -441,9 +441,7 @@ public class ConfigManager {
 		list = MessageManager.replaceVarKeyMap(list, vars, false);
 
 		if(fixColors) {
-			for(int i = 0; i < list.size(); i++) {
-				list.set(i, StringUtils.fixColors(list.get(i)));
-			}
+			list = StringUtils.fixColors(list);
 		}
 
 		return list;

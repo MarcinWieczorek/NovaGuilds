@@ -605,6 +605,12 @@ misc:
 inventory:
  requireditems:
   name: "需要的物品"
+  lore:
+   - ""
+   - "&6Inventory: &a{AMOUNT_AVAILABLE}"
+   - "&6EnderChest: &a{AMOUNT_AVAILABLE2}"
+   - "&6Total: &a{AMOUNT_AVAILABLE3} of &a{AMOUNT}"
+   - "&6You need &a{NEEDMORE} more"
  ggui:
   name: "公会菜单"
  gui:

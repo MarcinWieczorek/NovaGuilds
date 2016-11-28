@@ -177,7 +177,7 @@ public class MessageWrapperImpl extends AbstractVarKeyApplicable<MessageWrapper>
 
 	@Override
 	public String get() {
-		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars, hasFlag(Flag.NOAFTERVARCOLOR));
+		return MessageManager.replaceVarKeyMap(MessageManager.getMessagesString(this), vars, !hasFlag(Flag.NOAFTERVARCOLOR));
 	}
 
 	@Override
@@ -197,7 +197,7 @@ public class MessageWrapperImpl extends AbstractVarKeyApplicable<MessageWrapper>
 
 	@Override
 	public List<String> getList() {
-		return MessageManager.replaceVarKeyMap(MessageManager.getMessages().getStringList(getPath()), vars, hasFlag(Flag.NOAFTERVARCOLOR));
+		return co.marcin.novaguilds.util.StringUtils.fixColors(MessageManager.replaceVarKeyMap(MessageManager.getMessages().getStringList(getPath()), vars, !hasFlag(Flag.NOAFTERVARCOLOR)));
 	}
 
 	@Override

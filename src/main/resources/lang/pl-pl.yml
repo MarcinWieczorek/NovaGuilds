@@ -604,9 +604,15 @@ misc:
 
 inventory:
  requireditems:
-  name: Wymagane przedmioty
+  name: "Wymagane przedmioty"
+  lore:
+   - ""
+   - "&6Plecak: &a{AMOUNT_AVAILABLE}"
+   - "&6EnderChest: &a{AMOUNT_AVAILABLE2}"
+   - "&6Razem: &a{AMOUNT_AVAILABLE3} z &a{AMOUNT}"
+   - "&6Potrzebujesz jeszcze &a{NEEDMORE}"
  ggui:
-  name: Menu Gildii
+  name: "Menu Gildii"
  gui:
   guildtop: "SIGN 1"
   hometp: "ENDER_PEARL 1 name:Dom"

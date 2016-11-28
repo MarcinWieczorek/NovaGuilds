@@ -459,6 +459,7 @@ public class Message {
 	public static MessageWrapper MISC_POINTSBELOWNAME;
 
 	public static MessageWrapper INVENTORY_REQUIREDITEMS_NAME;
+	public static MessageWrapper INVENTORY_REQUIREDITEMS_LORE = new MessageWrapperImpl(MessageWrapper.Flag.LIST);
 	public static MessageWrapper INVENTORY_GGUI_NAME;
 
 	public static MessageWrapper INVENTORY_GUI_GUILDTOP;

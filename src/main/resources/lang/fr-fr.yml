@@ -604,9 +604,15 @@ misc:
 
 inventory:
  requireditems:
-  name: Objets requis
+  name: "Objets requis"
+  lore:
+   - ""
+   - "&6Inventory: &a{AMOUNT_AVAILABLE}"
+   - "&6EnderChest: &a{AMOUNT_AVAILABLE2}"
+   - "&6Total: &a{AMOUNT_AVAILABLE3} of &a{AMOUNT}"
+   - "&6You need &a{NEEDMORE} more"
  ggui:
-  name: Menu de la guilde
+  name: "Menu de la guilde"
  gui:
   guildtop: "SIGN 1"
   hometp: "ENDER_PEARL 1 name:Foyer"
