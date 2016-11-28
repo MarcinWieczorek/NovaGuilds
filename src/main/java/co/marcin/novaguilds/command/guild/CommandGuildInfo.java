@@ -98,7 +98,7 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 
 		if(!playerList.isEmpty()) {
 			for(NovaPlayer nPlayerList : guild.getPlayers()) {
-				if(nPlayerList.isOnline() && !plugin.getPlayerManager().isVanished(nPlayerList)) {
+				if(nPlayerList.isOnline() && !plugin.getPlayerManager().isVanished(nPlayerList.getPlayer())) {
 					playerColor = Message.CHAT_GUILDINFO_PLAYERCOLOR_ONLINE.get();
 				}
 				else {

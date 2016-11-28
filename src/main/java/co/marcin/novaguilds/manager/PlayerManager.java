@@ -307,9 +307,11 @@ public class PlayerManager {
 	 * @param nPlayer player
 	 * @return boolean
 	 */
-	public boolean isVanished(NovaPlayer nPlayer) {
-		return plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(nPlayer.getPlayer())
-				|| plugin.getDependencyManager().isEnabled(Dependency.ESSENTIALS) && plugin.getDependencyManager().get(Dependency.ESSENTIALS, Essentials.class).getVanishedPlayers().contains(nPlayer.getName());
+	public boolean isVanished(Player player) {
+		return player != null
+				&& (plugin.getDependencyManager().isEnabled(Dependency.VANISHNOPACKET) && plugin.getDependencyManager().get(Dependency.VANISHNOPACKET, VanishPlugin.class).getManager().isVanished(player)
+						|| plugin.getDependencyManager().isEnabled(Dependency.ESSENTIALS) && plugin.getDependencyManager().get(Dependency.ESSENTIALS, Essentials.class).getVanishedPlayers().contains(player.getName()));
+
 	}
 
 	/**

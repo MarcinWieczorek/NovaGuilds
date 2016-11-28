@@ -410,7 +410,7 @@ public class RegionManager {
 
 		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
-		if(plugin.getPlayerManager().isVanished(nPlayer)) {
+		if(plugin.getPlayerManager().isVanished(player)) {
 			return;
 		}
 
@@ -544,11 +544,11 @@ public class RegionManager {
 		NovaRegion region = get(nPlayer);
 
 		if(nPlayer.isAtRegion()) {
-			if(region == null || plugin.getPlayerManager().isVanished(nPlayer)) {
+			if(region == null || plugin.getPlayerManager().isVanished(nPlayer.getPlayer())) {
 				playerExitedRegion(nPlayer.getPlayer());
 			}
 		}
-		else if(region != null && !plugin.getPlayerManager().isVanished(nPlayer)) {
+		else if(region != null && !plugin.getPlayerManager().isVanished(nPlayer.getPlayer())) {
 			playerEnteredRegion(nPlayer.getPlayer(), region);
 		}
 	}

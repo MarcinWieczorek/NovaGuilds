@@ -127,9 +127,7 @@ public final class TabUtils {
 		//Online players excluding vanished
 		int onlinePlayersCount = 0;
 		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
-			NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
-
-			if(!plugin.getPlayerManager().isVanished(nPlayerLoop)) {
+			if(!plugin.getPlayerManager().isVanished(player)) {
 				onlinePlayersCount++;
 			}
 		}

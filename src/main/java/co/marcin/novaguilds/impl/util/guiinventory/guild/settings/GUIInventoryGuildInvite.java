@@ -40,7 +40,7 @@ public class GUIInventoryGuildInvite extends AbstractGUIInventory {
 		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
 			final NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
-			if(nPlayer.hasGuild() || plugin.getPlayerManager().isVanished(nPlayer)) {
+			if(nPlayer.hasGuild() || plugin.getPlayerManager().isVanished(player)) {
 				continue;
 			}
 
