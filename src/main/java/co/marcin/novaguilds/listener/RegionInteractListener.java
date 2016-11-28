@@ -31,6 +31,7 @@ import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.util.BannerUtils;
 import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -54,11 +55,14 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -413,6 +417,48 @@ public class RegionInteractListener extends AbstractListener {
 				event.setCancelled(true);
 				Message.CHAT_REGION_DENY_INTERACT.send(player);
 			}
+		}
+
+		@EventHandler
+		public void onCraftItem(CraftItemEvent event) {
+			NovaPlayer nPlayer = PlayerManager.getPlayer(event.getWhoClicked());
+
+			if(event.getRecipe().getResult().getType() != Material.SHIELD
+					|| !nPlayer.hasGuild()
+					|| nPlayer.getGuild().getBannerMeta().numberOfPatterns() == 0) {
+				return;
+			}
+
+			for(ItemStack ingredient : event.getInventory().getContents()) {
+				if(ingredient != null
+						&& ingredient.getType() == Material.SHIELD
+						&& ingredient.hasItemMeta()) {
+					return;
+				}
+			}
+
+			event.getInventory().setResult(BannerUtils.applyMeta(event.getRecipe().getResult(), nPlayer.getGuild().getBannerMeta()));
+		}
+
+		@EventHandler
+		public void onPrepareItemCraft(PrepareItemCraftEvent event) {
+			NovaPlayer nPlayer = PlayerManager.getPlayer(event.getViewers().get(0));
+
+			if(event.getRecipe().getResult().getType() != Material.SHIELD
+					|| !nPlayer.hasGuild()
+					|| nPlayer.getGuild().getBannerMeta().numberOfPatterns() == 0) {
+				return;
+			}
+
+			for(ItemStack ingredient : event.getInventory().getContents()) {
+				if(ingredient != null
+						&& ingredient.getType() == Material.SHIELD
+						&& ingredient.hasItemMeta()) {
+					return;
+				}
+			}
+
+			event.getInventory().setResult(BannerUtils.applyMeta(event.getRecipe().getResult(), nPlayer.getGuild().getBannerMeta()));
 		}
 	}
 }

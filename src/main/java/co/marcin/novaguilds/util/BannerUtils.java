@@ -30,6 +30,8 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
+import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public final class BannerUtils {
 	private static final BannerMetaSerializer serializer = new BannerMetaSerializerImpl();
@@ -133,6 +135,28 @@ public final class BannerUtils {
 		banner.setBaseColor(meta.getBaseColor());
 		banner.setPatterns(meta.getPatterns());
 		return banner;
+	}
+
+	/**
+	 * Applies meta to a shield
+	 *
+	 * @param itemStack  shield item
+	 * @param bannerMeta banner meta
+	 * @return shield item
+	 */
+	public static ItemStack applyMeta(ItemStack itemStack, BannerMeta bannerMeta) {
+		if(itemStack.getType() != Material.SHIELD && itemStack.getType() != Material.BANNER) {
+			throw new IllegalArgumentException("Passed ItemStack is not a shield nor a banner");
+		}
+
+		ItemMeta meta = itemStack.getItemMeta();
+		BlockStateMeta blockStateMeta = (BlockStateMeta) meta;
+		Banner banner = (Banner) blockStateMeta.getBlockState();
+		applyMeta(banner, bannerMeta);
+		banner.update();
+		blockStateMeta.setBlockState(banner);
+		itemStack.setItemMeta(blockStateMeta);
+		return itemStack;
 	}
 
 	/**
