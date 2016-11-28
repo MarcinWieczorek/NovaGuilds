@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.manager;
 
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.runnable.RunnableAutoSave;
 import co.marcin.novaguilds.runnable.RunnableInactiveCleaner;
@@ -44,9 +45,9 @@ public class TaskManager {
 		HOLOGRAM_REFRESH(Config.HOLOGRAPHICDISPLAYS_ENABLED, RunnableRefreshHolograms.class, Config.HOLOGRAPHICDISPLAYS_REFRESH),
 		TABLIST_REFRESH(Config.TABLIST_ENABLED, RunnableRefreshTabList.class, Config.TABLIST_REFRESH);
 
-		private final Config start;
-		private final Config interval;
-		private final Config condition;
+		private final ConfigWrapper start;
+		private final ConfigWrapper interval;
+		private final ConfigWrapper condition;
 		private final Class clazz;
 
 		/**
@@ -56,7 +57,7 @@ public class TaskManager {
 		 * @param clazz     Runnable class
 		 * @param both      both time interval and start delay
 		 */
-		Task(Config condition, Class<? extends Runnable> clazz, Config both) {
+		Task(ConfigWrapper condition, Class<? extends Runnable> clazz, ConfigWrapper both) {
 			this.clazz = clazz;
 			this.start = both;
 			this.interval = both;
@@ -71,7 +72,7 @@ public class TaskManager {
 		 * @param start     delay after running the task for the first time
 		 * @param interval  time interval
 		 */
-		Task(Config condition, Class<? extends Runnable> clazz, Config start, Config interval) {
+		Task(ConfigWrapper condition, Class<? extends Runnable> clazz, ConfigWrapper start, ConfigWrapper interval) {
 			this.clazz = clazz;
 			this.start = start;
 			this.interval = interval;

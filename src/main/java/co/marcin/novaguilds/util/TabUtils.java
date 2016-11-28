@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.util;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.TabList;
@@ -263,7 +264,7 @@ public final class TabUtils {
 	}
 
 	private static class ListDisplay {
-		private final Config rowPattern;
+		private final ConfigWrapper rowPattern;
 		private final VarKey varKey;
 		private final List<NovaPlayer> list;
 
@@ -274,7 +275,7 @@ public final class TabUtils {
 		 * @param varKey     variable key
 		 * @param list       list of players
 		 */
-		ListDisplay(Config rowPattern, VarKey varKey, List<NovaPlayer> list) {
+		ListDisplay(ConfigWrapper rowPattern, VarKey varKey, List<NovaPlayer> list) {
 			this.rowPattern = rowPattern;
 			this.varKey = varKey;
 			this.list = list;
@@ -285,7 +286,7 @@ public final class TabUtils {
 		 *
 		 * @return the pattern
 		 */
-		public Config getRowPattern() {
+		public ConfigWrapper getRowPattern() {
 			return rowPattern;
 		}
 

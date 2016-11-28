@@ -20,6 +20,7 @@ package co.marcin.novaguilds.util.reflect;
 
 import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.api.util.reflect.MethodInvoker;
+import co.marcin.novaguilds.impl.util.reflect.FieldAccessorImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -29,6 +30,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class Reflections {
 	private static Method entityGetHandleMethod;
@@ -160,49 +163,7 @@ public final class Reflections {
 		for(final Field field : target.getDeclaredFields()) {
 			if((name == null || field.getName().equals(name)) && fieldType.isAssignableFrom(field.getType()) && index-- <= 0) {
 				field.setAccessible(true);
-
-				return new FieldAccessor<T>() {
-					@SuppressWarnings("unchecked")
-					@Override
-					public T get(Object target) {
-						try {
-							return (T) field.get(target);
-						}
-						catch(IllegalAccessException e) {
-							throw new RuntimeException("Cannot access reflection.", e);
-						}
-					}
-
-					@Override
-					public void set(T value) {
-						set(null, value);
-					}
-
-					@Override
-					public void set(Object target, Object value) {
-						try {
-							field.set(target, value);
-						}
-						catch(IllegalAccessException e) {
-							throw new RuntimeException("Cannot access reflection.", e);
-						}
-					}
-
-					@Override
-					public boolean hasField(Object target) {
-						return field.getDeclaringClass().isAssignableFrom(target.getClass());
-					}
-
-					@Override
-					public void setNotFinal() {
-						try {
-							Reflections.setNotFinal(field);
-						}
-						catch(IllegalAccessException e) {
-							throw new RuntimeException("Cannot access reflection.", e);
-						}
-					}
-				};
+				return new FieldAccessorImpl<>(field);
 			}
 		}
 
@@ -226,6 +187,20 @@ public final class Reflections {
 		Field field = clazz.getDeclaredField(fieldName);
 		field.setAccessible(true);
 		return field;
+	}
+
+	public static <T> Set<FieldAccessor<T>> getFields(Class<?> clazz, Class<T> type) {
+		Set<FieldAccessor<T>> collection = new HashSet<>();
+
+		for(Field field : clazz.getFields()) {
+			if(!field.getType().equals(type)) {
+				continue;
+			}
+
+			collection.add(new FieldAccessorImpl<T>(field));
+		}
+
+		return collection;
 	}
 
 	/**

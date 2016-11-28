@@ -123,7 +123,7 @@ public final class LoggerUtils {
 		String line = ste[4].toString();
 		String[] split1 = org.apache.commons.lang.StringUtils.split(line, '(');
 		String[] split2 = split1[1].split(":");
-		String className = split2[0].replace(".java", "");
+		String className = org.apache.commons.lang.StringUtils.replace(split2[0], ".java", "");
 		return className.equals("NovaGuilds") ? "" : "[" + className + "]";
 	}
 

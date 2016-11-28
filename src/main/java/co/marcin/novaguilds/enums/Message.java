@@ -19,16 +19,18 @@
 package co.marcin.novaguilds.enums;
 
 import co.marcin.novaguilds.api.basic.MessageWrapper;
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.impl.basic.MessageWrapperImpl;
+import co.marcin.novaguilds.util.reflect.Reflections;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Message {
+public abstract class Message {
 	public static MessageWrapper CHAT_PREFIX;
 	public static MessageWrapper CHAT_NOPERMISSIONS;
 	public static MessageWrapper CHAT_UNKNOWNCMD;
@@ -568,40 +570,24 @@ public class Message {
 	private static final Map<String, MessageWrapper> wrapperMap = new HashMap<>();
 
 	static {
-		try {
-			for(Field field : Message.class.getFields()) {
-				if(!field.getType().equals(MessageWrapper.class)) {
-					continue;
-				}
+		for(FieldAccessor<MessageWrapper> fieldAccessor : Reflections.getFields(Message.class, MessageWrapper.class)) {
+			MessageWrapper wrapper = fieldAccessor.get();
+			String path = StringUtils.replace(fieldAccessor.getName(), "_", ".").toLowerCase();
 
-				MessageWrapper wrapper = (MessageWrapper) field.get(null);
-
-				String path = field.getName().replace("_", ".").toLowerCase();
-				if(wrapper == null) {
-					wrapper = new MessageWrapperImpl(path);
-					field.set(null, wrapper);
-				}
-				else {
-					wrapper.setPath(path);
-				}
-
-				if(wrapper.getName().startsWith("CHAT_USAGE_")) {
-					wrapper.getFlags().add(MessageWrapper.Flag.NOPREFIX);
-				}
-
-				wrapperMap.put(field.getName(), wrapper);
+			if(wrapper == null) {
+				wrapper = new MessageWrapperImpl(path);
+				fieldAccessor.set(wrapper);
 			}
-		}
-		catch(IllegalAccessException e) {
-			e.printStackTrace();
-		}
-	}
+			else {
+				wrapper.setPath(path);
+			}
 
-	/**
-	 * Constructor without flags
-	 */
-	private Message() {
+			if(wrapper.getName().startsWith("CHAT_USAGE_")) {
+				wrapper.getFlags().add(MessageWrapper.Flag.NOPREFIX);
+			}
 
+			wrapperMap.put(fieldAccessor.getName(), wrapper);
+		}
 	}
 
 	/**
@@ -633,7 +619,7 @@ public class Message {
 	 * @return message wrapper
 	 */
 	public static MessageWrapper fromPath(String path) {
-		return wrapperMap.get(path.replace(".", "_").toUpperCase());
+		return wrapperMap.get(StringUtils.replace(path, ".", "_").toUpperCase());
 	}
 
 	/**
@@ -676,6 +662,6 @@ public class Message {
 	 * @return array of wrappers
 	 */
 	public static MessageWrapper[] values() {
-		return wrapperMap.values().toArray(new MessageWrapper[0]);
+		return wrapperMap.values().toArray(new MessageWrapper[wrapperMap.size()]);
 	}
 }

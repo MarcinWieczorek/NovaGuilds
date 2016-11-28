@@ -116,7 +116,7 @@ public class MessageWrapperImpl extends AbstractVarKeyApplicable<MessageWrapper>
 
 	@Override
 	public String getName() {
-		return path.replace('.', '_').toUpperCase();
+		return StringUtils.replace(path, ".", "_").toUpperCase();
 	}
 
 	@Override

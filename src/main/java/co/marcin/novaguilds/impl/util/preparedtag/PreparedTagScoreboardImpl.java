@@ -18,12 +18,13 @@
 
 package co.marcin.novaguilds.impl.util.preparedtag;
 
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 
 public class PreparedTagScoreboardImpl extends AbstractPreparedTag {
-	private static final Config pattern = Config.CHAT_TAG_SCOREBOARD;
+	private static final ConfigWrapper pattern = Config.CHAT_TAG_SCOREBOARD;
 
 	/**
 	 * The constructor

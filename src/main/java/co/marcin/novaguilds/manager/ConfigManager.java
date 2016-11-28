@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.manager;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
 import co.marcin.novaguilds.enums.VarKey;
@@ -55,7 +56,7 @@ public class ConfigManager {
 
 	private final List<PotionEffectType> guildEffects = new ArrayList<>();
 
-	private final Map<Config, Object> cache = new HashMap<>();
+	private final Map<ConfigWrapper, Object> cache = new HashMap<>();
 	private static final ServerVersion serverVersion = ServerVersion.detect();
 
 	/**
@@ -359,30 +360,30 @@ public class ConfigManager {
 	/**
 	 * Gets a value from cache
 	 *
-	 * @param c config enum
+	 * @param c ConfigWrapper instance
 	 * @return cached object
 	 */
-	public Object getEnumConfig(Config c) {
+	public Object getEnumConfig(ConfigWrapper c) {
 		return cache.get(c);
 	}
 
 	/**
 	 * Checks if a value is present in the cache
 	 *
-	 * @param c config enum
+	 * @param c ConfigWrapper instance
 	 * @return boolean
 	 */
-	public boolean isInCache(Config c) {
+	public boolean isInCache(ConfigWrapper c) {
 		return cache.containsKey(c);
 	}
 
 	/**
 	 * Puts an object in cache
 	 *
-	 * @param c config enum
+	 * @param c ConfigWrapper instance
 	 * @param o the object
 	 */
-	public void putInCache(Config c, Object o) {
+	public void putInCache(ConfigWrapper c, Object o) {
 		if(!cache.containsKey(c)) {
 			cache.put(c, o);
 		}
@@ -391,9 +392,9 @@ public class ConfigManager {
 	/**
 	 * Removes an object from the cache
 	 *
-	 * @param c config enum
+	 * @param c ConfigWrapper instance
 	 */
-	public void removeFromCache(Config c) {
+	public void removeFromCache(ConfigWrapper c) {
 		if(cache.containsKey(c)) {
 			cache.remove(c);
 		}
@@ -600,10 +601,10 @@ public class ConfigManager {
 	/**
 	 * Sets a value in the config
 	 *
-	 * @param c   config enum
+	 * @param c   ConfigWrapper instance
 	 * @param obj value
 	 */
-	public void set(Config c, Object obj) {
+	public void set(ConfigWrapper c, Object obj) {
 		config.set(c.getPath(), obj);
 		removeFromCache(c);
 	}

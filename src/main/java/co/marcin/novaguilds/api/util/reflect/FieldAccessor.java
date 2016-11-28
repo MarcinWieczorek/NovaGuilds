@@ -23,9 +23,23 @@ public interface FieldAccessor<T> {
 	 * Gets a field
 	 *
 	 * @param target target object
-	 * @return field
+	 * @return field value
 	 */
 	T get(Object target);
+
+	/**
+	 * Gets a value of a static field
+	 *
+	 * @return the value
+	 */
+	T get();
+
+	/**
+	 * Gets field name
+	 *
+	 * @return field name
+	 */
+	String getName();
 
 	/**
 	 * Sets a value to a field

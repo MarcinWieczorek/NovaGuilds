@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.impl.util.preparedtag;
 
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.util.PreparedTag;
@@ -32,7 +33,7 @@ import java.util.Map;
 
 public abstract class AbstractPreparedTag implements PreparedTag {
 	private final NovaGuild guild;
-	private final Config pattern;
+	private final ConfigWrapper pattern;
 	private boolean leaderPrefixEnabled = true;
 	private boolean leaderPrefix;
 	private boolean hidden;
@@ -44,7 +45,7 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 	 * @param pattern the pattern
 	 * @param guild   the guild
 	 */
-	public AbstractPreparedTag(Config pattern, NovaGuild guild) {
+	public AbstractPreparedTag(ConfigWrapper pattern, NovaGuild guild) {
 		this.pattern = pattern;
 		this.guild = guild;
 	}
@@ -56,7 +57,7 @@ public abstract class AbstractPreparedTag implements PreparedTag {
 	 * @param guild               the guild
 	 * @param leaderPrefixEnabled leader prefix enabled
 	 */
-	public AbstractPreparedTag(Config pattern, NovaGuild guild, boolean leaderPrefixEnabled) {
+	public AbstractPreparedTag(ConfigWrapper pattern, NovaGuild guild, boolean leaderPrefixEnabled) {
 		this.pattern = pattern;
 		this.guild = guild;
 		this.leaderPrefixEnabled = leaderPrefixEnabled;

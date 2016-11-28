@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.admin.config;
 
 import co.marcin.novaguilds.NovaGuilds;
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -38,7 +39,7 @@ import java.util.Map;
 public class CommandAdminConfigSet extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
-		Config config = Config.fromPath(args[0]);
+		ConfigWrapper config = Config.fromPath(args[0]);
 
 		if(config == null) {
 			Message.CHAT_INVALIDPARAM.send(sender);
@@ -79,7 +80,7 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 		TabUtils.refresh();
 
 		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.KEY, config.name());
+		vars.put(VarKey.KEY, config.getName());
 		vars.put(VarKey.VALUE, valueString);
 		Message.CHAT_ADMIN_CONFIG_SET.clone().vars(vars).send(sender);
 	}

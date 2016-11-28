@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.yaml;
 
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Lang;
@@ -52,8 +53,8 @@ public class YamlEnumTest {
 		System.out.println("Testing config enums...");
 		YamlConfiguration config = getConfig();
 		final List<String> configEnumNames = new ArrayList<>();
-		for(Config v : Config.values()) {
-			configEnumNames.add(v.name());
+		for(ConfigWrapper v : Config.values()) {
+			configEnumNames.add(v.getName());
 		}
 
 		int missingCount = 0;
@@ -93,9 +94,9 @@ public class YamlEnumTest {
 
 		YamlConfiguration config = getConfig();
 		int missingCount = 0;
-		for(Config c : Config.values()) {
+		for(ConfigWrapper c : Config.values()) {
 			if(!config.contains(c.getPath())) {
-				System.out.println("Empty enum: " + c.name());
+				System.out.println("Empty enum: " + c.getName());
 				missingCount++;
 			}
 		}

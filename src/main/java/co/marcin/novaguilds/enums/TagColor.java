@@ -18,20 +18,22 @@
 
 package co.marcin.novaguilds.enums;
 
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
+
 public enum TagColor {
 	NEUTRAL(Config.CHAT_TAGCOLORS_NEUTRAL),
 	ALLY(Config.CHAT_TAGCOLORS_ALLY),
 	WAR(Config.CHAT_TAGCOLORS_WAR),
 	GUILD(Config.CHAT_TAGCOLORS_GUILD);
 
-	private final Config config;
+	private final ConfigWrapper config;
 
 	/**
 	 * The constructor
 	 *
 	 * @param config color character from config
 	 */
-	TagColor(Config config) {
+	TagColor(ConfigWrapper config) {
 		this.config = config;
 	}
 
@@ -40,7 +42,7 @@ public enum TagColor {
 	 *
 	 * @return the enum
 	 */
-	public Config getConfig() {
+	public ConfigWrapper getConfig() {
 		return config;
 	}
 }

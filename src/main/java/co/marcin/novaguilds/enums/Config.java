@@ -18,423 +18,204 @@
 
 package co.marcin.novaguilds.enums;
 
-import co.marcin.novaguilds.NovaGuilds;
-import co.marcin.novaguilds.api.util.VarKeyApplicable;
-import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.api.basic.ConfigWrapper;
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
+import co.marcin.novaguilds.impl.basic.ConfigWrapperImpl;
+import co.marcin.novaguilds.util.reflect.Reflections;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public enum Config implements VarKeyApplicable<Config> {
-	MYSQL_HOST(false),
-	MYSQL_PORT(false),
-	MYSQL_USERNAME(false),
-	MYSQL_PASSWORD(false),
-	MYSQL_DATABASE(false),
-	MYSQL_PREFIX(false),
+public abstract class Config {
+	public static ConfigWrapper MYSQL_HOST;
+	public static ConfigWrapper MYSQL_PORT;
+	public static ConfigWrapper MYSQL_USERNAME;
+	public static ConfigWrapper MYSQL_PASSWORD;
+	public static ConfigWrapper MYSQL_DATABASE;
+	public static ConfigWrapper MYSQL_PREFIX;
+	public static ConfigWrapper DATASTORAGE_PRIMARY;
+	public static ConfigWrapper DATASTORAGE_SECONDARY;
+	public static ConfigWrapper LANG_NAME;
+	public static ConfigWrapper LANG_OVERRIDEESSENTIALS;
+	public static ConfigWrapper DEBUG;
+	public static ConfigWrapper DELETEINVALID;
+	public static ConfigWrapper BOSSBAR_ENABLED;
+	public static ConfigWrapper BOSSBAR_RAIDBAR_ENABLED;
+	public static ConfigWrapper BOSSBAR_RAIDBAR_STYLE;
+	public static ConfigWrapper BOSSBAR_RAIDBAR_COLOR;
+	public static ConfigWrapper TAGAPI_ENABLED;
+	public static ConfigWrapper SIGNGUI_ENABLED;
+	public static ConfigWrapper POINTSBELOWNAME;
+	public static ConfigWrapper HOLOGRAPHICDISPLAYS_ENABLED;
+	public static ConfigWrapper HOLOGRAPHICDISPLAYS_REFRESH;
+	public static ConfigWrapper ADVANCEDENTITYUSE;
+	public static ConfigWrapper LIVEREGENERATION_REGENTIME;
+	public static ConfigWrapper CHAT_TAG_CHAT;
+	public static ConfigWrapper CHAT_TAG_SCOREBOARD;
+	public static ConfigWrapper CHAT_LEADERPREFIX;
+	public static ConfigWrapper CHAT_DISPLAYNAMETAGS;
+	public static ConfigWrapper CHAT_ADVANCED;
+	public static ConfigWrapper CHAT_CONFIRMTIMEOUT;
+	public static ConfigWrapper CHAT_TAGCOLORS_NEUTRAL;
+	public static ConfigWrapper CHAT_TAGCOLORS_ALLY;
+	public static ConfigWrapper CHAT_TAGCOLORS_WAR;
+	public static ConfigWrapper CHAT_TAGCOLORS_GUILD;
+	public static ConfigWrapper CHAT_ALLY_PREFIX;
+	public static ConfigWrapper CHAT_ALLY_ENABLED;
+	public static ConfigWrapper CHAT_ALLY_LEADERPREFIX;
+	public static ConfigWrapper CHAT_ALLY_FORMAT;
+	public static ConfigWrapper CHAT_GUILD_PREFIX;
+	public static ConfigWrapper CHAT_GUILD_ENABLED;
+	public static ConfigWrapper CHAT_GUILD_LEADERPREFIX;
+	public static ConfigWrapper CHAT_GUILD_FORMAT;
+	public static ConfigWrapper CHAT_TOP_AMOUNT;
+	public static ConfigWrapper CHAT_TOP_FORMAT;
+	public static ConfigWrapper CHAT_TOP_POINTS;
+	public static ConfigWrapper GUILD_DISABLEDWORLDS;
+	public static ConfigWrapper GUILD_CREATEPROTECTION;
+	public static ConfigWrapper GUILD_START_POINTS;
+	public static ConfigWrapper GUILD_START_MONEY;
+	public static ConfigWrapper GUILD_SLOTS_START;
+	public static ConfigWrapper GUILD_SLOTS_MAX;
+	public static ConfigWrapper GUILD_LIVES_START;
+	public static ConfigWrapper GUILD_LIVES_MAX;
+	public static ConfigWrapper GUILD_FROMSPAWN;
+	public static ConfigWrapper GUILD_DEFAULTPVP;
+	public static ConfigWrapper GUILD_STRINGCHECK_ENABLED;
+	public static ConfigWrapper GUILD_STRINGCHECK_REGEX;
+	public static ConfigWrapper GUILD_STRINGCHECK_PATTERN;
+	public static ConfigWrapper GUILD_STRINGCHECK_REGEXPATTERN;
+	public static ConfigWrapper GUILD_SETTINGS_TAG_MIN;
+	public static ConfigWrapper GUILD_SETTINGS_TAG_MAX;
+	public static ConfigWrapper GUILD_SETTINGS_NAME_MIN;
+	public static ConfigWrapper GUILD_SETTINGS_NAME_MAX;
+	public static ConfigWrapper GUILD_KILLPOINTS;
+	public static ConfigWrapper GUILD_DEATHPOINTS;
+	public static ConfigWrapper GUILD_EFFECT_DURATION;
+	public static ConfigWrapper GUILD_EFFECT_LIST;
+	public static ConfigWrapper GUILD_PLAYERPOINTS;
+	public static ConfigWrapper RANK_MAXAMOUNT;
+	public static ConfigWrapper RANK_GUI;
+	public static ConfigWrapper RANK_DEFAULTRANKS;
+	public static ConfigWrapper RAID_ENABLED;
+	public static ConfigWrapper RAID_TIMEREST;
+	public static ConfigWrapper RAID_TIMEINACTIVE;
+	public static ConfigWrapper RAID_MINONLINE;
+	public static ConfigWrapper RAID_POINTSTAKE;
+	public static ConfigWrapper RAID_MULTIPLER;
+	public static ConfigWrapper RAID_PVP_BONUSPERCENT_MONEY;
+	public static ConfigWrapper RAID_PVP_BONUSPERCENT_POINTS;
+	public static ConfigWrapper LIVEREGENERATION_TASKINTERVAL;
+	public static ConfigWrapper SAVEINTERVAL;
+	public static ConfigWrapper CLEANUP_ENABLED;
+	public static ConfigWrapper CLEANUP_INACTIVETIME;
+	public static ConfigWrapper CLEANUP_INTERVAL;
+	public static ConfigWrapper CLEANUP_STARTUPDELAY;
+	public static ConfigWrapper LEADERBOARD_GUILD_ROWS;
+	public static ConfigWrapper VAULT_ENABLED;
+	public static ConfigWrapper VAULT_ITEM;
+	public static ConfigWrapper VAULT_HOLOGRAM_ENABLED;
+	public static ConfigWrapper VAULT_HOLOGRAM_LINES;
+	public static ConfigWrapper VAULT_DENYRELATIVE;
+	public static ConfigWrapper USETITLES;
+	public static ConfigWrapper REGION_AUTOREGION;
+	public static ConfigWrapper REGION_MINSIZE;
+	public static ConfigWrapper REGION_MAXSIZE;
+	public static ConfigWrapper REGION_MINDISTANCE;
+	public static ConfigWrapper REGION_MAXAMOUNT;
+	public static ConfigWrapper REGION_TOOL;
+	public static ConfigWrapper REGION_FLUIDPROTECT;
+	public static ConfigWrapper REGION_WORLDGUARD;
+	public static ConfigWrapper REGION_BLOCKEDCMDS;
+	public static ConfigWrapper REGION_WATERFLOW;
+	public static ConfigWrapper REGION_ALLYINTERACT;
+	public static ConfigWrapper REGION_BORDERPARTICLES;
+	public static ConfigWrapper REGION_DENYINTERACT;
+	public static ConfigWrapper REGION_DENYUSE;
+	public static ConfigWrapper REGION_DENYMOBDAMAGE;
+	public static ConfigWrapper REGION_DENYRIDING;
+	public static ConfigWrapper REGION_MATERIALS_HIGHLIGHT_REGION_CORNER;
+	public static ConfigWrapper REGION_MATERIALS_HIGHLIGHT_REGION_BORDER;
+	public static ConfigWrapper REGION_MATERIALS_HIGHLIGHT_RESIZE_CORNER;
+	public static ConfigWrapper REGION_MATERIALS_HIGHLIGHT_RESIZE_BORDER;
+	public static ConfigWrapper REGION_MATERIALS_SELECTION_VALID_CORNER;
+	public static ConfigWrapper REGION_MATERIALS_SELECTION_VALID_BORDER;
+	public static ConfigWrapper REGION_MATERIALS_SELECTION_INVALID_CORNER;
+	public static ConfigWrapper REGION_MATERIALS_SELECTION_INVALID_BORDER;
+	public static ConfigWrapper REGION_MATERIALS_RESIZE_CORNER;
+	public static ConfigWrapper REGION_MATERIALS_RESIZE_BORDER;
+	public static ConfigWrapper KILLING_STARTPOINTS;
+	public static ConfigWrapper KILLING_RANKPERCENT;
+	public static ConfigWrapper KILLING_COOLDOWN;
+	public static ConfigWrapper KILLING_MONEYFORKILL;
+	public static ConfigWrapper KILLING_MONEYFORREVENGE;
+	public static ConfigWrapper TABLIST_ENABLED;
+	public static ConfigWrapper TABLIST_REFRESH;
+	public static ConfigWrapper TABLIST_HEADER;
+	public static ConfigWrapper TABLIST_FOOTER;
+	public static ConfigWrapper TABLIST_TEXTURE;
+	public static ConfigWrapper TABLIST_TOPROW_PLAYERS_POINTS;
+	public static ConfigWrapper TABLIST_TOPROW_PLAYERS_KDR;
+	public static ConfigWrapper TABLIST_TOPROW_GUILDS;
+	public static ConfigWrapper TABLIST_SCHEME;
 
-	DATASTORAGE_PRIMARY,
-	DATASTORAGE_SECONDARY,
+	private static final Map<String, ConfigWrapper> wrapperMap = new HashMap<>();
 
-	LANG_NAME,
-	LANG_OVERRIDEESSENTIALS,
-	DEBUG,
-	DELETEINVALID,
+	static {
+		for(FieldAccessor<ConfigWrapper> field : Reflections.getFields(Config.class, ConfigWrapper.class)) {
+			ConfigWrapper wrapper = field.get();
+			String path = StringUtils.replace(field.getName(), "_", ".").toLowerCase();
 
-	BOSSBAR_ENABLED,
-	BOSSBAR_RAIDBAR_ENABLED,
-	BOSSBAR_RAIDBAR_STYLE,
-	BOSSBAR_RAIDBAR_COLOR,
-
-	TAGAPI_ENABLED,
-
-	SIGNGUI_ENABLED,
-
-	POINTSBELOWNAME,
-
-	HOLOGRAPHICDISPLAYS_ENABLED,
-	HOLOGRAPHICDISPLAYS_REFRESH,
-
-	ADVANCEDENTITYUSE,
-
-	LIVEREGENERATION_REGENTIME,
-
-	CHAT_TAG_CHAT,
-	CHAT_TAG_SCOREBOARD,
-	CHAT_LEADERPREFIX,
-	CHAT_DISPLAYNAMETAGS,
-	CHAT_ADVANCED,
-	CHAT_CONFIRMTIMEOUT,
-	CHAT_TAGCOLORS_NEUTRAL,
-	CHAT_TAGCOLORS_ALLY,
-	CHAT_TAGCOLORS_WAR,
-	CHAT_TAGCOLORS_GUILD,
-	CHAT_ALLY_PREFIX,
-	CHAT_ALLY_ENABLED,
-	CHAT_ALLY_LEADERPREFIX,
-	CHAT_ALLY_FORMAT,
-	CHAT_GUILD_PREFIX,
-	CHAT_GUILD_ENABLED,
-	CHAT_GUILD_LEADERPREFIX,
-	CHAT_GUILD_FORMAT,
-	CHAT_TOP_AMOUNT,
-	CHAT_TOP_FORMAT,
-	CHAT_TOP_POINTS,
-
-	GUILD_DISABLEDWORLDS,
-	GUILD_CREATEPROTECTION,
-	GUILD_START_POINTS,
-	GUILD_START_MONEY,
-	GUILD_SLOTS_START,
-	GUILD_SLOTS_MAX,
-	GUILD_LIVES_START,
-	GUILD_LIVES_MAX,
-	GUILD_FROMSPAWN,
-	GUILD_DEFAULTPVP,
-	GUILD_STRINGCHECK_ENABLED,
-	GUILD_STRINGCHECK_REGEX,
-	GUILD_STRINGCHECK_PATTERN,
-	GUILD_STRINGCHECK_REGEXPATTERN,
-	GUILD_SETTINGS_TAG_MIN,
-	GUILD_SETTINGS_TAG_MAX,
-	GUILD_SETTINGS_NAME_MIN,
-	GUILD_SETTINGS_NAME_MAX,
-	GUILD_KILLPOINTS,
-	GUILD_DEATHPOINTS,
-	GUILD_EFFECT_DURATION,
-	GUILD_EFFECT_LIST,
-	GUILD_PLAYERPOINTS,
-
-	RANK_MAXAMOUNT,
-	RANK_GUI,
-	RANK_DEFAULTRANKS,
-
-	RAID_ENABLED,
-	RAID_TIMEREST,
-	RAID_TIMEINACTIVE,
-	RAID_MINONLINE,
-	RAID_POINTSTAKE,
-	RAID_MULTIPLER,
-	RAID_PVP_BONUSPERCENT_MONEY,
-	RAID_PVP_BONUSPERCENT_POINTS,
-
-	LIVEREGENERATION_TASKINTERVAL,
-
-	SAVEINTERVAL,
-
-	CLEANUP_ENABLED,
-	CLEANUP_INACTIVETIME,
-	CLEANUP_INTERVAL,
-	CLEANUP_STARTUPDELAY,
-
-	LEADERBOARD_GUILD_ROWS,
-
-	VAULT_ENABLED,
-	VAULT_ITEM,
-	VAULT_HOLOGRAM_ENABLED,
-	VAULT_HOLOGRAM_LINES,
-	VAULT_DENYRELATIVE,
-
-	USETITLES,
-
-	REGION_AUTOREGION,
-	REGION_MINSIZE,
-	REGION_MAXSIZE,
-	REGION_MINDISTANCE,
-	REGION_MAXAMOUNT,
-	REGION_TOOL,
-	REGION_FLUIDPROTECT,
-	REGION_WORLDGUARD,
-	REGION_BLOCKEDCMDS,
-	REGION_WATERFLOW,
-	REGION_ALLYINTERACT,
-	REGION_BORDERPARTICLES,
-	REGION_DENYINTERACT,
-	REGION_DENYUSE,
-	REGION_DENYMOBDAMAGE,
-	REGION_DENYRIDING,
-
-	REGION_MATERIALS_HIGHLIGHT_REGION_CORNER,
-	REGION_MATERIALS_HIGHLIGHT_REGION_BORDER,
-	REGION_MATERIALS_HIGHLIGHT_RESIZE_CORNER,
-	REGION_MATERIALS_HIGHLIGHT_RESIZE_BORDER,
-	REGION_MATERIALS_SELECTION_VALID_CORNER,
-	REGION_MATERIALS_SELECTION_VALID_BORDER,
-	REGION_MATERIALS_SELECTION_INVALID_CORNER,
-	REGION_MATERIALS_SELECTION_INVALID_BORDER,
-	REGION_MATERIALS_RESIZE_CORNER,
-	REGION_MATERIALS_RESIZE_BORDER,
-
-	KILLING_STARTPOINTS,
-	KILLING_RANKPERCENT,
-	KILLING_COOLDOWN,
-	KILLING_MONEYFORKILL,
-	KILLING_MONEYFORREVENGE,
-
-	TABLIST_ENABLED,
-	TABLIST_REFRESH,
-	TABLIST_HEADER,
-	TABLIST_FOOTER,
-	TABLIST_TEXTURE,
-	TABLIST_TOPROW_PLAYERS_POINTS,
-	TABLIST_TOPROW_PLAYERS_KDR,
-	TABLIST_TOPROW_GUILDS,
-	TABLIST_SCHEME;
-
-	private static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
-	private final String path;
-	private final Map<VarKey, String> vars = new HashMap<>();
-	private final boolean fixColors;
-
-	/**
-	 * The constructor
-	 */
-	Config() {
-		this(true);
-	}
-
-	Config(boolean fixColors) {
-		path = StringUtils.replace(name(), "_", ".").toLowerCase();
-		this.fixColors = fixColors;
-	}
-
-	@Override
-	public Map<VarKey, String> getVars() {
-		return vars;
-	}
-
-	@Override
-	public void setVars(Map<VarKey, String> vars) {
-		this.vars.clear();
-		this.vars.putAll(vars);
-	}
-
-	@Override
-	public Config vars(Map<VarKey, String> vars) {
-		this.vars.clear();
-		this.vars.putAll(vars);
-		return this;
-	}
-
-	@Override
-	public Config setVar(VarKey varKey, String value) {
-		vars.put(varKey, value);
-		return this;
-	}
-
-	@Override
-	public Config setVar(VarKey varKey, Integer value) {
-		return setVar(varKey, String.valueOf(value));
-	}
-
-	@Override
-	public Config setVar(VarKey varKey, Double value) {
-		return setVar(varKey, String.valueOf(value));
-	}
-
-	/**
-	 * Gets the path
-	 *
-	 * @return the path
-	 */
-	public String getPath() {
-		return path;
-	}
-
-	/**
-	 * Gets a string
-	 *
-	 * @return the string
-	 */
-	public String getString() {
-		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path, vars, fixColors);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets string list
-	 *
-	 * @return the list
-	 */
-	public List<String> getStringList() {
-		List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path, vars, fixColors);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets ItemStack list
-	 *
-	 * @return the list
-	 */
-	public List<ItemStack> getItemStackList() {
-		List<ItemStack> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path, vars);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets material list
-	 *
-	 * @return the list
-	 */
-	public List<Material> getMaterialList() {
-		List<Material> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path, vars);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets a long
-	 *
-	 * @return long
-	 */
-	public long getLong() {
-		long r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Long ? (long) cM.getEnumConfig(this) : cM.getLong(path);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets a double
-	 *
-	 * @return double
-	 */
-	public double getDouble() {
-		double r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Double ? (double) cM.getEnumConfig(this) : cM.getDouble(path);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets an int
-	 *
-	 * @return int
-	 */
-	public int getInt() {
-		int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getInt(path);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets a boolean
-	 *
-	 * @return boolean
-	 */
-	public boolean getBoolean() {
-		boolean r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Boolean ? (boolean) cM.getEnumConfig(this) : cM.getBoolean(path);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets time in seconds
-	 *
-	 * @return seconds
-	 */
-	public int getSeconds() {
-		int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getSeconds(path);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets an ItemStack
-	 *
-	 * @return itemstack
-	 */
-	public ItemStack getItemStack() {
-		ItemStack r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof ItemStack ? (ItemStack) cM.getEnumConfig(this) : cM.getItemStack(path, vars);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets a material
-	 *
-	 * @return material
-	 */
-	public Material getMaterial() {
-		Material r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Material ? (Material) cM.getEnumConfig(this) : cM.getMaterial(path);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets material data (durability)
-	 *
-	 * @return byte
-	 */
-	public byte getMaterialData() {
-		byte r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Byte ? (byte) cM.getEnumConfig(this) : cM.getMaterialData(path);
-		cM.putInCache(this, r);
-		return r;
-	}
-
-	/**
-	 * Gets percents
-	 *
-	 * @return double value (%)
-	 */
-	public double getPercent() {
-		return getDouble() / 100;
-	}
-
-	/**
-	 * Gets configuration section
-	 *
-	 * @return the section
-	 */
-	public ConfigurationSection getConfigurationSection() {
-		return cM.getConfig().getConfigurationSection(path);
-	}
-
-	/**
-	 * Gets config from path
-	 *
-	 * @param path the path
-	 * @return the enum
-	 */
-	public static Config fromPath(String path) {
-		try {
-			return Config.valueOf(StringUtils.replace(path, ".", "_").toUpperCase());
-		}
-		catch(Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Sets a value
-	 *
-	 * @param obj the value
-	 */
-	public void set(Object obj) {
-		cM.set(this, obj);
-	}
-
-	/**
-	 * Converts the value to an enum
-	 *
-	 * @param clazz enum class
-	 * @param <E>   enum class
-	 * @return enum value
-	 */
-	public <E extends Enum> E toEnum(Class<E> clazz) {
-		for(E enumConstant : clazz.getEnumConstants()) {
-			if(enumConstant.name().equalsIgnoreCase(getString())) {
-				return enumConstant;
+			if(wrapper == null) {
+				wrapper = new ConfigWrapperImpl(path, true);
+				field.set(wrapper);
 			}
+			else {
+				wrapper.setPath(path);
+			}
+
+			if(wrapper.getName().startsWith("MYSQL_")) {
+				wrapper.setFixColors(false);
+			}
+
+			wrapperMap.put(field.getName(), wrapper);
+		}
+	}
+
+	/**
+	 * Gets a wrapper from an enum like name
+	 *
+	 * @param name field name
+	 * @return wrapper
+	 */
+	public static ConfigWrapper valueOf(String name) {
+		ConfigWrapper wrapper = wrapperMap.get(name);
+
+		if(wrapper == null) {
+			throw new IllegalArgumentException("Missing Config wrapper: " + name);
 		}
 
-		return null;
+		return wrapper;
+	}
+
+	/**
+	 * Gets a configuration from path
+	 *
+	 * @param path path string
+	 * @return config wrapper
+	 */
+	public static ConfigWrapper fromPath(String path) {
+		return wrapperMap.get(StringUtils.replace(path, ".", "_").toUpperCase());
+	}
+
+	/**
+	 * Gets all wrappers
+	 *
+	 * @return array of wrappers
+	 */
+	public static ConfigWrapper[] values() {
+		return wrapperMap.values().toArray(new ConfigWrapper[wrapperMap.size()]);
 	}
 }

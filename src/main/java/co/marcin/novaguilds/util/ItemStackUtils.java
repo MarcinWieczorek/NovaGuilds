@@ -267,9 +267,9 @@ public final class ItemStackUtils {
 			}
 
 			//replace _ with spaces
-			name = name.replace("_", " ");
+			name = org.apache.commons.lang.StringUtils.replace(name, "_", " ");
 			name = StringUtils.fixColors(name);
-			loreString = loreString.replace("_", " ");
+			loreString = org.apache.commons.lang.StringUtils.replace(loreString, "_", " ");
 			loreString = StringUtils.fixColors(loreString);
 
 			if(loreString.contains("|")) {
