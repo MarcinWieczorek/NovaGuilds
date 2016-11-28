@@ -38,6 +38,7 @@ import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.util.BannerUtils;
 import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -182,6 +183,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 				guild.setTimeCreated(NumberUtils.systemSeconds());
 				guild.setFriendlyPvp(Config.GUILD_DEFAULTPVP.getBoolean());
+				guild.setBannerMeta(BannerUtils.getRandomMeta());
 
 				//fire event
 				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(guild, (Player) sender);

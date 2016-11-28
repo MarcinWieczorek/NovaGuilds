@@ -56,16 +56,24 @@ public final class BannerUtils {
 	 */
 	public static ItemStack randomBannerItemStack() {
 		ItemStack itemStack = new ItemStack(Material.BANNER);
+		itemStack.setItemMeta(getRandomMeta());
+		return itemStack;
+	}
 
+	/**
+	 * Gets random banner meta
+	 *
+	 * @return banner meta
+	 */
+	public static BannerMeta getRandomMeta() {
 		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(Material.BANNER);
+		meta.setBaseColor(randomDyeColor());
 
 		for(int i = NumberUtils.randInt(0, PatternType.values().length) + 2; i > 0; i--) {
 			meta.addPattern(new Pattern(randomDyeColor(), randomPatternType()));
 		}
 
-		itemStack.setItemMeta(meta);
-
-		return itemStack;
+		return meta;
 	}
 
 	/**
