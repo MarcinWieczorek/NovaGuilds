@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -116,6 +117,11 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 		@Override
 		public final T getParameter() {
 			return parameter;
+		}
+
+		@Override
+		public Class<T> getParameterType() {
+			return (Class<T>) ((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		}
 	}
 }

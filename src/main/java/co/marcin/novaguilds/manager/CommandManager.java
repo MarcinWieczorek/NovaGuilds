@@ -184,7 +184,6 @@ public class CommandManager {
 				CommandWrapper finalCommandCheck = finalCommand.getExecutor().getCommandsMap().get(args[index]);
 
 				if(finalCommandCheck != null) {
-					LoggerUtils.debug(finalCommandCheck.getName() + " " + finalCommandCheck.isReversed());
 					finalCommand = finalCommandCheck;
 					lastSuccessfulIndex = index;
 				}

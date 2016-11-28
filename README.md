@@ -404,6 +404,10 @@ mvn clean install
             <td>/nga rg tp <guild></td>
         </tr>
         <tr>
+            <td>novaguilds.admin.region.buy</td>
+            <td>/nga rg <guild> buy</td>
+        </tr>
+        <tr>
             <td>novaguilds.admin.region.teleport.other</td>
             <td>/nga rg tp <guild></td>
         </tr>

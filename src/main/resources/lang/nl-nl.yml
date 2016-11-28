@@ -189,6 +189,7 @@ chat:
     teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &6<&cindex&6> &6[&cplayer&6] &2- &6Verplaats naar regio"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cplayer&6] &2- &6Verander doorgang mode"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Verander toeschouwers mode"
+    buy: "&4&l> &7/nga &crg &6<&cguild&6> &cbuy &2- &6Buy a region for the guild"
    hologram:
     access: "&4&l> &7/nga &ch &2- &6Hologram commando's"
     list: "&4&l> &7/nga &ch &6list &2- &6Lijst van alle holograms"

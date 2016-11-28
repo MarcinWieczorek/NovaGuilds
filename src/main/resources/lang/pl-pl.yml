@@ -189,6 +189,7 @@ chat:
     teleport: "&4&l> &7/nga &crg &6<&cgildia&6> &ctp &6<&cindex&6> &6[&cgracz&6] &2- &6Teleport do regionu"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cgracz&6] &2- &6Zmiana trybu ignorowania regionów"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cgracz&6] &2- &6Zmiana trybu podglądu zaznaczenia"
+    buy: "&4&l> &7/nga &crg &6<&cgildia&6> &cbuy &2- &6Kup region dla gildii"
    hologram:
     access: "&4&l> &7/nga &ch &2- &6Komendy hologramów"
     list: "&4&l> &7/nga &ch &6list &2- &6Lista hologramów"

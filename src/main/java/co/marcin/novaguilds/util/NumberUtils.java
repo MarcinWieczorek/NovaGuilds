@@ -21,6 +21,8 @@ package co.marcin.novaguilds.util;
 import java.util.Random;
 
 public final class NumberUtils {
+	private static final Random rand = new Random();
+
 	private NumberUtils() {
 
 	}
@@ -43,8 +45,6 @@ public final class NumberUtils {
 	 * @return random int
 	 */
 	public static int randInt(int min, int max) {
-		Random rand = new Random();
-
 		return rand.nextInt((max - min) + 1) + min;
 	}
 

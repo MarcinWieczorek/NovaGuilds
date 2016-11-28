@@ -352,6 +352,7 @@ public abstract class Message {
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_LIST;
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_SPECTATE;
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_TELEPORT;
+	public static MessageWrapper CHAT_USAGE_NGA_REGION_BUY;
 
 	public static MessageWrapper CHAT_USAGE_GUILD_ABANDON;
 	public static MessageWrapper CHAT_USAGE_GUILD_ALLY;

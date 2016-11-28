@@ -67,6 +67,7 @@ import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologramTeleportH
 import co.marcin.novaguilds.command.admin.player.CommandAdminPlayer;
 import co.marcin.novaguilds.command.admin.player.CommandAdminPlayerSetPoints;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegion;
+import co.marcin.novaguilds.command.admin.region.CommandAdminRegionBuy;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionBypass;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionDelete;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionList;
@@ -152,6 +153,7 @@ public final class Command extends CommandWrapperImpl {
 	public static final CommandWrapper ADMIN_REGION_LIST =                    new Command(CommandAdminRegionList.class,                     Permission.NOVAGUILDS_ADMIN_REGION_LIST,                                 Message.CHAT_USAGE_NGA_REGION_LIST                                                );
 	public static final CommandWrapper ADMIN_REGION_SPECTATE =                new Command(CommandAdminRegionSpectate.class,                 Permission.NOVAGUILDS_ADMIN_REGION_CHANGE_SPECTATE_SELF,                 Message.CHAT_USAGE_NGA_REGION_SPECTATE                                            );
 	public static final CommandWrapper ADMIN_REGION_TELEPORT =                new Command(CommandAdminRegionTeleport.class,                 Permission.NOVAGUILDS_ADMIN_REGION_TELEPORT_SELF,                        Message.CHAT_USAGE_NGA_REGION_TELEPORT                                            );
+	public static final CommandWrapper ADMIN_REGION_BUY =                     new Command(CommandAdminRegionBuy.class,                      Permission.NOVAGUILDS_ADMIN_REGION_BUY,                                  Message.CHAT_USAGE_NGA_REGION_BUY,                    Flag.NOCONSOLE              );
 	public static final CommandWrapper ADMIN_GUILD_RANK_ACCESS =              new Command(CommandAdminGuildRank.class,                      Permission.NOVAGUILDS_ADMIN_GUILD_RANK_ACCESS,                           Message.CHAT_USAGE_NGA_GUILD_RANK_ACCESS                                          );
 	public static final CommandWrapper ADMIN_GUILD_RANK_DELETE =              new Command(CommandAdminGuildRankDelete.class,                Permission.NOVAGUILDS_ADMIN_GUILD_RANK_DELETE,                           Message.CHAT_USAGE_NGA_GUILD_RANK_DELETE                                          );
 	public static final CommandWrapper ADMIN_GUILD_RANK_LIST =                new Command(CommandAdminGuildRankList.class,                  Permission.NOVAGUILDS_ADMIN_GUILD_RANK_LIST,                             Message.CHAT_USAGE_NGA_GUILD_RANK_LIST                                            );

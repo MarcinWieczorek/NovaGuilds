@@ -76,5 +76,12 @@ public interface CommandExecutor {
 		 * @return the parameter
 		 */
 		T getParameter();
+
+		/**
+		 * Gets parameter type class
+		 *
+		 * @return parameter type
+		 */
+		Class<T> getParameterType();
 	}
 }

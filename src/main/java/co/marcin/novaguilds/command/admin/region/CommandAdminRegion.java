@@ -20,7 +20,7 @@ package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
-import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
@@ -39,6 +39,7 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 		commandsMap.put("list",     Command.ADMIN_REGION_LIST);
 		commandsMap.put("teleport", Command.ADMIN_REGION_TELEPORT);
 		commandsMap.put("tp",       Command.ADMIN_REGION_TELEPORT);
+		commandsMap.put("buy",      Command.ADMIN_REGION_BUY);
 	}
 
 	@Override
@@ -60,14 +61,10 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 
 		if(subCommand.isReversed()) {
 			NovaGuild guild = GuildManager.getGuildFind(args[0]);
+			Resource resource = guild;
 
 			if(guild == null) {
 				Message.CHAT_GUILD_COULDNOTFIND.send(sender);
-				return;
-			}
-
-			if(!guild.hasRegion()) {
-				Message.CHAT_GUILD_HASNOREGION.send(sender);
 				return;
 			}
 
@@ -86,15 +83,15 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 					return;
 				}
 
-				NovaRegion region = guild.getRegion(index);
+				resource = guild.getRegion(index);
 
-				if(region == null) {
+				if(resource == null) {
 					Message.CHAT_REGION_NOTFOUND.send(sender);
 					return;
 				}
-
-				subCommand.executorVariable(region);
 			}
+
+			subCommand.executorVariable(resource);
 		}
 
 		subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 3));
