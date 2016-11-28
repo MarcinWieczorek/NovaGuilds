@@ -216,6 +216,13 @@ mvn clean install
             <td>/nga config set</td>
         </tr>
         <tr>
+            <td>novaguilds.admin.error.access</td>
+            <td>/nga error</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.error.list</td>
+            <td>/nga error list</td>
+        </tr>
         <tr>
             <td>novaguilds.admin.player.access</td>
             <td>/nga error</td>
@@ -429,6 +436,10 @@ mvn clean install
             <td>Toggle somebodies chat spy mode</td>
         </tr>
         <tr>
+            <td>novaguilds.admin.migrate</td>
+            <td>Migrate data to other storage</td>
+        </tr>
+        <tr>
             <td>novaguilds.admin.noconfirm</td>
             <td>Execute commands without /confirm</td>
         </tr>
@@ -583,6 +594,10 @@ mvn clean install
         <tr>
             <td>novaguilds.region.delete</td>
             <td>/g rg delete</td>
+        </tr>
+        <tr>
+            <td>novaguilds.region.list</td>
+            <td>/g rg list</td>
         </tr>
         <tr>
             <td>novaguilds.chat.notag</td>
