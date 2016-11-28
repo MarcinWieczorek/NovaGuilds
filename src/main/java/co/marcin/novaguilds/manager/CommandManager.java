@@ -31,29 +31,20 @@ import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final Map<String, String> aliases = new HashMap<>();
 	private final Map<CommandWrapper, CommandExecutor> executors = new HashMap<>();
-	private static final org.bukkit.command.CommandExecutor genericExecutor = new org.bukkit.command.CommandExecutor() {
-		@Override
-		public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-			CommandWrapper commandWrapper = Command.getByGenericCommand(command.getName());
-
-			if(commandWrapper == null) {
-				return false;
-			}
-
-			commandWrapper.execute(sender, StringUtils.parseQuotedArguments(args));
-			return true;
-		}
-	};
+	private static final org.bukkit.command.CommandExecutor genericExecutor = new GenericExecutor();
 
 	/**
 	 * Sets up the manager
@@ -111,10 +102,6 @@ public class CommandManager {
 				else {
 					genericCommand.setExecutor(genericExecutor);
 				}
-
-				if(command.hasTabCompleter()) {
-					genericCommand.setTabCompleter(command.getTabCompleter());
-				}
 			}
 		}
 	}
@@ -168,5 +155,44 @@ public class CommandManager {
 	 */
 	public CommandExecutor getExecutor(CommandWrapper command) {
 		return executors.get(command);
+	}
+
+	public static class GenericExecutor implements org.bukkit.command.CommandExecutor, TabCompleter {
+		@Override
+		public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+			CommandWrapper commandWrapper = Command.getByGenericCommand(command.getName());
+
+			if(commandWrapper == null) {
+				return false;
+			}
+
+			commandWrapper.execute(sender, StringUtils.parseQuotedArguments(args));
+			return true;
+		}
+
+		@Override
+		public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String alias, String[] args) {
+			CommandWrapper commandWrapper = Command.getByGenericCommand(command.getName());
+			CommandWrapper finalCommand = commandWrapper;
+
+			if(commandWrapper == null) {
+				return new ArrayList<>();
+			}
+
+			int index = 0, lastSuccessfulIndex = 0;
+			while(index < args.length) {
+				CommandWrapper finalCommandCheck = finalCommand.getExecutor().getCommandsMap().get(args[index]);
+
+				if(finalCommandCheck != null) {
+					LoggerUtils.debug(finalCommandCheck.getName() + " " + finalCommandCheck.isReversed());
+					finalCommand = finalCommandCheck;
+					lastSuccessfulIndex = index;
+				}
+
+				index++;
+			}
+
+			return new ArrayList<>(finalCommand.getExecutor().onTabComplete(sender, StringUtils.parseArgs(args, lastSuccessfulIndex)));
+		}
 	}
 }

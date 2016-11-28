@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -37,6 +38,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class CommandGuildWar extends AbstractCommandExecutor {
 	@Override
@@ -163,5 +165,20 @@ public class CommandGuildWar extends AbstractCommandExecutor {
 			TabUtils.refresh();
 			plugin.getRegionManager().checkRaidInit(nPlayer);
 		}
+	}
+
+	@Override
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		Set<String> options = new HashSet<>();
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+
+		for(NovaGuild guild : NovaGuilds.getInstance().getGuildManager().getGuilds()) {
+			if(!nPlayer.hasGuild() || !guild.equals(nPlayer.getGuild())) {
+				options.add(guild.getTag().toLowerCase());
+				options.add(guild.getName().toLowerCase());
+			}
+		}
+
+		return options;
 	}
 }

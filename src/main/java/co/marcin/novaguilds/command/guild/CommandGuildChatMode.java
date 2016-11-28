@@ -27,6 +27,9 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class CommandGuildChatMode extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
@@ -59,5 +62,16 @@ public class CommandGuildChatMode extends AbstractCommandExecutor {
 
 		Message.CHAT_GUILD_CHATMODE_SUCCESS.clone().setVar(VarKey.MODE, chatMode.getName().get()).send(sender);
 		TabUtils.refresh(nPlayer);
+	}
+
+	@Override
+	public Set<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		Set<String> options = new HashSet<>();
+
+		for(ChatMode chatMode : ChatMode.valuesEnabled()) {
+			options.add(chatMode.name().toLowerCase());
+		}
+
+		return options;
 	}
 }

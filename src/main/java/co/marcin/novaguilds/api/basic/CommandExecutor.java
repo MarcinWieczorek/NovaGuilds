@@ -54,6 +54,14 @@ public interface CommandExecutor {
 	 */
 	Set<CommandWrapper> getSubCommands();
 
+	/**
+	 * Tab completer
+	 *
+	 * @param args arguments
+	 * @return tab complete set
+	 */
+	Set<String> onTabComplete(CommandSender sender, String[] args);
+
 	interface Reversed<T> extends CommandExecutor {
 		/**
 		 * Sets the parameter

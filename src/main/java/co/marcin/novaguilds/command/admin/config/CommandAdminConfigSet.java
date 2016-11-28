@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.admin.config;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -30,6 +31,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,5 +82,10 @@ public class CommandAdminConfigSet extends AbstractCommandExecutor {
 		vars.put(VarKey.KEY, config.name());
 		vars.put(VarKey.VALUE, valueString);
 		Message.CHAT_ADMIN_CONFIG_SET.clone().vars(vars).send(sender);
+	}
+
+	@Override
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		return NovaGuilds.getInstance().getConfigManager().getConfig().getKeys(true);
 	}
 }

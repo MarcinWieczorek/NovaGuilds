@@ -28,8 +28,11 @@ import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class CommandGuildLeader extends AbstractCommandExecutor {
 	@Override
@@ -84,5 +87,26 @@ public class CommandGuildLeader extends AbstractCommandExecutor {
 		//Tab and tags
 		TagUtils.refresh();
 		TabUtils.refresh();
+	}
+
+	@Override
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		Set<String> options = new HashSet<>();
+
+		if(args.length == 0) {
+			return options;
+		}
+
+		NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
+
+		if(nPlayer.hasGuild()) {
+			for(NovaPlayer guildMember : nPlayer.getGuild().getPlayers()) {
+				if(!guildMember.isLeader()) {
+					options.add(guildMember.getName());
+				}
+			}
+		}
+
+		return options;
 	}
 }

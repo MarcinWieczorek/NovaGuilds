@@ -28,8 +28,11 @@ import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class CommandAdminGuildKick extends AbstractCommandExecutor {
 	@Override
@@ -70,5 +73,19 @@ public class CommandAdminGuildKick extends AbstractCommandExecutor {
 		TagUtils.refresh();
 		TabUtils.refresh();
 		nPlayerKick.cancelToolProgress();
+	}
+
+	@Override
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		Set<String> options = new HashSet<>();
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+
+		for(NovaPlayer guildMember : plugin.getPlayerManager().getOnlinePlayers()) {
+			if(!guildMember.isLeader() && !guildMember.equals(nPlayer)) {
+				options.add(guildMember.getName());
+			}
+		}
+
+		return options;
 	}
 }

@@ -23,7 +23,9 @@ import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.util.LoggerUtils;
+import org.bukkit.command.CommandSender;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +48,28 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 	@Override
 	public Set<CommandWrapper> getSubCommands() {
 		return new HashSet<>(commandsMap.values());
+	}
+
+	@Override
+	public Set<String> onTabComplete(CommandSender sender, String[] args) {
+		Set<String> set = new HashSet<>();
+
+		if(args.length > 0) {
+			for(String key : tabCompleteOptions(sender, args)) {
+				if(key.startsWith(args[args.length - 1])) {
+					set.add(key);
+				}
+			}
+		}
+		else {
+			set.addAll(getCommandsMap().keySet());
+		}
+
+		return set;
+	}
+
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		return getCommandsMap().keySet();
 	}
 
 	/**

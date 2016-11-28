@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.command.guild;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
@@ -40,6 +41,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class CommandGuildInfo extends AbstractCommandExecutor {
@@ -222,5 +224,35 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 				MessageManager.sendMessage(sender, guildInfoMessage);
 			}
 		}
+	}
+
+	@Override
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		Set<String> options = new HashSet<>();
+
+		for(NovaGuild guild : NovaGuilds.getInstance().getGuildManager().getGuilds()) {
+			options.add(guild.getTag().toLowerCase());
+			options.add(guild.getName().toLowerCase());
+		}
+
+		int limit = 0;
+		for(NovaPlayer nPlayerLoop : NovaGuilds.getInstance().getPlayerManager().getPlayers()) {
+			if(limit > 100) {
+				break;
+			}
+
+			if(!nPlayerLoop.getName().startsWith(args[args.length - 1])) {
+				continue;
+			}
+
+			if(!nPlayerLoop.hasGuild()) {
+				continue;
+			}
+
+			options.add(nPlayerLoop.getName());
+			limit++;
+		}
+
+		return options;
 	}
 }

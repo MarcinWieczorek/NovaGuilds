@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CommandGuildJoin extends AbstractCommandExecutor {
 	@Override
@@ -149,5 +150,18 @@ public class CommandGuildJoin extends AbstractCommandExecutor {
 		vars.put(VarKey.PLAYER_NAME, sender.getName());
 		vars.put(VarKey.GUILD_NAME, guild.getName());
 		Message.BROADCAST_GUILD_JOINED.clone().vars(vars).broadcast();
+	}
+
+	@Override
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		Set<String> options = new HashSet<>();
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+
+		for(NovaGuild guild : nPlayer.getInvitedTo()) {
+			options.add(guild.getTag().toLowerCase());
+			options.add(guild.getName().toLowerCase());
+		}
+
+		return options;
 	}
 }

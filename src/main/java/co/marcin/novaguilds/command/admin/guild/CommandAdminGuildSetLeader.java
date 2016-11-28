@@ -29,8 +29,11 @@ import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
 	@Override
@@ -88,5 +91,22 @@ public class CommandAdminGuildSetLeader extends AbstractCommandExecutor {
 
 		Message.CHAT_ADMIN_GUILD_SET_LEADER_SUCCESS.clone().vars(vars).send(sender);
 		Message.BROADCAST_GUILD_NEWLEADER.clone().vars(vars).broadcast();
+	}
+
+	@Override
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		Set<String> options = new HashSet<>();
+
+		if(args.length == 0) {
+			return options;
+		}
+
+		for(NovaPlayer guildMember : plugin.getPlayerManager().getOnlinePlayers()) {
+			if(!guildMember.isLeader()) {
+				options.add(guildMember.getName());
+			}
+		}
+
+		return options;
 	}
 }
