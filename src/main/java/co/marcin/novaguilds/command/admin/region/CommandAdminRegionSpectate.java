@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command.admin.region;
 
 import co.marcin.novaguilds.api.basic.NovaPlayer;
+import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
@@ -34,6 +35,7 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		Map<VarKey, String> vars = new HashMap<>();
+		NovaPlayer nPlayer;
 
 		if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {
 			if(!(sender instanceof Player)) {
@@ -41,7 +43,7 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 				return;
 			}
 
-			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+			nPlayer = PlayerManager.getPlayer(sender);
 
 			nPlayer.getPreferences().toggleRegionSpectate();
 			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getPreferences().getRegionSpectate()));
@@ -53,7 +55,7 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 				return;
 			}
 
-			NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
+			nPlayer = PlayerManager.getPlayer(args[0]);
 
 			if(nPlayer == null) {
 				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
@@ -69,6 +71,18 @@ public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
 			}
 
 			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_OTHER.clone().vars(vars).send(sender);
+		}
+
+		if(!nPlayer.getPreferences().getRegionSpectate()) {
+			for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getPlayers()) {
+				RegionSelection selection = nPlayerLoop.getActiveSelection();
+				if(!nPlayer.equals(nPlayerLoop)
+						&& selection != null
+						&& selection.getSpectators().contains(nPlayer)) {
+					selection.removeSpectator(nPlayer);
+					selection.reset(nPlayer);
+				}
+			}
 		}
 	}
 }
