@@ -216,6 +216,15 @@ mvn clean install
             <td>/nga config set</td>
         </tr>
         <tr>
+        <tr>
+            <td>novaguilds.admin.player.access</td>
+            <td>/nga error</td>
+        </tr>
+        <tr>
+            <td>novaguilds.admin.player.set.points</td>
+            <td>/nga error list</td>
+        </tr>
+        <tr>
             <td>novaguilds.admin.guild.access</td>
             <td>Access to /nga g</td>
         </tr>

@@ -124,6 +124,9 @@ chat:
    success:
     self: "Zmieniono tryb szpiegowania. Obecnie &c{MODE}"
     other: "Zmieniono tryb szpiegowania gracza &c{PLAYER_NAME}. Obecnie &c{MODE}"
+  player:
+   set:
+    points: "Zmieniłeś punkty gracza &c{PLAYER_NAME}'s na &a{PLAYER_POINTS}"
 
  reload:
   reloading: "Przeladowywanie NovaGuilds..."
@@ -194,6 +197,10 @@ chat:
      here: "&4&l> &7/nga &ch &6<&cname&6> &6tphere &2- &6Teleportuj hologram"
     delete: "&4&l> &7/nga &ch &6<&cname&6> &6del &2- &6Usuń hologram"
     addtop: "&4&l> &7/nga &ch &6addtop &2- &6Dodaj hologram z rankingiem"
+   player:
+    access: "&4&l> &7/nga &cplayer &2- &6Komendy gracza"
+    set:
+     points: "&4&l> &7/nga &cp &6<&cgracz&6> points &6<&cpunkty&6> &2- &6Zmień ilość punktów"
   guild:
    access: "&4&l> &7/g &2- &6Komendy gildii"
    abandon: "&4&l> &7/rozwiaz &2- &6Porzuć gildię"
@@ -248,6 +255,7 @@ chat:
     main: "Komendy Admina:"
     config: "Komendy konfiguracji:"
     region: "Komendy Admina, regiony:"
+    player: "Komendy Admina, gracze:"
     guild:
      main: "Komendy Admina, gildie:"
      rank: "Rank commands for admins"

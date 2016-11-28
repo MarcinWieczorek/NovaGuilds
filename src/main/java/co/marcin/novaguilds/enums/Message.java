@@ -97,6 +97,8 @@ public class Message {
 	public static MessageWrapper CHAT_ADMIN_GUILD_RANK_LIST_HEADER;
 	public static MessageWrapper CHAT_ADMIN_GUILD_RANK_LIST_ITEM;
 
+	public static MessageWrapper CHAT_ADMIN_PLAYER_SET_POINTS;
+
 	public static MessageWrapper CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF;
 	public static MessageWrapper CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER;
 	public static MessageWrapper CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER;
@@ -307,6 +309,9 @@ public class Message {
 	public static MessageWrapper CHAT_USAGE_NGA_CONFIG_RESET;
 	public static MessageWrapper CHAT_USAGE_NGA_CONFIG_SAVE;
 	public static MessageWrapper CHAT_USAGE_NGA_CONFIG_SET;
+
+	public static MessageWrapper CHAT_USAGE_NGA_PLAYER_ACCESS;
+	public static MessageWrapper CHAT_USAGE_NGA_PLAYER_SET_POINTS;
 
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_ACCESS;
 	public static MessageWrapper CHAT_USAGE_NGA_GUILD_SET_POINTS;

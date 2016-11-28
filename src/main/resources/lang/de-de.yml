@@ -124,6 +124,9 @@ chat:
    success:
     self: "Spy mode changed. Currently &c{MODE}"
     other: "&c{PLAYER_NAME}'s spy mode has been changed to &c{MODE}"
+  player:
+   set:
+    points: "You have changed &c{PLAYER_NAME}'s points to &a{PLAYER_POINTS}"
 
  reload:
   reloading: "NovaGuilds wird neu geladen..."
@@ -194,6 +197,10 @@ chat:
      here: "&4&l> &7/nga &ch &6<&cName&6> &6tphere &2- &6Teleportiert das Hologramm zu dir"
     delete: "&4&l> &7/nga &ch &6<&cName&6> &6del &2- &6Löscht das Hologrammm"
     addtop: "&4&l> &7/nga &ch &6addtop &2- &6Fügt eine Zeile OBEN hinzu"
+   player:
+    access: "&4&l> &7/nga &cplayer &2- &6Player commands"
+    set:
+     points: "&4&l> &7/nga &cp &6<&cplayer&6> points &6<&cpoints&6> &2- &6Set player points"
   guild:
    access: "&4&l> &7/g &2- &6Guild commands"
    abandon: "&4&l> &7/abandon &2- &6Löse deine Gilde auf"
@@ -248,6 +255,7 @@ chat:
     main: "Admin Befehle:"
     config: "Admin config commands:"
     region: "Admin Gebiet Befehle:"
+    player: "Admin player commands:"
     guild:
      main: "Gilden Befehle für Admins:"
      rank: "Rank commands for admins"

@@ -64,6 +64,8 @@ import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologramDelete;
 import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologramList;
 import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologramTeleport;
 import co.marcin.novaguilds.command.admin.hologram.CommandAdminHologramTeleportHere;
+import co.marcin.novaguilds.command.admin.player.CommandAdminPlayer;
+import co.marcin.novaguilds.command.admin.player.CommandAdminPlayerSetPoints;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegion;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionBypass;
 import co.marcin.novaguilds.command.admin.region.CommandAdminRegionDelete;
@@ -125,6 +127,8 @@ public final class Command extends CommandWrapperImpl {
 	public static final CommandWrapper ADMIN_CONFIG_RESET =                   new Command(CommandAdminConfigReset.class,                    Permission.NOVAGUILDS_ADMIN_CONFIG_RESET,                                Message.CHAT_USAGE_NGA_CONFIG_RESET,                                Flag.CONFIRM                );
 	public static final CommandWrapper ADMIN_CONFIG_SAVE =                    new Command(CommandAdminConfigSave.class,                     Permission.NOVAGUILDS_ADMIN_CONFIG_SAVE,                                 Message.CHAT_USAGE_NGA_CONFIG_SAVE,                                 Flag.CONFIRM                );
 	public static final CommandWrapper ADMIN_CONFIG_SET =                     new Command(CommandAdminConfigSet.class,                      Permission.NOVAGUILDS_ADMIN_CONFIG_SET,                                  Message.CHAT_USAGE_NGA_CONFIG_SET                                                               );
+	public static final CommandWrapper ADMIN_PLAYER_ACCESS =                  new Command(CommandAdminPlayer.class,                         Permission.NOVAGUILDS_ADMIN_PLAYER_ACCESS,                               Message.CHAT_USAGE_NGA_PLAYER_ACCESS                                                            );
+	public static final CommandWrapper ADMIN_PLAYER_SET_POINTS =              new Command(CommandAdminPlayerSetPoints.class,                Permission.NOVAGUILDS_ADMIN_PLAYER_SET_POINTS,                           Message.CHAT_USAGE_NGA_PLAYER_SET_POINTS                                                        );
 	public static final CommandWrapper ADMIN_GUILD_ACCESS =                   new Command(CommandAdminGuild.class,                          Permission.NOVAGUILDS_ADMIN_GUILD_ACCESS,                                Message.CHAT_USAGE_NGA_GUILD_ACCESS                                                             );
 	public static final CommandWrapper ADMIN_GUILD_ABANDON =                  new Command(CommandAdminGuildAbandon.class,                   Permission.NOVAGUILDS_ADMIN_GUILD_ABANDON,                               Message.CHAT_USAGE_NGA_GUILD_ABANDON,                               Flag.CONFIRM                );
 	public static final CommandWrapper ADMIN_GUILD_PURGE =                    new Command(CommandAdminGuildPurge.class,                     Permission.NOVAGUILDS_ADMIN_GUILD_PURGE,                                 Message.CHAT_USAGE_NGA_GUILD_PURGE,                                 Flag.CONFIRM                );

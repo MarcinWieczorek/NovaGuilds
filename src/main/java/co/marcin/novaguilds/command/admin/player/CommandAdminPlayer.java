@@ -16,36 +16,27 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.command.admin;
+package co.marcin.novaguilds.command.admin.player;
 
 import co.marcin.novaguilds.api.basic.CommandWrapper;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
-public class CommandAdmin extends AbstractCommandExecutor {
-	public CommandAdmin() {
-		commandsMap.put("guild",    Command.ADMIN_GUILD_ACCESS);
-		commandsMap.put("g",        Command.ADMIN_GUILD_ACCESS);
-		commandsMap.put("region",   Command.ADMIN_REGION_ACCESS);
-		commandsMap.put("rg",       Command.ADMIN_REGION_ACCESS);
-		commandsMap.put("hologram", Command.ADMIN_HOLOGRAM_ACCESS);
-		commandsMap.put("h",        Command.ADMIN_HOLOGRAM_ACCESS);
-		commandsMap.put("reload",   Command.ADMIN_RELOAD);
-		commandsMap.put("save",     Command.ADMIN_SAVE);
-		commandsMap.put("spy",      Command.ADMIN_CHATSPY);
-		commandsMap.put("chatspy",  Command.ADMIN_CHATSPY);
-		commandsMap.put("config",   Command.ADMIN_CONFIG_ACCESS);
-		commandsMap.put("player",   Command.ADMIN_PLAYER_ACCESS);
-		commandsMap.put("p",        Command.ADMIN_PLAYER_ACCESS);
+public class CommandAdminPlayer extends AbstractCommandExecutor {
+	public CommandAdminPlayer() {
+		commandsMap.put("setpoints", Command.ADMIN_PLAYER_SET_POINTS);
+		commandsMap.put("points",    Command.ADMIN_PLAYER_SET_POINTS);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length == 0) {
-			Message.CHAT_COMMANDS_HEADER_ADMIN_MAIN.send(sender);
+			Message.CHAT_COMMANDS_HEADER_ADMIN_PLAYER.send(sender);
 			for(CommandWrapper commandWrapper : getSubCommands()) {
 				commandWrapper.getUsageMessage().send(sender);
 			}
@@ -59,6 +50,17 @@ public class CommandAdmin extends AbstractCommandExecutor {
 			return;
 		}
 
-		subCommand.execute(sender, StringUtils.parseArgs(args, 1));
+		if(subCommand.isReversed()) {
+			NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
+
+			if(nPlayer == null) {
+				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+				return;
+			}
+
+			subCommand.executorVariable(nPlayer);
+		}
+
+		subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 2));
 	}
 }
