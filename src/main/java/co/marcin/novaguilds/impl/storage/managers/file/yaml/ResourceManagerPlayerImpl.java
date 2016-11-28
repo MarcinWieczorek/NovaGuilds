@@ -30,7 +30,6 @@ import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,15 +59,6 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 				UUID uuid = UUID.fromString(trimExtension(playerFile));
 				NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
 				nPlayer.setAdded();
-
-				Player player = plugin.getServer().getPlayer(uuid);
-
-				if(player != null) {
-					if(player.isOnline()) {
-						nPlayer.setPlayer(player);
-					}
-				}
-
 				nPlayer.setName(configuration.getString("name"));
 
 				List<String> invitedToStringList = configuration.getStringList("invitedto");

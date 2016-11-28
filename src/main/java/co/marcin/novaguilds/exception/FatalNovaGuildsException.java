@@ -21,8 +21,6 @@ package co.marcin.novaguilds.exception;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.manager.ListenerManager;
 
-import java.util.concurrent.TimeUnit;
-
 public class FatalNovaGuildsException extends Exception {
 	public static boolean fatal;
 
@@ -61,12 +59,12 @@ public class FatalNovaGuildsException extends Exception {
 		fatal = true;
 
 		if(NovaGuilds.getInstance().isEnabled()) {
-			NovaGuilds.runTaskLater(new Runnable() {
+			NovaGuilds.runTask(new Runnable() {
 				@Override
 				public void run() {
 					ListenerManager.getLoggedPluginManager().disablePlugin(NovaGuilds.getInstance());
 				}
-			}, 1, TimeUnit.MILLISECONDS);
+			});
 		}
 	}
 }

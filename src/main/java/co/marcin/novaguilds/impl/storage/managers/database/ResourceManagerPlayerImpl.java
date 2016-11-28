@@ -64,11 +64,6 @@ public class ResourceManagerPlayerImpl extends AbstractDatabaseResourceManager<N
 				NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
 				nPlayer.setAdded();
 
-				Player player = Bukkit.getPlayer(uuid);
-				if(player != null && player.isOnline()) {
-					nPlayer.setPlayer(player);
-				}
-
 				String invitedTo = res.getString("invitedto");
 				List<String> invitedToStringList = StringUtils.semicolonToList(invitedTo);
 				List<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);

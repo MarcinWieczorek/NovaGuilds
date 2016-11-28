@@ -164,7 +164,6 @@ public class PlayerManager {
 
 		NovaPlayer nPlayer = new NovaPlayerImpl(player.getUniqueId());
 		nPlayer.setName(player.getName());
-		nPlayer.setPlayer(player);
 		nPlayer.setPoints(Config.KILLING_STARTPOINTS.getInt());
 
 		players.put(nPlayer.getName(), nPlayer);

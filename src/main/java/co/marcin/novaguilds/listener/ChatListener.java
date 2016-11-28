@@ -21,7 +21,6 @@ package co.marcin.novaguilds.listener;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
-import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.util.ChatMessage;
 import co.marcin.novaguilds.api.util.PreparedTag;
 import co.marcin.novaguilds.enums.ChatMode;
@@ -35,13 +34,10 @@ import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.ChatMessageImpl;
 import co.marcin.novaguilds.impl.util.preparedtag.PreparedTagChatImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
-import co.marcin.novaguilds.manager.RegionManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
-import java.util.concurrent.TimeUnit;
 
 public class ChatListener extends AbstractListener {
 	@EventHandler
@@ -152,21 +148,11 @@ public class ChatListener extends AbstractListener {
 		}
 
 		final NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
-		if(!nPlayer.getPreferences().getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())) {
-			NovaRegion region = RegionManager.get(event.getPlayer());
-
-			if(region != null) {
-				if(nPlayer.hasGuild()) {
-					if(!region.getGuild().isMember(nPlayer) && !region.getGuild().isAlly(nPlayer.getGuild())) {
-						Message.CHAT_REGION_BLOCKEDCMD.send(event.getPlayer());
-						event.setCancelled(true);
-					}
-				}
-				else {
-					Message.CHAT_REGION_BLOCKEDCMD.send(event.getPlayer());
-					event.setCancelled(true);
-				}
-			}
+		if(!nPlayer.getPreferences().getBypass() && Config.REGION_BLOCKEDCMDS.getStringList().contains(cmd.toLowerCase())
+				&& nPlayer.isAtRegion()
+				&& (!nPlayer.hasGuild() || !nPlayer.getAtRegion().getGuild().isMember(nPlayer) && !nPlayer.getAtRegion().getGuild().isAlly(nPlayer.getGuild()))) {
+			Message.CHAT_REGION_BLOCKEDCMD.send(event.getPlayer());
+			event.setCancelled(true);
 		}
 
 		if(plugin.getCommandManager().existsAlias(cmd)) {
@@ -179,12 +165,12 @@ public class ChatListener extends AbstractListener {
 					|| cmd.equalsIgnoreCase("v")
 					|| cmd.equalsIgnoreCase("essentials:vanish")
 					|| cmd.equalsIgnoreCase("essentials:v"))) {
-			NovaGuilds.runTaskLater(new Runnable() {
+			NovaGuilds.runTask(new Runnable() {
 				@Override
 				public void run() {
 					plugin.getRegionManager().checkAtRegionChange(nPlayer);
 				}
-			}, 1, TimeUnit.MICROSECONDS);
+			});
 		}
 	}
 }

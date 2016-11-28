@@ -34,8 +34,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
-import java.util.concurrent.TimeUnit;
-
 public class ChestGUIListener extends AbstractListener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
@@ -74,12 +72,12 @@ public class ChestGUIListener extends AbstractListener {
 			else {
 				nPlayer.removeLastGUIInventoryHistory();
 
-				NovaGuilds.runTaskLater(new Runnable() {
+				NovaGuilds.runTask(new Runnable() {
 					@Override
 					public void run() {
 						nPlayer.getGuiInventory().open(nPlayer);
 					}
-				}, 1, TimeUnit.MILLISECONDS);
+				});
 			}
 		}
 	}

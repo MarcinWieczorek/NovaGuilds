@@ -174,7 +174,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		final List<NovaPlayer> list = new ArrayList<>();
 
 		for(NovaPlayer nPlayer : getPlayers()) {
-			if(nPlayer.isOnline() && nPlayer.getPlayer() != null) {
+			if(nPlayer.isOnline()) {
 				list.add(nPlayer);
 			}
 		}

@@ -170,13 +170,6 @@ public interface NovaPlayer extends Resource {
 	Preferences getPreferences();
 
 	/**
-	 * Sets the player
-	 *
-	 * @param player the player
-	 */
-	void setPlayer(Player player);
-
-	/**
 	 * Sets the name
 	 *
 	 * @param name the name

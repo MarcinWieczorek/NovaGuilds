@@ -50,7 +50,6 @@ import java.util.UUID;
 public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	private int id = 0;
 	private String name;
-	private Player player;
 	private NovaGuild guild;
 	private int points = 0;
 	private int kills = 0;
@@ -80,7 +79,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public Player getPlayer() {
-		return player;
+		return Bukkit.getPlayer(getUUID());
 	}
 
 	@Override
@@ -186,11 +185,6 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	}
 
 	@Override
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
-	@Override
 	public void setName(String name) {
 		this.name = name;
 		setChanged();
@@ -282,7 +276,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public boolean isOnline() {
-		return player != null;
+		return getPlayer() != null;
 	}
 
 	@Override
@@ -386,7 +380,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	@Override
 	public void newCommandExecutorHandler(CommandWrapper command, String[] args) {
 		commandExecutorHandler = new CommandExecutorHandlerImpl(command, getPlayer(), args);
-		Message.CHAT_CONFIRM_NEEDCONFIRM.send(player);
+		Message.CHAT_CONFIRM_NEEDCONFIRM.send(this);
 	}
 
 	@Override

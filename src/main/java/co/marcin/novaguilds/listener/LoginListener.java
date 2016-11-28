@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.listener;
 
+import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
@@ -43,16 +44,20 @@ public class LoginListener extends AbstractListener {
 		//adding player
 		plugin.getPlayerManager().addIfNotExists(player);
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-
-		nPlayer.setPlayer(player);
+		final NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
 		//Send version message if there's an update
 		if(VersionUtils.isUpdateAvailable() && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
 			Message.CHAT_UPDATE.send(player);
 		}
 
-		plugin.getRegionManager().checkAtRegionChange(nPlayer);
+		//Schedule region check
+		NovaGuilds.runTask(new Runnable() {
+			@Override
+			public void run() {
+				plugin.getRegionManager().checkAtRegionChange(nPlayer);
+			}
+		});
 
 		if(nPlayer.hasGuild()) {
 			for(Player onlinePlayer : CompatibilityUtils.getOnlinePlayers()) {
@@ -104,8 +109,6 @@ public class LoginListener extends AbstractListener {
 		if(nPlayer.isAtRegion()) {
 			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
 		}
-
-		nPlayer.setPlayer(null);
 
 		//Guild inactive time
 		if(nPlayer.hasGuild()) {

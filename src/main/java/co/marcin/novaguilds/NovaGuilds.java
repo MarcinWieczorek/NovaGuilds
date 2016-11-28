@@ -540,6 +540,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	}
 
 	/**
+	 * Runs a runnable
+	 *
+	 * @param runnable Runnable implementation
+	 */
+	public static void runTask(Runnable runnable) {
+		Bukkit.getScheduler().runTask(instance, runnable);
+	}
+
+	/**
 	 * Gets sign gui
 	 *
 	 * @return SignGUI implementation
