@@ -18,8 +18,10 @@
 
 package co.marcin.novaguilds.command.admin.region;
 
+import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
 import co.marcin.novaguilds.api.basic.NovaGuild;
+import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
@@ -68,7 +70,7 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 				return;
 			}
 
-			if(args.length >= 3) {
+			if(args.length >= 3 && ((CommandExecutor.Reversed) subCommand.getExecutor()).getParameterType().equals(NovaRegion.class)) {
 				String indexString = args[2];
 
 				if(!NumberUtils.isNumeric(indexString)) {
