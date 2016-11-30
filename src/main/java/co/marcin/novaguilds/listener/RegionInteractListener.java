@@ -398,26 +398,6 @@ public class RegionInteractListener extends AbstractListener {
 				Message.CHAT_REGION_DENY_INTERACT.send(player);
 			}
 		}
-	}
-
-	private class Non1_7Events extends AbstractListener {
-		/**
-		 * Handles editing items on an ArmorStand
-		 *
-		 * @param event The event
-		 */
-		@EventHandler
-		public void onPlayerManipulateArmorStand(PlayerArmorStandManipulateEvent event) {
-			Player player = event.getPlayer();
-			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-			Location location = event.getRightClicked().getLocation();
-
-			if(RegionManager.get(location) != null
-					&& (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getPreferences().getBypass() && !nPlayer.hasPermission(GuildPermission.INTERACT)))) {
-				event.setCancelled(true);
-				Message.CHAT_REGION_DENY_INTERACT.send(player);
-			}
-		}
 
 		@EventHandler
 		public void onCraftItem(CraftItemEvent event) {
@@ -459,6 +439,26 @@ public class RegionInteractListener extends AbstractListener {
 			}
 
 			event.getInventory().setResult(BannerUtils.applyMeta(event.getRecipe().getResult(), nPlayer.getGuild().getBannerMeta()));
+		}
+	}
+
+	private class Non1_7Events extends AbstractListener {
+		/**
+		 * Handles editing items on an ArmorStand
+		 *
+		 * @param event The event
+		 */
+		@EventHandler
+		public void onPlayerManipulateArmorStand(PlayerArmorStandManipulateEvent event) {
+			Player player = event.getPlayer();
+			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+			Location location = event.getRightClicked().getLocation();
+
+			if(RegionManager.get(location) != null
+					&& (!plugin.getRegionManager().canInteract(player, location) || (!nPlayer.getPreferences().getBypass() && !nPlayer.hasPermission(GuildPermission.INTERACT)))) {
+				event.setCancelled(true);
+				Message.CHAT_REGION_DENY_INTERACT.send(player);
+			}
 		}
 	}
 }
