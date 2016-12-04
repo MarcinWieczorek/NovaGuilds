@@ -198,4 +198,14 @@ public enum VarKey {
 	PLAYER_TOP_PLAYER_KDR_N18,
 	PLAYER_TOP_PLAYER_KDR_N19,
 	PLAYER_TOP_PLAYER_KDR_N20,
+	;
+
+	/**
+	 * Gets var name with brackets
+	 *
+	 * @return the string
+	 */
+	public String getNameWithBrackets() {
+		return "{" + name() + "}";
+	}
 }

@@ -82,7 +82,6 @@ public interface MessageWrapper extends VarKeyApplicable<MessageWrapper> {
 
 	/**
 	 * Gets message name
-	 * path (. -> _) uppercase
 	 *
 	 * @return message name
 	 */

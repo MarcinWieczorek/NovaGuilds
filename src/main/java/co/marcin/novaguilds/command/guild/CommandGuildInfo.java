@@ -187,35 +187,38 @@ public class CommandGuildInfo extends AbstractCommandExecutor {
 			String guildInfoMessage = guildInfoMessages.get(i);
 
 			//lost live
-			if(liveRegenerationTime <= 0 && guildInfoMessage.contains("{LIVEREGENERATIONTIME}")) {
+			if(liveRegenerationTime <= 0 && guildInfoMessage.contains(VarKey.LIVEREGENERATIONTIME.getNameWithBrackets())) {
 				skip = true;
 			}
 
 			//Time rest
-			if(timeWait <= 0 && guildInfoMessage.contains("{TIMEREST}")) {
+			if(timeWait <= 0 && guildInfoMessage.contains(VarKey.GUILD_TIME_REST.getNameWithBrackets())) {
 				skip = true;
 			}
 
 			//home location
-			if((guildInfoMessage.contains("{SP_X}") || guildInfoMessage.contains("{SP_Y}") || guildInfoMessage.contains("{SP_Z}")) && guild.getHome() == null) {
+			if((guildInfoMessage.contains(VarKey.X.getNameWithBrackets())
+					|| guildInfoMessage.contains(VarKey.Y.getNameWithBrackets())
+					|| guildInfoMessage.contains(VarKey.Z.getNameWithBrackets()))
+					&& guild.getHome() == null) {
 				skip = true;
 			}
 
 			//allies
-			if(guildInfoMessage.contains("{ALLIES}") && allies.isEmpty()) {
+			if(guildInfoMessage.contains(VarKey.ALLIES.getNameWithBrackets()) && allies.isEmpty()) {
 				skip = true;
 			}
 
 			//displaying wars
-			if(guildInfoMessage.contains("{WARS}") && wars.isEmpty()) {
+			if(guildInfoMessage.contains(VarKey.WARS.getNameWithBrackets()) && wars.isEmpty()) {
 				skip = true;
 			}
 
-			if(guildInfoMessage.contains("{PROTLEFT}") && protectionLeft <= 0) {
+			if(guildInfoMessage.contains(VarKey.PROTLEFT.getNameWithBrackets()) && protectionLeft <= 0) {
 				skip = true;
 			}
 
-			if(guildInfoMessage.contains("{CREATEDAGO}") && protectionLeft > 0) {
+			if(guildInfoMessage.contains(VarKey.CREATEDAGO.getNameWithBrackets()) && protectionLeft > 0) {
 				skip = true;
 			}
 

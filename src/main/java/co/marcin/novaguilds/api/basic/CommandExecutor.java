@@ -57,6 +57,7 @@ public interface CommandExecutor {
 	/**
 	 * Tab completer
 	 *
+	 * @param sender the sender
 	 * @param args arguments
 	 * @return tab complete set
 	 */

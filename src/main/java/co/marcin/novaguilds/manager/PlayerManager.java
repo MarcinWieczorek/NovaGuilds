@@ -304,7 +304,7 @@ public class PlayerManager {
 	/**
 	 * Checks if a player is vanished
 	 *
-	 * @param nPlayer player
+	 * @param player player
 	 * @return boolean
 	 */
 	public boolean isVanished(Player player) {

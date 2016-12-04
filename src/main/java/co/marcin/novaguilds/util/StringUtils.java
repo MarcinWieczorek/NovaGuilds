@@ -42,7 +42,7 @@ public final class StringUtils {
 	}
 
 	/**
-	 * Replaces '&' with section sign
+	 * Fixes color characters in a string
 	 *
 	 * @param msg message
 	 * @return new string
@@ -56,7 +56,7 @@ public final class StringUtils {
 	}
 
 	/**
-	 * Replaces '&' with section sign
+	 * Fixes color characters for each string in a list
 	 *
 	 * @param list list
 	 * @return new list

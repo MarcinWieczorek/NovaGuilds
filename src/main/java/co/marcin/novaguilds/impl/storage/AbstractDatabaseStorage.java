@@ -238,6 +238,7 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	 * Checks if tables exist in the database
 	 *
 	 * @return boolean
+	 * @throws SQLException when something goes wrong
 	 */
 	protected boolean checkTables() throws SQLException {
 		DatabaseMetaData md = getConnection().getMetaData();
@@ -247,6 +248,8 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 
 	/**
 	 * Adds tables to the database
+	 * @throws SQLException when something goes wrong
+	 * @throws IOException  when something goes wrong
 	 */
 	protected void setupTables() throws SQLException, IOException {
 		for(String tableCode : getSqlActions()) {

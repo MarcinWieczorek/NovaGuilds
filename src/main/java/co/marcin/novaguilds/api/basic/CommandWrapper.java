@@ -199,7 +199,7 @@ public interface CommandWrapper {
 
 	/**
 	 * Set the generic command
-	 * /g -> "g"
+	 * /g = "g"
 	 *
 	 * @param genericCommand generic command string
 	 */
