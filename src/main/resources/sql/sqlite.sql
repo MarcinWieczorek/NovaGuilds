@@ -21,7 +21,7 @@ CREATE TABLE `{SQLPREFIX}guilds` (
   `bankloc` tinytext NOT NULL,
   `slots` tinytext NOT NULL,
   `openinv` int(1) NOT NULL
-  `banner` tinytext NOT NULL,
+  `banner` text NOT NULL,
 );
 --
 CREATE TABLE `{SQLPREFIX}players` (
