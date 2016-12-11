@@ -428,7 +428,7 @@ public abstract class Message {
 	public static MessageWrapper CHAT_GUILDINFO_PLAYERCOLOR_ONLINE;
 	public static MessageWrapper CHAT_GUILDINFO_PLAYERCOLOR_OFFLINE;
 	public static MessageWrapper CHAT_GUILDINFO_ROW_ALLY;
-	public static MessageWrapper CHAT_GUILDINFO_ROW_PLAYER;
+	public static MessageWrapper CHAT_GUILDINFO_ROW_PLAYER = new MessageWrapperImpl(MessageWrapper.Flag.NOAFTERVARCOLOR);
 	public static MessageWrapper CHAT_GUILDINFO_ROW_WAR;
 	public static MessageWrapper CHAT_GUILDINFO_FULLINFO;
 	public static MessageWrapper CHAT_GUILDINFO_INFO;
