@@ -97,7 +97,7 @@ public class CommandGuildLeader extends AbstractCommandExecutor {
 			return options;
 		}
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
+		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
 		if(nPlayer.hasGuild()) {
 			for(NovaPlayer guildMember : nPlayer.getGuild().getPlayers()) {
