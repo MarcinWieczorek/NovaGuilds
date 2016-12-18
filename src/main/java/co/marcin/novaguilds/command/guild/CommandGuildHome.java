@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
@@ -26,6 +25,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
@@ -84,7 +84,7 @@ public class CommandGuildHome extends AbstractCommandExecutor {
 			}
 
 			//items
-			List<ItemStack> homeItems = GroupManager.getGroup(sender).getItemStackList(NovaGroup.Key.HOME_ITEMS);
+			List<ItemStack> homeItems = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.HOME_ITEMS);
 
 			if(!homeItems.isEmpty()) {
 				List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
@@ -98,7 +98,7 @@ public class CommandGuildHome extends AbstractCommandExecutor {
 			}
 
 			//money
-			double homeMoney = GroupManager.getGroup(sender).getDouble(NovaGroup.Key.HOME_MONEY);
+			double homeMoney = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.HOME_MONEY);
 			if(homeMoney > 0 && !nPlayer.hasMoney(homeMoney)) {
 				Message.CHAT_GUILD_NOTENOUGHMONEY.clone().setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
 				return;

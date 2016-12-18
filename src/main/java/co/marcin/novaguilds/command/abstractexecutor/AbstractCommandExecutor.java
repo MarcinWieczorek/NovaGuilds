@@ -119,9 +119,10 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 			return parameter;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public Class<T> getParameterType() {
-			return (Class<T>) ((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+			return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		}
 	}
 }

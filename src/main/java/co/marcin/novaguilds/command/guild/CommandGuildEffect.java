@@ -18,13 +18,13 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -55,14 +55,14 @@ public class CommandGuildEffect extends AbstractCommandExecutor {
 		}
 
 		//Money
-		double money = GroupManager.getGroup(sender).getDouble(NovaGroup.Key.EFFECT_MONEY);
+		double money = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.EFFECT_MONEY);
 		if(!nPlayer.getGuild().hasMoney(money)) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
 			return;
 		}
 
 		//items
-		List<ItemStack> guildEffectItems = GroupManager.getGroup(sender).getItemStackList(NovaGroup.Key.EFFECT_ITEMS);
+		List<ItemStack> guildEffectItems = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.EFFECT_ITEMS);
 		if(!guildEffectItems.isEmpty()) {
 			List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), guildEffectItems);
 

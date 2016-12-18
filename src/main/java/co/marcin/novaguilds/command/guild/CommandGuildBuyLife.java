@@ -24,6 +24,7 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -56,8 +57,8 @@ public class CommandGuildBuyLife extends AbstractCommandExecutor {
 
 		NovaGroup group = GroupManager.getGroup(sender);
 
-		List<ItemStack> items = group.getItemStackList(NovaGroup.Key.BUY_LIFE_ITEMS);
-		double money = group.getDouble(NovaGroup.Key.BUY_LIFE_MONEY);
+		List<ItemStack> items = group.get(NovaGroupImpl.Key.BUY_LIFE_ITEMS);
+		double money = group.get(NovaGroupImpl.Key.BUY_LIFE_MONEY);
 
 		if(!items.isEmpty()) {
 			List<ItemStack> missing = InventoryUtils.getMissingItems(nPlayer.getPlayer().getInventory(), items);

@@ -30,6 +30,7 @@ import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -83,13 +84,13 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 		//region's price
 		double price;
 		NovaGroup group = GroupManager.getGroup(sender);
-		double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
+		double ppb = group.get(NovaGroupImpl.Key.REGION_PRICEPERBLOCK);
 
 		if(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
 			price = ppb * (regionSize - activeSelection.getSelectedRegion().getSurface());
 		}
 		else {
-			price = ppb * regionSize + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY);
+			price = ppb * regionSize + group.get(NovaGroupImpl.Key.REGION_CREATE_MONEY);
 		}
 
 		if(price > 0 && guild.getMoney() < price) {

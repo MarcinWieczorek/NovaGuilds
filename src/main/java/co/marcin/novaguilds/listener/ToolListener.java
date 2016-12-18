@@ -30,6 +30,7 @@ import co.marcin.novaguilds.enums.Permission;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.RegionSelectionImpl;
 import co.marcin.novaguilds.manager.GroupManager;
@@ -229,13 +230,13 @@ public class ToolListener extends AbstractListener {
 							int regionSize = RegionUtils.checkRegionSize(selectedLocation[0], selectedLocation[1]);
 							NovaGroup group = GroupManager.getGroup(nPlayer.getPlayer());
 							double price;
-							double ppb = group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK);
+							double ppb = group.get(NovaGroupImpl.Key.REGION_PRICEPERBLOCK);
 
 							if(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
 								price = ppb * (regionSize - selection.getSelectedRegion().getSurface());
 							}
 							else {
-								price = ppb * regionSize + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY);
+								price = ppb * regionSize + group.get(NovaGroupImpl.Key.REGION_CREATE_MONEY);
 							}
 
 							vars.put(VarKey.SIZE, String.valueOf(regionSize));

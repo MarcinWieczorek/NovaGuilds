@@ -30,6 +30,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.impl.basic.NovaGuildIkkaImpl;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
@@ -123,8 +124,8 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 
 		//items required
 		NovaGroup group = GroupManager.getGroup(sender);
-		List<ItemStack> items = group.getItemStackList(NovaGroup.Key.CREATE_ITEMS);
-		double requiredMoney = group.getDouble(NovaGroup.Key.CREATE_MONEY);
+		List<ItemStack> items = group.get(NovaGroupImpl.Key.CREATE_ITEMS);
+		double requiredMoney = group.get(NovaGroupImpl.Key.CREATE_MONEY);
 
 		if(requiredMoney > 0 && !nPlayer.hasMoney(requiredMoney)) {
 			vars.put(VarKey.REQUIREDMONEY, String.valueOf(requiredMoney));
@@ -145,7 +146,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 
 		//Automatic Region
 		if(Config.REGION_AUTOREGION.getBoolean()) {
-			int size = group.getInt(NovaGroup.Key.REGION_AUTOSIZE);
+			int size = group.get(NovaGroupImpl.Key.REGION_AUTOSIZE);
 			Location playerLocation = player.getLocation();
 			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
 			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
@@ -218,7 +219,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 					}
 
 					//home schematic
-					Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).getCreateSchematic();
+					Schematic schematic = GroupManager.getGroup(guild.getLeader().getPlayer()).get(NovaGroupImpl.Key.CREATE_SCHEMATIC);
 
 					if(schematic != null) {
 						schematic.paste(guild.getHome());

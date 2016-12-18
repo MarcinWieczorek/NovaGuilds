@@ -23,6 +23,7 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
@@ -94,24 +95,24 @@ public class CommandNovaGuilds extends AbstractCommandExecutor {
 				}
 
 				sender.sendMessage("name = " + group.getName());
-				sender.sendMessage("guildCreateMoney = " + group.getDouble(NovaGroup.Key.CREATE_MONEY));
-				sender.sendMessage("guildHomeMoney = " + group.getDouble(NovaGroup.Key.HOME_MONEY));
-				sender.sendMessage("guildJoinMoney = " + group.getDouble(NovaGroup.Key.JOIN_MONEY));
-				sender.sendMessage("guildCreateItems = " + group.getItemStackList(NovaGroup.Key.CREATE_ITEMS).toString());
-				sender.sendMessage("guildCreateSchematic = " + (group.getCreateSchematic() == null ? "no schematic" : group.getCreateSchematic().getName()));
-				sender.sendMessage("guildHomeItems = " + group.getItemStackList(NovaGroup.Key.HOME_ITEMS).toString());
-				sender.sendMessage("guildJoinItems = " + group.getItemStackList(NovaGroup.Key.JOIN_ITEMS).toString());
-				sender.sendMessage("guildBuyLifeItems = " + group.getItemStackList(NovaGroup.Key.BUY_LIFE_ITEMS).toString());
-				sender.sendMessage("guildBuySlotItems = " + group.getItemStackList(NovaGroup.Key.BUY_SLOT_ITEMS).toString());
-				sender.sendMessage("guildBuyBannerItems = " + group.getItemStackList(NovaGroup.Key.BUY_BANNER_ITEMS).toString());
-				sender.sendMessage("guildBuyLifeMoney = " + group.getDouble(NovaGroup.Key.BUY_LIFE_MONEY));
-				sender.sendMessage("guildBuySlotMoney = " + group.getDouble(NovaGroup.Key.BUY_SLOT_MONEY));
-				sender.sendMessage("guildBuyBannerMoney = " + group.getDouble(NovaGroup.Key.BUY_BANNER_MONEY));
-				sender.sendMessage("guildEffectMoney = " + group.getDouble(NovaGroup.Key.EFFECT_MONEY));
-				sender.sendMessage("guildTeleportDelay = " + group.getInt(NovaGroup.Key.HOME_DELAY) + "s");
-				sender.sendMessage("regionCreateMoney = " + group.getDouble(NovaGroup.Key.REGION_CREATE_MONEY));
-				sender.sendMessage("regionPricePerBlock = " + group.getDouble(NovaGroup.Key.REGION_PRICEPERBLOCK));
-				sender.sendMessage("regionAutoSize = " + group.getInt(NovaGroup.Key.REGION_AUTOSIZE));
+				sender.sendMessage("guildCreateMoney = " + group.get(NovaGroupImpl.Key.CREATE_MONEY));
+				sender.sendMessage("guildHomeMoney = " + group.get(NovaGroupImpl.Key.HOME_MONEY));
+				sender.sendMessage("guildJoinMoney = " + group.get(NovaGroupImpl.Key.JOIN_MONEY));
+				sender.sendMessage("guildCreateItems = " + group.get(NovaGroupImpl.Key.CREATE_ITEMS).toString());
+				sender.sendMessage("guildCreateSchematic = " + (group.get(NovaGroupImpl.Key.CREATE_SCHEMATIC) == null ? "no schematic" : group.get(NovaGroupImpl.Key.CREATE_SCHEMATIC).getName()));
+				sender.sendMessage("guildHomeItems = " + group.get(NovaGroupImpl.Key.HOME_ITEMS).toString());
+				sender.sendMessage("guildJoinItems = " + group.get(NovaGroupImpl.Key.JOIN_ITEMS).toString());
+				sender.sendMessage("guildBuyLifeItems = " + group.get(NovaGroupImpl.Key.BUY_LIFE_ITEMS).toString());
+				sender.sendMessage("guildBuySlotItems = " + group.get(NovaGroupImpl.Key.BUY_SLOT_ITEMS).toString());
+				sender.sendMessage("guildBuyBannerItems = " + group.get(NovaGroupImpl.Key.BUY_BANNER_ITEMS).toString());
+				sender.sendMessage("guildBuyLifeMoney = " + group.get(NovaGroupImpl.Key.BUY_LIFE_MONEY));
+				sender.sendMessage("guildBuySlotMoney = " + group.get(NovaGroupImpl.Key.BUY_SLOT_MONEY));
+				sender.sendMessage("guildBuyBannerMoney = " + group.get(NovaGroupImpl.Key.BUY_BANNER_MONEY));
+				sender.sendMessage("guildEffectMoney = " + group.get(NovaGroupImpl.Key.EFFECT_MONEY));
+				sender.sendMessage("guildTeleportDelay = " + group.get(NovaGroupImpl.Key.HOME_DELAY) + "s");
+				sender.sendMessage("regionCreateMoney = " + group.get(NovaGroupImpl.Key.REGION_CREATE_MONEY));
+				sender.sendMessage("regionPricePerBlock = " + group.get(NovaGroupImpl.Key.REGION_PRICEPERBLOCK));
+				sender.sendMessage("regionAutoSize = " + group.get(NovaGroupImpl.Key.REGION_AUTOSIZE));
 				break;
 			case "g":
 			case "guild":

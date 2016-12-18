@@ -24,6 +24,7 @@ import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.InventoryUtils;
@@ -55,8 +56,8 @@ public class CommandGuildBuySlot extends AbstractCommandExecutor {
 		}
 
 		NovaGroup group = GroupManager.getGroup(sender);
-		double money = group.getDouble(NovaGroup.Key.BUY_SLOT_MONEY);
-		List<ItemStack> items = group.getItemStackList(NovaGroup.Key.BUY_SLOT_ITEMS);
+		double money = group.get(NovaGroupImpl.Key.BUY_SLOT_MONEY);
+		List<ItemStack> items = group.get(NovaGroupImpl.Key.BUY_SLOT_ITEMS);
 
 		if(money > 0 && !nPlayer.getGuild().hasMoney(money)) {
 			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);

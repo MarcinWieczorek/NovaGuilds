@@ -18,8 +18,8 @@
 
 package co.marcin.novaguilds.command.guild;
 
-import co.marcin.novaguilds.api.basic.NovaGroup;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
+import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.impl.util.guiinventory.GUIInventoryRequiredItems;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
@@ -28,6 +28,6 @@ import org.bukkit.command.CommandSender;
 public class CommandGuildRequiredItems extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
-		new GUIInventoryRequiredItems(GroupManager.getGroup(sender).getItemStackList(NovaGroup.Key.CREATE_ITEMS)).open(PlayerManager.getPlayer(sender));
+		new GUIInventoryRequiredItems(GroupManager.getGroup(sender).get(NovaGroupImpl.Key.CREATE_ITEMS)).open(PlayerManager.getPlayer(sender));
 	}
 }
