@@ -86,6 +86,10 @@ public final class LoggerUtils {
 	 * @param classPrefix include class prefix
 	 */
 	public static void info(String msg, boolean classPrefix) {
+		if(msg == null) {
+			msg = "null";
+		}
+
 		logger.info(StringUtils.fixColors(logPrefix + (classPrefix ? classPrefix() : "") + space(msg) + msg));
 	}
 

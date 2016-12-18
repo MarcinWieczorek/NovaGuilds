@@ -34,9 +34,25 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 	private String path;
 	private boolean fixColors;
 
+	/**
+	 * The constructor
+	 *
+	 * @param path      yaml path
+	 * @param fixColors fix colors flag
+	 */
 	public ConfigWrapperImpl(String path, boolean fixColors) {
 		this.path = path;
 		this.fixColors = fixColors;
+	}
+
+	/**
+	 * The constructor
+	 * copies the wrapper
+	 *
+	 * @param configWrapper wrapper
+	 */
+	public ConfigWrapperImpl(ConfigWrapper configWrapper) {
+		this(configWrapper.getPath(), configWrapper.isFixColors());
 	}
 
 	@Override
@@ -54,10 +70,13 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 	}
 
 	@Override
+	public boolean isFixColors() {
+		return fixColors;
+	}
+
+	@Override
 	public String getString() {
-		String r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof String ? (String) cM.getEnumConfig(this) : cM.getString(path, vars, fixColors);
-		cM.putInCache(this, r);
-		return r;
+		return cM.get(this, String.class);
 	}
 
 	@Override
@@ -83,30 +102,22 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 
 	@Override
 	public long getLong() {
-		long r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Long ? (long) cM.getEnumConfig(this) : cM.getLong(path);
-		cM.putInCache(this, r);
-		return r;
+		return cM.get(this, Long.class);
 	}
 
 	@Override
 	public double getDouble() {
-		double r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Double ? (double) cM.getEnumConfig(this) : cM.getDouble(path);
-		cM.putInCache(this, r);
-		return r;
+		return cM.get(this, Double.class);
 	}
 
 	@Override
 	public int getInt() {
-		int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getInt(path);
-		cM.putInCache(this, r);
-		return r;
+		return cM.get(this, Integer.class);
 	}
 
 	@Override
 	public boolean getBoolean() {
-		boolean r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Boolean ? (boolean) cM.getEnumConfig(this) : cM.getBoolean(path);
-		cM.putInCache(this, r);
-		return r;
+		return cM.get(this, Boolean.class);
 	}
 
 	@Override
@@ -118,16 +129,12 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 
 	@Override
 	public ItemStack getItemStack() {
-		ItemStack r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof ItemStack ? (ItemStack) cM.getEnumConfig(this) : cM.getItemStack(path, vars);
-		cM.putInCache(this, r);
-		return r;
+		return cM.get(this, ItemStack.class);
 	}
 
 	@Override
 	public Material getMaterial() {
-		Material r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Material ? (Material) cM.getEnumConfig(this) : cM.getMaterial(path);
-		cM.putInCache(this, r);
-		return r;
+		return cM.get(this, Material.class);
 	}
 
 	@Override
@@ -171,5 +178,11 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 		}
 
 		return null;
+	}
+
+	@SuppressWarnings("CloneDoesntCallSuperClone")
+	@Override
+	public ConfigWrapper clone() {
+		return new ConfigWrapperImpl(this);
 	}
 }

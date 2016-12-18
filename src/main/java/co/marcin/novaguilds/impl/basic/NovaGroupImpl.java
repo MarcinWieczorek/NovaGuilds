@@ -189,6 +189,18 @@ public class NovaGroupImpl implements NovaGroup {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T get(NovaGroup.Key<T> key) {
-		return (T) values.get(key);
+		T value = (T) values.get(key);
+
+		if(key.getType() == List.class) {
+			List<ItemStack> clonedList = new ArrayList<>();
+			for(ItemStack itemStack : (List<ItemStack>) value) {
+				ItemStack clonedItemStack = itemStack.clone();
+				clonedList.add(clonedItemStack);
+			}
+
+			return (T) clonedList;
+		}
+
+		return value;
 	}
 }

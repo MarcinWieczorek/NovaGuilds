@@ -46,40 +46,36 @@ public class GUIInventoryRequiredItems extends AbstractGUIInventory {
 	@Override
 	public void generateContent() {
 		for(ItemStack item : requiredItems) {
+			item = item.clone();
+			int amountInventory = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getInventory(), item);
+			int amountEnderChest = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getEnderChest(), item);
+			int needMore = item.getAmount() - amountEnderChest - amountInventory;
 
-			//Add custom lore
-			for(ItemStack itemStack : requiredItems) {
-				int amountInventory = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getInventory(), itemStack);
-				int amountEnderChest = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getEnderChest(), itemStack);
-				int needMore = itemStack.getAmount() - amountEnderChest - amountInventory;
-
-				if(needMore < 0) {
-					needMore = 0;
-				}
-
-				ItemMeta itemStackMeta = itemStack.hasItemMeta()
-						? itemStack.getItemMeta()
-						: Bukkit.getItemFactory().getItemMeta(itemStack.getType());
-
-				List<String> lore = new ArrayList<>();
-
-				if(itemStackMeta.hasLore()) {
-					lore.addAll(itemStackMeta.getLore());
-				}
-
-
-				lore.addAll(Message.INVENTORY_REQUIREDITEMS_LORE
-						.clone()
-						.setVar(VarKey.AMOUNT_AVAILABLE, amountInventory)
-						.setVar(VarKey.AMOUNT_AVAILABLE2, amountEnderChest)
-						.setVar(VarKey.AMOUNT_AVAILABLE3, amountInventory + amountEnderChest)
-						.setVar(VarKey.AMOUNT, itemStack.getAmount())
-						.setVar(VarKey.NEEDMORE, needMore)
-						.getList());
-
-				itemStackMeta.setLore(lore);
-				itemStack.setItemMeta(itemStackMeta);
+			if(needMore < 0) {
+				needMore = 0;
 			}
+
+			ItemMeta itemStackMeta = item.hasItemMeta()
+					? item.getItemMeta().clone()
+					: Bukkit.getItemFactory().getItemMeta(item.getType());
+
+			List<String> lore = new ArrayList<>();
+
+			if(itemStackMeta.hasLore()) {
+				lore.addAll(itemStackMeta.getLore());
+			}
+
+			lore.addAll(Message.INVENTORY_REQUIREDITEMS_LORE
+					.clone()
+					.setVar(VarKey.AMOUNT_AVAILABLE, amountInventory)
+					.setVar(VarKey.AMOUNT_AVAILABLE2, amountEnderChest)
+					.setVar(VarKey.AMOUNT_AVAILABLE3, amountInventory + amountEnderChest)
+					.setVar(VarKey.AMOUNT, item.getAmount())
+					.setVar(VarKey.NEEDMORE, needMore)
+					.getList());
+
+			itemStackMeta.setLore(lore);
+			item.setItemMeta(itemStackMeta);
 
 			registerAndAdd(new EmptyExecutor(item));
 		}

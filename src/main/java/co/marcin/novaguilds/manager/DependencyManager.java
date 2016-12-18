@@ -191,7 +191,7 @@ public class DependencyManager {
 			List<Flag> list = new ArrayList<>();
 			Collections.addAll(list, array);
 			list.add((StateFlag) RegionManager.WORLDGUARD_FLAG);
-			defaultFlagFlagListField.set(list.toArray(new Flag[0]));
+			defaultFlagFlagListField.set(list.toArray(new Flag[list.size()]));
 			LoggerUtils.info("Successfully injected WorldGuard Flag");
 		}
 

@@ -39,6 +39,7 @@ public interface NovaGroup {
 	 * Gets a value
 	 *
 	 * @param key the key
+	 * @param <T> type parameter
 	 * @return value as object
 	 */
 	<T> T get(Key<T> key);

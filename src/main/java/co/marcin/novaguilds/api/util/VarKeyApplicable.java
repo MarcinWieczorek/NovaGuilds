@@ -33,13 +33,6 @@ public interface VarKeyApplicable<T> extends Cloneable {
 	/**
 	 * Sets the vars
 	 *
-	 * @param vars map with variables
-	 */
-	void setVars(Map<VarKey, String> vars);
-
-	/**
-	 * Adds a map of vars;
-	 *
 	 * @param vars Map of variables
 	 * @return Message instance
 	 */
@@ -71,4 +64,11 @@ public interface VarKeyApplicable<T> extends Cloneable {
 	 * @return message instance
 	 */
 	T setVar(VarKey varKey, Double value);
+
+	/**
+	 * Checks if vars have been changed
+	 *
+	 * @return true if
+	 */
+	boolean isChanged();
 }

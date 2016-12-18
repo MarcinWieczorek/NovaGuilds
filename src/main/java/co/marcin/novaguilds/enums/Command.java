@@ -384,7 +384,7 @@ public final class Command extends CommandWrapperImpl {
 	 * @return array of CommandWrappers
 	 */
 	public static CommandWrapper[] values() {
-		return map.values().toArray(new CommandWrapper[0]);
+		return map.values().toArray(new CommandWrapper[map.size()]);
 	}
 
 	/**

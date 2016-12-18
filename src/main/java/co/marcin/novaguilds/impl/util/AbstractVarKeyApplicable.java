@@ -27,16 +27,11 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class AbstractVarKeyApplicable<T extends VarKeyApplicable> implements VarKeyApplicable<T> {
 	protected final Map<VarKey, String> vars = new HashMap<>();
+	protected int varsHashCode = vars.hashCode();
 
 	@Override
 	public Map<VarKey, String> getVars() {
 		return vars;
-	}
-
-	@Override
-	public void setVars(Map<VarKey, String> vars) {
-		this.vars.clear();
-		this.vars.putAll(vars);
 	}
 
 	@Override
@@ -60,5 +55,15 @@ public class AbstractVarKeyApplicable<T extends VarKeyApplicable> implements Var
 	@Override
 	public T setVar(VarKey varKey, Double value) {
 		return setVar(varKey, String.valueOf(value));
+	}
+
+	@Override
+	public boolean isChanged() {
+		if(varsHashCode == vars.hashCode()) {
+			return false;
+		}
+
+		varsHashCode = vars.hashCode();
+		return true;
 	}
 }

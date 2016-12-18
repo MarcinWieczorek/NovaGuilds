@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper> {
+public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneable {
 	/**
 	 * Gets the name
 	 *
@@ -39,6 +39,13 @@ public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper> {
 	 * @return the path
 	 */
 	String getPath();
+
+	/**
+	 * Gets fix colors flag
+	 *
+	 * @return boolean
+	 */
+	boolean isFixColors();
 
 	/**
 	 * Gets a string
@@ -167,4 +174,11 @@ public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper> {
 	 * @return enum value
 	 */
 	<E extends Enum> E toEnum(Class<E> clazz);
+
+	/**
+	 * Clones the wrapper
+	 *
+	 * @return cloned wrapper
+	 */
+	ConfigWrapper clone();
 }

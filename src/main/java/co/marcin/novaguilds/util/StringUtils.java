@@ -152,10 +152,21 @@ public final class StringUtils {
 	 * @return list
 	 */
 	public static List<String> semicolonToList(String str) {
+		return split(str, ";");
+	}
+
+	/**
+	 * Created a list from strings separated by a specified string
+	 *
+	 * @param str       string
+	 * @param separator the separator
+	 * @return list
+	 */
+	public static List<String> split(String str, String separator) {
 		final List<String> list = new ArrayList<>();
 
-		if(str.contains(";")) {
-			String[] split = str.split(";");
+		if(str.contains(separator)) {
+			String[] split = str.split(separator);
 			Collections.addAll(list, split);
 		}
 		else if(!str.isEmpty()) {
@@ -551,7 +562,7 @@ public final class StringUtils {
 				newArgs.set(i, newString);
 			}
 
-			return newArgs.toArray(new String[0]);
+			return newArgs.toArray(new String[newArgs.size()]);
 		}
 		catch(Exception e) { //Returns original arguments in case of an exception
 			LoggerUtils.exception(e);

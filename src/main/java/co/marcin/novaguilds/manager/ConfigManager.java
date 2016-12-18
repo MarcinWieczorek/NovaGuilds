@@ -27,6 +27,7 @@ import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
@@ -398,6 +399,58 @@ public class ConfigManager {
 		if(cache.containsKey(c)) {
 			cache.remove(c);
 		}
+	}
+
+	/**
+	 * Gets value based on type
+	 *
+	 * @param configWrapper config wrapper
+	 * @param clazz         type class
+	 * @param <T>           return type
+	 * @return value
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T get(ConfigWrapper configWrapper, Class<T> clazz) {
+		Validate.notNull(configWrapper);
+		Validate.notNull(clazz);
+		Object value;
+
+		if(isInCache(configWrapper)
+				&& clazz.isInstance(getEnumConfig(configWrapper))
+				&& !configWrapper.isChanged()) {
+			return (T) getEnumConfig(configWrapper);
+		}
+
+		if(clazz == String.class) {
+			value = getString(configWrapper.getPath(), configWrapper.getVars(), configWrapper.isFixColors());
+		}
+		else if(clazz == Long.class) {
+			value = getLong(configWrapper.getPath());
+		}
+		else if(clazz == Double.class) {
+			value = getDouble(configWrapper.getPath());
+		}
+		else if(clazz == Integer.class) {
+			value = getInt(configWrapper.getPath());
+		}
+		else if(clazz == Boolean.class) {
+			value = getBoolean(configWrapper.getPath());
+		}
+		else if(clazz == Material.class) {
+			value = getMaterialList(configWrapper.getPath(), configWrapper.getVars());
+		}
+		else if(clazz == ItemStack.class) {
+			value = getItemStack(configWrapper.getPath(), configWrapper.getVars());
+		}
+		else {
+			throw new RuntimeException("Return type " + clazz.getName() + " is not allowed.");
+		}
+
+		if(value != null) {
+			putInCache(configWrapper, value);
+		}
+
+		return (T) value;
 	}
 
 	/**

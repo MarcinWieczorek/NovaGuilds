@@ -87,7 +87,7 @@ public class MessageWrapperImpl extends AbstractVarKeyApplicable<MessageWrapper>
 	 */
 	public MessageWrapperImpl(MessageWrapper wrapper) {
 		this(wrapper.getPath(), wrapper.getFlags().toArray(new Flag[wrapper.getFlags().size()]));
-		setVars(wrapper.getVars());
+		vars(wrapper.getVars());
 	}
 
 	@Override

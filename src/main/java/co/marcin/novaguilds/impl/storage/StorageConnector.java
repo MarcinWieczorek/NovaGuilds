@@ -53,7 +53,10 @@ public class StorageConnector {
 			connect();
 		}
 		catch(StorageConnectionFailedException | RuntimeException e) {
-			if(e instanceof RuntimeException) {
+			if(e instanceof IllegalArgumentException
+					&& e.getMessage() != null
+					&& e.getMessage().contains("credentials")) {
+				LoggerUtils.info(e.getClass().getName());
 				LoggerUtils.info(e.getMessage());
 			}
 			else {
@@ -91,7 +94,7 @@ public class StorageConnector {
 					plugin.getConfigManager().setToSecondaryDataStorageType();
 					isSecondary = true;
 					storageConnectionAttempt = 0;
-					throw new RuntimeException("MySQL credentials not specified in the config. Switching to secondary storage.");
+					throw new IllegalArgumentException("MySQL credentials not specified in the config. Switching to secondary storage.");
 				}
 
 				storage = new MySQLStorageImpl(
