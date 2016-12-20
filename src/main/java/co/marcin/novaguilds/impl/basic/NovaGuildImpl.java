@@ -106,7 +106,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 			this.loadingWrapper = loadingWrapper;
 		}
 		else {
-			this.loadingWrapper = new LoadingWrapperImpl<>();
+			this.loadingWrapper = new LoadingWrapperImpl<>(new UUIDToGuildConverterImpl());
 		}
 	}
 
@@ -914,19 +914,10 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 
 	@Override
 	public void postSetUp() {
-		IConverter<?, NovaGuild> converter;
-
-		if(loadingWrapper instanceof LoadingWrapper37MigrationImpl) {
-			converter = new NameToGuildConverterImpl();
-		}
-		else {
-			converter = new UUIDToGuildConverterImpl();
-		}
-
-		setAllies(converter.convert(loadingWrapper.getAllies()));
-		setAllyInvitations(converter.convert(loadingWrapper.getAllyInvitations()));
-		setNoWarInvitations(converter.convert(loadingWrapper.getNoWarInvitations()));
-		setWars(converter.convert(loadingWrapper.getWars()));
+		setAllies(loadingWrapper.convert(loadingWrapper.getAllies()));
+		setAllyInvitations(loadingWrapper.convert(loadingWrapper.getAllyInvitations()));
+		setNoWarInvitations(loadingWrapper.convert(loadingWrapper.getNoWarInvitations()));
+		setWars(loadingWrapper.convert(loadingWrapper.getWars()));
 
 		setUnchanged();
 
@@ -948,6 +939,11 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		protected final List<T> allyInvitations = new ArrayList<>();
 		protected final List<T> wars = new ArrayList<>();
 		protected final List<T> noWarInvitations = new ArrayList<>();
+		protected final IConverter<T, NovaGuild> converter;
+
+		public LoadingWrapperImpl(IConverter<T, NovaGuild> converter) {
+			this.converter = converter;
+		}
 
 		@Override
 		public List<T> getAllies() {
@@ -967,6 +963,11 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		@Override
 		public List<T> getNoWarInvitations() {
 			return noWarInvitations;
+		}
+
+		@Override
+		public List<NovaGuild> convert(List<T> list) {
+			return converter.convert(list);
 		}
 
 		@Override
@@ -995,6 +996,8 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	public static class LoadingWrapper37MigrationImpl extends LoadingWrapperImpl<String> {
-
+		public LoadingWrapper37MigrationImpl() {
+			super(new NameToGuildConverterImpl());
+		}
 	}
 }

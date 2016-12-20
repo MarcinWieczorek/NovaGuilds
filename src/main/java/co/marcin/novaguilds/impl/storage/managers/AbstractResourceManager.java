@@ -25,7 +25,6 @@ import co.marcin.novaguilds.api.storage.Storage;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 public abstract class AbstractResourceManager<T extends Resource> implements ResourceManager<T> {
 	protected final NovaGuilds plugin = NovaGuilds.getInstance();
@@ -108,7 +107,7 @@ public abstract class AbstractResourceManager<T extends Resource> implements Res
 	}
 
 	@Override
-	public void addToSaveQueue(List<T> list) {
+	public void addToSaveQueue(Collection<T> list) {
 		for(T t : list) {
 			addToSaveQueue(t);
 		}

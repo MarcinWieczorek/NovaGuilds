@@ -278,57 +278,69 @@ public class GuildManager {
 	 */
 	public void postCheck() {
 		int i = 0;
+
 		for(NovaGuild guild : new ArrayList<>(getGuilds())) {
-			boolean remove = false;
-			guild.postSetUp();
-
-			if(((NovaGuildImpl) guild).getLeaderName() != null) {
-				LoggerUtils.info("(" + guild.getName() + ") Leader's name is set. Probably leader is null");
-			}
-
-			if(guild.getLeader() == null) {
-				LoggerUtils.info("(" + guild.getName() + ") Leader is null");
-				remove = true;
-			}
-
-			if(guild.getPlayers().isEmpty()) {
-				LoggerUtils.info("(" + guild.getName() + ") 0 players");
-				remove = true;
-			}
-
-			if(guild.getHome() == null) {
-				LoggerUtils.info("(" + guild.getName() + ") home location is null");
-				remove = true;
-			}
-
-			if(guild.getId() <= 0 && plugin.getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
-				LoggerUtils.info("(" + guild.getName() + ") ID <= 0 !");
-				remove = true;
-			}
-
-			if(remove) {
-				LoggerUtils.info("Unloaded guild " + guild.getName());
-
-				if(Config.DELETEINVALID.getBoolean()) {
-					GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.INVALID);
-					plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
-
-					if(!guildAbandonEvent.isCancelled()) {
-						delete(guild, AbandonCause.INVALID);
-						LoggerUtils.info("DELETED guild " + guild.getName());
-					}
-				}
-				else {
-					guilds.remove(guild.getName());
-					guild.destroy(AbandonCause.UNLOADED);
-				}
-
-				guild.unload();
+			if(!postCheck(guild)) {
 				i++;
 			}
 		}
 
 		LoggerUtils.info("Postcheck finished. Found " + i + " invalid guilds");
+	}
+
+	public boolean postCheck(NovaGuild guild) {
+		boolean remove = false;
+		guild.postSetUp();
+
+		if(((NovaGuildImpl) guild).getLeaderName() != null) {
+			LoggerUtils.info("(" + guild.getName() + ") Leader's name is set. Probably leader is null");
+		}
+
+		if(guild.getLeader() == null) {
+			LoggerUtils.info("(" + guild.getName() + ") Leader is null");
+			remove = true;
+		}
+
+		if(guild.getPlayers().isEmpty()) {
+			LoggerUtils.info("(" + guild.getName() + ") 0 players");
+			remove = true;
+		}
+
+		if(guild.getHome() == null) {
+			LoggerUtils.info("(" + guild.getName() + ") home location is null");
+			remove = true;
+		}
+
+		if(guild.getId() <= 0 && plugin.getConfigManager().getDataStorageType() != DataStorageType.FLAT) {
+			LoggerUtils.info("(" + guild.getName() + ") ID <= 0 !");
+			remove = true;
+		}
+
+		if(remove) {
+			LoggerUtils.info("Unloaded guild " + guild.getName());
+
+			if(Config.DELETEINVALID.getBoolean()) {
+				GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.INVALID);
+				plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
+
+				if(!guildAbandonEvent.isCancelled()) {
+					delete(guild, AbandonCause.INVALID);
+					LoggerUtils.info("DELETED guild " + guild.getName());
+				}
+			}
+			else {
+				if(guilds.containsKey(guild.getName())) {
+					guilds.remove(guild.getName());
+				}
+
+				guild.destroy(AbandonCause.UNLOADED);
+			}
+
+			guild.unload();
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

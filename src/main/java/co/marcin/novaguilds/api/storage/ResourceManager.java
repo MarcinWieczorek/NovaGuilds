@@ -87,7 +87,7 @@ public interface ResourceManager<T extends Resource> {
 	 *
 	 * @param list list of resources
 	 */
-	void addToSaveQueue(List<T> list);
+	void addToSaveQueue(Collection<T> list);
 
 	/**
 	 * Removes an object from save queue

@@ -30,6 +30,7 @@ import java.io.File;
 
 public class StorageConnector {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+	private final DataStorageType dataStorageType;
 	private int storageConnectionAttempt = 1;
 	private Storage storage;
 	private boolean isSecondary;
@@ -40,6 +41,17 @@ public class StorageConnector {
 	 * @throws FatalNovaGuildsException when something goes wrong
 	 */
 	public StorageConnector() throws FatalNovaGuildsException {
+		this(plugin.getConfigManager().getDataStorageType());
+	}
+
+	/**
+	 * The constructor
+	 *
+	 * @param dataStorageType data storage type
+	 * @throws FatalNovaGuildsException when something goes wrong
+	 */
+	public StorageConnector(DataStorageType dataStorageType) throws FatalNovaGuildsException {
+		this.dataStorageType = dataStorageType;
 		handle();
 	}
 
@@ -85,10 +97,9 @@ public class StorageConnector {
 	 * @throws StorageConnectionFailedException when something goes wrong
 	 */
 	public void connect() throws StorageConnectionFailedException {
-		DataStorageType storageType = plugin.getConfigManager().getDataStorageType();
-		LoggerUtils.info("Connecting to " + storageType.name() + " storage (attempt: " + storageConnectionAttempt + ")");
+		LoggerUtils.info("Connecting to " + dataStorageType.name() + " storage (attempt: " + storageConnectionAttempt + ")");
 
-		switch(storageType) {
+		switch(dataStorageType) {
 			case MYSQL:
 				if(Config.MYSQL_HOST.getString().isEmpty()) {
 					plugin.getConfigManager().setToSecondaryDataStorageType();
@@ -105,11 +116,31 @@ public class StorageConnector {
 						Config.MYSQL_PASSWORD.getString()
 				);
 				break;
+			case FUNNYGUILDS_MYSQL:
+				LoggerUtils.info("Please change the table prefix to a valid one with");
+				LoggerUtils.info(" /nga config set mysql.prefix 'prefix'");
+				LoggerUtils.info("It's empty by default (use '')");
+
+				if(Config.MYSQL_HOST.getString().isEmpty()) {
+					throw new StorageConnectionFailedException("Cannot connect to the storage.");
+				}
+
+				storage = new co.marcin.novaguilds.impl.storage.funnyguilds.MySQLStorageImpl(
+						Config.MYSQL_HOST.getString(),
+						Config.MYSQL_PORT.getString(),
+						Config.MYSQL_DATABASE.getString(),
+						Config.MYSQL_USERNAME.getString(),
+						Config.MYSQL_PASSWORD.getString()
+				);
+				break;
 			case SQLITE:
 				storage = new SQLiteStorageImpl(new File(plugin.getDataFolder(), "sqlite.db"));
 				break;
 			case FLAT:
 				storage = new YamlStorageImpl(new File(plugin.getDataFolder(), "data/"));
+				break;
+			case FUNNYGUILDS_FLAT:
+				storage = new co.marcin.novaguilds.impl.storage.funnyguilds.YamlStorageImpl(new File(plugin.getDataFolder(), "../FunnyGuilds/data/"));
 				break;
 		}
 

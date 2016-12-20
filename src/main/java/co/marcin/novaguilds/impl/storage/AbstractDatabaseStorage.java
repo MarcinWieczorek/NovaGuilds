@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractDatabaseStorage extends AbstractStorage implements Database {
 	protected Connection connection;
 	protected boolean firstConnect = true;
-	private final Map<PreparedStatements, PreparedStatement> preparedStatementMap = new HashMap<>();
+	protected final Map<PreparedStatements, PreparedStatement> preparedStatementMap = new HashMap<>();
 
 	@Override
 	public boolean checkConnection() throws SQLException {

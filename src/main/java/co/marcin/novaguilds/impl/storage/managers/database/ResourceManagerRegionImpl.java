@@ -24,7 +24,6 @@ import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
-import co.marcin.novaguilds.impl.storage.AbstractDatabaseStorage;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.RegionUtils;
@@ -48,10 +47,6 @@ public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<N
 	 */
 	public ResourceManagerRegionImpl(Storage storage) {
 		super(storage, NovaRegion.class, "regions");
-
-		if(!(storage instanceof AbstractDatabaseStorage)) {
-			throw new IllegalArgumentException("Invalid storage type");
-		}
 	}
 
 	@Override

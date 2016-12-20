@@ -28,6 +28,7 @@ import co.marcin.novaguilds.command.CommandPlayerInfo;
 import co.marcin.novaguilds.command.CommandToolGet;
 import co.marcin.novaguilds.command.admin.CommandAdmin;
 import co.marcin.novaguilds.command.admin.CommandAdminChatSpy;
+import co.marcin.novaguilds.command.admin.CommandAdminMigrate;
 import co.marcin.novaguilds.command.admin.CommandAdminReload;
 import co.marcin.novaguilds.command.admin.CommandAdminSave;
 import co.marcin.novaguilds.command.admin.config.CommandAdminConfig;
@@ -120,6 +121,7 @@ public final class Command extends CommandWrapperImpl {
 	public static final CommandWrapper ADMIN_RELOAD =                         new Command(CommandAdminReload.class,                         Permission.NOVAGUILDS_ADMIN_RELOAD,                                      Message.CHAT_USAGE_NGA_RELOAD                                                     );
 	public static final CommandWrapper ADMIN_SAVE =                           new Command(CommandAdminSave.class,                           Permission.NOVAGUILDS_ADMIN_SAVE,                                        Message.CHAT_USAGE_NGA_SAVE                                                       );
 	public static final CommandWrapper ADMIN_CHATSPY =                        new Command(CommandAdminChatSpy.class,                        Permission.NOVAGUILDS_ADMIN_CHATSPY_SELF,                                Message.CHAT_USAGE_NGA_CHATSPY,                                     Flag.NOCONSOLE);
+	public static final CommandWrapper ADMIN_MIGRATE =                        new Command(CommandAdminMigrate.class,                        Permission.NOVAGUILDS_ADMIN_MIGRATE,                                     Message.CHAT_USAGE_NGA_MIGRATE                                                    );
 	public static final CommandWrapper ADMIN_CONFIG_ACCESS =                  new Command(CommandAdminConfig.class,                         Permission.NOVAGUILDS_ADMIN_CONFIG_ACCESS,                               Message.CHAT_USAGE_NGA_CONFIG_ACCESS                                              );
 	public static final CommandWrapper ADMIN_CONFIG_GET =                     new Command(CommandAdminConfigGet.class,                      Permission.NOVAGUILDS_ADMIN_CONFIG_GET,                                  Message.CHAT_USAGE_NGA_CONFIG_GET                                                 );
 	public static final CommandWrapper ADMIN_CONFIG_RELOAD =                  new Command(CommandAdminConfigReload.class,                   Permission.NOVAGUILDS_ADMIN_CONFIG_RELOAD,                               Message.CHAT_USAGE_NGA_CONFIG_RELOAD                                              );

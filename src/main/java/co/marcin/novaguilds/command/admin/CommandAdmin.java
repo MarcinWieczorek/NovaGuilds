@@ -37,6 +37,7 @@ public class CommandAdmin extends AbstractCommandExecutor {
 		commandsMap.put("save",     Command.ADMIN_SAVE);
 		commandsMap.put("spy",      Command.ADMIN_CHATSPY);
 		commandsMap.put("chatspy",  Command.ADMIN_CHATSPY);
+		commandsMap.put("migrate",  Command.ADMIN_MIGRATE);
 		commandsMap.put("config",   Command.ADMIN_CONFIG_ACCESS);
 		commandsMap.put("player",   Command.ADMIN_PLAYER_ACCESS);
 		commandsMap.put("p",        Command.ADMIN_PLAYER_ACCESS);

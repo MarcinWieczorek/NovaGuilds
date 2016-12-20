@@ -16,12 +16,30 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package co.marcin.novaguilds.enums;
+package co.marcin.novaguilds.api.storage;
 
-public enum DataStorageType {
-	MYSQL,
-	SQLITE,
-	FLAT,
-	FUNNYGUILDS_MYSQL,
-	FUNNYGUILDS_FLAT,
+public interface Migrant {
+	/**
+	 * Gets the storage data is exported from
+	 *
+	 * @return storage instance
+	 */
+	Storage getFromStorage();
+
+	/**
+	 * Gets the storage data is imported to
+	 *
+	 * @return storage instance
+	 */
+	Storage getToStorage();
+
+	/**
+	 * Migrates data between storages
+	 */
+	void migrate();
+
+	/**
+	 * Executes the save of new data
+	 */
+	void save();
 }

@@ -784,5 +784,13 @@ public interface NovaGuild extends Resource {
 		 * @return the list
 		 */
 		List<T> getNoWarInvitations();
+
+		/**
+		 * Converts string/uuid to guild
+		 *
+		 * @param list the list
+		 * @return list of guilds
+		 */
+		List<NovaGuild> convert(List<T> list);
 	}
 }

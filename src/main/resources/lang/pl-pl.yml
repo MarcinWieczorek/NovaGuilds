@@ -21,6 +21,11 @@ chat:
   timeout: "Zadanie potwierdzenia komendy wygaslo."
 
  admin:
+  migrate:
+   sametype: "Typy danych nie mogą być takie same."
+   invalidtype: "Niepoprawny typ danych."
+   connectionfail: "Nie udało się połączyć z magazynem zasobów."
+   success: "Wszystkie dane zostały pomyślnie przeniesione."
   config:
    reloaded: "Konfiguracja została przeładowana."
    reset: "Konfiguracja została zresetowana"
@@ -147,6 +152,7 @@ chat:
    reload: "&4&l> &7/nga &creload &2- &6Przeładuj &4&l[&7NovaGuilds&4&l]"
    save: "&4&l> &7/nga &csave &6[&cplayers&6/&cguilds&6/&cregions&6/&cranks&6] &2- &6Zapisz dane"
    chatspy: "&4&l> &7/nga &cspy &2- &6Przełącz szpiegowanie czatu"
+   migrate: "&4&l> &7/nga &cmigrate &6<&cfrom/to&6> &6<&ctyp&6> &2- &6Migracja danych"
    config:
     access: "&4&l> &7/nga &cconfig &2- &6Komendy konfiguracji"
     reload: "&4&l> &7/nga &cconfig &6reload &2- &6Przeładuj konfigurację"

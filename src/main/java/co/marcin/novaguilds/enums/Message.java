@@ -126,6 +126,11 @@ public abstract class Message {
 	public static MessageWrapper CHAT_ADMIN_SPYMODE_SUCCESS_SELF;
 	public static MessageWrapper CHAT_ADMIN_SPYMODE_SUCCESS_OTHER;
 
+	public static MessageWrapper CHAT_ADMIN_MIGRATE_INVALIDTYPE;
+	public static MessageWrapper CHAT_ADMIN_MIGRATE_SAMETYPE;
+	public static MessageWrapper CHAT_ADMIN_MIGRATE_CONNECTIONFAIL;
+	public static MessageWrapper CHAT_ADMIN_MIGRATE_SUCCESS;
+
 	public static MessageWrapper CHAT_ADMIN_HOLOGRAM_DISABLED;
 	public static MessageWrapper CHAT_ADMIN_HOLOGRAM_TELEPORT_SELF;
 	public static MessageWrapper CHAT_ADMIN_HOLOGRAM_TELEPORT_OTHER;
@@ -353,6 +358,8 @@ public abstract class Message {
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_SPECTATE;
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_TELEPORT;
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_BUY;
+
+	public static MessageWrapper CHAT_USAGE_NGA_MIGRATE;
 
 	public static MessageWrapper CHAT_USAGE_GUILD_ABANDON;
 	public static MessageWrapper CHAT_USAGE_GUILD_ALLY;

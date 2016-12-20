@@ -23,12 +23,12 @@ import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.api.storage.ResourceManager;
 import co.marcin.novaguilds.api.storage.Storage;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class AbstractStorage implements Storage {
 	protected static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<Class<? extends Resource>, ResourceManager<? extends Resource>> resourceManagers = new HashMap<>();
+	private final Map<Class<? extends Resource>, ResourceManager<? extends Resource>> resourceManagers = new LinkedHashMap<>();
 
 	@Override
 	public void save() {

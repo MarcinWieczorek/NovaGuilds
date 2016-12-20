@@ -21,6 +21,11 @@ chat:
   timeout: "Deine Bestätigung ist nicht angekommen. (Timed Out)"
 
  admin:
+  migrate:
+   sametype: "Data storage types can't be the same."
+   invalidtype: "Invalid data storage type."
+   connectionfail: "Failed to connect to the storage."
+   success: "All data have been successfully migrated."
   config:
    reloaded: "The config has been reloaded"
    reset: "The config has been reset"
@@ -147,6 +152,7 @@ chat:
    reload: "&4&l> &7/nga &creload &2- &6[&5NovaGuilds&6] &6neu laden"
    save: "&4&l> &7/nga &csave &6[&cplayers&6/&cguilds&6/&cregions&6/&cranks] &2- &6Daten Speichern"
    chatspy: "&4&l> &7/nga &cspy &2- &6Toggle spy mode"
+   migrate: "&4&l> &7/nga &cmigrate &6<&cfrom/to&6> &6<&ctype&6> &2- &6Migrate data"
    config:
     access: "&4&l> &7/nga &cconfig &2- &6Config commands"
     reload: "&4&l> &7/nga &cconfig &6reload &2- &6Reload the config"
