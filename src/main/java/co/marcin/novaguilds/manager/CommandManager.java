@@ -191,6 +191,10 @@ public class CommandManager {
 				index++;
 			}
 
+			if(finalCommand != commandWrapper) {
+				lastSuccessfulIndex++;
+			}
+
 			return new ArrayList<>(finalCommand.getExecutor().onTabComplete(sender, StringUtils.parseArgs(args, lastSuccessfulIndex)));
 		}
 	}
