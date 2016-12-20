@@ -46,7 +46,6 @@ public class GUIInventoryRequiredItems extends AbstractGUIInventory {
 	@Override
 	public void generateContent() {
 		for(ItemStack item : requiredItems) {
-			item = item.clone();
 			int amountInventory = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getInventory(), item);
 			int amountEnderChest = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getEnderChest(), item);
 			int needMore = item.getAmount() - amountEnderChest - amountInventory;
@@ -56,7 +55,7 @@ public class GUIInventoryRequiredItems extends AbstractGUIInventory {
 			}
 
 			ItemMeta itemStackMeta = item.hasItemMeta()
-					? item.getItemMeta().clone()
+					? item.getItemMeta()
 					: Bukkit.getItemFactory().getItemMeta(item.getType());
 
 			List<String> lore = new ArrayList<>();
