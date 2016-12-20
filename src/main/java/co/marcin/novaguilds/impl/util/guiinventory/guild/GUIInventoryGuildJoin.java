@@ -25,18 +25,18 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class GUIInventoryGuildJoin extends AbstractGUIInventory {
-	private final List<NovaGuild> guildList = new ArrayList<>();
+	private final Collection<NovaGuild> guildList = new HashSet<>();
 
 	/**
 	 * The constructor
 	 *
 	 * @param guilds list of guilds
 	 */
-	public GUIInventoryGuildJoin(List<NovaGuild> guilds) {
+	public GUIInventoryGuildJoin(Collection<NovaGuild> guilds) {
 		super(ChestGUIUtils.getChestSize(guilds.size()), Message.INVENTORY_GUI_JOIN_TITLE);
 		guildList.addAll(guilds);
 	}

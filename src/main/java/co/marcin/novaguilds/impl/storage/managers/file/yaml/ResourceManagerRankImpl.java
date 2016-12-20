@@ -37,6 +37,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -115,7 +116,7 @@ public class ResourceManagerRankImpl extends AbstractYAMLResourceManager<NovaRan
 
 			//Permission list
 			FileConfiguration configuration = getData(rank);
-			final List<String> permissionNamesList = new EnumToNameConverterImpl<GuildPermission>().convert(rank.getPermissions());
+			final Collection<String> permissionNamesList = new EnumToNameConverterImpl<GuildPermission>().convert(rank.getPermissions());
 
 			//Member list
 			if(!rank.isDefault() && !rank.getMembers().isEmpty()) {

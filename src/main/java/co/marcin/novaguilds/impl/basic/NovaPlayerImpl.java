@@ -42,7 +42,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -55,7 +57,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	private int kills = 0;
 	private int deaths = 0;
 
-	private final List<Vehicle> vehicles = new ArrayList<>();
+	private final Collection<Vehicle> vehicles = new HashSet<>();
 	private final List<NovaGuild> invitedTo = new ArrayList<>();
 	private final List<GUIInventory> guiInventoryHistory = new ArrayList<>();
 	private final Map<UUID, Long> killingHistory = new HashMap<>();
@@ -191,7 +193,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 	}
 
 	@Override
-	public void setInvitedTo(List<NovaGuild> list) {
+	public void setInvitedTo(Collection<NovaGuild> list) {
 		invitedTo.clear();
 		invitedTo.addAll(list);
 		setChanged();

@@ -34,6 +34,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,7 +63,7 @@ public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaP
 				nPlayer.setName(configuration.getString("name"));
 
 				List<String> invitedToStringList = configuration.getStringList("invitedto");
-				List<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
+				Collection<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
 
 				if(!invitedToStringList.isEmpty() && !StringUtils.isUUID(invitedToStringList.get(0))) {
 					LoggerUtils.debug("Migrating invited list for player " + nPlayer.getUUID().toString());

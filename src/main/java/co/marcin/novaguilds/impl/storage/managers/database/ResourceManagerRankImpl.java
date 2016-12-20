@@ -38,6 +38,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -108,7 +109,7 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 				}
 
 				List<String> memberStringList = StringUtils.jsonToList(res.getString("members"));
-				List<NovaPlayer> memberList = new UUIDOrNameToPlayerConverterImpl().convert(memberStringList);
+				Collection<NovaPlayer> memberList = new UUIDOrNameToPlayerConverterImpl().convert(memberStringList);
 
 				if(memberList.size() != memberStringList.size()) {
 					addToSaveQueue(rank);
@@ -145,8 +146,8 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 
 		getStorage().connect();
 
-		final List<UUID> memberNamesList = new ResourceToUUIDConverterImpl<NovaPlayer>().convert(rank.getMembers());
-		final List<String> permissionNamesList = new EnumToNameConverterImpl<GuildPermission>().convert(rank.getPermissions());
+		final Collection<UUID> memberNamesList = new ResourceToUUIDConverterImpl<NovaPlayer>().convert(rank.getMembers());
+		final Collection<String> permissionNamesList = new EnumToNameConverterImpl<GuildPermission>().convert(rank.getPermissions());
 
 		try {
 			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.RANKS_UPDATE);
@@ -174,8 +175,8 @@ public class ResourceManagerRankImpl extends AbstractDatabaseResourceManager<Nov
 		getStorage().connect();
 
 		try {
-			List<UUID> memberNamesList = new ResourceToUUIDConverterImpl<NovaPlayer>().convert(rank.getMembers());
-			List<String> permissionNamesList = new EnumToNameConverterImpl<GuildPermission>().convert(rank.getPermissions());
+			Collection<UUID> memberNamesList = new ResourceToUUIDConverterImpl<NovaPlayer>().convert(rank.getMembers());
+			Collection<String> permissionNamesList = new EnumToNameConverterImpl<GuildPermission>().convert(rank.getPermissions());
 
 			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.RANKS_INSERT);
 			preparedStatement.setString( 1, rank.getUUID().toString());                     //UUID

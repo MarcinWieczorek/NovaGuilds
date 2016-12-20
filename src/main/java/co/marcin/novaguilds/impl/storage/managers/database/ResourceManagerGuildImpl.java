@@ -30,6 +30,7 @@ import co.marcin.novaguilds.impl.util.converter.StringToUUIDConverterImpl;
 import co.marcin.novaguilds.util.BannerUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import com.google.common.collect.Iterables;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -37,6 +38,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -122,11 +124,11 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 
 				//Loading wrapper
 				NovaGuild.LoadingWrapper loadingWrapper = null;
-				List alliesList = StringUtils.semicolonToList(res.getString("allies"));
-				List alliesInvitationsList = StringUtils.semicolonToList(res.getString("alliesinv"));
-				List warsList = StringUtils.semicolonToList(res.getString("war"));
-				List noWarInvitationsList = StringUtils.semicolonToList(res.getString("nowarinv"));
-				List migrationList = alliesList.isEmpty()
+				Collection alliesList = StringUtils.semicolonToList(res.getString("allies"));
+				Collection alliesInvitationsList = StringUtils.semicolonToList(res.getString("alliesinv"));
+				Collection warsList = StringUtils.semicolonToList(res.getString("war"));
+				Collection noWarInvitationsList = StringUtils.semicolonToList(res.getString("nowarinv"));
+				Collection migrationList = alliesList.isEmpty()
 						? alliesInvitationsList.isEmpty()
 								? warsList.isEmpty()
 										? noWarInvitationsList
@@ -134,7 +136,7 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 								: alliesInvitationsList
 						: alliesList;
 
-				if(migrationList.isEmpty() || StringUtils.isUUID((String) migrationList.get(0))) { //UUID
+				if(migrationList.isEmpty() || StringUtils.isUUID((String) Iterables.getFirst(migrationList, null))) { //UUID
 					IConverter<String, UUID> converter = new StringToUUIDConverterImpl();
 					alliesList = converter.convert(alliesList);
 					alliesInvitationsList = converter.convert(alliesInvitationsList);

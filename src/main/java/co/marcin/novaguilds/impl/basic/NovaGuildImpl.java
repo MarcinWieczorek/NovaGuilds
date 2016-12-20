@@ -48,6 +48,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.BannerMeta;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -390,7 +391,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public void setAllies(List<NovaGuild> list) {
+	public void setAllies(Collection<NovaGuild> list) {
 		allies.clear();
 		allies.addAll(list);
 
@@ -398,7 +399,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public void setAllyInvitations(List<NovaGuild> list) {
+	public void setAllyInvitations(Collection<NovaGuild> list) {
 		allyInvitations.clear();
 		allyInvitations.addAll(list);
 
@@ -406,7 +407,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public void setWars(List<NovaGuild> list) {
+	public void setWars(Collection<NovaGuild> list) {
 		war.clear();
 		war.addAll(list);
 
@@ -414,7 +415,7 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 	}
 
 	@Override
-	public void setNoWarInvitations(List<NovaGuild> list) {
+	public void setNoWarInvitations(Collection<NovaGuild> list) {
 		noWarInvited.clear();
 		noWarInvited.addAll(list);
 
@@ -946,50 +947,50 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		}
 
 		@Override
-		public List<T> getAllies() {
+		public Collection<T> getAllies() {
 			return allies;
 		}
 
 		@Override
-		public List<T> getAllyInvitations() {
+		public Collection<T> getAllyInvitations() {
 			return allyInvitations;
 		}
 
 		@Override
-		public List<T> getWars() {
+		public Collection<T> getWars() {
 			return wars;
 		}
 
 		@Override
-		public List<T> getNoWarInvitations() {
+		public Collection<T> getNoWarInvitations() {
 			return noWarInvitations;
 		}
 
 		@Override
-		public List<NovaGuild> convert(List<T> list) {
+		public Collection<NovaGuild> convert(Collection<T> list) {
 			return converter.convert(list);
 		}
 
 		@Override
-		public void setAllies(List<T> list) {
+		public void setAllies(Collection<T> list) {
 			allies.clear();
 			allies.addAll(list);
 		}
 
 		@Override
-		public void setAllyInvitations(List<T> list) {
+		public void setAllyInvitations(Collection<T> list) {
 			allyInvitations.clear();
 			allyInvitations.addAll(list);
 		}
 
 		@Override
-		public void setWars(List<T> list) {
+		public void setWars(Collection<T> list) {
 			wars.clear();
 			wars.addAll(list);
 		}
 
 		@Override
-		public void setNoWarInvitations(List<T> list) {
+		public void setNoWarInvitations(Collection<T> list) {
 			noWarInvitations.clear();
 			noWarInvitations.addAll(list);
 		}

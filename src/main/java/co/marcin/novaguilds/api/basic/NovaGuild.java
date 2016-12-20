@@ -25,6 +25,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.BannerMeta;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface NovaGuild extends Resource {
@@ -336,28 +337,28 @@ public interface NovaGuild extends Resource {
 	 *
 	 * @param list the list
 	 */
-	void setAllies(List<NovaGuild> list);
+	void setAllies(Collection<NovaGuild> list);
 
 	/**
 	 * Sets ally invitations (names)
 	 *
 	 * @param list the list
 	 */
-	void setAllyInvitations(List<NovaGuild> list);
+	void setAllyInvitations(Collection<NovaGuild> list);
 
 	/**
 	 * Sets the wars
 	 *
 	 * @param list the list
 	 */
-	void setWars(List<NovaGuild> list);
+	void setWars(Collection<NovaGuild> list);
 
 	/**
 	 * Sets no-war invitations
 	 *
 	 * @param list the list
 	 */
-	void setNoWarInvitations(List<NovaGuild> list);
+	void setNoWarInvitations(Collection<NovaGuild> list);
 
 	/**
 	 * Sets the amount of points
@@ -734,56 +735,56 @@ public interface NovaGuild extends Resource {
 		 *
 		 * @param list the list
 		 */
-		void setAllies(List<T> list);
+		void setAllies(Collection<T> list);
 
 		/**
 		 * Sets ally invitations
 		 *
 		 * @param list the list
 		 */
-		void setAllyInvitations(List<T> list);
+		void setAllyInvitations(Collection<T> list);
 
 		/**
 		 * Sets wars
 		 *
 		 * @param list the list
 		 */
-		void setWars(List<T> list);
+		void setWars(Collection<T> list);
 
 		/**
 		 * Sets no war invitations
 		 *
 		 * @param list the list
 		 */
-		void setNoWarInvitations(List<T> list);
+		void setNoWarInvitations(Collection<T> list);
 
 		/**
 		 * Gets allies
 		 *
 		 * @return the list
 		 */
-		List<T> getAllies();
+		Collection<T> getAllies();
 
 		/**
 		 * Gets ally invitations
 		 *
 		 * @return the list
 		 */
-		List<T> getAllyInvitations();
+		Collection<T> getAllyInvitations();
 
 		/**
 		 * Gets wars
 		 *
 		 * @return the list
 		 */
-		List<T> getWars();
+		Collection<T> getWars();
 
 		/**
 		 * Gets no war invitations
 		 *
 		 * @return the list
 		 */
-		List<T> getNoWarInvitations();
+		Collection<T> getNoWarInvitations();
 
 		/**
 		 * Converts string/uuid to guild
@@ -791,6 +792,6 @@ public interface NovaGuild extends Resource {
 		 * @param list the list
 		 * @return list of guilds
 		 */
-		List<NovaGuild> convert(List<T> list);
+		Collection<NovaGuild> convert(Collection<T> list);
 	}
 }

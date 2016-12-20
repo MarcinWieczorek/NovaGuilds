@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.RegionMode;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface NovaPlayer extends Resource {
@@ -181,7 +182,7 @@ public interface NovaPlayer extends Resource {
 	 *
 	 * @param invitedTo the list
 	 */
-	void setInvitedTo(List<NovaGuild> invitedTo);
+	void setInvitedTo(Collection<NovaGuild> invitedTo);
 
 	/**
 	 * Setting active selection

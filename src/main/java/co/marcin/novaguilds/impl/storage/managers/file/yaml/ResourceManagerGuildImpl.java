@@ -30,6 +30,7 @@ import co.marcin.novaguilds.impl.util.converter.ToStringConverterImpl;
 import co.marcin.novaguilds.util.BannerUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
+import com.google.common.collect.Iterables;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,6 +38,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,11 +62,11 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 
 			if(configuration != null) {
 				NovaGuild.LoadingWrapper loadingWrapper = null;
-				List alliesList = configuration.getStringList("allies");
-				List alliesInvitationsList = configuration.getStringList("alliesinv");
-				List warsList = configuration.getStringList("wars");
-				List noWarInvitationsList = configuration.getStringList("nowar");
-				List migrationList = alliesList.isEmpty()
+				Collection alliesList = configuration.getStringList("allies");
+				Collection alliesInvitationsList = configuration.getStringList("alliesinv");
+				Collection warsList = configuration.getStringList("wars");
+				Collection noWarInvitationsList = configuration.getStringList("nowar");
+				Collection migrationList = alliesList.isEmpty()
 						? alliesInvitationsList.isEmpty()
 								? warsList.isEmpty()
 										? noWarInvitationsList
@@ -72,7 +74,7 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 								: alliesInvitationsList
 						: alliesList;
 
-				if(migrationList.isEmpty() || StringUtils.isUUID((String) migrationList.get(0))) { //UUID
+				if(migrationList.isEmpty() || StringUtils.isUUID((String) Iterables.getFirst(migrationList, null))) { //UUID
 					IConverter<String, UUID> converter = new StringToUUIDConverterImpl();
 					alliesList = converter.convert(alliesList);
 					alliesInvitationsList = converter.convert(alliesInvitationsList);

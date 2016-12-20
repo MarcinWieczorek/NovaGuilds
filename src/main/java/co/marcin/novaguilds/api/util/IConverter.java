@@ -18,7 +18,7 @@
 
 package co.marcin.novaguilds.api.util;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface IConverter<K, V> {
 	/**
@@ -27,7 +27,7 @@ public interface IConverter<K, V> {
 	 * @param list the list
 	 * @return converted list
 	 */
-	List<V> convert(List<K> list);
+	Collection<V> convert(Collection<K> list);
 
 	/**
 	 * Converts an object

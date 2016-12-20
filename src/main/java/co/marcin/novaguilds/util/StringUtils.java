@@ -183,7 +183,7 @@ public final class StringUtils {
 	 * @param separator separator
 	 * @return string
 	 */
-	public static String join(List items, String separator) {
+	public static String join(Collection items, String separator) {
 		return join(items.toArray(), separator);
 	}
 
@@ -194,7 +194,7 @@ public final class StringUtils {
 	 * @param list the list
 	 * @return string
 	 */
-	public static String joinSemicolon(List list) {
+	public static String joinSemicolon(Collection list) {
 		return join(list, ";");
 	}
 

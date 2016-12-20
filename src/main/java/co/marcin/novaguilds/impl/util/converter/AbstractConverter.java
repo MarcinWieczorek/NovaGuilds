@@ -22,12 +22,12 @@ import co.marcin.novaguilds.api.util.IConverter;
 import co.marcin.novaguilds.util.LoggerUtils;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public abstract class AbstractConverter<K, V> implements IConverter<K, V> {
 	@Override
-	public List<V> convert(List<K> list) {
-		final List<V> convertedList = new ArrayList<>();
+	public Collection<V> convert(Collection<K> list) {
+		final Collection<V> convertedList = new ArrayList<>();
 
 		for(K k : list) {
 			V converted = convert(k);

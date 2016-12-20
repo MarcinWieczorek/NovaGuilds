@@ -29,13 +29,12 @@ import co.marcin.novaguilds.impl.util.converter.UUIDOrNameToGuildConverterImpl;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,7 +65,7 @@ public class ResourceManagerPlayerImpl extends AbstractDatabaseResourceManager<N
 
 				String invitedTo = res.getString("invitedto");
 				List<String> invitedToStringList = StringUtils.semicolonToList(invitedTo);
-				List<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
+				Collection<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
 
 				if(!invitedToStringList.isEmpty() && !StringUtils.isUUID(invitedToStringList.get(0))) {
 					addToSaveQueue(nPlayer);
