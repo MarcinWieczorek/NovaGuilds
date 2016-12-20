@@ -135,27 +135,29 @@ public class NovaGroupImpl implements NovaGroup {
 		ConfigurationSection section = plugin.getConfig().getConfigurationSection("groups." + group);
 
 		for(NovaGroup.Key<?> key : Key.values()) {
-			if(!section.contains(paths.get(key)) && values.get(key) != null) {
+			String path = paths.get(key);
+
+			if(!section.contains(path) && values.get(key) != null) {
 				continue;
 			}
 
 			Object value = null;
 
 			if(key.getType() == Double.class) {
-				value = section.getDouble(paths.get(key));
+				value = section.getDouble(path);
 			}
 			else if(key.getType() ==  Integer.class) {
-				value = section.getInt(paths.get(key));
+				value = section.getInt(path);
 			}
 			else if(key.getType() == List.class) {
-				value = ItemStackUtils.stringToItemStackList(section.getStringList(paths.get(key)));
+				value = ItemStackUtils.stringToItemStackList(section.getStringList(path));
 
 				if(value == null) {
 					value = new ArrayList<ItemStack>();
 				}
 			}
 			else if(key.getType() == Schematic.class) {
-				String schematicName = paths.get(key);
+				String schematicName = section.getString(path);
 				if(schematicName != null && !schematicName.isEmpty()) {
 					try {
 						value = new SchematicImpl(schematicName);
