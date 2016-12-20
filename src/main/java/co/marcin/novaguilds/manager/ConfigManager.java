@@ -437,7 +437,7 @@ public class ConfigManager {
 			value = getBoolean(configWrapper.getPath());
 		}
 		else if(clazz == Material.class) {
-			value = getMaterialList(configWrapper.getPath(), configWrapper.getVars());
+			value = getMaterial(configWrapper.getPath());
 		}
 		else if(clazz == ItemStack.class) {
 			value = getItemStack(configWrapper.getPath(), configWrapper.getVars());
