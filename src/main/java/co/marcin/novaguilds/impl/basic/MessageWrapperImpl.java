@@ -130,6 +130,11 @@ public class MessageWrapperImpl extends AbstractVarKeyApplicable<MessageWrapper>
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return get().equals("none");
+	}
+
+	@Override
 	public void send(CommandSender sender) {
 		if(hasFlag(Flag.LIST)) {
 			MessageManager.sendMessagesList(sender, this);

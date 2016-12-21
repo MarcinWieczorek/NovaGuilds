@@ -43,6 +43,7 @@ public class DeathListener extends AbstractListener {
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player victim = event.getEntity();
+		Player attacker = event.getEntity().getKiller();
 		NovaPlayer nPlayer = PlayerManager.getPlayer(victim);
 
 		//Exit from region
@@ -50,11 +51,10 @@ public class DeathListener extends AbstractListener {
 			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
 		}
 
-		if(event.getEntity().getKiller() == null) {
+		if(attacker == null || attacker.equals(victim)) {
 			return;
 		}
 
-		Player attacker = event.getEntity().getKiller();
 		NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
 
 		if(nPlayer.isPartRaid() && nPlayerAttacker.isPartRaid() && nPlayer.getPartRaid().equals(nPlayerAttacker.getPartRaid()) && !nPlayer.getGuild().isMember(nPlayerAttacker)) {
@@ -75,10 +75,14 @@ public class DeathListener extends AbstractListener {
 			Map<VarKey, String> vars = new HashMap<>();
 			vars.put(VarKey.PLAYER1, victim.getName());
 			vars.put(VarKey.PLAYER2, attacker.getName());
-			ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.clone().vars(vars).newChatBroadcast();
-			chatBroadcast.setTag(1, preparedTag1);
-			chatBroadcast.setTag(2, preparedTag2);
-			chatBroadcast.send();
+
+			if(!Message.BROADCAST_PVP_KILLED.isEmpty()) {
+				ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.clone().vars(vars).newChatBroadcast();
+				chatBroadcast.setTag(1, preparedTag1);
+				chatBroadcast.setTag(2, preparedTag2);
+				chatBroadcast.send();
+				event.setDeathMessage(null);
+			}
 
 			//Kill and death point
 			nPlayerAttacker.addKill();
@@ -135,9 +139,6 @@ public class DeathListener extends AbstractListener {
 				nPlayerAttacker.addMoney(money);
 			}
 		}
-
-		//disable death message
-		event.setDeathMessage(null);
 
 		//Refresh tab and tag
 		TabUtils.refresh(attacker);

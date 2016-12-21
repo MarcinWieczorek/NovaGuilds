@@ -102,6 +102,15 @@ public interface MessageWrapper extends VarKeyApplicable<MessageWrapper> {
 	boolean isPrefix();
 
 	/**
+	 * Checks if the message is empty
+	 * In default implementation
+	 * string equal to 'none'
+	 *
+	 * @return true if empty
+	 */
+	boolean isEmpty();
+
+	/**
 	 * Sends the Message to a player
 	 *
 	 * @param sender receiver
