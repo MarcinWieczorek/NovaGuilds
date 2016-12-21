@@ -32,7 +32,7 @@ import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractDatabaseResourceManager<T extends Resource> extends AbstractResourceManager<T> {
-	protected final String columnName;
+	protected final String tableName;
 	private final Collection<T> updateUUIDQueue = new HashSet<>();
 
 	/**
@@ -40,11 +40,11 @@ public abstract class AbstractDatabaseResourceManager<T extends Resource> extend
 	 *
 	 * @param storage    the storage
 	 * @param clazz      type class
-	 * @param columnName column name in the database
+	 * @param tableName  table name in the database
 	 */
-	protected AbstractDatabaseResourceManager(Storage storage, Class<T> clazz, String columnName) {
+	protected AbstractDatabaseResourceManager(Storage storage, Class<T> clazz, String tableName) {
 		super(storage, clazz);
-		this.columnName = columnName;
+		this.tableName = tableName;
 	}
 
 	@Override
@@ -67,8 +67,8 @@ public abstract class AbstractDatabaseResourceManager<T extends Resource> extend
 	 *
 	 * @return column name
 	 */
-	public final String getColumnName() {
-		return columnName;
+	public final String getTableName() {
+		return tableName;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public abstract class AbstractDatabaseResourceManager<T extends Resource> extend
 	 */
 	protected void updateUUID(T resource, int id) {
 		try {
-			String sql = "UPDATE `" + Config.MYSQL_PREFIX.getString() + getColumnName() + "` SET `uuid`=? WHERE `id`=?";
+			String sql = "UPDATE `" + Config.MYSQL_PREFIX.getString() + getTableName() + "` SET `uuid`=? WHERE `id`=?";
 			PreparedStatement statement = getStorage().getConnection().prepareStatement(sql);
 			statement.setString(1, resource.getUUID().toString()); //UUID
 			statement.setInt(   2, id);                            //id

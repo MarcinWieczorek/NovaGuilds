@@ -27,10 +27,10 @@ public abstract class AbstractDatabaseResourceManager<T extends Resource> extend
 	 *
 	 * @param storage    the storage
 	 * @param clazz      type class
-	 * @param columnName column name in the database
+	 * @param tableName  table name in the database
 	 */
-	protected AbstractDatabaseResourceManager(Storage storage, Class<T> clazz, String columnName) {
-		super(storage, clazz, columnName);
+	protected AbstractDatabaseResourceManager(Storage storage, Class<T> clazz, String tableName) {
+		super(storage, clazz, tableName);
 	}
 
 	@Override
