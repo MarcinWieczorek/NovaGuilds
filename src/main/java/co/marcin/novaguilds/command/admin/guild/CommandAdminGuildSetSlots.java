@@ -33,7 +33,7 @@ public class CommandAdminGuildSetSlots extends AbstractCommandExecutor.Reversed<
 		NovaGuild guild = getParameter();
 
 		if(args.length != 1) {
-			Message.CHAT_USAGE_NGA_GUILD_SET_SLOTS.send(sender);
+			getCommand().getUsageMessage().send(sender);
 			return;
 		}
 

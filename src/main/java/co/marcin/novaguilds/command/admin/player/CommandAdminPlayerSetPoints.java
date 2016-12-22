@@ -39,7 +39,7 @@ public class CommandAdminPlayerSetPoints extends AbstractCommandExecutor.Reverse
 		NovaPlayer nPlayer = getParameter();
 
 		if(args.length != 1) { //no new name
-			Message.CHAT_USAGE_NGA_PLAYER_SET_POINTS.send(sender);
+			getCommand().getUsageMessage().send(sender);
 			return;
 		}
 

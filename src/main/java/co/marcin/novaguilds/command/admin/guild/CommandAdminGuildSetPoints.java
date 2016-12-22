@@ -37,7 +37,7 @@ public class CommandAdminGuildSetPoints extends AbstractCommandExecutor.Reversed
 		NovaGuild guild = getParameter();
 
 		if(args.length != 1) { //no new name
-			Message.CHAT_USAGE_NGA_GUILD_SET_POINTS.send(sender);
+			getCommand().getUsageMessage().send(sender);
 			return;
 		}
 

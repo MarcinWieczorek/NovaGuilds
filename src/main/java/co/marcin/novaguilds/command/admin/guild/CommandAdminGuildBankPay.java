@@ -35,7 +35,7 @@ public class CommandAdminGuildBankPay extends AbstractCommandExecutor.Reversed<N
 		NovaGuild guild = getParameter();
 
 		if(args.length != 1) {
-			Message.CHAT_USAGE_NGA_GUILD_BANK_PAY.send(sender);
+			getCommand().getUsageMessage().send(sender);
 			return;
 		}
 

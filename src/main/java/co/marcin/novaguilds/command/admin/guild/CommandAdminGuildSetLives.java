@@ -33,7 +33,7 @@ public class CommandAdminGuildSetLives extends AbstractCommandExecutor.Reversed<
 		NovaGuild guild = getParameter();
 
 		if(args.length == 0) {
-			Message.CHAT_USAGE_NGA_GUILD_SET_LIVES.send(sender);
+			getCommand().getUsageMessage().send(sender);
 			return;
 		}
 

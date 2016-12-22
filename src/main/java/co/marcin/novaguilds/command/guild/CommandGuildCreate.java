@@ -61,7 +61,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 2) {
-			Message.CHAT_USAGE_GUILD_CREATE.send(sender);
+			getCommand().getUsageMessage().send(sender);
 			return;
 		}
 

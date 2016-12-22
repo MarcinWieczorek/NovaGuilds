@@ -35,7 +35,7 @@ public class CommandAdminGuildBankWithdraw extends AbstractCommandExecutor.Rever
 		NovaGuild guild = getParameter();
 
 		if(args.length != 1) { //invalid arguments
-			Message.CHAT_USAGE_NGA_GUILD_BANK_WITHDRAW.send(sender);
+			getCommand().getUsageMessage().send(sender);
 			return;
 		}
 

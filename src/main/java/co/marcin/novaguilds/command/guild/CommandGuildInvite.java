@@ -25,16 +25,21 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class CommandGuildInvite extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
 		if(args.length != 1) {
-			Message.CHAT_USAGE_GUILD_INVITE.send(sender);
+			getCommand().getUsageMessage().send(sender);
 			return;
 		}
 
@@ -84,5 +89,16 @@ public class CommandGuildInvite extends AbstractCommandExecutor {
 				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.clone().vars(vars).send(invitePlayer.getPlayer());
 			}
 		}
+	}
+
+	@Override
+	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+		Set<String> options = new HashSet<>();
+
+		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
+			options.add(player.getName());
+		}
+
+		return options;
 	}
 }
