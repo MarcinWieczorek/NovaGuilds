@@ -156,7 +156,7 @@ public final class TabUtils {
 
 		//Player vars
 		vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
-		vars.put(VarKey.PLAYER_BALANCE, String.valueOf(nPlayer.getMoney()));
+		vars.put(VarKey.PLAYER_BALANCE, String.valueOf(NumberUtils.roundOffTo2DecPlaces(nPlayer.getMoney())));
 		vars.put(VarKey.PLAYER_KILLS, String.valueOf(nPlayer.getKills()));
 		vars.put(VarKey.PLAYER_DEATHS, String.valueOf(nPlayer.getDeaths()));
 		vars.put(VarKey.PLAYER_KDR, String.valueOf(nPlayer.getKillDeathRate()));

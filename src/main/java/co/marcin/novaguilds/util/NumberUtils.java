@@ -55,7 +55,7 @@ public final class NumberUtils {
 	 * @return rounded off number
 	 */
 	public static double roundOffTo2DecPlaces(double val) {
-		return Math.round(val * 100) / 100;
+		return Math.round(val * 100D) / 100D;
 	}
 
 	/**
