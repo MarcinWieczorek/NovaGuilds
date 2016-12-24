@@ -75,6 +75,11 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return cM.getConfig().get(getPath()).equals("none");
+	}
+
+	@Override
 	public String getString() {
 		return cM.get(this, String.class);
 	}

@@ -48,6 +48,15 @@ public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneabl
 	boolean isFixColors();
 
 	/**
+	 * Checks if the value is empty
+	 * In default implementation
+	 * string equal to 'none'
+	 *
+	 * @return true if empty
+	 */
+	boolean isEmpty();
+
+	/**
 	 * Gets a string
 	 *
 	 * @return the string
