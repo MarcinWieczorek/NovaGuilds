@@ -25,6 +25,7 @@ import co.marcin.novaguilds.enums.PreparedStatements;
 import co.marcin.novaguilds.impl.basic.NovaGuildImpl;
 import co.marcin.novaguilds.impl.storage.funnyguilds.MySQLStorageImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -90,6 +91,7 @@ public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<No
 				guild.setLives(res.getInt("lives"));
 				guild.setTimeCreated(res.getLong("born") / 1000);
 				guild.setHome(homeLocation);
+				guild.setInactiveTime(NumberUtils.systemSeconds());
 				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 
 				//set unchanged

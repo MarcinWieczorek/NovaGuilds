@@ -26,6 +26,7 @@ import co.marcin.novaguilds.impl.storage.funnyguilds.YamlStorageImpl;
 import co.marcin.novaguilds.impl.storage.managers.file.yaml.AbstractYAMLResourceManager;
 import co.marcin.novaguilds.impl.util.converter.AbstractConverter;
 import co.marcin.novaguilds.util.LoggerUtils;
+import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -72,6 +73,7 @@ public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGu
 				guild.setPoints(configuration.getInt("points"));
 				guild.setLives(configuration.getInt("lives"));
 				guild.setTimeCreated(configuration.getLong("born") / 1000);
+				guild.setInactiveTime(NumberUtils.systemSeconds());
 				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 
 				//Loading wrapper
