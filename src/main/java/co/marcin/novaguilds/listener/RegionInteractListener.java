@@ -422,6 +422,10 @@ public class RegionInteractListener extends AbstractListener {
 
 		@EventHandler
 		public void onPrepareItemCraft(PrepareItemCraftEvent event) {
+			if(event.getViewers().isEmpty()) {
+				return;
+			}
+
 			NovaPlayer nPlayer = PlayerManager.getPlayer(event.getViewers().get(0));
 
 			if(event.getRecipe().getResult().getType() != Material.SHIELD
