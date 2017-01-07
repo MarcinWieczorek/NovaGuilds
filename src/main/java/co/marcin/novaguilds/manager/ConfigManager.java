@@ -385,9 +385,7 @@ public class ConfigManager {
 	 * @param o the object
 	 */
 	public void putInCache(ConfigWrapper c, Object o) {
-		if(!cache.containsKey(c)) {
-			cache.put(c, o);
-		}
+		cache.put(c, o);
 	}
 
 	/**

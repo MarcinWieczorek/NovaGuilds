@@ -60,60 +60,61 @@ public class ChatListener extends AbstractListener {
 		boolean isAllyPrefix = msg.startsWith(prefixChatAlly);
 		boolean isGuildPrefix = msg.startsWith(prefixChatGuild) && !isAllyPrefix;
 
-		if(nPlayer.hasGuild() && !isGuildPrefix && (isAllyPrefix || nPlayer.getPreferences().getChatMode() == ChatMode.ALLY)) { //ally chat
-			if(Config.CHAT_ALLY_ENABLED.getBoolean()) {
-				preparedTag.setLeaderPrefix(preparedTag.isLeaderPrefix() && Config.CHAT_ALLY_LEADERPREFIX.getBoolean());
+		if(nPlayer.hasGuild()
+				&& !isGuildPrefix
+				&& (isAllyPrefix || nPlayer.getPreferences().getChatMode() == ChatMode.ALLY)
+				&& Config.CHAT_ALLY_ENABLED.getBoolean()) { //ally chat
+			preparedTag.setLeaderPrefix(preparedTag.isLeaderPrefix() && Config.CHAT_ALLY_LEADERPREFIX.getBoolean());
 
-				preparedTag.setColor(TagColor.NEUTRAL);
-				String cFormat = Config.CHAT_ALLY_FORMAT
-						.setVar(VarKey.GUILD_TAG, preparedTag.get())
-						.setVar(VarKey.PLAYER_NAME, nPlayer.getName())
-						.getString();
+			preparedTag.setColor(TagColor.NEUTRAL);
+			String cFormat = Config.CHAT_ALLY_FORMAT
+					.setVar(VarKey.GUILD_TAG, preparedTag.get())
+					.setVar(VarKey.PLAYER_NAME, nPlayer.getName())
+					.getString();
 
-				//Trim prefix
-				if(nPlayer.getPreferences().getChatMode() != ChatMode.ALLY) {
-					msg = msg.substring(prefixChatAlly.length(), msg.length());
+			//Trim prefix
+			if(nPlayer.getPreferences().getChatMode() != ChatMode.ALLY) {
+				msg = msg.substring(prefixChatAlly.length(), msg.length());
 
-					if(msg.length() == 0) {
-						return;
-					}
+				if(msg.length() == 0) {
+					return;
 				}
-
-				for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-					if(nPlayerLoop.getPreferences().getSpyMode() || (nPlayerLoop.hasGuild() && (nPlayerLoop.getGuild().isAlly(guild) || guild.isMember(nPlayerLoop)))) {
-						nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
-					}
-				}
-
-				return;
 			}
+
+			for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
+				if(nPlayerLoop.getPreferences().getSpyMode() || (nPlayerLoop.hasGuild() && (nPlayerLoop.getGuild().isAlly(guild) || guild.isMember(nPlayerLoop)))) {
+					nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
+				}
+			}
+
+			return;
 		}
-		else if(nPlayer.hasGuild() && (isGuildPrefix || nPlayer.getPreferences().getChatMode() == ChatMode.GUILD)) { //guild chat
-			if(Config.CHAT_GUILD_ENABLED.getBoolean()) {
-				String rank = Config.CHAT_GUILD_LEADERPREFIX.getBoolean() && nPlayer.isLeader() ? Config.CHAT_LEADERPREFIX.getString() : "";
+		else if(nPlayer.hasGuild()
+				&& (isGuildPrefix || nPlayer.getPreferences().getChatMode() == ChatMode.GUILD)
+				&& Config.CHAT_GUILD_ENABLED.getBoolean()) { //guild chat
+			String rank = Config.CHAT_GUILD_LEADERPREFIX.getBoolean() && nPlayer.isLeader() ? Config.CHAT_LEADERPREFIX.getString() : "";
 
-				String cFormat = Config.CHAT_GUILD_FORMAT
-						.setVar(VarKey.LEADER_PREFIX, rank)
-						.setVar(VarKey.PLAYER_NAME, nPlayer.getName())
-						.getString();
+			String cFormat = Config.CHAT_GUILD_FORMAT
+					.setVar(VarKey.LEADER_PREFIX, rank)
+					.setVar(VarKey.PLAYER_NAME, nPlayer.getName())
+					.getString();
 
-				//Trim prefix
-				if(nPlayer.getPreferences().getChatMode() != ChatMode.GUILD) {
-					msg = msg.substring(prefixChatGuild.length(), msg.length());
+			//Trim prefix
+			if(nPlayer.getPreferences().getChatMode() != ChatMode.GUILD) {
+				msg = msg.substring(prefixChatGuild.length(), msg.length());
 
-					if(msg.length() == 0) {
-						return;
-					}
+				if(msg.length() == 0) {
+					return;
 				}
-
-				for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
-					if(guild.isMember(nPlayerLoop) || nPlayerLoop.getPreferences().getSpyMode()) {
-						nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
-					}
-				}
-
-				return;
 			}
+
+			for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getOnlinePlayers()) {
+				if(guild.isMember(nPlayerLoop) || nPlayerLoop.getPreferences().getSpyMode()) {
+					nPlayerLoop.getPlayer().sendMessage(cFormat + msg);
+				}
+			}
+
+			return;
 		}
 
 		//Message with a tag
