@@ -345,6 +345,15 @@ public class ConfigManager {
 	}
 
 	/**
+	 * Checks if the config is set to secondary storage type
+	 *
+	 * @return true if secondary
+	 */
+	public boolean isSecondaryDataStorageType() {
+		return dataStorageType == secondaryDataStorageType;
+	}
+
+	/**
 	 * Sets the config to secondary data type
 	 */
 	public void setToSecondaryDataStorageType() {

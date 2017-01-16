@@ -22,7 +22,6 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.storage.Storage;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
-import co.marcin.novaguilds.exception.FatalNovaGuildsException;
 import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 import co.marcin.novaguilds.util.LoggerUtils;
 
@@ -33,24 +32,14 @@ public class StorageConnector {
 	private final DataStorageType dataStorageType;
 	private int storageConnectionAttempt = 1;
 	private Storage storage;
-	private boolean isSecondary;
-
-	/**
-	 * The constructor
-	 *
-	 * @throws FatalNovaGuildsException when something goes wrong
-	 */
-	public StorageConnector() throws FatalNovaGuildsException {
-		this(plugin.getConfigManager().getDataStorageType());
-	}
 
 	/**
 	 * The constructor
 	 *
 	 * @param dataStorageType data storage type
-	 * @throws FatalNovaGuildsException when something goes wrong
+	 * @throws StorageConnectionFailedException when something goes wrong
 	 */
-	public StorageConnector(DataStorageType dataStorageType) throws FatalNovaGuildsException {
+	public StorageConnector(DataStorageType dataStorageType) throws StorageConnectionFailedException {
 		this.dataStorageType = dataStorageType;
 		handle();
 	}
@@ -58,33 +47,23 @@ public class StorageConnector {
 	/**
 	 * Handles storage connecting
 	 *
-	 * @throws FatalNovaGuildsException when something goes wrong
+	 * @throws StorageConnectionFailedException when something goes wrong
 	 */
-	public void handle() throws FatalNovaGuildsException {
+	public void handle() throws StorageConnectionFailedException {
 		try {
 			connect();
 		}
-		catch(StorageConnectionFailedException | RuntimeException e) {
-			if(e instanceof IllegalArgumentException
-					&& e.getMessage() != null
-					&& e.getMessage().contains("credentials")) {
-				LoggerUtils.info(e.getClass().getName());
-				LoggerUtils.info(e.getMessage());
-			}
-			else {
-				LoggerUtils.exception(e);
+		catch(StorageConnectionFailedException e) {
+			storageConnectionAttempt++;
+
+			if(e.getMessage() != null && e.getMessage().contains("credentials")) {
+				throw new IllegalArgumentException(e.getMessage(), e);
 			}
 
-			storageConnectionAttempt++;
+			LoggerUtils.exception(e);
+
 			if(storageConnectionAttempt > 3) {
-				if(isSecondary) {
-					throw new FatalNovaGuildsException("Failed while connecting to the storage");
-				}
-				else {
-					isSecondary = true;
-					plugin.getConfigManager().setToSecondaryDataStorageType();
-					storageConnectionAttempt = 1;
-				}
+				throw e;
 			}
 
 			handle();
@@ -102,10 +81,7 @@ public class StorageConnector {
 		switch(dataStorageType) {
 			case MYSQL:
 				if(Config.MYSQL_HOST.getString().isEmpty()) {
-					plugin.getConfigManager().setToSecondaryDataStorageType();
-					isSecondary = true;
-					storageConnectionAttempt = 0;
-					throw new IllegalArgumentException("MySQL credentials not specified in the config. Switching to secondary storage.");
+					throw new StorageConnectionFailedException("MySQL credentials not specified in the config. Switching to secondary storage.");
 				}
 
 				storage = new MySQLStorageImpl(

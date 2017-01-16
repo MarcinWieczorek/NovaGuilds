@@ -31,6 +31,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.exception.FatalNovaGuildsException;
+import co.marcin.novaguilds.exception.StorageConnectionFailedException;
 import co.marcin.novaguilds.impl.storage.StorageConnector;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.ScoreboardStatsHook;
@@ -499,7 +500,25 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	 * @throws FatalNovaGuildsException if fails
 	 */
 	public void setUpStorage() throws FatalNovaGuildsException {
-		storage = new StorageConnector().getStorage();
+		try {
+			storage = new StorageConnector(getConfigManager().getDataStorageType()).getStorage();
+		}
+		catch(StorageConnectionFailedException | IllegalArgumentException e) {
+			if(e instanceof IllegalArgumentException) {
+				if(e.getCause() == null || !(e.getCause() instanceof StorageConnectionFailedException)) {
+					throw (IllegalArgumentException) e;
+				}
+
+				LoggerUtils.error(e.getMessage());
+			}
+
+			if(getConfigManager().isSecondaryDataStorageType()) {
+				throw new FatalNovaGuildsException("Storage connection failed", e);
+			}
+
+			getConfigManager().setToSecondaryDataStorageType();
+			setUpStorage();
+		}
 	}
 
 	/**
