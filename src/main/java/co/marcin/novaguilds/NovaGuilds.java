@@ -283,14 +283,18 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 						getServer().getPluginManager().callEvent(clickEvent);
 						event.setCancelled(clickEvent.isCancelled());
 					}
-
-					@EventHandler(priority = EventPriority.LOWEST)
-					public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
-						PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
-						ListenerManager.getLoggedPluginManager().callEvent(interactEntityEvent);
-						event.setCancelled(interactEntityEvent.isCancelled());
-					}
 				};
+
+				if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
+					new AbstractListener() {
+						@EventHandler(priority = EventPriority.LOWEST)
+						public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
+							PlayerInteractEntityEvent interactEntityEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT_AT);
+							ListenerManager.getLoggedPluginManager().callEvent(interactEntityEvent);
+							event.setCancelled(interactEntityEvent.isCancelled());
+						}
+					};
+				}
 			}
 
 			if(signGUI == null) {
