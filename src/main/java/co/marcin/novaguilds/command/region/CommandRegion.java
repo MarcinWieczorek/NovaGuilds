@@ -19,8 +19,10 @@
 package co.marcin.novaguilds.command.region;
 
 import co.marcin.novaguilds.api.basic.CommandWrapper;
+import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
+import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.StringUtils;
@@ -47,11 +49,18 @@ public class CommandRegion extends AbstractCommandExecutor {
 			subCommand.execute(sender, StringUtils.parseArgs(args, 1));
 		}
 		else {
-			if(PlayerManager.getPlayer(sender).isLeader()) {
+			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+
+			if(nPlayer.hasPermission(GuildPermission.REGION_CREATE)
+					|| nPlayer.hasPermission(GuildPermission.REGION_REMOVE)
+					|| nPlayer.hasPermission(GuildPermission.REGION_RESIZE)) {
 				Message.CHAT_COMMANDS_HEADER_REGION.send(sender);
 				for(CommandWrapper commandWrapper : getSubCommands()) {
 					commandWrapper.getUsageMessage().send(sender);
 				}
+			}
+			else {
+				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			}
 		}
 	}
