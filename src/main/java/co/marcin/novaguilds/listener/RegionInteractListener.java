@@ -205,6 +205,10 @@ public class RegionInteractListener extends AbstractListener {
 		Entity entity = event.getEntity();
 		List<String> denyDamage = Config.REGION_DENYMOBDAMAGE.getStringList();
 
+		if(entity instanceof Player ) {
+			return;
+		}
+
 		if(RegionManager.get(entity) != null) {
 			if(event.getAction() == EntityUseAction.ATTACK) {
 				if(!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getPreferences().getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_ATTACK))
