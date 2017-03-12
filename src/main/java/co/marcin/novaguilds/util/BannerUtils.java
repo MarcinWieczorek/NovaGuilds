@@ -55,6 +55,10 @@ public final class BannerUtils {
 	 * @return banner item stack
 	 */
 	public static ItemStack randomBannerItemStack() {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+			return null;
+		}
+
 		ItemStack itemStack = new ItemStack(Material.BANNER);
 		itemStack.setItemMeta(getRandomMeta());
 		return itemStack;
@@ -66,6 +70,10 @@ public final class BannerUtils {
 	 * @return banner meta
 	 */
 	public static BannerMeta getRandomMeta() {
+		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+			return null;
+		}
+
 		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(Material.BANNER);
 		meta.setBaseColor(randomDyeColor());
 
