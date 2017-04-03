@@ -18,8 +18,9 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_7_R3;
 
-import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.util.Packet;
+import co.marcin.novaguilds.api.util.packet.PacketEvent;
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
 import co.marcin.novaguilds.impl.util.signgui.AbstractSignGui;
 import co.marcin.novaguilds.impl.versionimpl.v1_7_R3.packet.PacketPlayOutBlockChange;
@@ -50,9 +51,9 @@ public class SignGUIImpl extends AbstractSignGui {
 	 * Registers packet the handler
 	 */
 	protected void registerUpdateHandling() {
-		new AbstractPacketHandler("PacketPlayInUpdateSign") {
+		new AbstractPacketHandler("PacketPlayInUpdateSign", PacketExtension.PacketHandler.Direction.IN) {
 			@Override
-			public void handle(PacketReceiveEvent event) {
+			public void handle(PacketEvent event) {
 				final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
 				final Player player = event.getPlayer();
 				Location v = getSignLocations().remove(player.getUniqueId());

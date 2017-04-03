@@ -27,20 +27,28 @@ public abstract class AbstractPacketHandler implements PacketExtension.PacketHan
 	protected static final NovaGuilds plugin = NovaGuilds.getInstance();
 	private final String packetName;
 	protected EventPriority priority = EventPriority.NORMAL;
+	private Direction direction;
 
 	/**
 	 * PacketHandler constructor
 	 *
 	 * @param packetName packet name
+	 * @param direction  direction enum
 	 */
-	public AbstractPacketHandler(String packetName) {
+	public AbstractPacketHandler(String packetName, Direction direction) {
 		this.packetName = packetName;
+		this.direction = direction;
 		PacketListener.register(this);
 	}
 
 	@Override
 	public final EventPriority getPriority() {
 		return priority;
+	}
+
+	@Override
+	public Direction getDirection() {
+		return direction;
 	}
 
 	@Override

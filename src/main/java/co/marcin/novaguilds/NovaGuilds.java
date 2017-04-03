@@ -189,12 +189,15 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 			ConfigManager.ServerVersion serverVersion = ConfigManager.getServerVersion();
 			if(Config.ADVANCEDENTITYUSE.getBoolean() &&
-					(serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R3 || serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
+					(serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R2
+							|| serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R3
+							|| serverVersion == ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
 				new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketListenerImpl();
 			}
 
 			//Packet extension
 			switch(serverVersion) {
+				case MINECRAFT_1_7_R2:
 				case MINECRAFT_1_7_R3:
 					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_7_R4.PacketExtensionImpl();
 					break;
@@ -217,6 +220,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			//SignGUI
 			if(Config.SIGNGUI_ENABLED.getBoolean()) {
 				switch(serverVersion) {
+					case MINECRAFT_1_7_R2:
 					case MINECRAFT_1_7_R3:
 						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_7_R3.SignGUIImpl();
 						break;
@@ -245,6 +249,9 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 
 			if(Config.TABLIST_ENABLED.getBoolean()) {
 				final Map<ConfigManager.ServerVersion, Class<? extends TabList>> tabListClassMap = new HashMap<>();
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_7_R2, co.marcin.novaguilds.impl.versionimpl.v1_7_R4.TabListImpl.class);
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_7_R3, co.marcin.novaguilds.impl.versionimpl.v1_7_R4.TabListImpl.class);
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_7_R4, co.marcin.novaguilds.impl.versionimpl.v1_7_R4.TabListImpl.class);
 				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_8_R1, co.marcin.novaguilds.impl.versionimpl.v1_8_R1.TabListImpl.class);
 				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_8_R2, co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class);
 				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_8_R3, co.marcin.novaguilds.impl.versionimpl.v1_8_R3.TabListImpl.class);

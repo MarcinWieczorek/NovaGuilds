@@ -70,6 +70,7 @@ public class ConfigManager {
 	}
 
 	public enum ServerVersion {
+		MINECRAFT_1_7_R2,
 		MINECRAFT_1_7_R3,
 		MINECRAFT_1_7_R4,
 		MINECRAFT_1_8_R1,

@@ -35,6 +35,7 @@ import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.RegionMode;
 import co.marcin.novaguilds.runnable.CommandExecutorHandlerImpl;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -131,7 +132,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public double getMoney() {
-		OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(getUUID());
+		OfflinePlayer oPlayer = CompatibilityUtils.getOfflinePlayer(getUUID());
 
 		if(!oPlayer.hasPlayedBefore() || oPlayer.getName() == null) {
 			return 0D;
@@ -354,7 +355,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void addMoney(double money) {
-		OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(getUUID());
+		OfflinePlayer oPlayer = CompatibilityUtils.getOfflinePlayer(getUUID());
 
 		if(!oPlayer.hasPlayedBefore() || oPlayer.getName() == null) {
 			return;
@@ -399,7 +400,7 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void takeMoney(double money) {
-		OfflinePlayer oPlayer = Bukkit.getOfflinePlayer(getUUID());
+		OfflinePlayer oPlayer = CompatibilityUtils.getOfflinePlayer(getUUID());
 
 		if(!oPlayer.hasPlayedBefore() || oPlayer.getName() == null) {
 			return;

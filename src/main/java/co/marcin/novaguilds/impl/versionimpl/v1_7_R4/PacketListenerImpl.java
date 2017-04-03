@@ -18,8 +18,9 @@
 
 package co.marcin.novaguilds.impl.versionimpl.v1_7_R4;
 
-import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.event.PlayerInteractEntityEvent;
+import co.marcin.novaguilds.api.util.packet.PacketEvent;
+import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.impl.util.AbstractListener;
@@ -38,9 +39,9 @@ public class PacketListenerImpl extends AbstractListener {
 	 * for advanced interact entity event
 	 */
 	public PacketListenerImpl() {
-		new AbstractPacketHandler("PacketPlayInUseEntity") {
+		new AbstractPacketHandler("PacketPlayInUseEntity", PacketExtension.PacketHandler.Direction.IN) {
 			@Override
-			public void handle(PacketReceiveEvent event) {
+			public void handle(PacketEvent event) {
 				try {
 					Object packet = event.getPacket();
 					Method cMethod = Reflections.getMethod(packet.getClass(), "c");

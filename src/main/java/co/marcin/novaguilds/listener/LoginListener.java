@@ -76,7 +76,8 @@ public class LoginListener extends AbstractListener {
 
 		//TabAPI
 		if(Config.TAGAPI_ENABLED.getBoolean()) {
-			if(player.getScoreboard() == null) {
+			if(player.getScoreboard() == null
+					|| player.getScoreboard() == Bukkit.getScoreboardManager().getMainScoreboard()) {
 				player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 			}
 

@@ -18,29 +18,52 @@
 
 package co.marcin.novaguilds.util;
 
+import co.marcin.novaguilds.api.util.reflect.MethodInvoker;
 import co.marcin.novaguilds.manager.ConfigManager;
+import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.UUID;
 
 public class CompatibilityUtils {
 	private static Method getOnlinePlayersMethod;
+	protected static Method addPlayerToTeamMethod;
+	protected static Field boardField;
+	protected static Class<?> boardClass;
+	protected static Class<?> craftTeamClass;
+	protected static Class<?> mojangNameLookupClass;
+	protected static MethodInvoker<String> lookupNameMethod;
 
 	static {
 		try {
 			getOnlinePlayersMethod = Server.class.getMethod("getOnlinePlayers");
+			boardClass = Reflections.getCraftClass("Scoreboard");
+			craftTeamClass = Reflections.getBukkitClass("scoreboard.CraftScoreboard");
+			boardField = Reflections.getPrivateField(craftTeamClass, "board");
+			addPlayerToTeamMethod = Reflections.getMethod(boardClass, "addPlayerToTeam");
+			mojangNameLookupClass = Reflections.getBukkitClass("util.MojangNameLookup");
+			lookupNameMethod = Reflections.getMethod(mojangNameLookupClass, String.class, "lookupName");
 		}
 		catch(NoSuchMethodException e) {
 			LoggerUtils.exception(e);
+		}
+		catch(ClassNotFoundException | NoSuchFieldException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -105,6 +128,49 @@ public class CompatibilityUtils {
 		}
 		else {
 			return view.getBottomInventory();
+		}
+	}
+
+	/**
+	 * Adds an entry to a team
+	 *
+	 * @param team   team
+	 * @param string entry string
+	 */
+	public static void addTeamEntry(Team team, String string) {
+		if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R2)) {
+			team.addEntry(string);
+		}
+		else {
+			try {
+				Scoreboard sb = team.getScoreboard();
+				Object board = boardField.get(sb);
+				addPlayerToTeamMethod.invoke(board, string, team.getName());
+			}
+			catch(IllegalAccessException | InvocationTargetException e) {
+				LoggerUtils.exception(e);
+			}
+		}
+	}
+
+	/**
+	 * Allows getOfflinePlayer in main thread
+	 *
+	 * @param id uuid
+	 * @return offline player
+	 */
+	public static OfflinePlayer getOfflinePlayer(UUID id) {
+		if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R2)) {
+			return Bukkit.getOfflinePlayer(id);
+		}
+		else {
+			String name = lookupNameMethod.invoke(null, id);
+			if(name == null) {
+				name = "InvalidUUID";
+			}
+
+			//noinspection deprecation
+			return Bukkit.getOfflinePlayer(name);
 		}
 	}
 }

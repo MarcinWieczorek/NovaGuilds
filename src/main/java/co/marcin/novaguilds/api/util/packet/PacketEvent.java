@@ -19,8 +19,9 @@
 package co.marcin.novaguilds.api.util.packet;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 
-public interface PacketEvent {
+public interface PacketEvent extends Cancellable {
 	/**
 	 * Gets packet object
 	 *

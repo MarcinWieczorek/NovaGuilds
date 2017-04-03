@@ -288,6 +288,12 @@ public class GuildManager {
 		LoggerUtils.info("Postcheck finished. Found " + i + " invalid guilds");
 	}
 
+	/**
+	 * Performs a post check of a guild
+	 *
+	 * @param guild guild
+	 * @return true if guild was valid
+	 */
 	public boolean postCheck(NovaGuild guild) {
 		boolean remove = false;
 		guild.postSetUp();

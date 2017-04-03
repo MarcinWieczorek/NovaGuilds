@@ -60,11 +60,19 @@ public class NovaGroupImpl implements NovaGroup {
 
 		private final Class<T> type;
 
+		/**
+		 * The constructor
+		 */
 		@SuppressWarnings("unchecked")
 		public Key() {
 			this((Class<T>) List.class);
 		}
 
+		/**
+		 * The constructor
+		 *
+		 * @param type value type
+		 */
 		public Key(Class<T> type) {
 			this.type = type;
 		}

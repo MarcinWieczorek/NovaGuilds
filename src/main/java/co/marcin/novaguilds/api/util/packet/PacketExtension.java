@@ -18,7 +18,6 @@
 
 package co.marcin.novaguilds.api.util.packet;
 
-import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 
@@ -44,6 +43,11 @@ public interface PacketExtension {
 	void sendPacket(Player player, Object... packets);
 
 	interface PacketHandler {
+		enum Direction {
+			IN,
+			OUT
+		}
+
 		/**
 		 * Gets packet name
 		 *
@@ -59,10 +63,17 @@ public interface PacketExtension {
 		EventPriority getPriority();
 
 		/**
+		 * Get the direction
+		 *
+		 * @return the direction
+		 */
+		Direction getDirection();
+
+		/**
 		 * Handles packet event
 		 *
 		 * @param event the event
 		 */
-		void handle(PacketReceiveEvent event);
+		void handle(PacketEvent event);
 	}
 }

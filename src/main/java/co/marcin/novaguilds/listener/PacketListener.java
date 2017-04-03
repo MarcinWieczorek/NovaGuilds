@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.listener;
 
 import co.marcin.novaguilds.api.event.PacketReceiveEvent;
+import co.marcin.novaguilds.api.event.PacketSendEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import org.bukkit.event.EventHandler;
@@ -68,7 +69,18 @@ public class PacketListener extends AbstractListener {
 	public void onPacketReceive(PacketReceiveEvent event) {
 		PacketExtension.PacketHandler packetHandler = getHandler(event.getPacketName());
 
-		if(packetHandler == null) {
+		if(packetHandler == null || packetHandler.getDirection() == PacketExtension.PacketHandler.Direction.OUT) {
+			return;
+		}
+
+		packetHandler.handle(event);
+	}
+
+	@EventHandler
+	public void onPacketSend(PacketSendEvent event) {
+		PacketExtension.PacketHandler packetHandler = getHandler(event.getPacketName());
+
+		if(packetHandler == null || packetHandler.getDirection() == PacketExtension.PacketHandler.Direction.IN) {
 			return;
 		}
 

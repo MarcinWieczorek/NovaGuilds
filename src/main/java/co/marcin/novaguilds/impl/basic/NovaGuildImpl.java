@@ -942,6 +942,11 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 		protected final List<T> noWarInvitations = new ArrayList<>();
 		protected final IConverter<T, NovaGuild> converter;
 
+		/**
+		 * The constructor
+		 *
+		 * @param converter the converter
+		 */
 		public LoadingWrapperImpl(IConverter<T, NovaGuild> converter) {
 			this.converter = converter;
 		}

@@ -28,10 +28,21 @@ import java.util.UUID;
  * based on the sum of players' points
  */
 public class NovaGuildIkkaImpl extends NovaGuildImpl {
+	/**
+	 * The constructor
+	 *
+	 * @param uuid guild uid
+	 */
 	public NovaGuildIkkaImpl(UUID uuid) {
 		super(uuid);
 	}
 
+	/**
+	 * The constructor
+	 *
+	 * @param uuid           guild uid
+	 * @param loadingWrapper loading wrapper
+	 */
 	public NovaGuildIkkaImpl(UUID uuid, LoadingWrapper loadingWrapper) {
 		super(uuid, loadingWrapper);
 	}

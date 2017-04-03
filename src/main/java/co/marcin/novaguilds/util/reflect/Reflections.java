@@ -192,6 +192,14 @@ public final class Reflections {
 		return field;
 	}
 
+	/**
+	 * Gets fields
+	 *
+	 * @param clazz class
+	 * @param type  searched field type
+	 * @param <T>   type parameter
+	 * @return set with fields
+	 */
 	public static <T> Set<FieldAccessor<T>> getFields(Class<?> clazz, Class<T> type) {
 		Set<FieldAccessor<T>> collection = new HashSet<>();
 
