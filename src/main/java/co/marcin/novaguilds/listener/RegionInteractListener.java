@@ -432,7 +432,9 @@ public class RegionInteractListener extends AbstractListener {
 
 			NovaPlayer nPlayer = PlayerManager.getPlayer(event.getViewers().get(0));
 
-			if(event.getRecipe().getResult().getType() != Material.SHIELD
+			if(event.getRecipe() == null
+					|| event.getRecipe().getResult() == null
+					|| event.getRecipe().getResult().getType() != Material.SHIELD
 					|| !nPlayer.hasGuild()
 					|| nPlayer.getGuild().getBannerMeta().numberOfPatterns() == 0) {
 				return;
