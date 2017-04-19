@@ -42,6 +42,7 @@ import co.marcin.novaguilds.listener.VaultListener;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.DependencyManager;
+import co.marcin.novaguilds.manager.DynmapManager;
 import co.marcin.novaguilds.manager.ErrorManagerImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
@@ -97,6 +98,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	private final RegionManager     regionManager;
 	private final PlayerManager     playerManager;
 	private final ConfigManager     configManager;
+	private final DynmapManager     dynmapManager;
 	private final ErrorManager      errorManager;
 	private final GuildManager      guildManager;
 	private final GroupManager      groupManager;
@@ -122,6 +124,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 		regionManager     = new RegionManager();
 		playerManager     = new PlayerManager();
 		configManager     = new ConfigManager();
+		dynmapManager     = new DynmapManager();
 		errorManager      = new ErrorManagerImpl();
 		guildManager      = new GuildManager();
 		groupManager      = new GroupManager();
@@ -153,6 +156,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			getCommandManager().setUp();
 			getGroupManager().load();
 			getListenerManager().registerListeners();
+			getDynmapManager().init();
 
 			//Version check
 			new Thread() {
@@ -433,6 +437,11 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	@Override
 	public ConfigManager getConfigManager() {
 		return configManager;
+	}
+
+	@Override
+	public DynmapManager getDynmapManager() {
+		return dynmapManager;
 	}
 
 	@Override

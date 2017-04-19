@@ -54,6 +54,7 @@ public class CommandAdminGuildSetName extends AbstractCommandExecutor.Reversed<N
 
 		plugin.getGuildManager().changeName(guild, newName);
 		plugin.getHologramManager().refreshTopHolograms();
+		plugin.getDynmapManager().updateGuild(guild);
 		TabUtils.refresh(guild);
 
 		Message.CHAT_ADMIN_GUILD_SET_NAME_SUCCESS.send(sender);

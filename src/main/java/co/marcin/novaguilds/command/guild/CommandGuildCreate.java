@@ -237,6 +237,9 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 						ParticleUtils.createSuperNova(player);
 					}
 
+					//Add to the dynmap
+					plugin.getDynmapManager().addGuild(guild);
+
 					//messages
 					Message.CHAT_CREATEGUILD_SUCCESS.send(sender);
 

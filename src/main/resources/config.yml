@@ -106,6 +106,10 @@ advancedentityuse: false
 saveinterval: 30m
 
 ###################################################
+# Dynmap                                          #
+dynmap: true
+
+###################################################
 # after the raid is over and this time            #
 # the guild will get +1 live                      #
 liveregeneration:

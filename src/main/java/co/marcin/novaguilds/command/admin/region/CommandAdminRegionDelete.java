@@ -35,6 +35,7 @@ public class CommandAdminRegionDelete extends AbstractCommandExecutor.Reversed<N
 		if(!event.isCancelled()) {
 			plugin.getRegionManager().remove(region);
 			Message.CHAT_ADMIN_REGION_DELETE_SUCCESS.send(sender);
+			plugin.getDynmapManager().removeRegion(region);
 		}
 	}
 }

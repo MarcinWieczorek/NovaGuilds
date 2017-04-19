@@ -59,5 +59,6 @@ public class CommandGuildSetName extends AbstractCommandExecutor {
 		plugin.getGuildManager().changeName(nPlayer.getGuild(), newName);
 		Message.CHAT_GUILD_SET_NAME.send(sender);
 		TabUtils.refresh(nPlayer.getGuild());
+		plugin.getDynmapManager().updateGuild(nPlayer.getGuild());
 	}
 }

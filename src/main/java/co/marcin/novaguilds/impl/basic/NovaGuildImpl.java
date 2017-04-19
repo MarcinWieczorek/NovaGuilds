@@ -843,6 +843,9 @@ public class NovaGuildImpl extends AbstractResource implements NovaGuild {
 			}
 		}
 
+		//Remove from dynmap
+		plugin.getDynmapManager().removeGuild(this);
+
 		if(isRaid()) {
 			getRaid().setResult(NovaRaid.Result.DESTROYED);
 		}

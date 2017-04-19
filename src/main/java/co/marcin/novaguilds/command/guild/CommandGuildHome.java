@@ -76,6 +76,7 @@ public class CommandGuildHome extends AbstractCommandExecutor {
 			nPlayer.getGuild().setHome(player.getLocation());
 			Message.CHAT_GUILD_SETHOME_SUCCESS.send(sender);
 			TabUtils.refresh(nPlayer.getGuild());
+			plugin.getDynmapManager().updateGuildHome(nPlayer.getGuild());
 		}
 		else {
 			if(!nPlayer.hasPermission(GuildPermission.HOME_TELEPORT)) {

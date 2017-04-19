@@ -21,6 +21,8 @@ package co.marcin.novaguilds.command.admin.region;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.api.basic.NovaRegion;
+import co.marcin.novaguilds.api.event.RegionCreateEvent;
+import co.marcin.novaguilds.api.event.RegionResizeEvent;
 import co.marcin.novaguilds.api.util.RegionSelection;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Config;
@@ -30,7 +32,10 @@ import co.marcin.novaguilds.enums.RegionValidity;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.PlayerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 
 import java.util.UUID;
 
@@ -59,22 +64,36 @@ public class CommandAdminRegionBuy extends AbstractCommandExecutor.Reversed<Nova
 			return;
 		}
 
+		NovaRegion region;
+		Cancellable event;
+
 		if(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
-			NovaRegion region = activeSelection.getSelectedRegion();
+			region = activeSelection.getSelectedRegion();
 
-			region.setCorner(0, activeSelection.getCorner(0));
-			region.setCorner(1, activeSelection.getCorner(1));
+			event = new RegionResizeEvent(region, nPlayer, activeSelection, true);
+			Bukkit.getPluginManager().callEvent((Event) event);
 
-			Message.CHAT_REGION_RESIZE_SUCCESS.send(sender);
+			if(!event.isCancelled()) {
+				region.setCorner(0, activeSelection.getCorner(0));
+				region.setCorner(1, activeSelection.getCorner(1));
+				plugin.getDynmapManager().updateRegion(region);
+				Message.CHAT_REGION_RESIZE_SUCCESS.send(sender);
+			}
 		}
 		else {
-			NovaRegion region = new NovaRegionImpl(UUID.randomUUID(), nPlayer.getActiveSelection());
+			region = new NovaRegionImpl(UUID.randomUUID(), nPlayer.getActiveSelection());
+			event = new RegionCreateEvent(region, nPlayer, true);
 
-			nPlayer.getGuild().addRegion(region);
-			Message.CHAT_REGION_CREATED.send(sender);
+			if(!event.isCancelled()) {
+				nPlayer.getGuild().addRegion(region);
+				plugin.getDynmapManager().addRegion(region);
+				Message.CHAT_REGION_CREATED.send(sender);
+			}
 		}
 
-		nPlayer.cancelToolProgress();
-		plugin.getRegionManager().checkAtRegionChange();
+		if(!event.isCancelled()) {
+			nPlayer.cancelToolProgress();
+			plugin.getRegionManager().checkAtRegionChange();
+		}
 	}
 }

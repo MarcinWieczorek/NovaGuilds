@@ -26,6 +26,7 @@ import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.manager.CommandManager;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.DependencyManager;
+import co.marcin.novaguilds.manager.DynmapManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
 import co.marcin.novaguilds.manager.HologramManager;
@@ -83,6 +84,13 @@ public interface NovaGuildsAPI {
 	 * @return ConfigManager
 	 */
 	ConfigManager getConfigManager();
+
+	/**
+	 * Returns the instance of DynmapManager
+	 *
+	 * @return dynmap manager
+	 */
+	DynmapManager getDynmapManager();
 
 	/**
 	 * Returns the instance of GroupManager

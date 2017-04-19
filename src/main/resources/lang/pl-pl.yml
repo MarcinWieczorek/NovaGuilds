@@ -754,6 +754,10 @@ signgui:
      - "{INPUT}"
      - "---------------"
 
+dynmap:
+ region: "Region gildii {GUILD_NAME} ({INDEX})"
+ guildhome: "Dom gildii {GUILD_NAME}"
+
 timeunit:
  second:
   singular: sekunda

@@ -754,6 +754,10 @@ signgui:
      - "{INPUT}"
      - "---------------"
 
+dynmap:
+ region: "{GUILD_NAME}'s region ({INDEX})"
+ guildhome: "{GUILD_NAME}'s home"
+
 timeunit:
  second:
   singular: second

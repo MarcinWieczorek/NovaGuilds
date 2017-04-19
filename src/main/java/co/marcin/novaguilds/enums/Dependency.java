@@ -32,6 +32,7 @@ public enum Dependency {
 	BARAPI("BarAPI", false),
 	SCOREBOARDSTATS("ScoreboardStats", false),
 	WORLDGUARD("WorldGuard", false, new DependencyManager.WorldGuardFlagInjector()),
+	DYNMAP("dynmap", false),
 	HOLOGRAPHICDISPLAYS("HolographicDisplays", false, new DependencyManager.HolographicDisplaysAPIChecker());
 
 	private final String name;

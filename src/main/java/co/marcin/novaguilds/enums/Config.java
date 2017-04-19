@@ -109,6 +109,7 @@ public abstract class Config {
 	public static ConfigWrapper RAID_PVP_BONUSPERCENT_POINTS;
 	public static ConfigWrapper LIVEREGENERATION_TASKINTERVAL;
 	public static ConfigWrapper SAVEINTERVAL;
+	public static ConfigWrapper DYNMAP;
 	public static ConfigWrapper CLEANUP_ENABLED;
 	public static ConfigWrapper CLEANUP_INACTIVETIME;
 	public static ConfigWrapper CLEANUP_INTERVAL;

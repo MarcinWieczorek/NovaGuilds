@@ -560,6 +560,9 @@ public abstract class Message {
 	public static MessageWrapper SIGNGUI_GUILD_SETTINGS_SET_TAG;
 	public static MessageWrapper SIGNGUI_GUILD_RANKS_SET_NAME;
 
+	public static MessageWrapper DYNMAP_REGION = new MessageWrapperImpl(MessageWrapper.Flag.NOAFTERVARCOLOR);
+	public static MessageWrapper DYNMAP_GUILDHOME = new MessageWrapperImpl(MessageWrapper.Flag.NOAFTERVARCOLOR);
+
 	public static MessageWrapper TIMEUNIT_SECOND_SINGULAR;
 	public static MessageWrapper TIMEUNIT_SECOND_PLURAL;
 	public static MessageWrapper TIMEUNIT_MINUTE_SINGULAR;
