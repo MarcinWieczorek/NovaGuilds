@@ -18,7 +18,16 @@
 
 package co.marcin.novaguilds.api.util.reflect;
 
+import java.lang.reflect.Field;
+
 public interface FieldAccessor<T> {
+	/**
+	 * Gets the field object
+	 *
+	 * @return field object
+	 */
+	Field getField();
+
 	/**
 	 * Gets a field
 	 *

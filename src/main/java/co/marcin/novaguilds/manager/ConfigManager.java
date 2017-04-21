@@ -46,6 +46,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class ConfigManager {
 	private static final NovaGuilds plugin = NovaGuilds.getInstance();
@@ -59,6 +60,17 @@ public class ConfigManager {
 
 	private final Map<ConfigWrapper, Object> cache = new HashMap<>();
 	private static final ServerVersion serverVersion = ServerVersion.detect();
+	private final Map<Class<?>, CustomConfigDeserializer<?>> customConfigDeserializerMap = new HashMap<>();
+
+	interface CustomConfigDeserializer<T> {
+		/**
+		 * Deserializes the value
+		 *
+		 * @param configWrapper config wrapper
+		 * @return deserialized value
+		 */
+		T deserialize(ConfigWrapper configWrapper);
+	}
 
 	/**
 	 * Gets current server version
@@ -229,6 +241,9 @@ public class ConfigManager {
 
 		plugin.reloadConfig();
 		config = plugin.getConfig();
+
+		//Custom deserializers
+		registerCustomConfigDeserializers();
 
 		LoggerUtils.info("This server is using Bukkit: " + Bukkit.getBukkitVersion());
 
@@ -410,6 +425,31 @@ public class ConfigManager {
 	}
 
 	/**
+	 * Registers a custom config deserializer
+	 *
+	 * @param clazz                    class
+	 * @param customConfigDeserializer deserializer
+	 * @param <T>                      type parameter
+	 */
+	public <T> void registerCustomConfigDeserializer(Class<T> clazz, CustomConfigDeserializer<T> customConfigDeserializer) {
+		customConfigDeserializerMap.put(clazz, customConfigDeserializer);
+	}
+
+	/**
+	 * Registers custom config deserializers
+	 */
+	public void registerCustomConfigDeserializers() {
+		customConfigDeserializerMap.clear();
+
+		registerCustomConfigDeserializer(Pattern.class, new CustomConfigDeserializer<Pattern>() {
+			@Override
+			public Pattern deserialize(ConfigWrapper configWrapper) {
+				return Pattern.compile(configWrapper.getString());
+			}
+		});
+	}
+
+	/**
 	 * Gets value based on type
 	 *
 	 * @param configWrapper config wrapper
@@ -449,6 +489,9 @@ public class ConfigManager {
 		}
 		else if(clazz == ItemStack.class) {
 			value = getItemStack(configWrapper.getPath(), configWrapper.getVars());
+		}
+		else if(customConfigDeserializerMap.containsKey(clazz)) {
+			value = customConfigDeserializerMap.get(clazz).deserialize(configWrapper);
 		}
 		else {
 			throw new RuntimeException("Return type " + clazz.getName() + " is not allowed.");

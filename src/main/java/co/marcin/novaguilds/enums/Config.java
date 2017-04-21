@@ -25,7 +25,10 @@ import co.marcin.novaguilds.util.reflect.Reflections;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 @SuppressWarnings("unchecked")
 public abstract class Config {
@@ -86,7 +89,7 @@ public abstract class Config {
 	public static ConfigWrapper GUILD_STRINGCHECK_ENABLED;
 	public static ConfigWrapper GUILD_STRINGCHECK_REGEX;
 	public static ConfigWrapper GUILD_STRINGCHECK_PATTERN;
-	public static ConfigWrapper GUILD_STRINGCHECK_REGEXPATTERN;
+	public static ConfigWrapper.Typed<Pattern> GUILD_STRINGCHECK_REGEXPATTERN = new ConfigWrapperImpl.Typed<>(Pattern.class);
 	public static ConfigWrapper GUILD_SETTINGS_TAG_MIN;
 	public static ConfigWrapper GUILD_SETTINGS_TAG_MAX;
 	public static ConfigWrapper GUILD_SETTINGS_NAME_MIN;
@@ -165,12 +168,20 @@ public abstract class Config {
 	private static final Map<String, ConfigWrapper> wrapperMap = new HashMap<>();
 
 	static {
-		for(FieldAccessor<ConfigWrapper> field : Reflections.getFields(Config.class, ConfigWrapper.class)) {
+		Set<FieldAccessor> fields = new HashSet<>();
+		fields.addAll(Reflections.getFields(Config.class, ConfigWrapper.class));
+		fields.addAll(Reflections.getFields(Config.class, ConfigWrapper.Typed.class));
+
+		for(FieldAccessor<ConfigWrapper> field : fields) {
 			ConfigWrapper wrapper = field.get();
 			String path = StringUtils.replace(field.getName(), "_", ".").toLowerCase();
 
 			if(wrapper == null) {
 				wrapper = new ConfigWrapperImpl(path, true);
+				field.set(wrapper);
+			}
+			else if(wrapper instanceof ConfigWrapper.Typed) {
+				wrapper = new ConfigWrapperImpl.Typed<>(new ConfigWrapperImpl(path, true), (ConfigWrapperImpl.Typed<?>) wrapper);
 				field.set(wrapper);
 			}
 			else {
@@ -180,7 +191,6 @@ public abstract class Config {
 			if(wrapper.getName().startsWith("MYSQL_")) {
 				wrapper.setFixColors(false);
 			}
-
 			wrapperMap.put(field.getName(), wrapper);
 		}
 	}

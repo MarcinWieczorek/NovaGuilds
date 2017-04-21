@@ -30,9 +30,71 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> implements ConfigWrapper {
-	private static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
-	private String path;
-	private boolean fixColors;
+	public static class Typed<T> extends ConfigWrapperImpl implements ConfigWrapper.Typed<T> {
+		private Class<T> type;
+
+		/**
+		 * The constructor
+		 *
+		 * @param path      path
+		 * @param fixColors fix colors
+		 * @param type      type class
+		 */
+		public Typed(String path, boolean fixColors, Class<T> type) {
+			super(path, fixColors);
+			this.type = type;
+		}
+
+		/**
+		 * The constructor
+		 *
+		 * @param configWrapper config wrapper
+		 * @param type          type class
+		 */
+		public Typed(ConfigWrapper configWrapper, Class<T> type) {
+			super(configWrapper);
+			this.type = type;
+		}
+
+		/**
+		 * The constructor
+		 * Empty typed wrapper
+		 *
+		 * @param type type
+		 */
+		public Typed(Class<T> type) {
+			super(null, false);
+			this.type = type;
+		}
+
+		/**
+		 * The constructor
+		 * This constructor inherits everything
+		 * from the config wrapper and sets the type
+		 * from the second parameter
+		 *
+		 * @param configWrapper config wrapper
+		 * @param typed         typed wrapper
+		 */
+		public Typed(ConfigWrapper configWrapper, ConfigWrapperImpl.Typed<T> typed) {
+			super(configWrapper);
+			this.type = typed.type;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public T get() {
+			T r = cM.isInCache(this)
+					? (T) cM.getEnumConfig(this)
+					: cM.get(this, type);
+			cM.putInCache(this, r);
+			return r;
+		}
+	}
+
+	protected static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
+	protected String path;
+	protected boolean fixColors;
 
 	/**
 	 * The constructor
@@ -166,6 +228,10 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 
 	@Override
 	public void setPath(String path) {
+		if(path != null) {
+			throw new IllegalArgumentException("Path already set");
+		}
+
 		this.path = path;
 	}
 

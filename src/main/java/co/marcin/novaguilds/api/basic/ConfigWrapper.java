@@ -26,6 +26,15 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneable {
+	interface Typed<T> extends ConfigWrapper {
+		/**
+		 * Gets a typed value
+		 *
+		 * @return typed value
+		 */
+		T get();
+	}
+
 	/**
 	 * Gets the name
 	 *

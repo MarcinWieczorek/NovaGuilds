@@ -35,6 +35,11 @@ public class FieldAccessorImpl<T> implements FieldAccessor<T> {
 		this.field = field;
 	}
 
+	@Override
+	public Field getField() {
+		return field;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public T get(Object target) {

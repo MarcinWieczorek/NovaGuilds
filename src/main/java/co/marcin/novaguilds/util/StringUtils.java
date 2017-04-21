@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public final class StringUtils {
 	private StringUtils() {
@@ -455,7 +456,8 @@ public final class StringUtils {
 	public static boolean isStringAllowed(String string) {
 		if(Config.GUILD_STRINGCHECK_ENABLED.getBoolean()) {
 			if(Config.GUILD_STRINGCHECK_REGEX.getBoolean()) {
-				return string.matches(Config.GUILD_STRINGCHECK_REGEXPATTERN.getString());
+				Pattern pattern = Config.GUILD_STRINGCHECK_REGEXPATTERN.get();
+				return pattern.matcher(string).matches();
 			}
 			else {
 				String allowed = Config.GUILD_STRINGCHECK_PATTERN.getString();
