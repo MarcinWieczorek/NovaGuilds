@@ -320,13 +320,13 @@ public class ConfigManager {
 
 		//Bar style enum
 		if(getServerVersion().isNewerThan(ServerVersion.MINECRAFT_1_8_R3)) {
-			if(Config.BOSSBAR_RAIDBAR_STYLE.toEnum(BarStyle.class) == null) {
+			if(Config.BOSSBAR_RAIDBAR_STYLE.get() == null) {
 				LoggerUtils.error("Invalid BarStyle enum. Resetting to default.");
 				Config.BOSSBAR_RAIDBAR_STYLE.set(BarStyle.SOLID.name());
 			}
 
 			//Bar color enum
-			if(Config.BOSSBAR_RAIDBAR_COLOR.toEnum(BarColor.class) == null) {
+			if(Config.BOSSBAR_RAIDBAR_COLOR.get() == null) {
 				LoggerUtils.error("Invalid BarColor enum. Resetting to default.");
 				Config.BOSSBAR_RAIDBAR_COLOR.set(BarColor.PURPLE.name());
 			}
@@ -489,6 +489,9 @@ public class ConfigManager {
 		}
 		else if(clazz == ItemStack.class) {
 			value = getItemStack(configWrapper.getPath(), configWrapper.getVars());
+		}
+		else if(clazz.isEnum()) {
+			value = configWrapper.toEnum((Class<? extends Enum>)clazz);
 		}
 		else if(customConfigDeserializerMap.containsKey(clazz)) {
 			value = customConfigDeserializerMap.get(clazz).deserialize(configWrapper);
