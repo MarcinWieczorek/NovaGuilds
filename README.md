@@ -26,7 +26,7 @@ Please leave feedback!<br/><br/>
 <br/>
 
 <h2><b>Downloads</b></h2>
-The plugin works on all versions including and above <b>1.7.9</b>
+The plugin works on all versions including and above <b>1.7.5</b>
 <a href="http://novaguilds.pl">http://novaguilds.pl/</a><br/>
 <b>SNAPSHOTS: </b> <a href="http://repo.novaguilds.pl/co/marcin/novaguilds/">http://repo.novaguilds.pl/co/marcin/novaguilds/</a>
 <br/><br/><br/>
