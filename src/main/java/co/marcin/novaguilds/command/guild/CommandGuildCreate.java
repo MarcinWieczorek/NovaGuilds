@@ -37,6 +37,7 @@ import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.GuildManager;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
 import co.marcin.novaguilds.util.BannerUtils;
@@ -188,7 +189,7 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 
 				//fire event
 				GuildCreateEvent guildCreateEvent = new GuildCreateEvent(guild, (Player) sender);
-				plugin.getServer().getPluginManager().callEvent(guildCreateEvent);
+				ListenerManager.getLoggedPluginManager().callEvent(guildCreateEvent);
 
 				if(!guildCreateEvent.isCancelled()) {
 					//Add the guild

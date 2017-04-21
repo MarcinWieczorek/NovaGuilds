@@ -24,6 +24,7 @@ import co.marcin.novaguilds.api.event.RegionDeleteEvent;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
@@ -71,7 +72,7 @@ public class CommandRegionDelete extends AbstractCommandExecutor {
 		}
 
 		RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.DELETE);
-		plugin.getServer().getPluginManager().callEvent(event);
+		ListenerManager.getLoggedPluginManager().callEvent(event);
 
 		if(!event.isCancelled()) {
 			Message.CHAT_REGION_DELETED.send(sender);

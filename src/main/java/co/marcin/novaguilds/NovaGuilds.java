@@ -291,7 +291,7 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					@EventHandler(priority = EventPriority.LOWEST)
 					public void onPlayerInteractEntity(org.bukkit.event.player.PlayerInteractEntityEvent event) {
 						PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), event.getRightClicked(), EntityUseAction.INTERACT);
-						getServer().getPluginManager().callEvent(clickEvent);
+						ListenerManager.getLoggedPluginManager().callEvent(clickEvent);
 						event.setCancelled(clickEvent.isCancelled());
 					}
 				};

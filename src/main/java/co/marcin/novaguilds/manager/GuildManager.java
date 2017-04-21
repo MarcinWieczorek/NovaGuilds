@@ -317,7 +317,7 @@ public class GuildManager {
 
 			if(Config.DELETEINVALID.getBoolean()) {
 				GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.INVALID);
-				plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
+				ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
 
 				if(!guildAbandonEvent.isCancelled()) {
 					delete(guild, AbandonCause.INVALID);
@@ -549,7 +549,7 @@ public class GuildManager {
 
 			//fire event
 			GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.INACTIVE);
-			plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
+			ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
 
 			if(!guildAbandonEvent.isCancelled()) {
 				Map<VarKey, String> vars = new HashMap<>();

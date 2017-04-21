@@ -398,7 +398,7 @@ public class RegionManager {
 	 */
 	public void playerEnteredRegion(Player player, NovaRegion region) {
 		PlayerEnterRegionEvent regionEvent = new PlayerEnterRegionEvent(player, region);
-		plugin.getServer().getPluginManager().callEvent(regionEvent);
+		ListenerManager.getLoggedPluginManager().callEvent(regionEvent);
 
 		if(regionEvent.isCancelled()) {
 			return;
@@ -460,7 +460,7 @@ public class RegionManager {
 		NovaRegion region = nPlayer.getAtRegion();
 
 		PlayerExitRegionEvent regionEvent = new PlayerExitRegionEvent(player, region);
-		plugin.getServer().getPluginManager().callEvent(regionEvent);
+		ListenerManager.getLoggedPluginManager().callEvent(regionEvent);
 
 		if(regionEvent.isCancelled() || region == null) {
 			return;

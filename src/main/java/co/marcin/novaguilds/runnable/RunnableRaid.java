@@ -27,6 +27,7 @@ import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.util.bossbar.BossBarUtils;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.MessageManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.NumberUtils;
@@ -95,7 +96,7 @@ public class RunnableRaid implements Runnable {
 						raid.getGuildAttacker().addPoints(pointsTake);
 
 						GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guildDefender, AbandonCause.RAID);
-						plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
+						ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
 
 						if(!guildAbandonEvent.isCancelled()) {
 							vars.put(VarKey.GUILD_NAME, guildDefender.getName());

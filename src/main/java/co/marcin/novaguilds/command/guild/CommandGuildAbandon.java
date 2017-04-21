@@ -26,6 +26,7 @@ import co.marcin.novaguilds.enums.AbandonCause;
 import co.marcin.novaguilds.enums.GuildPermission;
 import co.marcin.novaguilds.enums.Message;
 import co.marcin.novaguilds.enums.VarKey;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
@@ -71,7 +72,7 @@ public class CommandGuildAbandon extends AbstractCommandExecutor implements Comm
 
 		//fire event
 		GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.PLAYER);
-		plugin.getServer().getPluginManager().callEvent(guildAbandonEvent);
+		ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
 
 		//if event is not cancelled
 		if(!guildAbandonEvent.isCancelled()) {

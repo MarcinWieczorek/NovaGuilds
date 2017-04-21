@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.basic.NovaRegion;
 import co.marcin.novaguilds.api.event.RegionDeleteEvent;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Message;
+import co.marcin.novaguilds.manager.ListenerManager;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminRegionDelete extends AbstractCommandExecutor.Reversed<NovaRegion> {
@@ -30,7 +31,7 @@ public class CommandAdminRegionDelete extends AbstractCommandExecutor.Reversed<N
 		NovaRegion region = getParameter();
 
 		RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.ADMIN);
-		plugin.getServer().getPluginManager().callEvent(event);
+		ListenerManager.getLoggedPluginManager().callEvent(event);
 
 		if(!event.isCancelled()) {
 			plugin.getRegionManager().remove(region);

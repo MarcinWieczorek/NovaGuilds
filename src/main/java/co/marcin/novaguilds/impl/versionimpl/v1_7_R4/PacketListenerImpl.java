@@ -25,6 +25,7 @@ import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.enums.EntityUseAction;
 import co.marcin.novaguilds.impl.util.AbstractListener;
 import co.marcin.novaguilds.impl.util.AbstractPacketHandler;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.entity.Entity;
@@ -64,7 +65,7 @@ public class PacketListenerImpl extends AbstractListener {
 					}
 
 					PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), entity, action);
-					plugin.getServer().getPluginManager().callEvent(clickEvent);
+					ListenerManager.getLoggedPluginManager().callEvent(clickEvent);
 				}
 				catch(IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException | NoSuchFieldException e) {
 					LoggerUtils.exception(e);

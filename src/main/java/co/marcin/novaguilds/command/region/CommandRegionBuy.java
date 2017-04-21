@@ -35,9 +35,9 @@ import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.GroupManager;
+import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.util.RegionUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
@@ -110,7 +110,7 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 			region = activeSelection.getSelectedRegion();
 
 			event = new RegionResizeEvent(region, nPlayer, activeSelection, false);
-			Bukkit.getPluginManager().callEvent((Event) event);
+			ListenerManager.getLoggedPluginManager().callEvent((Event) event);
 
 			if(!event.isCancelled()) {
 				region.setCorner(0, activeSelection.getCorner(0));
