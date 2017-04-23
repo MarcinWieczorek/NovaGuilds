@@ -204,7 +204,10 @@ public class TabListImpl extends AbstractTabList {
 			packets.add(updateNamePacket);
 
 			if(!Config.TABLIST_HEADER.isEmpty() || !Config.TABLIST_FOOTER.isEmpty()) {
-				packets.add(new PacketPlayOutPlayerListHeaderFooter(Config.TABLIST_HEADER.getString(), Config.TABLIST_FOOTER.getString()));
+				packets.add(new PacketPlayOutPlayerListHeaderFooter(
+						Config.TABLIST_HEADER.vars(getVars()).getString(),
+						Config.TABLIST_FOOTER.vars(getVars()).getString())
+				);
 			}
 
 			packetPlayerOutPlayerInfoBField.set(addPlayerPacket.getPacket(), addPlayerList);
