@@ -84,18 +84,6 @@ public class TabListImpl extends AbstractTabList {
 			line = StringUtils.replaceVarKeyMap(line, getVars());
 			line = StringUtils.fixColors(line);
 
-			//Add order
-			StringBuilder colorPrefix = new StringBuilder();
-			for(char ic : String.valueOf(i).toCharArray()) {
-				colorPrefix.append(ChatColor.COLOR_CHAR + "").append(ic);
-			}
-
-			if(!line.startsWith(colorPrefix.substring(colorPrefix.length() - 2))) {
-				colorPrefix.append(ChatColor.COLOR_CHAR + "r");
-			}
-
-			line = colorPrefix + line;
-
 			Team team = scoreboard.getTeam("ngtab_" + i);
 			if(team != null) {
 				team.unregister();
@@ -104,41 +92,48 @@ public class TabListImpl extends AbstractTabList {
 			team = scoreboard.registerNewTeam("ngtab_" + i);
 			String prefix = "", suffix = "";
 
-			if(line.length() > 16) {
-				prefix = line.substring(0, 15);
-				line = line.substring(15);
+			//Add order
+			StringBuilder colorPrefix = new StringBuilder();
+			for(char ic : String.valueOf(i).toCharArray()) {
+				colorPrefix.append(ChatColor.COLOR_CHAR).append(ic);
+			}
 
-				if(prefix.endsWith(String.valueOf(ChatColor.COLOR_CHAR))) {
-					prefix = prefix.substring(0, prefix.length() - 1);
-					line = ChatColor.COLOR_CHAR + line;
+			//Reset the color
+			boolean startsWithColor = line.length() > 1 && line.charAt(0) == ChatColor.COLOR_CHAR && ChatColor.getByChar(line.charAt(1)) != null;
+			if(!startsWithColor && !line.isEmpty()) {
+				colorPrefix.append(ChatColor.COLOR_CHAR).append("r");
+			}
+
+			int maxLineLength = 16 - (startsWithColor ? 0 : 2) - (i >= 10 ? 2 : 0) - 2;
+			if(line.length() > maxLineLength) {
+				int prefixCut = line.length() > 16 ? 16 : line.length();
+				prefix = line.substring(0, prefixCut);
+				line = line.substring(prefixCut);
+				String lastColorsPrefix = ChatColor.getLastColors(prefix);
+
+				//Change color reset to the color char of the prefix
+				if(lastColorsPrefix.length() > 0) {
+					maxLineLength -= 2;
+					colorPrefix.append(ChatColor.COLOR_CHAR).append(lastColorsPrefix.charAt(1));
 				}
 
-				if(!line.startsWith(String.valueOf(ChatColor.COLOR_CHAR))) {
-					String lastColors = ChatColor.getLastColors(prefix);
-					ChatColor color = ChatColor.getByChar(lastColors.charAt(1));
+				if(line.length() > maxLineLength) {
+					suffix = line.substring(maxLineLength);
+					line = line.substring(0, maxLineLength);
 
-					if(color == null) {
-						color = ChatColor.WHITE;
+					//Add the color to the suffix
+					String lastColors = ChatColor.getLastColors(line);
+					if(lastColors.length() > 0) {
+						suffix = lastColors + suffix;
 					}
 
-					line = color + line;
-				}
-
-				if(line.length() > 16) {
-					suffix = line.substring(15, line.length());
-					line = line.substring(0, 15);
-
-					if(line.endsWith(String.valueOf(ChatColor.COLOR_CHAR))) {
-						suffix = ChatColor.COLOR_CHAR + suffix;
-						line = line.substring(0, line.length() - 1);
-					}
-
-					if(line.length() > 16) {
-						line = line.substring(0, 15);
+					if(suffix.length() > 16) {
+						suffix = suffix.substring(0, 16);
 					}
 				}
 			}
 
+			line = colorPrefix + line;
 			team.setPrefix(prefix);
 			team.setSuffix(suffix);
 			CompatibilityUtils.addTeamEntry(team, line);
@@ -151,6 +146,9 @@ public class TabListImpl extends AbstractTabList {
 					packets.add(new PacketPlayOutPlayerInfo(line, PacketPlayOutPlayerInfo.Action.REMOVE_PLAYER, 0));
 				}
 			}
+			else {
+				first = false;
+			}
 
 			for(int i = 0; i < 20; i++) {
 				for(int x = 0; x < 3; x++) {
@@ -159,9 +157,6 @@ public class TabListImpl extends AbstractTabList {
 				}
 			}
 
-			if(first) {
-				first = false;
-			}
 
 			PacketSender.sendPacket(getPlayer().getPlayer(), packets.toArray());
 		}

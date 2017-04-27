@@ -20,7 +20,6 @@ package co.marcin.novaguilds.impl.util.exceptionparser;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.exceptionparser.Block;
-import co.marcin.novaguilds.util.LoggerUtils;
 import org.apache.commons.lang.StringUtils;
 
 public class BlockImpl implements Block {
@@ -34,7 +33,6 @@ public class BlockImpl implements Block {
 	 * @param throwable the exception or one of its causes
 	 */
 	public BlockImpl(Throwable throwable) {
-
 		this(throwable.getClass().getSimpleName(), throwable.getMessage(), throwable.getStackTrace()[0].toString());
 	}
 
@@ -46,7 +44,6 @@ public class BlockImpl implements Block {
 	 * @param stackTraceElement first stacktrace element
 	 */
 	public BlockImpl(String name, String message, String stackTraceElement) {
-		LoggerUtils.debug(NovaGuilds.class.getPackage().getName());
 		if(StringUtils.startsWith(stackTraceElement, NovaGuilds.class.getPackage().getName())) {
 			StringUtils.replaceOnce(stackTraceElement, NovaGuilds.class.getPackage().getName() + ".", "");
 		}

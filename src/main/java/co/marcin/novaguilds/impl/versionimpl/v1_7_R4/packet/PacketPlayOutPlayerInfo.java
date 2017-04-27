@@ -92,8 +92,6 @@ public class PacketPlayOutPlayerInfo extends AbstractPacket {
 	private final int ping;
 
 	static {
-		LoggerUtils.debug("PacketPlayOutPlayerInfo type: " + type);
-
 		try {
 			packetClass = Reflections.getCraftClass("PacketPlayOutPlayerInfo");
 
