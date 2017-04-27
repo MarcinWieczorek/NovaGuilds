@@ -320,13 +320,13 @@ public class ConfigManager {
 
 		//Bar style enum
 		if(getServerVersion().isNewerThan(ServerVersion.MINECRAFT_1_8_R3)) {
-			if(Config.BOSSBAR_RAIDBAR_STYLE.get() == null) {
+			if(Config.BOSSBAR_RAIDBAR_STYLE.toEnum(BarStyle.class) == null) {
 				LoggerUtils.error("Invalid BarStyle enum. Resetting to default.");
 				Config.BOSSBAR_RAIDBAR_STYLE.set(BarStyle.SOLID.name());
 			}
 
 			//Bar color enum
-			if(Config.BOSSBAR_RAIDBAR_COLOR.get() == null) {
+			if(Config.BOSSBAR_RAIDBAR_COLOR.toEnum(BarColor.class) == null) {
 				LoggerUtils.error("Invalid BarColor enum. Resetting to default.");
 				Config.BOSSBAR_RAIDBAR_COLOR.set(BarColor.PURPLE.name());
 			}

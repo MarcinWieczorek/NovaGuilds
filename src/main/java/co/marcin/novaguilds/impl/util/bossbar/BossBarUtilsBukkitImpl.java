@@ -20,6 +20,8 @@ package co.marcin.novaguilds.impl.util.bossbar;
 
 import co.marcin.novaguilds.enums.Config;
 import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
@@ -41,7 +43,7 @@ public class BossBarUtilsBukkitImpl extends AbstractBossBarUtils {
 			return getBossBar(player);
 		}
 
-		BossBar bossBar = Bukkit.getServer().createBossBar("", Config.BOSSBAR_RAIDBAR_COLOR.get(), Config.BOSSBAR_RAIDBAR_STYLE.get());
+		BossBar bossBar = Bukkit.getServer().createBossBar("", Config.BOSSBAR_RAIDBAR_COLOR.toEnum(BarColor.class), Config.BOSSBAR_RAIDBAR_STYLE.toEnum(BarStyle.class));
 		bossBar.addPlayer(player);
 		bossBars.put(player.getUniqueId(), bossBar);
 		return bossBar;

@@ -23,8 +23,6 @@ import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.impl.basic.ConfigWrapperImpl;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,8 +46,8 @@ public abstract class Config {
 	public static ConfigWrapper DELETEINVALID;
 	public static ConfigWrapper BOSSBAR_ENABLED;
 	public static ConfigWrapper BOSSBAR_RAIDBAR_ENABLED;
-	public static ConfigWrapper.Typed<BarStyle> BOSSBAR_RAIDBAR_STYLE = new ConfigWrapperImpl.Typed<>(BarStyle.class);
-	public static ConfigWrapper.Typed<BarColor> BOSSBAR_RAIDBAR_COLOR = new ConfigWrapperImpl.Typed<>(BarColor.class);
+	public static ConfigWrapper BOSSBAR_RAIDBAR_STYLE;
+	public static ConfigWrapper BOSSBAR_RAIDBAR_COLOR;
 	public static ConfigWrapper TAGAPI_ENABLED;
 	public static ConfigWrapper SIGNGUI_ENABLED;
 	public static ConfigWrapper POINTSBELOWNAME;
