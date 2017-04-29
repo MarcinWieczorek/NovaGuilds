@@ -66,6 +66,13 @@ public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneabl
 	boolean isEmpty();
 
 	/**
+	 * Checks if the value is a list
+	 *
+	 * @return true if list
+	 */
+	boolean isList();
+
+	/**
 	 * Gets a string
 	 *
 	 * @return the string

@@ -142,6 +142,11 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 	}
 
 	@Override
+	public boolean isList() {
+		return cM.getConfig().isList(getPath());
+	}
+
+	@Override
 	public String getString() {
 		return cM.get(this, String.class);
 	}

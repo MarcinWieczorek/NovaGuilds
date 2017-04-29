@@ -75,6 +75,7 @@ public class TabListImpl extends AbstractTabList {
 	protected boolean first = true;
 	protected static final String uuid = "00000000-0000-%s-0000-000000000000";
 	protected static final String token = "!@#$^*";
+	protected static final List<Object> skinProfiles = new ArrayList<>();
 
 	static {
 		try {
@@ -117,6 +118,43 @@ public class TabListImpl extends AbstractTabList {
 
 	public TabListImpl(NovaPlayer nPlayer) {
 		super(nPlayer);
+
+		try {
+			//Texture
+			Object targetProfile;
+
+			if(Bukkit.getOnlineMode()) {
+				Collection<String> headSkinStringCollection = new ArrayList<>();
+
+				if(Config.TABLIST_TEXTURE.isList()) {
+					headSkinStringCollection.addAll(Config.TABLIST_TEXTURE.getStringList());
+				}
+				else {
+					headSkinStringCollection.add(Config.TABLIST_TEXTURE.getString());
+				}
+
+				for(String headSkinString : headSkinStringCollection) {
+					Player online = Bukkit.getPlayerExact(headSkinString);
+
+					if(online != null) {
+						targetProfile = entityPlayerGetProfileMethod.invoke(Reflections.getHandle(online));
+					}
+					else {
+						targetProfile = craftOfflinePlayerGetProfileMethod.invoke(Bukkit.getOfflinePlayer(headSkinString));
+					}
+
+					if(Iterables.getFirst(propertyMapGetMethod.invoke(gameProfileGetPropertiesMethod.invoke(targetProfile), "textures"), null) == null) {
+						Object server = minecraftServerGetMinecraftServerMethod.invoke(null);
+						Object service = minecraftServerMinecraftSessionServiceField.get(server);
+						targetProfile = minecraftSessionServiceFillProfilePropertiesMethod.invoke(service, targetProfile, true);
+						skinProfiles.add(targetProfile);
+					}
+				}
+			}
+		}
+		catch(IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -133,27 +171,6 @@ public class TabListImpl extends AbstractTabList {
 			Packet updateNamePacket = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_DISPLAY_NAME);
 			List<Object> addPlayerList = new ArrayList<>();
 			List<Object> updateNameList = new ArrayList<>();
-
-			//Texture
-			Object targetProfile = null;
-
-			if(Bukkit.getOnlineMode()) {
-				String name = Config.TABLIST_TEXTURE.getString();
-				Player online = Bukkit.getPlayerExact(name);
-
-				if(online != null) {
-					targetProfile = entityPlayerGetProfileMethod.invoke(Reflections.getHandle(online));
-				}
-				else {
-					targetProfile = craftOfflinePlayerGetProfileMethod.invoke(Bukkit.getOfflinePlayer(name));
-				}
-
-				if(Iterables.getFirst(propertyMapGetMethod.invoke(gameProfileGetPropertiesMethod.invoke(targetProfile), "textures"), null) == null) {
-					Object server = minecraftServerGetMinecraftServerMethod.invoke(null);
-					Object service = minecraftServerMinecraftSessionServiceField.get(server);
-					targetProfile = minecraftSessionServiceFillProfilePropertiesMethod.invoke(service, targetProfile, true);
-				}
-			}
 
 			for(int i = 0; i < 80; i++) {
 				String line;
@@ -177,6 +194,7 @@ public class TabListImpl extends AbstractTabList {
 				Object gameProfile = profiles[i];
 				Object gameMode = enumGamemodeClass.getEnumConstants()[0];
 				Object lineCompound = Array.get(craftChatMessageFromStringMethod.invoke(null, line), 0);
+				Object targetProfile = skinProfiles.get(i % skinProfiles.size());
 
 				if(targetProfile != null) {
 					propertyMapPutAllMethod.invoke(gameProfileGetPropertiesMethod.invoke(gameProfile), gameProfileGetPropertiesMethod.invoke(targetProfile));
