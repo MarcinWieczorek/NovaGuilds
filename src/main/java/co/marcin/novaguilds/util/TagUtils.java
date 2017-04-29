@@ -81,6 +81,7 @@ public final class TagUtils {
 
 			//set tag
 			PreparedTag tag = new PreparedTagScoreboardImpl(PlayerManager.getPlayer(player));
+			tag.setTagColorFor(PlayerManager.getPlayer(p));
 			team.setPrefix(tag.get());
 		}
 	}
