@@ -27,6 +27,7 @@ import co.marcin.novaguilds.impl.basic.NovaGroupImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
+import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
 import org.bukkit.command.CommandSender;
 
@@ -120,6 +121,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor {
 				break;
 			case "tr":
 				TabUtils.refresh();
+				TagUtils.refresh();
 				break;
 			case "confirm":
 				Command.CONFIRM.execute(sender, args);

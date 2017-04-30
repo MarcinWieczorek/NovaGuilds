@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.api.util.reflect.MethodInvoker;
 import co.marcin.novaguilds.impl.util.reflect.FieldAccessorImpl;
 import co.marcin.novaguilds.util.LoggerUtils;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -163,6 +164,9 @@ public final class Reflections {
 	 * @throws NoSuchFieldException when something goes wrong
 	 */
 	private static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType, int index) throws NoSuchFieldException {
+		Validate.notNull(target);
+		Validate.notNull(fieldType);
+
 		for(final Field field : target.getDeclaredFields()) {
 			if((name == null || field.getName().equals(name)) && fieldType.isAssignableFrom(field.getType()) && index-- <= 0) {
 				field.setAccessible(true);

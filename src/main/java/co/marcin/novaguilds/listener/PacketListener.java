@@ -22,6 +22,7 @@ import co.marcin.novaguilds.api.event.PacketReceiveEvent;
 import co.marcin.novaguilds.api.event.PacketSendEvent;
 import co.marcin.novaguilds.api.util.packet.PacketExtension;
 import co.marcin.novaguilds.impl.util.AbstractListener;
+import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.event.EventHandler;
 
 import java.util.HashMap;
@@ -36,6 +37,13 @@ public class PacketListener extends AbstractListener {
 	 * @param packetHandler the handler
 	 */
 	public static void register(PacketExtension.PacketHandler packetHandler) {
+		try {
+			Reflections.getCraftClass(packetHandler.getPacketName());
+		}
+		catch(ClassNotFoundException e) {
+			throw new IllegalArgumentException("Could not find packet: " + packetHandler.getPacketName());
+		}
+
 		PacketExtension.PacketHandler existingHandler = getHandler(packetHandler.getPacketName());
 		if(existingHandler != null && existingHandler.getPriority().getSlot() >= packetHandler.getPriority().getSlot()) {
 			return;

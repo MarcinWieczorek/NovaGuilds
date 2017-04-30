@@ -103,6 +103,6 @@ public class PacketPlayOutPlayerInfo extends AbstractPacket {
 	 * @throws InstantiationException    when something goes wrong
 	 */
 	public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-		this(action, new ArrayList<Player>());
+		this(action, Collections.<Player>emptyList());
 	}
 }
