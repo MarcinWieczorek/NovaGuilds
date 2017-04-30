@@ -142,7 +142,7 @@ public final class TabUtils {
 		Date date = Calendar.getInstance().getTime();
 		vars.put(VarKey.DATE_YEAR, String.valueOf(1900 + date.getYear()));
 		vars.put(VarKey.DATE_MONTH, String.valueOf((date.getMonth() < 10 ? "0" : "") + date.getMonth()));
-		vars.put(VarKey.DATE_DAY, String.valueOf((date.getDay() < 10 ? "0" : "") + date.getDay()));
+		vars.put(VarKey.DATE_DAY, String.valueOf((date.getDay() < 10 ? "0" : "") + date.getDate()));
 		vars.put(VarKey.DATE_HOURS, String.valueOf((date.getHours() < 10 ? "0" : "") + date.getHours()));
 		vars.put(VarKey.DATE_MINUTES, String.valueOf((date.getMinutes() < 10 ? "0" : "") + date.getMinutes()));
 		vars.put(VarKey.DATE_SECONDS, String.valueOf((date.getSeconds() < 10 ? "0" : "") + date.getSeconds()));
