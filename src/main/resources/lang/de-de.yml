@@ -192,6 +192,7 @@ chat:
     access: "&4&l> &7/nga &crg &2- &6Gebietsbefehle"
     list: "&4&l> &7/nga &crg &6list &6[&cGilde&6] &2- &6Gebieteliste"
     delete: "&4&l> &7/nga &crg &6<&cGilde&6> &cdel &6<&cindex&6> &2- &6Löscht ein Gebiet"
+    enlarge: "&4&l> &7/nga &crg &6<&cguild&6> &cenlarge &6[&cindex&6] &2- &6Enlarge a region"
     teleport: "&4&l> &7/nga &crg &6<&cGilde&6> &ctp &6<&cindex&6> &6[&cSpieler&6] &2- &6Teleportiert zum Gildengebiet"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cSpieler&6] &2- &6ändert den Umgehungsmodus"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
@@ -250,6 +251,7 @@ chat:
    access: "&4&l> &7/g &crg &2- &6Gebietsbefehle"
    buy: "&4&l> &7/g &crg &6buy &2- &6Erstellt ein Gebiet"
    delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Löscht ein Gebiet"
+   enlarge: "&4&l> &7/g &crg &6enlarge &6[&cindex&6] &2- &6Enlarge a region"
    list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6Prüfe oder wähle dein Gebiet mit diesen Werkzeug!"
   player:
@@ -726,11 +728,14 @@ inventory:
      create: "Gebiet_erstellen"
      remove: "Gebiet_entfernen"
      resize: "Gebietsgröße_ändern"
+     enlarge: "Enlarging_regions"
     rank:
      delete: "Deleting_ranks"
      list: "Listing_ranks"
      set: "Rang_vergeben"
      edit: "Rang_bearbeiten"
+  region:
+   enlarge: "MAP 1 name:Enlarge_the_region"
 
 signgui:
  guild:

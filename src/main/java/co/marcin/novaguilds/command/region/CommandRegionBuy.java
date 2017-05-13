@@ -37,12 +37,18 @@ import co.marcin.novaguilds.impl.basic.NovaRegionImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.ListenerManager;
 import co.marcin.novaguilds.manager.PlayerManager;
+import co.marcin.novaguilds.util.InventoryUtils;
 import co.marcin.novaguilds.util.RegionUtils;
+import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CommandRegionBuy extends AbstractCommandExecutor {
@@ -56,13 +62,16 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 		}
 
 		NovaGuild guild = nPlayer.getGuild();
+		RegionSelection activeSelection = nPlayer.getActiveSelection();
 
-		if(!nPlayer.hasPermission(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE ? GuildPermission.REGION_RESIZE : GuildPermission.REGION_CREATE)) {
+		if(!nPlayer.hasPermission(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE
+				|| activeSelection.getType() == RegionSelection.Type.RESIZE
+				|| activeSelection.getType() == RegionSelection.Type.ENLARGE
+				? GuildPermission.REGION_RESIZE
+				: GuildPermission.REGION_CREATE)) {
 			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
 			return;
 		}
-
-		RegionSelection activeSelection = nPlayer.getActiveSelection();
 
 		if(activeSelection == null || !activeSelection.hasBothSelections()) {
 			Message.CHAT_REGION_VALIDATION_NOTSELECTED.send(sender);
@@ -81,18 +90,24 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 
 		int regionSize = RegionUtils.checkRegionSize(selectedLocation0, selectedLocation1);
 
-		if(guild.getRegions().size() >= Config.REGION_MAXAMOUNT.getInt() && nPlayer.getPreferences().getRegionMode() != RegionMode.RESIZE) {
+		if(guild.getRegions().size() >= Config.REGION_MAXAMOUNT.getInt()
+				&& nPlayer.getPreferences().getRegionMode() != RegionMode.RESIZE) {
 			Message.CHAT_REGION_MAXAMOUNT.clone().setVar(VarKey.AMOUNT, Config.REGION_MAXAMOUNT.getInt()).send(nPlayer);
 			return;
 		}
 
 		//region's price
 		double price;
+		List<ItemStack> itemStackList = new ArrayList<>();
 		NovaGroup group = GroupManager.getGroup(sender);
 		double ppb = group.get(NovaGroupImpl.Key.REGION_PRICEPERBLOCK);
 
-		if(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
+		if(activeSelection.getType() == RegionSelection.Type.RESIZE) {
 			price = ppb * (regionSize - activeSelection.getSelectedRegion().getSurface());
+		}
+		else if(activeSelection.getType() == RegionSelection.Type.ENLARGE) {
+			price = group.get(NovaGroupImpl.Key.REGION_ENLARGE_MONEY);
+			itemStackList = group.get(NovaGroupImpl.Key.REGION_ENLARGE_ITEMS);
 		}
 		else {
 			price = ppb * regionSize + group.get(NovaGroupImpl.Key.REGION_CREATE_MONEY);
@@ -103,10 +118,22 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 			return;
 		}
 
+		if(!itemStackList.isEmpty()) {
+			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), itemStackList);
+
+			if(!missingItems.isEmpty()) {
+				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+				sender.sendMessage(StringUtils.getItemList(missingItems));
+				return;
+			}
+		}
+
 		Cancellable event;
 		NovaRegion region;
 
-		if(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE) {
+		if(activeSelection.getType() == RegionSelection.Type.RESIZE
+				|| activeSelection.getType() == RegionSelection.Type.RESIZE
+				|| activeSelection.getType() == RegionSelection.Type.ENLARGE) {
 			region = activeSelection.getSelectedRegion();
 
 			event = new RegionResizeEvent(region, nPlayer, activeSelection, false);
@@ -134,6 +161,10 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 		if(!event.isCancelled()) {
 			if(price > 0) {
 				guild.takeMoney(price);
+			}
+
+			if(!itemStackList.isEmpty()) {
+				InventoryUtils.removeItems((Player) sender, itemStackList);
 			}
 
 			nPlayer.cancelToolProgress();

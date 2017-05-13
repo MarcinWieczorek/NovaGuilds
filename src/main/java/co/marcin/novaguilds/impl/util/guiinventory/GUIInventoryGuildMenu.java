@@ -59,7 +59,9 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 			});
 
 			if(Config.RANK_GUI.getBoolean()
-					&& (getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
+					&& (getViewer().hasPermission(GuildPermission.RANK_EDIT)
+					&& Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer())
+					|| Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))) {
 				registerAndAdd(new Executor(Message.INVENTORY_GUI_RANKS_ICONITEM) {
 					@Override
 					public void execute() {
@@ -74,6 +76,16 @@ public class GUIInventoryGuildMenu extends AbstractGUIInventory {
 					new GUIInventoryGuildSettings().open(getViewer());
 				}
 			});
+
+			if(getViewer().hasPermission(GuildPermission.REGION_ENLARGE)
+					&& Permission.NOVAGUILDS_REGION_ENLARGE.has(getViewer())
+					|| Permission.NOVAGUILDS_ADMIN_REGION_ENLARGE.has(getViewer())) {
+				registerAndAdd(new CommandExecutor(
+						Message.INVENTORY_GUI_REGION_ENLARGE,
+						"novaguilds:guild region enlarge",
+						true
+				));
+			}
 		}
 		else {
 			registerAndAdd(new Executor(Message.INVENTORY_GUI_JOIN_ICONITEM) {

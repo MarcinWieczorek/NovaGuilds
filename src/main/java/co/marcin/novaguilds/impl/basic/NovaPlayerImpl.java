@@ -202,7 +202,15 @@ public class NovaPlayerImpl extends AbstractResource implements NovaPlayer {
 
 	@Override
 	public void setActiveSelection(RegionSelection selection) {
+		if(activeSelection != null) {
+			activeSelection.removeSpectator(this);
+		}
+
 		activeSelection = selection;
+
+		if(activeSelection != null) {
+			activeSelection.addSpectator(this);
+		}
 	}
 
 	@Override

@@ -57,6 +57,9 @@ public class NovaGroupImpl implements NovaGroup {
 		public static final NovaGroup.Key<Double> REGION_CREATE_MONEY = new NovaGroupImpl.Key<>(Double.class);
 		public static final NovaGroup.Key<Double> REGION_PRICEPERBLOCK = new NovaGroupImpl.Key<>(Double.class);
 		public static final NovaGroup.Key<Integer> REGION_AUTOSIZE = new NovaGroupImpl.Key<>(Integer.class);
+		public static final NovaGroup.Key<Integer> REGION_ENLARGE_BLOCKS = new NovaGroupImpl.Key<>(Integer.class);
+		public static final NovaGroup.Key<Double> REGION_ENLARGE_MONEY = new NovaGroupImpl.Key<>(Double.class);
+		public static final NovaGroup.Key<List<ItemStack>> REGION_ENLARGE_ITEMS = new NovaGroupImpl.Key<>();
 
 		private final Class<T> type;
 
@@ -125,6 +128,9 @@ public class NovaGroupImpl implements NovaGroup {
 		put(Key.REGION_CREATE_MONEY, "region.createmoney");
 		put(Key.REGION_PRICEPERBLOCK, "region.ppb");
 		put(Key.REGION_AUTOSIZE, "region.autoregionsize");
+		put(Key.REGION_ENLARGE_BLOCKS, "region.enlarge.blocks");
+		put(Key.REGION_ENLARGE_MONEY, "region.enlarge.money");
+		put(Key.REGION_ENLARGE_ITEMS, "region.enlarge.items");
 	}};
 
 	private final String name;

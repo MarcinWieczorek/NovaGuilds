@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.command;
 
 import co.marcin.novaguilds.api.basic.NovaGroup;
+import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.command.abstractexecutor.AbstractCommandExecutor;
 import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.enums.Config;
@@ -29,6 +30,7 @@ import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.TabUtils;
 import co.marcin.novaguilds.util.TagUtils;
 import co.marcin.novaguilds.util.VersionUtils;
+import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.command.CommandSender;
 
 import java.util.HashMap;
@@ -96,24 +98,11 @@ public class CommandNovaGuilds extends AbstractCommandExecutor {
 				}
 
 				sender.sendMessage("name = " + group.getName());
-				sender.sendMessage("guildCreateMoney = " + group.get(NovaGroupImpl.Key.CREATE_MONEY));
-				sender.sendMessage("guildHomeMoney = " + group.get(NovaGroupImpl.Key.HOME_MONEY));
-				sender.sendMessage("guildJoinMoney = " + group.get(NovaGroupImpl.Key.JOIN_MONEY));
-				sender.sendMessage("guildCreateItems = " + group.get(NovaGroupImpl.Key.CREATE_ITEMS).toString());
-				sender.sendMessage("guildCreateSchematic = " + (group.get(NovaGroupImpl.Key.CREATE_SCHEMATIC) == null ? "no schematic" : group.get(NovaGroupImpl.Key.CREATE_SCHEMATIC).getName()));
-				sender.sendMessage("guildHomeItems = " + group.get(NovaGroupImpl.Key.HOME_ITEMS).toString());
-				sender.sendMessage("guildJoinItems = " + group.get(NovaGroupImpl.Key.JOIN_ITEMS).toString());
-				sender.sendMessage("guildBuyLifeItems = " + group.get(NovaGroupImpl.Key.BUY_LIFE_ITEMS).toString());
-				sender.sendMessage("guildBuySlotItems = " + group.get(NovaGroupImpl.Key.BUY_SLOT_ITEMS).toString());
-				sender.sendMessage("guildBuyBannerItems = " + group.get(NovaGroupImpl.Key.BUY_BANNER_ITEMS).toString());
-				sender.sendMessage("guildBuyLifeMoney = " + group.get(NovaGroupImpl.Key.BUY_LIFE_MONEY));
-				sender.sendMessage("guildBuySlotMoney = " + group.get(NovaGroupImpl.Key.BUY_SLOT_MONEY));
-				sender.sendMessage("guildBuyBannerMoney = " + group.get(NovaGroupImpl.Key.BUY_BANNER_MONEY));
-				sender.sendMessage("guildEffectMoney = " + group.get(NovaGroupImpl.Key.EFFECT_MONEY));
-				sender.sendMessage("guildTeleportDelay = " + group.get(NovaGroupImpl.Key.HOME_DELAY) + "s");
-				sender.sendMessage("regionCreateMoney = " + group.get(NovaGroupImpl.Key.REGION_CREATE_MONEY));
-				sender.sendMessage("regionPricePerBlock = " + group.get(NovaGroupImpl.Key.REGION_PRICEPERBLOCK));
-				sender.sendMessage("regionAutoSize = " + group.get(NovaGroupImpl.Key.REGION_AUTOSIZE));
+				for(FieldAccessor<NovaGroup.Key> field : Reflections.getFields(NovaGroupImpl.Key.class, NovaGroup.Key.class)) {
+					NovaGroup.Key key = field.get();
+
+					sender.sendMessage(field.getName() + " = " + group.get(key));
+				}
 				break;
 			case "g":
 			case "guild":

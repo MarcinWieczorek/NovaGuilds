@@ -192,6 +192,7 @@ chat:
     access: "&4&l> &7/nga &crg &2- &6Komendy regionów"
     list: "&4&l> &7/nga &crg &6list &6[&cgildia&6] &2- &6Lista regionów"
     delete: "&4&l> &7/nga &crg &6<&cgildia&6> &cdel &6<&cindex&6> &2- &6Usuń region"
+    enlarge: "&4&l> &7/nga &crg &6<&cguild&6> &cenlarge &6[&cindex&6] &2- &6Powiększ region"
     teleport: "&4&l> &7/nga &crg &6<&cgildia&6> &ctp &6<&cindex&6> &6[&cgracz&6] &2- &6Teleport do regionu"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cgracz&6] &2- &6Zmiana trybu ignorowania regionów"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cgracz&6] &2- &6Zmiana trybu podglądu zaznaczenia"
@@ -250,6 +251,7 @@ chat:
    access: "&4&l> &7/g &crg &2- &6Komendy regionów"
    buy: "&4&l> &7/g &crg &6buy &2- &6Stwórz region"
    delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Usuń region"
+   enlarge: "&4&l> &7/g &crg &6enlarge &6[&cindex&6] &2- &6Enlarge a region"
    list: "&4&l> &7/g &crg &6list &2- &6Lista regionów"
   tool: "&4&l> &7/ng &ctool &2- &6Sprawdź lub zaznacz teren patykiem!"
   player:
@@ -726,11 +728,14 @@ inventory:
      create: "Tworzenie_regionów"
      remove: "Usuwanie_regionów"
      resize: "Zmiana_rozmiaru_regionów"
+     enlarge: "Powiększanie_regionów"
     rank:
      delete: "Usuwanie_rang"
      list: "Wyświetlanie_listy_rang"
      set: "Ustawianie_rang_graczom"
      edit: "Edycja_rang"
+  region:
+   enlarge: "MAP 1 name:Powiększanie_regionu"
 
 signgui:
  guild:

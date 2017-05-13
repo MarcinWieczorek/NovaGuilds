@@ -479,22 +479,24 @@ public final class StringUtils {
 	 * @return message string
 	 */
 	public static String getItemList(List<ItemStack> items) {
-		String itemListString = "";
+		StringBuilder builder = new StringBuilder();
 		int i = 0;
+
 		for(ItemStack missingItemStack : items) {
 			MessageWrapper rowMessage = Message.CHAT_CREATEGUILD_ITEMLIST.clone();
 			rowMessage.setVar(VarKey.ITEMNAME, missingItemStack.getType().name());
 			rowMessage.setVar(VarKey.AMOUNT, missingItemStack.getAmount());
 
-			itemListString += rowMessage.get();
+			builder.append(rowMessage.get());
 
 			if(i < items.size() - 1) {
-				itemListString += Message.CHAT_CREATEGUILD_ITEMLISTSEP.get();
+				builder.append(Message.CHAT_CREATEGUILD_ITEMLISTSEP.get());
 			}
+
 			i++;
 		}
 
-		return fixColors(itemListString);
+		return fixColors(builder.toString());
 	}
 
 	/**

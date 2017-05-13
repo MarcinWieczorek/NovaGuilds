@@ -408,6 +408,10 @@ mvn clean install
             <td>/nga rg <guild> buy</td>
         </tr>
         <tr>
+            <td>novaguilds.admin.region.enlarge</td>
+            <td>/nga rg <guild> enlarge [index]</td>
+        </tr>
+        <tr>
             <td>novaguilds.admin.region.teleport.other</td>
             <td>/nga rg tp <guild></td>
         </tr>
@@ -598,6 +602,10 @@ mvn clean install
         <tr>
             <td>novaguilds.region.delete</td>
             <td>/g rg delete</td>
+        </tr>
+        <tr>
+            <td>novaguilds.region.enlarge</td>
+            <td>/g rg enlarge [index]</td>
         </tr>
         <tr>
             <td>novaguilds.region.list</td>

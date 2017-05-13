@@ -192,6 +192,7 @@ chat:
     access: "&4&l> &7/nga &crg &2- &6领地管理指令"
     list: "&4&l> &7/nga &crg &6list &6[&c公会名&6] &2- &6列出所有领地"
     delete: "&4&l> &7/nga &crg &6<&c公会名&6> &6del &6<&cindex&6> &2- &6删除指定领地"
+    enlarge: "&4&l> &7/nga &crg &6<&cguild&6> &cenlarge &6[&cindex&6] &2- &6Enlarge a region"
     teleport: "&4&l> &7/nga &crg &6tp &6<&c公会名&6> &6<&cindex&6> &6[&c玩家&6] &2- &6传送至指定领地"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&c玩家&6] &2- &6更改通行权限"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
@@ -250,6 +251,7 @@ chat:
    access: "&4&l> &7/g &crg &2- &6领地命令"
    buy: "&4&l> &7/g &crg &6buy &2- &6创建领地"
    delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6删除领地"
+   enlarge: "&4&l> &7/g &crg &6enlarge &6[&cindex&6] &2- &6Enlarge a region"
    list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6用工具检查指定领地"
   player:
@@ -726,11 +728,14 @@ inventory:
      create: "创建区域"
      remove: "移除区域"
      resize: "重设区域大小"
+     enlarge: "Enlarging_regions"
     rank:
      delete: "Deleting_ranks"
      list: "Listing_ranks"
      set: "设置头衔"
      edit: "编辑头衔"
+  region:
+   enlarge: "MAP 1 name:Enlarge_the_region"
 
 signgui:
  guild:

@@ -34,6 +34,7 @@ public interface RegionSelection {
 		HIGHLIGHT_RESIZE,
 		CREATE,
 		RESIZE,
+		ENLARGE,
 		NONE
 	}
 

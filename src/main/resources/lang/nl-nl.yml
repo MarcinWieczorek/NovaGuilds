@@ -192,6 +192,7 @@ chat:
     access: "&4&l> &7/nga &crg &2- &6Regio commando's"
     list: "&4&l> &7/nga &crg &6list &6[&cguild&6] &2- &6Regio lijst"
     delete: "&4&l> &7/nga &crg &6<&cguild&6> &cdel &6<&cindex&6> &2- &6Verwijder region"
+    enlarge: "&4&l> &7/nga &crg &6<&cguild&6> &cenlarge &6[&cindex&6] &2- &6Enlarge a region"
     teleport: "&4&l> &7/nga &crg &6<&cguild&6> &ctp &6<&cindex&6> &6[&cplayer&6] &2- &6Verplaats naar regio"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&cplayer&6] &2- &6Verander doorgang mode"
     spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Verander toeschouwers mode"
@@ -250,6 +251,7 @@ chat:
    access: "&4&l> &7/g &crg &2- &6Region commando's"
    buy: "&4&l> &7/g &crg &6buy &2- &6Maak een regio"
    delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6Verwijder een regio"
+   enlarge: "&4&l> &7/g &crg &6enlarge &6[&cindex&6] &2- &6Enlarge a region"
    list: "&4&l> &7/g &crg &6list &2- &6List regions"
   tool: "&4&l> &7/ng &ctool &2- &6Controleer of kies een gebied met de tool!"
   player:
@@ -726,11 +728,14 @@ inventory:
      create: "Creating_regions"
      remove: "Removing_regions"
      resize: "Resizing_regions"
+     enlarge: "Enlarging_regions"
     rank:
      delete: "Deleting_ranks"
      list: "Listing_ranks"
      set: "Setting_ranks"
      edit: "Editing_ranks"
+  region:
+   enlarge: "MAP 1 name:Enlarge_the_region"
 
 signgui:
  guild:

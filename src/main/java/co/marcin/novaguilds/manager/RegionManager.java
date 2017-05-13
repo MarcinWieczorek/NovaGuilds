@@ -236,7 +236,8 @@ public class RegionManager {
 		}
 
 		if(!regionsInsideArea.isEmpty()) {
-			if(selection.getType() != RegionSelection.Type.RESIZE) {
+			if(selection.getType() != RegionSelection.Type.RESIZE
+					&& selection.getType() != RegionSelection.Type.ENLARGE) {
 				return RegionValidity.OVERLAPS;
 			}
 

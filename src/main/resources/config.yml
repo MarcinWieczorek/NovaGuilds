@@ -222,7 +222,7 @@ raid:
 # minimum players online to start a raid          #
  minonline: 1
 
-# how many points tare being taken when defeated  #
+# how many points are being taken when defeated   #
  pointstake: 100
 
 # progress of raid every second                   #
@@ -382,7 +382,7 @@ rank:
 # there's no need for admin group.                #
 # novaguilds.group.admin for all stuff free       #
 groups:
-# THIS IS A DEFAULT GROUP! #
+# THIS IS A DEFAULT GROUP!                        #
 
 # the name goes here                              #
  default:
@@ -447,6 +447,14 @@ groups:
 # price per block                                 #
    ppb: 1
 
+# enlarging a region                              #
+   enlarge:
+# Region gets bigger 5 blocks in each direction   #
+    blocks: 5
+    money: 10
+    items:
+    - DIAMOND 64
+
 # Admin group (missing values are 0/empty (free)  #
  admin:
   guild:
@@ -454,6 +462,8 @@ groups:
     schematic: ""
   region:
    autoregionsize: 10
+   enlarge:
+    blocks: 5
 
 ###################################################
 # Guild's vault                                   #

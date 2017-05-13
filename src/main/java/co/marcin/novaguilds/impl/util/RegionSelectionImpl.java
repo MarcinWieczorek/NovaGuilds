@@ -71,7 +71,12 @@ public class RegionSelectionImpl implements RegionSelection {
 	public RegionSelectionImpl(NovaPlayer nPlayer, Type type, NovaRegion region) {
 		addSpectator(nPlayer);
 		this.type = type;
-		this.selectedRegion = region;
+
+		if(region != null) {
+			this.selectedRegion = region;
+			setCorner(0, region.getCorner(0).clone());
+			setCorner(1, region.getCorner(1).clone());
+		}
 
 		nPlayer.setActiveSelection(this);
 	}

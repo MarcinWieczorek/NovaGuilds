@@ -354,6 +354,7 @@ public abstract class Message {
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_ACCESS = new MessageWrapperImpl(MessageWrapper.Flag.NOPREFIX);
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_BYPASS;
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_DELETE;
+	public static MessageWrapper CHAT_USAGE_NGA_REGION_ENLARGE;
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_LIST;
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_SPECTATE;
 	public static MessageWrapper CHAT_USAGE_NGA_REGION_TELEPORT;
@@ -395,6 +396,7 @@ public abstract class Message {
 	public static MessageWrapper CHAT_USAGE_REGION_ACCESS;
 	public static MessageWrapper CHAT_USAGE_REGION_BUY;
 	public static MessageWrapper CHAT_USAGE_REGION_DELETE;
+	public static MessageWrapper CHAT_USAGE_REGION_ENLARGE;
 	public static MessageWrapper CHAT_USAGE_REGION_LIST;
 
 	public static MessageWrapper CHAT_USAGE_TOOL;
@@ -514,6 +516,7 @@ public abstract class Message {
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_TITLE;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED;
+	public static MessageWrapper INVENTORY_GUI_REGION_ENLARGE;
 
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_BLOCK_BREAK;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_BLOCK_PLACE;
@@ -551,6 +554,7 @@ public abstract class Message {
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_REGION_CREATE;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_REGION_REMOVE;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_REGION_RESIZE;
+	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_REGION_ENLARGE;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_RANK_LIST;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_RANK_SET;
 	public static MessageWrapper INVENTORY_GUI_PERMISSIONS_NAMES_RANK_EDIT;
