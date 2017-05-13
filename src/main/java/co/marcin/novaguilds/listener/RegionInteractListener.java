@@ -269,7 +269,7 @@ public class RegionInteractListener extends AbstractListener {
 		if(denyRiding.contains(entity.getType().name())
 				&& RegionManager.get(entity) != null
 				&& (!plugin.getRegionManager().canInteract(player, entity) || (!nPlayer.getPreferences().getBypass() && !nPlayer.hasPermission(GuildPermission.MOB_LEASH)))
-				&& !(entity instanceof Vehicle) || !PlayerManager.getPlayer(player).isVehicleListed((Vehicle) event.getEntity())) {
+				&& (!(entity instanceof Vehicle) || !PlayerManager.getPlayer(player).isVehicleListed((Vehicle) event.getEntity()))) {
 			event.setCancelled(true);
 			Message.CHAT_REGION_DENY_LEASH.send(event.getPlayer());
 		}
