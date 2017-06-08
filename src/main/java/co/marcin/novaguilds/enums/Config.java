@@ -23,6 +23,7 @@ import co.marcin.novaguilds.api.util.reflect.FieldAccessor;
 import co.marcin.novaguilds.impl.basic.ConfigWrapperImpl;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -101,7 +102,7 @@ public abstract class Config {
 	public static ConfigWrapper GUILD_PLAYERPOINTS;
 	public static ConfigWrapper RANK_MAXAMOUNT;
 	public static ConfigWrapper RANK_GUI;
-	public static ConfigWrapper RANK_DEFAULTRANKS;
+	public static ConfigWrapper.Typed<ConfigurationSection> RANK_DEFAULTRANKS = new ConfigWrapperImpl.Typed<>(ConfigurationSection.class);
 	public static ConfigWrapper RAID_ENABLED;
 	public static ConfigWrapper RAID_TIMEREST;
 	public static ConfigWrapper RAID_TIMEINACTIVE;

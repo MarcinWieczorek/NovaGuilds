@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class RankManager {
@@ -124,9 +125,15 @@ public class RankManager {
 		int count = 1;
 
 		final Map<String, List<String>> parentMap = new HashMap<>(); //rank name, list of parents
+		Set<String> keySet = new HashSet<>();
+		ConfigurationSection section = null;
 
-		ConfigurationSection section = Config.RANK_DEFAULTRANKS.getConfigurationSection();
-		for(String rankName : section.getKeys(false)) {
+		if(!Config.RANK_DEFAULTRANKS.isEmpty()) {
+			section = Config.RANK_DEFAULTRANKS.get();
+			keySet.addAll(section.getKeys(false));
+		}
+
+		for(String rankName : keySet) {
 			ConfigurationSection rankSection = section.getConfigurationSection(rankName);
 			NovaRank rank = new GenericRankImpl(rankName);
 			final List<String> parents = new ArrayList<>();
@@ -136,9 +143,9 @@ public class RankManager {
 			}
 
 			if(rankSection.contains("inherit")) {
-				for(String parentName : (rankSection.isList("inherit") ? rankSection.getStringList("inherit") : Collections.singletonList(rankSection.getString("inherit")))) {
-					parents.add(parentName);
-				}
+				parents.addAll((rankSection.isList("inherit")
+						? rankSection.getStringList("inherit")
+						: Collections.singletonList(rankSection.getString("inherit"))));
 			}
 
 			parentMap.put(rankName, parents);

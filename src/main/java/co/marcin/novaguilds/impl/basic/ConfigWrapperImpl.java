@@ -90,6 +90,23 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 			cM.putInCache(this, r);
 			return r;
 		}
+
+		@Override
+		public Class<T> getType() {
+			return type;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public boolean isEmpty() {
+			if(getType() == ConfigurationSection.class) {
+				return !(cM.getConfig().contains(getPath())
+						&& cM.getConfig().isConfigurationSection(getPath())
+						&& ((ConfigWrapper.Typed<ConfigurationSection>) this).get() != null);
+			}
+
+			return super.isEmpty();
+		}
 	}
 
 	protected static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
@@ -221,9 +238,16 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 		return getDouble() / 100;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ConfigurationSection getConfigurationSection() {
-		return cM.getConfig().getConfigurationSection(path);
+		if(this instanceof ConfigWrapper.Typed
+				&& ((ConfigWrapper.Typed) this).getType() == ConfigurationSection.class) {
+			return ((ConfigWrapper.Typed<ConfigurationSection>) this).get();
+		}
+		else {
+			throw new IllegalArgumentException("Cannot get ConfigurationSection on this wrapper.");
+		}
 	}
 
 	@Override

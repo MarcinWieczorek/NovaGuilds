@@ -32,6 +32,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -410,7 +411,9 @@ public class ConfigManager {
 	 * @param o the object
 	 */
 	public void putInCache(ConfigWrapper c, Object o) {
-		cache.put(c, o);
+		if(o != null) {
+			cache.put(c, o);
+		}
 	}
 
 	/**
@@ -492,6 +495,9 @@ public class ConfigManager {
 		}
 		else if(clazz.isEnum()) {
 			value = configWrapper.toEnum((Class<? extends Enum>)clazz);
+		}
+		else if(clazz == ConfigurationSection.class) {
+			value = config.getConfigurationSection(configWrapper.getPath());
 		}
 		else if(customConfigDeserializerMap.containsKey(clazz)) {
 			value = customConfigDeserializerMap.get(clazz).deserialize(configWrapper);

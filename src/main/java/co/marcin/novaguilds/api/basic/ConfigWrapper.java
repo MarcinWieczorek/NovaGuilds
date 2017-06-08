@@ -33,6 +33,13 @@ public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneabl
 		 * @return typed value
 		 */
 		T get();
+
+		/**
+		 * Gets the type
+		 *
+		 * @return type class
+		 */
+		Class<T> getType();
 	}
 
 	/**
@@ -168,6 +175,7 @@ public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneabl
 	 *
 	 * @return the section
 	 */
+	@Deprecated
 	ConfigurationSection getConfigurationSection();
 
 	/**
