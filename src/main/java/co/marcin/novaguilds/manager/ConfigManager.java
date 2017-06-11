@@ -94,6 +94,7 @@ public class ConfigManager {
 		MINECRAFT_1_10_R1,
 		MINECRAFT_1_10_R2,
 		MINECRAFT_1_11_R1,
+		MINECRAFT_1_12_R1,
 		;
 
 		/**

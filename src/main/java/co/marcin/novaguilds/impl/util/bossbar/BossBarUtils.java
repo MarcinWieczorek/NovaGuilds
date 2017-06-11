@@ -95,6 +95,7 @@ public class BossBarUtils {
 					case MINECRAFT_1_10_R1:
 					case MINECRAFT_1_10_R2:
 					case MINECRAFT_1_11_R1:
+					case MINECRAFT_1_12_R1:
 						bossBarUtils = new BossBarUtilsBukkitImpl();
 						break;
 					default:
