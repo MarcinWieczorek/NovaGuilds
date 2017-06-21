@@ -76,14 +76,6 @@ public class DeathListener extends AbstractListener {
 			vars.put(VarKey.PLAYER1, victim.getName());
 			vars.put(VarKey.PLAYER2, attacker.getName());
 
-			if(!Message.BROADCAST_PVP_KILLED.isEmpty()) {
-				ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.clone().vars(vars).newChatBroadcast();
-				chatBroadcast.setTag(1, preparedTag1);
-				chatBroadcast.setTag(2, preparedTag2);
-				chatBroadcast.send();
-				event.setDeathMessage(null);
-			}
-
 			//Kill and death point
 			nPlayerAttacker.addKill();
 			nPlayer.addDeath();
@@ -112,6 +104,15 @@ public class DeathListener extends AbstractListener {
 			nPlayer.takePoints(points);
 			nPlayerAttacker.addPoints(points);
 			nPlayerAttacker.addKillHistory(victim);
+			vars.put(VarKey.PLAYER_POINTS, String.valueOf(points));
+
+			if(!Message.BROADCAST_PVP_KILLED.isEmpty()) {
+				ChatBroadcast chatBroadcast = Message.BROADCAST_PVP_KILLED.clone().vars(vars).newChatBroadcast();
+				chatBroadcast.setTag(1, preparedTag1);
+				chatBroadcast.setTag(2, preparedTag2);
+				chatBroadcast.send();
+				event.setDeathMessage(null);
+			}
 
 			//money
 			vars.clear();
