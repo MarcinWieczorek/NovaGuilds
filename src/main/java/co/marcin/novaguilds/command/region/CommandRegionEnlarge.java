@@ -58,6 +58,11 @@ public class CommandRegionEnlarge extends AbstractCommandExecutor {
 			region = nPlayer.getGuild().getRegion(index);
 		}
 
+		if(region == null) {
+			Message.CHAT_REGION_NOTFOUND.send(sender);
+			return;
+		}
+
 		RegionSelection selection = new RegionSelectionImpl(nPlayer, RegionSelection.Type.ENLARGE, region);
 		Location corner0 = selection.getCorner(0);
 		Location corner1 = selection.getCorner(1);
