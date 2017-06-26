@@ -59,11 +59,8 @@ public class CompatibilityUtils {
 			mojangNameLookupClass = Reflections.getBukkitClass("util.MojangNameLookup");
 			lookupNameMethod = Reflections.getMethod(mojangNameLookupClass, String.class, "lookupName");
 		}
-		catch(NoSuchMethodException e) {
+		catch(NoSuchMethodException | ClassNotFoundException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
-		}
-		catch(ClassNotFoundException | NoSuchFieldException e) {
-			e.printStackTrace();
 		}
 	}
 

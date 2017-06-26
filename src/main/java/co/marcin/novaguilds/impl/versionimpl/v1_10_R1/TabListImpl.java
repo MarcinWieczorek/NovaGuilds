@@ -153,7 +153,7 @@ public class TabListImpl extends AbstractTabList {
 			}
 		}
 		catch(IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
+			LoggerUtils.exception(e);
 		}
 	}
 
@@ -194,7 +194,11 @@ public class TabListImpl extends AbstractTabList {
 				Object gameProfile = profiles[i];
 				Object gameMode = enumGamemodeClass.getEnumConstants()[0];
 				Object lineCompound = Array.get(craftChatMessageFromStringMethod.invoke(null, line), 0);
-				Object targetProfile = skinProfiles.get(i % skinProfiles.size());
+				Object targetProfile = null;
+
+				if(!skinProfiles.isEmpty()) {
+					targetProfile = skinProfiles.get(i % skinProfiles.size());
+				}
 
 				if(targetProfile != null) {
 					propertyMapPutAllMethod.invoke(gameProfileGetPropertiesMethod.invoke(gameProfile), gameProfileGetPropertiesMethod.invoke(targetProfile));
