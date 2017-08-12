@@ -64,17 +64,17 @@ public class CommandRegionBuy extends AbstractCommandExecutor {
 		NovaGuild guild = nPlayer.getGuild();
 		RegionSelection activeSelection = nPlayer.getActiveSelection();
 
+		if(activeSelection == null || !activeSelection.hasBothSelections()) {
+			Message.CHAT_REGION_VALIDATION_NOTSELECTED.send(sender);
+			return;
+		}
+
 		if(!nPlayer.hasPermission(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE
 				|| activeSelection.getType() == RegionSelection.Type.RESIZE
 				|| activeSelection.getType() == RegionSelection.Type.ENLARGE
 				? GuildPermission.REGION_RESIZE
 				: GuildPermission.REGION_CREATE)) {
 			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
-
-		if(activeSelection == null || !activeSelection.hasBothSelections()) {
-			Message.CHAT_REGION_VALIDATION_NOTSELECTED.send(sender);
 			return;
 		}
 

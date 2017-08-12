@@ -63,7 +63,7 @@ public class ConfigManager {
 	private static final ServerVersion serverVersion = ServerVersion.detect();
 	private final Map<Class<?>, CustomConfigDeserializer<?>> customConfigDeserializerMap = new HashMap<>();
 
-	interface CustomConfigDeserializer<T> {
+	public interface CustomConfigDeserializer<T> {
 		/**
 		 * Deserializes the value
 		 *
