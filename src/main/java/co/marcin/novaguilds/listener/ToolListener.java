@@ -36,6 +36,7 @@ import co.marcin.novaguilds.impl.util.RegionSelectionImpl;
 import co.marcin.novaguilds.manager.GroupManager;
 import co.marcin.novaguilds.manager.PlayerManager;
 import co.marcin.novaguilds.manager.RegionManager;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.RegionUtils;
 import org.bukkit.Location;
@@ -68,7 +69,7 @@ public class ToolListener extends AbstractListener {
 
 		Location pointedLocation;
 		try {
-			pointedLocation = player.getTargetBlock((HashSet<Byte>) null, 200).getLocation();
+			pointedLocation = CompatibilityUtils.getTargetBlock(player, null, 200).getLocation();
 		}
 		catch(IllegalStateException ignored) {
 			//This happens.

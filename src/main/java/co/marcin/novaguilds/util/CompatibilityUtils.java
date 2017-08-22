@@ -22,8 +22,10 @@ import co.marcin.novaguilds.api.util.reflect.MethodInvoker;
 import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.util.reflect.Reflections;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -38,6 +40,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class CompatibilityUtils {
@@ -48,6 +51,7 @@ public class CompatibilityUtils {
 	protected static Class<?> craftTeamClass;
 	protected static Class<?> mojangNameLookupClass;
 	protected static MethodInvoker<String> lookupNameMethod;
+	protected static MethodInvoker<Block> getTargetBlockMethod;
 
 	static {
 		try {
@@ -58,6 +62,7 @@ public class CompatibilityUtils {
 			addPlayerToTeamMethod = Reflections.getMethod(boardClass, "addPlayerToTeam");
 			mojangNameLookupClass = Reflections.getBukkitClass("util.MojangNameLookup");
 			lookupNameMethod = Reflections.getMethod(mojangNameLookupClass, String.class, "lookupName");
+			getTargetBlockMethod = Reflections.getMethod(Player.class, Block.class, "getTargetBlock");
 		}
 		catch(NoSuchMethodException | ClassNotFoundException | NoSuchFieldException e) {
 			LoggerUtils.exception(e);
@@ -168,6 +173,25 @@ public class CompatibilityUtils {
 
 			//noinspection deprecation
 			return Bukkit.getOfflinePlayer(name);
+		}
+	}
+
+	/**
+	 * Wrapper for Player#getTargetBlock
+	 * The "HashSet" method has been removed in 1.12.1
+	 * The "Set" method has been added in 1.8-R1 (0fcdca4beac)
+	 *
+	 * @param player   	  player
+	 * @param transparent transparent of transparent blocks
+	 * @param maxDistance maxDistance
+	 * @return target block
+	 */
+	public static Block getTargetBlock(Player player, Set<Material> transparent, int maxDistance) {
+		if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R1)) {
+			return player.getTargetBlock(transparent, maxDistance);
+		}
+		else {
+			return getTargetBlockMethod.invoke(player, transparent, maxDistance);
 		}
 	}
 }
