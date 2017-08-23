@@ -50,35 +50,25 @@ public abstract class AbstractFileStorage extends AbstractStorage {
 
 	@Override
 	public boolean setUp() {
-		if(!dataDirectory.exists()) {
-			if(dataDirectory.mkdir()) {
-				LoggerUtils.info("Data directory created");
-			}
+		if(!dataDirectory.exists() && dataDirectory.mkdirs()) {
+			LoggerUtils.info("Data directory created");
 		}
 
 		if(dataDirectory.exists()) {
-			if(!playersDirectory.exists()) {
-				if(playersDirectory.mkdir()) {
-					LoggerUtils.info("Players directory created");
-				}
+			if(!playersDirectory.exists() && playersDirectory.mkdirs()) {
+				LoggerUtils.info("Players directory created");
 			}
 
-			if(!guildsDirectory.exists()) {
-				if(guildsDirectory.mkdir()) {
-					LoggerUtils.info("Guilds directory created");
-				}
+			if(!guildsDirectory.exists() && guildsDirectory.mkdirs()) {
+				LoggerUtils.info("Guilds directory created");
 			}
 
-			if(!regionsDirectory.exists()) {
-				if(regionsDirectory.mkdir()) {
-					LoggerUtils.info("Regions directory created");
-				}
+			if(!regionsDirectory.exists() && regionsDirectory.mkdirs()) {
+				LoggerUtils.info("Regions directory created");
 			}
 
-			if(!ranksDirectory.exists()) {
-				if(ranksDirectory.mkdir()) {
-					LoggerUtils.info("Ranks directory created");
-				}
+			if(!ranksDirectory.exists() && ranksDirectory.mkdirs()) {
+				LoggerUtils.info("Ranks directory created");
 			}
 		}
 		else {

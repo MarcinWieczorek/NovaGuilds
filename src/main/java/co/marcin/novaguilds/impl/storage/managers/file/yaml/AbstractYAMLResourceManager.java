@@ -34,7 +34,7 @@ public abstract class AbstractYAMLResourceManager<T extends Resource> extends Ab
 	 * @param clazz         type class
 	 * @param directoryPath the path
 	 */
-	protected AbstractYAMLResourceManager(Storage storage, Class clazz, String directoryPath) {
+	protected AbstractYAMLResourceManager(Storage storage, Class<T> clazz, String directoryPath) {
 		super(storage, clazz, directoryPath);
 	}
 

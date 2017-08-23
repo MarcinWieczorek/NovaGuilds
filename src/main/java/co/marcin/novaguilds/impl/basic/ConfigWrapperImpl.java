@@ -28,10 +28,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Map;
 
 public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> implements ConfigWrapper {
 	public static class Typed<T> extends ConfigWrapperImpl implements ConfigWrapper.Typed<T> {
-		private Class<T> type;
+		private final Class<T> type;
 
 		/**
 		 * The constructor
@@ -238,6 +239,11 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 		return getDouble() / 100;
 	}
 
+	@Override
+	public Map<String, Object> getMap() {
+		return cM.getConfig().getConfigurationSection(getPath()).getValues(true);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public ConfigurationSection getConfigurationSection() {
@@ -257,7 +263,7 @@ public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> i
 
 	@Override
 	public void setPath(String path) {
-		if(path != null) {
+		if(this.path != null) {
 			throw new IllegalArgumentException("Path already set");
 		}
 

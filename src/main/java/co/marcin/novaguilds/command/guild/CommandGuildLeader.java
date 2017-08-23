@@ -76,7 +76,7 @@ public class CommandGuildLeader extends AbstractCommandExecutor {
 
 		//set guild leader
 		guild.setLeader(newLeader);
-		plugin.getGuildManager().save(guild);
+		plugin.getStorage().getResourceManager(NovaGuild.class).save(guild);
 
 		Map<VarKey, String> vars = new HashMap<>();
 		vars.put(VarKey.PLAYER_NAME, newLeader.getName());

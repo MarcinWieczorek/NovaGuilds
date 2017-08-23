@@ -184,15 +184,6 @@ public class GuildManager {
 	}
 
 	/**
-	 * Saves a guild
-	 *
-	 * @param guild guild instance
-	 */
-	public void save(NovaGuild guild) {
-		getResourceManager().save(guild);
-	}
-
-	/**
 	 * Saves all guilds
 	 */
 	public void save() {
@@ -346,7 +337,7 @@ public class GuildManager {
 	 * @return list of guilds
 	 */
 	public List<NovaGuild> getTopGuildsByPoints(int count) {
-		final List<NovaGuild> guildsByPoints = new ArrayList<>(guilds.values());
+		final List<NovaGuild> guildsByPoints = new ArrayList<>(getGuilds());
 
 		Collections.sort(guildsByPoints, new Comparator<NovaGuild>() {
 			public int compare(NovaGuild o1, NovaGuild o2) {

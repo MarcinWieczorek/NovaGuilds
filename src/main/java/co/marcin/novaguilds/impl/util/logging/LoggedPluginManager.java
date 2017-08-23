@@ -42,11 +42,13 @@ import org.bukkit.plugin.UnknownDependencyException;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 
 public abstract class LoggedPluginManager implements PluginManager {
 	private final PluginManager delegate;
+	private final Set<Listener> listeners = new HashSet<>();
 
 	/**
 	 * The constructor
@@ -116,6 +118,8 @@ public abstract class LoggedPluginManager implements PluginManager {
 
 			getEventListeners(getRegistrationClass(entry.getKey())).registerAll(modified);
 		}
+
+		listeners.add(listener);
 	}
 
 	/**
@@ -318,5 +322,9 @@ public abstract class LoggedPluginManager implements PluginManager {
 	@Override
 	public boolean useTimings() {
 		return delegate.useTimings();
+	}
+
+	public Set<Listener> getListeners() {
+		return listeners;
 	}
 }

@@ -31,6 +31,7 @@ import co.marcin.novaguilds.listener.RegionInteractListener;
 import co.marcin.novaguilds.listener.ToolListener;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.event.Event;
+import org.bukkit.event.Listener;
 
 public class ListenerManager {
 	private PacketListener packetListener;
@@ -73,5 +74,15 @@ public class ListenerManager {
 	 */
 	public static LoggedPluginManager getLoggedPluginManager() {
 		return loggedPluginManager;
+	}
+
+	public <T extends Listener> T getListener(Class<T> clazz) {
+		for(Listener listener : loggedPluginManager.getListeners()) {
+			if(listener.getClass().equals(clazz)) {
+				return (T) listener;
+			}
+		}
+
+		return null;
 	}
 }

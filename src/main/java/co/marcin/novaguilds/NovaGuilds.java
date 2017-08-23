@@ -603,9 +603,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 	 * Setups the wrapped logger
 	 *
 	 * @throws NoSuchFieldException   when something goes wrong
-	 * @throws IllegalAccessException when something goes wrong
 	 */
-	private void setupWrappedLogger() throws NoSuchFieldException, IllegalAccessException {
+	private void setupWrappedLogger() throws NoSuchFieldException {
 		FieldAccessor<PluginLogger> loggerField = Reflections.getField(JavaPlugin.class, "logger", PluginLogger.class);
 		loggerField.set(this, new WrappedLogger(this));
 	}

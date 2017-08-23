@@ -106,10 +106,8 @@ public abstract class AbstractFileResourceManager<T extends Resource> extends Ab
 	 * @throws IOException if failed
 	 */
 	private void createFileIfNotExists(File file) throws IOException {
-		if(!file.exists()) {
-			if(!file.createNewFile()) {
-				throw new IOException("File creating failed (" + file.getPath() + ")");
-			}
+		if(!file.exists() && !file.createNewFile()) {
+			throw new IOException("File creating failed (" + file.getPath() + ")");
 		}
 	}
 

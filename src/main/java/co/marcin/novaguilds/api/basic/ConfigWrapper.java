@@ -24,6 +24,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneable {
 	interface Typed<T> extends ConfigWrapper {
@@ -169,6 +170,13 @@ public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneabl
 	 * @return double value (%)
 	 */
 	double getPercent();
+
+	/**
+	 * Gets a map
+	 *
+	 * @return map
+	 */
+	Map<String, Object> getMap();
 
 	/**
 	 * Gets configuration section
