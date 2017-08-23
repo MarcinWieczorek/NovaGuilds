@@ -39,6 +39,11 @@ import java.util.Map;
 public class CommandAdminConfigSet extends AbstractCommandExecutor {
 	@Override
 	public void execute(CommandSender sender, String[] args) throws Exception {
+		if(args.length == 0) {
+			getCommand().getUsageMessage().send(sender);
+			return;
+		}
+
 		ConfigWrapper config = Config.fromPath(args[0]);
 
 		if(config == null) {

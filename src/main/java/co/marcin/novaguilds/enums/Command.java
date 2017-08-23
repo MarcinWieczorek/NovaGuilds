@@ -222,8 +222,6 @@ public final class Command extends CommandWrapperImpl {
 
 				CommandExecutor commandExecutor = commandWrapper.getExecutorClass().newInstance();
 				NovaGuilds.getInstance().getCommandManager().registerExecutor(commandWrapper, commandExecutor);
-
-				commandWrapper.setExecutor(commandExecutor);
 			}
 			catch(IllegalAccessException | InstantiationException e) {
 				LoggerUtils.exception(e);
@@ -356,14 +354,9 @@ public final class Command extends CommandWrapperImpl {
 	 * @param executor the executor
 	 * @return the wrapper
 	 */
+	@Deprecated
 	public static CommandWrapper getCommand(CommandExecutor executor) {
-		for(CommandWrapper wrapper : values()) {
-			if(wrapper.getExecutor().equals(executor)) {
-				return wrapper;
-			}
-		}
-
-		return null;
+		return NovaGuilds.getInstance().getCommandManager().getCommand(executor);
 	}
 
 	/**
@@ -372,14 +365,9 @@ public final class Command extends CommandWrapperImpl {
 	 * @param genericCommand generic command string
 	 * @return the wrapper
 	 */
+	@Deprecated
 	public static CommandWrapper getByGenericCommand(String genericCommand) {
-		for(CommandWrapper wrapper : values()) {
-			if(wrapper.hasGenericCommand() && wrapper.getGenericCommand().equalsIgnoreCase(genericCommand)) {
-				return wrapper;
-			}
-		}
-
-		return null;
+		return NovaGuilds.getInstance().getCommandManager().getByGenericCommand(genericCommand);
 	}
 
 	/**

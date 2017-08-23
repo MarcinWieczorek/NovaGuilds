@@ -34,7 +34,7 @@ public class AbstractChangeable implements Changeable {
 	}
 
 	@Override
-	public final boolean isChanged() {
+	public boolean isChanged() {
 		return changed;
 	}
 }

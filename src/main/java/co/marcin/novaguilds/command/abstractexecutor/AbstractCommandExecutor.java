@@ -21,7 +21,6 @@ package co.marcin.novaguilds.command.abstractexecutor;
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.CommandExecutor;
 import co.marcin.novaguilds.api.basic.CommandWrapper;
-import co.marcin.novaguilds.enums.Command;
 import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.command.CommandSender;
 
@@ -38,7 +37,7 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 
 	@Override
 	public final CommandWrapper getCommand() {
-		return Command.getCommand(this);
+		return plugin.getCommandManager().getCommand(this);
 	}
 
 	@Override

@@ -103,6 +103,8 @@ public class CommandManager {
 					genericCommand.setExecutor(genericExecutor);
 				}
 			}
+
+			command.setExecutor(executor);
 		}
 	}
 
@@ -116,7 +118,7 @@ public class CommandManager {
 	public void execute(CommandWrapper command, CommandSender sender, String[] args) {
 		CommandExecutor executor = getExecutor(command);
 
-		if(!command.hasPermission(sender)) {
+		if(command.getPermission() != null && !command.hasPermission(sender)) {
 			Message.CHAT_NOPERMISSIONS.send(sender);
 			return;
 		}
@@ -157,10 +159,42 @@ public class CommandManager {
 		return executors.get(command);
 	}
 
+	/**
+	 * Gets a wrapper by executor
+	 *
+	 * @param executor the executor
+	 * @return the wrapper
+	 */
+	public CommandWrapper getCommand(CommandExecutor executor) {
+		for(CommandWrapper wrapper : executors.keySet()) {
+			if(wrapper.getExecutor().equals(executor)) {
+				return wrapper;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gets a wrapper by its generic command
+	 *
+	 * @param genericCommand generic command string
+	 * @return the wrapper
+	 */
+	public CommandWrapper getByGenericCommand(String genericCommand) {
+		for(CommandWrapper wrapper : executors.keySet()) {
+			if(wrapper.hasGenericCommand() && wrapper.getGenericCommand().equalsIgnoreCase(genericCommand)) {
+				return wrapper;
+			}
+		}
+
+		return null;
+	}
+
 	public static class GenericExecutor implements org.bukkit.command.CommandExecutor, TabCompleter {
 		@Override
 		public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-			CommandWrapper commandWrapper = Command.getByGenericCommand(command.getName());
+			CommandWrapper commandWrapper = plugin.getCommandManager().getByGenericCommand(command.getName());
 
 			if(commandWrapper == null) {
 				return false;
@@ -172,7 +206,7 @@ public class CommandManager {
 
 		@Override
 		public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String alias, String[] args) {
-			CommandWrapper commandWrapper = Command.getByGenericCommand(command.getName());
+			CommandWrapper commandWrapper = plugin.getCommandManager().getByGenericCommand(command.getName());
 			CommandWrapper finalCommand = commandWrapper;
 
 			if(commandWrapper == null) {
