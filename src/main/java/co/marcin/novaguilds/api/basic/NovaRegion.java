@@ -129,4 +129,12 @@ public interface NovaRegion extends Resource {
 	 * @param index new index
 	 */
 	void setIndex(Integer index);
+
+	/**
+	 * Checks if a region contains the location
+	 *
+	 * @param location the location
+	 * @return true if contains
+	 */
+	boolean contains(Location location);
 }

@@ -629,9 +629,6 @@ region:
    corner: GOLD_BLOCK
    border: WOOL:6
 
-# auto creating regions (when creating a guild)   #
- autoregion: true
-
 # minimal region size                             #
  minsize: 10
 

@@ -153,4 +153,20 @@ public class NovaRegionImpl extends AbstractResource implements NovaRegion {
 	public void setIndex(Integer index) {
 		this.index = index;
 	}
+
+	@Override
+	public boolean contains(Location location) {
+		if(!location.getWorld().equals(getWorld())) {
+			return false;
+		}
+
+		int x = location.getBlockX();
+		int z = location.getBlockZ();
+
+		Location c1 = getCorner(0);
+		Location c2 = getCorner(1);
+
+		return ((x >= c1.getBlockX() && x <= c2.getBlockX()) || (x <= c1.getBlockX() && x >= c2.getBlockX()))
+				&& ((z >= c1.getBlockZ() && z <= c2.getBlockZ()) || (z <= c1.getBlockZ() && z >= c2.getBlockZ()));
+	}
 }

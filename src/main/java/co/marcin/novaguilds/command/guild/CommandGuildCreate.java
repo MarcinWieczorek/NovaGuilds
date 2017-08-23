@@ -146,11 +146,11 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 		NovaRegion region = null;
 
 		//Automatic Region
-		if(Config.REGION_AUTOREGION.getBoolean()) {
-			int size = group.get(NovaGroupImpl.Key.REGION_AUTOSIZE);
+		int autoRegionSize = group.get(NovaGroupImpl.Key.REGION_AUTOSIZE);
+		if(autoRegionSize > 0) {
 			Location playerLocation = player.getLocation();
-			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - size, 0, playerLocation.getBlockZ() - size);
-			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + size, 0, playerLocation.getBlockZ() + size);
+			Location c1 = new Location(player.getWorld(), playerLocation.getBlockX() - autoRegionSize, 0, playerLocation.getBlockZ() - autoRegionSize);
+			Location c2 = new Location(player.getWorld(), playerLocation.getBlockX() + autoRegionSize, 0, playerLocation.getBlockZ() + autoRegionSize);
 
 			region = new NovaRegionImpl(UUID.randomUUID());
 

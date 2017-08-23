@@ -125,7 +125,6 @@ public abstract class Config {
 	public static ConfigWrapper VAULT_HOLOGRAM_LINES;
 	public static ConfigWrapper VAULT_DENYRELATIVE;
 	public static ConfigWrapper USETITLES;
-	public static ConfigWrapper REGION_AUTOREGION;
 	public static ConfigWrapper REGION_MINSIZE;
 	public static ConfigWrapper REGION_MAXSIZE;
 	public static ConfigWrapper REGION_MINDISTANCE;
