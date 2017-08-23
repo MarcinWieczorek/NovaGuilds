@@ -98,6 +98,20 @@ public interface GUIInventory {
 		ItemStack getItem();
 
 		/**
+		 * Gets the slot the executor's at
+		 *
+		 * @return the slot
+		 */
+		int getSlot();
+
+		/**
+		 * Sets the slot the executor's at
+		 *
+		 * @param slot the slot
+		 */
+		void setSlot(int slot);
+
+		/**
 		 * Executes
 		 */
 		void execute();

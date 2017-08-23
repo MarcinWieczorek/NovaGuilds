@@ -76,10 +76,8 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 
 	@Override
 	public void onClick(InventoryClickEvent event) {
-		ItemStack clickedItemStack = event.getCurrentItem();
-
 		for(GUIInventory.Executor executor : new HashSet<>(getExecutors())) {
-			if(executor.getItem().equals(clickedItemStack)) {
+			if(executor.getSlot() == event.getSlot()) {
 				executor.execute();
 			}
 		}
@@ -116,7 +114,14 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 			throw new IllegalArgumentException("Trying to add not registered executor to the inventory");
 		}
 
-		getInventory().addItem(executor.getItem());
+		int slot = getInventory().firstEmpty();
+
+		if(slot == -1) {
+			throw new IllegalArgumentException("No space left in the inventory");
+		}
+
+		executor.setSlot(slot);
+		getInventory().setItem(slot, executor.getItem());
 	}
 
 	/**
@@ -150,6 +155,7 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 
 	public abstract class Executor implements GUIInventory.Executor {
 		private ItemStack itemStack;
+		private int slot;
 
 		/**
 		 * The constructor
@@ -173,6 +179,16 @@ public abstract class AbstractGUIInventory implements GUIInventory {
 		@Override
 		public ItemStack getItem() {
 			return itemStack;
+		}
+
+		@Override
+		public int getSlot() {
+			return slot;
+		}
+
+		@Override
+		public void setSlot(int slot) {
+			this.slot = slot;
 		}
 	}
 

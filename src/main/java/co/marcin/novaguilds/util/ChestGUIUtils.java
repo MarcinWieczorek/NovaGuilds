@@ -98,7 +98,13 @@ public class ChestGUIUtils {
 	 * @return the inventory
 	 */
 	public static Inventory createInventory(int size, MessageWrapper title) {
-		return createInventory(size, title.get());
+		String string = "";
+
+		if(title != null) {
+			string = title.get();
+		}
+
+		return createInventory(size, string);
 	}
 
 	/**
