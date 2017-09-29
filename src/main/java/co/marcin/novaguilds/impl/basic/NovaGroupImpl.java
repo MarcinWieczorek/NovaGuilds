@@ -191,7 +191,7 @@ public class NovaGroupImpl implements NovaGroup {
 			LoggerUtils.error("Group " + name + " has too big autoregion. Reset to " + get(Key.REGION_AUTOSIZE));
 		}
 
-		if(autoRegionWidth != 0 && autoRegionWidth < Config.REGION_MINSIZE.getInt()) {
+		if(get(Key.REGION_AUTOSIZE) != 0 && autoRegionWidth < Config.REGION_MINSIZE.getInt()) {
 			values.put(Key.REGION_AUTOSIZE, Config.REGION_MINSIZE.getInt() / 2);
 			LoggerUtils.error("Group " + name + " has too small autoregion. Reset to " + get(Key.REGION_AUTOSIZE));
 		}

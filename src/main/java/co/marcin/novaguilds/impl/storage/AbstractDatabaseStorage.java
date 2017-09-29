@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.storage;
 
 import co.marcin.novaguilds.api.storage.Database;
+import co.marcin.novaguilds.api.storage.PreparedStatementBuilder;
 import co.marcin.novaguilds.api.util.DatabaseAnalyzer;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
@@ -47,7 +48,8 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractDatabaseStorage extends AbstractStorage implements Database {
 	protected Connection connection;
 	protected boolean firstConnect = true;
-	protected final Map<PreparedStatements, PreparedStatement> preparedStatementMap = new HashMap<>();
+	protected final Map<String, PreparedStatement> preparedStatementMap = new HashMap<>();
+	protected final Map<String, PreparedStatementBuilder> preparedStatementBuilders = new HashMap<>();
 
 	@Override
 	public boolean checkConnection() throws SQLException {
@@ -119,90 +121,93 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 			//Guilds insert (id, uuid, tag, name, leader, spawn, allies, alliesinv, war, nowarinv, money, points, lives, timerest, lostlive, activity, created, bankloc, slots, openinv, banner)
 			String guildsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "guilds` VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 			PreparedStatement guildsInsert = getConnection().prepareStatement(guildsInsertSQL, returnKeys);
-			preparedStatementMap.put(PreparedStatements.GUILDS_INSERT, guildsInsert);
+			addPreparedStatement(PreparedStatements.GUILDS_INSERT, guildsInsert);
 
 			//Guilds select
 			String guildsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "guilds`";
 			PreparedStatement guildsSelect = getConnection().prepareStatement(guildsSelectSQL);
-			preparedStatementMap.put(PreparedStatements.GUILDS_SELECT, guildsSelect);
+			addPreparedStatement(PreparedStatements.GUILDS_SELECT, guildsSelect);
 
 			//Guilds delete
 			String guildsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "guilds` WHERE `uuid`=?";
 			PreparedStatement guildsDelete = getConnection().prepareStatement(guildsDeleteSQL);
-			preparedStatementMap.put(PreparedStatements.GUILDS_DELETE, guildsDelete);
+			addPreparedStatement(PreparedStatements.GUILDS_DELETE, guildsDelete);
 
 			//Guilds update
 			String guildsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "guilds` SET `tag`=?, `name`=?, `leader`=?, `spawn`=?, `allies`=?, `alliesinv`=?, `war`=?, `nowarinv`=?, `money`=?, `points`=?, `lives`=?, `timerest`=?, `lostlive`=?, `activity`=?, `bankloc`=?, `slots`=?, `openinv`=?, `banner`=? WHERE `uuid`=?";
 			PreparedStatement guildsUpdate = getConnection().prepareStatement(guildsUpdateSQL);
-			preparedStatementMap.put(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
+			addPreparedStatement(PreparedStatements.GUILDS_UPDATE, guildsUpdate);
 
 
 			//Players insert (id, uuid, name, guild, invitedto, points, kills, deaths)
 			String playersInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "players` VALUES(null,?,?,?,?,?,?,?)";
 			PreparedStatement playersInsert = getConnection().prepareStatement(playersInsertSQL, returnKeys);
-			preparedStatementMap.put(PreparedStatements.PLAYERS_INSERT, playersInsert);
+			addPreparedStatement(PreparedStatements.PLAYERS_INSERT, playersInsert);
 
 			//Players select
 			String playerSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "players`";
 			PreparedStatement playersSelect = getConnection().prepareStatement(playerSelectSQL);
-			preparedStatementMap.put(PreparedStatements.PLAYERS_SELECT, playersSelect);
+			addPreparedStatement(PreparedStatements.PLAYERS_SELECT, playersSelect);
 
 			//Players update
 			String playersUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "players` SET `invitedto`=?, `guild`=?, `points`=?, `kills`=?, `deaths`=? WHERE `uuid`=?";
 			PreparedStatement playersUpdate = getConnection().prepareStatement(playersUpdateSQL);
-			preparedStatementMap.put(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
+			addPreparedStatement(PreparedStatements.PLAYERS_UPDATE, playersUpdate);
 
 			//Players delete
 			String playersDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "players` WHERE `uuid`=?";
 			PreparedStatement playersDelete = getConnection().prepareStatement(playersDeleteSQL);
-			preparedStatementMap.put(PreparedStatements.PLAYERS_DELETE, playersDelete);
+			addPreparedStatement(PreparedStatements.PLAYERS_DELETE, playersDelete);
 
 
 			//Regions insert (id, uuid, loc_1, loc_2, guild, world)
 			String regionsInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "regions` VALUES(null,?,?,?,?,?);";
 			PreparedStatement regionsInsert = getConnection().prepareStatement(regionsInsertSQL, returnKeys);
-			preparedStatementMap.put(PreparedStatements.REGIONS_INSERT, regionsInsert);
+			addPreparedStatement(PreparedStatements.REGIONS_INSERT, regionsInsert);
 
 			//Regions select
 			String regionsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "regions`";
 			PreparedStatement regionsSelect = getConnection().prepareStatement(regionsSelectSQL);
-			preparedStatementMap.put(PreparedStatements.REGIONS_SELECT, regionsSelect);
+			addPreparedStatement(PreparedStatements.REGIONS_SELECT, regionsSelect);
 
 			//Regions delete
 			String regionsDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "regions` WHERE `uuid`=?";
 			PreparedStatement regionsDelete = getConnection().prepareStatement(regionsDeleteSQL);
-			preparedStatementMap.put(PreparedStatements.REGIONS_DELETE, regionsDelete);
+			addPreparedStatement(PreparedStatements.REGIONS_DELETE, regionsDelete);
 
 			//Regions update
 			String regionsUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "regions` SET `loc_1`=?, `loc_2`=?, `guild`=?, `world`=? WHERE `uuid`=?";
 			PreparedStatement regionsUpdate = getConnection().prepareStatement(regionsUpdateSQL);
-			preparedStatementMap.put(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
+			addPreparedStatement(PreparedStatements.REGIONS_UPDATE, regionsUpdate);
 
 
 			//Ranks insert (id, uuid, name, guild, permissions, players, default, clone)
 			String ranksInsertSQL = "INSERT INTO `" + Config.MYSQL_PREFIX.getString() + "ranks` VALUES(null,?,?,?,?,?,?,?);";
 			PreparedStatement ranksInsert = getConnection().prepareStatement(ranksInsertSQL, returnKeys);
-			preparedStatementMap.put(PreparedStatements.RANKS_INSERT, ranksInsert);
+			addPreparedStatement(PreparedStatements.RANKS_INSERT, ranksInsert);
 
 			//Ranks select
 			String ranksSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "ranks`";
 			PreparedStatement ranksSelect = getConnection().prepareStatement(ranksSelectSQL);
-			preparedStatementMap.put(PreparedStatements.RANKS_SELECT, ranksSelect);
+			addPreparedStatement(PreparedStatements.RANKS_SELECT, ranksSelect);
 
 			//Ranks delete
 			String ranksDeleteSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "ranks` WHERE `uuid`=?";
 			PreparedStatement ranksDelete = getConnection().prepareStatement(ranksDeleteSQL);
-			preparedStatementMap.put(PreparedStatements.RANKS_DELETE, ranksDelete);
+			addPreparedStatement(PreparedStatements.RANKS_DELETE, ranksDelete);
 
 			//Ranks delete (guild)
 			String ranksDeleteGuildSQL = "DELETE FROM `" + Config.MYSQL_PREFIX.getString() + "ranks` WHERE `guild`=?";
 			PreparedStatement ranksDeleteGuild = getConnection().prepareStatement(ranksDeleteGuildSQL);
-			preparedStatementMap.put(PreparedStatements.RANKS_DELETE_GUILD, ranksDeleteGuild);
+			addPreparedStatement(PreparedStatements.RANKS_DELETE_GUILD, ranksDeleteGuild);
 
 			//Ranks update
 			String ranksUpdateSQL = "UPDATE `" + Config.MYSQL_PREFIX.getString() + "ranks` SET `name`=?, `guild`=?, `permissions`=?, `members`=?, `def`=?, `clone`=? WHERE `uuid`=?";
 			PreparedStatement ranksUpdate = getConnection().prepareStatement(ranksUpdateSQL);
-			preparedStatementMap.put(PreparedStatements.RANKS_UPDATE, ranksUpdate);
+			addPreparedStatement(PreparedStatements.RANKS_UPDATE, ranksUpdate);
+
+			//Custom statements
+			prepareCustomStatements();
 
 			//Log
 			LoggerUtils.info("Statements prepared in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s");
@@ -215,23 +220,62 @@ public abstract class AbstractDatabaseStorage extends AbstractStorage implements
 	/**
 	 * Gets a prepared statement
 	 *
-	 * @param statement the enum
+	 * @param name of the statement
 	 * @return the statement
 	 * @throws SQLException when something goes wrong
 	 */
-	public PreparedStatement getPreparedStatement(PreparedStatements statement) throws SQLException {
-		if(preparedStatementMap.isEmpty() || !preparedStatementMap.containsKey(statement)) {
+	public PreparedStatement getPreparedStatement(String name) throws SQLException {
+		if(preparedStatementMap.isEmpty() || !preparedStatementMap.containsKey(name)) {
 			prepareStatements();
 		}
 
-		if(preparedStatementMap.get(statement) != null && !(this instanceof SQLiteStorageImpl) && preparedStatementMap.get(statement).isClosed()) {
+		PreparedStatement preparedStatement = preparedStatementMap.get(name);
+		if(preparedStatement != null && !(this instanceof SQLiteStorageImpl) && preparedStatement.isClosed()) {
 			prepareStatements();
+			preparedStatement = preparedStatementMap.get(name);
 		}
 
-		PreparedStatement preparedStatement = preparedStatementMap.get(statement);
+		if(preparedStatement == null) {
+			throw new IllegalArgumentException("Invalid statement enum");
+		}
+
 		preparedStatement.clearParameters();
-
 		return preparedStatement;
+	}
+
+	/**
+	 * Adds a prepared statement
+	 *
+	 * @param name      statement name
+	 * @param statement prepared statement
+	 */
+	public void addPreparedStatement(String name, PreparedStatement statement) {
+		preparedStatementMap.put(name, statement);
+	}
+
+	/**
+	 * Prepares custom statements
+	 *
+	 * @throws SQLException when something goes wrong
+	 */
+	public void prepareCustomStatements() throws SQLException {
+		for(Map.Entry<String, PreparedStatementBuilder> entry : preparedStatementBuilders.entrySet()) {
+			if(preparedStatementMap.containsKey(entry.getKey())) {
+				preparedStatementMap.remove(entry.getKey());
+			}
+
+			preparedStatementMap.put(entry.getKey(), entry.getValue().build(getConnection()));
+		}
+	}
+
+	/**
+	 * Registers a statement builder
+	 *
+	 * @param name    statement name
+	 * @param builder statement builder
+	 */
+	public void registerStatementBuilder(String name, PreparedStatementBuilder builder) {
+		preparedStatementBuilders.put(name, builder);
 	}
 
 	/**

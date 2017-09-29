@@ -93,17 +93,17 @@ public class MySQLStorageImpl extends co.marcin.novaguilds.impl.storage.MySQLSto
 			//Guilds select
 			String guildsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "guilds`";
 			PreparedStatement guildsSelect = getConnection().prepareStatement(guildsSelectSQL);
-			preparedStatementMap.put(PreparedStatements.GUILDS_SELECT, guildsSelect);
+			addPreparedStatement(PreparedStatements.GUILDS_SELECT, guildsSelect);
 
 			//Players select
 			String playerSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "users`";
 			PreparedStatement playersSelect = getConnection().prepareStatement(playerSelectSQL);
-			preparedStatementMap.put(PreparedStatements.PLAYERS_SELECT, playersSelect);
+			addPreparedStatement(PreparedStatements.PLAYERS_SELECT, playersSelect);
 
 			//Regions select
 			String regionsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "regions`";
 			PreparedStatement regionsSelect = getConnection().prepareStatement(regionsSelectSQL);
-			preparedStatementMap.put(PreparedStatements.REGIONS_SELECT, regionsSelect);
+			addPreparedStatement(PreparedStatements.REGIONS_SELECT, regionsSelect);
 
 			//Log
 			LoggerUtils.info("Statements prepared in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s");

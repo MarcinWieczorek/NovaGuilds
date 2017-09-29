@@ -92,6 +92,7 @@ public class CommandWrapperImpl implements CommandWrapper {
 	@Override
 	public void setExecutor(CommandExecutor executor) {
 		this.executor = executor;
+		this.clazz = executor.getClass();
 	}
 
 	@Override

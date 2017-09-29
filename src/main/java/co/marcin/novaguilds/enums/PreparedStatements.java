@@ -18,25 +18,22 @@
 
 package co.marcin.novaguilds.enums;
 
-public enum PreparedStatements {
-	GUILDS_SELECT,
-	GUILDS_INSERT,
-	GUILDS_DELETE,
-	GUILDS_UPDATE,
-
-	PLAYERS_SELECT,
-	PLAYERS_INSERT,
-	PLAYERS_UPDATE,
-	PLAYERS_DELETE,
-
-	REGIONS_SELECT,
-	REGIONS_INSERT,
-	REGIONS_DELETE,
-	REGIONS_UPDATE,
-
-	RANKS_SELECT,
-	RANKS_INSERT,
-	RANKS_DELETE,
-	RANKS_DELETE_GUILD,
-	RANKS_UPDATE
+public class PreparedStatements {
+	public static final String GUILDS_SELECT = "GUILDS_SELECT";
+	public static final String GUILDS_INSERT = "GUILDS_INSERT";
+	public static final String GUILDS_DELETE = "GUILDS_DELETE";
+	public static final String GUILDS_UPDATE = "GUILDS_UPDATE";
+	public static final String PLAYERS_SELECT = "PLAYERS_SELECT";
+	public static final String PLAYERS_INSERT = "PLAYERS_INSERT";
+	public static final String PLAYERS_UPDATE = "PLAYERS_UPDATE";
+	public static final String PLAYERS_DELETE = "PLAYERS_DELETE";
+	public static final String REGIONS_SELECT = "REGIONS_SELECT";
+	public static final String REGIONS_INSERT = "REGIONS_INSERT";
+	public static final String REGIONS_DELETE = "REGIONS_DELETE";
+	public static final String REGIONS_UPDATE = "REGIONS_UPDATE";
+	public static final String RANKS_SELECT = "RANKS_SELECT";
+	public static final String RANKS_INSERT = "RANKS_INSERT";
+	public static final String RANKS_DELETE = "RANKS_DELETE";
+	public static final String RANKS_DELETE_GUILD = "RANKS_DELETE_GUILD";
+	public static final String RANKS_UPDATE = "RANKS_UPDATE";
 }

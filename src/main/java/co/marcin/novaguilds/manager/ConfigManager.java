@@ -22,6 +22,7 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.basic.ConfigWrapper;
 import co.marcin.novaguilds.enums.Config;
 import co.marcin.novaguilds.enums.DataStorageType;
+import co.marcin.novaguilds.enums.Dependency;
 import co.marcin.novaguilds.enums.VarKey;
 import co.marcin.novaguilds.util.ItemStackUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
@@ -333,6 +334,8 @@ public class ConfigManager {
 				Config.BOSSBAR_RAIDBAR_COLOR.set(BarColor.PURPLE.name());
 			}
 		}
+
+		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));
 	}
 
 	/**
