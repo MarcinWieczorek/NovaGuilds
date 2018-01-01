@@ -1,6 +1,6 @@
 /*
  *     NovaGuilds - Bukkit plugin
- *     Copyright (C) 2017 Marcin (CTRL) Wieczorek
+ *     Copyright (C) 2018 Marcin (CTRL) Wieczorek
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor {
 					Message.CHAT_PREFIX.get() + "NovaGuilds 公会插件信息",
 					"&2NovaGuilds &6#&c" + VersionUtils.getBuildCurrent() + " &4(&e" + commit + "&4)",
 					"&2作者: &6Marcin (CTRL) Wieczorek",
-					"&22017 &4波&f兰",
+					"&22018 &4波&f兰",
 					"&6网址: &bhttp://novaguilds.pl/",
 					"&2最新插件构建: &6#&c" + VersionUtils.getBuildLatest()
 			});
@@ -56,7 +56,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor {
 					Message.CHAT_PREFIX.get() + "NovaGuilds Information",
 					"&2NovaGuilds &6#&c" + VersionUtils.getBuildCurrent() + " &4(&e" + commit + "&4)",
 					"&2Author: &6Marcin (CTRL) Wieczorek",
-					"&22017 &4Pol&fand",
+					"&22018 &4Pol&fand",
 					"&bhttp://novaguilds.pl/",
 					"&2Latest plugin build: &6#&c" + VersionUtils.getBuildLatest()
 			});
@@ -65,7 +65,7 @@ public class CommandNovaGuilds extends AbstractCommandExecutor {
 					Message.CHAT_PREFIX.get() + "NovaGuilds Informacje",
 					"&2NovaGuilds &6#&c" + VersionUtils.getBuildCurrent() + " &4(&e" + commit + "&4)",
 					"&2Autor: &6Marcin (CTRL) Wieczorek",
-					"&22017 &4Pol&fska",
+					"&22018 &4Pol&fska",
 					"&bhttp://novaguilds.pl/",
 					"&2Najnowsza wersja pluginu: &6#&c" + VersionUtils.getBuildLatest()
 			});
