@@ -19,10 +19,10 @@
 package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.api.util.BannerMetaSerializer;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.meta.BannerMeta;
@@ -60,7 +60,7 @@ public class BannerMetaSerializerImpl implements BannerMetaSerializer {
 
 	@Override
 	public BannerMeta deserialize(String string) {
-		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(Material.BANNER);
+		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
 
 		if(string == null || string.isEmpty()) {
 			return meta;

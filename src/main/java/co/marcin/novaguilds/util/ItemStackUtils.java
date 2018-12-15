@@ -75,7 +75,7 @@ public final class ItemStackUtils {
 			}
 
 			if(NumberUtils.isNumeric(materialString)) {
-				material = Material.getMaterial(Integer.parseInt(materialString));
+				material = CompatibilityUtils.getMaterial(Integer.parseInt(materialString));
 			}
 			else {
 				material = Material.getMaterial(materialString.toUpperCase());
@@ -94,7 +94,7 @@ public final class ItemStackUtils {
 				else {
 					color = DyeColor.valueOf(dataString.toUpperCase());
 					if(color != null) {
-						if(material == Material.INK_SACK) {
+						if(material == CompatibilityUtils.Mat.INK_SAC.get()) {
 							data = color.getDyeData();
 						}
 						else {
@@ -148,7 +148,7 @@ public final class ItemStackUtils {
 										potionLevel = Integer.parseInt(value);
 									}
 								}
-								else if(material == Material.FIREWORK) {
+								else if(material == CompatibilityUtils.Mat.FIREWORK_ROCKET.get()) {
 									//TODO
 								}
 								break;
@@ -284,8 +284,8 @@ public final class ItemStackUtils {
 			itemStack.addUnsafeEnchantments(enchantments);
 			ItemMeta itemMeta = itemStack.getItemMeta();
 
-			if(player != null && itemStack.getType() == Material.SKULL_ITEM) {
-				SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+			if(player != null && itemStack.getType() == CompatibilityUtils.Mat.PLAYER_HEAD.get()) {
+				SkullMeta skullMeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.PLAYER_HEAD.get());
 				skullMeta.setOwner(player);
 				itemStack.setItemMeta(skullMeta);
 			}

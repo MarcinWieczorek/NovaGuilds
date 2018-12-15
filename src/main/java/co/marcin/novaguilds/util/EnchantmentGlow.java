@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.util;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
@@ -25,10 +26,10 @@ import org.bukkit.inventory.ItemStack;
 public class EnchantmentGlow extends Enchantment {
 	/**
 	 * Glow enchantment constructor
-	 * Registers it as ID 150
+	 * Registers it as 'ngglow'
 	 */
 	public EnchantmentGlow() {
-		super(150);
+		super(NamespacedKey.minecraft("ngglow"));
 	}
 
 	@Override

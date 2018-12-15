@@ -27,11 +27,11 @@ import co.marcin.novaguilds.impl.versionimpl.v1_7_R3.packet.PacketPlayOutBlockCh
 import co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet.PacketPlayInUpdateSign;
 import co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet.PacketPlayOutOpenSignEditor;
 import co.marcin.novaguilds.impl.versionimpl.v1_7_R4.packet.PacketPlayOutUpdateSign;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.PacketSender;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
@@ -93,7 +93,7 @@ public class SignGUIImpl extends AbstractSignGui {
 			}
 
 			if(defaultText != null) {
-				packets.add(new PacketPlayOutBlockChange(location, Material.SIGN_POST, 0));
+				packets.add(new PacketPlayOutBlockChange(location, CompatibilityUtils.Mat.SIGN.get(), 0));
 				packets.add(new PacketPlayOutUpdateSign(location, defaultText));
 			}
 

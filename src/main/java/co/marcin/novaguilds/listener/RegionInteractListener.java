@@ -320,7 +320,7 @@ public class RegionInteractListener extends AbstractListener {
 		if(!Config.REGION_WATERFLOW.getBoolean()) {
 			Material type = event.getBlock().getType();
 
-			if((type == Material.WATER || type == Material.STATIONARY_WATER || type == Material.LAVA || type == Material.STATIONARY_LAVA)
+			if((type == Material.WATER || type == CompatibilityUtils.Mat.WATER.get() || type == Material.LAVA || type == CompatibilityUtils.Mat.LAVA.get())
 					&& RegionManager.get(event.getBlock()) == null
 					&& RegionManager.get(event.getToBlock()) != null) {
 				event.setCancelled(true);

@@ -59,7 +59,7 @@ public final class BannerUtils {
 			return null;
 		}
 
-		ItemStack itemStack = new ItemStack(Material.BANNER);
+		ItemStack itemStack = new ItemStack(CompatibilityUtils.Mat.WHITE_BANNER.get());
 		itemStack.setItemMeta(getRandomMeta());
 		return itemStack;
 	}
@@ -74,7 +74,7 @@ public final class BannerUtils {
 			return null;
 		}
 
-		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(Material.BANNER);
+		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
 		meta.setBaseColor(randomDyeColor());
 
 		for(int i = NumberUtils.randInt(0, PatternType.values().length) + 2; i > 0; i--) {
@@ -161,7 +161,7 @@ public final class BannerUtils {
 	 * @return shield item
 	 */
 	public static ItemStack applyMeta(ItemStack itemStack, BannerMeta bannerMeta) {
-		if(itemStack.getType() != Material.SHIELD && itemStack.getType() != Material.BANNER) {
+		if(itemStack.getType() != Material.SHIELD && itemStack.getType() != CompatibilityUtils.Mat.WHITE_BANNER.get()) {
 			throw new IllegalArgumentException("Passed ItemStack is not a shield nor a banner");
 		}
 
@@ -186,7 +186,7 @@ public final class BannerUtils {
 			return null;
 		}
 
-		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(Material.BANNER);
+		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
 
 		meta.setBaseColor(banner.getBaseColor());
 		for(Pattern pattern : banner.getPatterns()) {

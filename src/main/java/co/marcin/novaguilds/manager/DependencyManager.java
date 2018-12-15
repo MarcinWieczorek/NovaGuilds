@@ -83,7 +83,7 @@ public class DependencyManager {
 							additionalTask.run();
 							additionalTask.onSuccess();
 						}
-						catch(Exception e) {
+						catch(Exception | Error e) {
 							additionalTask.onFail();
 							AdditionalTaskException taskException = new AdditionalTaskException("Could not pass additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName(), e);
 
@@ -108,7 +108,10 @@ public class DependencyManager {
 		}
 
 		//Set config values varying if dependencies are missing
-		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean() && (ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2) || plugin.getDependencyManager().isEnabled(Dependency.BARAPI) || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
+		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean()
+				&& (ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)
+					|| plugin.getDependencyManager().isEnabled(Dependency.BARAPI)
+					|| plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
 		Config.BOSSBAR_RAIDBAR_ENABLED.set(Config.BOSSBAR_RAIDBAR_ENABLED.getBoolean() && Config.BOSSBAR_ENABLED.getBoolean());
 		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));
 	}
@@ -128,6 +131,7 @@ public class DependencyManager {
 	 */
 	public void setupEconomy() {
 		RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
+		Validate.notNull(rsp, "Could not find the Economy provider");
 		economy = rsp.getProvider();
 		Validate.notNull(economy);
 	}
@@ -150,7 +154,7 @@ public class DependencyManager {
 	 * @param <T>        class to cast
 	 * @return plugin instance
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "unused"})
 	public <T extends Plugin> T get(Dependency dependency, Class<T> cast) {
 		return (T) pluginMap.get(dependency);
 	}

@@ -194,4 +194,55 @@ public class CompatibilityUtils {
 			return getTargetBlockMethod.invoke(player, transparent, maxDistance);
 		}
 	}
+
+	/**
+	 * Gets material by id
+	 *
+	 * @param id id
+	 * @return material enum
+	 */
+	public static Material getMaterial(int id) {
+		for(Material material : Material.values()) {
+			if(material.getId() == id) {
+				return material;
+			}
+		}
+
+		return null;
+	}
+
+	public enum Mat {
+		WATER("STATIONARY_WATER"),
+		LAVA("STATIONARY_LAVA"),
+		PLAYER_HEAD("SKULL_ITEM"),
+		FIREWORK_ROCKET("FIREWORK"),
+		INK_SAC("INK_SACK"),
+		WHITE_BANNER("BANNER"),
+		SIGN("SIGN_POST")
+		;
+
+		private final String legacyName;
+
+		/**
+		 * The constructor
+		 *
+		 * @param legacyName pre 1.13 material name
+		 */
+		Mat(String legacyName) {
+			this.legacyName = legacyName;
+		}
+
+		/**
+		 * Gets material enum depending on the version
+		 *
+		 * @return material enum
+		 */
+		public Material get() {
+			if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_12_R1)) {
+				return Material.getMaterial("LEGACY_" + legacyName);
+			}
+
+			return Material.getMaterial(legacyName);
+		}
+	}
 }

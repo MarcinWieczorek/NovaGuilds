@@ -20,6 +20,7 @@ package co.marcin.novaguilds.impl.util;
 
 import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.api.util.Schematic;
+import co.marcin.novaguilds.util.CompatibilityUtils;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.Meta;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -118,8 +119,8 @@ public class SchematicImpl implements Schematic {
 					Meta.protect(block);
 					Meta.setMetadata(block, "state", block.getState());
 
-					block.setTypeId(blocks[index] < 0 ? Material.SPONGE.getId() : blocks[index]);
-					block.setData(data[index]);
+					block.setType(blocks[index] < 0 ? Material.SPONGE : CompatibilityUtils.getMaterial(blocks[index]));
+					block.getState().setRawData(data[index]);
 				}
 			}
 		}

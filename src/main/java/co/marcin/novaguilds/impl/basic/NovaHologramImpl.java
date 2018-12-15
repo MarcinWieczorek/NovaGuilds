@@ -127,7 +127,7 @@ public class NovaHologramImpl extends AbstractResource implements NovaHologram {
 	public void delete() {
 		hologram.delete();
 		NovaGuilds.getInstance().getHologramManager().getHolograms().remove(this);
-		location.getWorld().playEffect(location, Effect.POTION_SWIRL, 1000);
+		location.getWorld().playEffect(location, Effect.POTION_BREAK, 1000);
 		deleted = true;
 	}
 
