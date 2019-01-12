@@ -19,6 +19,7 @@
 package co.marcin.novaguilds.impl.versionimpl.v1_8_R1.packet;
 
 import co.marcin.novaguilds.impl.util.AbstractPacket;
+import co.marcin.novaguilds.manager.ConfigManager;
 import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.StringUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
@@ -36,11 +37,21 @@ public class PacketPlayOutPlayerListHeaderFooter extends AbstractPacket {
 
 	static {
 		try {
+			String headerField, footerField;
+			if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_12_R1)) {
+				headerField = "header";
+				footerField = "footer";
+			}
+			else {
+				headerField = "a";
+				footerField = "b";
+			}
+
 			craftChatMessageClass = Reflections.getBukkitClass("util.CraftChatMessage");
 			craftChatMessageFromStringMethod = Reflections.getMethod(craftChatMessageClass, "fromString", String.class);
 			PacketPlayOutPlayerListHeaderFooterClass = Reflections.getCraftClass("PacketPlayOutPlayerListHeaderFooter");
-			PacketPlayOutPlayerListHeaderFooterAField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, "a");
-			PacketPlayOutPlayerListHeaderFooterBField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, "b");
+			PacketPlayOutPlayerListHeaderFooterAField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, headerField);
+			PacketPlayOutPlayerListHeaderFooterBField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, footerField);
 		}
 		catch(ClassNotFoundException | NoSuchFieldException | NoSuchMethodException e) {
 			LoggerUtils.exception(e);

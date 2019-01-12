@@ -217,6 +217,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				case MINECRAFT_1_10_R2:
 				case MINECRAFT_1_11_R1:
 				case MINECRAFT_1_12_R1:
+				case MINECRAFT_1_13_R1:
+				case MINECRAFT_1_13_R2:
 				default:
 					packetExtension = new co.marcin.novaguilds.impl.versionimpl.v1_8_R3.PacketExtensionImpl();
 					break;
@@ -247,6 +249,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 					case MINECRAFT_1_10_R2:
 					case MINECRAFT_1_11_R1:
 					case MINECRAFT_1_12_R1:
+					case MINECRAFT_1_13_R1:
+					case MINECRAFT_1_13_R2:
 					default:
 						signGUI = new co.marcin.novaguilds.impl.versionimpl.v1_9_R2.SignGUIImpl();
 						break;
@@ -266,6 +270,8 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_10_R1, co.marcin.novaguilds.impl.versionimpl.v1_10_R1.TabListImpl.class);
 				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_11_R1, co.marcin.novaguilds.impl.versionimpl.v1_10_R1.TabListImpl.class);
 				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_12_R1, co.marcin.novaguilds.impl.versionimpl.v1_10_R1.TabListImpl.class);
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_13_R1, co.marcin.novaguilds.impl.versionimpl.v1_10_R1.TabListImpl.class);
+				tabListClassMap.put(ConfigManager.ServerVersion.MINECRAFT_1_13_R2, co.marcin.novaguilds.impl.versionimpl.v1_10_R1.TabListImpl.class);
 
 				for(ConfigManager.ServerVersion version : ConfigManager.ServerVersion.values()) {
 					Class<? extends TabList> tabListClass = tabListClassMap.get(version);
