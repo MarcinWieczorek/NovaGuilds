@@ -158,14 +158,6 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			getListenerManager().registerListeners();
 			getDynmapManager().init();
 
-			//Version check
-			new Thread() {
-				@Override
-				public void run() {
-					VersionUtils.checkVersion();
-				}
-			}.start();
-
 			//Setups the wrapped logger
 			setupWrappedLogger();
 

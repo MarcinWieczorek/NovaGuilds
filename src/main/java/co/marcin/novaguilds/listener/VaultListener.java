@@ -92,7 +92,7 @@ public class VaultListener extends AbstractListener {
 		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getWhoClicked());
 		String nameVault = Config.VAULT_ITEM.getItemStack().getItemMeta().getDisplayName();
 
-		if(event.getInventory().getTitle() == null || !event.getInventory().getTitle().equals(nameVault)) {
+		if(event.getView().getTitle() == null || !event.getView().getTitle().equals(nameVault)) {
 			return;
 		}
 

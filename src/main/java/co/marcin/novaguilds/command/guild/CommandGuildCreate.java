@@ -234,7 +234,8 @@ public class CommandGuildCreate extends AbstractCommandExecutor {
 					}
 
 					//Supernova
-					if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R3)) { //FIXME Does not work below 1.7.10
+					if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R3)
+							&& ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_16_R3)) { //FIXME Does not work below 1.7.10 nor on 1.16
 						ParticleUtils.createSuperNova(player);
 					}
 

@@ -46,7 +46,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class ToolListener extends AbstractListener {
@@ -80,7 +79,7 @@ public class ToolListener extends AbstractListener {
 		RegionSelection.Type selectionType = RegionSelection.Type.NONE;
 		pointedLocation.setWorld(player.getWorld());
 		NovaRegion region = RegionManager.get(pointedLocation);
-		Location selectedLocation[] = new Location[2];
+		Location[] selectedLocation = new Location[2];
 
 		if(nPlayer.getActiveSelection() != null && nPlayer.getActiveSelection().getType() != RegionSelection.Type.HIGHLIGHT) {
 			selectedLocation[0] = nPlayer.getActiveSelection().getCorner(0);
@@ -106,12 +105,15 @@ public class ToolListener extends AbstractListener {
 				selectedLocation[1] = nPlayer.getAtRegion().getCorner(1);
 			}
 
-			MessageWrapper mode = nPlayer.getPreferences().getRegionMode() == RegionMode.SELECT ? Message.CHAT_REGION_TOOL_MODES_SELECT : Message.CHAT_REGION_TOOL_MODES_CHECK;
+			MessageWrapper mode = nPlayer.getPreferences().getRegionMode() == RegionMode.SELECT
+					? Message.CHAT_REGION_TOOL_MODES_SELECT
+					: Message.CHAT_REGION_TOOL_MODES_CHECK;
 
 			vars.put(VarKey.MODE, mode.get());
 			Message.CHAT_REGION_TOOL_TOGGLEDMODE.clone().vars(vars).send(nPlayer);
 		}
-		else if(nPlayer.getPreferences().getRegionMode() == RegionMode.CHECK && (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
+		else if(nPlayer.getPreferences().getRegionMode() == RegionMode.CHECK
+				&& (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK)) { //CHECK MODE
 			if(!Permission.NOVAGUILDS_TOOL_CHECK.has(player)) {
 				return;
 			}

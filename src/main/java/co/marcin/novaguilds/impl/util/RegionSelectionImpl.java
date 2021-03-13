@@ -377,7 +377,7 @@ public class RegionSelectionImpl implements RegionSelection {
 
 		location = location.clone();
 		Block highest1 = player.getWorld().getHighestBlockAt(location.getBlockX(), location.getBlockZ());
-		location.setY(highest1.getY() - (highest1.getType() == Material.SNOW ? 0 : 1));
+		location.setY(highest1.getY());
 
 		if(material == null) {
 			material = location.getBlock().getType();
