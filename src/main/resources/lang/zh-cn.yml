@@ -6,14 +6,14 @@ chat:
  cmdfromconsole: "您无法从控制台执行该命令"
  enterinteger: "请输入一个数字."
  delayedteleport: "传送将于 &c{DELAY} 秒后开始，请不要移动位置"
- delayedtpmoved: "您的位置发生了移动,传送已取消.!"
- erroroccured: "&c错误,请联系服务器管理员."
- update: "&4发现版本更新！&a请点击查看：&6http://www.novaguilds.pl/"
- maxamount: "Maximum allowed amount is: &c{AMOUNT}"
+ delayedtpmoved: "传送已取消!"
+ erroroccured: "&c发生了未知错误,请联系服务器管理员."
+ update: "&4发现版本更新！&a请从：&6http://www.novaguilds.pl/&4获取更多资讯&下载"
+ maxamount: "最高限制为: &c{AMOUNT}"
  basic:
   negativenumber: "请输入数字(不得小于0)"
-  'on': "开"
-  'off': "关"
+  'on': "开启"
+  'off': "关闭"
   coords3d: "&6{X}&c/&6{Y}&c/&6{Z}"
  confirm:
   nullhandler: "没有等待确认的命令"
@@ -22,15 +22,15 @@ chat:
 
  admin:
   migrate:
-   sametype: "Data storage types can't be the same."
-   invalidtype: "Invalid data storage type."
-   connectionfail: "Failed to connect to the storage."
-   success: "All data have been successfully migrated."
+   sametype: "你不能把数据迁移到相同的储存类型"
+   invalidtype: "无效的储存类型"
+   connectionfail: "无法连接到数据储存"
+   success: "成功迁移数据！"
   config:
-   reloaded: "The config has been reloaded"
-   reset: "The config has been reset"
-   saved: "The config has been saved"
-   set: "&c{KEY} has been set to &c{VALUE}"
+   reloaded: "成功重载"
+   reset: "配置文件已被重置"
+   saved: "配置文件已被保存"
+   set: "成功设置 &c{KEY} 为 &c{VALUE}"
    get:
     single: "&f{KEY}&c: &f{VALUE}"
     list:
@@ -63,11 +63,11 @@ chat:
     other: "传送玩家 &c{PLAYER_NAME} 到达 &a{GUILD_NAME} 公会的传送点"
    set:
     tag: "前缀已更改为&a{TAG}"
-    points: "点设置."
-    lives: "生活设置."
+    points: "成功设置积分"
+    lives: "成功设置生命数量"
     slots:
      smallerthanplayers: "上限不能小于当前公会玩家的数量"
-     success: "Slots set."
+     success: "成功设置"
     name:
      enternewname: "输入新的名字"
      success: "公会名称已修改."
@@ -77,15 +77,15 @@ chat:
      success: "新的会长已设置！"
    reset:
     points:
-     invalidconditiontype: "&cInvalid condition type &4(&a< > = all&4)"
-     novalue: "Please add a value after &a{CHAR}"
-     success: "Successfully reset &a{COUNT} guilds' points"
+     invalidconditiontype: "&c无效的状态： &4(&a< > = all&4)"
+     novalue: "请在 &a{CHAR} 后添加参数"
+     success: "成功重设 &a{COUNT} 个工会积分"
    rank:
-    notfound: "Could not find the rank."
+    notfound: "无法找到该头衔."
     delete:
-     success: "The rank has been successfully deleted."
+     success: "该头衔已被移除."
     list:
-     header: "Rank list for guild {GUILD_NAME}"
+     header: "{GUILD_NAME} 的头衔列表"
      item: "&a{NAME}"
   region:
    bypass:
@@ -95,9 +95,9 @@ chat:
     notifyother: "您的领地通行权限已被修改,现在的状态为：&c{BYPASS}"
    spectate:
     toggled:
-     self: "Region spectate toggled. Currently: &c{FLAG}"
-     other: "Region spectate toggled for player &c{PLAYER_NAME}. Currently: &c{FLAG}"
-    notifyother: "Your region spectate has been toggled. Currently: &c{FLAG}"
+     self: "旁观模式 &c{FLAG}"
+     other: "以为 &c{PLAYER_NAME} &c{FLAG}旁观模式"
+    notifyother: "旁观模式: &c{FLAG}"
    delete:
     success: "成功删除公会领地."
    teleport:
@@ -108,12 +108,12 @@ chat:
    players: "玩家数据已保存."
    guilds: "公会数据已保存."
    regions: "领地数据已保存."
-   ranks: "Ranks saved."
+   ranks: "公会头衔已保存."
    all: "配置文件已保存(Players, Regions, Guilds, Ranks)"
    autosave: "自动保存传送."
   hologram:
-   disabled: "&cThis command is disabled without HolographicDisplays plugin present."
-   notfound: "找不到该名称的全息图"
+   disabled: "&c无法找到全息显示插件(HolographicDisplays)，本命令已被禁用."
+   notfound: "找不到该名称的全息显示"
    teleport:
     self: "传送到 &a{NAME}"
     other: "传送玩家 &c{PLAYER_NAME} 到 &a{NAME}"
@@ -125,13 +125,13 @@ chat:
     header: "全息图列表:"
     item: "&a{NAME} &2 - &6{X}&c/&6{Y}&c/&6{Z}"
   spymode:
-   notify: "Your spy mode has been changed. Currently &c{MODE}"
+   notify: "你&c{MODE}了监听模式"
    success:
-    self: "Spy mode changed. Currently &c{MODE}"
-    other: "&c{PLAYER_NAME}'s spy mode has been changed to &c{MODE}"
+    self: "你&c{MODE}了监听模式"
+    other: "你为&c{PLAYER_NAME} &c{MODE}了监听模式"
   player:
    set:
-    points: "You have changed &c{PLAYER_NAME}'s points to &a{PLAYER_POINTS}"
+    points: "你把&c{PLAYER_NAME}的工会点数设置成了 &a{PLAYER_POINTS}"
 
  reload:
   reloading: "正在重载公会系统..."
@@ -143,23 +143,23 @@ chat:
   regions: "领地数据已重载！"
   newmsgfile: "成功创建新语言文件！"
   groups: "权限组信息已加载!"
-  ranks: "Ranks loaded!"
+  ranks: "公会头衔已重载!"
   reloaded: "插件重载完成！"
 
  usage:
   nga:
-   access: "&4&l> &7/nga &2- &6Admin commands"
+   access: "&4&l> &7/nga &2- &6管理员命令"
    reload: "&4&l> &7/nga &creload &2- &6重载 &4&l[&7NovaGuilds&4&l]"
    save: "&4&l> &7/nga &csave &6[&cplayers&6/&cguilds&6/&cregions&6/&cranks&6] &2- &6保存公会插件数据"
-   chatspy: "&4&l> &7/nga &cspy &2- &6Toggle spy mode"
-   migrate: "&4&l> &7/nga &cmigrate &6<&cfrom/to&6> &6<&ctype&6> &2- &6Migrate data"
+   chatspy: "&4&l> &7/nga &cspy &2- &6开启/关闭监听模式"
+   migrate: "&4&l> &7/nga &cmigrate &6<&cfrom/to&6> &6<&ctype&6> &2- &6迁移数据"
    config:
-    access: "&4&l> &7/nga &cconfig &2- &6Config commands"
-    reload: "&4&l> &7/nga &cconfig &6reload &2- &6Reload the config"
-    save: "&4&l> &7/nga &cconfig &6save &2- &6Save the config"
-    reset: "&4&l> &7/nga &cconfig &6reset &2- &6Reset the config"
-    get: "&4&l> &7/nga &cconfig &6get &6<&ckey&6> &2- &6Get a value"
-    set: "&4&l> &7/nga &cconfig &6set &6<&ckey&6> &6<&cvalue&6> &2- &6Set a value"
+    access: "&4&l> &7/nga &cconfig &2- &6插件配置文件设置"
+    reload: "&4&l> &7/nga &cconfig &6reload &2- &6重载插件"
+    save: "&4&l> &7/nga &cconfig &6save &2- &6保存当前配置文件"
+    reset: "&4&l> &7/nga &cconfig &6reset &2- &6重置配置文件"
+    get: "&4&l> &7/nga &cconfig &6get &6<&c位置&6> &2- &6获取配置文件的一个值"
+    set: "&4&l> &7/nga &cconfig &6set &6<&c位置&6> &6<&c值&6> &2- &6手动设置配置文件的一个值"
    guild:
     access: "&4&l> &7/nga &cg &2- &6公会管理指令"
     set:
@@ -171,47 +171,47 @@ chat:
      tag: "&4&l> &7/nga &cg &6<&c公会&6> &csettag &6<&c标志&6> &2- &6修改标志"
      leader: "&4&l> &7/nga &cg &6promote &6<&c玩家&6> &2- &6将玩家升职为公会管理"
      liveregenerationtime: "&4&l> &7/nga &cg &6<&c公会&6> &cliveregentime &6<&c时间&6> &2- &6设置生活区重置时间.(1y/d/m/h/s)"
-    abandon: "&4&l> &7/nga &cg &6<&cguild&6> &cabandon &2- &6解散公会"
+    abandon: "&4&l> &7/nga &cg &6<&c公会&6> &cabandon &2- &6解散公会"
     bank:
      pay: "&4&l> &7/nga &cg &6<&c公会&6> &cpay &6<&c金额&6> &2- &6向公会银行存款"
      withdraw: "&4&l> &7/nga &cg &6<&c公会&6> &cwithdraw &6<&c金额&6> &2- &6从公会银行取款"
     inactive:
-     list: "&4&l> &7/nga &cg &6inactive &2- &6Show last activity"
+     list: "&4&l> &7/nga &cg &6inactive &2- &6显示最后活动"
     invite: "&4&l> &7/nga &cg &6<&c公会&6> &cinvite &6<&c玩家&6> &2- &6邀请玩家加入公会"
     kick: "&4&l> &7/nga &cg &6kick &6<&c玩家&6> &2- &6将玩家踢出公会"
     list: "&4&l> &7/nga &cg &6list &2- &6查看公会列表"
-    purge: "&4&l> &7/nga &cg &6purge &2- &6Delete all the guilds"
+    purge: "&4&l> &7/nga &cg &6purge &2- &6删除当前所有工会"
     tp: "&4&l> &7/nga &cg &6<&c公会&6> &ctp &6[&c玩家&6] &2- &6将玩家传送至公会出生点"
     reset:
-     points: "&4&l> &7/nga &cg &6resetpoints &6<&ccondition&6> &6[&cvalue&6] &2- &6Reset guild's points"
+     points: "&4&l> &7/nga &cg &6resetpoints &6<&c条件&6> &6[&c点数&6] &2- &6重置工会点数（如果有条件则会遵循条件重置）"
     rank:
-     access: "&4&l> &7/nga &cg &6<&cguild&6> &crank &2- &6rank commands"
-     delete: "&4&l> &7/nga &cg rank &6<&cguild&6> &clist &2- &6list ranks"
-     list: "&4&l> &7/nga &cg rank &6<&cguild&6> &cdel &6<&crank&6> &2- &6delete a rank"
+     access: "&4&l> &7/nga &cg &6<&c公会&6> &crank &2- &6头衔管理"
+     delete: "&4&l> &7/nga &cg rank &6<&c公会&6> &clist &2- &6列出当前所有头衔"
+     list: "&4&l> &7/nga &cg rank &6<&c公会&6> &cdel &6<&c头衔&6> &2- &6删除一个头衔"
    region:
     access: "&4&l> &7/nga &crg &2- &6领地管理指令"
     list: "&4&l> &7/nga &crg &6list &6[&c公会名&6] &2- &6列出所有领地"
-    delete: "&4&l> &7/nga &crg &6<&c公会名&6> &6del &6<&cindex&6> &2- &6删除指定领地"
-    enlarge: "&4&l> &7/nga &crg &6<&cguild&6> &cenlarge &6[&cindex&6] &2- &6Enlarge a region"
+    delete: "&4&l> &7/nga &crg &6<&c公会名&6> &6del &6<&cid&6> &2- &6删除指定领地"
+    enlarge: "&4&l> &7/nga &crg &6<&cguild&6> &cenlarge &6[&cid&6] &2- &6扩大一个领地"
     teleport: "&4&l> &7/nga &crg &6tp &6<&c公会名&6> &6<&cindex&6> &6[&c玩家&6] &2- &6传送至指定领地"
     bypass: "&4&l> &7/nga &crg &6bypass &6[&c玩家&6] &2- &6更改通行权限"
-    spectate: "&4&l> &7/nga &crg &6spectate &6[&cplayer&6] &2- &6Change spectate mode"
-    buy: "&4&l> &7/nga &crg &6<&cguild&6> &cbuy &2- &6Buy a region for the guild"
+    spectate: "&4&l> &7/nga &crg &6spectate &6[&c玩家&6] &2- &6更改旁观者模式"
+    buy: "&4&l> &7/nga &crg &6<&c公会&6> &cbuy &2- &为公会购买一块领地"
    hologram:
     access: "&4&l> &7/nga &ch &2- &6全息图指令"
     list: "&4&l> &7/nga &ch &6list &2- &6全息图列表"
     teleport:
-     self: "&4&l> &7/nga &ch &6<&cname&6> &6tp &6[&cplayer&6] &2- &6传送到全息图"
+     self: "&4&l> &7/nga &ch &6<&cname&6> &6tp &6[&c玩家&6] &2- &6传送到全息图"
      here: "&4&l> &7/nga &ch &6<&cname&6> &6tphere &2- &6把全息图传送到身边"
     delete: "&4&l> &7/nga &ch &6<&cname&6> &6del &2- &6删除全息图"
     addtop: "&4&l> &7/nga &ch &6addtop &2- &6添加top全息图"
    player:
-    access: "&4&l> &7/nga &cplayer &2- &6Player commands"
+    access: "&4&l> &7/nga &cplayer &2- &6玩家管理指令"
     set:
-     points: "&4&l> &7/nga &cp &6<&cplayer&6> points &6<&cpoints&6> &2- &6Set player points"
+     points: "&4&l> &7/nga &cp &6<&c玩家&6> points &6<&c点数&6> &2- &6设置玩家的点数"
   guild:
-   access: "&4&l> &7/g &2- &6Guild commands"
-   abandon: "&4&l> &7/abandon &2- &6abandon your guild"
+   access: "&4&l> &7/g &2- &6公会管理指令"
+   abandon: "&4&l> &7/abandon &2- &6解散你的公会"
    ally: "&4&l> &7/g &cally &6<&c公会名&6> &2- &6申请与指定公会结盟."
    bank:
     pay: "&4&l> &7/g &cpay &6<&c金额&6> &2- &6向公会银行存款"
@@ -219,9 +219,9 @@ chat:
    buy:
     life: "&4&l> &7/g &cbuylife &2- &6购买生活区"
     slot: "&4&l> &7/g &cbuyslot &2- &6扩展公会玩家人数限制!"
-   chatmode: "&4&l> &7/g &cc &2- &6Change chat mode"
+   chatmode: "&4&l> &7/g &cc &2- &6更改聊天模式"
    compass: "&4&l> &7/g &ccompass &2- &6令指南针上指向公会出生点所在的方向！"
-   create: "&4&l> &7/create &6<&ctag&6> &6<&cname&6> &2- &6创建一个公会"
+   create: "&4&l> &7/create &6<&c标签&6> &6<&c名称&6> &2- &6创建一个公会"
    effect: "&4&l> &7/g &ceffect &2- &6公会特效"
    home:
     teleport: "&4&l> &7/g &chome &2- &6传送至公会出生点"
@@ -237,26 +237,26 @@ chat:
    pvptoggle: "&4&l> &7/g &cpvp &2- &6切换PVP"
    requireditems: "&4&l> &7/g &citems &2- &6需求的物品"
    set:
-    name: "&4&l> &7/g &csetname &2- &6Set the name"
-    tag: "&4&l> &7/g &csettag &2- &6Set the tag"
+    name: "&4&l> &7/g &csetname &2- &6设置名称"
+    tag: "&4&l> &7/g &csettag &2- &6设置标签"
    rank:
-    access: "&4&l> &7/g &crank &2- &6rank commands"
-    delete: "&4&l> &7/g &crank &6<&crank&6> &cdel &2- &6delete a rank"
-    list: "&4&l> &7/g &crank list &2- &6list ranks"
+    access: "&4&l> &7/g &crank &2- &6头衔管理指令"
+    delete: "&4&l> &7/g &crank &6<&c头衔&6> &cdel &2- &6删除指定头衔"
+    list: "&4&l> &7/g &crank list &2- &6列出所有头衔"
    top: "&4&l> &7/g &ctop &2- &6查看公会排行前5的玩家"
    vault:
-    restore: "&4&l> &7/g &cvault &2- &6Restore vault item"
+    restore: "&4&l> &7/g &cvault &2- &6重置金库物品"
    war: "&4&l> &7/g &cwar &6[&c公会名&6] &2- &6向指定公会宣战."
   region:
    access: "&4&l> &7/g &crg &2- &6领地命令"
    buy: "&4&l> &7/g &crg &6buy &2- &6创建领地"
-   delete: "&4&l> &7/g &crg &6delete &6<&cindex&6> &2- &6删除领地"
-   enlarge: "&4&l> &7/g &crg &6enlarge &6[&cindex&6] &2- &6Enlarge a region"
-   list: "&4&l> &7/g &crg &6list &2- &6List regions"
+   delete: "&4&l> &7/g &crg &6delete &6<&c领地id&6> &2- &6删除领地"
+   enlarge: "&4&l> &7/g &crg &6enlarge &6[&c领地id&6] &2- &6扩大一个领地"
+   list: "&4&l> &7/g &crg &6list &2- &6列出所有领地"
   tool: "&4&l> &7/ng &ctool &2- &6用工具检查指定领地"
   player:
-   info: "&4&l> &7/pi &2- &6Player info"
-  confirm: "&4&l> &7/confirm &2- &6Command confirmation"
+   info: "&4&l> &7/pi &2- &6显示玩家信息"
+  confirm: "&4&l> &7/confirm &2- &6确认一个操作"
 
  commands:
   header:
@@ -300,12 +300,12 @@ chat:
     - "&4&l> &7/g &cally &6<&c公会名&6> &2- &6申请与指定公会结盟."
     - "&4&l> &7/g &cwar &6[&c公会名&6] &2- &6向指定公会宣战."
     - "{KICK}&4&l> &7/g &ckick &6<&c玩家名&6> &2- &6将玩家踢出公会."
-    - "{PVPTOGGLE}&4&l> &7/g &cpvp &2- &6切换PVP"
+    - "{PVPTOGGLE}&4&l> &7/g &cpvp &2- &6切换PVP状态"
     - "{OPENINVITATION}&4&l> &7/g &copeninv &2- &6切换公会公开邀请状态"
-    - "{SET_NAME}&4&l> &7/g &csetname &2- &6Set the name"
-    - "{SET_TAG}&4&l> &7/g &csettag &2- &6Set the tag"
-    - "&4&l> &7/g &crg &2- &6领地命令"
-    - "&4&l> &7/g &crank &2- &6rank commands"
+    - "{SET_NAME}&4&l> &7/g &csetname &2- &6设置名字"
+    - "{SET_TAG}&4&l> &7/g &csettag &2- &6设置标签"
+    - "&4&l> &7/g &crg &2- &6领地管理命令"
+    - "&4&l> &7/g &crank &2- &6头衔管理"
     - "{ABANDON}&4&l> &7/abandon &2- &6删除你的公会."
     - "{INVITE}&4&l> &7/invite &6<&c玩家名&6> &2- &6邀请玩家加入你的公会."
 
@@ -330,8 +330,8 @@ chat:
     success: "公会仓库已移除."
    denyrelative: "不能把公会仓库放在这个地方"
    restore:
-    hasalready: "You have the item already in your inventory."
-    success: "Vault item successfuly restored."
+    hasalready: "你已经在物品栏里有这些物品了."
+    success: "成功获取仓库内的物品"
 
   compasstarget:
    'on': "指南针现在指向你的公会出生点."
@@ -351,10 +351,10 @@ chat:
    notifyguildcanceled: "&a{GUILD_NAME}取消了他们的结盟申请."
    canceled: "您已取消向&a{ALLYNAME}的结盟申请."
    list:
-    noallies: "No allies."
+    noallies: "你并没有什么盟友."
     header:
-     allies: "List of allies:"
-     invitations: "List of alliance invitations:"
+     allies: "你的盟友:"
+     invitations: "盟友申请列表:"
     item: "&c{GUILD_NAME}"
     separator: "&f, "
 
@@ -373,8 +373,8 @@ chat:
    outsideregion: "你无法将公会出生点设置在公会领地外！"
    overlaps: "你无法将公会出生点设置在他人的领地内！"
   set:
-   name: "Guild's name has been set."
-   tag: "Guild's tag has been set."
+   name: "成功设置公会名字"
+   tag: "成功设置工会标签"
   home: "已返回公会出生点."
   joined: "您已加入该公会！"
   explosionatregion: "在您的公会领地内发生了一次爆炸！"
@@ -383,11 +383,11 @@ chat:
   isfull: "公会成员数目已达到上限."
   buy:
    life:
-    success: "为你的公会买一个生活区."
-    maxreached: "You can't buy more lives."
+    success: "为你的公会买一个生命数量"
+    maxreached: "你不能再购买生命数量了."
    slot:
     success: "为你公会购买了一个人数上限."
-    maxreached: "The slot amount has reached the maximum value."
+    maxreached: "公会已达到服务器允许人数上限."
 
   war:
    ally: "您需要先解除与该公会的结盟."
@@ -397,8 +397,8 @@ chat:
      success: "您向&a{GUILD_NAME}发出了停战请求."
      notify: "&a{GUILD_NAME}向您发出了停战请求."
     cancel:
-     success: "You have canceled the no-war invitation for &a{GUILD_NAME}"
-     notify: "&a{GUILD_NAME} has canceled their invitation to stop the war"
+     success: "你拒绝了 &a{GUILD_NAME}的停战请求"
+     notify: "&a{GUILD_NAME}取消了他们的停战请求"
    list:
     nowars: "无公会战争发生."
     warsheader: "进行中的公会战争:"
@@ -422,12 +422,12 @@ chat:
     success: "您已从公会银行内取出&2$&c{AMOUNT}金币."
     notenough: "公会银行金币不足."
   chatmode:
-   success: "Chat mode set successfuly to &c{MODE}."
-   invalid: "Invalid mode. Try &cnormal&6/&cguild&6/&cally"
+   success: "当前聊天模式： &c{MODE}."
+   invalid: "无效的模式，请使用 &c全球&6/&c公会&6/&c联盟"
    names:
-    normal: "normal"
-    guild: "guild"
-    ally: "ally"
+    normal: "全球"
+    guild: "公会"
+    ally: "联盟"
 
  player:
   entername: "请输入玩家名称."
@@ -486,15 +486,15 @@ chat:
   size: "选择的区域大小: &c{SIZE} 方格."
   price: "购买该区域需支付的费用: &c${PRICE}"
   cnotafford: "无法购买该区域,你还需要&c${NEEDMORE}."
-  maxamount: "You have reached the max amount of &c${AMOUNT} regions"
+  maxamount: "你已经达到了区域最高限制 (&c${AMOUNT})"
   created: "领地购买成功."
   mustveguild: "你需要成立公会以购买该区域,请输入&c/create&6以成立公会."
   entered: "您已进入了 &a{GUILD_NAME} 公会的领地."
   exited: "您退出了 &a{GUILD_NAME} 公会的领地."
-  notfound: "Could not find the region"
+  notfound: "无法找到该领地"
   resize:
    start: "正在调整领地大小,请使用&c鼠标右键&6进行调整."
-   toggle: "Corner toggled."
+   toggle: "角落更改模式"
    success: "领地大小调整完成."
   notifyguild:
    entered: "&c{PLAYER_NAME}已进入您的公会领地！"
@@ -547,8 +547,8 @@ chat:
    - "&4&l> &7创建时间: &6{CREATEDAGO}&2前"
    - "&4&l> &7邀请状态: &6{GUILD_OPENINVITATION}"
    - "&4&l> &7保护: &6{PROTLEFT}&2left"
-   - "&4&l> &7生活区: &6{GUILD_LIVES}"
-   - "&4&l> &7Live Regeneration in: &6{LIVEREGENERATIONTIME}"
+   - "&4&l> &7剩余生命数: &6{GUILD_LIVES}"
+   - "&4&l> &7生命数量将会在: &6{LIVEREGENERATIONTIME} 后恢复"
    - "&4&l> &7剩余时间: &6{GUILD_TIME_REST}"
    - "&4&l> &7公会区域: &6{X}&2,&6{Y}&2,&6{Z}"
    - "&4&l> &7玩家: &6(&c{PLAYERSCOUNT}&6/&c{SLOTS}&6) {PLAYERS}"
@@ -616,38 +616,38 @@ inventory:
   name: "需要的物品"
   lore:
    - ""
-   - "&6Inventory: &a{AMOUNT_AVAILABLE}"
-   - "&6EnderChest: &a{AMOUNT_AVAILABLE2}"
-   - "&6Total: &a{AMOUNT_AVAILABLE3} of &a{AMOUNT}"
-   - "&6You need &a{NEEDMORE} more"
+   - "&6物品栏: &a{AMOUNT_AVAILABLE}"
+   - "&6末影箱: &a{AMOUNT_AVAILABLE2}"
+   - "&6统计: &a{AMOUNT_AVAILABLE3} / &a{AMOUNT}"
+   - "&6你还需要&a{NEEDMORE}&6个"
  ggui:
   name: "公会菜单"
  gui:
   guildtop: "SIGN 1"
-  hometp: "ENDER_PEARL 1 name:Home"
+  hometp: "ENDER_PEARL 1 name:回家"
   join:
-   title: "Joining a guild"
-   iconitem: "IRON_DOOR 1 name:Join_a_guild"
-   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILD_NAME} lore:&7Tag:_&a{TAG}|&7Leader:_&c{PLAYER_NAME}"
+   title: "加入公会"
+   iconitem: "IRON_DOOR 1 name:加入一个公会"
+   rowitem: "ENCHANTED_BOOK 1 name:&a{GUILD_NAME} lore:&7标签:_&a{TAG}|&7会长:_&c{PLAYER_NAME}"
   settings:
-   title: "Guild settings"
+   title: "公会设置"
    item:
-    icon: "WORKBENCH 1 name:&4Settings"
+    icon: "WORKBENCH 1 name:&4设置"
     set:
-     name: "SIGN 1 name:&6Set_guild's_name"
-     tag: "SIGN 1 name:&6Set_guild's_tag"
-     home: "EYE_OF_ENDER 1 name:&6Set_guild's_home"
+     name: "SIGN 1 name:&6设置公会名称"
+     tag: "SIGN 1 name:&6设置公会标签"
+     home: "EYE_OF_ENDER 1 name:&6设置公会家"
     togglepvp:
-     'on': "GOLD_SWORD 1 name:&2Turn_guild_PVP_OFF"
-     'off': "WOOD_SWORD 1 name:&4Turn_guild_PVP_ON"
-    openinvitation: "FENCE_GATE 1 name:&6Toggle_open_invitation lore:Currently_{FLAG}"
-    buylife: "APPLE 1 name:&6Buy_a_life"
-    buyslot: "MINECART 1 name:&6Buy_a_slot"
-    invite: "CAKE 1 name:&6Invite_players"
+     'on': "GOLD_SWORD 1 name:&2关闭公会PvP"
+     'off': "WOOD_SWORD 1 name:&4开启工会PVP"
+    openinvitation: "FENCE_GATE 1 name:&6允许/拒绝邀请 lore:当前：{FLAG}"
+    buylife: "APPLE 1 name:&6购买一个生命数量"
+    buyslot: "MINECART 1 name:&6购买万家上限"
+    invite: "CAKE 1 name:&6邀请玩家"
    invite:
     title: "Inviting players"
     item: "SKULL_ITEM:3 1 player:{PLAYER_NAME} name:{PLAYER_NAME}"
-  back: "REDSTONE_TORCH_ON 1 name:&cBack"
+  back: "REDSTONE_TORCH_ON 1 name:&c返回"
   playerslist:
    title: "队员列表"
    iconitem: "SKULL_ITEM:3 1 name:队员列表"
@@ -662,19 +662,19 @@ inventory:
    iconitem: "EMPTY_MAP 1 name:头衔"
    rowitem: "BOOK 1 name:{RANKNAME}"
    additem: "BOOK_AND_QUILL 1 name:提拔"
-   defaultname: "Custom Rank"
-   leadername: "Leader"
+   defaultname: "自定义头衔"
+   leadername: "会长"
   rank:
    settings:
-    title: "&l{RANKNAME} &rsettings"
-    cloneprefix: "Clone of "
+    title: "头衔&l{RANKNAME} &rs设置"
+    cloneprefix: "复制源:"
     item:
-     editpermissions: "BOOK_AND_QUILL 1 name:&6Edit_Permissions"
-     setdefault: "WOOD_DOOR 1 name:&6Set_as_default"
-     clone: "GOLD_NUGGET 1 name:&6Clone"
-     rename: "NAME_TAG 1 name:&6Rename"
-     delete: "REDSTONE_BLOCK 1 name:&cDelete"
-     memberlist: "SKULL_ITEM:3 1 name:Members"
+     editpermissions: "BOOK_AND_QUILL 1 name:&6编辑权限"
+     setdefault: "WOOD_DOOR 1 name:&6设为默认"
+     clone: "GOLD_NUGGET 1 name:&6复制"
+     rename: "NAME_TAG 1 name:&6重命名"
+     delete: "REDSTONE_BLOCK 1 name:&c删除"
+     memberlist: "SKULL_ITEM:3 1 name:玩家"
   permissions:
    title: "编辑头衔: &l{RANKNAME}"
    item:
@@ -707,12 +707,12 @@ inventory:
      teleport: "传送至基地"
     openinvitation: "开启/关闭邀请界面"
     set:
-     name: "Set_guild's_name"
-     tag: "Set_guild's_tag"
+     name: "设置公会名称"
+     tag: "设置公会标签"
     war:
      invite:
       send: "发送和平协议"
-      cancel: "Cancel_no-war_invitation"
+      cancel: "取消和平协议"
       accept: "接受对方的和平协议"
      start: "宣战"
     bank:
@@ -728,40 +728,40 @@ inventory:
      create: "创建区域"
      remove: "移除区域"
      resize: "重设区域大小"
-     enlarge: "Enlarging_regions"
+     enlarge: "扩大领地"
     rank:
-     delete: "Deleting_ranks"
-     list: "Listing_ranks"
+     delete: "删除头衔"
+     list: "列出头衔"
      set: "设置头衔"
      edit: "编辑头衔"
   region:
-   enlarge: "MAP 1 name:Enlarge_the_region"
+   enlarge: "MAP 1 name:扩大该领地"
 
 signgui:
  guild:
   settings:
    set:
     name:
-     - "Enter new name"
+     - "请输入新名称"
      - "---------------"
      - "{INPUT}"
      - "---------------"
     tag:
-     - "Enter new tag"
+     - "请输入新标签"
      - "---------------"
      - "{INPUT}"
      - "---------------"
   ranks:
    set:
     name:
-     - "Edit name:"
+     - "请输入名称:"
      - "---------------"
      - "{INPUT}"
      - "---------------"
 
 dynmap:
- region: "{GUILD_NAME}'s region ({INDEX})"
- guildhome: "{GUILD_NAME}'s home"
+ region: "{GUILD_NAME}的领地({INDEX})"
+ guildhome: "{GUILD_NAME}的家"
 
 timeunit:
  second:
