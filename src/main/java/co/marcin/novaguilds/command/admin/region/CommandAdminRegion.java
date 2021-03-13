@@ -70,7 +70,12 @@ public class CommandAdminRegion extends AbstractCommandExecutor {
 				return;
 			}
 
-			if(args.length >= 3 && ((CommandExecutor.Reversed) subCommand.getExecutor()).getParameterType().equals(NovaRegion.class)) {
+			if(((CommandExecutor.Reversed) subCommand.getExecutor()).getParameterType().equals(NovaRegion.class)) {
+				if(args.length < 3) {
+					Message.CHAT_ENTERINTEGER.send(sender);
+					return;
+				}
+
 				String indexString = args[2];
 
 				if(!NumberUtils.isNumeric(indexString)) {
