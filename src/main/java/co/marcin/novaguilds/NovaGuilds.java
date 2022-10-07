@@ -333,14 +333,16 @@ public class NovaGuilds extends JavaPlugin implements NovaGuildsAPI {
 			setupMetrics();
 
 			//Register glow enchantment
-			try {
-				FieldAccessor<Boolean> acceptingNewField = Reflections.getField(Enchantment.class, "acceptingNew", boolean.class);
-				acceptingNewField.set(true);
-				Enchantment.registerEnchantment(new EnchantmentGlow());
-				acceptingNewField.set(false);
-			}
-			catch(Exception e) {
-				LoggerUtils.exception(e);
+			if(!ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_13_R1)) {
+				try {
+					FieldAccessor<Boolean> acceptingNewField = Reflections.getField(Enchantment.class, "acceptingNew", boolean.class);
+					acceptingNewField.set(true);
+					Enchantment.registerEnchantment(new EnchantmentGlow());
+					acceptingNewField.set(false);
+				}
+				catch(Exception | Error e) {
+					LoggerUtils.exception(e);
+				}
 			}
 
 			//Run tasks

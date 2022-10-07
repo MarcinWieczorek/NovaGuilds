@@ -18,6 +18,7 @@
 
 package co.marcin.novaguilds.util;
 
+import co.marcin.novaguilds.manager.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -259,7 +260,9 @@ public final class ItemStackUtils {
 								enchantments.put(Enchantment.LURE, Integer.valueOf(value));
 								break;
 							case "glow":
-								enchantments.put(new EnchantmentGlow(), 1);
+								if(!ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_13_R1)) {
+									enchantments.put(new EnchantmentGlow(), 1);
+								}
 								break;
 						}
 					}
