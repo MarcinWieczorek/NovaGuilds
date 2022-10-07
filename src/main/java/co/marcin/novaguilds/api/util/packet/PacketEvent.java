@@ -22,24 +22,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 
 public interface PacketEvent extends Cancellable {
-	/**
-	 * Gets packet object
-	 *
-	 * @return the packet
-	 */
-	Object getPacket();
+    /**
+     * Gets packet object
+     *
+     * @return the packet
+     */
+    Object getPacket();
 
-	/**
-	 * Gets the sender
-	 *
-	 * @return the player
-	 */
-	Player getPlayer();
+    /**
+     * Gets the sender
+     *
+     * @return the player
+     */
+    Player getPlayer();
 
-	/**
-	 * Gets packet name
-	 *
-	 * @return string
-	 */
-	String getPacketName();
+    /**
+     * Gets packet name
+     *
+     * @return string
+     */
+    String getPacketName();
 }

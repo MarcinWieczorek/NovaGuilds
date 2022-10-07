@@ -26,9 +26,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandAdminHologramAddTop extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaHologram hologram = plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());
-		Message.CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS.clone().setVar(VarKey.NAME, hologram.getName()).send(sender);
-	}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaHologram hologram = plugin.getHologramManager().addTopHologram(((Player) sender).getLocation());
+        Message.CHAT_ADMIN_HOLOGRAM_ADD_SUCCESS.clone().setVar(VarKey.NAME, hologram.getName()).send(sender);
+    }
 }

@@ -33,95 +33,95 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 public enum Lang {
-	EN_EN,
-	PL_PL,
-	DE_DE,
-	ZH_CN(Charset.forName("GBK")),
-	NL_NL,
-	FR_FR,
-	CUSTOM;
+    EN_EN,
+    PL_PL,
+    DE_DE,
+    ZH_CN(Charset.forName("GBK")),
+    NL_NL,
+    FR_FR,
+    CUSTOM;
 
-	private Charset charset;
+    private Charset charset;
 
-	/**
-	 * UTF-8 charset lang
-	 */
-	Lang() {
-		charset = Charset.forName("UTF-8");
-	}
+    /**
+     * UTF-8 charset lang
+     */
+    Lang() {
+        charset = Charset.forName("UTF-8");
+    }
 
-	/**
-	 * Charset specified lang
-	 *
-	 * @param charset the charset
-	 */
-	Lang(Charset charset) {
-		this.charset = charset;
-	}
+    /**
+     * Charset specified lang
+     *
+     * @param charset the charset
+     */
+    Lang(Charset charset) {
+        this.charset = charset;
+    }
 
-	/**
-	 * Gets the charset
-	 *
-	 * @return the charset
-	 */
-	public Charset getCharset() {
-		return charset;
-	}
+    /**
+     * Gets the charset
+     *
+     * @return the charset
+     */
+    public Charset getCharset() {
+        return charset;
+    }
 
-	/**
-	 * Sets the charset
-	 *
-	 * @param charset the charset
-	 */
-	private void setCharset(Charset charset) {
-		this.charset = charset;
-	}
+    /**
+     * Sets the charset
+     *
+     * @param charset the charset
+     */
+    private void setCharset(Charset charset) {
+        this.charset = charset;
+    }
 
-	/**
-	 * Load lang from a file
-	 *
-	 * @param file the file
-	 * @return the lang
-	 * @throws IOException when something goes wrong
-	 */
-	public static Lang fromFile(File file) throws IOException {
-		try {
-			String langName = StringUtils.replace(StringUtils.replace(file.getName().toUpperCase(), "-", "_"), ".YML", "");
-			return Lang.valueOf(langName);
-		}
-		catch(Exception e) {
-			try(BufferedReader brTest = new BufferedReader(new FileReader(file))) {
-				String line = brTest.readLine();
+    /**
+     * Load lang from a file
+     *
+     * @param file the file
+     * @return the lang
+     * @throws IOException when something goes wrong
+     */
+    public static Lang fromFile(File file) throws IOException {
+        try {
+            String langName = StringUtils.replace(StringUtils.replace(file.getName().toUpperCase(), "-", "_"), ".YML", "");
+            return Lang.valueOf(langName);
+        }
+        catch(Exception e) {
+            try(BufferedReader brTest = new BufferedReader(new FileReader(file))) {
+                String line = brTest.readLine();
 
-				if(line.startsWith("#")) {
-					line = line.substring(1);
-					LoggerUtils.info("Detected custom encoding for file " + file.getName() + ": " + line);
-					Lang lang = Lang.CUSTOM;
-					lang.setCharset(Charset.forName(line));
-					return lang;
-				}
+                if(line.startsWith("#")) {
+                    line = line.substring(1);
+                    LoggerUtils.info("Detected custom encoding for file " + file.getName() + ": " + line);
+                    Lang lang = Lang.CUSTOM;
+                    lang.setCharset(Charset.forName(line));
+                    return lang;
+                }
 
-				LoggerUtils.info("Found custom translation, applying default translation UTF-8");
-				LoggerUtils.info("Add #ENCODING to the first line of your language file");
-				LoggerUtils.info("Please consider sharing your translation with the community");
-			}
-			return Lang.CUSTOM;
-		}
-	}
+                LoggerUtils.info("Found custom translation, applying default translation UTF-8");
+                LoggerUtils.info("Add #ENCODING to the first line of your language file");
+                LoggerUtils.info("Please consider sharing your translation with the community");
+            }
+            return Lang.CUSTOM;
+        }
+    }
 
-	/**
-	 * Load configuration with charset detecting
-	 *
-	 * @param file the file
-	 * @return the configuration
-	 * @throws IOException when something goes wrong
-	 */
-	public static YamlConfiguration loadConfiguration(File file) throws IOException {
-		if(NovaGuilds.getInstance() != null && ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
-			return YamlConfiguration.loadConfiguration(file);
-		}
-		else {
-			return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Lang.fromFile(file).getCharset()));
-		}
-	}
+    /**
+     * Load configuration with charset detecting
+     *
+     * @param file the file
+     * @return the configuration
+     * @throws IOException when something goes wrong
+     */
+    public static YamlConfiguration loadConfiguration(File file) throws IOException {
+        if(NovaGuilds.getInstance() != null && ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_7_R4)) {
+            return YamlConfiguration.loadConfiguration(file);
+        }
+        else {
+            return YamlConfiguration.loadConfiguration(new InputStreamReader(new FileInputStream(file), Lang.fromFile(file).getCharset()));
+        }
+    }
 }

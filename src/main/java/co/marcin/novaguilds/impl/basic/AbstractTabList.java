@@ -29,34 +29,34 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractTabList implements TabList {
-	protected final List<String> lines = new ArrayList<>();
-	private final NovaPlayer nPlayer;
-	private final Map<VarKey, String> vars = new HashMap<>();
+    protected final List<String> lines = new ArrayList<>();
+    private final NovaPlayer nPlayer;
+    private final Map<VarKey, String> vars = new HashMap<>();
 
-	/**
-	 * The constructor
-	 *
-	 * @param nPlayer tablist owner
-	 */
-	public AbstractTabList(NovaPlayer nPlayer) {
-		this.nPlayer = nPlayer;
-		clear();
-	}
+    /**
+     * The constructor
+     *
+     * @param nPlayer tablist owner
+     */
+    public AbstractTabList(NovaPlayer nPlayer) {
+        this.nPlayer = nPlayer;
+        clear();
+    }
 
-	@Override
-	public NovaPlayer getPlayer() {
-		return nPlayer;
-	}
+    @Override
+    public NovaPlayer getPlayer() {
+        return nPlayer;
+    }
 
-	@Override
-	public Map<VarKey, String> getVars() {
-		return vars;
-	}
+    @Override
+    public Map<VarKey, String> getVars() {
+        return vars;
+    }
 
-	@Override
-	public void clear() {
-		lines.clear();
-		lines.addAll(Config.TABLIST_SCHEME.getStringList());
-		vars.clear();
-	}
+    @Override
+    public void clear() {
+        lines.clear();
+        lines.addAll(Config.TABLIST_SCHEME.getStringList());
+        vars.clear();
+    }
 }

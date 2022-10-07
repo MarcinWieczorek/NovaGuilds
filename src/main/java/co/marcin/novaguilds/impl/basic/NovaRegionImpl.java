@@ -28,145 +28,145 @@ import org.bukkit.World;
 import java.util.UUID;
 
 public class NovaRegionImpl extends AbstractResource implements NovaRegion {
-	private final Location[] corners = new Location[2];
-	private int id;
-	private World world;
-	private NovaGuild guild;
-	private Integer index;
+    private final Location[] corners = new Location[2];
+    private int id;
+    private World world;
+    private NovaGuild guild;
+    private Integer index;
 
-	/**
-	 * The constructor
-	 *
-	 * @param uuid region UUID
-	 */
-	public NovaRegionImpl(UUID uuid) {
-		super(uuid);
-	}
+    /**
+     * The constructor
+     *
+     * @param uuid region UUID
+     */
+    public NovaRegionImpl(UUID uuid) {
+        super(uuid);
+    }
 
-	/**
-	 * Create from RegionSelection
-	 *
-	 * @param uuid      region UUID
-	 * @param selection the selection
-	 */
-	public NovaRegionImpl(UUID uuid, RegionSelection selection) {
-		this(uuid);
-		setCorner(0, selection.getCorner(0));
-		setCorner(1, selection.getCorner(1));
-		setWorld(selection.getCorner(0).getWorld());
-	}
+    /**
+     * Create from RegionSelection
+     *
+     * @param uuid      region UUID
+     * @param selection the selection
+     */
+    public NovaRegionImpl(UUID uuid, RegionSelection selection) {
+        this(uuid);
+        setCorner(0, selection.getCorner(0));
+        setCorner(1, selection.getCorner(1));
+        setWorld(selection.getCorner(0).getWorld());
+    }
 
-	@Override
-	public World getWorld() {
-		return world;
-	}
+    @Override
+    public World getWorld() {
+        return world;
+    }
 
-	@Override
-	public int getId() {
-		if(id <= 0) {
-			throw new UnsupportedOperationException("This rank might have been loaded from FLAT and has 0 (or negative) ID");
-		}
+    @Override
+    public int getId() {
+        if(id <= 0) {
+            throw new UnsupportedOperationException("This rank might have been loaded from FLAT and has 0 (or negative) ID");
+        }
 
-		return id;
-	}
+        return id;
+    }
 
-	@Override
-	public NovaGuild getGuild() {
-		return guild;
-	}
+    @Override
+    public NovaGuild getGuild() {
+        return guild;
+    }
 
-	@Override
-	public Location getCorner(int index) {
-		if(index != 0 && index != 1) {
-			throw new IllegalArgumentException("Index can be either 0 or 1");
-		}
+    @Override
+    public Location getCorner(int index) {
+        if(index != 0 && index != 1) {
+            throw new IllegalArgumentException("Index can be either 0 or 1");
+        }
 
-		return corners[index];
-	}
+        return corners[index];
+    }
 
-	@Override
-	public int getWidth() {
-		return Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX()) + 1;
-	}
+    @Override
+    public int getWidth() {
+        return Math.abs(getCorner(0).getBlockX() - getCorner(1).getBlockX()) + 1;
+    }
 
-	@Override
-	public int getLength() {
-		return Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
-	}
+    @Override
+    public int getLength() {
+        return Math.abs(getCorner(0).getBlockZ() - getCorner(1).getBlockZ()) + 1;
+    }
 
-	@Override
-	public int getDiagonal() {
-		int sumSquare = (int) (Math.pow(getWidth(), 2) + Math.pow(getLength(), 2));
-		return Math.round((int) Math.sqrt(sumSquare));
-	}
+    @Override
+    public int getDiagonal() {
+        int sumSquare = (int) (Math.pow(getWidth(), 2) + Math.pow(getLength(), 2));
+        return Math.round((int) Math.sqrt(sumSquare));
+    }
 
-	@Override
-	public int getSurface() {
-		return getLength() * getWidth();
-	}
+    @Override
+    public int getSurface() {
+        return getLength() * getWidth();
+    }
 
-	@Override
-	public Location getCenter() {
-		return RegionUtils.getCenterLocation(getCorner(0), getCorner(1));
-	}
+    @Override
+    public Location getCenter() {
+        return RegionUtils.getCenterLocation(getCorner(0), getCorner(1));
+    }
 
-	@Override
-	public Integer getIndex() {
-		return index;
-	}
+    @Override
+    public Integer getIndex() {
+        return index;
+    }
 
-	@Override
-	public void setWorld(World world) {
-		this.world = world;
-		setChanged();
-	}
+    @Override
+    public void setWorld(World world) {
+        this.world = world;
+        setChanged();
+    }
 
-	@Override
-	public void setId(int id) {
-		this.id = id;
-		setChanged();
-	}
+    @Override
+    public void setId(int id) {
+        this.id = id;
+        setChanged();
+    }
 
-	@Override
-	public void setGuild(NovaGuild guild) {
-		this.guild = guild;
-		setChanged();
-	}
+    @Override
+    public void setGuild(NovaGuild guild) {
+        this.guild = guild;
+        setChanged();
+    }
 
-	@Override
-	public void setCorner(int index, Location location) {
-		if(index != 0 && index != 1) {
-			throw new IllegalArgumentException("Index can be either 0 or 1");
-		}
+    @Override
+    public void setCorner(int index, Location location) {
+        if(index != 0 && index != 1) {
+            throw new IllegalArgumentException("Index can be either 0 or 1");
+        }
 
-		Location corner = null;
-		if(location != null) {
-			corner = location.clone();
-			corner.setY(0);
-		}
+        Location corner = null;
+        if(location != null) {
+            corner = location.clone();
+            corner.setY(0);
+        }
 
-		corners[index] = corner;
-		setChanged();
-	}
+        corners[index] = corner;
+        setChanged();
+    }
 
-	@Override
-	public void setIndex(Integer index) {
-		this.index = index;
-	}
+    @Override
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
 
-	@Override
-	public boolean contains(Location location) {
-		if(!location.getWorld().equals(getWorld())) {
-			return false;
-		}
+    @Override
+    public boolean contains(Location location) {
+        if(!location.getWorld().equals(getWorld())) {
+            return false;
+        }
 
-		int x = location.getBlockX();
-		int z = location.getBlockZ();
+        int x = location.getBlockX();
+        int z = location.getBlockZ();
 
-		Location c1 = getCorner(0);
-		Location c2 = getCorner(1);
+        Location c1 = getCorner(0);
+        Location c2 = getCorner(1);
 
-		return ((x >= c1.getBlockX() && x <= c2.getBlockX()) || (x <= c1.getBlockX() && x >= c2.getBlockX()))
-				&& ((z >= c1.getBlockZ() && z <= c2.getBlockZ()) || (z <= c1.getBlockZ() && z >= c2.getBlockZ()));
-	}
+        return ((x >= c1.getBlockX() && x <= c2.getBlockX()) || (x <= c1.getBlockX() && x >= c2.getBlockX()))
+                && ((z >= c1.getBlockZ() && z <= c2.getBlockZ()) || (z <= c1.getBlockZ() && z >= c2.getBlockZ()));
+    }
 }

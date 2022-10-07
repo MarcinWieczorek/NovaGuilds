@@ -19,27 +19,27 @@
 package co.marcin.novaguilds.api.storage;
 
 public interface Migrant {
-	/**
-	 * Gets the storage data is exported from
-	 *
-	 * @return storage instance
-	 */
-	Storage getFromStorage();
+    /**
+     * Gets the storage data is exported from
+     *
+     * @return storage instance
+     */
+    Storage getFromStorage();
 
-	/**
-	 * Gets the storage data is imported to
-	 *
-	 * @return storage instance
-	 */
-	Storage getToStorage();
+    /**
+     * Gets the storage data is imported to
+     *
+     * @return storage instance
+     */
+    Storage getToStorage();
 
-	/**
-	 * Migrates data between storages
-	 */
-	void migrate();
+    /**
+     * Migrates data between storages
+     */
+    void migrate();
 
-	/**
-	 * Executes the save of new data
-	 */
-	void save();
+    /**
+     * Executes the save of new data
+     */
+    void save();
 }

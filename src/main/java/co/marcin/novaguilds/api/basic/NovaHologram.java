@@ -24,100 +24,100 @@ import org.bukkit.Location;
 import java.util.List;
 
 public interface NovaHologram extends Resource {
-	/**
-	 * Gets the name of the hologram
-	 *
-	 * @return the name string
-	 */
-	String getName();
+    /**
+     * Gets the name of the hologram
+     *
+     * @return the name string
+     */
+    String getName();
 
-	/**
-	 * Gets the location
-	 *
-	 * @return Location instance
-	 */
-	Location getLocation();
+    /**
+     * Gets the location
+     *
+     * @return Location instance
+     */
+    Location getLocation();
 
-	/**
-	 * Gets a list of lines
-	 *
-	 * @return the list
-	 */
-	List<String> getLines();
+    /**
+     * Gets a list of lines
+     *
+     * @return the list
+     */
+    List<String> getLines();
 
-	/**
-	 * Sets the name
-	 *
-	 * @param name new name string
-	 */
-	void setName(String name);
+    /**
+     * Sets the name
+     *
+     * @param name new name string
+     */
+    void setName(String name);
 
-	/**
-	 * Sets the location
-	 *
-	 * @param location new location
-	 */
-	void setLocation(Location location);
+    /**
+     * Sets the location
+     *
+     * @param location new location
+     */
+    void setLocation(Location location);
 
-	/**
-	 * Adds a line
-	 *
-	 * @param line the string
-	 */
-	void addLine(String line);
+    /**
+     * Adds a line
+     *
+     * @param line the string
+     */
+    void addLine(String line);
 
-	/**
-	 * Clears the lines
-	 */
-	void clearLines();
+    /**
+     * Clears the lines
+     */
+    void clearLines();
 
-	/**
-	 * Adds a list of lines
-	 *
-	 * @param lines the list
-	 */
-	void addLine(List<String> lines);
+    /**
+     * Adds a list of lines
+     *
+     * @param lines the list
+     */
+    void addLine(List<String> lines);
 
-	/**
-	 * Refreshes the hologram
-	 */
-	void refresh();
+    /**
+     * Refreshes the hologram
+     */
+    void refresh();
 
-	/**
-	 * Teleports the hologram to a new location
-	 *
-	 * @param location the location
-	 */
-	void teleport(Location location);
+    /**
+     * Teleports the hologram to a new location
+     *
+     * @param location the location
+     */
+    void teleport(Location location);
 
-	/**
-	 * Creates the hologram
-	 */
-	void create();
+    /**
+     * Creates the hologram
+     */
+    void create();
 
-	/**
-	 * Deletes the hologram
-	 */
-	void delete();
+    /**
+     * Deletes the hologram
+     */
+    void delete();
 
-	/**
-	 * Returns if the hologram is a TOP hologram
-	 *
-	 * @return true if TOP
-	 */
-	boolean isTop();
+    /**
+     * Returns if the hologram is a TOP hologram
+     *
+     * @return true if TOP
+     */
+    boolean isTop();
 
-	/**
-	 * Returns if the hologram is deleted
-	 *
-	 * @return true if deleted
-	 */
-	boolean isDeleted();
+    /**
+     * Returns if the hologram is deleted
+     *
+     * @return true if deleted
+     */
+    boolean isDeleted();
 
-	/**
-	 * Sets the boolean of being a TOP hologram
-	 *
-	 * @param top the boolean
-	 */
-	void setTop(boolean top);
+    /**
+     * Sets the boolean of being a TOP hologram
+     *
+     * @param top the boolean
+     */
+    void setTop(boolean top);
 }

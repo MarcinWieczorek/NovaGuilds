@@ -31,43 +31,43 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class MoveListener extends AbstractListener {
-	@EventHandler
-	public void onPlayerMove(PlayerMoveEvent event) {
-		execute(event);
-	}
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        execute(event);
+    }
 
-	@EventHandler
-	public void onPlayerTeleport(PlayerTeleportEvent event) {
-		execute(event);
-	}
+    @EventHandler
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        execute(event);
+    }
 
-	@EventHandler
-	public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
-		PlayerManager.getPlayer(event.getPlayer()).cancelToolProgress();
-	}
+    @EventHandler
+    public void onPlayerChangedWorld(PlayerChangedWorldEvent event) {
+        PlayerManager.getPlayer(event.getPlayer()).cancelToolProgress();
+    }
 
-	/**
-	 * Performs region checking
-	 *
-	 * @param event move event
-	 */
-	private void execute(PlayerMoveEvent event) {
-		Player player = event.getPlayer();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-		Location from = event.getFrom();
-		Location to = event.getTo();
+    /**
+     * Performs region checking
+     *
+     * @param event move event
+     */
+    private void execute(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+        Location from = event.getFrom();
+        Location to = event.getTo();
 
-		NovaRegion fromRegion = RegionManager.get(from);
-		NovaRegion toRegion = RegionManager.get(to);
+        NovaRegion fromRegion = RegionManager.get(from);
+        NovaRegion toRegion = RegionManager.get(to);
 
-		//entering
-		if((fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) || (fromRegion != null && toRegion != null && !fromRegion.equals(toRegion))) {
-			plugin.getRegionManager().playerEnteredRegion(player, toRegion);
-		}
+        //entering
+        if((fromRegion == null && toRegion != null && nPlayer.getAtRegion() == null) || (fromRegion != null && toRegion != null && !fromRegion.equals(toRegion))) {
+            plugin.getRegionManager().playerEnteredRegion(player, toRegion);
+        }
 
-		//exiting
-		if(fromRegion != null && toRegion == null && nPlayer.getAtRegion() != null) {
-			plugin.getRegionManager().playerExitedRegion(player);
-		}
-	}
+        //exiting
+        if(fromRegion != null && toRegion == null && nPlayer.getAtRegion() != null) {
+            plugin.getRegionManager().playerExitedRegion(player);
+        }
+    }
 }

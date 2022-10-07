@@ -28,144 +28,144 @@ import org.bukkit.entity.Player;
  * @version 1.0.4
  */
 public interface Title {
-	/**
-	 * Set title text
-	 *
-	 * @param title Title
-	 */
-	void setTitle(String title);
+    /**
+     * Set title text
+     *
+     * @param title Title
+     */
+    void setTitle(String title);
 
-	/**
-	 * Get title text
-	 *
-	 * @return Title text
-	 */
-	String getTitle();
+    /**
+     * Get title text
+     *
+     * @return Title text
+     */
+    String getTitle();
 
-	/**
-	 * Set subtitle text
-	 *
-	 * @param subtitle Subtitle text
-	 */
-	void setSubtitle(String subtitle);
+    /**
+     * Set subtitle text
+     *
+     * @param subtitle Subtitle text
+     */
+    void setSubtitle(String subtitle);
 
-	/**
-	 * Get subtitle text
-	 *
-	 * @return Subtitle text
-	 */
-	String getSubtitle();
+    /**
+     * Get subtitle text
+     *
+     * @return Subtitle text
+     */
+    String getSubtitle();
 
-	/**
-	 * Get title color
-	 *
-	 * @return color
-	 */
-	ChatColor getTitleColor();
+    /**
+     * Get title color
+     *
+     * @return color
+     */
+    ChatColor getTitleColor();
 
-	/**
-	 * Get subtitle color
-	 *
-	 * @return color
-	 */
-	ChatColor getSubtitleColor();
+    /**
+     * Get subtitle color
+     *
+     * @return color
+     */
+    ChatColor getSubtitleColor();
 
-	/**
-	 * Get fade in time
-	 *
-	 * @return time
-	 */
-	int getFadeInTime();
+    /**
+     * Get fade in time
+     *
+     * @return time
+     */
+    int getFadeInTime();
 
-	/**
-	 * Get fade out time
-	 *
-	 * @return time
-	 */
-	int getFadeOutTime();
+    /**
+     * Get fade out time
+     *
+     * @return time
+     */
+    int getFadeOutTime();
 
-	/**
-	 * Get stay time
-	 *
-	 * @return time
-	 */
-	int getStayTime();
+    /**
+     * Get stay time
+     *
+     * @return time
+     */
+    int getStayTime();
 
-	/**
-	 * Get ticks
-	 *
-	 * @return ticks boolean
-	 */
-	boolean getTicks();
+    /**
+     * Get ticks
+     *
+     * @return ticks boolean
+     */
+    boolean getTicks();
 
-	/**
-	 * Set the title color
-	 *
-	 * @param color Chat color
-	 */
-	void setTitleColor(ChatColor color);
+    /**
+     * Set the title color
+     *
+     * @param color Chat color
+     */
+    void setTitleColor(ChatColor color);
 
-	/**
-	 * Set the subtitle color
-	 *
-	 * @param color Chat color
-	 */
-	void setSubtitleColor(ChatColor color);
+    /**
+     * Set the subtitle color
+     *
+     * @param color Chat color
+     */
+    void setSubtitleColor(ChatColor color);
 
-	/**
-	 * Set title fade in time
-	 *
-	 * @param time Time
-	 */
-	void setFadeInTime(int time);
+    /**
+     * Set title fade in time
+     *
+     * @param time Time
+     */
+    void setFadeInTime(int time);
 
-	/**
-	 * Set title fade out time
-	 *
-	 * @param time Time
-	 */
-	void setFadeOutTime(int time);
+    /**
+     * Set title fade out time
+     *
+     * @param time Time
+     */
+    void setFadeOutTime(int time);
 
-	/**
-	 * Set title stay time
-	 *
-	 * @param time Time
-	 */
-	void setStayTime(int time);
+    /**
+     * Set title stay time
+     *
+     * @param time Time
+     */
+    void setStayTime(int time);
 
-	/**
-	 * Set timings to ticks
-	 */
-	void setTimingsToTicks();
+    /**
+     * Set timings to ticks
+     */
+    void setTimingsToTicks();
 
-	/**
-	 * Set timings to seconds
-	 */
-	void setTimingsToSeconds();
+    /**
+     * Set timings to seconds
+     */
+    void setTimingsToSeconds();
 
-	/**
-	 * Send the title to a player
-	 *
-	 * @param player Player
-	 */
-	void send(Player player);
+    /**
+     * Send the title to a player
+     *
+     * @param player Player
+     */
+    void send(Player player);
 
-	/**
-	 * Broadcast the title to all players
-	 */
-	void broadcast();
+    /**
+     * Broadcast the title to all players
+     */
+    void broadcast();
 
-	/**
-	 * Clear the title
-	 *
-	 * @param player Player
-	 */
-	void clearTitle(Player player);
+    /**
+     * Clear the title
+     *
+     * @param player Player
+     */
+    void clearTitle(Player player);
 
-	/**
-	 * Reset the title settings
-	 *
-	 * @param player Player
-	 */
-	void resetTitle(Player player);
+    /**
+     * Reset the title settings
+     *
+     * @param player Player
+     */
+    void resetTitle(Player player);
 }

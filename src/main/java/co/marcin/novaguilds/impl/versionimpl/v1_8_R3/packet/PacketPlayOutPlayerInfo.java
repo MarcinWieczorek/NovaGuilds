@@ -31,79 +31,79 @@ import java.util.Collections;
 import java.util.List;
 
 public class PacketPlayOutPlayerInfo extends AbstractPacket {
-	public enum EnumPlayerInfoAction {
-		ADD_PLAYER,
-		UPDATE_GAME_MODE,
-		UPDATE_LATENCY,
-		UPDATE_DISPLAY_NAME,
-		REMOVE_PLAYER
-	}
+    public enum EnumPlayerInfoAction {
+        ADD_PLAYER,
+        UPDATE_GAME_MODE,
+        UPDATE_LATENCY,
+        UPDATE_DISPLAY_NAME,
+        REMOVE_PLAYER
+    }
 
-	protected static Class<?> enumPlayerInfoActionClass;
-	protected static Class<?> packetPlayerOutPlayerInfoClass;
-	protected static Constructor<?> packetPlayerOutPlayerInfoConstructor;
+    protected static Class<?> enumPlayerInfoActionClass;
+    protected static Class<?> packetPlayerOutPlayerInfoClass;
+    protected static Constructor<?> packetPlayerOutPlayerInfoConstructor;
 
-	protected final List<Object> list = new ArrayList<>();
+    protected final List<Object> list = new ArrayList<>();
 
-	static {
-		try {
-			enumPlayerInfoActionClass = Reflections.getCraftClass("PacketPlayOutPlayerInfo$EnumPlayerInfoAction");
-			packetPlayerOutPlayerInfoClass = Reflections.getCraftClass("PacketPlayOutPlayerInfo");
-			packetPlayerOutPlayerInfoConstructor = packetPlayerOutPlayerInfoClass.getConstructor(
-					enumPlayerInfoActionClass,
-					Iterable.class
-			);
-		}
-		catch(ClassNotFoundException | NoSuchMethodException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+    static {
+        try {
+            enumPlayerInfoActionClass = Reflections.getCraftClass("PacketPlayOutPlayerInfo$EnumPlayerInfoAction");
+            packetPlayerOutPlayerInfoClass = Reflections.getCraftClass("PacketPlayOutPlayerInfo");
+            packetPlayerOutPlayerInfoConstructor = packetPlayerOutPlayerInfoClass.getConstructor(
+                    enumPlayerInfoActionClass,
+                    Iterable.class
+            );
+        }
+        catch(ClassNotFoundException | NoSuchMethodException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param action  action enum
-	 * @param players list of players
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException    when something goes wrong
-	 */
-	public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action, Iterable<Player> players) throws IllegalAccessException, InvocationTargetException, InstantiationException {
-		Object craftEnum = Reflections.getEnumConstant(enumPlayerInfoActionClass, action.name());
-		List<Object> list = new ArrayList<>();
+    /**
+     * The constructor
+     *
+     * @param action  action enum
+     * @param players list of players
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     * @throws InstantiationException    when something goes wrong
+     */
+    public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action, Iterable<Player> players) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+        Object craftEnum = Reflections.getEnumConstant(enumPlayerInfoActionClass, action.name());
+        List<Object> list = new ArrayList<>();
 
-		if(players != null) {
-			for(Player player : players) {
-				list.add(Reflections.getHandle(player));
-			}
-		}
+        if(players != null) {
+            for(Player player : players) {
+                list.add(Reflections.getHandle(player));
+            }
+        }
 
-		packet = packetPlayerOutPlayerInfoConstructor.newInstance(craftEnum, list);
-	}
+        packet = packetPlayerOutPlayerInfoConstructor.newInstance(craftEnum, list);
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param action  action enum
-	 * @param players array of players
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException    when something goes wrong
-	 */
-	public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action, Player... players) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-		this(action, Arrays.asList(players));
-	}
+    /**
+     * The constructor
+     *
+     * @param action  action enum
+     * @param players array of players
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     * @throws InstantiationException    when something goes wrong
+     */
+    public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action, Player... players) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        this(action, Arrays.asList(players));
+    }
 
 
-	/**
-	 * The constructor with no players
-	 *
-	 * @param action action enum
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException    when something goes wrong
-	 */
-	public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-		this(action, Collections.<Player>emptyList());
-	}
+    /**
+     * The constructor with no players
+     *
+     * @param action action enum
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     * @throws InstantiationException    when something goes wrong
+     */
+    public PacketPlayOutPlayerInfo(EnumPlayerInfoAction action) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        this(action, Collections.<Player>emptyList());
+    }
 }

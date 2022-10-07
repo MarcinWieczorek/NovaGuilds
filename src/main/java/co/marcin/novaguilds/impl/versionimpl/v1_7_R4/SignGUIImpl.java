@@ -40,75 +40,75 @@ import java.util.List;
 
 @SuppressWarnings("ConstantConditions")
 public class SignGUIImpl extends AbstractSignGui {
-	/**
-	 * The constructor
-	 */
-	public SignGUIImpl() {
-		registerUpdateHandling();
-	}
+    /**
+     * The constructor
+     */
+    public SignGUIImpl() {
+        registerUpdateHandling();
+    }
 
-	/**
-	 * Registers packet the handler
-	 */
-	protected void registerUpdateHandling() {
-		new AbstractPacketHandler("PacketPlayInUpdateSign", PacketExtension.PacketHandler.Direction.IN) {
-			@Override
-			public void handle(PacketEvent event) {
-				final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
-				final Player player = event.getPlayer();
-				Location v = getSignLocations().remove(player.getUniqueId());
+    /**
+     * Registers packet the handler
+     */
+    protected void registerUpdateHandling() {
+        new AbstractPacketHandler("PacketPlayInUpdateSign", PacketExtension.PacketHandler.Direction.IN) {
+            @Override
+            public void handle(PacketEvent event) {
+                final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
+                final Player player = event.getPlayer();
+                Location v = getSignLocations().remove(player.getUniqueId());
 
-				if(v == null
-						|| packetPlayInUpdateSign.getX() != v.getBlockX()
-						|| packetPlayInUpdateSign.getY() != v.getBlockY()
-						|| packetPlayInUpdateSign.getZ() != v.getBlockZ()) {
-					return;
-				}
+                if(v == null
+                        || packetPlayInUpdateSign.getX() != v.getBlockX()
+                        || packetPlayInUpdateSign.getY() != v.getBlockY()
+                        || packetPlayInUpdateSign.getZ() != v.getBlockZ()) {
+                    return;
+                }
 
-				final SignGUIListener response = getListeners().remove(player.getUniqueId());
+                final SignGUIListener response = getListeners().remove(player.getUniqueId());
 
-				if(response != null) {
-					event.setCancelled(true);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-						public void run() {
-							response.onSignDone(player, packetPlayInUpdateSign.getLines());
-						}
-					});
-				}
-			}
-		};
-	}
+                if(response != null) {
+                    event.setCancelled(true);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                        public void run() {
+                            response.onSignDone(player, packetPlayInUpdateSign.getLines());
+                        }
+                    });
+                }
+            }
+        };
+    }
 
-	@Override
-	public void open(Player player, String[] defaultText, SignGUIListener response) {
-		try {
-			final List<Packet> packets = new ArrayList<>();
-			Location location = player.getLocation().clone();
-			location.setY(0);
+    @Override
+    public void open(Player player, String[] defaultText, SignGUIListener response) {
+        try {
+            final List<Packet> packets = new ArrayList<>();
+            Location location = player.getLocation().clone();
+            location.setY(0);
 
-			for(int i = 0; i < 4; i++) {
-				if(defaultText[i].length() > 15) {
-					defaultText[i] = defaultText[i].substring(0, 15);
-				}
-			}
+            for(int i = 0; i < 4; i++) {
+                if(defaultText[i].length() > 15) {
+                    defaultText[i] = defaultText[i].substring(0, 15);
+                }
+            }
 
-			if(defaultText != null) {
-				packets.add(new PacketPlayOutBlockChange(location, CompatibilityUtils.Mat.SIGN.get(), 0));
-				packets.add(new PacketPlayOutUpdateSign(location, defaultText));
-			}
+            if(defaultText != null) {
+                packets.add(new PacketPlayOutBlockChange(location, CompatibilityUtils.Mat.SIGN.get(), 0));
+                packets.add(new PacketPlayOutUpdateSign(location, defaultText));
+            }
 
-			packets.add(new PacketPlayOutOpenSignEditor(location));
+            packets.add(new PacketPlayOutOpenSignEditor(location));
 
-			if(defaultText != null) {
-				packets.add(new PacketPlayOutBlockChange(location, null, 0));
-			}
+            if(defaultText != null) {
+                packets.add(new PacketPlayOutBlockChange(location, null, 0));
+            }
 
-			signLocations.put(player.getUniqueId(), location);
-			listeners.put(player.getUniqueId(), response);
-			PacketSender.sendPacket(player, packets.toArray(new Packet[packets.size()]));
-		}
-		catch(IllegalAccessException | InstantiationException | InvocationTargetException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+            signLocations.put(player.getUniqueId(), location);
+            listeners.put(player.getUniqueId(), response);
+            PacketSender.sendPacket(player, packets.toArray(new Packet[packets.size()]));
+        }
+        catch(IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 }

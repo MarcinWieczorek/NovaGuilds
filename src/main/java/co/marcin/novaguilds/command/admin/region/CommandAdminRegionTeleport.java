@@ -33,57 +33,57 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminRegionTeleport extends AbstractCommandExecutor.Reversed<NovaRegion> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaRegion region = getParameter();
-		NovaPlayer nPlayerOther;
-		Player player;
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaRegion region = getParameter();
+        NovaPlayer nPlayerOther;
+        Player player;
 
-		if(args.length == 0) {
-			if(!(sender instanceof Player)) {
-				Message.CHAT_CMDFROMCONSOLE.send(sender);
-				return;
-			}
+        if(args.length == 0) {
+            if(!(sender instanceof Player)) {
+                Message.CHAT_CMDFROMCONSOLE.send(sender);
+                return;
+            }
 
-			player = (Player) sender;
-		}
-		else { //other
-			if(!Permission.NOVAGUILDS_ADMIN_REGION_TELEPORT_OTHER.has(sender)) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return;
-			}
+            player = (Player) sender;
+        }
+        else { //other
+            if(!Permission.NOVAGUILDS_ADMIN_REGION_TELEPORT_OTHER.has(sender)) {
+                Message.CHAT_NOPERMISSIONS.send(sender);
+                return;
+            }
 
-			nPlayerOther = PlayerManager.getPlayer(args[0]);
+            nPlayerOther = PlayerManager.getPlayer(args[0]);
 
-			if(nPlayerOther == null) {
-				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-				return;
-			}
+            if(nPlayerOther == null) {
+                Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+                return;
+            }
 
-			if(!nPlayerOther.isOnline()) {
-				Message.CHAT_PLAYER_NOTONLINE.send(sender);
-				return;
-			}
+            if(!nPlayerOther.isOnline()) {
+                Message.CHAT_PLAYER_NOTONLINE.send(sender);
+                return;
+            }
 
-			player = nPlayerOther.getPlayer();
-		}
+            player = nPlayerOther.getPlayer();
+        }
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.GUILD_NAME, region.getGuild().getName());
-		vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
-		vars.put(VarKey.PLAYER_NAME, player.getName());
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.GUILD_NAME, region.getGuild().getName());
+        vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
+        vars.put(VarKey.PLAYER_NAME, player.getName());
 
-		Location location = region.getCenter().clone();
-		location.setY(location.getWorld().getHighestBlockYAt(location));
+        Location location = region.getCenter().clone();
+        location.setY(location.getWorld().getHighestBlockYAt(location));
 
-		if(!player.equals(sender)) {
-			Message.CHAT_ADMIN_REGION_TELEPORT_OTHER.clone().vars(vars).send(sender);
-			Message.CHAT_ADMIN_REGION_TELEPORT_NOTIFYOTHER.clone().vars(vars).send(player);
-		}
-		else {
-			Message.CHAT_ADMIN_REGION_TELEPORT_SELF.clone().vars(vars).send(sender);
-		}
+        if(!player.equals(sender)) {
+            Message.CHAT_ADMIN_REGION_TELEPORT_OTHER.clone().vars(vars).send(sender);
+            Message.CHAT_ADMIN_REGION_TELEPORT_NOTIFYOTHER.clone().vars(vars).send(player);
+        }
+        else {
+            Message.CHAT_ADMIN_REGION_TELEPORT_SELF.clone().vars(vars).send(sender);
+        }
 
-		player.teleport(location);
-	}
+        player.teleport(location);
+    }
 }

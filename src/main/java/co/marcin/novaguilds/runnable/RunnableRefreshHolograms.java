@@ -22,11 +22,11 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.util.LoggerUtils;
 
 public class RunnableRefreshHolograms implements Runnable {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+    private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
-	@Override
-	public void run() {
-		plugin.getHologramManager().refreshTopHolograms();
-		LoggerUtils.info("Top holograms refreshed.");
-	}
+    @Override
+    public void run() {
+        plugin.getHologramManager().refreshTopHolograms();
+        LoggerUtils.info("Top holograms refreshed.");
+    }
 }

@@ -21,38 +21,38 @@ package co.marcin.novaguilds.api.util;
 import org.bukkit.Location;
 
 public interface Schematic {
-	/**
-	 * Paste the schematic at given location
-	 *
-	 * @param location the location
-	 */
-	void paste(Location location);
+    /**
+     * Paste the schematic at given location
+     *
+     * @param location the location
+     */
+    void paste(Location location);
 
-	/**
-	 * Gets the width
-	 *
-	 * @return width
-	 */
-	short getWidth();
+    /**
+     * Gets the width
+     *
+     * @return width
+     */
+    short getWidth();
 
-	/**
-	 * Gets the height
-	 *
-	 * @return height
-	 */
-	short getHeight();
+    /**
+     * Gets the height
+     *
+     * @return height
+     */
+    short getHeight();
 
-	/**
-	 * Gets the length
-	 *
-	 * @return length
-	 */
-	short getLength();
+    /**
+     * Gets the length
+     *
+     * @return length
+     */
+    short getLength();
 
-	/**
-	 * Gets the name
-	 *
-	 * @return file name
-	 */
-	String getName();
+    /**
+     * Gets the name
+     *
+     * @return file name
+     */
+    String getName();
 }

@@ -28,49 +28,49 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 public class ErrorSignatureImpl implements ErrorSignature {
-	private final Collection<Block> blocks = new LinkedHashSet<>();
+    private final Collection<Block> blocks = new LinkedHashSet<>();
 
-	/**
-	 * The constructor
-	 *
-	 * @param error error instance
-	 */
-	public ErrorSignatureImpl(IError error) {
-		addBlock(new BlockImpl(error.getException()));
+    /**
+     * The constructor
+     *
+     * @param error error instance
+     */
+    public ErrorSignatureImpl(IError error) {
+        addBlock(new BlockImpl(error.getException()));
 
-		for(Throwable cause : error.getCauses()) {
-			addBlock(new BlockImpl(cause));
-		}
-	}
+        for(Throwable cause : error.getCauses()) {
+            addBlock(new BlockImpl(cause));
+        }
+    }
 
-	@Override
-	public Collection<Block> getBlocks() {
-		return blocks;
-	}
+    @Override
+    public Collection<Block> getBlocks() {
+        return blocks;
+    }
 
-	@Override
-	public void addBlock(Block... block) {
-		Collections.addAll(blocks, block);
-	}
+    @Override
+    public void addBlock(Block... block) {
+        Collections.addAll(blocks, block);
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
 
-		Iterator<Block> iterator = getBlocks().iterator();
-		while(iterator.hasNext()) {
-			Block block = iterator.next();
-			builder.append(block.getName())
-			       .append("|")
-			       .append(block.getMessage())
-			       .append("|")
-			       .append(block.getStackTraceElement());
+        Iterator<Block> iterator = getBlocks().iterator();
+        while(iterator.hasNext()) {
+            Block block = iterator.next();
+            builder.append(block.getName())
+                   .append("|")
+                   .append(block.getMessage())
+                   .append("|")
+                   .append(block.getStackTraceElement());
 
-			if(iterator.hasNext()) {
-				builder.append("|");
-			}
-		}
+            if(iterator.hasNext()) {
+                builder.append("|");
+            }
+        }
 
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 }

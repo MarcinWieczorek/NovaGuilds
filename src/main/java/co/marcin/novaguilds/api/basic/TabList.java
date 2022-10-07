@@ -23,27 +23,27 @@ import co.marcin.novaguilds.enums.VarKey;
 import java.util.Map;
 
 public interface TabList {
-	/**
-	 * Sends the tablist to a player
-	 */
-	void send();
+    /**
+     * Sends the tablist to a player
+     */
+    void send();
 
-	/**
-	 * Clears tablist scheme
-	 */
-	void clear();
+    /**
+     * Clears tablist scheme
+     */
+    void clear();
 
-	/**
-	 * Gets the player
-	 *
-	 * @return the NovaPlayer
-	 */
-	NovaPlayer getPlayer();
+    /**
+     * Gets the player
+     *
+     * @return the NovaPlayer
+     */
+    NovaPlayer getPlayer();
 
-	/**
-	 * Gets the vars
-	 *
-	 * @return Map of variables
-	 */
-	Map<VarKey, String> getVars();
+    /**
+     * Gets the vars
+     *
+     * @return Map of variables
+     */
+    Map<VarKey, String> getVars();
 }

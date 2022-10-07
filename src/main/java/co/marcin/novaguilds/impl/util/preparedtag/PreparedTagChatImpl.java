@@ -24,35 +24,35 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 
 public class PreparedTagChatImpl extends AbstractPreparedTag {
-	private static final ConfigWrapper pattern = Config.CHAT_TAG_CHAT;
+    private static final ConfigWrapper pattern = Config.CHAT_TAG_CHAT;
 
-	/**
-	 * The constructor
-	 *
-	 * @param guild the guild
-	 */
-	public PreparedTagChatImpl(NovaGuild guild) {
-		super(pattern, guild);
-	}
+    /**
+     * The constructor
+     *
+     * @param guild the guild
+     */
+    public PreparedTagChatImpl(NovaGuild guild) {
+        super(pattern, guild);
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param nPlayer the player whose tag is being displayed
-	 */
-	public PreparedTagChatImpl(NovaPlayer nPlayer) {
-		super(pattern, nPlayer.getGuild());
-		setUpFor(nPlayer);
-	}
+    /**
+     * The constructor
+     *
+     * @param nPlayer the player whose tag is being displayed
+     */
+    public PreparedTagChatImpl(NovaPlayer nPlayer) {
+        super(pattern, nPlayer.getGuild());
+        setUpFor(nPlayer);
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param nPlayer             the player whose tag is being displayed
-	 * @param leaderPrefixEnabled leader prefix enabled
-	 */
-	public PreparedTagChatImpl(NovaPlayer nPlayer, boolean leaderPrefixEnabled) {
-		super(pattern, nPlayer.getGuild(), leaderPrefixEnabled);
-		setUpFor(nPlayer);
-	}
+    /**
+     * The constructor
+     *
+     * @param nPlayer             the player whose tag is being displayed
+     * @param leaderPrefixEnabled leader prefix enabled
+     */
+    public PreparedTagChatImpl(NovaPlayer nPlayer, boolean leaderPrefixEnabled) {
+        super(pattern, nPlayer.getGuild(), leaderPrefixEnabled);
+        setUpFor(nPlayer);
+    }
 }

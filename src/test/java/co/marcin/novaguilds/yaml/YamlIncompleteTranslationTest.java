@@ -32,86 +32,86 @@ import java.util.List;
 import java.util.Map;
 
 public class YamlIncompleteTranslationTest {
-	private static final File langDir = new File(YamlParseTest.resourcesDirectory, "/lang");
+    private static final File langDir = new File(YamlParseTest.resourcesDirectory, "/lang");
 
-	@Test
-	public void testMessageEnum() throws Exception {
-		File motherLangFile = new File(langDir, "en-en.yml");
-		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
-		int missingCount = 0;
+    @Test
+    public void testMessageEnum() throws Exception {
+        File motherLangFile = new File(langDir, "en-en.yml");
+        YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
+        int missingCount = 0;
 
-		for(MessageWrapper message : Message.values()) {
-			if(!motherConfiguration.contains(message.getPath())) {
-				System.out.println(" - " + message.getPath());
-				missingCount++;
-			}
-		}
+        for(MessageWrapper message : Message.values()) {
+            if(!motherConfiguration.contains(message.getPath())) {
+                System.out.println(" - " + message.getPath());
+                missingCount++;
+            }
+        }
 
-		if(missingCount == 0) {
-			System.out.println("Result: No missing keys");
-		}
-		else {
-			throw new Exception("Found " + missingCount + " missing keys in en-en file that are present in Message class");
-		}
-	}
+        if(missingCount == 0) {
+            System.out.println("Result: No missing keys");
+        }
+        else {
+            throw new Exception("Found " + missingCount + " missing keys in en-en file that are present in Message class");
+        }
+    }
 
-	@Test
-	public void testTranslations() throws Exception {
-		//Mother lang setup
-		File motherLangFile = new File(langDir, "en-en.yml");
-		YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
-		final List<String> motherKeys = new ArrayList<>();
-		for(String key : motherConfiguration.getKeys(true)) {
-			if(!motherConfiguration.isConfigurationSection(key)) {
-				motherKeys.add(key);
-			}
-		}
+    @Test
+    public void testTranslations() throws Exception {
+        //Mother lang setup
+        File motherLangFile = new File(langDir, "en-en.yml");
+        YamlConfiguration motherConfiguration = YamlConfiguration.loadConfiguration(motherLangFile);
+        final List<String> motherKeys = new ArrayList<>();
+        for(String key : motherConfiguration.getKeys(true)) {
+            if(!motherConfiguration.isConfigurationSection(key)) {
+                motherKeys.add(key);
+            }
+        }
 
-		//List all languages and configuration sections
-		Map<String, YamlConfiguration> configurationMap = new HashMap<>();
-		if(langDir.isDirectory()) {
-			File[] list = langDir.listFiles();
+        //List all languages and configuration sections
+        Map<String, YamlConfiguration> configurationMap = new HashMap<>();
+        if(langDir.isDirectory()) {
+            File[] list = langDir.listFiles();
 
-			if(list != null) {
-				for(File langFile : list) {
-					if(!langFile.getName().equals("en-en.yml")) {
-						configurationMap.put(StringUtils.replace(langFile.getName(), ".yml", ""), Lang.loadConfiguration(langFile));
-					}
-				}
-			}
-		}
+            if(list != null) {
+                for(File langFile : list) {
+                    if(!langFile.getName().equals("en-en.yml")) {
+                        configurationMap.put(StringUtils.replace(langFile.getName(), ".yml", ""), Lang.loadConfiguration(langFile));
+                    }
+                }
+            }
+        }
 
-		//Get keys from all langs
-		System.out.println("Testing lang files for missing keys...");
-		int globalMissingCount = 0;
-		for(Map.Entry<String, YamlConfiguration> entry : configurationMap.entrySet()) {
-			int missingCount = 0;
-			String name = entry.getKey();
-			YamlConfiguration configuration = entry.getValue();
+        //Get keys from all langs
+        System.out.println("Testing lang files for missing keys...");
+        int globalMissingCount = 0;
+        for(Map.Entry<String, YamlConfiguration> entry : configurationMap.entrySet()) {
+            int missingCount = 0;
+            String name = entry.getKey();
+            YamlConfiguration configuration = entry.getValue();
 
-			System.out.println("---");
-			System.out.println();
-			System.out.println("Testing lang: " + name);
+            System.out.println("---");
+            System.out.println();
+            System.out.println("Testing lang: " + name);
 
-			for(String mKey : motherKeys) {
-				if(!configuration.contains(mKey)) {
-					if(missingCount == 0) {
-						System.out.println("Missing keys:");
-					}
+            for(String mKey : motherKeys) {
+                if(!configuration.contains(mKey)) {
+                    if(missingCount == 0) {
+                        System.out.println("Missing keys:");
+                    }
 
-					System.out.println(" - " + mKey);
-					missingCount++;
-				}
-			}
+                    System.out.println(" - " + mKey);
+                    missingCount++;
+                }
+            }
 
-			globalMissingCount += missingCount;
-		}
+            globalMissingCount += missingCount;
+        }
 
-		if(globalMissingCount == 0) {
-			System.out.println("Result: No missing keys");
-		}
-		else {
-			throw new Exception("Found " + globalMissingCount + " missing keys in lang files");
-		}
-	}
+        if(globalMissingCount == 0) {
+            System.out.println("Result: No missing keys");
+        }
+        else {
+            throw new Exception("Found " + globalMissingCount + " missing keys in lang files");
+        }
+    }
 }

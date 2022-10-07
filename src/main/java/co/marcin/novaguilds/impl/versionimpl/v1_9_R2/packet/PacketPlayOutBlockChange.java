@@ -30,73 +30,73 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class PacketPlayOutBlockChange extends AbstractPacket {
-	protected static Class<?> packetBlockChangeClass;
-	protected static Class<?> worldClass;
-	protected static Class<?> craftMagicNumbersClass;
-	protected static Class<?> blockClass;
-	protected static Field blockPositionField;
-	protected static Field blockDataField;
-	protected static Method getBlockMethod;
-	protected static Method fromLegacyDataMethod;
-	protected static Method getTypeMethod;
+    protected static Class<?> packetBlockChangeClass;
+    protected static Class<?> worldClass;
+    protected static Class<?> craftMagicNumbersClass;
+    protected static Class<?> blockClass;
+    protected static Field blockPositionField;
+    protected static Field blockDataField;
+    protected static Method getBlockMethod;
+    protected static Method fromLegacyDataMethod;
+    protected static Method getTypeMethod;
 
-	static {
-		try {
-			packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
-			blockClass = Reflections.getCraftClass("Block");
-			worldClass = Reflections.getCraftClass("World");
-			craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
+    static {
+        try {
+            packetBlockChangeClass = Reflections.getCraftClass("PacketPlayOutBlockChange");
+            blockClass = Reflections.getCraftClass("Block");
+            worldClass = Reflections.getCraftClass("World");
+            craftMagicNumbersClass = Reflections.getBukkitClass("util.CraftMagicNumbers");
 
-			blockPositionField = Reflections.getPrivateField(packetBlockChangeClass, "a");
-			blockDataField = Reflections.getPrivateField(packetBlockChangeClass, "block");
+            blockPositionField = Reflections.getPrivateField(packetBlockChangeClass, "a");
+            blockDataField = Reflections.getPrivateField(packetBlockChangeClass, "block");
 
-			getBlockMethod = Reflections.getMethod(craftMagicNumbersClass, "getBlock", Material.class);
-			fromLegacyDataMethod = Reflections.getMethod(blockClass, "fromLegacyData");
-			getTypeMethod = Reflections.getMethod(worldClass, "getType");
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
-		}
-	}
+            getBlockMethod = Reflections.getMethod(craftMagicNumbersClass, "getBlock", Material.class);
+            fromLegacyDataMethod = Reflections.getMethod(blockClass, "fromLegacyData");
+            getTypeMethod = Reflections.getMethod(worldClass, "getType");
+        }
+        catch(Exception e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * Creates the packet
-	 *
-	 * @param location location
-	 * @param material material
-	 * @param data     data byte (color, type etc.)
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException    when something goes wrong
-	 */
-	public PacketPlayOutBlockChange(Location location, Material material, int data) throws IllegalAccessException, InvocationTargetException, InstantiationException {
-		Object blockPosition = new BlockPositionWrapperImpl(location).getBlockPosition();
-		packet = packetBlockChangeClass.newInstance();
+    /**
+     * Creates the packet
+     *
+     * @param location location
+     * @param material material
+     * @param data     data byte (color, type etc.)
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     * @throws InstantiationException    when something goes wrong
+     */
+    public PacketPlayOutBlockChange(Location location, Material material, int data) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+        Object blockPosition = new BlockPositionWrapperImpl(location).getBlockPosition();
+        packet = packetBlockChangeClass.newInstance();
 
-		Object blockData;
-		if(material == null) {
-			Object world = Reflections.getHandle(location.getWorld());
-			blockData = getTypeMethod.invoke(world, blockPosition);
-		}
-		else {
-			blockData = getData(material, data);
-		}
+        Object blockData;
+        if(material == null) {
+            Object world = Reflections.getHandle(location.getWorld());
+            blockData = getTypeMethod.invoke(world, blockPosition);
+        }
+        else {
+            blockData = getData(material, data);
+        }
 
-		blockPositionField.set(packet, blockPosition);
-		blockDataField.set(packet, blockData);
-	}
+        blockPositionField.set(packet, blockPosition);
+        blockDataField.set(packet, blockData);
+    }
 
-	/**
-	 * Gets block data
-	 *
-	 * @param material material
-	 * @param data     data byte
-	 * @return block data
-	 * @throws InvocationTargetException when something goes wrong
-	 * @throws IllegalAccessException    when something goes wrong
-	 */
-	protected Object getData(Material material, int data) throws InvocationTargetException, IllegalAccessException {
-		Object block = getBlockMethod.invoke(craftMagicNumbersClass, material);
-		return fromLegacyDataMethod.invoke(block, data);
-	}
+    /**
+     * Gets block data
+     *
+     * @param material material
+     * @param data     data byte
+     * @return block data
+     * @throws InvocationTargetException when something goes wrong
+     * @throws IllegalAccessException    when something goes wrong
+     */
+    protected Object getData(Material material, int data) throws InvocationTargetException, IllegalAccessException {
+        Object block = getBlockMethod.invoke(craftMagicNumbersClass, material);
+        return fromLegacyDataMethod.invoke(block, data);
+    }
 }

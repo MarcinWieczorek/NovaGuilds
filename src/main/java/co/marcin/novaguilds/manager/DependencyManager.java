@@ -43,220 +43,220 @@ import java.util.List;
 import java.util.Map;
 
 public class DependencyManager {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<Dependency, Plugin> pluginMap = new HashMap<>();
-	private Economy economy;
+    private static final NovaGuilds plugin = NovaGuilds.getInstance();
+    private final Map<Dependency, Plugin> pluginMap = new HashMap<>();
+    private Economy economy;
 
-	/**
-	 * Sets up the manager
-	 *
-	 * @throws FatalNovaGuildsException when something goes wrong
-	 */
-	public void setUp() throws FatalNovaGuildsException {
-		try {
-			checkDependencies();
-		}
-		catch(MissingDependencyException e) {
-			throw new FatalNovaGuildsException("Could not satisfy dependencies", e);
-		}
-	}
+    /**
+     * Sets up the manager
+     *
+     * @throws FatalNovaGuildsException when something goes wrong
+     */
+    public void setUp() throws FatalNovaGuildsException {
+        try {
+            checkDependencies();
+        }
+        catch(MissingDependencyException e) {
+            throw new FatalNovaGuildsException("Could not satisfy dependencies", e);
+        }
+    }
 
-	/**
-	 * Checks dependencies
-	 *
-	 * @throws MissingDependencyException when something goes wrong
-	 */
-	public void checkDependencies() throws MissingDependencyException {
-		pluginMap.clear();
+    /**
+     * Checks dependencies
+     *
+     * @throws MissingDependencyException when something goes wrong
+     */
+    public void checkDependencies() throws MissingDependencyException {
+        pluginMap.clear();
 
-		for(Dependency dependency : Dependency.values()) {
-			Plugin plugin = getPlugin(dependency.getName());
+        for(Dependency dependency : Dependency.values()) {
+            Plugin plugin = getPlugin(dependency.getName());
 
-			if(plugin != null) {
-				pluginMap.put(dependency, plugin);
-				LoggerUtils.info("Found plugin " + dependency.getName());
+            if(plugin != null) {
+                pluginMap.put(dependency, plugin);
+                LoggerUtils.info("Found plugin " + dependency.getName());
 
-				if(dependency.hasAdditionalTasks()) {
-					for(AdditionalTask additionalTask : dependency.getAdditionalTasks()) {
-						try {
-							LoggerUtils.info("Running additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName());
-							additionalTask.run();
-							additionalTask.onSuccess();
-						}
-						catch(Exception | Error e) {
-							additionalTask.onFail();
-							AdditionalTaskException taskException = new AdditionalTaskException("Could not pass additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName(), e);
+                if(dependency.hasAdditionalTasks()) {
+                    for(AdditionalTask additionalTask : dependency.getAdditionalTasks()) {
+                        try {
+                            LoggerUtils.info("Running additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName());
+                            additionalTask.run();
+                            additionalTask.onSuccess();
+                        }
+                        catch(Exception | Error e) {
+                            additionalTask.onFail();
+                            AdditionalTaskException taskException = new AdditionalTaskException("Could not pass additional task '" + additionalTask.getClass().getSimpleName() + "' for " + dependency.getName(), e);
 
-							if(!additionalTask.isFatal()) {
-								LoggerUtils.exception(taskException);
-								continue;
-							}
+                            if(!additionalTask.isFatal()) {
+                                LoggerUtils.exception(taskException);
+                                continue;
+                            }
 
-							throw new MissingDependencyException("Invalid dependency " + dependency.getName(), taskException);
-						}
-					}
-				}
-			}
-			else {
-				if(dependency.isHardDependency()) {
-					throw new MissingDependencyException("Missing dependency " + dependency.getName());
-				}
-				else {
-					LoggerUtils.info("Could not find plugin: " + dependency.getName() + ", disabling certain features");
-				}
-			}
-		}
+                            throw new MissingDependencyException("Invalid dependency " + dependency.getName(), taskException);
+                        }
+                    }
+                }
+            }
+            else {
+                if(dependency.isHardDependency()) {
+                    throw new MissingDependencyException("Missing dependency " + dependency.getName());
+                }
+                else {
+                    LoggerUtils.info("Could not find plugin: " + dependency.getName() + ", disabling certain features");
+                }
+            }
+        }
 
-		//Set config values varying if dependencies are missing
-		Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean()
-				&& (ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)
-					|| plugin.getDependencyManager().isEnabled(Dependency.BARAPI)
-					|| plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
-		Config.BOSSBAR_RAIDBAR_ENABLED.set(Config.BOSSBAR_RAIDBAR_ENABLED.getBoolean() && Config.BOSSBAR_ENABLED.getBoolean());
-		Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));
-	}
+        //Set config values varying if dependencies are missing
+        Config.BOSSBAR_ENABLED.set(Config.BOSSBAR_ENABLED.getBoolean()
+                && (ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)
+                    || plugin.getDependencyManager().isEnabled(Dependency.BARAPI)
+                    || plugin.getDependencyManager().isEnabled(Dependency.BOSSBARAPI)));
+        Config.BOSSBAR_RAIDBAR_ENABLED.set(Config.BOSSBAR_RAIDBAR_ENABLED.getBoolean() && Config.BOSSBAR_ENABLED.getBoolean());
+        Config.HOLOGRAPHICDISPLAYS_ENABLED.set(Config.HOLOGRAPHICDISPLAYS_ENABLED.getBoolean() && plugin.getDependencyManager().isEnabled(Dependency.HOLOGRAPHICDISPLAYS));
+    }
 
-	/**
-	 * Checks if a dependency is enabled
-	 *
-	 * @param dependency dependency enum
-	 * @return boolean
-	 */
-	public boolean isEnabled(Dependency dependency) {
-		return pluginMap.containsKey(dependency);
-	}
+    /**
+     * Checks if a dependency is enabled
+     *
+     * @param dependency dependency enum
+     * @return boolean
+     */
+    public boolean isEnabled(Dependency dependency) {
+        return pluginMap.containsKey(dependency);
+    }
 
-	/**
-	 * Setups economy
-	 */
-	public void setupEconomy() {
-		RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
-		Validate.notNull(rsp, "Could not find the Economy provider");
-		economy = rsp.getProvider();
-		Validate.notNull(economy);
-	}
+    /**
+     * Setups economy
+     */
+    public void setupEconomy() {
+        RegisteredServiceProvider<Economy> rsp = Bukkit.getServicesManager().getRegistration(Economy.class);
+        Validate.notNull(rsp, "Could not find the Economy provider");
+        economy = rsp.getProvider();
+        Validate.notNull(economy);
+    }
 
-	/**
-	 * Gets a plugin by its name
-	 *
-	 * @param name plugin's name
-	 * @return plugin instance
-	 */
-	private Plugin getPlugin(String name) {
-		return ListenerManager.getLoggedPluginManager().getPlugin(name);
-	}
+    /**
+     * Gets a plugin by its name
+     *
+     * @param name plugin's name
+     * @return plugin instance
+     */
+    private Plugin getPlugin(String name) {
+        return ListenerManager.getLoggedPluginManager().getPlugin(name);
+    }
 
-	/**
-	 * Gets the object of a plugin
-	 *
-	 * @param dependency dependency enum
-	 * @param cast       class to cast
-	 * @param <T>        class to cast
-	 * @return plugin instance
-	 */
-	@SuppressWarnings({"unchecked", "unused"})
-	public <T extends Plugin> T get(Dependency dependency, Class<T> cast) {
-		return (T) pluginMap.get(dependency);
-	}
+    /**
+     * Gets the object of a plugin
+     *
+     * @param dependency dependency enum
+     * @param cast       class to cast
+     * @param <T>        class to cast
+     * @return plugin instance
+     */
+    @SuppressWarnings({"unchecked", "unused"})
+    public <T extends Plugin> T get(Dependency dependency, Class<T> cast) {
+        return (T) pluginMap.get(dependency);
+    }
 
-	public static class HolographicDisplaysAPIChecker extends AdditionalTask {
-		/**
-		 * Checks if HolographicDisplays' API class is present
-		 */
-		public HolographicDisplaysAPIChecker() {
-			super(true);
-		}
+    public static class HolographicDisplaysAPIChecker extends AdditionalTask {
+        /**
+         * Checks if HolographicDisplays' API class is present
+         */
+        public HolographicDisplaysAPIChecker() {
+            super(true);
+        }
 
-		@Override
-		public void run() throws ClassNotFoundException {
-			Reflections.getClass("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
-		}
-	}
+        @Override
+        public void run() throws ClassNotFoundException {
+            Reflections.getClass("com.gmail.filoghost.holographicdisplays.api.HologramsAPI");
+        }
+    }
 
-	public static class WorldGuardFlagInjector extends AdditionalTask {
-		/**
-		 * Injects WorldGuard flag to the plugin
-		 */
-		public WorldGuardFlagInjector() {
-			super(false);
-		}
+    public static class WorldGuardFlagInjector extends AdditionalTask {
+        /**
+         * Injects WorldGuard flag to the plugin
+         */
+        public WorldGuardFlagInjector() {
+            super(false);
+        }
 
-		@Override
-		public void run() throws Exception {
-			if(!Config.REGION_WORLDGUARD.getBoolean()) {
-				LoggerUtils.info("Skipping WorldGuardFlag Injector. Disabled in config");
-				return;
-			}
+        @Override
+        public void run() throws Exception {
+            if(!Config.REGION_WORLDGUARD.getBoolean()) {
+                LoggerUtils.info("Skipping WorldGuardFlag Injector. Disabled in config");
+                return;
+            }
 
-			plugin.getRegionManager().createWorldGuardFlag();
-			FieldAccessor<Flag[]> defaultFlagFlagListField = Reflections.getField(DefaultFlag.class, "flagsList", Flag[].class);
-			defaultFlagFlagListField.setNotFinal();
-			Flag[] array = defaultFlagFlagListField.get(null);
-			List<Flag> list = new ArrayList<>();
-			Collections.addAll(list, array);
-			list.add((StateFlag) RegionManager.WORLDGUARD_FLAG);
-			defaultFlagFlagListField.set(list.toArray(new Flag[list.size()]));
-			LoggerUtils.info("Successfully injected WorldGuard Flag");
-		}
+            plugin.getRegionManager().createWorldGuardFlag();
+            FieldAccessor<Flag[]> defaultFlagFlagListField = Reflections.getField(DefaultFlag.class, "flagsList", Flag[].class);
+            defaultFlagFlagListField.setNotFinal();
+            Flag[] array = defaultFlagFlagListField.get(null);
+            List<Flag> list = new ArrayList<>();
+            Collections.addAll(list, array);
+            list.add((StateFlag) RegionManager.WORLDGUARD_FLAG);
+            defaultFlagFlagListField.set(list.toArray(new Flag[list.size()]));
+            LoggerUtils.info("Successfully injected WorldGuard Flag");
+        }
 
-		@Override
-		public void onFail() {
-			Config.REGION_WORLDGUARD.set(false);
-			LoggerUtils.info("WorldGuard region checking disabled due to additional task failure.");
-		}
-	}
+        @Override
+        public void onFail() {
+            Config.REGION_WORLDGUARD.set(false);
+            LoggerUtils.info("WorldGuard region checking disabled due to additional task failure.");
+        }
+    }
 
-	public interface RunnableWithException {
-		/**
-		 * Runs.
-		 *
-		 * @throws Exception when something goes wrong
-		 */
-		void run() throws Exception;
-	}
+    public interface RunnableWithException {
+        /**
+         * Runs.
+         *
+         * @throws Exception when something goes wrong
+         */
+        void run() throws Exception;
+    }
 
-	public static abstract class AdditionalTask implements RunnableWithException {
-		private final boolean fatal;
+    public static abstract class AdditionalTask implements RunnableWithException {
+        private final boolean fatal;
 
-		/**
-		 * The constructor
-		 *
-		 * @param fatal should a failure cause the plugin to disable?
-		 */
-		public AdditionalTask(boolean fatal) {
-			this.fatal = fatal;
-		}
+        /**
+         * The constructor
+         *
+         * @param fatal should a failure cause the plugin to disable?
+         */
+        public AdditionalTask(boolean fatal) {
+            this.fatal = fatal;
+        }
 
-		/**
-		 * Checks if the task is fatal
-		 *
-		 * @return boolean
-		 */
-		public boolean isFatal() {
-			return fatal;
-		}
+        /**
+         * Checks if the task is fatal
+         *
+         * @return boolean
+         */
+        public boolean isFatal() {
+            return fatal;
+        }
 
-		/**
-		 * Gets invoked on failure
-		 */
-		public void onFail() {
+        /**
+         * Gets invoked on failure
+         */
+        public void onFail() {
 
-		}
+        }
 
-		/**
-		 * Gets invoked on success
-		 */
-		public void onSuccess() {
+        /**
+         * Gets invoked on success
+         */
+        public void onSuccess() {
 
-		}
-	}
+        }
+    }
 
-	/**
-	 * Gets the Economy
-	 *
-	 * @return economy instance
-	 */
-	public Economy getEconomy() {
-		return economy;
-	}
+    /**
+     * Gets the Economy
+     *
+     * @return economy instance
+     */
+    public Economy getEconomy() {
+        return economy;
+    }
 }

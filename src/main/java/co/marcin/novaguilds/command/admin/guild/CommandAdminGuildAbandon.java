@@ -33,25 +33,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildAbandon extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaGuild guild = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaGuild guild = getParameter();
 
-		//fire event
-		GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.ADMIN);
-		ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
+        //fire event
+        GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.ADMIN);
+        ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
 
-		//if event is not cancelled
-		if(!guildAbandonEvent.isCancelled()) {
-			plugin.getGuildManager().delete(guildAbandonEvent);
+        //if event is not cancelled
+        if(!guildAbandonEvent.isCancelled()) {
+            plugin.getGuildManager().delete(guildAbandonEvent);
 
-			Map<VarKey, String> vars = new HashMap<>();
-			vars.put(VarKey.PLAYER_NAME, sender.getName());
-			vars.put(VarKey.GUILD_NAME, guild.getName());
-			Message.BROADCAST_ADMIN_GUILD_ABANDON.clone().vars(vars).broadcast();
-		}
+            Map<VarKey, String> vars = new HashMap<>();
+            vars.put(VarKey.PLAYER_NAME, sender.getName());
+            vars.put(VarKey.GUILD_NAME, guild.getName());
+            Message.BROADCAST_ADMIN_GUILD_ABANDON.clone().vars(vars).broadcast();
+        }
 
-		TagUtils.refresh(guild);
-		TabUtils.refresh(guild);
-	}
+        TagUtils.refresh(guild);
+        TabUtils.refresh(guild);
+    }
 }

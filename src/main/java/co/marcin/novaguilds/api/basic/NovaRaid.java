@@ -21,142 +21,142 @@ package co.marcin.novaguilds.api.basic;
 import java.util.List;
 
 public interface NovaRaid {
-	enum Result {
-		DURING,
-		TIMEOUT,
-		SUCCESS,
-		DESTROYED
-	}
+    enum Result {
+        DURING,
+        TIMEOUT,
+        SUCCESS,
+        DESTROYED
+    }
 
-	/**
-	 * Gets the attacking guild
-	 *
-	 * @return the guild
-	 */
-	NovaGuild getGuildAttacker();
+    /**
+     * Gets the attacking guild
+     *
+     * @return the guild
+     */
+    NovaGuild getGuildAttacker();
 
-	/**
-	 * Gets the defender guild
-	 *
-	 * @return the guild
-	 */
-	NovaGuild getGuildDefender();
+    /**
+     * Gets the defender guild
+     *
+     * @return the guild
+     */
+    NovaGuild getGuildDefender();
 
-	/**
-	 * Gets the time when the raid started (unixtime)
-	 *
-	 * @return unixtime
-	 */
-	long getStartTime();
+    /**
+     * Gets the time when the raid started (unixtime)
+     *
+     * @return unixtime
+     */
+    long getStartTime();
 
-	/**
-	 * Gets the amount of kills by attackers
-	 *
-	 * @return the amount
-	 */
-	int getKillsAttacker();
+    /**
+     * Gets the amount of kills by attackers
+     *
+     * @return the amount
+     */
+    int getKillsAttacker();
 
-	/**
-	 * Gets the amount of kills by defenders
-	 *
-	 * @return the amount
-	 */
-	int getKillsDefender();
+    /**
+     * Gets the amount of kills by defenders
+     *
+     * @return the amount
+     */
+    int getKillsDefender();
 
-	/**
-	 * Gets the progress
-	 *
-	 * @return the amount
-	 */
-	float getProgress();
+    /**
+     * Gets the progress
+     *
+     * @return the amount
+     */
+    float getProgress();
 
-	/**
-	 * Gets the list of attackers on defenders region
-	 *
-	 * @return the list
-	 */
-	List<NovaPlayer> getPlayersOccupying();
+    /**
+     * Gets the list of attackers on defenders region
+     *
+     * @return the list
+     */
+    List<NovaPlayer> getPlayersOccupying();
 
-	/**
-	 * Gets raid result
-	 *
-	 * @return result
-	 */
-	Result getResult();
+    /**
+     * Gets raid result
+     *
+     * @return result
+     */
+    Result getResult();
 
-	/**
-	 * Gets the unixtime of last activity on defenders region
-	 *
-	 * @return unixtime
-	 */
-	long getInactiveTime();
+    /**
+     * Gets the unixtime of last activity on defenders region
+     *
+     * @return unixtime
+     */
+    long getInactiveTime();
 
-	/**
-	 * Sets the attacker guild
-	 *
-	 * @param guild the guild
-	 */
-	void setGuildAttacker(NovaGuild guild);
+    /**
+     * Sets the attacker guild
+     *
+     * @param guild the guild
+     */
+    void setGuildAttacker(NovaGuild guild);
 
-	/**
-	 * Sets the defender guild
-	 *
-	 * @param guild the guild
-	 */
-	void setGuildDefender(NovaGuild guild);
+    /**
+     * Sets the defender guild
+     *
+     * @param guild the guild
+     */
+    void setGuildDefender(NovaGuild guild);
 
-	/**
-	 * Adds a kill to attackers count
-	 */
-	void addKillAttacker();
+    /**
+     * Adds a kill to attackers count
+     */
+    void addKillAttacker();
 
-	/**
-	 * Adds a kill to defenders count
-	 */
-	void addKillDefender();
+    /**
+     * Adds a kill to defenders count
+     */
+    void addKillDefender();
 
-	/**
-	 * Resets the progress
-	 */
-	void resetProgress();
+    /**
+     * Resets the progress
+     */
+    void resetProgress();
 
-	/**
-	 * Returns whether the progress is 100%
-	 *
-	 * @return boolean
-	 */
-	boolean isProgressFinished();
+    /**
+     * Returns whether the progress is 100%
+     *
+     * @return boolean
+     */
+    boolean isProgressFinished();
 
-	/**
-	 * Adds some progress
-	 *
-	 * @param progress progress
-	 */
-	void addProgress(float progress);
+    /**
+     * Adds some progress
+     *
+     * @param progress progress
+     */
+    void addProgress(float progress);
 
-	/**
-	 * Sets the result
-	 *
-	 * @param result boolean
-	 */
-	void setResult(Result result);
+    /**
+     * Sets the result
+     *
+     * @param result boolean
+     */
+    void setResult(Result result);
 
-	/**
-	 * Updates inactive time
-	 */
-	void updateInactiveTime();
+    /**
+     * Updates inactive time
+     */
+    void updateInactiveTime();
 
-	/**
-	 * Adds a player to occupying list
-	 *
-	 * @param nPlayer the player
-	 */
-	void addPlayerOccupying(NovaPlayer nPlayer);
+    /**
+     * Adds a player to occupying list
+     *
+     * @param nPlayer the player
+     */
+    void addPlayerOccupying(NovaPlayer nPlayer);
 
-	/**
-	 * removes a player from occupying list
-	 *
-	 * @param nPlayer the player
-	 */
-	void removePlayerOccupying(NovaPlayer nPlayer);
+    /**
+     * removes a player from occupying list
+     *
+     * @param nPlayer the player
+     */
+    void removePlayerOccupying(NovaPlayer nPlayer);
 }

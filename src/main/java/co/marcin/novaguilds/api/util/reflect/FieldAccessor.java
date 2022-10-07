@@ -21,60 +21,60 @@ package co.marcin.novaguilds.api.util.reflect;
 import java.lang.reflect.Field;
 
 public interface FieldAccessor<T> {
-	/**
-	 * Gets the field object
-	 *
-	 * @return field object
-	 */
-	Field getField();
+    /**
+     * Gets the field object
+     *
+     * @return field object
+     */
+    Field getField();
 
-	/**
-	 * Gets a field
-	 *
-	 * @param target target object
-	 * @return field value
-	 */
-	T get(Object target);
+    /**
+     * Gets a field
+     *
+     * @param target target object
+     * @return field value
+     */
+    T get(Object target);
 
-	/**
-	 * Gets a value of a static field
-	 *
-	 * @return the value
-	 */
-	T get();
+    /**
+     * Gets a value of a static field
+     *
+     * @return the value
+     */
+    T get();
 
-	/**
-	 * Gets field name
-	 *
-	 * @return field name
-	 */
-	String getName();
+    /**
+     * Gets field name
+     *
+     * @return field name
+     */
+    String getName();
 
-	/**
-	 * Sets a value to a field
-	 *
-	 * @param target target object
-	 * @param value  value
-	 */
-	void set(Object target, T value);
+    /**
+     * Sets a value to a field
+     *
+     * @param target target object
+     * @param value  value
+     */
+    void set(Object target, T value);
 
-	/**
-	 * Sets a value to a static field
-	 *
-	 * @param value value
-	 */
-	void set(T value);
+    /**
+     * Sets a value to a static field
+     *
+     * @param value value
+     */
+    void set(T value);
 
-	/**
-	 * Checks if object has specified field
-	 *
-	 * @param target target object
-	 * @return boolean
-	 */
-	boolean hasField(Object target);
+    /**
+     * Checks if object has specified field
+     *
+     * @param target target object
+     * @return boolean
+     */
+    boolean hasField(Object target);
 
-	/**
-	 * Sets the field as not final
-	 */
-	void setNotFinal();
+    /**
+     * Sets the field as not final
+     */
+    void setNotFinal();
 }

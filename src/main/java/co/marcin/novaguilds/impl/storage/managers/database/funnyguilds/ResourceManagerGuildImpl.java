@@ -38,88 +38,88 @@ import java.util.List;
 import java.util.UUID;
 
 public class ResourceManagerGuildImpl extends AbstractDatabaseResourceManager<NovaGuild> {
-	/**
-	 * The constructor
-	 *
-	 * @param storage the storage
-	 */
-	public ResourceManagerGuildImpl(Storage storage) {
-		super(storage, NovaGuild.class, "guilds");
-	}
+    /**
+     * The constructor
+     *
+     * @param storage the storage
+     */
+    public ResourceManagerGuildImpl(Storage storage) {
+        super(storage, NovaGuild.class, "guilds");
+    }
 
-	@Override
-	public List<NovaGuild> load() {
-		getStorage().connect();
-		final List<NovaGuild> list = new ArrayList<>();
+    @Override
+    public List<NovaGuild> load() {
+        getStorage().connect();
+        final List<NovaGuild> list = new ArrayList<>();
 
-		try {
-			PreparedStatement statement = getStorage().getPreparedStatement(PreparedStatements.GUILDS_SELECT);
-			ResultSet res = statement.executeQuery();
+        try {
+            PreparedStatement statement = getStorage().getPreparedStatement(PreparedStatements.GUILDS_SELECT);
+            ResultSet res = statement.executeQuery();
 
-			while(res.next()) {
-				String homeCoordinates = res.getString("home");
+            while(res.next()) {
+                String homeCoordinates = res.getString("home");
 
-				Location homeLocation = null;
-				if(!homeCoordinates.isEmpty()) {
-					String[] homeSplit = org.apache.commons.lang.StringUtils.split(homeCoordinates, ',');
-					if(homeSplit.length == 4) {
-						String worldString = homeSplit[0];
-						World world = plugin.getServer().getWorld(worldString);
+                Location homeLocation = null;
+                if(!homeCoordinates.isEmpty()) {
+                    String[] homeSplit = org.apache.commons.lang.StringUtils.split(homeCoordinates, ',');
+                    if(homeSplit.length == 4) {
+                        String worldString = homeSplit[0];
+                        World world = plugin.getServer().getWorld(worldString);
 
-						if(world != null) {
-							int x = Integer.parseInt(homeSplit[1]);
-							int y = Integer.parseInt(homeSplit[2]);
-							int z = Integer.parseInt(homeSplit[3]);
-							homeLocation = new Location(world, x, y, z);
-						}
-					}
-				}
+                        if(world != null) {
+                            int x = Integer.parseInt(homeSplit[1]);
+                            int y = Integer.parseInt(homeSplit[2]);
+                            int z = Integer.parseInt(homeSplit[3]);
+                            homeLocation = new Location(world, x, y, z);
+                        }
+                    }
+                }
 
-				//Loading wrapper
-				NovaGuild.LoadingWrapper<String> loadingWrapper = new NovaGuildImpl.LoadingWrapper37MigrationImpl();
-				loadingWrapper.setAllies(StringUtils.split(res.getString("allies"), ","));
-				loadingWrapper.setWars(StringUtils.split(res.getString("enemies"), ","));
+                //Loading wrapper
+                NovaGuild.LoadingWrapper<String> loadingWrapper = new NovaGuildImpl.LoadingWrapper37MigrationImpl();
+                loadingWrapper.setAllies(StringUtils.split(res.getString("allies"), ","));
+                loadingWrapper.setWars(StringUtils.split(res.getString("enemies"), ","));
 
-				NovaGuild guild = new NovaGuildImpl(UUID.fromString(res.getString("uuid")), loadingWrapper);
+                NovaGuild guild = new NovaGuildImpl(UUID.fromString(res.getString("uuid")), loadingWrapper);
 
-				guild.setAdded();
-				guild.setId(1000);
-				guild.setPoints(res.getInt("points"));
-				guild.setName(res.getString("name"));
-				guild.setTag(res.getString("tag"));
-				guild.setLeaderName(res.getString("owner"));
-				guild.setLives(res.getInt("lives"));
-				guild.setTimeCreated(res.getLong("born") / 1000);
-				guild.setHome(homeLocation);
-				guild.setInactiveTime(NumberUtils.systemSeconds());
-				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
+                guild.setAdded();
+                guild.setId(1000);
+                guild.setPoints(res.getInt("points"));
+                guild.setName(res.getString("name"));
+                guild.setTag(res.getString("tag"));
+                guild.setLeaderName(res.getString("owner"));
+                guild.setLives(res.getInt("lives"));
+                guild.setTimeCreated(res.getLong("born") / 1000);
+                guild.setHome(homeLocation);
+                guild.setInactiveTime(NumberUtils.systemSeconds());
+                guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 
-				//set unchanged
-				guild.setUnchanged();
-				((MySQLStorageImpl) getStorage()).guildMap.put(guild.getName(), guild);
-				list.add(guild);
-			}
-		}
-		catch(SQLException e) {
-			LoggerUtils.info("An error occurred while loading guilds!");
-			LoggerUtils.exception(e);
-		}
+                //set unchanged
+                guild.setUnchanged();
+                ((MySQLStorageImpl) getStorage()).guildMap.put(guild.getName(), guild);
+                list.add(guild);
+            }
+        }
+        catch(SQLException e) {
+            LoggerUtils.info("An error occurred while loading guilds!");
+            LoggerUtils.exception(e);
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	public boolean save(NovaGuild guild) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public boolean save(NovaGuild guild) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	public void add(NovaGuild guild) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public void add(NovaGuild guild) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	public boolean remove(NovaGuild guild) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public boolean remove(NovaGuild guild) {
+        throw new IllegalArgumentException("Not supported");
+    }
 }

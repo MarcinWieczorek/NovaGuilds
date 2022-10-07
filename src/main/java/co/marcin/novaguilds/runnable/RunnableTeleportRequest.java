@@ -24,33 +24,33 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class RunnableTeleportRequest implements Runnable {
-	private final Player player;
-	private final Location location;
-	private final Location startLocation;
-	private final MessageWrapper message;
+    private final Player player;
+    private final Location location;
+    private final Location startLocation;
+    private final MessageWrapper message;
 
-	/**
-	 * The constructor
-	 *
-	 * @param player   the player
-	 * @param location target location
-	 * @param message  teleport message
-	 */
-	public RunnableTeleportRequest(Player player, Location location, MessageWrapper message) {
-		this.player = player;
-		this.location = location;
-		startLocation = this.player.getLocation();
-		this.message = message;
-	}
+    /**
+     * The constructor
+     *
+     * @param player   the player
+     * @param location target location
+     * @param message  teleport message
+     */
+    public RunnableTeleportRequest(Player player, Location location, MessageWrapper message) {
+        this.player = player;
+        this.location = location;
+        startLocation = this.player.getLocation();
+        this.message = message;
+    }
 
-	@Override
-	public void run() {
-		if(player.getLocation().distance(startLocation) < 1) {
-			player.teleport(location);
-			message.send(player);
-		}
-		else {
-			Message.CHAT_DELAYEDTPMOVED.send(player);
-		}
-	}
+    @Override
+    public void run() {
+        if(player.getLocation().distance(startLocation) < 1) {
+            player.teleport(location);
+            message.send(player);
+        }
+        else {
+            Message.CHAT_DELAYEDTPMOVED.send(player);
+        }
+    }
 }

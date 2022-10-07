@@ -39,147 +39,147 @@ import java.util.List;
 import java.util.UUID;
 
 public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaPlayer> {
-	/**
-	 * The constructor
-	 *
-	 * @param storage the storage
-	 */
-	public ResourceManagerPlayerImpl(Storage storage) {
-		super(storage, NovaPlayer.class, "player/");
-	}
+    /**
+     * The constructor
+     *
+     * @param storage the storage
+     */
+    public ResourceManagerPlayerImpl(Storage storage) {
+        super(storage, NovaPlayer.class, "player/");
+    }
 
-	@Override
-	public List<NovaPlayer> load() {
-		final List<NovaPlayer> list = new ArrayList<>();
-		final List<UUID> uuids = new ArrayList<>();
+    @Override
+    public List<NovaPlayer> load() {
+        final List<NovaPlayer> list = new ArrayList<>();
+        final List<UUID> uuids = new ArrayList<>();
 
-		for(File playerFile : getFiles()) {
-			FileConfiguration configuration = loadConfiguration(playerFile);
+        for(File playerFile : getFiles()) {
+            FileConfiguration configuration = loadConfiguration(playerFile);
 
-			if(configuration != null) {
-				UUID uuid = UUID.fromString(trimExtension(playerFile));
-				NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
-				nPlayer.setAdded();
-				nPlayer.setName(configuration.getString("name"));
+            if(configuration != null) {
+                UUID uuid = UUID.fromString(trimExtension(playerFile));
+                NovaPlayer nPlayer = new NovaPlayerImpl(uuid);
+                nPlayer.setAdded();
+                nPlayer.setName(configuration.getString("name"));
 
-				List<String> invitedToStringList = configuration.getStringList("invitedto");
-				Collection<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
+                List<String> invitedToStringList = configuration.getStringList("invitedto");
+                Collection<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
 
-				if(!invitedToStringList.isEmpty() && !StringUtils.isUUID(invitedToStringList.get(0))) {
-					LoggerUtils.debug("Migrating invited list for player " + nPlayer.getUUID().toString());
-					addToSaveQueue(nPlayer);
-				}
+                if(!invitedToStringList.isEmpty() && !StringUtils.isUUID(invitedToStringList.get(0))) {
+                    LoggerUtils.debug("Migrating invited list for player " + nPlayer.getUUID().toString());
+                    addToSaveQueue(nPlayer);
+                }
 
-				if(invitedToStringList.size() != invitedToList.size()) {
-					LoggerUtils.debug("Invited to size differs for player " + nPlayer.getUUID().toString());
-					addToSaveQueue(nPlayer);
-				}
+                if(invitedToStringList.size() != invitedToList.size()) {
+                    LoggerUtils.debug("Invited to size differs for player " + nPlayer.getUUID().toString());
+                    addToSaveQueue(nPlayer);
+                }
 
-				nPlayer.setInvitedTo(invitedToList);
-				nPlayer.setPoints(configuration.getInt("points"));
-				nPlayer.setKills(configuration.getInt("kills"));
-				nPlayer.setDeaths(configuration.getInt("deaths"));
+                nPlayer.setInvitedTo(invitedToList);
+                nPlayer.setPoints(configuration.getInt("points"));
+                nPlayer.setKills(configuration.getInt("kills"));
+                nPlayer.setDeaths(configuration.getInt("deaths"));
 
-				//Remove if doubled
-				if(uuids.contains(nPlayer.getUUID())) {
-					nPlayer.unload();
+                //Remove if doubled
+                if(uuids.contains(nPlayer.getUUID())) {
+                    nPlayer.unload();
 
-					if(Config.DELETEINVALID.getBoolean()) {
-						addToRemovalQueue(nPlayer);
-						LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
-					}
-					else {
-						LoggerUtils.error("Doubled player: " + nPlayer.getName());
-					}
+                    if(Config.DELETEINVALID.getBoolean()) {
+                        addToRemovalQueue(nPlayer);
+                        LoggerUtils.info("Removed doubled player: " + nPlayer.getName());
+                    }
+                    else {
+                        LoggerUtils.error("Doubled player: " + nPlayer.getName());
+                    }
 
-					continue;
-				}
+                    continue;
+                }
 
-				//Set the guild
-				String guildString = configuration.getString("guild");
-				if(configuration.contains("guild") && !guildString.isEmpty()) {
-					NovaGuild guild;
-					try {
-						guild = GuildManager.getGuild(UUID.fromString(guildString));
-					}
-					catch(IllegalArgumentException e) {
-						guild = GuildManager.getGuildByName(guildString);
-						addToSaveQueue(nPlayer);
-					}
+                //Set the guild
+                String guildString = configuration.getString("guild");
+                if(configuration.contains("guild") && !guildString.isEmpty()) {
+                    NovaGuild guild;
+                    try {
+                        guild = GuildManager.getGuild(UUID.fromString(guildString));
+                    }
+                    catch(IllegalArgumentException e) {
+                        guild = GuildManager.getGuildByName(guildString);
+                        addToSaveQueue(nPlayer);
+                    }
 
-					if(guild != null) {
-						guild.addPlayer(nPlayer);
-					}
-				}
+                    if(guild != null) {
+                        guild.addPlayer(nPlayer);
+                    }
+                }
 
-				nPlayer.setUnchanged();
+                nPlayer.setUnchanged();
 
-				list.add(nPlayer);
-				uuids.add(nPlayer.getUUID());
-			}
-		}
+                list.add(nPlayer);
+                uuids.add(nPlayer.getUUID());
+            }
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	public boolean save(NovaPlayer nPlayer) {
-		if(!nPlayer.isChanged() && !isInSaveQueue(nPlayer) || nPlayer.isUnloaded()) {
-			return false;
-		}
+    @Override
+    public boolean save(NovaPlayer nPlayer) {
+        if(!nPlayer.isChanged() && !isInSaveQueue(nPlayer) || nPlayer.isUnloaded()) {
+            return false;
+        }
 
-		if(!nPlayer.isAdded()) {
-			add(nPlayer);
-		}
+        if(!nPlayer.isAdded()) {
+            add(nPlayer);
+        }
 
-		FileConfiguration playerData = getData(nPlayer);
+        FileConfiguration playerData = getData(nPlayer);
 
-		if(playerData != null) {
-			try {
-				//set values
-				playerData.set("name", nPlayer.getName());
-				playerData.set("guild", nPlayer.hasGuild() ? nPlayer.getGuild().getUUID().toString() : null);
-				playerData.set("invitedto", new ToStringConverterImpl().convert((List) new ResourceToUUIDConverterImpl<NovaGuild>().convert(nPlayer.getInvitedTo())));
-				playerData.set("points", nPlayer.getPoints());
-				playerData.set("kills", nPlayer.getKills());
-				playerData.set("deaths", nPlayer.getDeaths());
+        if(playerData != null) {
+            try {
+                //set values
+                playerData.set("name", nPlayer.getName());
+                playerData.set("guild", nPlayer.hasGuild() ? nPlayer.getGuild().getUUID().toString() : null);
+                playerData.set("invitedto", new ToStringConverterImpl().convert((List) new ResourceToUUIDConverterImpl<NovaGuild>().convert(nPlayer.getInvitedTo())));
+                playerData.set("points", nPlayer.getPoints());
+                playerData.set("kills", nPlayer.getKills());
+                playerData.set("deaths", nPlayer.getDeaths());
 
-				if(playerData.contains("uuid")) {
-					playerData.set("uuid", null);
-				}
+                if(playerData.contains("uuid")) {
+                    playerData.set("uuid", null);
+                }
 
-				//save
-				playerData.save(getFile(nPlayer));
-			}
-			catch(IOException e) {
-				LoggerUtils.exception(e);
-			}
-		}
-		else {
-			LoggerUtils.error("Attempting to save non-existing player. " + nPlayer.getName());
-		}
+                //save
+                playerData.save(getFile(nPlayer));
+            }
+            catch(IOException e) {
+                LoggerUtils.exception(e);
+            }
+        }
+        else {
+            LoggerUtils.error("Attempting to save non-existing player. " + nPlayer.getName());
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public boolean remove(NovaPlayer nPlayer) {
-		if(!nPlayer.isAdded()) {
-			return false;
-		}
+    @Override
+    public boolean remove(NovaPlayer nPlayer) {
+        if(!nPlayer.isAdded()) {
+            return false;
+        }
 
-		if(getFile(nPlayer).delete()) {
-			LoggerUtils.info("Deleted player " + nPlayer.getName() + "'s file.");
-			return true;
-		}
-		else {
-			LoggerUtils.error("Failed to delete player " + nPlayer.getName() + "'s file.");
-			return false;
-		}
-	}
+        if(getFile(nPlayer).delete()) {
+            LoggerUtils.info("Deleted player " + nPlayer.getName() + "'s file.");
+            return true;
+        }
+        else {
+            LoggerUtils.error("Failed to delete player " + nPlayer.getName() + "'s file.");
+            return false;
+        }
+    }
 
-	@Override
-	public File getFile(NovaPlayer nPlayer) {
-		return new File(getDirectory(), nPlayer.getUUID().toString() + ".yml");
-	}
+    @Override
+    public File getFile(NovaPlayer nPlayer) {
+        return new File(getDirectory(), nPlayer.getUUID().toString() + ".yml");
+    }
 }

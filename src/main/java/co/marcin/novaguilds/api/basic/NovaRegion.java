@@ -23,118 +23,118 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 public interface NovaRegion extends Resource {
-	/**
-	 * Gets the world
-	 *
-	 * @return the world
-	 */
-	World getWorld();
+    /**
+     * Gets the world
+     *
+     * @return the world
+     */
+    World getWorld();
 
-	/**
-	 * Gets the ID
-	 *
-	 * @return the ID
-	 */
-	int getId();
+    /**
+     * Gets the ID
+     *
+     * @return the ID
+     */
+    int getId();
 
-	/**
-	 * Gets the guild
-	 *
-	 * @return the guild
-	 */
-	NovaGuild getGuild();
+    /**
+     * Gets the guild
+     *
+     * @return the guild
+     */
+    NovaGuild getGuild();
 
-	/**
-	 * Gets the location of one of the corners
-	 *
-	 * @param index corner index (0/1)
-	 * @return the location
-	 */
-	Location getCorner(int index);
+    /**
+     * Gets the location of one of the corners
+     *
+     * @param index corner index (0/1)
+     * @return the location
+     */
+    Location getCorner(int index);
 
-	/**
-	 * Gets region's width
-	 *
-	 * @return size in blocks
-	 */
-	int getWidth();
+    /**
+     * Gets region's width
+     *
+     * @return size in blocks
+     */
+    int getWidth();
 
-	/**
-	 * Gets region's length
-	 *
-	 * @return size in blocks
-	 */
-	int getLength();
+    /**
+     * Gets region's length
+     *
+     * @return size in blocks
+     */
+    int getLength();
 
-	/**
-	 * Gets region's diagonal
-	 *
-	 * @return size in blocks
-	 */
-	int getDiagonal();
+    /**
+     * Gets region's diagonal
+     *
+     * @return size in blocks
+     */
+    int getDiagonal();
 
-	/**
-	 * Gets region's surface
-	 *
-	 * @return size in blocks
-	 */
-	int getSurface();
+    /**
+     * Gets region's surface
+     *
+     * @return size in blocks
+     */
+    int getSurface();
 
-	/**
-	 * Gets center location
-	 *
-	 * @return the location
-	 */
-	Location getCenter();
+    /**
+     * Gets center location
+     *
+     * @return the location
+     */
+    Location getCenter();
 
-	/**
-	 * Returns region number
-	 *
-	 * @return region index
-	 */
-	Integer getIndex();
+    /**
+     * Returns region number
+     *
+     * @return region index
+     */
+    Integer getIndex();
 
-	/**
-	 * Sets the world
-	 *
-	 * @param world the world
-	 */
-	void setWorld(World world);
+    /**
+     * Sets the world
+     *
+     * @param world the world
+     */
+    void setWorld(World world);
 
-	/**
-	 * Sets the ID
-	 *
-	 * @param id the ID
-	 */
-	void setId(int id);
+    /**
+     * Sets the ID
+     *
+     * @param id the ID
+     */
+    void setId(int id);
 
-	/**
-	 * Sets the guild
-	 *
-	 * @param guild the guild
-	 */
-	void setGuild(NovaGuild guild);
+    /**
+     * Sets the guild
+     *
+     * @param guild the guild
+     */
+    void setGuild(NovaGuild guild);
 
-	/**
-	 * Sets corner location
-	 *
-	 * @param index    corner index (0/1)
-	 * @param location the location
-	 */
-	void setCorner(int index, Location location);
+    /**
+     * Sets corner location
+     *
+     * @param index    corner index (0/1)
+     * @param location the location
+     */
+    void setCorner(int index, Location location);
 
-	/**
-	 * Sets the region index
-	 *
-	 * @param index new index
-	 */
-	void setIndex(Integer index);
+    /**
+     * Sets the region index
+     *
+     * @param index new index
+     */
+    void setIndex(Integer index);
 
-	/**
-	 * Checks if a region contains the location
-	 *
-	 * @param location the location
-	 * @return true if contains
-	 */
-	boolean contains(Location location);
+    /**
+     * Checks if a region contains the location
+     *
+     * @param location the location
+     * @return true if contains
+     */
+    boolean contains(Location location);
 }

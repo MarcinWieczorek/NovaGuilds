@@ -52,123 +52,123 @@ import java.util.List;
 import java.util.UUID;
 
 public class CommandRegionBuy extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayer.getGuild();
-		RegionSelection activeSelection = nPlayer.getActiveSelection();
+        NovaGuild guild = nPlayer.getGuild();
+        RegionSelection activeSelection = nPlayer.getActiveSelection();
 
-		if(activeSelection == null || !activeSelection.hasBothSelections()) {
-			Message.CHAT_REGION_VALIDATION_NOTSELECTED.send(sender);
-			return;
-		}
+        if(activeSelection == null || !activeSelection.hasBothSelections()) {
+            Message.CHAT_REGION_VALIDATION_NOTSELECTED.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE
-				|| activeSelection.getType() == RegionSelection.Type.RESIZE
-				|| activeSelection.getType() == RegionSelection.Type.ENLARGE
-				? GuildPermission.REGION_RESIZE
-				: GuildPermission.REGION_CREATE)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(nPlayer.getPreferences().getRegionMode() == RegionMode.RESIZE
+                || activeSelection.getType() == RegionSelection.Type.RESIZE
+                || activeSelection.getType() == RegionSelection.Type.ENLARGE
+                ? GuildPermission.REGION_RESIZE
+                : GuildPermission.REGION_CREATE)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		Location selectedLocation0 = activeSelection.getCorner(0);
-		Location selectedLocation1 = activeSelection.getCorner(1);
+        Location selectedLocation0 = activeSelection.getCorner(0);
+        Location selectedLocation1 = activeSelection.getCorner(1);
 
-		RegionValidity selectionValidity = plugin.getRegionManager().checkRegionSelect(activeSelection);
+        RegionValidity selectionValidity = plugin.getRegionManager().checkRegionSelect(activeSelection);
 
-		if(selectionValidity != RegionValidity.VALID) {
-			Message.CHAT_REGION_VALIDATION_NOTVALID.send(sender);
-			return;
-		}
+        if(selectionValidity != RegionValidity.VALID) {
+            Message.CHAT_REGION_VALIDATION_NOTVALID.send(sender);
+            return;
+        }
 
-		int regionSize = RegionUtils.checkRegionSize(selectedLocation0, selectedLocation1);
+        int regionSize = RegionUtils.checkRegionSize(selectedLocation0, selectedLocation1);
 
-		if(guild.getRegions().size() >= Config.REGION_MAXAMOUNT.getInt()
-				&& nPlayer.getPreferences().getRegionMode() != RegionMode.RESIZE) {
-			Message.CHAT_REGION_MAXAMOUNT.clone().setVar(VarKey.AMOUNT, Config.REGION_MAXAMOUNT.getInt()).send(nPlayer);
-			return;
-		}
+        if(guild.getRegions().size() >= Config.REGION_MAXAMOUNT.getInt()
+                && nPlayer.getPreferences().getRegionMode() != RegionMode.RESIZE) {
+            Message.CHAT_REGION_MAXAMOUNT.clone().setVar(VarKey.AMOUNT, Config.REGION_MAXAMOUNT.getInt()).send(nPlayer);
+            return;
+        }
 
-		//region's price
-		double price;
-		List<ItemStack> itemStackList = new ArrayList<>();
-		NovaGroup group = GroupManager.getGroup(sender);
-		double ppb = group.get(NovaGroupImpl.Key.REGION_PRICEPERBLOCK);
+        //region's price
+        double price;
+        List<ItemStack> itemStackList = new ArrayList<>();
+        NovaGroup group = GroupManager.getGroup(sender);
+        double ppb = group.get(NovaGroupImpl.Key.REGION_PRICEPERBLOCK);
 
-		if(activeSelection.getType() == RegionSelection.Type.RESIZE) {
-			price = ppb * (regionSize - activeSelection.getSelectedRegion().getSurface());
-		}
-		else if(activeSelection.getType() == RegionSelection.Type.ENLARGE) {
-			price = group.get(NovaGroupImpl.Key.REGION_ENLARGE_MONEY);
-			itemStackList = group.get(NovaGroupImpl.Key.REGION_ENLARGE_ITEMS);
-		}
-		else {
-			price = ppb * regionSize + group.get(NovaGroupImpl.Key.REGION_CREATE_MONEY);
-		}
+        if(activeSelection.getType() == RegionSelection.Type.RESIZE) {
+            price = ppb * (regionSize - activeSelection.getSelectedRegion().getSurface());
+        }
+        else if(activeSelection.getType() == RegionSelection.Type.ENLARGE) {
+            price = group.get(NovaGroupImpl.Key.REGION_ENLARGE_MONEY);
+            itemStackList = group.get(NovaGroupImpl.Key.REGION_ENLARGE_ITEMS);
+        }
+        else {
+            price = ppb * regionSize + group.get(NovaGroupImpl.Key.REGION_CREATE_MONEY);
+        }
 
-		if(price > 0 && guild.getMoney() < price) {
-			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
-			return;
-		}
+        if(price > 0 && guild.getMoney() < price) {
+            Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
+            return;
+        }
 
-		if(!itemStackList.isEmpty()) {
-			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), itemStackList);
+        if(!itemStackList.isEmpty()) {
+            List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), itemStackList);
 
-			if(!missingItems.isEmpty()) {
-				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-				sender.sendMessage(StringUtils.getItemList(missingItems));
-				return;
-			}
-		}
+            if(!missingItems.isEmpty()) {
+                Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+                sender.sendMessage(StringUtils.getItemList(missingItems));
+                return;
+            }
+        }
 
-		Cancellable event;
-		NovaRegion region;
+        Cancellable event;
+        NovaRegion region;
 
-		if(activeSelection.getType() == RegionSelection.Type.RESIZE
-				|| activeSelection.getType() == RegionSelection.Type.RESIZE
-				|| activeSelection.getType() == RegionSelection.Type.ENLARGE) {
-			region = activeSelection.getSelectedRegion();
+        if(activeSelection.getType() == RegionSelection.Type.RESIZE
+                || activeSelection.getType() == RegionSelection.Type.RESIZE
+                || activeSelection.getType() == RegionSelection.Type.ENLARGE) {
+            region = activeSelection.getSelectedRegion();
 
-			event = new RegionResizeEvent(region, nPlayer, activeSelection, false);
-			ListenerManager.getLoggedPluginManager().callEvent((Event) event);
+            event = new RegionResizeEvent(region, nPlayer, activeSelection, false);
+            ListenerManager.getLoggedPluginManager().callEvent((Event) event);
 
-			if(!event.isCancelled()) {
-				region.setCorner(0, activeSelection.getCorner(0));
-				region.setCorner(1, activeSelection.getCorner(1));
-				plugin.getDynmapManager().updateRegion(region);
+            if(!event.isCancelled()) {
+                region.setCorner(0, activeSelection.getCorner(0));
+                region.setCorner(1, activeSelection.getCorner(1));
+                plugin.getDynmapManager().updateRegion(region);
 
-				Message.CHAT_REGION_RESIZE_SUCCESS.send(sender);
-			}
-		}
-		else {
-			region = new NovaRegionImpl(UUID.randomUUID(), nPlayer.getActiveSelection());
-			event = new RegionCreateEvent(region, nPlayer, false);
+                Message.CHAT_REGION_RESIZE_SUCCESS.send(sender);
+            }
+        }
+        else {
+            region = new NovaRegionImpl(UUID.randomUUID(), nPlayer.getActiveSelection());
+            event = new RegionCreateEvent(region, nPlayer, false);
 
-			if(!event.isCancelled()) {
-				nPlayer.getGuild().addRegion(region);
-				plugin.getDynmapManager().addRegion(region);
-				Message.CHAT_REGION_CREATED.send(sender);
-			}
-		}
+            if(!event.isCancelled()) {
+                nPlayer.getGuild().addRegion(region);
+                plugin.getDynmapManager().addRegion(region);
+                Message.CHAT_REGION_CREATED.send(sender);
+            }
+        }
 
-		if(!event.isCancelled()) {
-			if(price > 0) {
-				guild.takeMoney(price);
-			}
+        if(!event.isCancelled()) {
+            if(price > 0) {
+                guild.takeMoney(price);
+            }
 
-			if(!itemStackList.isEmpty()) {
-				InventoryUtils.removeItems((Player) sender, itemStackList);
-			}
+            if(!itemStackList.isEmpty()) {
+                InventoryUtils.removeItems((Player) sender, itemStackList);
+            }
 
-			nPlayer.cancelToolProgress();
-			plugin.getRegionManager().checkAtRegionChange();
-		}
-	}
+            nPlayer.cancelToolProgress();
+            plugin.getRegionManager().checkAtRegionChange();
+        }
+    }
 }

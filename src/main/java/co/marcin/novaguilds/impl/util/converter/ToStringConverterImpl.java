@@ -19,8 +19,8 @@
 package co.marcin.novaguilds.impl.util.converter;
 
 public class ToStringConverterImpl extends AbstractConverter<Object, String> {
-	@Override
-	public String convert(Object o) {
-		return o.toString();
-	}
+    @Override
+    public String convert(Object o) {
+        return o.toString();
+    }
 }

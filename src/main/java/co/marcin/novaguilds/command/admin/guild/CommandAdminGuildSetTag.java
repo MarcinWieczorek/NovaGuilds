@@ -29,29 +29,29 @@ import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetTag extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaGuild guild = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaGuild guild = getParameter();
 
-		if(args.length == 0) {
-			Message.CHAT_GUILD_ENTERTAG.send(sender);
-			return;
-		}
+        if(args.length == 0) {
+            Message.CHAT_GUILD_ENTERTAG.send(sender);
+            return;
+        }
 
-		String newTag = args[0];
+        String newTag = args[0];
 
-		MessageWrapper validityMessage = CommandGuildCreate.validTag(newTag);
-		if(validityMessage != null) {
-			validityMessage.send(sender);
-			return;
-		}
+        MessageWrapper validityMessage = CommandGuildCreate.validTag(newTag);
+        if(validityMessage != null) {
+            validityMessage.send(sender);
+            return;
+        }
 
-		//all passed
-		guild.setTag(newTag);
+        //all passed
+        guild.setTag(newTag);
 
-		TagUtils.refresh();
-		TabUtils.refresh();
+        TagUtils.refresh();
+        TabUtils.refresh();
 
-		Message.CHAT_ADMIN_GUILD_SET_TAG.clone().setVar(VarKey.TAG, newTag).send(sender);
-	}
+        Message.CHAT_ADMIN_GUILD_SET_TAG.clone().setVar(VarKey.TAG, newTag).send(sender);
+    }
 }

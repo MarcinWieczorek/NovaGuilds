@@ -21,19 +21,19 @@ package co.marcin.novaguilds.api.util;
 import java.util.Collection;
 
 public interface IConverter<K, V> {
-	/**
-	 * Converts a list
-	 *
-	 * @param list the list
-	 * @return converted list
-	 */
-	Collection<V> convert(Collection<K> list);
+    /**
+     * Converts a list
+     *
+     * @param list the list
+     * @return converted list
+     */
+    Collection<V> convert(Collection<K> list);
 
-	/**
-	 * Converts an object
-	 *
-	 * @param k the object
-	 * @return converted object
-	 */
-	V convert(K k);
+    /**
+     * Converts an object
+     *
+     * @param k the object
+     * @return converted object
+     */
+    V convert(K k);
 }

@@ -28,22 +28,22 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetTimerest extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaGuild guild = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaGuild guild = getParameter();
 
-		String timeString = "";
-		if(args.length > 0) {
-			timeString = StringUtils.join(args, " ");
-		}
+        String timeString = "";
+        if(args.length > 0) {
+            timeString = StringUtils.join(args, " ");
+        }
 
-		int seconds = StringUtils.stringToSeconds(timeString);
+        int seconds = StringUtils.stringToSeconds(timeString);
 
-		long newTimeRest = NumberUtils.systemSeconds() - (Config.RAID_TIMEREST.getSeconds() - seconds);
+        long newTimeRest = NumberUtils.systemSeconds() - (Config.RAID_TIMEREST.getSeconds() - seconds);
 
-		guild.setTimeRest(newTimeRest);
-		TabUtils.refresh(guild);
+        guild.setTimeRest(newTimeRest);
+        TabUtils.refresh(guild);
 
-		Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
-	}
+        Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
+    }
 }

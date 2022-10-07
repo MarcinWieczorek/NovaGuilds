@@ -21,31 +21,31 @@ package co.marcin.novaguilds.api.util;
 import co.marcin.novaguilds.api.basic.MessageWrapper;
 
 public interface ChatBroadcast {
-	/**
-	 * Broadcasts the message
-	 */
-	void send();
+    /**
+     * Broadcasts the message
+     */
+    void send();
 
-	/**
-	 * Sets the tag
-	 *
-	 * @param index       index
-	 * @param preparedTag tag instance
-	 */
-	void setTag(Integer index, PreparedTag preparedTag);
+    /**
+     * Sets the tag
+     *
+     * @param index       index
+     * @param preparedTag tag instance
+     */
+    void setTag(Integer index, PreparedTag preparedTag);
 
-	/**
-	 * Gets a tag
-	 *
-	 * @param index index
-	 * @return the tag
-	 */
-	PreparedTag getTag(Integer index);
+    /**
+     * Gets a tag
+     *
+     * @param index index
+     * @return the tag
+     */
+    PreparedTag getTag(Integer index);
 
-	/**
-	 * Gets the message
-	 *
-	 * @return the wrapper
-	 */
-	MessageWrapper getMessage();
+    /**
+     * Gets the message
+     *
+     * @return the wrapper
+     */
+    MessageWrapper getMessage();
 }

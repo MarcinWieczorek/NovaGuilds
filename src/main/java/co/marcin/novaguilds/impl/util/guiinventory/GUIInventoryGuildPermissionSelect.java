@@ -27,49 +27,49 @@ import co.marcin.novaguilds.impl.util.AbstractGUIInventory;
 import co.marcin.novaguilds.util.ChestGUIUtils;
 
 public class GUIInventoryGuildPermissionSelect extends AbstractGUIInventory {
-	private final NovaRank rank;
+    private final NovaRank rank;
 
-	/**
-	 * The constructor
-	 *
-	 * @param rank the rank
-	 */
-	public GUIInventoryGuildPermissionSelect(NovaRank rank) {
-		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.clone().setVar(VarKey.RANKNAME, rank.getName()));
-		this.rank = rank;
-	}
+    /**
+     * The constructor
+     *
+     * @param rank the rank
+     */
+    public GUIInventoryGuildPermissionSelect(NovaRank rank) {
+        super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PERMISSIONS_TITLE.clone().setVar(VarKey.RANKNAME, rank.getName()));
+        this.rank = rank;
+    }
 
-	@Override
-	public void generateContent() {
-		final MessageWrapper messageWrapperEnabled = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED;
-		final MessageWrapper messageWrapperDisabled = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED;
+    @Override
+    public void generateContent() {
+        final MessageWrapper messageWrapperEnabled = Message.INVENTORY_GUI_PERMISSIONS_ITEM_ENABLED;
+        final MessageWrapper messageWrapperDisabled = Message.INVENTORY_GUI_PERMISSIONS_ITEM_DISABLED;
 
-		for(final GuildPermission perm : GuildPermission.values()) {
-			MessageWrapper message;
+        for(final GuildPermission perm : GuildPermission.values()) {
+            MessageWrapper message;
 
-			if(rank.hasPermission(perm)) {
-				message = messageWrapperEnabled;
-			}
-			else {
-				message = messageWrapperDisabled;
-			}
+            if(rank.hasPermission(perm)) {
+                message = messageWrapperEnabled;
+            }
+            else {
+                message = messageWrapperDisabled;
+            }
 
-			registerAndAdd(new Executor(message
-					.clone()
-					.setVar(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get())
-					.getItemStack()) {
-				@Override
-				public void execute() {
-					if(rank.hasPermission(perm)) {
-						rank.removePermission(perm);
-					}
-					else {
-						rank.addPermission(perm);
-					}
+            registerAndAdd(new Executor(message
+                    .clone()
+                    .setVar(VarKey.PERMNAME, Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name()).get())
+                    .getItemStack()) {
+                @Override
+                public void execute() {
+                    if(rank.hasPermission(perm)) {
+                        rank.removePermission(perm);
+                    }
+                    else {
+                        rank.addPermission(perm);
+                    }
 
-					reopen();
-				}
-			});
-		}
-	}
+                    reopen();
+                }
+            });
+        }
+    }
 }

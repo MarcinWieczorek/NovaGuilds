@@ -44,124 +44,124 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandGuildJoin extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		List<NovaGuild> invitedTo = nPlayer.getInvitedTo();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        List<NovaGuild> invitedTo = nPlayer.getInvitedTo();
 
-		if(nPlayer.hasGuild()) {
-			Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
-			return;
-		}
+        if(nPlayer.hasGuild()) {
+            Message.CHAT_CREATEGUILD_HASGUILD.send(sender);
+            return;
+        }
 
-		if(invitedTo.isEmpty() && args.length != 1) {
-			Message.CHAT_PLAYER_INVITE_LIST_NOTHING.send(sender);
-			return;
-		}
+        if(invitedTo.isEmpty() && args.length != 1) {
+            Message.CHAT_PLAYER_INVITE_LIST_NOTHING.send(sender);
+            return;
+        }
 
-		String guildName;
+        String guildName;
 
-		//one or more guilds
-		if(invitedTo.size() == 1) {
-			if(args.length == 0) {
-				guildName = invitedTo.get(0).getName();
-			}
-			else {
-				guildName = args[0];
-			}
-		}
-		else {
-			if(args.length == 0) {
-				Message.CHAT_PLAYER_INVITE_LIST_HEADER.send(sender);
-				Collection<MessageWrapper> invitedGuildNamesSet = new HashSet<>();
+        //one or more guilds
+        if(invitedTo.size() == 1) {
+            if(args.length == 0) {
+                guildName = invitedTo.get(0).getName();
+            }
+            else {
+                guildName = args[0];
+            }
+        }
+        else {
+            if(args.length == 0) {
+                Message.CHAT_PLAYER_INVITE_LIST_HEADER.send(sender);
+                Collection<MessageWrapper> invitedGuildNamesSet = new HashSet<>();
 
-				for(NovaGuild invitedGuild : invitedTo) {
-					invitedGuildNamesSet.add(Message.CHAT_PLAYER_INVITE_LIST_ITEM
-							.clone()
-							.setVar(VarKey.GUILD_NAME, invitedGuild.getName())
-							.setVar(VarKey.TAG, invitedGuild.getTag()));
-				}
+                for(NovaGuild invitedGuild : invitedTo) {
+                    invitedGuildNamesSet.add(Message.CHAT_PLAYER_INVITE_LIST_ITEM
+                            .clone()
+                            .setVar(VarKey.GUILD_NAME, invitedGuild.getName())
+                            .setVar(VarKey.TAG, invitedGuild.getTag()));
+                }
 
-				sender.sendMessage(StringUtils.join(invitedGuildNamesSet, Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR));
-				return;
-			}
-			else {
-				guildName = args[0];
-			}
-		}
+                sender.sendMessage(StringUtils.join(invitedGuildNamesSet, Message.CHAT_PLAYER_INVITE_LIST_SEPARATOR));
+                return;
+            }
+            else {
+                guildName = args[0];
+            }
+        }
 
-		NovaGuild guild = GuildManager.getGuildFind(guildName);
+        NovaGuild guild = GuildManager.getGuildFind(guildName);
 
-		if(guild == null) {
-			Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
-			return;
-		}
+        if(guild == null) {
+            Message.CHAT_GUILD_NAMENOTEXIST.send(sender);
+            return;
+        }
 
-		if(!nPlayer.isInvitedTo(guild) && !guild.isOpenInvitation()) {
-			Message.CHAT_PLAYER_INVITE_NOTINVITED.send(sender);
-			return;
-		}
+        if(!nPlayer.isInvitedTo(guild) && !guild.isOpenInvitation()) {
+            Message.CHAT_PLAYER_INVITE_NOTINVITED.send(sender);
+            return;
+        }
 
-		//items
-		List<ItemStack> joinItems = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.JOIN_ITEMS);
+        //items
+        List<ItemStack> joinItems = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.JOIN_ITEMS);
 
-		if(!joinItems.isEmpty()) {
-			List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), joinItems);
+        if(!joinItems.isEmpty()) {
+            List<ItemStack> missingItems = InventoryUtils.getMissingItems(((Player) sender).getInventory(), joinItems);
 
-			if(!missingItems.isEmpty()) {
-				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-				sender.sendMessage(StringUtils.getItemList(missingItems));
-				return;
-			}
-		}
+            if(!missingItems.isEmpty()) {
+                Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+                sender.sendMessage(StringUtils.getItemList(missingItems));
+                return;
+            }
+        }
 
-		Map<VarKey, String> vars = new HashMap<>();
+        Map<VarKey, String> vars = new HashMap<>();
 
-		//money
-		double joinMoney = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.JOIN_MONEY);
+        //money
+        double joinMoney = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.JOIN_MONEY);
 
-		if(joinMoney > 0 && !nPlayer.hasMoney(joinMoney)) {
-			vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
-			Message.CHAT_GUILD_NOTENOUGHMONEY.clone().vars(vars).send(sender);
-			return;
-		}
+        if(joinMoney > 0 && !nPlayer.hasMoney(joinMoney)) {
+            vars.put(VarKey.REQUIREDMONEY, String.valueOf(joinMoney));
+            Message.CHAT_GUILD_NOTENOUGHMONEY.clone().vars(vars).send(sender);
+            return;
+        }
 
-		if(!joinItems.isEmpty()) {
-			InventoryUtils.removeItems((Player) sender, joinItems);
-		}
+        if(!joinItems.isEmpty()) {
+            InventoryUtils.removeItems((Player) sender, joinItems);
+        }
 
-		if(joinMoney > 0) {
-			nPlayer.takeMoney(joinMoney);
-		}
+        if(joinMoney > 0) {
+            nPlayer.takeMoney(joinMoney);
+        }
 
-		if(guild.isFull()) {
-			Message.CHAT_GUILD_ISFULL.send(sender);
-			return;
-		}
+        if(guild.isFull()) {
+            Message.CHAT_GUILD_ISFULL.send(sender);
+            return;
+        }
 
-		guild.addPlayer(nPlayer);
-		nPlayer.deleteInvitation(guild);
-		TagUtils.refresh();
-		TabUtils.refresh();
-		Message.CHAT_GUILD_JOINED.send(sender);
-		guild.showVaultHologram(nPlayer.getPlayer());
+        guild.addPlayer(nPlayer);
+        nPlayer.deleteInvitation(guild);
+        TagUtils.refresh();
+        TabUtils.refresh();
+        Message.CHAT_GUILD_JOINED.send(sender);
+        guild.showVaultHologram(nPlayer.getPlayer());
 
-		vars.clear();
-		vars.put(VarKey.PLAYER_NAME, sender.getName());
-		vars.put(VarKey.GUILD_NAME, guild.getName());
-		Message.BROADCAST_GUILD_JOINED.clone().vars(vars).broadcast();
-	}
+        vars.clear();
+        vars.put(VarKey.PLAYER_NAME, sender.getName());
+        vars.put(VarKey.GUILD_NAME, guild.getName());
+        Message.BROADCAST_GUILD_JOINED.clone().vars(vars).broadcast();
+    }
 
-	@Override
-	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
-		Set<String> options = new HashSet<>();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+        Set<String> options = new HashSet<>();
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		for(NovaGuild guild : nPlayer.getInvitedTo()) {
-			options.add(guild.getTag().toLowerCase());
-			options.add(guild.getName().toLowerCase());
-		}
+        for(NovaGuild guild : nPlayer.getInvitedTo()) {
+            options.add(guild.getTag().toLowerCase());
+            options.add(guild.getName().toLowerCase());
+        }
 
-		return options;
-	}
+        return options;
+    }
 }

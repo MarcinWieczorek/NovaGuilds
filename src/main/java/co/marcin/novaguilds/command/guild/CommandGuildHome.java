@@ -39,75 +39,75 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildHome extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		Player player = (Player) sender;
+        Player player = (Player) sender;
 
-		if(args.length > 0 && args[0].equalsIgnoreCase("set")) {
-			if(!Permission.NOVAGUILDS_GUILD_HOME_SET.has(sender)) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return;
-			}
+        if(args.length > 0 && args[0].equalsIgnoreCase("set")) {
+            if(!Permission.NOVAGUILDS_GUILD_HOME_SET.has(sender)) {
+                Message.CHAT_NOPERMISSIONS.send(sender);
+                return;
+            }
 
-			if(!nPlayer.hasPermission(GuildPermission.HOME_SET)) {
-				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-				return;
-			}
+            if(!nPlayer.hasPermission(GuildPermission.HOME_SET)) {
+                Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+                return;
+            }
 
-			NovaRegion region = RegionManager.get(player);
+            NovaRegion region = RegionManager.get(player);
 
-			if(region == null && nPlayer.getGuild().hasRegion()) {
-				Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);
-				return;
-			}
+            if(region == null && nPlayer.getGuild().hasRegion()) {
+                Message.CHAT_GUILD_SETHOME_OUTSIDEREGION.send(sender);
+                return;
+            }
 
-			if(region != null && !region.getGuild().isMember(nPlayer)) {
-				Message.CHAT_GUILD_SETHOME_OVERLAPS.send(sender);
-				return;
-			}
+            if(region != null && !region.getGuild().isMember(nPlayer)) {
+                Message.CHAT_GUILD_SETHOME_OVERLAPS.send(sender);
+                return;
+            }
 
-			nPlayer.getGuild().setHome(player.getLocation());
-			Message.CHAT_GUILD_SETHOME_SUCCESS.send(sender);
-			TabUtils.refresh(nPlayer.getGuild());
-			plugin.getDynmapManager().updateGuildHome(nPlayer.getGuild());
-		}
-		else {
-			if(!nPlayer.hasPermission(GuildPermission.HOME_TELEPORT)) {
-				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-				return;
-			}
+            nPlayer.getGuild().setHome(player.getLocation());
+            Message.CHAT_GUILD_SETHOME_SUCCESS.send(sender);
+            TabUtils.refresh(nPlayer.getGuild());
+            plugin.getDynmapManager().updateGuildHome(nPlayer.getGuild());
+        }
+        else {
+            if(!nPlayer.hasPermission(GuildPermission.HOME_TELEPORT)) {
+                Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+                return;
+            }
 
-			//items
-			List<ItemStack> homeItems = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.HOME_ITEMS);
+            //items
+            List<ItemStack> homeItems = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.HOME_ITEMS);
 
-			if(!homeItems.isEmpty()) {
-				List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
+            if(!homeItems.isEmpty()) {
+                List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), homeItems);
 
-				if(!missingItems.isEmpty()) {
-					Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-					sender.sendMessage(StringUtils.getItemList(missingItems));
+                if(!missingItems.isEmpty()) {
+                    Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+                    sender.sendMessage(StringUtils.getItemList(missingItems));
 
-					return;
-				}
-			}
+                    return;
+                }
+            }
 
-			//money
-			double homeMoney = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.HOME_MONEY);
-			if(homeMoney > 0 && !nPlayer.hasMoney(homeMoney)) {
-				Message.CHAT_GUILD_NOTENOUGHMONEY.clone().setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
-				return;
-			}
+            //money
+            double homeMoney = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.HOME_MONEY);
+            if(homeMoney > 0 && !nPlayer.hasMoney(homeMoney)) {
+                Message.CHAT_GUILD_NOTENOUGHMONEY.clone().setVar(VarKey.REQUIREDMONEY, homeMoney).send(sender);
+                return;
+            }
 
-			nPlayer.takeMoney(homeMoney);
-			InventoryUtils.removeItems(player, homeItems);
-			plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getHome(), Message.CHAT_GUILD_HOME);
-		}
-	}
+            nPlayer.takeMoney(homeMoney);
+            InventoryUtils.removeItems(player, homeItems);
+            plugin.getGuildManager().delayedTeleport(player, nPlayer.getGuild().getHome(), Message.CHAT_GUILD_HOME);
+        }
+    }
 }

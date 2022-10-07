@@ -34,40 +34,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUIInventoryGuildPlayerSettingsRank extends AbstractGUIInventory {
-	private final NovaPlayer nPlayer;
+    private final NovaPlayer nPlayer;
 
-	/**
-	 * The constructor
-	 *
-	 * @param nPlayer player who's rank are being set
-	 */
-	public GUIInventoryGuildPlayerSettingsRank(NovaPlayer nPlayer) {
-		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE);
-		this.nPlayer = nPlayer;
-	}
+    /**
+     * The constructor
+     *
+     * @param nPlayer player who's rank are being set
+     */
+    public GUIInventoryGuildPlayerSettingsRank(NovaPlayer nPlayer) {
+        super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE);
+        this.nPlayer = nPlayer;
+    }
 
-	@Override
-	public void generateContent() {
-		NovaGuild guild = nPlayer.getGuild();
+    @Override
+    public void generateContent() {
+        NovaGuild guild = nPlayer.getGuild();
 
-		final List<NovaRank> ranks = new ArrayList<>();
-		ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
-		ranks.addAll(guild.getRanks());
+        final List<NovaRank> ranks = new ArrayList<>();
+        ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
+        ranks.addAll(guild.getRanks());
 
-		for(final NovaRank rank : ranks) {
-			if(guild.getCloneOfGenericRank(rank) != null) {
-				continue;
-			}
+        for(final NovaRank rank : ranks) {
+            if(guild.getCloneOfGenericRank(rank) != null) {
+                continue;
+            }
 
-			ItemStack itemStack = Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).getItemStack();
+            ItemStack itemStack = Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).getItemStack();
 
-			registerAndAdd(new Executor(itemStack) {
-				@Override
-				public void execute() {
-					nPlayer.setGuildRank(rank);
-					close();
-				}
-			});
-		}
-	}
+            registerAndAdd(new Executor(itemStack) {
+                @Override
+                public void execute() {
+                    nPlayer.setGuildRank(rank);
+                    close();
+                }
+            });
+        }
+    }
 }

@@ -19,27 +19,27 @@
 package co.marcin.novaguilds.enums;
 
 public enum EntityUseAction {
-	ATTACK(0),
-	INTERACT(1),
-	INTERACT_AT(2);
+    ATTACK(0),
+    INTERACT(1),
+    INTERACT_AT(2);
 
-	private final int id;
+    private final int id;
 
-	/**
-	 * The constructor
-	 *
-	 * @param id action id
-	 */
-	EntityUseAction(int id) {
-		this.id = id;
-	}
+    /**
+     * The constructor
+     *
+     * @param id action id
+     */
+    EntityUseAction(int id) {
+        this.id = id;
+    }
 
-	/**
-	 * Gets the ID
-	 *
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
+    /**
+     * Gets the ID
+     *
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
 }

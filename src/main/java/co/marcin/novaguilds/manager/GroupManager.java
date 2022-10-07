@@ -29,87 +29,87 @@ import java.util.Map;
 import java.util.Set;
 
 public class GroupManager {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<String, NovaGroup> groups = new HashMap<>();
+    private static final NovaGuilds plugin = NovaGuilds.getInstance();
+    private final Map<String, NovaGroup> groups = new HashMap<>();
 
-	/**
-	 * Loads groups
-	 */
-	public void load() {
-		groups.clear();
-		Set<String> groupsNames = plugin.getConfig().getConfigurationSection("groups").getKeys(false);
-		groupsNames.add("admin");
+    /**
+     * Loads groups
+     */
+    public void load() {
+        groups.clear();
+        Set<String> groupsNames = plugin.getConfig().getConfigurationSection("groups").getKeys(false);
+        groupsNames.add("admin");
 
-		for(String groupName : groupsNames) {
-			groups.put(groupName, new NovaGroupImpl(groupName));
-		}
-	}
+        for(String groupName : groupsNames) {
+            groups.put(groupName, new NovaGroupImpl(groupName));
+        }
+    }
 
-	/**
-	 * Gets the group of a player
-	 *
-	 * @param player player
-	 * @return the group
-	 */
-	public static NovaGroup getGroup(Player player) {
-		Map<String, NovaGroup> groups = plugin.getGroupManager().getGroups();
-		String groupName = "default";
+    /**
+     * Gets the group of a player
+     *
+     * @param player player
+     * @return the group
+     */
+    public static NovaGroup getGroup(Player player) {
+        Map<String, NovaGroup> groups = plugin.getGroupManager().getGroups();
+        String groupName = "default";
 
-		if(player == null) {
-			return getGroup(groupName);
-		}
+        if(player == null) {
+            return getGroup(groupName);
+        }
 
-		if(player.hasPermission("novaguilds.group.admin")) {
-			return getGroup("admin");
-		}
+        if(player.hasPermission("novaguilds.group.admin")) {
+            return getGroup("admin");
+        }
 
-		for(String name : groups.keySet()) {
-			if(player.hasPermission("novaguilds.group." + name) && !name.equalsIgnoreCase("default")) {
-				groupName = name;
-				break;
-			}
-		}
+        for(String name : groups.keySet()) {
+            if(player.hasPermission("novaguilds.group." + name) && !name.equalsIgnoreCase("default")) {
+                groupName = name;
+                break;
+            }
+        }
 
-		return getGroup(groupName);
-	}
+        return getGroup(groupName);
+    }
 
-	/**
-	 * Gets the group of a command sender
-	 *
-	 * @param sender command sender
-	 * @return the group
-	 */
-	public static NovaGroup getGroup(CommandSender sender) {
-		if(sender instanceof Player) {
-			return getGroup((Player) sender);
-		}
-		else {
-			return getGroup("admin");
-		}
-	}
+    /**
+     * Gets the group of a command sender
+     *
+     * @param sender command sender
+     * @return the group
+     */
+    public static NovaGroup getGroup(CommandSender sender) {
+        if(sender instanceof Player) {
+            return getGroup((Player) sender);
+        }
+        else {
+            return getGroup("admin");
+        }
+    }
 
-	/**
-	 * Gets a group by its name
-	 *
-	 * @param groupName group name
-	 * @return the group
-	 */
-	public static NovaGroup getGroup(String groupName) {
-		Map<String, NovaGroup> groups = plugin.getGroupManager().getGroups();
+    /**
+     * Gets a group by its name
+     *
+     * @param groupName group name
+     * @return the group
+     */
+    public static NovaGroup getGroup(String groupName) {
+        Map<String, NovaGroup> groups = plugin.getGroupManager().getGroups();
 
-		if(groups.containsKey(groupName)) {
-			return groups.get(groupName);
-		}
+        if(groups.containsKey(groupName)) {
+            return groups.get(groupName);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Gets all groups
-	 *
-	 * @return map with groups and their names (as keys)
-	 */
-	public Map<String, NovaGroup> getGroups() {
-		return groups;
-	}
+    /**
+     * Gets all groups
+     *
+     * @return map with groups and their names (as keys)
+     */
+    public Map<String, NovaGroup> getGroups() {
+        return groups;
+    }
 }

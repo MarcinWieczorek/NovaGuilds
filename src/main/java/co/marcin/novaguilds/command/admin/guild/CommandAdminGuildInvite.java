@@ -30,42 +30,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildInvite extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaGuild guild = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaGuild guild = getParameter();
 
-		if(args.length == 0) {
-			Message.CHAT_PLAYER_ENTERNAME.send(sender);
-			return;
-		}
+        if(args.length == 0) {
+            Message.CHAT_PLAYER_ENTERNAME.send(sender);
+            return;
+        }
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
+        NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
 
-		if(nPlayer == null) {
-			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-			return;
-		}
+        if(nPlayer == null) {
+            Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+            return;
+        }
 
-		if(nPlayer.hasGuild()) {
-			Message.CHAT_PLAYER_HASGUILD.send(sender);
-			return;
-		}
+        if(nPlayer.hasGuild()) {
+            Message.CHAT_PLAYER_HASGUILD.send(sender);
+            return;
+        }
 
-		if(nPlayer.isInvitedTo(guild)) {
-			Message.CHAT_PLAYER_ALREADYINVITED.send(sender);
-			return;
-		}
+        if(nPlayer.isInvitedTo(guild)) {
+            Message.CHAT_PLAYER_ALREADYINVITED.send(sender);
+            return;
+        }
 
-		//all passed
-		nPlayer.addInvitation(guild);
+        //all passed
+        nPlayer.addInvitation(guild);
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
-		vars.put(VarKey.GUILD_NAME, guild.getName());
-		Message.CHAT_ADMIN_GUILD_INVITED.clone().vars(vars).send(sender);
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
+        vars.put(VarKey.GUILD_NAME, guild.getName());
+        Message.CHAT_ADMIN_GUILD_INVITED.clone().vars(vars).send(sender);
 
-		if(nPlayer.isOnline()) {
-			Message.CHAT_PLAYER_INVITE_NOTIFY.clone().vars(vars).send(nPlayer);
-		}
-	}
+        if(nPlayer.isOnline()) {
+            Message.CHAT_PLAYER_INVITE_NOTIFY.clone().vars(vars).send(nPlayer);
+        }
+    }
 }

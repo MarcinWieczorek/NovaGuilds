@@ -28,50 +28,50 @@ import co.marcin.novaguilds.util.reflect.Reflections;
 import java.lang.reflect.Field;
 
 public class PacketPlayInUpdateSign extends AbstractPacket {
-	protected static Class<?> packetInUpdateSignClass;
-	protected static Field blockPositionField;
-	protected static FieldAccessor<String[]> linesField;
+    protected static Class<?> packetInUpdateSignClass;
+    protected static Field blockPositionField;
+    protected static FieldAccessor<String[]> linesField;
 
-	private String[] lines;
-	private BlockPositionWrapper blockPositionWrapper;
+    private String[] lines;
+    private BlockPositionWrapper blockPositionWrapper;
 
-	static {
-		try {
-			packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
-			blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
-			linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
-		}
-	}
+    static {
+        try {
+            packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
+            blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
+            linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
+        }
+        catch(Exception e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * Converts NMS packet
-	 *
-	 * @param packet NMS PacketPlayInUpdateSign object
-	 * @throws IllegalAccessException when something goes wrong
-	 */
-	public PacketPlayInUpdateSign(Object packet) throws IllegalAccessException {
-		blockPositionWrapper = new BlockPositionWrapperImpl(blockPositionField.get(packet));
-		lines = linesField.get(packet);
-	}
+    /**
+     * Converts NMS packet
+     *
+     * @param packet NMS PacketPlayInUpdateSign object
+     * @throws IllegalAccessException when something goes wrong
+     */
+    public PacketPlayInUpdateSign(Object packet) throws IllegalAccessException {
+        blockPositionWrapper = new BlockPositionWrapperImpl(blockPositionField.get(packet));
+        lines = linesField.get(packet);
+    }
 
-	/**
-	 * Gets block position wrapper
-	 *
-	 * @return integer
-	 */
-	public BlockPositionWrapper getBlockPositionWrapper() {
-		return blockPositionWrapper;
-	}
+    /**
+     * Gets block position wrapper
+     *
+     * @return integer
+     */
+    public BlockPositionWrapper getBlockPositionWrapper() {
+        return blockPositionWrapper;
+    }
 
-	/**
-	 * Gets sign lines
-	 *
-	 * @return array of 4 strings
-	 */
-	public String[] getLines() {
-		return lines;
-	}
+    /**
+     * Gets sign lines
+     *
+     * @return array of 4 strings
+     */
+    public String[] getLines() {
+        return lines;
+    }
 }

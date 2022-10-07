@@ -28,78 +28,78 @@ import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.meta.BannerMeta;
 
 public class BannerMetaSerializerImpl implements BannerMetaSerializer {
-	@Override
-	public String serialize(BannerMeta bannerMeta) {
-		if(bannerMeta == null) {
-			return "";
-		}
+    @Override
+    public String serialize(BannerMeta bannerMeta) {
+        if(bannerMeta == null) {
+            return "";
+        }
 
-		StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
-		builder.append((bannerMeta.getBaseColor() == null ? DyeColor.BLACK : bannerMeta.getBaseColor()).name());
+        builder.append((bannerMeta.getBaseColor() == null ? DyeColor.BLACK : bannerMeta.getBaseColor()).name());
 
-		if(bannerMeta.numberOfPatterns() > 0) {
-			builder.append(':');
-		}
+        if(bannerMeta.numberOfPatterns() > 0) {
+            builder.append(':');
+        }
 
-		int index = 1;
-		for(Pattern pattern : bannerMeta.getPatterns()) {
-			builder.append(pattern.getColor().name());
-			builder.append('-');
-			builder.append(pattern.getPattern().getIdentifier());
+        int index = 1;
+        for(Pattern pattern : bannerMeta.getPatterns()) {
+            builder.append(pattern.getColor().name());
+            builder.append('-');
+            builder.append(pattern.getPattern().getIdentifier());
 
-			if(index < bannerMeta.numberOfPatterns()) {
-				builder.append("|");
-			}
+            if(index < bannerMeta.numberOfPatterns()) {
+                builder.append("|");
+            }
 
-			index++;
-		}
+            index++;
+        }
 
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 
-	@Override
-	public BannerMeta deserialize(String string) {
-		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
+    @Override
+    public BannerMeta deserialize(String string) {
+        BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
 
-		if(string == null || string.isEmpty()) {
-			return meta;
-		}
+        if(string == null || string.isEmpty()) {
+            return meta;
+        }
 
-		String baseColorString;
-		String patternsString;
+        String baseColorString;
+        String patternsString;
 
-		if(StringUtils.contains(string, ':')) {
-			String[] baseSplit = StringUtils.split(string, ':');
-			baseColorString = baseSplit[0];
-			patternsString = baseSplit[1];
-		}
-		else {
-			baseColorString = string;
-			patternsString = "";
-		}
+        if(StringUtils.contains(string, ':')) {
+            String[] baseSplit = StringUtils.split(string, ':');
+            baseColorString = baseSplit[0];
+            patternsString = baseSplit[1];
+        }
+        else {
+            baseColorString = string;
+            patternsString = "";
+        }
 
-		meta.setBaseColor(DyeColor.valueOf(baseColorString));
+        meta.setBaseColor(DyeColor.valueOf(baseColorString));
 
-		if(!patternsString.isEmpty()) {
-			String[] patternsSplit;
+        if(!patternsString.isEmpty()) {
+            String[] patternsSplit;
 
-			if(StringUtils.contains(patternsString, '|')) {
-				patternsSplit = StringUtils.split(patternsString, '|');
-			}
-			else {
-				patternsSplit = new String[]{
-						patternsString
-				};
-			}
+            if(StringUtils.contains(patternsString, '|')) {
+                patternsSplit = StringUtils.split(patternsString, '|');
+            }
+            else {
+                patternsSplit = new String[]{
+                        patternsString
+                };
+            }
 
-			for(String patternString : patternsSplit) {
-				String[] patternSplit = StringUtils.split(patternString, '-');
+            for(String patternString : patternsSplit) {
+                String[] patternSplit = StringUtils.split(patternString, '-');
 
-				meta.addPattern(new Pattern(DyeColor.valueOf(patternSplit[0]), PatternType.getByIdentifier(patternSplit[1])));
-			}
-		}
+                meta.addPattern(new Pattern(DyeColor.valueOf(patternSplit[0]), PatternType.getByIdentifier(patternSplit[1])));
+            }
+        }
 
-		return meta;
-	}
+        return meta;
+    }
 }

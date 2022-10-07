@@ -27,199 +27,199 @@ import java.util.List;
 import java.util.Map;
 
 public interface ConfigWrapper extends VarKeyApplicable<ConfigWrapper>, Cloneable {
-	interface Typed<T> extends ConfigWrapper {
-		/**
-		 * Gets a typed value
-		 *
-		 * @return typed value
-		 */
-		T get();
+    interface Typed<T> extends ConfigWrapper {
+        /**
+         * Gets a typed value
+         *
+         * @return typed value
+         */
+        T get();
 
-		/**
-		 * Gets the type
-		 *
-		 * @return type class
-		 */
-		Class<T> getType();
-	}
+        /**
+         * Gets the type
+         *
+         * @return type class
+         */
+        Class<T> getType();
+    }
 
-	/**
-	 * Gets the name
-	 *
-	 * @return the name
-	 */
-	String getName();
+    /**
+     * Gets the name
+     *
+     * @return the name
+     */
+    String getName();
 
-	/**
-	 * Gets the path
-	 *
-	 * @return the path
-	 */
-	String getPath();
+    /**
+     * Gets the path
+     *
+     * @return the path
+     */
+    String getPath();
 
-	/**
-	 * Gets fix colors flag
-	 *
-	 * @return boolean
-	 */
-	boolean isFixColors();
+    /**
+     * Gets fix colors flag
+     *
+     * @return boolean
+     */
+    boolean isFixColors();
 
-	/**
-	 * Checks if the value is empty
-	 * In default implementation
-	 * string equal to 'none'
-	 *
-	 * @return true if empty
-	 */
-	boolean isEmpty();
+    /**
+     * Checks if the value is empty
+     * In default implementation
+     * string equal to 'none'
+     *
+     * @return true if empty
+     */
+    boolean isEmpty();
 
-	/**
-	 * Checks if the value is a list
-	 *
-	 * @return true if list
-	 */
-	boolean isList();
+    /**
+     * Checks if the value is a list
+     *
+     * @return true if list
+     */
+    boolean isList();
 
-	/**
-	 * Gets a string
-	 *
-	 * @return the string
-	 */
-	String getString();
+    /**
+     * Gets a string
+     *
+     * @return the string
+     */
+    String getString();
 
-	/**
-	 * Gets string list
-	 *
-	 * @return the list
-	 */
-	List<String> getStringList();
+    /**
+     * Gets string list
+     *
+     * @return the list
+     */
+    List<String> getStringList();
 
-	/**
-	 * Gets ItemStack list
-	 *
-	 * @return the list
-	 */
-	List<ItemStack> getItemStackList();
+    /**
+     * Gets ItemStack list
+     *
+     * @return the list
+     */
+    List<ItemStack> getItemStackList();
 
-	/**
-	 * Gets material list
-	 *
-	 * @return the list
-	 */
-	List<Material> getMaterialList();
+    /**
+     * Gets material list
+     *
+     * @return the list
+     */
+    List<Material> getMaterialList();
 
-	/**
-	 * Gets a long
-	 *
-	 * @return long
-	 */
-	long getLong();
+    /**
+     * Gets a long
+     *
+     * @return long
+     */
+    long getLong();
 
-	/**
-	 * Gets a double
-	 *
-	 * @return double
-	 */
-	double getDouble();
+    /**
+     * Gets a double
+     *
+     * @return double
+     */
+    double getDouble();
 
-	/**
-	 * Gets an int
-	 *
-	 * @return int
-	 */
-	int getInt();
+    /**
+     * Gets an int
+     *
+     * @return int
+     */
+    int getInt();
 
-	/**
-	 * Gets a boolean
-	 *
-	 * @return boolean
-	 */
-	boolean getBoolean();
+    /**
+     * Gets a boolean
+     *
+     * @return boolean
+     */
+    boolean getBoolean();
 
-	/**
-	 * Gets time in seconds
-	 *
-	 * @return seconds
-	 */
-	int getSeconds();
+    /**
+     * Gets time in seconds
+     *
+     * @return seconds
+     */
+    int getSeconds();
 
-	/**
-	 * Gets an ItemStack
-	 *
-	 * @return itemstack
-	 */
-	ItemStack getItemStack();
+    /**
+     * Gets an ItemStack
+     *
+     * @return itemstack
+     */
+    ItemStack getItemStack();
 
-	/**
-	 * Gets a material
-	 *
-	 * @return material
-	 */
-	Material getMaterial();
+    /**
+     * Gets a material
+     *
+     * @return material
+     */
+    Material getMaterial();
 
-	/**
-	 * Gets material data (durability)
-	 *
-	 * @return byte
-	 */
-	byte getMaterialData();
+    /**
+     * Gets material data (durability)
+     *
+     * @return byte
+     */
+    byte getMaterialData();
 
-	/**
-	 * Gets percents
-	 *
-	 * @return double value (%)
-	 */
-	double getPercent();
+    /**
+     * Gets percents
+     *
+     * @return double value (%)
+     */
+    double getPercent();
 
-	/**
-	 * Gets a map
-	 *
-	 * @return map
-	 */
-	Map<String, Object> getMap();
+    /**
+     * Gets a map
+     *
+     * @return map
+     */
+    Map<String, Object> getMap();
 
-	/**
-	 * Gets configuration section
-	 *
-	 * @return the section
-	 */
-	@Deprecated
-	ConfigurationSection getConfigurationSection();
+    /**
+     * Gets configuration section
+     *
+     * @return the section
+     */
+    @Deprecated
+    ConfigurationSection getConfigurationSection();
 
-	/**
-	 * Sets a value
-	 *
-	 * @param obj the value
-	 */
-	void set(Object obj);
+    /**
+     * Sets a value
+     *
+     * @param obj the value
+     */
+    void set(Object obj);
 
-	/**
-	 * Sets the path
-	 *
-	 * @param path new path
-	 */
-	void setPath(String path);
+    /**
+     * Sets the path
+     *
+     * @param path new path
+     */
+    void setPath(String path);
 
-	/**
-	 * Sets fix colors flag
-	 *
-	 * @param b the flag
-	 */
-	void setFixColors(boolean b);
+    /**
+     * Sets fix colors flag
+     *
+     * @param b the flag
+     */
+    void setFixColors(boolean b);
 
-	/**
-	 * Converts the value to an enum
-	 *
-	 * @param clazz enum class
-	 * @param <E>   enum class
-	 * @return enum value
-	 */
-	<E extends Enum> E toEnum(Class<E> clazz);
+    /**
+     * Converts the value to an enum
+     *
+     * @param clazz enum class
+     * @param <E>   enum class
+     * @return enum value
+     */
+    <E extends Enum> E toEnum(Class<E> clazz);
 
-	/**
-	 * Clones the wrapper
-	 *
-	 * @return cloned wrapper
-	 */
-	ConfigWrapper clone();
+    /**
+     * Clones the wrapper
+     *
+     * @return cloned wrapper
+     */
+    ConfigWrapper clone();
 }

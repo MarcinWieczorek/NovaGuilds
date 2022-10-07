@@ -37,179 +37,179 @@ import java.util.List;
 import java.util.Map;
 
 public class ChatMessageImpl implements ChatMessage {
-	private final Player player;
-	private String message;
-	private String format;
-	private PreparedTag tag;
-	private boolean reportToConsole = true;
-	private boolean reported = false;
+    private final Player player;
+    private String message;
+    private String format;
+    private PreparedTag tag;
+    private boolean reportToConsole = true;
+    private boolean reported = false;
 
-	/**
-	 * The constructor
-	 *
-	 * @param player message sender
-	 */
-	public ChatMessageImpl(Player player) {
-		this.player = player;
-	}
+    /**
+     * The constructor
+     *
+     * @param player message sender
+     */
+    public ChatMessageImpl(Player player) {
+        this.player = player;
+    }
 
-	@Override
-	public void send() {
-		sendToPlayers(new ArrayList<>(CompatibilityUtils.getOnlinePlayers()));
-	}
+    @Override
+    public void send() {
+        sendToPlayers(new ArrayList<>(CompatibilityUtils.getOnlinePlayers()));
+    }
 
-	@Override
-	public void send(Player player) {
-		if(player == null) {
-			return;
-		}
+    @Override
+    public void send(Player player) {
+        if(player == null) {
+            return;
+        }
 
-		player.sendMessage(parse());
-		report();
-	}
+        player.sendMessage(parse());
+        report();
+    }
 
-	@Override
-	public void send(NovaPlayer nPlayer) {
-		send(nPlayer.getPlayer());
-	}
+    @Override
+    public void send(NovaPlayer nPlayer) {
+        send(nPlayer.getPlayer());
+    }
 
-	@Override
-	public void send(NovaGuild guild) {
-		sendToPlayers(guild.getOnlinePlayers());
-	}
+    @Override
+    public void send(NovaGuild guild) {
+        sendToPlayers(guild.getOnlinePlayers());
+    }
 
-	@Override
-	public void sendToGuilds(List<NovaGuild> guildList) {
-		for(NovaGuild guild : guildList) {
-			send(guild);
-		}
-	}
+    @Override
+    public void sendToGuilds(List<NovaGuild> guildList) {
+        for(NovaGuild guild : guildList) {
+            send(guild);
+        }
+    }
 
-	@Override
-	public void sendToPlayers(List<Player> playerList) {
-		for(Player player : playerList) {
-			send(player);
-		}
-	}
+    @Override
+    public void sendToPlayers(List<Player> playerList) {
+        for(Player player : playerList) {
+            send(player);
+        }
+    }
 
-	@Override
-	public void sendToNovaPlayers(List<NovaPlayer> playerList) {
-		for(NovaPlayer nPlayer : playerList) {
-			send(nPlayer);
-		}
-	}
+    @Override
+    public void sendToNovaPlayers(List<NovaPlayer> playerList) {
+        for(NovaPlayer nPlayer : playerList) {
+            send(nPlayer);
+        }
+    }
 
-	@Override
-	public Player getPlayer() {
-		return player;
-	}
+    @Override
+    public Player getPlayer() {
+        return player;
+    }
 
-	@Override
-	public String getMessage() {
-		return message;
-	}
+    @Override
+    public String getMessage() {
+        return message;
+    }
 
-	@Override
-	public String getFormat() {
-		return format;
-	}
+    @Override
+    public String getFormat() {
+        return format;
+    }
 
-	@Override
-	public PreparedTag getTag() {
-		return tag;
-	}
+    @Override
+    public PreparedTag getTag() {
+        return tag;
+    }
 
-	@Override
-	public boolean isReportToConsole() {
-		return reportToConsole;
-	}
+    @Override
+    public boolean isReportToConsole() {
+        return reportToConsole;
+    }
 
-	@Override
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    @Override
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	@Override
-	public void setFormat(String format) {
-		Map<String, String> vars = new HashMap<>();
+    @Override
+    public void setFormat(String format) {
+        Map<String, String> vars = new HashMap<>();
 
-		format = StringUtils.replace(format, "%1$s", "{DISPLAYNAME}");
-		format = StringUtils.replace(format, "%2$s", "{MESSAGE}");
+        format = StringUtils.replace(format, "%1$s", "{DISPLAYNAME}");
+        format = StringUtils.replace(format, "%2$s", "{MESSAGE}");
 
-		vars.put("0", "{GROUP}");
-		vars.put("1", "{WORLD}");
-		vars.put("1", "{WORLDNAME}");
-		vars.put("2", "{SHORTWORLDNAME}");
-		vars.put("3", "{TEAMPREFIX}");
-		vars.put("4", "{TEAMSUFFIX}");
-		vars.put("5", "{TEAMNAME}");
+        vars.put("0", "{GROUP}");
+        vars.put("1", "{WORLD}");
+        vars.put("1", "{WORLDNAME}");
+        vars.put("2", "{SHORTWORLDNAME}");
+        vars.put("3", "{TEAMPREFIX}");
+        vars.put("4", "{TEAMSUFFIX}");
+        vars.put("5", "{TEAMNAME}");
 
-		format = co.marcin.novaguilds.util.StringUtils.replaceMap(format, vars);
+        format = co.marcin.novaguilds.util.StringUtils.replaceMap(format, vars);
 
-		this.format = format;
-	}
+        this.format = format;
+    }
 
-	@Override
-	public void setTag(PreparedTag tag) {
-		this.tag = tag;
-	}
+    @Override
+    public void setTag(PreparedTag tag) {
+        this.tag = tag;
+    }
 
-	@Override
-	public void setReportToConsole(boolean reportToConsole) {
-		this.reportToConsole = reportToConsole;
-	}
+    @Override
+    public void setReportToConsole(boolean reportToConsole) {
+        this.reportToConsole = reportToConsole;
+    }
 
-	@Override
-	public void report() {
-		if(!reported && isReportToConsole()) {
-			LoggerUtils.info(co.marcin.novaguilds.util.StringUtils.removeColors(parse()), false);
-			reported = true;
-		}
-	}
+    @Override
+    public void report() {
+        if(!reported && isReportToConsole()) {
+            LoggerUtils.info(co.marcin.novaguilds.util.StringUtils.removeColors(parse()), false);
+            reported = true;
+        }
+    }
 
-	/**
-	 * Parse the message, fill variables
-	 *
-	 * @return parsed string
-	 */
-	private String parse() {
-		String format = getFormat();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(getPlayer());
-		Map<VarKey, String> vars = new HashMap<>();
+    /**
+     * Parse the message, fill variables
+     *
+     * @return parsed string
+     */
+    private String parse() {
+        String format = getFormat();
+        NovaPlayer nPlayer = PlayerManager.getPlayer(getPlayer());
+        Map<VarKey, String> vars = new HashMap<>();
 
-		int topAmount = Config.CHAT_TOP_AMOUNT.getInt();
-		if(topAmount > 0) {
-			List<NovaPlayer> list;
+        int topAmount = Config.CHAT_TOP_AMOUNT.getInt();
+        if(topAmount > 0) {
+            List<NovaPlayer> list;
 
-			if(Config.CHAT_TOP_POINTS.getBoolean()) {
-				list = NovaGuilds.getInstance().getPlayerManager().getTopPlayersByPoints(topAmount);
-			}
-			else {
-				list = NovaGuilds.getInstance().getPlayerManager().getTopPlayersByKDR(topAmount);
-			}
+            if(Config.CHAT_TOP_POINTS.getBoolean()) {
+                list = NovaGuilds.getInstance().getPlayerManager().getTopPlayersByPoints(topAmount);
+            }
+            else {
+                list = NovaGuilds.getInstance().getPlayerManager().getTopPlayersByKDR(topAmount);
+            }
 
-			int rank = list.indexOf(nPlayer);
+            int rank = list.indexOf(nPlayer);
 
-			String rankString = "";
-			if(rank != -1 && rank < topAmount) {
-				rankString = Config.CHAT_TOP_FORMAT.getString();
-				rankString = StringUtils.replace(rankString, "{"+VarKey.INDEX.name()+"}", String.valueOf(rank + 1));
-			}
+            String rankString = "";
+            if(rank != -1 && rank < topAmount) {
+                rankString = Config.CHAT_TOP_FORMAT.getString();
+                rankString = StringUtils.replace(rankString, "{"+VarKey.INDEX.name()+"}", String.valueOf(rank + 1));
+            }
 
-			vars.put(VarKey.NOVAGUILDS_TOP, rankString);
-		}
+            vars.put(VarKey.NOVAGUILDS_TOP, rankString);
+        }
 
-		vars.put(VarKey.DISPLAYNAME, getPlayer().getDisplayName());
-		vars.put(VarKey.PLAYER_NAME, getPlayer().getName());
-		vars.put(VarKey.WORLD, getPlayer().getWorld().getName());
-		vars.put(VarKey.WORLDNAME, getPlayer().getWorld().getName());
-		vars.put(VarKey.PLAYER_POINTS, String.valueOf(nPlayer.getPoints()));
-		vars.put(VarKey.TAG, tag.get());
+        vars.put(VarKey.DISPLAYNAME, getPlayer().getDisplayName());
+        vars.put(VarKey.PLAYER_NAME, getPlayer().getName());
+        vars.put(VarKey.WORLD, getPlayer().getWorld().getName());
+        vars.put(VarKey.WORLDNAME, getPlayer().getWorld().getName());
+        vars.put(VarKey.PLAYER_POINTS, String.valueOf(nPlayer.getPoints()));
+        vars.put(VarKey.TAG, tag.get());
 
-		format = co.marcin.novaguilds.util.StringUtils.replaceVarKeyMap(format, vars);
-		format = co.marcin.novaguilds.util.StringUtils.fixColors(format);
-		format = StringUtils.replace(format, "{MESSAGE}", getMessage());
+        format = co.marcin.novaguilds.util.StringUtils.replaceVarKeyMap(format, vars);
+        format = co.marcin.novaguilds.util.StringUtils.fixColors(format);
+        format = StringUtils.replace(format, "{MESSAGE}", getMessage());
 
-		return format;
-	}
+        return format;
+    }
 }

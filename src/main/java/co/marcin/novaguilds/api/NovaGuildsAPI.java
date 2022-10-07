@@ -43,132 +43,132 @@ import co.marcin.novaguilds.manager.TaskManager;
  * @author Marcin Wieczorek
  */
 public interface NovaGuildsAPI {
-	/**
-	 * Returns the instance of RegionManager
-	 *
-	 * @return RegionManager
-	 */
-	RegionManager getRegionManager();
+    /**
+     * Returns the instance of RegionManager
+     *
+     * @return RegionManager
+     */
+    RegionManager getRegionManager();
 
-	/**
-	 * Returns the instance of GuildManager
-	 *
-	 * @return GuildManager
-	 */
-	GuildManager getGuildManager();
+    /**
+     * Returns the instance of GuildManager
+     *
+     * @return GuildManager
+     */
+    GuildManager getGuildManager();
 
-	/**
-	 * Returns the instance of PlayerManager
-	 *
-	 * @return PlayerManager
-	 */
-	PlayerManager getPlayerManager();
+    /**
+     * Returns the instance of PlayerManager
+     *
+     * @return PlayerManager
+     */
+    PlayerManager getPlayerManager();
 
-	/**
-	 * Returns the instance of MessageManager
-	 *
-	 * @return MessageManager
-	 */
-	MessageManager getMessageManager();
+    /**
+     * Returns the instance of MessageManager
+     *
+     * @return MessageManager
+     */
+    MessageManager getMessageManager();
 
-	/**
-	 * Returns the instance of CommandManager
-	 *
-	 * @return CommandManager
-	 */
-	CommandManager getCommandManager();
+    /**
+     * Returns the instance of CommandManager
+     *
+     * @return CommandManager
+     */
+    CommandManager getCommandManager();
 
-	/**
-	 * Returns the instance of ConfigManager
-	 *
-	 * @return ConfigManager
-	 */
-	ConfigManager getConfigManager();
+    /**
+     * Returns the instance of ConfigManager
+     *
+     * @return ConfigManager
+     */
+    ConfigManager getConfigManager();
 
-	/**
-	 * Returns the instance of DynmapManager
-	 *
-	 * @return dynmap manager
-	 */
-	DynmapManager getDynmapManager();
+    /**
+     * Returns the instance of DynmapManager
+     *
+     * @return dynmap manager
+     */
+    DynmapManager getDynmapManager();
 
-	/**
-	 * Returns the instance of GroupManager
-	 *
-	 * @return GroupManager
-	 */
-	GroupManager getGroupManager();
+    /**
+     * Returns the instance of GroupManager
+     *
+     * @return GroupManager
+     */
+    GroupManager getGroupManager();
 
-	/**
-	 * Returns the instance of HologramManager
-	 *
-	 * @return HologramManager
-	 */
-	HologramManager getHologramManager();
+    /**
+     * Returns the instance of HologramManager
+     *
+     * @return HologramManager
+     */
+    HologramManager getHologramManager();
 
-	/**
-	 * Returns the instance of RankManager
-	 *
-	 * @return RankManager
-	 */
-	RankManager getRankManager();
+    /**
+     * Returns the instance of RankManager
+     *
+     * @return RankManager
+     */
+    RankManager getRankManager();
 
-	/**
-	 * Returns the instance of TaskManager
-	 *
-	 * @return TaskManager
-	 */
-	TaskManager getTaskManager();
+    /**
+     * Returns the instance of TaskManager
+     *
+     * @return TaskManager
+     */
+    TaskManager getTaskManager();
 
-	/**
-	 * Gets listener manager
-	 *
-	 * @return the ListenerManager
-	 */
-	ListenerManager getListenerManager();
+    /**
+     * Gets listener manager
+     *
+     * @return the ListenerManager
+     */
+    ListenerManager getListenerManager();
 
-	/**
-	 * Returns the PacketExtension
-	 *
-	 * @return the PacketExtension
-	 */
-	PacketExtension getPacketExtension();
+    /**
+     * Returns the PacketExtension
+     *
+     * @return the PacketExtension
+     */
+    PacketExtension getPacketExtension();
 
-	/**
-	 * Returns the DependencyManager
-	 *
-	 * @return the DependencyManager
-	 */
-	DependencyManager getDependencyManager();
+    /**
+     * Returns the DependencyManager
+     *
+     * @return the DependencyManager
+     */
+    DependencyManager getDependencyManager();
 
-	/**
-	 * Returns the ErrorManager
-	 *
-	 * @return the ErrorManager
-	 */
-	ErrorManager getErrorManager();
+    /**
+     * Returns the ErrorManager
+     *
+     * @return the ErrorManager
+     */
+    ErrorManager getErrorManager();
 
-	/**
-	 * Returns the storage
-	 *
-	 * @return the storage
-	 */
-	Storage getStorage();
+    /**
+     * Returns the storage
+     *
+     * @return the storage
+     */
+    Storage getStorage();
 
-	/**
-	 * Creates a TabList for a player
-	 *
-	 * @param nPlayer player instance
-	 * @param version version
-	 * @return tablist object
-	 */
-	TabList createTabList(ConfigManager.ServerVersion version, NovaPlayer nPlayer);
+    /**
+     * Creates a TabList for a player
+     *
+     * @param nPlayer player instance
+     * @param version version
+     * @return tablist object
+     */
+    TabList createTabList(ConfigManager.ServerVersion version, NovaPlayer nPlayer);
 
-	/**
-	 * Creates a TabList for a player
-	 *
-	 * @param nPlayer player instance
-	 * @return tablist object
-	 */
-	TabList createTabList(NovaPlayer nPlayer);
+    /**
+     * Creates a TabList for a player
+     *
+     * @param nPlayer player instance
+     * @return tablist object
+     */
+    TabList createTabList(NovaPlayer nPlayer);
 }

@@ -36,49 +36,49 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildBuySlot extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.BUYSLOT)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.BUYSLOT)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		if(nPlayer.getGuild().getSlots() + 1 > Config.GUILD_SLOTS_MAX.getInt()) {
-			Message.CHAT_GUILD_BUY_SLOT_MAXREACHED.send(sender);
-			return;
-		}
+        if(nPlayer.getGuild().getSlots() + 1 > Config.GUILD_SLOTS_MAX.getInt()) {
+            Message.CHAT_GUILD_BUY_SLOT_MAXREACHED.send(sender);
+            return;
+        }
 
-		NovaGroup group = GroupManager.getGroup(sender);
-		double money = group.get(NovaGroupImpl.Key.BUY_SLOT_MONEY);
-		List<ItemStack> items = group.get(NovaGroupImpl.Key.BUY_SLOT_ITEMS);
+        NovaGroup group = GroupManager.getGroup(sender);
+        double money = group.get(NovaGroupImpl.Key.BUY_SLOT_MONEY);
+        List<ItemStack> items = group.get(NovaGroupImpl.Key.BUY_SLOT_ITEMS);
 
-		if(money > 0 && !nPlayer.getGuild().hasMoney(money)) {
-			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
-			return;
-		}
+        if(money > 0 && !nPlayer.getGuild().hasMoney(money)) {
+            Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
+            return;
+        }
 
-		if(!items.isEmpty()) {
-			List<ItemStack> missing = InventoryUtils.getMissingItems(nPlayer.getPlayer().getInventory(), items);
+        if(!items.isEmpty()) {
+            List<ItemStack> missing = InventoryUtils.getMissingItems(nPlayer.getPlayer().getInventory(), items);
 
-			if(!missing.isEmpty()) {
-				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-				sender.sendMessage(StringUtils.getItemList(missing));
-				return;
-			}
-		}
+            if(!missing.isEmpty()) {
+                Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+                sender.sendMessage(StringUtils.getItemList(missing));
+                return;
+            }
+        }
 
-		nPlayer.getGuild().takeMoney(money);
-		InventoryUtils.removeItems(nPlayer.getPlayer(), items);
+        nPlayer.getGuild().takeMoney(money);
+        InventoryUtils.removeItems(nPlayer.getPlayer(), items);
 
-		nPlayer.getGuild().addSlot();
-		Message.CHAT_GUILD_BUY_SLOT_SUCCESS.send(sender);
-		TabUtils.refresh(nPlayer.getGuild());
-	}
+        nPlayer.getGuild().addSlot();
+        Message.CHAT_GUILD_BUY_SLOT_SUCCESS.send(sender);
+        TabUtils.refresh(nPlayer.getGuild());
+    }
 }

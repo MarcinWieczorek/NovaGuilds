@@ -21,10 +21,10 @@ package co.marcin.novaguilds.runnable;
 import co.marcin.novaguilds.NovaGuilds;
 
 public class RunnableInactiveCleaner implements Runnable {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+    private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
-	@Override
-	public void run() {
-		plugin.getGuildManager().cleanInactiveGuilds();
-	}
+    @Override
+    public void run() {
+        plugin.getGuildManager().cleanInactiveGuilds();
+    }
 }

@@ -19,27 +19,27 @@
 package co.marcin.novaguilds.api.util.exceptionparser;
 
 public interface Block {
-	/**
-	 * Gets exception name
-	 *
-	 * @return exception name
-	 */
-	String getName();
+    /**
+     * Gets exception name
+     *
+     * @return exception name
+     */
+    String getName();
 
-	/**
-	 * Gets block message
-	 * Which is exception message
-	 * of an error's main exception
-	 * or one's of it's causes
-	 *
-	 * @return message string
-	 */
-	String getMessage();
+    /**
+     * Gets block message
+     * Which is exception message
+     * of an error's main exception
+     * or one's of it's causes
+     *
+     * @return message string
+     */
+    String getMessage();
 
-	/**
-	 * Gets first stack trace element of an exception
-	 *
-	 * @return stack trace element string
-	 */
-	String getStackTraceElement();
+    /**
+     * Gets first stack trace element of an exception
+     *
+     * @return stack trace element string
+     */
+    String getStackTraceElement();
 }

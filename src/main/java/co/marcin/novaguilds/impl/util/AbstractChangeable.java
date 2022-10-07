@@ -21,20 +21,20 @@ package co.marcin.novaguilds.impl.util;
 import co.marcin.novaguilds.api.util.Changeable;
 
 public class AbstractChangeable implements Changeable {
-	private boolean changed;
+    private boolean changed;
 
-	@Override
-	public final void setChanged() {
-		changed = true;
-	}
+    @Override
+    public final void setChanged() {
+        changed = true;
+    }
 
-	@Override
-	public final void setUnchanged() {
-		changed = false;
-	}
+    @Override
+    public final void setUnchanged() {
+        changed = false;
+    }
 
-	@Override
-	public boolean isChanged() {
-		return changed;
-	}
+    @Override
+    public boolean isChanged() {
+        return changed;
+    }
 }

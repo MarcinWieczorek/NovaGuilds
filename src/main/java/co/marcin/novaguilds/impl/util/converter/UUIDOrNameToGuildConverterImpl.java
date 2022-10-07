@@ -23,16 +23,16 @@ import co.marcin.novaguilds.api.util.IConverter;
 import co.marcin.novaguilds.util.StringUtils;
 
 public class UUIDOrNameToGuildConverterImpl extends AbstractConverter<String, NovaGuild> {
-	@Override
-	public NovaGuild convert(String s) {
-		IConverter<String, NovaGuild> converter;
-		if(StringUtils.isUUID(s)) {
-			converter = new StringUUIDToGuildConverterImpl();
-		}
-		else {
-			converter = new NameToGuildConverterImpl();
-		}
+    @Override
+    public NovaGuild convert(String s) {
+        IConverter<String, NovaGuild> converter;
+        if(StringUtils.isUUID(s)) {
+            converter = new StringUUIDToGuildConverterImpl();
+        }
+        else {
+            converter = new NameToGuildConverterImpl();
+        }
 
-		return converter.convert(s);
-	}
+        return converter.convert(s);
+    }
 }

@@ -28,23 +28,23 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildPvpToggle extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.PVPTOGGLE)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.PVPTOGGLE)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
-		TabUtils.refresh(nPlayer.getGuild());
+        nPlayer.getGuild().setFriendlyPvp(!nPlayer.getGuild().getFriendlyPvp());
+        TabUtils.refresh(nPlayer.getGuild());
 
-		Message.CHAT_GUILD_FPVPTOGGLED.clone().setVar(VarKey.GUILD_PVP, Message.getOnOff(nPlayer.getGuild().getFriendlyPvp())).send(sender);
-	}
+        Message.CHAT_GUILD_FPVPTOGGLED.clone().setVar(VarKey.GUILD_PVP, Message.getOnOff(nPlayer.getGuild().getFriendlyPvp())).send(sender);
+    }
 }

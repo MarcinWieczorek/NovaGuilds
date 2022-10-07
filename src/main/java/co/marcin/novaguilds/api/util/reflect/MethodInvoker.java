@@ -19,12 +19,12 @@
 package co.marcin.novaguilds.api.util.reflect;
 
 public interface MethodInvoker<T> {
-	/**
-	 * Invokes a method
-	 *
-	 * @param target    target object
-	 * @param arguments arguments
-	 * @return returned object
-	 */
-	T invoke(Object target, Object... arguments);
+    /**
+     * Invokes a method
+     *
+     * @param target    target object
+     * @param arguments arguments
+     * @return returned object
+     */
+    T invoke(Object target, Object... arguments);
 }

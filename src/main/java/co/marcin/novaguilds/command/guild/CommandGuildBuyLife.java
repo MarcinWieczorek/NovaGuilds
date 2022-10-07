@@ -36,50 +36,50 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class CommandGuildBuyLife extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.BUYLIFE)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.BUYLIFE)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		if(nPlayer.getGuild().getLives() + 1 > Config.GUILD_LIVES_MAX.getInt()) {
-			Message.CHAT_GUILD_BUY_LIFE_MAXREACHED.send(sender);
-			return;
-		}
+        if(nPlayer.getGuild().getLives() + 1 > Config.GUILD_LIVES_MAX.getInt()) {
+            Message.CHAT_GUILD_BUY_LIFE_MAXREACHED.send(sender);
+            return;
+        }
 
-		NovaGroup group = GroupManager.getGroup(sender);
+        NovaGroup group = GroupManager.getGroup(sender);
 
-		List<ItemStack> items = group.get(NovaGroupImpl.Key.BUY_LIFE_ITEMS);
-		double money = group.get(NovaGroupImpl.Key.BUY_LIFE_MONEY);
+        List<ItemStack> items = group.get(NovaGroupImpl.Key.BUY_LIFE_ITEMS);
+        double money = group.get(NovaGroupImpl.Key.BUY_LIFE_MONEY);
 
-		if(!items.isEmpty()) {
-			List<ItemStack> missing = InventoryUtils.getMissingItems(nPlayer.getPlayer().getInventory(), items);
+        if(!items.isEmpty()) {
+            List<ItemStack> missing = InventoryUtils.getMissingItems(nPlayer.getPlayer().getInventory(), items);
 
-			if(!missing.isEmpty()) {
-				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-				sender.sendMessage(StringUtils.getItemList(missing));
-				return;
-			}
-		}
+            if(!missing.isEmpty()) {
+                Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+                sender.sendMessage(StringUtils.getItemList(missing));
+                return;
+            }
+        }
 
-		if(money > 0 && !nPlayer.getGuild().hasMoney(money)) {
-			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
-			return;
-		}
+        if(money > 0 && !nPlayer.getGuild().hasMoney(money)) {
+            Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
+            return;
+        }
 
-		nPlayer.getGuild().takeMoney(money);
-		InventoryUtils.removeItems(nPlayer.getPlayer(), items);
-		nPlayer.getGuild().addLive();
+        nPlayer.getGuild().takeMoney(money);
+        InventoryUtils.removeItems(nPlayer.getPlayer(), items);
+        nPlayer.getGuild().addLive();
 
-		Message.CHAT_GUILD_BUY_LIFE_SUCCESS.send(sender);
-		TabUtils.refresh(nPlayer.getGuild());
-	}
+        Message.CHAT_GUILD_BUY_LIFE_SUCCESS.send(sender);
+        TabUtils.refresh(nPlayer.getGuild());
+    }
 }

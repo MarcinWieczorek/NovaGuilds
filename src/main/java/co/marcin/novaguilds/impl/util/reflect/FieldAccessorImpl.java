@@ -24,70 +24,70 @@ import co.marcin.novaguilds.util.reflect.Reflections;
 import java.lang.reflect.Field;
 
 public class FieldAccessorImpl<T> implements FieldAccessor<T> {
-	private final Field field;
+    private final Field field;
 
-	/**
-	 * The constructor
-	 *
-	 * @param field the field
-	 */
-	public FieldAccessorImpl(Field field) {
-		this.field = field;
-	}
+    /**
+     * The constructor
+     *
+     * @param field the field
+     */
+    public FieldAccessorImpl(Field field) {
+        this.field = field;
+    }
 
-	@Override
-	public Field getField() {
-		return field;
-	}
+    @Override
+    public Field getField() {
+        return field;
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public T get(Object target) {
-		try {
-			return (T) field.get(target);
-		}
-		catch(IllegalAccessException e) {
-			throw new RuntimeException("Cannot access reflection.", e);
-		}
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public T get(Object target) {
+        try {
+            return (T) field.get(target);
+        }
+        catch(IllegalAccessException e) {
+            throw new RuntimeException("Cannot access reflection.", e);
+        }
+    }
 
-	@Override
-	public T get() {
-		return get(null);
-	}
+    @Override
+    public T get() {
+        return get(null);
+    }
 
-	@Override
-	public String getName() {
-		return field.getName();
-	}
+    @Override
+    public String getName() {
+        return field.getName();
+    }
 
-	@Override
-	public void set(T value) {
-		set(null, value);
-	}
+    @Override
+    public void set(T value) {
+        set(null, value);
+    }
 
-	@Override
-	public void set(Object target, Object value) {
-		try {
-			field.set(target, value);
-		}
-		catch(IllegalAccessException e) {
-			throw new RuntimeException("Cannot access reflection.", e);
-		}
-	}
+    @Override
+    public void set(Object target, Object value) {
+        try {
+            field.set(target, value);
+        }
+        catch(IllegalAccessException e) {
+            throw new RuntimeException("Cannot access reflection.", e);
+        }
+    }
 
-	@Override
-	public boolean hasField(Object target) {
-		return field.getDeclaringClass().isAssignableFrom(target.getClass());
-	}
+    @Override
+    public boolean hasField(Object target) {
+        return field.getDeclaringClass().isAssignableFrom(target.getClass());
+    }
 
-	@Override
-	public void setNotFinal() {
-		try {
-			Reflections.setNotFinal(field);
-		}
-		catch(IllegalAccessException e) {
-			throw new RuntimeException("Cannot access reflection.", e);
-		}
-	}
+    @Override
+    public void setNotFinal() {
+        try {
+            Reflections.setNotFinal(field);
+        }
+        catch(IllegalAccessException e) {
+            throw new RuntimeException("Cannot access reflection.", e);
+        }
+    }
 }

@@ -24,14 +24,14 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import java.util.UUID;
 
 public class UUIDOrNameToPlayerConverterImpl extends AbstractConverter<String, NovaPlayer> {
-	@Override
-	public NovaPlayer convert(String s) {
-		try {
-			UUID uuid = UUID.fromString(s);
-			return PlayerManager.getPlayer(uuid);
-		}
-		catch(IllegalArgumentException e) {
-			return PlayerManager.getPlayer(s);
-		}
-	}
+    @Override
+    public NovaPlayer convert(String s) {
+        try {
+            UUID uuid = UUID.fromString(s);
+            return PlayerManager.getPlayer(uuid);
+        }
+        catch(IllegalArgumentException e) {
+            return PlayerManager.getPlayer(s);
+        }
+    }
 }

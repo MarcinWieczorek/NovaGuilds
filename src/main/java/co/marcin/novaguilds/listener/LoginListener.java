@@ -37,83 +37,83 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class LoginListener extends AbstractListener {
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
 
-		//adding player
-		plugin.getPlayerManager().addIfNotExists(player);
+        //adding player
+        plugin.getPlayerManager().addIfNotExists(player);
 
-		final NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+        final NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
-		//Send version message if there's an update
-		if(VersionUtils.isUpdateAvailable() && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
-			Message.CHAT_UPDATE.send(player);
-		}
+        //Send version message if there's an update
+        if(VersionUtils.isUpdateAvailable() && Permission.NOVAGUILDS_ADMIN_UPDATEAVAILABLE.has(player)) {
+            Message.CHAT_UPDATE.send(player);
+        }
 
-		//Schedule region check
-		NovaGuilds.runTask(new Runnable() {
-			@Override
-			public void run() {
-				plugin.getRegionManager().checkAtRegionChange(nPlayer);
-			}
-		});
+        //Schedule region check
+        NovaGuilds.runTask(new Runnable() {
+            @Override
+            public void run() {
+                plugin.getRegionManager().checkAtRegionChange(nPlayer);
+            }
+        });
 
-		if(nPlayer.hasGuild()) {
-			for(Player onlinePlayer : CompatibilityUtils.getOnlinePlayers()) {
-				NovaPlayer onlineNPlayer = PlayerManager.getPlayer(onlinePlayer);
+        if(nPlayer.hasGuild()) {
+            for(Player onlinePlayer : CompatibilityUtils.getOnlinePlayers()) {
+                NovaPlayer onlineNPlayer = PlayerManager.getPlayer(onlinePlayer);
 
-				if(onlineNPlayer.equals(nPlayer) || !onlineNPlayer.isAtRegion() || !onlineNPlayer.getAtRegion().getGuild().equals(nPlayer.getGuild())) {
-					continue;
-				}
+                if(onlineNPlayer.equals(nPlayer) || !onlineNPlayer.isAtRegion() || !onlineNPlayer.getAtRegion().getGuild().equals(nPlayer.getGuild())) {
+                    continue;
+                }
 
-				plugin.getRegionManager().checkRaidInit(onlineNPlayer);
-			}
+                plugin.getRegionManager().checkRaidInit(onlineNPlayer);
+            }
 
-			//Show bank hologram
-			nPlayer.getGuild().showVaultHologram(player);
-		}
+            //Show bank hologram
+            nPlayer.getGuild().showVaultHologram(player);
+        }
 
-		//TabAPI
-		if(Config.TAGAPI_ENABLED.getBoolean()) {
-			if(player.getScoreboard() == null
-					|| player.getScoreboard() == Bukkit.getScoreboardManager().getMainScoreboard()) {
-				player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-			}
+        //TabAPI
+        if(Config.TAGAPI_ENABLED.getBoolean()) {
+            if(player.getScoreboard() == null
+                    || player.getScoreboard() == Bukkit.getScoreboardManager().getMainScoreboard()) {
+                player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            }
 
-			TagUtils.refresh();
-		}
+            TagUtils.refresh();
+        }
 
-		//PacketExtension
-		if(plugin.getPacketExtension() != null) {
-			plugin.getPacketExtension().registerPlayer(player);
-		}
+        //PacketExtension
+        if(plugin.getPacketExtension() != null) {
+            plugin.getPacketExtension().registerPlayer(player);
+        }
 
-		//Tab
-		if(Config.TABLIST_ENABLED.getBoolean()) {
-			nPlayer.setTabList(plugin.createTabList(nPlayer));
-			TabUtils.refresh(nPlayer);
-		}
+        //Tab
+        if(Config.TABLIST_ENABLED.getBoolean()) {
+            nPlayer.setTabList(plugin.createTabList(nPlayer));
+            TabUtils.refresh(nPlayer);
+        }
 
-		//Guild inactive time
-		if(nPlayer.hasGuild()) {
-			nPlayer.getGuild().updateInactiveTime();
-		}
+        //Guild inactive time
+        if(nPlayer.hasGuild()) {
+            nPlayer.getGuild().updateInactiveTime();
+        }
 
-		BossBarUtils.removeBar(player);
-	}
+        BossBarUtils.removeBar(player);
+    }
 
-	@EventHandler
-	public void onPlayerLeave(PlayerQuitEvent event) {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
 
-		if(nPlayer.isAtRegion()) {
-			plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
-		}
+        if(nPlayer.isAtRegion()) {
+            plugin.getRegionManager().playerExitedRegion(nPlayer.getPlayer());
+        }
 
-		//Guild inactive time
-		if(nPlayer.hasGuild()) {
-			nPlayer.getGuild().updateInactiveTime();
-		}
-	}
+        //Guild inactive time
+        if(nPlayer.hasGuild()) {
+            nPlayer.getGuild().updateInactiveTime();
+        }
+    }
 }

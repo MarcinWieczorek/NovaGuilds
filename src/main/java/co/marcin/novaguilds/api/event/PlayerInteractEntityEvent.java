@@ -26,63 +26,63 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	protected final Entity clickedEntity;
-	private final EntityUseAction action;
-	private boolean cancelled = false;
+    private static final HandlerList handlers = new HandlerList();
+    protected final Entity clickedEntity;
+    private final EntityUseAction action;
+    private boolean cancelled = false;
 
-	/**
-	 * The constructor
-	 *
-	 * @param player        the player who clicked
-	 * @param clickedEntity clicked entity
-	 * @param action        action
-	 */
-	public PlayerInteractEntityEvent(Player player, Entity clickedEntity, EntityUseAction action) {
-		super(player);
-		this.clickedEntity = clickedEntity;
-		this.action = action;
-	}
+    /**
+     * The constructor
+     *
+     * @param player        the player who clicked
+     * @param clickedEntity clicked entity
+     * @param action        action
+     */
+    public PlayerInteractEntityEvent(Player player, Entity clickedEntity, EntityUseAction action) {
+        super(player);
+        this.clickedEntity = clickedEntity;
+        this.action = action;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean cancel) {
-		this.cancelled = cancel;
-	}
+    @Override
+    public void setCancelled(boolean cancel) {
+        this.cancelled = cancel;
+    }
 
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	/**
-	 * Gets the entity that was clicked by the player.
-	 *
-	 * @return entity clicked by player
-	 */
-	public Entity getEntity() {
-		return this.clickedEntity;
-	}
+    /**
+     * Gets the entity that was clicked by the player.
+     *
+     * @return entity clicked by player
+     */
+    public Entity getEntity() {
+        return this.clickedEntity;
+    }
 
-	/**
-	 * Gets use action
-	 *
-	 * @return entity use action
-	 */
-	public EntityUseAction getAction() {
-		return action;
-	}
+    /**
+     * Gets use action
+     *
+     * @return entity use action
+     */
+    public EntityUseAction getAction() {
+        return action;
+    }
 
-	/**
-	 * Gets handler list
-	 *
-	 * @return the handler list
-	 */
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    /**
+     * Gets handler list
+     *
+     * @return the handler list
+     */
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

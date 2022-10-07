@@ -25,95 +25,95 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Set;
 
 public interface GUIInventory {
-	/**
-	 * Handles the event of a slot being clicked
-	 *
-	 * @param event inventory click event
-	 */
-	void onClick(InventoryClickEvent event);
+    /**
+     * Handles the event of a slot being clicked
+     *
+     * @param event inventory click event
+     */
+    void onClick(InventoryClickEvent event);
 
-	/**
-	 * Gets the inventory
-	 *
-	 * @return the inventory
-	 */
-	Inventory getInventory();
+    /**
+     * Gets the inventory
+     *
+     * @return the inventory
+     */
+    Inventory getInventory();
 
-	/**
-	 * Opens a GUI
-	 *
-	 * @param nPlayer the player
-	 */
-	void open(NovaPlayer nPlayer);
+    /**
+     * Opens a GUI
+     *
+     * @param nPlayer the player
+     */
+    void open(NovaPlayer nPlayer);
 
-	/**
-	 * Action executed after a gui gets opened
-	 */
-	void onOpen();
+    /**
+     * Action executed after a gui gets opened
+     */
+    void onOpen();
 
-	/**
-	 * Generates the content
-	 */
-	void generateContent();
+    /**
+     * Generates the content
+     */
+    void generateContent();
 
-	/**
-	 * Gets the viewer
-	 *
-	 * @return the viewer
-	 */
-	NovaPlayer getViewer();
+    /**
+     * Gets the viewer
+     *
+     * @return the viewer
+     */
+    NovaPlayer getViewer();
 
-	/**
-	 * Sets the viewer
-	 *
-	 * @param nPlayer the viewer
-	 */
-	void setViewer(NovaPlayer nPlayer);
+    /**
+     * Sets the viewer
+     *
+     * @param nPlayer the viewer
+     */
+    void setViewer(NovaPlayer nPlayer);
 
-	/**
-	 * Registers a new executor
-	 *
-	 * @param executor the executor
-	 */
-	void registerExecutor(Executor executor);
+    /**
+     * Registers a new executor
+     *
+     * @param executor the executor
+     */
+    void registerExecutor(Executor executor);
 
-	/**
-	 * Gets a set of executors
-	 *
-	 * @return the set
-	 */
-	Set<Executor> getExecutors();
+    /**
+     * Gets a set of executors
+     *
+     * @return the set
+     */
+    Set<Executor> getExecutors();
 
-	/**
-	 * Closes the GUI
-	 */
-	void close();
+    /**
+     * Closes the GUI
+     */
+    void close();
 
-	interface Executor {
-		/**
-		 * Gets icon ItemStack
-		 *
-		 * @return item
-		 */
-		ItemStack getItem();
+    interface Executor {
+        /**
+         * Gets icon ItemStack
+         *
+         * @return item
+         */
+        ItemStack getItem();
 
-		/**
-		 * Gets the slot the executor's at
-		 *
-		 * @return the slot
-		 */
-		int getSlot();
+        /**
+         * Gets the slot the executor's at
+         *
+         * @return the slot
+         */
+        int getSlot();
 
-		/**
-		 * Sets the slot the executor's at
-		 *
-		 * @param slot the slot
-		 */
-		void setSlot(int slot);
+        /**
+         * Sets the slot the executor's at
+         *
+         * @param slot the slot
+         */
+        void setSlot(int slot);
 
-		/**
-		 * Executes
-		 */
-		void execute();
-	}
+        /**
+         * Executes
+         */
+        void execute();
+    }
 }

@@ -27,36 +27,36 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public class PacketPlayOutOpenSignEditor extends AbstractPacket {
-	protected static Class<?> packetOpenSignEditorClass;
-	protected static Constructor<?> packetOpenSignEditorConstructor;
+    protected static Class<?> packetOpenSignEditorClass;
+    protected static Constructor<?> packetOpenSignEditorConstructor;
 
-	static {
-		try {
-			packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
-			packetOpenSignEditorConstructor = packetOpenSignEditorClass.getConstructor(
-					int.class,
-					int.class,
-					int.class
-			);
-		}
-		catch(NoSuchMethodException | ClassNotFoundException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+    static {
+        try {
+            packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
+            packetOpenSignEditorConstructor = packetOpenSignEditorClass.getConstructor(
+                    int.class,
+                    int.class,
+                    int.class
+            );
+        }
+        catch(NoSuchMethodException | ClassNotFoundException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param location location
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException    when something goes wrong
-	 */
-	public PacketPlayOutOpenSignEditor(Location location) throws IllegalAccessException, InvocationTargetException, InstantiationException {
-		packet = packetOpenSignEditorConstructor.newInstance(
-				location.getBlockX(),
-				location.getBlockY(),
-				location.getBlockZ()
-		);
-	}
+    /**
+     * The constructor
+     *
+     * @param location location
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     * @throws InstantiationException    when something goes wrong
+     */
+    public PacketPlayOutOpenSignEditor(Location location) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+        packet = packetOpenSignEditorConstructor.newInstance(
+                location.getBlockX(),
+                location.getBlockY(),
+                location.getBlockZ()
+        );
+    }
 }

@@ -21,49 +21,49 @@ package co.marcin.novaguilds.util;
 import java.util.Random;
 
 public final class NumberUtils {
-	private static final Random rand = new Random();
+    private static final Random rand = new Random();
 
-	private NumberUtils() {
+    private NumberUtils() {
 
-	}
+    }
 
-	/**
-	 * Checks is a string is a number
-	 *
-	 * @param str string
-	 * @return boolean
-	 */
-	public static boolean isNumeric(String str) {
-		return !str.isEmpty() && str.matches("[+-]?\\d*(\\.\\d+)?");
-	}
+    /**
+     * Checks is a string is a number
+     *
+     * @param str string
+     * @return boolean
+     */
+    public static boolean isNumeric(String str) {
+        return !str.isEmpty() && str.matches("[+-]?\\d*(\\.\\d+)?");
+    }
 
-	/**
-	 * Gets random integer
-	 *
-	 * @param min min value
-	 * @param max max value
-	 * @return random int
-	 */
-	public static int randInt(int min, int max) {
-		return rand.nextInt((max - min) + 1) + min;
-	}
+    /**
+     * Gets random integer
+     *
+     * @param min min value
+     * @param max max value
+     * @return random int
+     */
+    public static int randInt(int min, int max) {
+        return rand.nextInt((max - min) + 1) + min;
+    }
 
-	/**
-	 * Rounds off a double to two decimal places
-	 *
-	 * @param val number
-	 * @return rounded off number
-	 */
-	public static double roundOffTo2DecPlaces(double val) {
-		return Math.round(val * 100D) / 100D;
-	}
+    /**
+     * Rounds off a double to two decimal places
+     *
+     * @param val number
+     * @return rounded off number
+     */
+    public static double roundOffTo2DecPlaces(double val) {
+        return Math.round(val * 100D) / 100D;
+    }
 
-	/**
-	 * Gets unixtime
-	 *
-	 * @return the time
-	 */
-	public static long systemSeconds() {
-		return System.currentTimeMillis() / 1000;
-	}
+    /**
+     * Gets unixtime
+     *
+     * @return the time
+     */
+    public static long systemSeconds() {
+        return System.currentTimeMillis() / 1000;
+    }
 }

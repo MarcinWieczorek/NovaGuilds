@@ -25,11 +25,11 @@ import co.marcin.novaguilds.enums.VarKey;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminHologramDelete extends AbstractCommandExecutor.Reversed<NovaHologram> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaHologram hologram = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaHologram hologram = getParameter();
 
-		hologram.delete();
-		Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.clone().setVar(VarKey.NAME, hologram.getName()).send(sender);
-	}
+        hologram.delete();
+        Message.CHAT_ADMIN_HOLOGRAM_DELETE_SUCCESS.clone().setVar(VarKey.NAME, hologram.getName()).send(sender);
+    }
 }

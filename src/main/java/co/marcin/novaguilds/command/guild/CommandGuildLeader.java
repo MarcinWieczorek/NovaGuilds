@@ -35,78 +35,78 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandGuildLeader extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(args.length != 1) {
-			Message.CHAT_PLAYER_ENTERNAME.send(sender);
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(args.length != 1) {
+            Message.CHAT_PLAYER_ENTERNAME.send(sender);
+            return;
+        }
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		NovaPlayer newLeader = PlayerManager.getPlayer(args[0]);
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        NovaPlayer newLeader = PlayerManager.getPlayer(args[0]);
 
-		if(newLeader == null) {
-			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-			return;
-		}
+        if(newLeader == null) {
+            Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayer.getGuild();
+        NovaGuild guild = nPlayer.getGuild();
 
-		if(!nPlayer.isLeader()) {
-			Message.CHAT_GUILD_NOTLEADER.send(sender);
-			return;
-		}
+        if(!nPlayer.isLeader()) {
+            Message.CHAT_GUILD_NOTLEADER.send(sender);
+            return;
+        }
 
-		if(newLeader.equals(nPlayer)) {
-			Message.CHAT_GUILD_LEADER_SAMENICK.send(sender);
-			return;
-		}
+        if(newLeader.equals(nPlayer)) {
+            Message.CHAT_GUILD_LEADER_SAMENICK.send(sender);
+            return;
+        }
 
-		if(!newLeader.hasGuild() || !guild.isMember(newLeader)) {
-			Message.CHAT_GUILD_LEADER_NOTSAMEGUILD.send(sender);
-			return;
-		}
+        if(!newLeader.hasGuild() || !guild.isMember(newLeader)) {
+            Message.CHAT_GUILD_LEADER_NOTSAMEGUILD.send(sender);
+            return;
+        }
 
-		guild.getLeader().cancelToolProgress();
+        guild.getLeader().cancelToolProgress();
 
-		//set guild leader
-		guild.setLeader(newLeader);
-		plugin.getStorage().getResourceManager(NovaGuild.class).save(guild);
+        //set guild leader
+        guild.setLeader(newLeader);
+        plugin.getStorage().getResourceManager(NovaGuild.class).save(guild);
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYER_NAME, newLeader.getName());
-		vars.put(VarKey.GUILD_NAME, guild.getName());
-		Message.CHAT_GUILD_LEADER_SUCCESS.clone().vars(vars).send(sender);
-		Message.BROADCAST_GUILD_SETLEADER.clone().vars(vars).broadcast();
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.PLAYER_NAME, newLeader.getName());
+        vars.put(VarKey.GUILD_NAME, guild.getName());
+        Message.CHAT_GUILD_LEADER_SUCCESS.clone().vars(vars).send(sender);
+        Message.BROADCAST_GUILD_SETLEADER.clone().vars(vars).broadcast();
 
-		//Tab and tags
-		TagUtils.refresh();
-		TabUtils.refresh();
-	}
+        //Tab and tags
+        TagUtils.refresh();
+        TabUtils.refresh();
+    }
 
-	@Override
-	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
-		Set<String> options = new HashSet<>();
+    @Override
+    protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+        Set<String> options = new HashSet<>();
 
-		if(args.length == 0) {
-			return options;
-		}
+        if(args.length == 0) {
+            return options;
+        }
 
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(nPlayer.hasGuild()) {
-			for(NovaPlayer guildMember : nPlayer.getGuild().getPlayers()) {
-				if(!guildMember.isLeader()) {
-					options.add(guildMember.getName());
-				}
-			}
-		}
+        if(nPlayer.hasGuild()) {
+            for(NovaPlayer guildMember : nPlayer.getGuild().getPlayers()) {
+                if(!guildMember.isLeader()) {
+                    options.add(guildMember.getName());
+                }
+            }
+        }
 
-		return options;
-	}
+        return options;
+    }
 }

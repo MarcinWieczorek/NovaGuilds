@@ -23,52 +23,52 @@ import co.marcin.novaguilds.enums.VarKey;
 import java.util.Map;
 
 public interface VarKeyApplicable<T> extends Cloneable {
-	/**
-	 * Gets the map of variables
-	 *
-	 * @return The Map
-	 */
-	Map<VarKey, String> getVars();
+    /**
+     * Gets the map of variables
+     *
+     * @return The Map
+     */
+    Map<VarKey, String> getVars();
 
-	/**
-	 * Sets the vars
-	 *
-	 * @param vars Map of variables
-	 * @return Message instance
-	 */
-	T vars(Map<VarKey, String> vars);
+    /**
+     * Sets the vars
+     *
+     * @param vars Map of variables
+     * @return Message instance
+     */
+    T vars(Map<VarKey, String> vars);
 
-	/**
-	 * Set a var
-	 *
-	 * @param varKey key enum
-	 * @param value  the value
-	 * @return message instance
-	 */
-	T setVar(VarKey varKey, String value);
+    /**
+     * Set a var
+     *
+     * @param varKey key enum
+     * @param value  the value
+     * @return message instance
+     */
+    T setVar(VarKey varKey, String value);
 
-	/**
-	 * Set a var
-	 *
-	 * @param varKey key enum
-	 * @param value  the value
-	 * @return message instance
-	 */
-	T setVar(VarKey varKey, Integer value);
+    /**
+     * Set a var
+     *
+     * @param varKey key enum
+     * @param value  the value
+     * @return message instance
+     */
+    T setVar(VarKey varKey, Integer value);
 
-	/**
-	 * Set a var
-	 *
-	 * @param varKey key enum
-	 * @param value  the value
-	 * @return message instance
-	 */
-	T setVar(VarKey varKey, Double value);
+    /**
+     * Set a var
+     *
+     * @param varKey key enum
+     * @param value  the value
+     * @return message instance
+     */
+    T setVar(VarKey varKey, Double value);
 
-	/**
-	 * Checks if vars have been changed
-	 *
-	 * @return true if
-	 */
-	boolean isChanged();
+    /**
+     * Checks if vars have been changed
+     *
+     * @return true if
+     */
+    boolean isChanged();
 }

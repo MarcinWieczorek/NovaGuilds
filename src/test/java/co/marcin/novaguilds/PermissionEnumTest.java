@@ -25,30 +25,30 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 public class PermissionEnumTest {
-	@Test
-	public void testPermissionEnum() throws Exception {
-		boolean passed = true;
+    @Test
+    public void testPermissionEnum() throws Exception {
+        boolean passed = true;
 
-		if(true) {
-			System.out.println("This test is broken due to Command enum replaced with a class.");
-			return;
-		}
+        if(true) {
+            System.out.println("This test is broken due to Command enum replaced with a class.");
+            return;
+        }
 
-		for(CommandWrapper command : Command.values()) {
-			Permission permission = command.getPermission();
+        for(CommandWrapper command : Command.values()) {
+            Permission permission = command.getPermission();
 
-			if(permission == null) {
-				if(passed) {
-					System.out.println("Missing enums:");
-				}
+            if(permission == null) {
+                if(passed) {
+                    System.out.println("Missing enums:");
+                }
 
-				System.out.println(StringUtils.replace(command.getPermission().getPath().toUpperCase(), ".", "_"));
-				passed = false;
-			}
-		}
+                System.out.println(StringUtils.replace(command.getPermission().getPath().toUpperCase(), ".", "_"));
+                passed = false;
+            }
+        }
 
-		if(!passed) {
-			throw new Exception("Found missing Permission enums!");
-		}
-	}
+        if(!passed) {
+            throw new Exception("Found missing Permission enums!");
+        }
+    }
 }

@@ -30,41 +30,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminChatSpy extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		NovaPlayer nPlayerChange;
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        NovaPlayer nPlayerChange;
 
-		if(args.length == 1) {
-			if(!Permission.NOVAGUILDS_ADMIN_CHATSPY_OTHER.has(sender)) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return;
-			}
+        if(args.length == 1) {
+            if(!Permission.NOVAGUILDS_ADMIN_CHATSPY_OTHER.has(sender)) {
+                Message.CHAT_NOPERMISSIONS.send(sender);
+                return;
+            }
 
-			nPlayerChange = PlayerManager.getPlayer(args[0]);
+            nPlayerChange = PlayerManager.getPlayer(args[0]);
 
-			if(nPlayerChange == null) {
-				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-				return;
-			}
-		}
-		else {
-			nPlayerChange = nPlayer;
-		}
+            if(nPlayerChange == null) {
+                Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+                return;
+            }
+        }
+        else {
+            nPlayerChange = nPlayer;
+        }
 
-		nPlayerChange.getPreferences().toggleSpyMode();
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.MODE, Message.getOnOff(nPlayerChange.getPreferences().getSpyMode()));
+        nPlayerChange.getPreferences().toggleSpyMode();
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.MODE, Message.getOnOff(nPlayerChange.getPreferences().getSpyMode()));
 
-		//Notify message
-		if(!nPlayer.equals(nPlayerChange)) {
-			vars.put(VarKey.PLAYER_NAME, nPlayerChange.getName());
+        //Notify message
+        if(!nPlayer.equals(nPlayerChange)) {
+            vars.put(VarKey.PLAYER_NAME, nPlayerChange.getName());
 
-			Message.CHAT_ADMIN_SPYMODE_NOTIFY.clone().vars(vars).send(nPlayerChange);
-			Message.CHAT_ADMIN_SPYMODE_SUCCESS_OTHER.clone().vars(vars).send(sender);
-			return;
-		}
+            Message.CHAT_ADMIN_SPYMODE_NOTIFY.clone().vars(vars).send(nPlayerChange);
+            Message.CHAT_ADMIN_SPYMODE_SUCCESS_OTHER.clone().vars(vars).send(sender);
+            return;
+        }
 
-		Message.CHAT_ADMIN_SPYMODE_SUCCESS_SELF.clone().vars(vars).send(sender);
-	}
+        Message.CHAT_ADMIN_SPYMODE_SUCCESS_SELF.clone().vars(vars).send(sender);
+    }
 }

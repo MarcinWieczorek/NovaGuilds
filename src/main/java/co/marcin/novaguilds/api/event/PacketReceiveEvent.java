@@ -25,58 +25,58 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class PacketReceiveEvent extends Event implements Cancellable, PacketEvent {
-	private static final HandlerList handlers = new HandlerList();
-	private final Player player;
-	private final Object packet;
-	private boolean cancelled;
+    private static final HandlerList handlers = new HandlerList();
+    private final Player player;
+    private final Object packet;
+    private boolean cancelled;
 
-	/**
-	 * The constructor
-	 *
-	 * @param packet the packet
-	 * @param player the receiver
-	 */
-	public PacketReceiveEvent(Object packet, Player player) {
-		this.packet = packet;
-		this.player = player;
-	}
+    /**
+     * The constructor
+     *
+     * @param packet the packet
+     * @param player the receiver
+     */
+    public PacketReceiveEvent(Object packet, Player player) {
+        this.packet = packet;
+        this.player = player;
+    }
 
-	@Override
-	public Object getPacket() {
-		return packet;
-	}
+    @Override
+    public Object getPacket() {
+        return packet;
+    }
 
-	@Override
-	public Player getPlayer() {
-		return player;
-	}
+    @Override
+    public Player getPlayer() {
+        return player;
+    }
 
-	@Override
-	public String getPacketName() {
-		return packet.getClass().getSimpleName();
-	}
+    @Override
+    public String getPacketName() {
+        return packet.getClass().getSimpleName();
+    }
 
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean b) {
-		cancelled = b;
-	}
+    @Override
+    public void setCancelled(boolean b) {
+        cancelled = b;
+    }
 
-	/**
-	 * Gets handler list
-	 *
-	 * @return the handler list
-	 */
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    /**
+     * Gets handler list
+     *
+     * @return the handler list
+     */
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

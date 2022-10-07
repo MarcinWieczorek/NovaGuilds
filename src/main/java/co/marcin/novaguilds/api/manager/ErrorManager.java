@@ -23,22 +23,22 @@ import co.marcin.novaguilds.api.util.exceptionparser.IError;
 import java.util.List;
 
 public interface ErrorManager {
-	/**
-	 * Gets errors
-	 *
-	 * @return error list
-	 */
-	List<IError> getErrors();
+    /**
+     * Gets errors
+     *
+     * @return error list
+     */
+    List<IError> getErrors();
 
-	/**
-	 * Adds an error
-	 *
-	 * @param error the error
-	 */
-	void addError(IError error);
+    /**
+     * Adds an error
+     *
+     * @param error the error
+     */
+    void addError(IError error);
 
-	/**
-	 * Clears errors
-	 */
-	void clearErrors();
+    /**
+     * Clears errors
+     */
+    void clearErrors();
 }

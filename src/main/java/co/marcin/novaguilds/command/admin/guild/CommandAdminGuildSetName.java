@@ -26,37 +26,37 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetName extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaGuild guild = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaGuild guild = getParameter();
 
-		if(args.length == 0) { //no new name
-			Message.CHAT_ADMIN_GUILD_SET_NAME_ENTERNEWNAME.send(sender);
-			return;
-		}
+        if(args.length == 0) { //no new name
+            Message.CHAT_ADMIN_GUILD_SET_NAME_ENTERNEWNAME.send(sender);
+            return;
+        }
 
-		String newName = args[0];
+        String newName = args[0];
 
-		if(newName.length() < Config.GUILD_SETTINGS_NAME_MIN.getInt()) { //too short name
-			Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
-			return;
-		}
+        if(newName.length() < Config.GUILD_SETTINGS_NAME_MIN.getInt()) { //too short name
+            Message.CHAT_CREATEGUILD_NAME_TOOSHORT.send(sender);
+            return;
+        }
 
-		if(newName.length() > Config.GUILD_SETTINGS_NAME_MAX.getInt()) { //too long name
-			Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
-			return;
-		}
+        if(newName.length() > Config.GUILD_SETTINGS_NAME_MAX.getInt()) { //too long name
+            Message.CHAT_CREATEGUILD_NAME_TOOLONG.send(sender);
+            return;
+        }
 
-		if(plugin.getGuildManager().exists(newName)) { //name exists
-			Message.CHAT_CREATEGUILD_NAMEEXISTS.send(sender);
-			return;
-		}
+        if(plugin.getGuildManager().exists(newName)) { //name exists
+            Message.CHAT_CREATEGUILD_NAMEEXISTS.send(sender);
+            return;
+        }
 
-		plugin.getGuildManager().changeName(guild, newName);
-		plugin.getHologramManager().refreshTopHolograms();
-		plugin.getDynmapManager().updateGuild(guild);
-		TabUtils.refresh(guild);
+        plugin.getGuildManager().changeName(guild, newName);
+        plugin.getHologramManager().refreshTopHolograms();
+        plugin.getDynmapManager().updateGuild(guild);
+        TabUtils.refresh(guild);
 
-		Message.CHAT_ADMIN_GUILD_SET_NAME_SUCCESS.send(sender);
-	}
+        Message.CHAT_ADMIN_GUILD_SET_NAME_SUCCESS.send(sender);
+    }
 }

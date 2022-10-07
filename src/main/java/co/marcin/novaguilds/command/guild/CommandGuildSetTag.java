@@ -30,37 +30,37 @@ import co.marcin.novaguilds.util.TagUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildSetTag extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.SET_TAG)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.SET_TAG)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		if(args.length == 0) {
-			Message.CHAT_GUILD_ENTERTAG.send(sender);
-			return;
-		}
+        if(args.length == 0) {
+            Message.CHAT_GUILD_ENTERTAG.send(sender);
+            return;
+        }
 
-		String newTag = args[0];
-		newTag = StringUtils.removeColors(newTag);
-		MessageWrapper validity = CommandGuildCreate.validTag(newTag);
+        String newTag = args[0];
+        newTag = StringUtils.removeColors(newTag);
+        MessageWrapper validity = CommandGuildCreate.validTag(newTag);
 
-		if(validity != null) {
-			validity.send(sender);
-			return;
-		}
+        if(validity != null) {
+            validity.send(sender);
+            return;
+        }
 
-		nPlayer.getGuild().setTag(newTag);
-		Message.CHAT_GUILD_SET_TAG.send(sender);
-		TabUtils.refresh(nPlayer.getGuild());
-		TagUtils.refresh(nPlayer.getGuild());
-	}
+        nPlayer.getGuild().setTag(newTag);
+        Message.CHAT_GUILD_SET_TAG.send(sender);
+        TabUtils.refresh(nPlayer.getGuild());
+        TagUtils.refresh(nPlayer.getGuild());
+    }
 }

@@ -26,13 +26,13 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 
 public class RunnableRefreshTabList implements Runnable {
-	@Override
-	public void run() {
-		TabUtils.refresh();
+    @Override
+    public void run() {
+        TabUtils.refresh();
 
-		Collection<Player> onlinePlayers = CompatibilityUtils.getOnlinePlayers();
-		if(!onlinePlayers.isEmpty()) {
-			LoggerUtils.debug("TabList refreshed (" + onlinePlayers.size() + " players)");
-		}
-	}
+        Collection<Player> onlinePlayers = CompatibilityUtils.getOnlinePlayers();
+        if(!onlinePlayers.isEmpty()) {
+            LoggerUtils.debug("TabList refreshed (" + onlinePlayers.size() + " players)");
+        }
+    }
 }

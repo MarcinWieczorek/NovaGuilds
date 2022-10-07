@@ -19,67 +19,67 @@
 package co.marcin.novaguilds.enums;
 
 public enum GuildPermission {
-	BLOCK_BREAK,
-	BLOCK_PLACE,
+    BLOCK_BREAK,
+    BLOCK_PLACE,
 
-	MOB_ATTACK,
-	MOB_RIDE,
-	MOB_LEASH,
+    MOB_ATTACK,
+    MOB_RIDE,
+    MOB_LEASH,
 
-	INTERACT,
+    INTERACT,
 
-	ABANDON,
-	KICK,
-	EFFECT,
-	INVITE,
-	BANK_PAY,
-	BANK_WITHDRAW,
-	PVPTOGGLE,
-	ALLY_CANCEL,
-	ALLY_INVITE_SEND,
-	ALLY_INVITE_CANCEL,
-	ALLY_ACCEPT,
-	BUYLIFE,
-	BUYSLOT,
-	HOME_SET,
-	HOME_TELEPORT,
-	OPENINVITATION,
-	WAR_INVITE_SEND,
-	WAR_INVITE_CANCEL,
-	WAR_INVITE_ACCEPT,
-	WAR_START,
+    ABANDON,
+    KICK,
+    EFFECT,
+    INVITE,
+    BANK_PAY,
+    BANK_WITHDRAW,
+    PVPTOGGLE,
+    ALLY_CANCEL,
+    ALLY_INVITE_SEND,
+    ALLY_INVITE_CANCEL,
+    ALLY_ACCEPT,
+    BUYLIFE,
+    BUYSLOT,
+    HOME_SET,
+    HOME_TELEPORT,
+    OPENINVITATION,
+    WAR_INVITE_SEND,
+    WAR_INVITE_CANCEL,
+    WAR_INVITE_ACCEPT,
+    WAR_START,
 
-	SET_NAME,
-	SET_TAG,
+    SET_NAME,
+    SET_TAG,
 
-	VAULT_ACCESS,
-	VAULT_PUT,
-	VAULT_TAKE,
-	VAULT_PLACE,
-	VAULT_BREAK,
+    VAULT_ACCESS,
+    VAULT_PUT,
+    VAULT_TAKE,
+    VAULT_PLACE,
+    VAULT_BREAK,
 
-	REGION_CREATE,
-	REGION_REMOVE,
-	REGION_RESIZE,
-	REGION_ENLARGE,
+    REGION_CREATE,
+    REGION_REMOVE,
+    REGION_RESIZE,
+    REGION_ENLARGE,
 
-	RANK_DELETE,
-	RANK_LIST,
-	RANK_SET,
-	RANK_EDIT;
+    RANK_DELETE,
+    RANK_LIST,
+    RANK_SET,
+    RANK_EDIT;
 
-	/**
-	 * Gets permission from a string
-	 *
-	 * @param name enum name
-	 * @return the permission
-	 */
-	public static GuildPermission fromString(String name) {
-		try {
-			return valueOf(name.toUpperCase());
-		}
-		catch(IllegalArgumentException e) {
-			return null;
-		}
-	}
+    /**
+     * Gets permission from a string
+     *
+     * @param name enum name
+     * @return the permission
+     */
+    public static GuildPermission fromString(String name) {
+        try {
+            return valueOf(name.toUpperCase());
+        }
+        catch(IllegalArgumentException e) {
+            return null;
+        }
+    }
 }

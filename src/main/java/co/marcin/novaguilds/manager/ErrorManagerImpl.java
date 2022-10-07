@@ -25,20 +25,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ErrorManagerImpl implements ErrorManager {
-	private final List<IError> errorCollection = new ArrayList<>();
+    private final List<IError> errorCollection = new ArrayList<>();
 
-	@Override
-	public List<IError> getErrors() {
-		return errorCollection;
-	}
+    @Override
+    public List<IError> getErrors() {
+        return errorCollection;
+    }
 
-	@Override
-	public void addError(IError error) {
-		errorCollection.add(error);
-	}
+    @Override
+    public void addError(IError error) {
+        errorCollection.add(error);
+    }
 
-	@Override
-	public void clearErrors() {
-		errorCollection.clear();
-	}
+    @Override
+    public void clearErrors() {
+        errorCollection.clear();
+    }
 }

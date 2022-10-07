@@ -26,21 +26,21 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import org.bukkit.entity.Player;
 
 public class RunnableAutoSave implements Runnable {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+    private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
-	@Override
-	public void run() {
-		plugin.getGuildManager().save();
-		plugin.getRegionManager().save();
-		plugin.getPlayerManager().save();
-		plugin.getRankManager().save();
-		LoggerUtils.info("Saved data.");
+    @Override
+    public void run() {
+        plugin.getGuildManager().save();
+        plugin.getRegionManager().save();
+        plugin.getPlayerManager().save();
+        plugin.getRankManager().save();
+        LoggerUtils.info("Saved data.");
 
-		//send message to admins
-		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
-			if(Permission.NOVAGUILDS_ADMIN_SAVE_NOTIFY.has(player)) {
-				Message.CHAT_ADMIN_SAVE_AUTOSAVE.send(player);
-			}
-		}
-	}
+        //send message to admins
+        for(Player player : CompatibilityUtils.getOnlinePlayers()) {
+            if(Permission.NOVAGUILDS_ADMIN_SAVE_NOTIFY.has(player)) {
+                Message.CHAT_ADMIN_SAVE_AUTOSAVE.send(player);
+            }
+        }
+    }
 }

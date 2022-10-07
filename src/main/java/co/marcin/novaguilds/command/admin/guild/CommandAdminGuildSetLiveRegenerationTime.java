@@ -28,24 +28,24 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetLiveRegenerationTime extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaGuild guild = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaGuild guild = getParameter();
 
-		String timeString;
-		if(args.length > 1) {
-			timeString = StringUtils.join(args, " ");
-		}
-		else {
-			timeString = args[0];
-		}
+        String timeString;
+        if(args.length > 1) {
+            timeString = StringUtils.join(args, " ");
+        }
+        else {
+            timeString = args[0];
+        }
 
-		int seconds = StringUtils.stringToSeconds(timeString);
-		long lostLiveTime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());
+        int seconds = StringUtils.stringToSeconds(timeString);
+        long lostLiveTime = NumberUtils.systemSeconds() + (seconds - Config.LIVEREGENERATION_REGENTIME.getSeconds());
 
-		guild.setLostLiveTime(lostLiveTime);
-		TabUtils.refresh(guild);
+        guild.setLostLiveTime(lostLiveTime);
+        TabUtils.refresh(guild);
 
-		Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
-	}
+        Message.CHAT_ADMIN_GUILD_TIMEREST_SET.send(sender);
+    }
 }

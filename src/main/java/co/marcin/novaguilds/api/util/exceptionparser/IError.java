@@ -21,31 +21,31 @@ package co.marcin.novaguilds.api.util.exceptionparser;
 import java.util.Collection;
 
 public interface IError {
-	/**
-	 * Gets the signature of an error
-	 *
-	 * @return error signature
-	 */
-	ErrorSignature getSignature();
+    /**
+     * Gets the signature of an error
+     *
+     * @return error signature
+     */
+    ErrorSignature getSignature();
 
-	/**
-	 * Gets the exception that caused the error
-	 *
-	 * @return the exception
-	 */
-	Throwable getException();
+    /**
+     * Gets the exception that caused the error
+     *
+     * @return the exception
+     */
+    Throwable getException();
 
-	/**
-	 * Gets causes of the exception
-	 *
-	 * @return sorted collection with causes
-	 */
-	Collection<Throwable> getCauses();
+    /**
+     * Gets causes of the exception
+     *
+     * @return sorted collection with causes
+     */
+    Collection<Throwable> getCauses();
 
-	/**
-	 * Gets parsed console output
-	 *
-	 * @return console output string
-	 */
-	Collection<String> getConsoleOutput();
+    /**
+     * Gets parsed console output
+     *
+     * @return console output string
+     */
+    Collection<String> getConsoleOutput();
 }

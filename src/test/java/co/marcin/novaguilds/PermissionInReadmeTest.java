@@ -29,35 +29,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PermissionInReadmeTest {
-	@Test
-	public void testPermissionInReadme() throws Exception {
-		final List<Permission> fromReadme = new ArrayList<>();
+    @Test
+    public void testPermissionInReadme() throws Exception {
+        final List<Permission> fromReadme = new ArrayList<>();
 
-		Document document = Jsoup.parse(new File("./README.md"), "UTF-8");
-		Element tableBody = document.getElementById("permissions-table").child(1);
+        Document document = Jsoup.parse(new File("./README.md"), "UTF-8");
+        Element tableBody = document.getElementById("permissions-table").child(1);
 
-		for(Element tr : tableBody.children()) {
-			String node = tr.child(0).text();
-			fromReadme.add(Permission.fromPath(node));
-		}
+        for(Element tr : tableBody.children()) {
+            String node = tr.child(0).text();
+            fromReadme.add(Permission.fromPath(node));
+        }
 
-		int count = 0;
-		for(Permission permission : Permission.values()) {
-			if(!fromReadme.contains(permission)) {
-				if(count == 0) {
-					System.out.println("Found missing permissions:");
-				}
+        int count = 0;
+        for(Permission permission : Permission.values()) {
+            if(!fromReadme.contains(permission)) {
+                if(count == 0) {
+                    System.out.println("Found missing permissions:");
+                }
 
-				System.out.println(permission.name());
-				count++;
-			}
-		}
+                System.out.println(permission.name());
+                count++;
+            }
+        }
 
-		if(count > 0) {
-			throw new Exception("There are " + count + " missing permissions in README.md");
-		}
-		else {
-			System.out.println("All permissions are present in README.md");
-		}
-	}
+        if(count > 0) {
+            throw new Exception("There are " + count + " missing permissions in README.md");
+        }
+        else {
+            System.out.println("All permissions are present in README.md");
+        }
+    }
 }

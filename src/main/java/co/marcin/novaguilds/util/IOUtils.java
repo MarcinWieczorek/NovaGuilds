@@ -35,162 +35,162 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class IOUtils {
-	private IOUtils() {
+    private IOUtils() {
 
-	}
+    }
 
-	/**
-	 * Converts input stream to a string
-	 *
-	 * @param inputStream input stream
-	 * @return the string
-	 * @throws IOException when something goes wrong
-	 */
-	public static String inputStreamToString(InputStream inputStream) throws IOException {
-		return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
-	}
+    /**
+     * Converts input stream to a string
+     *
+     * @param inputStream input stream
+     * @return the string
+     * @throws IOException when something goes wrong
+     */
+    public static String inputStreamToString(InputStream inputStream) throws IOException {
+        return CharStreams.toString(new InputStreamReader(inputStream, "UTF-8"));
+    }
 
-	/**
-	 * Saves input stream to a file
-	 *
-	 * @param inputStream input stream
-	 * @param file        target file
-	 * @throws IOException when something goes wrong
-	 */
-	public static void saveInputStreamToFile(InputStream inputStream, File file) throws IOException {
-		FileOutputStream outputStream = null;
-		try {
-			outputStream = new FileOutputStream(file);
+    /**
+     * Saves input stream to a file
+     *
+     * @param inputStream input stream
+     * @param file        target file
+     * @throws IOException when something goes wrong
+     */
+    public static void saveInputStreamToFile(InputStream inputStream, File file) throws IOException {
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(file);
 
-			int read;
-			byte[] bytes = new byte[1024];
+            int read;
+            byte[] bytes = new byte[1024];
 
-			while((read = inputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, read);
-			}
-		}
-		finally {
-			if(inputStream != null) {
-				inputStream.close();
-			}
+            while((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+        finally {
+            if(inputStream != null) {
+                inputStream.close();
+            }
 
-			if(outputStream != null) {
-				outputStream.close();
-			}
-		}
-	}
+            if(outputStream != null) {
+                outputStream.close();
+            }
+        }
+    }
 
-	/**
-	 * Gets a list of names of files
-	 * excluding the extension
-	 *
-	 * @param directory target directory
-	 * @return list of files
-	 */
-	public static List<String> getFilesWithoutExtension(File directory) {
-		final List<String> list = new ArrayList<>();
-		File[] filesList = directory.listFiles();
+    /**
+     * Gets a list of names of files
+     * excluding the extension
+     *
+     * @param directory target directory
+     * @return list of files
+     */
+    public static List<String> getFilesWithoutExtension(File directory) {
+        final List<String> list = new ArrayList<>();
+        File[] filesList = directory.listFiles();
 
-		if(filesList != null) {
-			for(File file : filesList) {
-				if(file.isFile()) {
-					String name = file.getName();
-					if(org.apache.commons.lang.StringUtils.contains(name, '.')) {
-						name = org.apache.commons.lang.StringUtils.split(name, '.')[0];
-						list.add(name);
-					}
-				}
-			}
-		}
+        if(filesList != null) {
+            for(File file : filesList) {
+                if(file.isFile()) {
+                    String name = file.getName();
+                    if(org.apache.commons.lang.StringUtils.contains(name, '.')) {
+                        name = org.apache.commons.lang.StringUtils.split(name, '.')[0];
+                        list.add(name);
+                    }
+                }
+            }
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	/**
-	 * Converts an input stream to a string with an encoding
-	 *
-	 * @param in       input stream
-	 * @param encoding encoding
-	 * @return the string
-	 * @throws IOException when something goes wrong
-	 */
-	public static String toString(InputStream in, String encoding) throws IOException {
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		byte[] buf = new byte[8192];
-		int len;
+    /**
+     * Converts an input stream to a string with an encoding
+     *
+     * @param in       input stream
+     * @param encoding encoding
+     * @return the string
+     * @throws IOException when something goes wrong
+     */
+    public static String toString(InputStream in, String encoding) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buf = new byte[8192];
+        int len;
 
-		while((len = in.read(buf)) != -1) {
-			byteArrayOutputStream.write(buf, 0, len);
-		}
+        while((len = in.read(buf)) != -1) {
+            byteArrayOutputStream.write(buf, 0, len);
+        }
 
-		return new String(byteArrayOutputStream.toByteArray(), encoding);
-	}
+        return new String(byteArrayOutputStream.toByteArray(), encoding);
+    }
 
-	/**
-	 * Reads a file to a string
-	 *
-	 * @param file file
-	 * @return string
-	 * @throws IOException when something goes wrong
-	 */
-	public static String read(File file) throws IOException {
-		return inputStreamToString(new FileInputStream(file));
-	}
+    /**
+     * Reads a file to a string
+     *
+     * @param file file
+     * @return string
+     * @throws IOException when something goes wrong
+     */
+    public static String read(File file) throws IOException {
+        return inputStreamToString(new FileInputStream(file));
+    }
 
-	/**
-	 * Writes string to a file
-	 *
-	 * @param file   target file
-	 * @param string the string
-	 */
-	public static void write(File file, String string) {
-		try(PrintWriter out = new PrintWriter(file)) {
-			out.println(string);
-		}
-		catch(FileNotFoundException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+    /**
+     * Writes string to a file
+     *
+     * @param file   target file
+     * @param string the string
+     */
+    public static void write(File file, String string) {
+        try(PrintWriter out = new PrintWriter(file)) {
+            out.println(string);
+        }
+        catch(FileNotFoundException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * Lists files inside the root recursively
-	 *
-	 * @param root root directory
-	 * @return list of files
-	 */
-	public static List<File> listFilesRecursively(File root) {
-		File[] list = root.listFiles();
-		final List<File> fileList = new ArrayList<>();
+    /**
+     * Lists files inside the root recursively
+     *
+     * @param root root directory
+     * @return list of files
+     */
+    public static List<File> listFilesRecursively(File root) {
+        File[] list = root.listFiles();
+        final List<File> fileList = new ArrayList<>();
 
-		if(list == null) {
-			return fileList;
-		}
+        if(list == null) {
+            return fileList;
+        }
 
-		for(File f : list) {
-			if(f.isDirectory()) {
-				fileList.addAll(listFilesRecursively(f));
-			}
-			else {
-				fileList.add(f);
-			}
-		}
+        for(File f : list) {
+            if(f.isDirectory()) {
+                fileList.addAll(listFilesRecursively(f));
+            }
+            else {
+                fileList.add(f);
+            }
+        }
 
-		return fileList;
-	}
+        return fileList;
+    }
 
-	/**
-	 * Gets content of a website
-	 *
-	 * @param urlString url
-	 * @return page contents
-	 * @throws IOException when connection fails
-	 */
-	public static String getContent(String urlString) throws IOException {
-		URL url = new URL(urlString);
-		URLConnection con = url.openConnection();
-		InputStream in = con.getInputStream();
-		String encoding = con.getContentEncoding();
-		encoding = encoding == null ? "UTF-8" : encoding;
-		return IOUtils.toString(in, encoding);
-	}
+    /**
+     * Gets content of a website
+     *
+     * @param urlString url
+     * @return page contents
+     * @throws IOException when connection fails
+     */
+    public static String getContent(String urlString) throws IOException {
+        URL url = new URL(urlString);
+        URLConnection con = url.openConnection();
+        InputStream in = con.getInputStream();
+        String encoding = con.getContentEncoding();
+        encoding = encoding == null ? "UTF-8" : encoding;
+        return IOUtils.toString(in, encoding);
+    }
 }

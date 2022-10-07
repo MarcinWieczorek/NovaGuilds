@@ -30,29 +30,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminHologramTeleport extends AbstractCommandExecutor.Reversed<NovaHologram> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaHologram hologram = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaHologram hologram = getParameter();
 
-		Player player = args.length == 0 ? (Player) sender : Bukkit.getPlayer(args[0]);
+        Player player = args.length == 0 ? (Player) sender : Bukkit.getPlayer(args[0]);
 
-		if(player == null) {
-			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-			return;
-		}
+        if(player == null) {
+            Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+            return;
+        }
 
-		player.teleport(hologram.getLocation());
+        player.teleport(hologram.getLocation());
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYER_NAME, player.getName());
-		vars.put(VarKey.NAME, hologram.getName());
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.PLAYER_NAME, player.getName());
+        vars.put(VarKey.NAME, hologram.getName());
 
-		if(sender.equals(player)) {
-			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_SELF.clone().vars(vars).send(sender);
-		}
-		else {
-			Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_OTHER.clone().vars(vars).send(sender);
-			Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.clone().vars(vars).send(player);
-		}
-	}
+        if(sender.equals(player)) {
+            Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_SELF.clone().vars(vars).send(sender);
+        }
+        else {
+            Message.CHAT_ADMIN_HOLOGRAM_TELEPORT_OTHER.clone().vars(vars).send(sender);
+            Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.clone().vars(vars).send(player);
+        }
+    }
 }

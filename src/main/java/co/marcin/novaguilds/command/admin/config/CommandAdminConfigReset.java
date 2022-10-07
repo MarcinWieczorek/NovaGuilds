@@ -23,18 +23,18 @@ import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminConfigReset extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		plugin.getConfigManager().backupFile();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        plugin.getConfigManager().backupFile();
 
-		if(plugin.getConfigManager().getConfigFile().delete()) {
-			plugin.getConfigManager().reload();
-		}
-		else {
-			Message.CHAT_ERROROCCURED.send(sender);
-			return;
-		}
+        if(plugin.getConfigManager().getConfigFile().delete()) {
+            plugin.getConfigManager().reload();
+        }
+        else {
+            Message.CHAT_ERROROCCURED.send(sender);
+            return;
+        }
 
-		Message.CHAT_ADMIN_CONFIG_RESET.send(sender);
-	}
+        Message.CHAT_ADMIN_CONFIG_RESET.send(sender);
+    }
 }

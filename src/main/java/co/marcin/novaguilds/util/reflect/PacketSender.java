@@ -29,58 +29,58 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PacketSender {
-	/**
-	 * Sends packets to players
-	 *
-	 * @param players list of players
-	 * @param packets packets
-	 */
-	public static void sendPacket(List<Player> players, Object... packets) {
-		for(Player player : players) {
-			sendPacket(player, packets);
-		}
-	}
+    /**
+     * Sends packets to players
+     *
+     * @param players list of players
+     * @param packets packets
+     */
+    public static void sendPacket(List<Player> players, Object... packets) {
+        for(Player player : players) {
+            sendPacket(player, packets);
+        }
+    }
 
-	/**
-	 * Sends packets to players
-	 *
-	 * @param players array of players
-	 * @param packets packets
-	 */
-	@Deprecated
-	public static void sendPacket(Player[] players, Object... packets) {
-		sendPacket(Arrays.asList(players), packets);
-	}
+    /**
+     * Sends packets to players
+     *
+     * @param players array of players
+     * @param packets packets
+     */
+    @Deprecated
+    public static void sendPacket(Player[] players, Object... packets) {
+        sendPacket(Arrays.asList(players), packets);
+    }
 
-	/**
-	 * Sends packets to a player
-	 *
-	 * @param player  player
-	 * @param packets packets
-	 */
-	public static void sendPacket(Player player, Object... packets) {
-		final List<Object> packetList = new ArrayList<>();
+    /**
+     * Sends packets to a player
+     *
+     * @param player  player
+     * @param packets packets
+     */
+    public static void sendPacket(Player player, Object... packets) {
+        final List<Object> packetList = new ArrayList<>();
 
-		for(Object packet : packets) {
-			if(packet instanceof Packet) {
-				packetList.add(((Packet) packet).getPacket());
-			}
-			else {
-				packetList.add(packet);
-			}
-		}
+        for(Object packet : packets) {
+            if(packet instanceof Packet) {
+                packetList.add(((Packet) packet).getPacket());
+            }
+            else {
+                packetList.add(packet);
+            }
+        }
 
-		NovaGuilds.getInstance().getPacketExtension().sendPacket(player, packetList.toArray());
-	}
+        NovaGuilds.getInstance().getPacketExtension().sendPacket(player, packetList.toArray());
+    }
 
-	/**
-	 * Sends packets to players in radius
-	 *
-	 * @param center  center location
-	 * @param range   range
-	 * @param packets packets
-	 */
-	public void sendPacket(Location center, double range, Object... packets) {
-		sendPacket(ParticleUtils.getPlayersInRadius(center, range), packets);
-	}
+    /**
+     * Sends packets to players in radius
+     *
+     * @param center  center location
+     * @param range   range
+     * @param packets packets
+     */
+    public void sendPacket(Location center, double range, Object... packets) {
+        sendPacket(ParticleUtils.getPlayersInRadius(center, range), packets);
+    }
 }

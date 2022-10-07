@@ -24,76 +24,76 @@ import co.marcin.novaguilds.util.LoggerUtils;
 import co.marcin.novaguilds.util.reflect.Reflections;
 
 public class PacketPlayInUpdateSign extends AbstractPacket {
-	protected static Class<?> packetInUpdateSignClass;
-	protected static FieldAccessor<String[]> linesField;
-	protected static FieldAccessor<Integer> xField;
-	protected static FieldAccessor<Integer> yField;
-	protected static FieldAccessor<Integer> zField;
+    protected static Class<?> packetInUpdateSignClass;
+    protected static FieldAccessor<String[]> linesField;
+    protected static FieldAccessor<Integer> xField;
+    protected static FieldAccessor<Integer> yField;
+    protected static FieldAccessor<Integer> zField;
 
-	private final String[] lines;
+    private final String[] lines;
 
-	static {
-		try {
-			packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
-			linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
-			xField = Reflections.getField(packetInUpdateSignClass, int.class, 0);
-			yField = Reflections.getField(packetInUpdateSignClass, int.class, 1);
-			zField = Reflections.getField(packetInUpdateSignClass, int.class, 2);
-		}
-		catch(ClassNotFoundException | NoSuchFieldException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+    static {
+        try {
+            packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
+            linesField = Reflections.getField(packetInUpdateSignClass, String[].class, 0);
+            xField = Reflections.getField(packetInUpdateSignClass, int.class, 0);
+            yField = Reflections.getField(packetInUpdateSignClass, int.class, 1);
+            zField = Reflections.getField(packetInUpdateSignClass, int.class, 2);
+        }
+        catch(ClassNotFoundException | NoSuchFieldException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	private final int x;
-	private final int y;
-	private final int z;
+    private final int x;
+    private final int y;
+    private final int z;
 
-	/**
-	 * Creates the packet
-	 *
-	 * @param packet NMS packet
-	 */
-	public PacketPlayInUpdateSign(Object packet) {
-		x = xField.get(packet);
-		y = yField.get(packet);
-		z = zField.get(packet);
-		lines = linesField.get(packet);
-	}
+    /**
+     * Creates the packet
+     *
+     * @param packet NMS packet
+     */
+    public PacketPlayInUpdateSign(Object packet) {
+        x = xField.get(packet);
+        y = yField.get(packet);
+        z = zField.get(packet);
+        lines = linesField.get(packet);
+    }
 
-	/**
-	 * Gets x coordinate
-	 *
-	 * @return integer
-	 */
-	public int getX() {
-		return x;
-	}
+    /**
+     * Gets x coordinate
+     *
+     * @return integer
+     */
+    public int getX() {
+        return x;
+    }
 
-	/**
-	 * Gets y coordinate
-	 *
-	 * @return integer
-	 */
-	public int getY() {
-		return y;
-	}
+    /**
+     * Gets y coordinate
+     *
+     * @return integer
+     */
+    public int getY() {
+        return y;
+    }
 
-	/**
-	 * Gets z coordinate
-	 *
-	 * @return integer
-	 */
-	public int getZ() {
-		return z;
-	}
+    /**
+     * Gets z coordinate
+     *
+     * @return integer
+     */
+    public int getZ() {
+        return z;
+    }
 
-	/**
-	 * Gets sign lines
-	 *
-	 * @return array of 4 strings
-	 */
-	public String[] getLines() {
-		return lines;
-	}
+    /**
+     * Gets sign lines
+     *
+     * @return array of 4 strings
+     */
+    public String[] getLines() {
+        return lines;
+    }
 }

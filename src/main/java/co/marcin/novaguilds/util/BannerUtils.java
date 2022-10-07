@@ -34,165 +34,165 @@ import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public final class BannerUtils {
-	private static final BannerMetaSerializer serializer = new BannerMetaSerializerImpl();
+    private static final BannerMetaSerializer serializer = new BannerMetaSerializerImpl();
 
-	private BannerUtils() {
+    private BannerUtils() {
 
-	}
+    }
 
-	/**
-	 * Gets the serializer
-	 *
-	 * @return banner meta serializer
-	 */
-	public static BannerMetaSerializer getSerializer() {
-		return serializer;
-	}
+    /**
+     * Gets the serializer
+     *
+     * @return banner meta serializer
+     */
+    public static BannerMetaSerializer getSerializer() {
+        return serializer;
+    }
 
-	/**
-	 * Gets random banner item
-	 *
-	 * @return banner item stack
-	 */
-	public static ItemStack randomBannerItemStack() {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
-			return null;
-		}
+    /**
+     * Gets random banner item
+     *
+     * @return banner item stack
+     */
+    public static ItemStack randomBannerItemStack() {
+        if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+            return null;
+        }
 
-		ItemStack itemStack = new ItemStack(CompatibilityUtils.Mat.WHITE_BANNER.get());
-		itemStack.setItemMeta(getRandomMeta());
-		return itemStack;
-	}
+        ItemStack itemStack = new ItemStack(CompatibilityUtils.Mat.WHITE_BANNER.get());
+        itemStack.setItemMeta(getRandomMeta());
+        return itemStack;
+    }
 
-	/**
-	 * Gets random banner meta
-	 *
-	 * @return banner meta
-	 */
-	public static BannerMeta getRandomMeta() {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
-			return null;
-		}
+    /**
+     * Gets random banner meta
+     *
+     * @return banner meta
+     */
+    public static BannerMeta getRandomMeta() {
+        if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+            return null;
+        }
 
-		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
-		meta.setBaseColor(randomDyeColor());
+        BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
+        meta.setBaseColor(randomDyeColor());
 
-		for(int i = NumberUtils.randInt(0, PatternType.values().length) + 2; i > 0; i--) {
-			meta.addPattern(new Pattern(randomDyeColor(), randomPatternType()));
-		}
+        for(int i = NumberUtils.randInt(0, PatternType.values().length) + 2; i > 0; i--) {
+            meta.addPattern(new Pattern(randomDyeColor(), randomPatternType()));
+        }
 
-		return meta;
-	}
+        return meta;
+    }
 
-	/**
-	 * Gets random pattern type
-	 *
-	 * @return pattern type
-	 */
-	protected static PatternType randomPatternType() {
-		return PatternType.values()[NumberUtils.randInt(0, PatternType.values().length - 1)];
-	}
+    /**
+     * Gets random pattern type
+     *
+     * @return pattern type
+     */
+    protected static PatternType randomPatternType() {
+        return PatternType.values()[NumberUtils.randInt(0, PatternType.values().length - 1)];
+    }
 
-	/**
-	 * Gets random dye color
-	 *
-	 * @return dye color
-	 */
-	protected static DyeColor randomDyeColor() {
-		return DyeColor.values()[NumberUtils.randInt(0, DyeColor.values().length - 1)];
-	}
+    /**
+     * Gets random dye color
+     *
+     * @return dye color
+     */
+    protected static DyeColor randomDyeColor() {
+        return DyeColor.values()[NumberUtils.randInt(0, DyeColor.values().length - 1)];
+    }
 
-	/**
-	 * Deserializes a string to banner meta
-	 *
-	 * @param string serialized meta
-	 * @return banner meta
-	 */
-	public static BannerMeta deserialize(String string) {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
-			return null;
-		}
+    /**
+     * Deserializes a string to banner meta
+     *
+     * @param string serialized meta
+     * @return banner meta
+     */
+    public static BannerMeta deserialize(String string) {
+        if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+            return null;
+        }
 
-		return getSerializer().deserialize(string);
-	}
+        return getSerializer().deserialize(string);
+    }
 
-	/**
-	 * Serializes banner into a string
-	 *
-	 * @param banner banner meta
-	 * @return serialized meta
-	 */
-	public static String serialize(Banner banner) {
-		return getSerializer().serialize(getBannerMeta(banner));
-	}
+    /**
+     * Serializes banner into a string
+     *
+     * @param banner banner meta
+     * @return serialized meta
+     */
+    public static String serialize(Banner banner) {
+        return getSerializer().serialize(getBannerMeta(banner));
+    }
 
-	/**
-	 * Serializes banner meta into a string
-	 *
-	 * @param bannerMeta banner meta
-	 * @return serialized meta
-	 */
-	public static String serialize(BannerMeta bannerMeta) {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
-			return "";
-		}
+    /**
+     * Serializes banner meta into a string
+     *
+     * @param bannerMeta banner meta
+     * @return serialized meta
+     */
+    public static String serialize(BannerMeta bannerMeta) {
+        if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+            return "";
+        }
 
-		return getSerializer().serialize(bannerMeta);
-	}
+        return getSerializer().serialize(bannerMeta);
+    }
 
-	/**
-	 * Applies meta to a banner
-	 *
-	 * @param banner banner block
-	 * @param meta   banner meta
-	 * @return banner block
-	 */
-	public static Banner applyMeta(Banner banner, BannerMeta meta) {
-		banner.setBaseColor(meta.getBaseColor());
-		banner.setPatterns(meta.getPatterns());
-		return banner;
-	}
+    /**
+     * Applies meta to a banner
+     *
+     * @param banner banner block
+     * @param meta   banner meta
+     * @return banner block
+     */
+    public static Banner applyMeta(Banner banner, BannerMeta meta) {
+        banner.setBaseColor(meta.getBaseColor());
+        banner.setPatterns(meta.getPatterns());
+        return banner;
+    }
 
-	/**
-	 * Applies meta to a shield
-	 *
-	 * @param itemStack  shield item
-	 * @param bannerMeta banner meta
-	 * @return shield item
-	 */
-	public static ItemStack applyMeta(ItemStack itemStack, BannerMeta bannerMeta) {
-		if(itemStack.getType() != Material.SHIELD && itemStack.getType() != CompatibilityUtils.Mat.WHITE_BANNER.get()) {
-			throw new IllegalArgumentException("Passed ItemStack is not a shield nor a banner");
-		}
+    /**
+     * Applies meta to a shield
+     *
+     * @param itemStack  shield item
+     * @param bannerMeta banner meta
+     * @return shield item
+     */
+    public static ItemStack applyMeta(ItemStack itemStack, BannerMeta bannerMeta) {
+        if(itemStack.getType() != Material.SHIELD && itemStack.getType() != CompatibilityUtils.Mat.WHITE_BANNER.get()) {
+            throw new IllegalArgumentException("Passed ItemStack is not a shield nor a banner");
+        }
 
-		ItemMeta meta = itemStack.getItemMeta();
-		BlockStateMeta blockStateMeta = (BlockStateMeta) meta;
-		Banner banner = (Banner) blockStateMeta.getBlockState();
-		applyMeta(banner, bannerMeta);
-		banner.update();
-		blockStateMeta.setBlockState(banner);
-		itemStack.setItemMeta(blockStateMeta);
-		return itemStack;
-	}
+        ItemMeta meta = itemStack.getItemMeta();
+        BlockStateMeta blockStateMeta = (BlockStateMeta) meta;
+        Banner banner = (Banner) blockStateMeta.getBlockState();
+        applyMeta(banner, bannerMeta);
+        banner.update();
+        blockStateMeta.setBlockState(banner);
+        itemStack.setItemMeta(blockStateMeta);
+        return itemStack;
+    }
 
-	/**
-	 * Turns a banner into banner meta
-	 *
-	 * @param banner banner block
-	 * @return banner meta
-	 */
-	public static BannerMeta getBannerMeta(Banner banner) {
-		if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
-			return null;
-		}
+    /**
+     * Turns a banner into banner meta
+     *
+     * @param banner banner block
+     * @return banner meta
+     */
+    public static BannerMeta getBannerMeta(Banner banner) {
+        if(ConfigManager.getServerVersion().isOlderThan(ConfigManager.ServerVersion.MINECRAFT_1_8_R2)) {
+            return null;
+        }
 
-		BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
+        BannerMeta meta = (BannerMeta) Bukkit.getItemFactory().getItemMeta(CompatibilityUtils.Mat.WHITE_BANNER.get());
 
-		meta.setBaseColor(banner.getBaseColor());
-		for(Pattern pattern : banner.getPatterns()) {
-			meta.addPattern(pattern);
-		}
+        meta.setBaseColor(banner.getBaseColor());
+        for(Pattern pattern : banner.getPatterns()) {
+            meta.addPattern(pattern);
+        }
 
-		return meta;
-	}
+        return meta;
+    }
 }

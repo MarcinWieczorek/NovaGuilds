@@ -19,7 +19,7 @@
 package co.marcin.novaguilds.enums;
 
 public enum RegionMode {
-	CHECK,
-	SELECT,
-	RESIZE
+    CHECK,
+    SELECT,
+    RESIZE
 }

@@ -29,40 +29,40 @@ import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandRegion extends AbstractCommandExecutor {
-	public CommandRegion() {
-		commandsMap.put("buy",    Command.REGION_BUY);
-		commandsMap.put("create", Command.REGION_BUY);
-		commandsMap.put("delete", Command.REGION_DELETE);
-		commandsMap.put("del",    Command.REGION_DELETE);
-		commandsMap.put("enlarge",Command.REGION_ENLARGE);
-	}
+    public CommandRegion() {
+        commandsMap.put("buy",    Command.REGION_BUY);
+        commandsMap.put("create", Command.REGION_BUY);
+        commandsMap.put("delete", Command.REGION_DELETE);
+        commandsMap.put("del",    Command.REGION_DELETE);
+        commandsMap.put("enlarge",Command.REGION_ENLARGE);
+    }
 
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(args.length > 0) {
-			CommandWrapper subCommand = getSubCommand(args);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(args.length > 0) {
+            CommandWrapper subCommand = getSubCommand(args);
 
-			if(subCommand == null) {
-				Message.CHAT_UNKNOWNCMD.send(sender);
-				return;
-			}
+            if(subCommand == null) {
+                Message.CHAT_UNKNOWNCMD.send(sender);
+                return;
+            }
 
-			subCommand.execute(sender, StringUtils.parseArgs(args, 1));
-		}
-		else {
-			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+            subCommand.execute(sender, StringUtils.parseArgs(args, 1));
+        }
+        else {
+            NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-			if(nPlayer.hasPermission(GuildPermission.REGION_CREATE)
-					|| nPlayer.hasPermission(GuildPermission.REGION_REMOVE)
-					|| nPlayer.hasPermission(GuildPermission.REGION_RESIZE)) {
-				Message.CHAT_COMMANDS_HEADER_REGION.send(sender);
-				for(CommandWrapper commandWrapper : getSubCommands()) {
-					commandWrapper.getUsageMessage().send(sender);
-				}
-			}
-			else {
-				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			}
-		}
-	}
+            if(nPlayer.hasPermission(GuildPermission.REGION_CREATE)
+                    || nPlayer.hasPermission(GuildPermission.REGION_REMOVE)
+                    || nPlayer.hasPermission(GuildPermission.REGION_RESIZE)) {
+                Message.CHAT_COMMANDS_HEADER_REGION.send(sender);
+                for(CommandWrapper commandWrapper : getSubCommands()) {
+                    commandWrapper.getUsageMessage().send(sender);
+                }
+            }
+            else {
+                Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            }
+        }
+    }
 }

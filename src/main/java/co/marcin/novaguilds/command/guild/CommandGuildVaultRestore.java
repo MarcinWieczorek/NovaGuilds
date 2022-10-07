@@ -28,30 +28,30 @@ import co.marcin.novaguilds.util.InventoryUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildVaultRestore extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.VAULT_PLACE)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.VAULT_PLACE)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		if(nPlayer.getGuild().getVaultLocation() != null) {
-			Message.CHAT_GUILD_VAULT_PLACE_EXISTS.send(sender);
-			return;
-		}
+        if(nPlayer.getGuild().getVaultLocation() != null) {
+            Message.CHAT_GUILD_VAULT_PLACE_EXISTS.send(sender);
+            return;
+        }
 
-		if(InventoryUtils.containsAtLeast(nPlayer.getPlayer().getInventory(), Config.VAULT_ITEM.getItemStack(), 1)) {
-			Message.CHAT_GUILD_VAULT_RESTORE_HASALREADY.send(sender);
-			return;
-		}
+        if(InventoryUtils.containsAtLeast(nPlayer.getPlayer().getInventory(), Config.VAULT_ITEM.getItemStack(), 1)) {
+            Message.CHAT_GUILD_VAULT_RESTORE_HASALREADY.send(sender);
+            return;
+        }
 
-		nPlayer.getPlayer().getInventory().addItem(Config.VAULT_ITEM.getItemStack());
-		Message.CHAT_GUILD_VAULT_RESTORE_SUCCESS.send(sender);
-	}
+        nPlayer.getPlayer().getInventory().addItem(Config.VAULT_ITEM.getItemStack());
+        Message.CHAT_GUILD_VAULT_RESTORE_SUCCESS.send(sender);
+    }
 }

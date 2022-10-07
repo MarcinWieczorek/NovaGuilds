@@ -30,52 +30,52 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 public class PacketPlayOutUpdateSign extends AbstractPacket {
-	protected static Class<?> packetOutUpdateSignClass;
-	protected static Class<?> chatComponentTextClass;
-	protected static Field worldField;
-	protected static Field blockPositionField;
-	protected static Field linesField;
-	protected static Constructor<?> chatComponentTextConstructor;
+    protected static Class<?> packetOutUpdateSignClass;
+    protected static Class<?> chatComponentTextClass;
+    protected static Field worldField;
+    protected static Field blockPositionField;
+    protected static Field linesField;
+    protected static Constructor<?> chatComponentTextConstructor;
 
-	static {
-		try {
-			packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
-			chatComponentTextClass = Reflections.getCraftClass("ChatComponentText");
+    static {
+        try {
+            packetOutUpdateSignClass = Reflections.getCraftClass("PacketPlayOutUpdateSign");
+            chatComponentTextClass = Reflections.getCraftClass("ChatComponentText");
 
-			worldField = Reflections.getPrivateField(packetOutUpdateSignClass, "a");
-			blockPositionField = Reflections.getPrivateField(packetOutUpdateSignClass, "b");
-			linesField = Reflections.getPrivateField(packetOutUpdateSignClass, "c");
+            worldField = Reflections.getPrivateField(packetOutUpdateSignClass, "a");
+            blockPositionField = Reflections.getPrivateField(packetOutUpdateSignClass, "b");
+            linesField = Reflections.getPrivateField(packetOutUpdateSignClass, "c");
 
-			chatComponentTextConstructor = chatComponentTextClass.getConstructor(String.class);
-		}
-		catch(NoSuchMethodException | ClassNotFoundException | NoSuchFieldException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+            chatComponentTextConstructor = chatComponentTextClass.getConstructor(String.class);
+        }
+        catch(NoSuchMethodException | ClassNotFoundException | NoSuchFieldException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param location sign location
-	 * @param lines    array of 4 strings
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InstantiationException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 */
-	public PacketPlayOutUpdateSign(Location location, String[] lines) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-		packet = packetOutUpdateSignClass.newInstance();
-		Object blockPosition = new BlockPositionWrapperImpl(location).getBlockPosition();
-		worldField.set(packet, Reflections.getHandle(location.getWorld()));
-		blockPositionField.set(packet, blockPosition);
+    /**
+     * The constructor
+     *
+     * @param location sign location
+     * @param lines    array of 4 strings
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InstantiationException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     */
+    public PacketPlayOutUpdateSign(Location location, String[] lines) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        packet = packetOutUpdateSignClass.newInstance();
+        Object blockPosition = new BlockPositionWrapperImpl(location).getBlockPosition();
+        worldField.set(packet, Reflections.getHandle(location.getWorld()));
+        blockPositionField.set(packet, blockPosition);
 
-		int n = 4;
-		Object array = Array.newInstance(chatComponentTextClass, n);
-		for(int i = 0; i < n; i++) {
-			Object val = chatComponentTextConstructor.newInstance(lines[i]);
+        int n = 4;
+        Object array = Array.newInstance(chatComponentTextClass, n);
+        for(int i = 0; i < n; i++) {
+            Object val = chatComponentTextConstructor.newInstance(lines[i]);
 
-			Array.set(array, i, val);
-		}
+            Array.set(array, i, val);
+        }
 
-		linesField.set(packet, array);
-	}
+        linesField.set(packet, array);
+    }
 }

@@ -19,9 +19,9 @@
 package co.marcin.novaguilds.enums;
 
 public enum DataStorageType {
-	MYSQL,
-	SQLITE,
-	FLAT,
-	FUNNYGUILDS_MYSQL,
-	FUNNYGUILDS_FLAT,
+    MYSQL,
+    SQLITE,
+    FLAT,
+    FUNNYGUILDS_MYSQL,
+    FUNNYGUILDS_FLAT,
 }

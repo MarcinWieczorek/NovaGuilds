@@ -29,28 +29,28 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class GUIInventoryGuildJoin extends AbstractGUIInventory {
-	private final Collection<NovaGuild> guildList = new HashSet<>();
+    private final Collection<NovaGuild> guildList = new HashSet<>();
 
-	/**
-	 * The constructor
-	 *
-	 * @param guilds list of guilds
-	 */
-	public GUIInventoryGuildJoin(Collection<NovaGuild> guilds) {
-		super(ChestGUIUtils.getChestSize(guilds.size()), Message.INVENTORY_GUI_JOIN_TITLE);
-		guildList.addAll(guilds);
-	}
+    /**
+     * The constructor
+     *
+     * @param guilds list of guilds
+     */
+    public GUIInventoryGuildJoin(Collection<NovaGuild> guilds) {
+        super(ChestGUIUtils.getChestSize(guilds.size()), Message.INVENTORY_GUI_JOIN_TITLE);
+        guildList.addAll(guilds);
+    }
 
-	@Override
-	public void generateContent() {
-		for(final NovaGuild guild : guildList) {
-			MessageWrapper msg = Message.INVENTORY_GUI_JOIN_ROWITEM.clone()
-					.setVar(VarKey.GUILD_NAME, guild.getName())
-					.setVar(VarKey.TAG, guild.getTag())
-					.setVar(VarKey.PLAYER_NAME, guild.getLeader().getName())
-					.setVar(VarKey.GUILD_POINTS, guild.getPoints())
-					.setVar(VarKey.GUILD_LIVES, guild.getLives());
-			registerAndAdd(new CommandExecutor(msg, "novaguilds:guild join " + guild.getName(), true));
-		}
-	}
+    @Override
+    public void generateContent() {
+        for(final NovaGuild guild : guildList) {
+            MessageWrapper msg = Message.INVENTORY_GUI_JOIN_ROWITEM.clone()
+                    .setVar(VarKey.GUILD_NAME, guild.getName())
+                    .setVar(VarKey.TAG, guild.getTag())
+                    .setVar(VarKey.PLAYER_NAME, guild.getLeader().getName())
+                    .setVar(VarKey.GUILD_POINTS, guild.getPoints())
+                    .setVar(VarKey.GUILD_LIVES, guild.getLives());
+            registerAndAdd(new CommandExecutor(msg, "novaguilds:guild join " + guild.getName(), true));
+        }
+    }
 }

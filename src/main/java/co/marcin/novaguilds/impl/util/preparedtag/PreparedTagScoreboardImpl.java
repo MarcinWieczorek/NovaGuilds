@@ -24,35 +24,35 @@ import co.marcin.novaguilds.api.basic.NovaPlayer;
 import co.marcin.novaguilds.enums.Config;
 
 public class PreparedTagScoreboardImpl extends AbstractPreparedTag {
-	private static final ConfigWrapper pattern = Config.CHAT_TAG_SCOREBOARD;
+    private static final ConfigWrapper pattern = Config.CHAT_TAG_SCOREBOARD;
 
-	/**
-	 * The constructor
-	 *
-	 * @param guild the guild
-	 */
-	public PreparedTagScoreboardImpl(NovaGuild guild) {
-		super(pattern, guild);
-	}
+    /**
+     * The constructor
+     *
+     * @param guild the guild
+     */
+    public PreparedTagScoreboardImpl(NovaGuild guild) {
+        super(pattern, guild);
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param nPlayer the player whose tag is being displayed
-	 */
-	public PreparedTagScoreboardImpl(NovaPlayer nPlayer) {
-		super(pattern, nPlayer.getGuild());
-		setUpFor(nPlayer);
-	}
+    /**
+     * The constructor
+     *
+     * @param nPlayer the player whose tag is being displayed
+     */
+    public PreparedTagScoreboardImpl(NovaPlayer nPlayer) {
+        super(pattern, nPlayer.getGuild());
+        setUpFor(nPlayer);
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param nPlayer             the player whose tag is being displayed
-	 * @param leaderPrefixEnabled leader prefix enabled
-	 */
-	public PreparedTagScoreboardImpl(NovaPlayer nPlayer, boolean leaderPrefixEnabled) {
-		super(pattern, nPlayer.getGuild(), leaderPrefixEnabled);
-		setUpFor(nPlayer);
-	}
+    /**
+     * The constructor
+     *
+     * @param nPlayer             the player whose tag is being displayed
+     * @param leaderPrefixEnabled leader prefix enabled
+     */
+    public PreparedTagScoreboardImpl(NovaPlayer nPlayer, boolean leaderPrefixEnabled) {
+        super(pattern, nPlayer.getGuild(), leaderPrefixEnabled);
+        setUpFor(nPlayer);
+    }
 }

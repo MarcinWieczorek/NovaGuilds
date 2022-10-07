@@ -30,28 +30,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildTop extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        Collection<NovaGuild> guilds = plugin.getGuildManager().getGuilds();
 
-		if(guilds.isEmpty()) {
-			Message.CHAT_GUILD_NOGUILDS.send(sender);
-			return;
-		}
+        if(guilds.isEmpty()) {
+            Message.CHAT_GUILD_NOGUILDS.send(sender);
+            return;
+        }
 
-		int limit = Config.LEADERBOARD_GUILD_ROWS.getInt();
-		int i = 1;
+        int limit = Config.LEADERBOARD_GUILD_ROWS.getInt();
+        int i = 1;
 
-		Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.send(sender);
+        Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.send(sender);
 
-		Map<VarKey, String> vars = new HashMap<>();
-		for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
-			vars.clear();
-			vars.put(VarKey.GUILD_NAME, guild.getName());
-			vars.put(VarKey.N, String.valueOf(i));
-			vars.put(VarKey.GUILD_POINTS, String.valueOf(guild.getPoints()));
-			Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.clone().vars(vars).send(sender);
-			i++;
-		}
-	}
+        Map<VarKey, String> vars = new HashMap<>();
+        for(NovaGuild guild : plugin.getGuildManager().getTopGuildsByPoints(limit)) {
+            vars.clear();
+            vars.put(VarKey.GUILD_NAME, guild.getName());
+            vars.put(VarKey.N, String.valueOf(i));
+            vars.put(VarKey.GUILD_POINTS, String.valueOf(guild.getPoints()));
+            Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_ROW.clone().vars(vars).send(sender);
+            i++;
+        }
+    }
 }

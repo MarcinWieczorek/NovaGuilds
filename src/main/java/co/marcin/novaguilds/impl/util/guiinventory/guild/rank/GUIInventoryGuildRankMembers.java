@@ -28,49 +28,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUIInventoryGuildRankMembers extends GUIInventoryGuildPlayersList {
-	private final NovaRank rank;
+    private final NovaRank rank;
 
-	/**
-	 * The constructor
-	 *
-	 * @param guild the guild
-	 * @param rank  the rank
-	 */
-	public GUIInventoryGuildRankMembers(NovaGuild guild, NovaRank rank) {
-		super(guild);
-		this.rank = rank;
-	}
+    /**
+     * The constructor
+     *
+     * @param guild the guild
+     * @param rank  the rank
+     */
+    public GUIInventoryGuildRankMembers(NovaGuild guild, NovaRank rank) {
+        super(guild);
+        this.rank = rank;
+    }
 
-	@Override
-	public void generateContent() {
-		final List<NovaPlayer> list = new ArrayList<>();
+    @Override
+    public void generateContent() {
+        final List<NovaPlayer> list = new ArrayList<>();
 
-		if(rank.isGeneric()) {
-			list.addAll(getMembers(guild, rank));
-		}
-		else {
-			list.addAll(rank.getMembers());
-		}
+        if(rank.isGeneric()) {
+            list.addAll(getMembers(guild, rank));
+        }
+        else {
+            list.addAll(rank.getMembers());
+        }
 
-		generateContent(list);
-	}
+        generateContent(list);
+    }
 
-	/**
-	 * Gets members of a rank from a guild
-	 *
-	 * @param guild the guild
-	 * @param rank  the rank
-	 * @return list of NovaPlayers
-	 */
-	public static List<NovaPlayer> getMembers(NovaGuild guild, NovaRank rank) {
-		final List<NovaPlayer> list = new ArrayList<>();
+    /**
+     * Gets members of a rank from a guild
+     *
+     * @param guild the guild
+     * @param rank  the rank
+     * @return list of NovaPlayers
+     */
+    public static List<NovaPlayer> getMembers(NovaGuild guild, NovaRank rank) {
+        final List<NovaPlayer> list = new ArrayList<>();
 
-		for(NovaPlayer nPlayer : rank.getMembers()) {
-			if(guild.isMember(nPlayer)) {
-				list.add(nPlayer);
-			}
-		}
+        for(NovaPlayer nPlayer : rank.getMembers()) {
+            if(guild.isMember(nPlayer)) {
+                list.add(nPlayer);
+            }
+        }
 
-		return list;
-	}
+        return list;
+    }
 }

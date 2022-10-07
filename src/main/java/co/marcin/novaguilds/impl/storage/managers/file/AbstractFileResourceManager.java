@@ -32,92 +32,92 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractFileResourceManager<T extends Resource> extends AbstractResourceManager<T> {
-	private final File directory;
+    private final File directory;
 
-	/**
-	 * The constructor
-	 *
-	 * @param storage       the storage
-	 * @param clazz         manager type class
-	 * @param directoryPath resource directory path
-	 */
-	protected AbstractFileResourceManager(Storage storage, Class<T> clazz, String directoryPath) {
-		super(storage, clazz);
-		directory = new File(getStorage().getDirectory(), directoryPath);
-	}
+    /**
+     * The constructor
+     *
+     * @param storage       the storage
+     * @param clazz         manager type class
+     * @param directoryPath resource directory path
+     */
+    protected AbstractFileResourceManager(Storage storage, Class<T> clazz, String directoryPath) {
+        super(storage, clazz);
+        directory = new File(getStorage().getDirectory(), directoryPath);
+    }
 
-	@Override
-	protected AbstractFileStorage getStorage() {
-		if(!(super.getStorage() instanceof AbstractFileStorage)) {
-			throw new IllegalArgumentException("Invalid storage type");
-		}
+    @Override
+    protected AbstractFileStorage getStorage() {
+        if(!(super.getStorage() instanceof AbstractFileStorage)) {
+            throw new IllegalArgumentException("Invalid storage type");
+        }
 
-		return (AbstractFileStorage) super.getStorage();
-	}
+        return (AbstractFileStorage) super.getStorage();
+    }
 
-	@Override
-	public void add(T t) {
-		try {
-			createFileIfNotExists(getFile(t));
-			t.setAdded();
-		}
-		catch(IOException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+    @Override
+    public void add(T t) {
+        try {
+            createFileIfNotExists(getFile(t));
+            t.setAdded();
+        }
+        catch(IOException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * Gets resource directory
-	 *
-	 * @return the directory
-	 */
-	protected File getDirectory() {
-		return directory;
-	}
+    /**
+     * Gets resource directory
+     *
+     * @return the directory
+     */
+    protected File getDirectory() {
+        return directory;
+    }
 
-	/**
-	 * Gets resource's file
-	 *
-	 * @param t instance
-	 * @return the file
-	 */
-	public abstract File getFile(T t);
+    /**
+     * Gets resource's file
+     *
+     * @param t instance
+     * @return the file
+     */
+    public abstract File getFile(T t);
 
-	/**
-	 * Gets all stored files
-	 *
-	 * @return list of files
-	 */
-	protected List<File> getFiles() {
-		File[] files = getDirectory().listFiles();
-		final List<File> list = new ArrayList<>();
+    /**
+     * Gets all stored files
+     *
+     * @return list of files
+     */
+    protected List<File> getFiles() {
+        File[] files = getDirectory().listFiles();
+        final List<File> list = new ArrayList<>();
 
-		if(files != null) {
-			list.addAll(Arrays.asList(files));
-		}
+        if(files != null) {
+            list.addAll(Arrays.asList(files));
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	/**
-	 * Creates file if doesn't exist
-	 *
-	 * @param file the file
-	 * @throws IOException if failed
-	 */
-	private void createFileIfNotExists(File file) throws IOException {
-		if(!file.exists() && !file.createNewFile()) {
-			throw new IOException("File creating failed (" + file.getPath() + ")");
-		}
-	}
+    /**
+     * Creates file if doesn't exist
+     *
+     * @param file the file
+     * @throws IOException if failed
+     */
+    private void createFileIfNotExists(File file) throws IOException {
+        if(!file.exists() && !file.createNewFile()) {
+            throw new IOException("File creating failed (" + file.getPath() + ")");
+        }
+    }
 
-	/**
-	 * Trims extension from file's name
-	 *
-	 * @param file the file
-	 * @return trimmed name
-	 */
-	protected final String trimExtension(File file) {
-		return StringUtils.substring(file.getName(), 0, StringUtils.lastIndexOf(file.getName(), '.'));
-	}
+    /**
+     * Trims extension from file's name
+     *
+     * @param file the file
+     * @return trimmed name
+     */
+    protected final String trimExtension(File file) {
+        return StringUtils.substring(file.getName(), 0, StringUtils.lastIndexOf(file.getName(), '.'));
+    }
 }

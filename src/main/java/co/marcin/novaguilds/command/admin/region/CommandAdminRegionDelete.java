@@ -26,17 +26,17 @@ import co.marcin.novaguilds.manager.ListenerManager;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminRegionDelete extends AbstractCommandExecutor.Reversed<NovaRegion> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaRegion region = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaRegion region = getParameter();
 
-		RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.ADMIN);
-		ListenerManager.getLoggedPluginManager().callEvent(event);
+        RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.ADMIN);
+        ListenerManager.getLoggedPluginManager().callEvent(event);
 
-		if(!event.isCancelled()) {
-			plugin.getRegionManager().remove(region);
-			Message.CHAT_ADMIN_REGION_DELETE_SUCCESS.send(sender);
-			plugin.getDynmapManager().removeRegion(region);
-		}
-	}
+        if(!event.isCancelled()) {
+            plugin.getRegionManager().remove(region);
+            Message.CHAT_ADMIN_REGION_DELETE_SUCCESS.send(sender);
+            plugin.getDynmapManager().removeRegion(region);
+        }
+    }
 }

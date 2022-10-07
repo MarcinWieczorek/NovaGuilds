@@ -21,7 +21,7 @@ package co.marcin.novaguilds.command.guild.rank;
 import co.marcin.novaguilds.command.admin.guild.rank.CommandAdminGuildRankDelete;
 
 public class CommandGuildRankDelete extends CommandAdminGuildRankDelete {
-	public CommandGuildRankDelete() {
-		super(false);
-	}
+    public CommandGuildRankDelete() {
+        super(false);
+    }
 }

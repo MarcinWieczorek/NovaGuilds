@@ -27,30 +27,30 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class AbstractStorage implements Storage {
-	protected static final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Map<Class<? extends Resource>, ResourceManager<? extends Resource>> resourceManagers = new LinkedHashMap<>();
+    protected static final NovaGuilds plugin = NovaGuilds.getInstance();
+    private final Map<Class<? extends Resource>, ResourceManager<? extends Resource>> resourceManagers = new LinkedHashMap<>();
 
-	@Override
-	public void save() {
-		plugin.getGuildManager().save();
-		plugin.getRankManager().save();
-		plugin.getRegionManager().save();
-		plugin.getPlayerManager().save();
-	}
+    @Override
+    public void save() {
+        plugin.getGuildManager().save();
+        plugin.getRankManager().save();
+        plugin.getRegionManager().save();
+        plugin.getPlayerManager().save();
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz) {
-		return (ResourceManager<T>) resourceManagers.get(clazz);
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz) {
+        return (ResourceManager<T>) resourceManagers.get(clazz);
+    }
 
-	@Override
-	public Map<Class<? extends Resource>, ResourceManager<? extends Resource>> getResourceManagers() {
-		return resourceManagers;
-	}
+    @Override
+    public Map<Class<? extends Resource>, ResourceManager<? extends Resource>> getResourceManagers() {
+        return resourceManagers;
+    }
 
-	@Override
-	public <T extends Resource> void registerResourceManager(Class<T> clazz, ResourceManager<T> resourceManager) {
-		resourceManagers.put(clazz, resourceManager);
-	}
+    @Override
+    public <T extends Resource> void registerResourceManager(Class<T> clazz, ResourceManager<T> resourceManager) {
+        resourceManagers.put(clazz, resourceManager);
+    }
 }

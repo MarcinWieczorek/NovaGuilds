@@ -30,68 +30,68 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminRegionList extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		Message.CHAT_REGION_LIST_HEADER.send(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        Message.CHAT_REGION_LIST_HEADER.send(sender);
 
-		int perPage = 10;
-		int size = plugin.getRegionManager().getRegions().size();
-		int pages_number = size / perPage;
-		if(size % perPage > 0) {
-			pages_number++;
-		}
+        int perPage = 10;
+        int size = plugin.getRegionManager().getRegions().size();
+        int pages_number = size / perPage;
+        if(size % perPage > 0) {
+            pages_number++;
+        }
 
-		//pages
-		int page = 1;
-		if(args.length == 1 && NumberUtils.isNumeric(args[0])) {
-			page = Integer.parseInt(args[0]);
-		}
+        //pages
+        int page = 1;
+        if(args.length == 1 && NumberUtils.isNumeric(args[0])) {
+            page = Integer.parseInt(args[0]);
+        }
 
-		if(page < 1) {
-			page = 1;
-		}
+        if(page < 1) {
+            page = 1;
+        }
 
-		String rowFormat = Message.CHAT_REGION_LIST_ITEM.get();
-		int i = 0;
-		boolean display = false;
-		Map<VarKey, String> vars = new HashMap<>();
+        String rowFormat = Message.CHAT_REGION_LIST_ITEM.get();
+        int i = 0;
+        boolean display = false;
+        Map<VarKey, String> vars = new HashMap<>();
 
-		if(size > perPage) {
-			vars.put(VarKey.PAGE, String.valueOf(page));
-			vars.put(VarKey.NEXT, String.valueOf(page + 1));
-			vars.put(VarKey.PAGES, String.valueOf(pages_number));
+        if(size > perPage) {
+            vars.put(VarKey.PAGE, String.valueOf(page));
+            vars.put(VarKey.NEXT, String.valueOf(page + 1));
+            vars.put(VarKey.PAGES, String.valueOf(pages_number));
 
-			if(pages_number > page) {
-				Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.clone().vars(vars).send(sender);
-			}
-			else {
-				Message.CHAT_ADMIN_GUILD_LIST_PAGE_NONEXT.clone().vars(vars).send(sender);
-			}
-		}
+            if(pages_number > page) {
+                Message.CHAT_ADMIN_GUILD_LIST_PAGE_HASNEXT.clone().vars(vars).send(sender);
+            }
+            else {
+                Message.CHAT_ADMIN_GUILD_LIST_PAGE_NONEXT.clone().vars(vars).send(sender);
+            }
+        }
 
-		for(NovaRegion region : plugin.getRegionManager().getRegions()) {
-			vars.clear();
+        for(NovaRegion region : plugin.getRegionManager().getRegions()) {
+            vars.clear();
 
-			if((i + 1 > (page - 1) * perPage || page == 1) && !display) {
-				display = true;
-				i = 0;
-			}
+            if((i + 1 > (page - 1) * perPage || page == 1) && !display) {
+                display = true;
+                i = 0;
+            }
 
-			if(display) {
-				vars.put(VarKey.GUILD_NAME, region.getGuild().getName());
-				vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
-				vars.put(VarKey.X, String.valueOf(region.getCorner(0).getBlockX()));
-				vars.put(VarKey.Z, String.valueOf(region.getCorner(0).getBlockZ()));
+            if(display) {
+                vars.put(VarKey.GUILD_NAME, region.getGuild().getName());
+                vars.put(VarKey.INDEX, String.valueOf(region.getIndex()));
+                vars.put(VarKey.X, String.valueOf(region.getCorner(0).getBlockX()));
+                vars.put(VarKey.Z, String.valueOf(region.getCorner(0).getBlockZ()));
 
-				String rowMessage = MessageManager.replaceVarKeyMap(rowFormat, vars);
-				MessageManager.sendMessage(sender, rowMessage);
+                String rowMessage = MessageManager.replaceVarKeyMap(rowFormat, vars);
+                MessageManager.sendMessage(sender, rowMessage);
 
-				if(i + 1 >= perPage) {
-					break;
-				}
-			}
+                if(i + 1 >= perPage) {
+                    break;
+                }
+            }
 
-			i++;
-		}
-	}
+            i++;
+        }
+    }
 }

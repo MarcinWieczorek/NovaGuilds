@@ -36,69 +36,69 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandGuildInvite extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(args.length != 1) {
-			getCommand().getUsageMessage().send(sender);
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(args.length != 1) {
+            getCommand().getUsageMessage().send(sender);
+            return;
+        }
 
-		String playerName = args[0];
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        String playerName = args[0];
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.INVITE)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.INVITE)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		NovaPlayer invitePlayer = PlayerManager.getPlayer(playerName);
+        NovaPlayer invitePlayer = PlayerManager.getPlayer(playerName);
 
-		if(invitePlayer == null) { //player exists
-			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-			return;
-		}
+        if(invitePlayer == null) { //player exists
+            Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+            return;
+        }
 
-		if(invitePlayer.hasGuild()) { //if player being invited has no guild
-			Message.CHAT_PLAYER_HASGUILD.send(sender);
-			return;
-		}
+        if(invitePlayer.hasGuild()) { //if player being invited has no guild
+            Message.CHAT_PLAYER_HASGUILD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayer.getGuild();
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.GUILD_NAME, guild.getName());
-		vars.put(VarKey.PLAYER_NAME, invitePlayer.getName());
+        NovaGuild guild = nPlayer.getGuild();
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.GUILD_NAME, guild.getName());
+        vars.put(VarKey.PLAYER_NAME, invitePlayer.getName());
 
-		if(!invitePlayer.isInvitedTo(guild)) { //invite
-			invitePlayer.addInvitation(guild);
-			Message.CHAT_PLAYER_INVITE_INVITED.clone().vars(vars).send(sender);
+        if(!invitePlayer.isInvitedTo(guild)) { //invite
+            invitePlayer.addInvitation(guild);
+            Message.CHAT_PLAYER_INVITE_INVITED.clone().vars(vars).send(sender);
 
-			if(invitePlayer.isOnline()) {
-				Message.CHAT_PLAYER_INVITE_NOTIFY.clone().vars(vars).send(invitePlayer.getPlayer());
-			}
-		}
-		else { //cancel invitation
-			invitePlayer.deleteInvitation(guild);
-			Message.CHAT_PLAYER_INVITE_CANCEL_SUCCESS.clone().vars(vars).send(sender);
+            if(invitePlayer.isOnline()) {
+                Message.CHAT_PLAYER_INVITE_NOTIFY.clone().vars(vars).send(invitePlayer.getPlayer());
+            }
+        }
+        else { //cancel invitation
+            invitePlayer.deleteInvitation(guild);
+            Message.CHAT_PLAYER_INVITE_CANCEL_SUCCESS.clone().vars(vars).send(sender);
 
-			if(invitePlayer.isOnline()) {
-				Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.clone().vars(vars).send(invitePlayer.getPlayer());
-			}
-		}
-	}
+            if(invitePlayer.isOnline()) {
+                Message.CHAT_PLAYER_INVITE_CANCEL_NOTIFY.clone().vars(vars).send(invitePlayer.getPlayer());
+            }
+        }
+    }
 
-	@Override
-	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
-		Set<String> options = new HashSet<>();
+    @Override
+    protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+        Set<String> options = new HashSet<>();
 
-		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
-			options.add(player.getName());
-		}
+        for(Player player : CompatibilityUtils.getOnlinePlayers()) {
+            options.add(player.getName());
+        }
 
-		return options;
-	}
+        return options;
+    }
 }

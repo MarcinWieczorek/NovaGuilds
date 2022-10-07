@@ -27,33 +27,33 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildRankDelete extends AbstractCommandExecutor.Reversed<NovaRank> {
-	private final boolean admin;
+    private final boolean admin;
 
-	public CommandAdminGuildRankDelete() {
-		this(true);
-	}
+    public CommandAdminGuildRankDelete() {
+        this(true);
+    }
 
-	public CommandAdminGuildRankDelete(boolean admin) {
-		this.admin = admin;
-	}
+    public CommandAdminGuildRankDelete(boolean admin) {
+        this.admin = admin;
+    }
 
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!admin && !nPlayer.hasPermission(GuildPermission.RANK_DELETE)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!admin && !nPlayer.hasPermission(GuildPermission.RANK_DELETE)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		NovaRank rank = getParameter();
+        NovaRank rank = getParameter();
 
-		if(rank == null) {
-			Message.CHAT_ADMIN_GUILD_RANK_NOTFOUND.send(sender);
-			return;
-		}
+        if(rank == null) {
+            Message.CHAT_ADMIN_GUILD_RANK_NOTFOUND.send(sender);
+            return;
+        }
 
-		Message.CHAT_ADMIN_GUILD_RANK_DELETE_SUCCESS.send(sender);
-		rank.delete();
-	}
+        Message.CHAT_ADMIN_GUILD_RANK_DELETE_SUCCESS.send(sender);
+        rank.delete();
+    }
 }

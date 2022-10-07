@@ -33,39 +33,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandAdminGuildRankList extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	protected final boolean admin;
+    protected final boolean admin;
 
-	public CommandAdminGuildRankList() {
-		this(true);
-	}
+    public CommandAdminGuildRankList() {
+        this(true);
+    }
 
-	public CommandAdminGuildRankList(boolean admin) {
-		this.admin = admin;
-	}
+    public CommandAdminGuildRankList(boolean admin) {
+        this.admin = admin;
+    }
 
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(!admin) {
-			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-			set(nPlayer.getGuild());
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(!admin) {
+            NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+            set(nPlayer.getGuild());
 
-			if(!nPlayer.hasPermission(GuildPermission.RANK_LIST)) {
-				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-				return;
-			}
-		}
+            if(!nPlayer.hasPermission(GuildPermission.RANK_LIST)) {
+                Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+                return;
+            }
+        }
 
-		Message.CHAT_ADMIN_GUILD_RANK_LIST_HEADER.clone().setVar(VarKey.GUILD_NAME, getParameter().getName()).send(sender);
-		List<MessageWrapper> itemList = new ArrayList<>();
+        Message.CHAT_ADMIN_GUILD_RANK_LIST_HEADER.clone().setVar(VarKey.GUILD_NAME, getParameter().getName()).send(sender);
+        List<MessageWrapper> itemList = new ArrayList<>();
 
-		for(NovaRank rank : getParameter().getRanks()) {
-			MessageWrapper row = Message.CHAT_ADMIN_GUILD_RANK_LIST_ITEM.clone();
-			row.setVar(VarKey.NAME, rank.getName());
-			row.setVar(VarKey.GUILD_NAME, rank.getGuild().getName());
-			row.setVar(VarKey.UUID, rank.getUUID().toString());
-			itemList.add(row);
-		}
+        for(NovaRank rank : getParameter().getRanks()) {
+            MessageWrapper row = Message.CHAT_ADMIN_GUILD_RANK_LIST_ITEM.clone();
+            row.setVar(VarKey.NAME, rank.getName());
+            row.setVar(VarKey.GUILD_NAME, rank.getGuild().getName());
+            row.setVar(VarKey.UUID, rank.getUUID().toString());
+            itemList.add(row);
+        }
 
-		Message.send(itemList, sender);
-	}
+        Message.send(itemList, sender);
+    }
 }

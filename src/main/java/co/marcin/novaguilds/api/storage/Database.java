@@ -31,34 +31,34 @@ import java.sql.SQLException;
  * @author tips48
  */
 public interface Database {
-	/**
-	 * Opens a connection with the database
-	 *
-	 * @throws SQLException           if the connection can not be opened
-	 * @throws ClassNotFoundException if the driver cannot be found
-	 */
-	void openConnection() throws SQLException, ClassNotFoundException;
+    /**
+     * Opens a connection with the database
+     *
+     * @throws SQLException           if the connection can not be opened
+     * @throws ClassNotFoundException if the driver cannot be found
+     */
+    void openConnection() throws SQLException, ClassNotFoundException;
 
-	/**
-	 * Checks if a connection is open with the database
-	 *
-	 * @return true if the connection is open
-	 * @throws SQLException if the connection cannot be checked
-	 */
-	boolean checkConnection() throws SQLException;
+    /**
+     * Checks if a connection is open with the database
+     *
+     * @return true if the connection is open
+     * @throws SQLException if the connection cannot be checked
+     */
+    boolean checkConnection() throws SQLException;
 
-	/**
-	 * Gets the connection with the database
-	 *
-	 * @return Connection with the database, null if none
-	 */
-	Connection getConnection();
+    /**
+     * Gets the connection with the database
+     *
+     * @return Connection with the database, null if none
+     */
+    Connection getConnection();
 
-	/**
-	 * Closes the connection with the database
-	 *
-	 * @return true if successful
-	 * @throws SQLException if the connection cannot be closed
-	 */
-	boolean closeConnection() throws SQLException;
+    /**
+     * Closes the connection with the database
+     *
+     * @return true if successful
+     * @throws SQLException if the connection cannot be closed
+     */
+    boolean closeConnection() throws SQLException;
 }

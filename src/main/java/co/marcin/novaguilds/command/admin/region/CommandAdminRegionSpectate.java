@@ -32,57 +32,57 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminRegionSpectate extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		Map<VarKey, String> vars = new HashMap<>();
-		NovaPlayer nPlayer;
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        Map<VarKey, String> vars = new HashMap<>();
+        NovaPlayer nPlayer;
 
-		if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {
-			if(!(sender instanceof Player)) {
-				Message.CHAT_CMDFROMCONSOLE.send(sender);
-				return;
-			}
+        if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {
+            if(!(sender instanceof Player)) {
+                Message.CHAT_CMDFROMCONSOLE.send(sender);
+                return;
+            }
 
-			nPlayer = PlayerManager.getPlayer(sender);
+            nPlayer = PlayerManager.getPlayer(sender);
 
-			nPlayer.getPreferences().toggleRegionSpectate();
-			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getPreferences().getRegionSpectate()));
-			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_SELF.clone().vars(vars).send(sender);
-		}
-		else { //for other
-			if(!Permission.NOVAGUILDS_ADMIN_REGION_CHANGE_SPECTATE_OTHER.has(sender)) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return;
-			}
+            nPlayer.getPreferences().toggleRegionSpectate();
+            vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getPreferences().getRegionSpectate()));
+            Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_SELF.clone().vars(vars).send(sender);
+        }
+        else { //for other
+            if(!Permission.NOVAGUILDS_ADMIN_REGION_CHANGE_SPECTATE_OTHER.has(sender)) {
+                Message.CHAT_NOPERMISSIONS.send(sender);
+                return;
+            }
 
-			nPlayer = PlayerManager.getPlayer(args[0]);
+            nPlayer = PlayerManager.getPlayer(args[0]);
 
-			if(nPlayer == null) {
-				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-				return;
-			}
+            if(nPlayer == null) {
+                Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+                return;
+            }
 
-			nPlayer.getPreferences().toggleRegionSpectate();
-			vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
-			vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getPreferences().getRegionSpectate()));
+            nPlayer.getPreferences().toggleRegionSpectate();
+            vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
+            vars.put(VarKey.FLAG, Message.getOnOff(nPlayer.getPreferences().getRegionSpectate()));
 
-			if(nPlayer.isOnline()) {
-				Message.CHAT_ADMIN_REGION_SPECTATE_NOTIFYOTHER.clone().vars(vars).send(nPlayer);
-			}
+            if(nPlayer.isOnline()) {
+                Message.CHAT_ADMIN_REGION_SPECTATE_NOTIFYOTHER.clone().vars(vars).send(nPlayer);
+            }
 
-			Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_OTHER.clone().vars(vars).send(sender);
-		}
+            Message.CHAT_ADMIN_REGION_SPECTATE_TOGGLED_OTHER.clone().vars(vars).send(sender);
+        }
 
-		if(!nPlayer.getPreferences().getRegionSpectate()) {
-			for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getPlayers()) {
-				RegionSelection selection = nPlayerLoop.getActiveSelection();
-				if(!nPlayer.equals(nPlayerLoop)
-						&& selection != null
-						&& selection.getSpectators().contains(nPlayer)) {
-					selection.removeSpectator(nPlayer);
-					selection.reset(nPlayer);
-				}
-			}
-		}
-	}
+        if(!nPlayer.getPreferences().getRegionSpectate()) {
+            for(NovaPlayer nPlayerLoop : plugin.getPlayerManager().getPlayers()) {
+                RegionSelection selection = nPlayerLoop.getActiveSelection();
+                if(!nPlayer.equals(nPlayerLoop)
+                        && selection != null
+                        && selection.getSpectators().contains(nPlayer)) {
+                    selection.removeSpectator(nPlayer);
+                    selection.reset(nPlayer);
+                }
+            }
+        }
+    }
 }

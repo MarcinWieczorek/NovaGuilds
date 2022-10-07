@@ -21,24 +21,24 @@ package co.marcin.novaguilds.api.util.exceptionparser;
 import java.util.Collection;
 
 public interface ErrorSignature {
-	/**
-	 * Serializes the signature to a string
-	 *
-	 * @return signature as string
-	 */
-	String toString();
+    /**
+     * Serializes the signature to a string
+     *
+     * @return signature as string
+     */
+    String toString();
 
-	/**
-	 * Gets blocks
-	 *
-	 * @return collection of blocks
-	 */
-	Collection<Block> getBlocks();
+    /**
+     * Gets blocks
+     *
+     * @return collection of blocks
+     */
+    Collection<Block> getBlocks();
 
-	/**
-	 * Adds blocks
-	 *
-	 * @param block array of blocks
-	 */
-	void addBlock(Block... block);
+    /**
+     * Adds blocks
+     *
+     * @param block array of blocks
+     */
+    void addBlock(Block... block);
 }

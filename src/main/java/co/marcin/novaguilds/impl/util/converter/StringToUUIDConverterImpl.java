@@ -21,8 +21,8 @@ package co.marcin.novaguilds.impl.util.converter;
 import java.util.UUID;
 
 public class StringToUUIDConverterImpl extends AbstractConverter<String, UUID> {
-	@Override
-	public UUID convert(String s) {
-		return UUID.fromString(s);
-	}
+    @Override
+    public UUID convert(String s) {
+        return UUID.fromString(s);
+    }
 }

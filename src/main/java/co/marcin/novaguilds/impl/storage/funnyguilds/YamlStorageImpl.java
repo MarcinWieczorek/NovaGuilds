@@ -33,54 +33,54 @@ import java.util.List;
 import java.util.Map;
 
 public class YamlStorageImpl extends co.marcin.novaguilds.impl.storage.YamlStorageImpl {
-	public Map<String, NovaGuild> playerGuildMap = new HashMap<>();
-	public Map<String, NovaGuild> guildMap = new HashMap<>();
+    public Map<String, NovaGuild> playerGuildMap = new HashMap<>();
+    public Map<String, NovaGuild> guildMap = new HashMap<>();
 
-	/**
-	 * The constructor
-	 *
-	 * @param dataDirectory data directory
-	 * @throws StorageConnectionFailedException when something goes wrong
-	 */
-	public YamlStorageImpl(File dataDirectory) throws StorageConnectionFailedException {
-		super(dataDirectory);
-	}
+    /**
+     * The constructor
+     *
+     * @param dataDirectory data directory
+     * @throws StorageConnectionFailedException when something goes wrong
+     */
+    public YamlStorageImpl(File dataDirectory) throws StorageConnectionFailedException {
+        super(dataDirectory);
+    }
 
-	@Override
-	public boolean setUp() {
-		return getDirectory().exists();
-	}
+    @Override
+    public boolean setUp() {
+        return getDirectory().exists();
+    }
 
-	@Override
-	public void registerManagers() {
-		new ResourceManagerGuildImpl(this);
-		new ResourceManagerPlayerImpl(this);
-		new ResourceManagerRegionImpl(this);
-		new AbstractResourceManager<NovaRank>(this, NovaRank.class) {
-			@Override
-			public List<NovaRank> load() {
-				return new ArrayList<>();
-			}
+    @Override
+    public void registerManagers() {
+        new ResourceManagerGuildImpl(this);
+        new ResourceManagerPlayerImpl(this);
+        new ResourceManagerRegionImpl(this);
+        new AbstractResourceManager<NovaRank>(this, NovaRank.class) {
+            @Override
+            public List<NovaRank> load() {
+                return new ArrayList<>();
+            }
 
-			@Override
-			public boolean save(NovaRank novaRank) {
-				throw new IllegalArgumentException("Not supported");
-			}
+            @Override
+            public boolean save(NovaRank novaRank) {
+                throw new IllegalArgumentException("Not supported");
+            }
 
-			@Override
-			public void add(NovaRank novaRank) {
-				throw new IllegalArgumentException("Not supported");
-			}
+            @Override
+            public void add(NovaRank novaRank) {
+                throw new IllegalArgumentException("Not supported");
+            }
 
-			@Override
-			public boolean remove(NovaRank novaRank) {
-				throw new IllegalArgumentException("Not supported");
-			}
-		};
-	}
+            @Override
+            public boolean remove(NovaRank novaRank) {
+                throw new IllegalArgumentException("Not supported");
+            }
+        };
+    }
 
-	@Override
-	public void save() {
+    @Override
+    public void save() {
 
-	}
+    }
 }

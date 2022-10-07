@@ -37,86 +37,86 @@ import java.util.List;
 import java.util.UUID;
 
 public class ResourceManagerGuildImpl extends AbstractYAMLResourceManager<NovaGuild> {
-	/**
-	 * The constructor
-	 *
-	 * @param storage the storage
-	 */
-	public ResourceManagerGuildImpl(Storage storage) {
-		super(storage, NovaGuild.class, "guilds/");
-	}
+    /**
+     * The constructor
+     *
+     * @param storage the storage
+     */
+    public ResourceManagerGuildImpl(Storage storage) {
+        super(storage, NovaGuild.class, "guilds/");
+    }
 
-	@Override
-	public List<NovaGuild> load() {
-		final List<NovaGuild> list = new ArrayList<>();
+    @Override
+    public List<NovaGuild> load() {
+        final List<NovaGuild> list = new ArrayList<>();
 
-		for(File guildFile : getFiles()) {
-			FileConfiguration configuration = loadConfiguration(guildFile);
+        for(File guildFile : getFiles()) {
+            FileConfiguration configuration = loadConfiguration(guildFile);
 
-			if(configuration != null) {
-				NovaGuild.LoadingWrapper<String> loadingWrapper = new NovaGuildImpl.LoadingWrapperImpl<>(new AbstractConverter<String, NovaGuild>() {
-					@Override
-					public NovaGuild convert(String s) {
-						return ((YamlStorageImpl) getStorage()).guildMap.get(s);
-					}
-				});
+            if(configuration != null) {
+                NovaGuild.LoadingWrapper<String> loadingWrapper = new NovaGuildImpl.LoadingWrapperImpl<>(new AbstractConverter<String, NovaGuild>() {
+                    @Override
+                    public NovaGuild convert(String s) {
+                        return ((YamlStorageImpl) getStorage()).guildMap.get(s);
+                    }
+                });
 
-				List<String> alliesList = configuration.getStringList("allies");
-				List<String> warsList = configuration.getStringList("enemies");
+                List<String> alliesList = configuration.getStringList("allies");
+                List<String> warsList = configuration.getStringList("enemies");
 
-				NovaGuild guild = new NovaGuildImpl(UUID.fromString(configuration.getString("uuid")), loadingWrapper);
+                NovaGuild guild = new NovaGuildImpl(UUID.fromString(configuration.getString("uuid")), loadingWrapper);
 
-				guild.setAdded();
-				guild.setName(configuration.getString("name"));
-				guild.setTag(configuration.getString("tag"));
-				guild.setLeaderName(configuration.getString("owner"));
-				guild.setPoints(configuration.getInt("points"));
-				guild.setLives(configuration.getInt("lives"));
-				guild.setTimeCreated(configuration.getLong("born") / 1000);
-				guild.setInactiveTime(NumberUtils.systemSeconds());
-				guild.setSlots(Config.GUILD_SLOTS_START.getInt());
+                guild.setAdded();
+                guild.setName(configuration.getString("name"));
+                guild.setTag(configuration.getString("tag"));
+                guild.setLeaderName(configuration.getString("owner"));
+                guild.setPoints(configuration.getInt("points"));
+                guild.setLives(configuration.getInt("lives"));
+                guild.setTimeCreated(configuration.getLong("born") / 1000);
+                guild.setInactiveTime(NumberUtils.systemSeconds());
+                guild.setSlots(Config.GUILD_SLOTS_START.getInt());
 
-				//Loading wrapper
-				loadingWrapper.setAllies(alliesList);
-				loadingWrapper.setWars(warsList);
+                //Loading wrapper
+                loadingWrapper.setAllies(alliesList);
+                loadingWrapper.setWars(warsList);
 
-				//home
-				String[] homeSplit = configuration.getString("home").split(",");
-				World homeWorld = plugin.getServer().getWorld(homeSplit[0]);
+                //home
+                String[] homeSplit = configuration.getString("home").split(",");
+                World homeWorld = plugin.getServer().getWorld(homeSplit[0]);
 
-				if(homeWorld == null) {
-					LoggerUtils.error("Found invalid world: " + homeSplit[0] + " (guild: " + guild.getName() + ")");
-					guild.unload();
-					continue;
-				}
+                if(homeWorld == null) {
+                    LoggerUtils.error("Found invalid world: " + homeSplit[0] + " (guild: " + guild.getName() + ")");
+                    guild.unload();
+                    continue;
+                }
 
-				for(String member : configuration.getStringList("members")) {
-					((YamlStorageImpl) getStorage()).playerGuildMap.put(member, guild);
-				}
+                for(String member : configuration.getStringList("members")) {
+                    ((YamlStorageImpl) getStorage()).playerGuildMap.put(member, guild);
+                }
 
-				((YamlStorageImpl) getStorage()).guildMap.put(guild.getName(), guild);
-				Location homeLocation = new Location(homeWorld, Integer.parseInt(homeSplit[1]), Integer.parseInt(homeSplit[2]), Integer.parseInt(homeSplit[3]));
-				guild.setHome(homeLocation);
-				guild.setUnchanged();
-				list.add(guild);
-			}
-		}
+                ((YamlStorageImpl) getStorage()).guildMap.put(guild.getName(), guild);
+                Location homeLocation = new Location(homeWorld, Integer.parseInt(homeSplit[1]), Integer.parseInt(homeSplit[2]), Integer.parseInt(homeSplit[3]));
+                guild.setHome(homeLocation);
+                guild.setUnchanged();
+                list.add(guild);
+            }
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	public boolean save(NovaGuild guild) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public boolean save(NovaGuild guild) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	public boolean remove(NovaGuild guild) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public boolean remove(NovaGuild guild) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	public File getFile(NovaGuild guild) {
-		return new File(getDirectory(), guild.getName() + ".yml");
-	}
+    @Override
+    public File getFile(NovaGuild guild) {
+        return new File(getDirectory(), guild.getName() + ".yml");
+    }
 }

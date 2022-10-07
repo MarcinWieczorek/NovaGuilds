@@ -25,9 +25,9 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildMenu extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		new GUIInventoryGuildMenu().open(nPlayer);
-	}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        new GUIInventoryGuildMenu().open(nPlayer);
+    }
 }

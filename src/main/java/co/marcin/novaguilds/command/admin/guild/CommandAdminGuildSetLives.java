@@ -28,34 +28,34 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetLives extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaGuild guild = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaGuild guild = getParameter();
 
-		if(args.length == 0) {
-			getCommand().getUsageMessage().send(sender);
-			return;
-		}
+        if(args.length == 0) {
+            getCommand().getUsageMessage().send(sender);
+            return;
+        }
 
-		if(!NumberUtils.isNumeric(args[0])) {
-			Message.CHAT_ENTERINTEGER.send(sender);
-			return;
-		}
+        if(!NumberUtils.isNumeric(args[0])) {
+            Message.CHAT_ENTERINTEGER.send(sender);
+            return;
+        }
 
-		int lives = Integer.parseInt(args[0]);
+        int lives = Integer.parseInt(args[0]);
 
-		if(lives < 0) {
-			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
-			return;
-		}
+        if(lives < 0) {
+            Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+            return;
+        }
 
-		if(lives > Config.GUILD_LIVES_MAX.getInt()) {
-			Message.CHAT_MAXAMOUNT.clone().setVar(VarKey.AMOUNT, Config.GUILD_LIVES_MAX.getInt()).send(sender);
-			return;
-		}
+        if(lives > Config.GUILD_LIVES_MAX.getInt()) {
+            Message.CHAT_MAXAMOUNT.clone().setVar(VarKey.AMOUNT, Config.GUILD_LIVES_MAX.getInt()).send(sender);
+            return;
+        }
 
-		guild.setLives(lives);
-		Message.CHAT_ADMIN_GUILD_SET_LIVES.send(sender);
-		TabUtils.refresh(guild);
-	}
+        guild.setLives(lives);
+        Message.CHAT_ADMIN_GUILD_SET_LIVES.send(sender);
+        TabUtils.refresh(guild);
+    }
 }

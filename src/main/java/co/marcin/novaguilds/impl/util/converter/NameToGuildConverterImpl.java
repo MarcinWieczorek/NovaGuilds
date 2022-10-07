@@ -22,8 +22,8 @@ import co.marcin.novaguilds.api.basic.NovaGuild;
 import co.marcin.novaguilds.manager.GuildManager;
 
 public class NameToGuildConverterImpl extends AbstractConverter<String, NovaGuild> {
-	@Override
-	public NovaGuild convert(String s) {
-		return GuildManager.getGuildByName(s);
-	}
+    @Override
+    public NovaGuild convert(String s) {
+        return GuildManager.getGuildByName(s);
+    }
 }

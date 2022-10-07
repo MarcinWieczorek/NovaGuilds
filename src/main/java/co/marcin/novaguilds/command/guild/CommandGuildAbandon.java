@@ -37,55 +37,55 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildAbandon extends AbstractCommandExecutor implements CommandExecutor {
-	@Override
-	public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return true;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return true;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.ABANDON)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return true;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.ABANDON)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return true;
+        }
 
-		getCommand().execute(sender, args);
-		return true;
-	}
+        getCommand().execute(sender, args);
+        return true;
+    }
 
-	public void execute(CommandSender sender, String args[]) {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    public void execute(CommandSender sender, String args[]) {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.ABANDON)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.ABANDON)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayer.getGuild();
+        NovaGuild guild = nPlayer.getGuild();
 
-		//fire event
-		GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.PLAYER);
-		ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
+        //fire event
+        GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.PLAYER);
+        ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
 
-		//if event is not cancelled
-		if(!guildAbandonEvent.isCancelled()) {
-			plugin.getGuildManager().delete(guildAbandonEvent);
+        //if event is not cancelled
+        if(!guildAbandonEvent.isCancelled()) {
+            plugin.getGuildManager().delete(guildAbandonEvent);
 
-			Message.CHAT_GUILD_ABANDONED.send(sender);
+            Message.CHAT_GUILD_ABANDONED.send(sender);
 
-			Map<VarKey, String> vars = new HashMap<>();
-			vars.put(VarKey.PLAYER_NAME, sender.getName());
-			vars.put(VarKey.GUILD_NAME, guild.getName());
-			Message.BROADCAST_GUILD_ABANDONED.clone().vars(vars).broadcast();
-			TagUtils.refresh();
-			TabUtils.refresh();
-		}
-	}
+            Map<VarKey, String> vars = new HashMap<>();
+            vars.put(VarKey.PLAYER_NAME, sender.getName());
+            vars.put(VarKey.GUILD_NAME, guild.getName());
+            Message.BROADCAST_GUILD_ABANDONED.clone().vars(vars).broadcast();
+            TagUtils.refresh();
+            TabUtils.refresh();
+        }
+    }
 }

@@ -25,49 +25,49 @@ import co.marcin.novaguilds.manager.MessageManager;
 import java.util.List;
 
 public class SignGUIPatternImpl implements SignGUI.SignGUIPattern {
-	private final MessageWrapper message;
-	private int inputLine;
+    private final MessageWrapper message;
+    private int inputLine;
 
-	/**
-	 * The constructor
-	 *
-	 * @param message message wrapper of the pattern
-	 */
-	public SignGUIPatternImpl(MessageWrapper message) {
-		this.message = message;
-	}
+    /**
+     * The constructor
+     *
+     * @param message message wrapper of the pattern
+     */
+    public SignGUIPatternImpl(MessageWrapper message) {
+        this.message = message;
+    }
 
-	@Override
-	public String[] get() {
-		return fromList(message.getList());
-	}
+    @Override
+    public String[] get() {
+        return fromList(message.getList());
+    }
 
-	@Override
-	public int getInputLine() {
-		return inputLine;
-	}
+    @Override
+    public int getInputLine() {
+        return inputLine;
+    }
 
-	/**
-	 * Creates the pattern from a list
-	 *
-	 * @param list list of strings
-	 * @return array of strings
-	 */
-	protected String[] fromList(List<String> list) {
-		String[] lines = new String[4];
+    /**
+     * Creates the pattern from a list
+     *
+     * @param list list of strings
+     * @return array of strings
+     */
+    protected String[] fromList(List<String> list) {
+        String[] lines = new String[4];
 
-		List<String> rawList = MessageManager.getMessages().getStringList(message.getPath());
-		for(int index = 0; index < rawList.size(); index++) {
-			if(rawList.get(index).contains("{INPUT}")) {
-				inputLine = index;
-				break;
-			}
-		}
+        List<String> rawList = MessageManager.getMessages().getStringList(message.getPath());
+        for(int index = 0; index < rawList.size(); index++) {
+            if(rawList.get(index).contains("{INPUT}")) {
+                inputLine = index;
+                break;
+            }
+        }
 
-		for(int index = 0; index < list.size(); index++) {
-			lines[index] = list.get(index);
-		}
+        for(int index = 0; index < list.size(); index++) {
+            lines[index] = list.get(index);
+        }
 
-		return lines;
-	}
+        return lines;
+    }
 }

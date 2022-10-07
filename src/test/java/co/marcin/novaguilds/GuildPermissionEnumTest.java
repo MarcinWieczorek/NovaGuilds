@@ -23,30 +23,30 @@ import co.marcin.novaguilds.enums.Message;
 import org.junit.Test;
 
 public class GuildPermissionEnumTest {
-	@Test
-	public void testMessageEnum() throws Exception {
-		boolean passed = true;
-		System.out.println("Looking for GuildPermission values not present in Message class");
+    @Test
+    public void testMessageEnum() throws Exception {
+        boolean passed = true;
+        System.out.println("Looking for GuildPermission values not present in Message class");
 
-		for(GuildPermission perm : GuildPermission.values()) {
-			try {
-				Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name());
-			}
-			catch(IllegalArgumentException e) {
-				if(passed) {
-					System.out.println("Missing enums:");
-				}
+        for(GuildPermission perm : GuildPermission.values()) {
+            try {
+                Message.valueOf("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name());
+            }
+            catch(IllegalArgumentException e) {
+                if(passed) {
+                    System.out.println("Missing enums:");
+                }
 
-				System.out.println("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name() + ",");
-				passed = false;
-			}
-		}
+                System.out.println("INVENTORY_GUI_PERMISSIONS_NAMES_" + perm.name() + ",");
+                passed = false;
+            }
+        }
 
-		if(!passed) {
-			throw new Exception("Found missing Message wrappers!");
-		}
-		else {
-			System.out.println("Nothing is missing here.");
-		}
-	}
+        if(!passed) {
+            throw new Exception("Found missing Message wrappers!");
+        }
+        else {
+            System.out.println("Nothing is missing here.");
+        }
+    }
 }

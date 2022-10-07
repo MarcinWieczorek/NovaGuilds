@@ -26,70 +26,70 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class GuildAbandonEvent extends Event implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	private final NovaGuild guild;
-	private boolean cancelled;
-	private AbandonCause cause;
+    private static final HandlerList handlers = new HandlerList();
+    private final NovaGuild guild;
+    private boolean cancelled;
+    private AbandonCause cause;
 
-	/**
-	 * The constructor
-	 *
-	 * @param guild the guild
-	 * @param cause abandon cause
-	 */
-	public GuildAbandonEvent(NovaGuild guild, AbandonCause cause) {
-		this.guild = guild;
-		this.cause = cause;
-	}
+    /**
+     * The constructor
+     *
+     * @param guild the guild
+     * @param cause abandon cause
+     */
+    public GuildAbandonEvent(NovaGuild guild, AbandonCause cause) {
+        this.guild = guild;
+        this.cause = cause;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean cancel) {
-		cancelled = cancel;
-	}
+    @Override
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
+    }
 
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	/**
-	 * Gets the guild
-	 *
-	 * @return the guild
-	 */
-	public NovaGuild getGuild() {
-		return guild;
-	}
+    /**
+     * Gets the guild
+     *
+     * @return the guild
+     */
+    public NovaGuild getGuild() {
+        return guild;
+    }
 
-	/**
-	 * Sets the cause
-	 *
-	 * @param cause the cause
-	 */
-	public void setCause(AbandonCause cause) {
-		this.cause = cause;
-	}
+    /**
+     * Sets the cause
+     *
+     * @param cause the cause
+     */
+    public void setCause(AbandonCause cause) {
+        this.cause = cause;
+    }
 
-	/**
-	 * Gets the cause
-	 *
-	 * @return the cause
-	 */
-	public AbandonCause getCause() {
-		return cause;
-	}
+    /**
+     * Gets the cause
+     *
+     * @return the cause
+     */
+    public AbandonCause getCause() {
+        return cause;
+    }
 
-	/**
-	 * Gets handler list
-	 *
-	 * @return the handler list
-	 */
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    /**
+     * Gets handler list
+     *
+     * @return the handler list
+     */
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

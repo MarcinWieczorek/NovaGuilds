@@ -23,48 +23,48 @@ import co.marcin.novaguilds.api.util.exceptionparser.Block;
 import org.apache.commons.lang.StringUtils;
 
 public class BlockImpl implements Block {
-	private final String name;
-	private final String message;
-	private final String stackTraceElement;
+    private final String name;
+    private final String message;
+    private final String stackTraceElement;
 
-	/**
-	 * The constructor
-	 *
-	 * @param throwable the exception or one of its causes
-	 */
-	public BlockImpl(Throwable throwable) {
-		this(throwable.getClass().getSimpleName(), throwable.getMessage(), throwable.getStackTrace()[0].toString());
-	}
+    /**
+     * The constructor
+     *
+     * @param throwable the exception or one of its causes
+     */
+    public BlockImpl(Throwable throwable) {
+        this(throwable.getClass().getSimpleName(), throwable.getMessage(), throwable.getStackTrace()[0].toString());
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param name              exception name
-	 * @param message           exception message
-	 * @param stackTraceElement first stacktrace element
-	 */
-	public BlockImpl(String name, String message, String stackTraceElement) {
-		if(StringUtils.startsWith(stackTraceElement, NovaGuilds.class.getPackage().getName())) {
-			StringUtils.replaceOnce(stackTraceElement, NovaGuilds.class.getPackage().getName() + ".", "");
-		}
+    /**
+     * The constructor
+     *
+     * @param name              exception name
+     * @param message           exception message
+     * @param stackTraceElement first stacktrace element
+     */
+    public BlockImpl(String name, String message, String stackTraceElement) {
+        if(StringUtils.startsWith(stackTraceElement, NovaGuilds.class.getPackage().getName())) {
+            StringUtils.replaceOnce(stackTraceElement, NovaGuilds.class.getPackage().getName() + ".", "");
+        }
 
-		this.name = name;
-		this.message = message;
-		this.stackTraceElement = stackTraceElement;
-	}
+        this.name = name;
+        this.message = message;
+        this.stackTraceElement = stackTraceElement;
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public String getMessage() {
-		return message;
-	}
+    @Override
+    public String getMessage() {
+        return message;
+    }
 
-	@Override
-	public String getStackTraceElement() {
-		return stackTraceElement;
-	}
+    @Override
+    public String getStackTraceElement() {
+        return stackTraceElement;
+    }
 }

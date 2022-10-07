@@ -30,54 +30,54 @@ import co.marcin.novaguilds.util.NumberUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandRegionDelete extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.REGION_REMOVE)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.REGION_REMOVE)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		if(!nPlayer.getGuild().hasRegion()) {
-			Message.CHAT_GUILD_HASNOREGION.send(sender);
-			return;
-		}
+        if(!nPlayer.getGuild().hasRegion()) {
+            Message.CHAT_GUILD_HASNOREGION.send(sender);
+            return;
+        }
 
-		NovaRegion region;
-		if(args.length == 0) {
-			region = nPlayer.getAtRegion();
-		}
-		else {
-			String indexString = args[0];
+        NovaRegion region;
+        if(args.length == 0) {
+            region = nPlayer.getAtRegion();
+        }
+        else {
+            String indexString = args[0];
 
-			if(!NumberUtils.isNumeric(indexString)) {
-				Message.CHAT_ENTERINTEGER.send(sender);
-				return;
-			}
+            if(!NumberUtils.isNumeric(indexString)) {
+                Message.CHAT_ENTERINTEGER.send(sender);
+                return;
+            }
 
-			int index = Integer.parseInt(indexString);
+            int index = Integer.parseInt(indexString);
 
-			region = nPlayer.getGuild().getRegion(index);
-		}
+            region = nPlayer.getGuild().getRegion(index);
+        }
 
-		if(region == null) {
-			Message.CHAT_REGION_NOTFOUND.send(sender);
-			return;
-		}
+        if(region == null) {
+            Message.CHAT_REGION_NOTFOUND.send(sender);
+            return;
+        }
 
-		RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.DELETE);
-		ListenerManager.getLoggedPluginManager().callEvent(event);
+        RegionDeleteEvent event = new RegionDeleteEvent(region, RegionDeleteEvent.Cause.DELETE);
+        ListenerManager.getLoggedPluginManager().callEvent(event);
 
-		if(!event.isCancelled()) {
-			Message.CHAT_REGION_DELETED.send(sender);
-			plugin.getRegionManager().remove(region);
-			plugin.getDynmapManager().removeRegion(region);
-		}
-	}
+        if(!event.isCancelled()) {
+            Message.CHAT_REGION_DELETED.send(sender);
+            plugin.getRegionManager().remove(region);
+            plugin.getDynmapManager().removeRegion(region);
+        }
+    }
 }

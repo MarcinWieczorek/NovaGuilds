@@ -26,26 +26,26 @@ import java.io.IOException;
 import java.util.List;
 
 public class MissingLicenseTest {
-	@Test
-	public void testMissingLicense() throws IOException {
-		List<File> files = IOUtils.listFilesRecursively(new File("./src"));
-		boolean missing = false;
+    @Test
+    public void testMissingLicense() throws IOException {
+        List<File> files = IOUtils.listFilesRecursively(new File("./src"));
+        boolean missing = false;
 
-		for(File file : files) {
-			if(!file.getName().endsWith(".java")) {
-				continue;
-			}
+        for(File file : files) {
+            if(!file.getName().endsWith(".java")) {
+                continue;
+            }
 
-			String content = IOUtils.read(file);
+            String content = IOUtils.read(file);
 
-			if(!content.startsWith("/*")) {
-				missing = true;
-				System.out.println(file.getAbsolutePath());
-			}
-		}
+            if(!content.startsWith("/*")) {
+                missing = true;
+                System.out.println(file.getAbsolutePath());
+            }
+        }
 
-		if(missing) {
-			throw new IllegalArgumentException("There are missing license headers!");
-		}
-	}
+        if(missing) {
+            throw new IllegalArgumentException("There are missing license headers!");
+        }
+    }
 }

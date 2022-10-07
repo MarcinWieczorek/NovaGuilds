@@ -21,8 +21,8 @@ package co.marcin.novaguilds.impl.util.converter;
 import co.marcin.novaguilds.api.basic.NovaGuild;
 
 public class StringUUIDToGuildConverterImpl extends AbstractConverter<String, NovaGuild> {
-	@Override
-	public NovaGuild convert(String s) {
-		return new UUIDToGuildConverterImpl().convert(new StringToUUIDConverterImpl().convert(s));
-	}
+    @Override
+    public NovaGuild convert(String s) {
+        return new UUIDToGuildConverterImpl().convert(new StringToUUIDConverterImpl().convert(s));
+    }
 }

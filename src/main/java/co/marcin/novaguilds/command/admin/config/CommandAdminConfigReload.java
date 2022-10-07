@@ -23,9 +23,9 @@ import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminConfigReload extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		plugin.getConfigManager().reload();
-		Message.CHAT_ADMIN_CONFIG_RELOADED.send(sender);
-	}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        plugin.getConfigManager().reload();
+        Message.CHAT_ADMIN_CONFIG_RELOADED.send(sender);
+    }
 }

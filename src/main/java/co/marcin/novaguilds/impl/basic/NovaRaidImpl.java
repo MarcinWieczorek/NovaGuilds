@@ -27,130 +27,130 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NovaRaidImpl implements NovaRaid {
-	private NovaGuild guildAttacker;
-	private NovaGuild guildDefender;
-	private final long startTime = NumberUtils.systemSeconds();
-	private long inactiveTime = NumberUtils.systemSeconds();
-	private int killsAttacker;
-	private int killsDefender;
-	private float progress;
-	private final List<NovaPlayer> playersOccupying = new ArrayList<>();
-	private Result result = Result.DURING;
+    private NovaGuild guildAttacker;
+    private NovaGuild guildDefender;
+    private final long startTime = NumberUtils.systemSeconds();
+    private long inactiveTime = NumberUtils.systemSeconds();
+    private int killsAttacker;
+    private int killsDefender;
+    private float progress;
+    private final List<NovaPlayer> playersOccupying = new ArrayList<>();
+    private Result result = Result.DURING;
 
-	/**
-	 * The constructor
-	 *
-	 * @param guildAttacker attacker guild
-	 * @param guildDefender defender guild
-	 */
-	public NovaRaidImpl(NovaGuild guildAttacker, NovaGuild guildDefender) {
-		this.guildAttacker = guildAttacker;
-		this.guildDefender = guildDefender;
-	}
+    /**
+     * The constructor
+     *
+     * @param guildAttacker attacker guild
+     * @param guildDefender defender guild
+     */
+    public NovaRaidImpl(NovaGuild guildAttacker, NovaGuild guildDefender) {
+        this.guildAttacker = guildAttacker;
+        this.guildDefender = guildDefender;
+    }
 
-	@Override
-	public NovaGuild getGuildAttacker() {
-		return guildAttacker;
-	}
+    @Override
+    public NovaGuild getGuildAttacker() {
+        return guildAttacker;
+    }
 
-	@Override
-	public NovaGuild getGuildDefender() {
-		return guildDefender;
-	}
+    @Override
+    public NovaGuild getGuildDefender() {
+        return guildDefender;
+    }
 
-	@Override
-	public long getStartTime() {
-		return startTime;
-	}
+    @Override
+    public long getStartTime() {
+        return startTime;
+    }
 
-	@Override
-	public int getKillsAttacker() {
-		return killsAttacker;
-	}
+    @Override
+    public int getKillsAttacker() {
+        return killsAttacker;
+    }
 
-	@Override
-	public int getKillsDefender() {
-		return killsDefender;
-	}
+    @Override
+    public int getKillsDefender() {
+        return killsDefender;
+    }
 
-	@Override
-	public float getProgress() {
-		return progress;
-	}
+    @Override
+    public float getProgress() {
+        return progress;
+    }
 
-	@Override
-	public List<NovaPlayer> getPlayersOccupying() {
-		return playersOccupying;
-	}
+    @Override
+    public List<NovaPlayer> getPlayersOccupying() {
+        return playersOccupying;
+    }
 
-	@Override
-	public Result getResult() {
-		return result;
-	}
+    @Override
+    public Result getResult() {
+        return result;
+    }
 
-	@Override
-	public long getInactiveTime() {
-		return inactiveTime;
-	}
+    @Override
+    public long getInactiveTime() {
+        return inactiveTime;
+    }
 
-	@Override
-	public void setGuildAttacker(NovaGuild guild) {
-		guildAttacker = guild;
-	}
+    @Override
+    public void setGuildAttacker(NovaGuild guild) {
+        guildAttacker = guild;
+    }
 
-	@Override
-	public void setGuildDefender(NovaGuild guild) {
-		guildDefender = guild;
-	}
+    @Override
+    public void setGuildDefender(NovaGuild guild) {
+        guildDefender = guild;
+    }
 
-	@Override
-	public void addKillAttacker() {
-		killsAttacker++;
-	}
+    @Override
+    public void addKillAttacker() {
+        killsAttacker++;
+    }
 
-	@Override
-	public void addKillDefender() {
-		killsDefender++;
-	}
+    @Override
+    public void addKillDefender() {
+        killsDefender++;
+    }
 
-	@Override
-	public void resetProgress() {
-		progress = 0;
-	}
+    @Override
+    public void resetProgress() {
+        progress = 0;
+    }
 
-	@Override
-	public boolean isProgressFinished() {
-		return progress >= 100;
-	}
+    @Override
+    public boolean isProgressFinished() {
+        return progress >= 100;
+    }
 
-	@Override
-	public void addProgress(float progress) {
-		this.progress += progress;
+    @Override
+    public void addProgress(float progress) {
+        this.progress += progress;
 
-		if(this.progress > 100) {
-			this.progress = 100;
-		}
-	}
+        if(this.progress > 100) {
+            this.progress = 100;
+        }
+    }
 
-	@Override
-	public void setResult(Result result) {
-		this.result = result;
-	}
+    @Override
+    public void setResult(Result result) {
+        this.result = result;
+    }
 
-	@Override
-	public void updateInactiveTime() {
-		inactiveTime = NumberUtils.systemSeconds();
-	}
+    @Override
+    public void updateInactiveTime() {
+        inactiveTime = NumberUtils.systemSeconds();
+    }
 
-	@Override
-	public void addPlayerOccupying(NovaPlayer nPlayer) {
-		if(!playersOccupying.contains(nPlayer)) {
-			playersOccupying.add(nPlayer);
-		}
-	}
+    @Override
+    public void addPlayerOccupying(NovaPlayer nPlayer) {
+        if(!playersOccupying.contains(nPlayer)) {
+            playersOccupying.add(nPlayer);
+        }
+    }
 
-	@Override
-	public void removePlayerOccupying(NovaPlayer nPlayer) {
-		playersOccupying.remove(nPlayer);
-	}
+    @Override
+    public void removePlayerOccupying(NovaPlayer nPlayer) {
+        playersOccupying.remove(nPlayer);
+    }
 }

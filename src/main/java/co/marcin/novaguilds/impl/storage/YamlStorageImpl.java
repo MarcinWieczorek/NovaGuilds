@@ -27,21 +27,21 @@ import co.marcin.novaguilds.impl.storage.managers.file.yaml.ResourceManagerRegio
 import java.io.File;
 
 public class YamlStorageImpl extends AbstractFileStorage {
-	/**
-	 * The constructor
-	 *
-	 * @param dataDirectory data directory
-	 * @throws StorageConnectionFailedException when something goes wrong
-	 */
-	public YamlStorageImpl(File dataDirectory) throws StorageConnectionFailedException {
-		super(dataDirectory);
-	}
+    /**
+     * The constructor
+     *
+     * @param dataDirectory data directory
+     * @throws StorageConnectionFailedException when something goes wrong
+     */
+    public YamlStorageImpl(File dataDirectory) throws StorageConnectionFailedException {
+        super(dataDirectory);
+    }
 
-	@Override
-	public void registerManagers() {
-		new ResourceManagerGuildImpl(this);
-		new ResourceManagerPlayerImpl(this);
-		new ResourceManagerRankImpl(this);
-		new ResourceManagerRegionImpl(this);
-	}
+    @Override
+    public void registerManagers() {
+        new ResourceManagerGuildImpl(this);
+        new ResourceManagerPlayerImpl(this);
+        new ResourceManagerRankImpl(this);
+        new ResourceManagerRegionImpl(this);
+    }
 }

@@ -25,72 +25,72 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.metadata.Metadatable;
 
 public class Meta {
-	private static final NovaGuilds plugin = NovaGuilds.getInstance();
+    private static final NovaGuilds plugin = NovaGuilds.getInstance();
 
-	/**
-	 * Sets metadata
-	 *
-	 * @param obj   object
-	 * @param key   key
-	 * @param value value
-	 */
-	public static void setMetadata(Metadatable obj, String key, Object value) {
-		obj.setMetadata(key, new FixedMetadataValue(plugin, value));
-	}
+    /**
+     * Sets metadata
+     *
+     * @param obj   object
+     * @param key   key
+     * @param value value
+     */
+    public static void setMetadata(Metadatable obj, String key, Object value) {
+        obj.setMetadata(key, new FixedMetadataValue(plugin, value));
+    }
 
-	/**
-	 * Gets metadata
-	 *
-	 * @param obj object
-	 * @param key key
-	 * @return metadata value
-	 */
-	public static MetadataValue getMetadata(Metadatable obj, String key) {
-		for(MetadataValue value : obj.getMetadata(key)) {
-			if(value.getOwningPlugin().getDescription().getName().equals(plugin.getDescription().getName())) {
-				return value;
-			}
-		}
+    /**
+     * Gets metadata
+     *
+     * @param obj object
+     * @param key key
+     * @return metadata value
+     */
+    public static MetadataValue getMetadata(Metadatable obj, String key) {
+        for(MetadataValue value : obj.getMetadata(key)) {
+            if(value.getOwningPlugin().getDescription().getName().equals(plugin.getDescription().getName())) {
+                return value;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Removes metadata
-	 *
-	 * @param obj object
-	 * @param key key
-	 */
-	public static void removeMetadata(Metadatable obj, String key) {
-		obj.removeMetadata(key, plugin);
-	}
+    /**
+     * Removes metadata
+     *
+     * @param obj object
+     * @param key key
+     */
+    public static void removeMetadata(Metadatable obj, String key) {
+        obj.removeMetadata(key, plugin);
+    }
 
-	/**
-	 * Protects a block
-	 *
-	 * @param block block
-	 */
-	public static void protect(Block block) {
-		setMetadata(block, "protected", true);
-	}
+    /**
+     * Protects a block
+     *
+     * @param block block
+     */
+    public static void protect(Block block) {
+        setMetadata(block, "protected", true);
+    }
 
-	/**
-	 * Removes protection from a block
-	 *
-	 * @param block block
-	 */
-	public static void unprotect(Block block) {
-		removeMetadata(block, "protected");
-	}
+    /**
+     * Removes protection from a block
+     *
+     * @param block block
+     */
+    public static void unprotect(Block block) {
+        removeMetadata(block, "protected");
+    }
 
-	/**
-	 * Checks if a block is protected
-	 *
-	 * @param block block
-	 * @return boolean
-	 */
-	public static boolean isProtected(Block block) {
-		MetadataValue metadataValue = getMetadata(block, "protected");
-		return metadataValue != null && metadataValue.asBoolean();
-	}
+    /**
+     * Checks if a block is protected
+     *
+     * @param block block
+     * @return boolean
+     */
+    public static boolean isProtected(Block block) {
+        MetadataValue metadataValue = getMetadata(block, "protected");
+        return metadataValue != null && metadataValue.asBoolean();
+    }
 }

@@ -32,37 +32,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandGuildLeave extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayer.getGuild();
+        NovaGuild guild = nPlayer.getGuild();
 
-		if(nPlayer.isLeader()) {
-			Message.CHAT_GUILD_LEAVE_ISLEADER.send(sender);
-			return;
-		}
+        if(nPlayer.isLeader()) {
+            Message.CHAT_GUILD_LEAVE_ISLEADER.send(sender);
+            return;
+        }
 
-		guild.removePlayer(nPlayer);
-		nPlayer.cancelToolProgress();
+        guild.removePlayer(nPlayer);
+        nPlayer.cancelToolProgress();
 
-		if(nPlayer.isOnline()) {
-			guild.hideVaultHologram(nPlayer.getPlayer());
-		}
+        if(nPlayer.isOnline()) {
+            guild.hideVaultHologram(nPlayer.getPlayer());
+        }
 
-		Message.CHAT_GUILD_LEAVE_LEFT.send(sender);
+        Message.CHAT_GUILD_LEAVE_LEFT.send(sender);
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYER_NAME, sender.getName());
-		vars.put(VarKey.GUILD_NAME, guild.getName());
-		Message.BROADCAST_GUILD_LEFT.clone().vars(vars).broadcast();
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.PLAYER_NAME, sender.getName());
+        vars.put(VarKey.GUILD_NAME, guild.getName());
+        Message.BROADCAST_GUILD_LEFT.clone().vars(vars).broadcast();
 
-		TagUtils.refresh();
-		TabUtils.refresh();
-	}
+        TagUtils.refresh();
+        TabUtils.refresh();
+    }
 }

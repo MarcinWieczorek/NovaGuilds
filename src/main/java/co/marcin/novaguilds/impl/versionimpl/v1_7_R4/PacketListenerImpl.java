@@ -35,42 +35,42 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("ConstantConditions")
 public class PacketListenerImpl extends AbstractListener {
-	/**
-	 * Registers packet listener
-	 * for advanced interact entity event
-	 */
-	public PacketListenerImpl() {
-		new AbstractPacketHandler("PacketPlayInUseEntity", PacketExtension.PacketHandler.Direction.IN) {
-			@Override
-			public void handle(PacketEvent event) {
-				try {
-					Object packet = event.getPacket();
-					Method cMethod = Reflections.getMethod(packet.getClass(), "c");
-					Object enumAction = cMethod.invoke(packet);
-					Method nameMethod = Reflections.getMethod(enumAction.getClass(), "name");
-					EntityUseAction action = EntityUseAction.valueOf((String) nameMethod.invoke(enumAction));
-					Class<?> useEntityClass = Reflections.getCraftClass("PacketPlayInUseEntity");
-					FieldAccessor<Integer> useEntityA = Reflections.getField(useEntityClass, int.class, 0);
-					int id = useEntityA.get(packet);
+    /**
+     * Registers packet listener
+     * for advanced interact entity event
+     */
+    public PacketListenerImpl() {
+        new AbstractPacketHandler("PacketPlayInUseEntity", PacketExtension.PacketHandler.Direction.IN) {
+            @Override
+            public void handle(PacketEvent event) {
+                try {
+                    Object packet = event.getPacket();
+                    Method cMethod = Reflections.getMethod(packet.getClass(), "c");
+                    Object enumAction = cMethod.invoke(packet);
+                    Method nameMethod = Reflections.getMethod(enumAction.getClass(), "name");
+                    EntityUseAction action = EntityUseAction.valueOf((String) nameMethod.invoke(enumAction));
+                    Class<?> useEntityClass = Reflections.getCraftClass("PacketPlayInUseEntity");
+                    FieldAccessor<Integer> useEntityA = Reflections.getField(useEntityClass, int.class, 0);
+                    int id = useEntityA.get(packet);
 
-					Entity entity = null;
-					for(Entity e : event.getPlayer().getNearbyEntities(5, 5, 5)) {
-						if(e.getEntityId() == id) {
-							entity = e;
-						}
-					}
+                    Entity entity = null;
+                    for(Entity e : event.getPlayer().getNearbyEntities(5, 5, 5)) {
+                        if(e.getEntityId() == id) {
+                            entity = e;
+                        }
+                    }
 
-					if(entity == null) {
-						return;
-					}
+                    if(entity == null) {
+                        return;
+                    }
 
-					PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), entity, action);
-					ListenerManager.getLoggedPluginManager().callEvent(clickEvent);
-				}
-				catch(IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException | NoSuchFieldException e) {
-					LoggerUtils.exception(e);
-				}
-			}
-		};
-	}
+                    PlayerInteractEntityEvent clickEvent = new PlayerInteractEntityEvent(event.getPlayer(), entity, action);
+                    ListenerManager.getLoggedPluginManager().callEvent(clickEvent);
+                }
+                catch(IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException | NoSuchFieldException e) {
+                    LoggerUtils.exception(e);
+                }
+            }
+        };
+    }
 }

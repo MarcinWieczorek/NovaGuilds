@@ -29,64 +29,64 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class PacketPlayInUpdateSign extends AbstractPacket {
-	protected static Class<?> iChatBaseComponentClass;
-	protected static Class<?> packetInUpdateSignClass;
-	protected static Field blockPositionField;
-	protected static Field linesField;
-	protected static Method getTextMethod;
+    protected static Class<?> iChatBaseComponentClass;
+    protected static Class<?> packetInUpdateSignClass;
+    protected static Field blockPositionField;
+    protected static Field linesField;
+    protected static Method getTextMethod;
 
-	private final String[] lines = new String[4];
-	private BlockPositionWrapper blockPositionWrapper;
+    private final String[] lines = new String[4];
+    private BlockPositionWrapper blockPositionWrapper;
 
-	static {
-		try {
-			packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
-			iChatBaseComponentClass = Reflections.getCraftClass("IChatBaseComponent");
+    static {
+        try {
+            packetInUpdateSignClass = Reflections.getCraftClass("PacketPlayInUpdateSign");
+            iChatBaseComponentClass = Reflections.getCraftClass("IChatBaseComponent");
 
-			blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
-			linesField = Reflections.getPrivateField(packetInUpdateSignClass, "b");
+            blockPositionField = Reflections.getPrivateField(packetInUpdateSignClass, "a");
+            linesField = Reflections.getPrivateField(packetInUpdateSignClass, "b");
 
-			getTextMethod = Reflections.getMethod(iChatBaseComponentClass, "getText");
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
-		}
-	}
+            getTextMethod = Reflections.getMethod(iChatBaseComponentClass, "getText");
+        }
+        catch(Exception e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * Converts NMS packet
-	 *
-	 * @param packet NMS PacketPlayInUpdateSign object
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 */
-	public PacketPlayInUpdateSign(Object packet) throws IllegalAccessException, InvocationTargetException {
-		blockPositionWrapper = new BlockPositionWrapperImpl(blockPositionField.get(packet));
-		Object[] components = (Object[]) linesField.get(packet);
+    /**
+     * Converts NMS packet
+     *
+     * @param packet NMS PacketPlayInUpdateSign object
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     */
+    public PacketPlayInUpdateSign(Object packet) throws IllegalAccessException, InvocationTargetException {
+        blockPositionWrapper = new BlockPositionWrapperImpl(blockPositionField.get(packet));
+        Object[] components = (Object[]) linesField.get(packet);
 
-		int index = 0;
-		for(Object component : components) {
-			Object line = getTextMethod.invoke(component);
-			lines[index] = (String) line;
-			index++;
-		}
-	}
+        int index = 0;
+        for(Object component : components) {
+            Object line = getTextMethod.invoke(component);
+            lines[index] = (String) line;
+            index++;
+        }
+    }
 
-	/**
-	 * Gets block position wrapper
-	 *
-	 * @return integer
-	 */
-	public BlockPositionWrapper getBlockPositionWrapper() {
-		return blockPositionWrapper;
-	}
+    /**
+     * Gets block position wrapper
+     *
+     * @return integer
+     */
+    public BlockPositionWrapper getBlockPositionWrapper() {
+        return blockPositionWrapper;
+    }
 
-	/**
-	 * Gets sign lines
-	 *
-	 * @return array of 4 strings
-	 */
-	public String[] getLines() {
-		return lines;
-	}
+    /**
+     * Gets sign lines
+     *
+     * @return array of 4 strings
+     */
+    public String[] getLines() {
+        return lines;
+    }
 }

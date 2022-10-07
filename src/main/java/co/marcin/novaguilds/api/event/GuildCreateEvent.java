@@ -26,61 +26,61 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class GuildCreateEvent extends Event implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	private final NovaGuild guild;
-	private final Player creator;
-	private boolean cancelled;
+    private static final HandlerList handlers = new HandlerList();
+    private final NovaGuild guild;
+    private final Player creator;
+    private boolean cancelled;
 
-	/**
-	 * The constructor
-	 *
-	 * @param guild   the guild
-	 * @param creator the creator
-	 */
-	public GuildCreateEvent(NovaGuild guild, Player creator) {
-		this.guild = guild;
-		this.creator = creator;
-	}
+    /**
+     * The constructor
+     *
+     * @param guild   the guild
+     * @param creator the creator
+     */
+    public GuildCreateEvent(NovaGuild guild, Player creator) {
+        this.guild = guild;
+        this.creator = creator;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean cancel) {
-		cancelled = cancel;
-	}
+    @Override
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
+    }
 
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	/**
-	 * Gets the player who created the guild
-	 *
-	 * @return the player
-	 */
-	public Player getCreator() {
-		return creator;
-	}
+    /**
+     * Gets the player who created the guild
+     *
+     * @return the player
+     */
+    public Player getCreator() {
+        return creator;
+    }
 
-	/**
-	 * Gets the guild
-	 *
-	 * @return the guild
-	 */
-	public NovaGuild getGuild() {
-		return guild;
-	}
+    /**
+     * Gets the guild
+     *
+     * @return the guild
+     */
+    public NovaGuild getGuild() {
+        return guild;
+    }
 
-	/**
-	 * Gets handler list
-	 *
-	 * @return the handler list
-	 */
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    /**
+     * Gets handler list
+     *
+     * @return the handler list
+     */
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

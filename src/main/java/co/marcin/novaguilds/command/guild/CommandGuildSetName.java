@@ -28,37 +28,37 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildSetName extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.SET_NAME)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.SET_NAME)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		if(args.length == 0) {
-			Message.CHAT_GUILD_ENTERNAME.send(sender);
-			return;
-		}
+        if(args.length == 0) {
+            Message.CHAT_GUILD_ENTERNAME.send(sender);
+            return;
+        }
 
-		String newName = args[0];
+        String newName = args[0];
 
-		MessageWrapper validity = CommandGuildCreate.validName(newName);
+        MessageWrapper validity = CommandGuildCreate.validName(newName);
 
-		if(validity != null) {
-			validity.send(sender);
-			return;
-		}
+        if(validity != null) {
+            validity.send(sender);
+            return;
+        }
 
-		plugin.getGuildManager().changeName(nPlayer.getGuild(), newName);
-		Message.CHAT_GUILD_SET_NAME.send(sender);
-		TabUtils.refresh(nPlayer.getGuild());
-		plugin.getDynmapManager().updateGuild(nPlayer.getGuild());
-	}
+        plugin.getGuildManager().changeName(nPlayer.getGuild(), newName);
+        Message.CHAT_GUILD_SET_NAME.send(sender);
+        TabUtils.refresh(nPlayer.getGuild());
+        plugin.getDynmapManager().updateGuild(nPlayer.getGuild());
+    }
 }

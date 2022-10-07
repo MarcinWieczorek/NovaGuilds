@@ -29,49 +29,49 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class PacketPlayOutPlayerListHeaderFooter extends AbstractPacket {
-	protected static Class<?> PacketPlayOutPlayerListHeaderFooterClass;
-	protected static Class<?> craftChatMessageClass;
-	protected static Method craftChatMessageFromStringMethod;
-	protected static Field PacketPlayOutPlayerListHeaderFooterBField;
-	protected static Field PacketPlayOutPlayerListHeaderFooterAField;
+    protected static Class<?> PacketPlayOutPlayerListHeaderFooterClass;
+    protected static Class<?> craftChatMessageClass;
+    protected static Method craftChatMessageFromStringMethod;
+    protected static Field PacketPlayOutPlayerListHeaderFooterBField;
+    protected static Field PacketPlayOutPlayerListHeaderFooterAField;
 
-	static {
-		try {
-			String headerField, footerField;
-			if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_12_R1)) {
-				headerField = "header";
-				footerField = "footer";
-			}
-			else {
-				headerField = "a";
-				footerField = "b";
-			}
+    static {
+        try {
+            String headerField, footerField;
+            if(ConfigManager.getServerVersion().isNewerThan(ConfigManager.ServerVersion.MINECRAFT_1_12_R1)) {
+                headerField = "header";
+                footerField = "footer";
+            }
+            else {
+                headerField = "a";
+                footerField = "b";
+            }
 
-			craftChatMessageClass = Reflections.getBukkitClass("util.CraftChatMessage");
-			craftChatMessageFromStringMethod = Reflections.getMethod(craftChatMessageClass, "fromString", String.class);
-			PacketPlayOutPlayerListHeaderFooterClass = Reflections.getCraftClass("PacketPlayOutPlayerListHeaderFooter");
-			PacketPlayOutPlayerListHeaderFooterAField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, headerField);
-			PacketPlayOutPlayerListHeaderFooterBField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, footerField);
-		}
-		catch(ClassNotFoundException | NoSuchFieldException | NoSuchMethodException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+            craftChatMessageClass = Reflections.getBukkitClass("util.CraftChatMessage");
+            craftChatMessageFromStringMethod = Reflections.getMethod(craftChatMessageClass, "fromString", String.class);
+            PacketPlayOutPlayerListHeaderFooterClass = Reflections.getCraftClass("PacketPlayOutPlayerListHeaderFooter");
+            PacketPlayOutPlayerListHeaderFooterAField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, headerField);
+            PacketPlayOutPlayerListHeaderFooterBField = Reflections.getPrivateField(PacketPlayOutPlayerListHeaderFooterClass, footerField);
+        }
+        catch(ClassNotFoundException | NoSuchFieldException | NoSuchMethodException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param header header string
-	 * @param footer footer string
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InstantiationException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 */
-	public PacketPlayOutPlayerListHeaderFooter(String header, String footer) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-		Object[] iChatBaseComponentHeader = (Object[]) craftChatMessageFromStringMethod.invoke(null, StringUtils.fixColors(header));
-		Object[] iChatBaseComponentFooter = (Object[]) craftChatMessageFromStringMethod.invoke(null, StringUtils.fixColors(footer));
-		packet = PacketPlayOutPlayerListHeaderFooterClass.newInstance();
-		PacketPlayOutPlayerListHeaderFooterAField.set(packet, iChatBaseComponentHeader[0]);
-		PacketPlayOutPlayerListHeaderFooterBField.set(packet, iChatBaseComponentFooter[0]);
-	}
+    /**
+     * The constructor
+     *
+     * @param header header string
+     * @param footer footer string
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InstantiationException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     */
+    public PacketPlayOutPlayerListHeaderFooter(String header, String footer) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        Object[] iChatBaseComponentHeader = (Object[]) craftChatMessageFromStringMethod.invoke(null, StringUtils.fixColors(header));
+        Object[] iChatBaseComponentFooter = (Object[]) craftChatMessageFromStringMethod.invoke(null, StringUtils.fixColors(footer));
+        packet = PacketPlayOutPlayerListHeaderFooterClass.newInstance();
+        PacketPlayOutPlayerListHeaderFooterAField.set(packet, iChatBaseComponentHeader[0]);
+        PacketPlayOutPlayerListHeaderFooterBField.set(packet, iChatBaseComponentFooter[0]);
+    }
 }

@@ -26,26 +26,26 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandPlayerInfo extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nCPlayer;
-		if(args.length == 0) {
-			if(!(sender instanceof Player)) {
-				Message.CHAT_CMDFROMCONSOLE.send(sender);
-				return;
-			}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nCPlayer;
+        if(args.length == 0) {
+            if(!(sender instanceof Player)) {
+                Message.CHAT_CMDFROMCONSOLE.send(sender);
+                return;
+            }
 
-			nCPlayer = PlayerManager.getPlayer(sender);
-		}
-		else {
-			nCPlayer = PlayerManager.getPlayer(args[0]);
+            nCPlayer = PlayerManager.getPlayer(sender);
+        }
+        else {
+            nCPlayer = PlayerManager.getPlayer(args[0]);
 
-			if(nCPlayer == null) {
-				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-				return;
-			}
-		}
+            if(nCPlayer == null) {
+                Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+                return;
+            }
+        }
 
-		plugin.getPlayerManager().sendPlayerInfo(sender, nCPlayer);
-	}
+        plugin.getPlayerManager().sendPlayerInfo(sender, nCPlayer);
+    }
 }

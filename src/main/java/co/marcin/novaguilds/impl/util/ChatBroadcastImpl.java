@@ -31,49 +31,49 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChatBroadcastImpl implements ChatBroadcast {
-	private final MessageWrapper message;
-	private final Map<Integer, PreparedTag> preparedTagMap = new HashMap<>();
+    private final MessageWrapper message;
+    private final Map<Integer, PreparedTag> preparedTagMap = new HashMap<>();
 
-	/**
-	 * The constructor
-	 *
-	 * @param message the message
-	 */
-	public ChatBroadcastImpl(MessageWrapper message) {
-		this.message = message.clone();
-	}
+    /**
+     * The constructor
+     *
+     * @param message the message
+     */
+    public ChatBroadcastImpl(MessageWrapper message) {
+        this.message = message.clone();
+    }
 
-	@Override
-	public void send() {
-		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
-			for(Map.Entry<Integer, PreparedTag> entry : preparedTagMap.entrySet()) {
-				NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-				PreparedTag tag = entry.getValue();
+    @Override
+    public void send() {
+        for(Player player : CompatibilityUtils.getOnlinePlayers()) {
+            for(Map.Entry<Integer, PreparedTag> entry : preparedTagMap.entrySet()) {
+                NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+                PreparedTag tag = entry.getValue();
 
-				tag.setTagColorFor(nPlayer);
-				message.setVar(VarKey.valueOf("TAG" + entry.getKey()), tag.get());
-			}
+                tag.setTagColorFor(nPlayer);
+                message.setVar(VarKey.valueOf("TAG" + entry.getKey()), tag.get());
+            }
 
-			message.send(player);
-		}
-	}
+            message.send(player);
+        }
+    }
 
-	@Override
-	public void setTag(Integer index, PreparedTag preparedTag) {
-		if(index > 10 || index < 1) {
-			throw new IllegalArgumentException("Index must be between 1 and 10");
-		}
+    @Override
+    public void setTag(Integer index, PreparedTag preparedTag) {
+        if(index > 10 || index < 1) {
+            throw new IllegalArgumentException("Index must be between 1 and 10");
+        }
 
-		preparedTagMap.put(index, preparedTag);
-	}
+        preparedTagMap.put(index, preparedTag);
+    }
 
-	@Override
-	public PreparedTag getTag(Integer index) {
-		return preparedTagMap.get(index);
-	}
+    @Override
+    public PreparedTag getTag(Integer index) {
+        return preparedTagMap.get(index);
+    }
 
-	@Override
-	public MessageWrapper getMessage() {
-		return message;
-	}
+    @Override
+    public MessageWrapper getMessage() {
+        return message;
+    }
 }

@@ -33,227 +33,227 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class AbstractGUIInventory implements GUIInventory {
-	protected final Inventory inventory;
-	private NovaPlayer viewer;
-	protected final NovaGuilds plugin = NovaGuilds.getInstance();
-	private final Set<GUIInventory.Executor> executors = new HashSet<>();
+    protected final Inventory inventory;
+    private NovaPlayer viewer;
+    protected final NovaGuilds plugin = NovaGuilds.getInstance();
+    private final Set<GUIInventory.Executor> executors = new HashSet<>();
 
-	/**
-	 * The constructor
-	 *
-	 * @param size  inventory size (multiply of 9)
-	 * @param title title message
-	 */
-	public AbstractGUIInventory(int size, MessageWrapper title) {
-		inventory = ChestGUIUtils.createInventory(size, title);
-	}
+    /**
+     * The constructor
+     *
+     * @param size  inventory size (multiply of 9)
+     * @param title title message
+     */
+    public AbstractGUIInventory(int size, MessageWrapper title) {
+        inventory = ChestGUIUtils.createInventory(size, title);
+    }
 
-	@Override
-	public final NovaPlayer getViewer() {
-		return viewer;
-	}
+    @Override
+    public final NovaPlayer getViewer() {
+        return viewer;
+    }
 
-	@Override
-	public final void setViewer(NovaPlayer nPlayer) {
-		this.viewer = nPlayer;
-	}
+    @Override
+    public final void setViewer(NovaPlayer nPlayer) {
+        this.viewer = nPlayer;
+    }
 
-	@Override
-	public void registerExecutor(GUIInventory.Executor executor) {
-		Validate.notNull(executor.getItem());
+    @Override
+    public void registerExecutor(GUIInventory.Executor executor) {
+        Validate.notNull(executor.getItem());
 
-		if(executors.contains(executor)) {
-			return;
-		}
+        if(executors.contains(executor)) {
+            return;
+        }
 
-		executors.add(executor);
-	}
+        executors.add(executor);
+    }
 
-	@Override
-	public Set<GUIInventory.Executor> getExecutors() {
-		return executors;
-	}
+    @Override
+    public Set<GUIInventory.Executor> getExecutors() {
+        return executors;
+    }
 
-	@Override
-	public void onClick(InventoryClickEvent event) {
-		for(GUIInventory.Executor executor : new HashSet<>(getExecutors())) {
-			if(executor.getSlot() == event.getSlot()) {
-				executor.execute();
-			}
-		}
-	}
+    @Override
+    public void onClick(InventoryClickEvent event) {
+        for(GUIInventory.Executor executor : new HashSet<>(getExecutors())) {
+            if(executor.getSlot() == event.getSlot()) {
+                executor.execute();
+            }
+        }
+    }
 
-	@Override
-	public final Inventory getInventory() {
-		return inventory;
-	}
+    @Override
+    public final Inventory getInventory() {
+        return inventory;
+    }
 
-	@Override
-	public final void open(NovaPlayer nPlayer) {
-		setViewer(nPlayer);
-		ChestGUIUtils.openGUIInventory(nPlayer, this);
-	}
+    @Override
+    public final void open(NovaPlayer nPlayer) {
+        setViewer(nPlayer);
+        ChestGUIUtils.openGUIInventory(nPlayer, this);
+    }
 
-	@Override
-	public void onOpen() {
+    @Override
+    public void onOpen() {
 
-	}
+    }
 
-	@Override
-	public final void close() {
-		getViewer().getPlayer().closeInventory();
-	}
+    @Override
+    public final void close() {
+        getViewer().getPlayer().closeInventory();
+    }
 
-	/**
-	 * Adds an item to the inventory
-	 *
-	 * @param executor executor instance
-	 */
-	protected void add(GUIInventory.Executor executor) {
-		if(!getExecutors().contains(executor)) {
-			throw new IllegalArgumentException("Trying to add not registered executor to the inventory");
-		}
+    /**
+     * Adds an item to the inventory
+     *
+     * @param executor executor instance
+     */
+    protected void add(GUIInventory.Executor executor) {
+        if(!getExecutors().contains(executor)) {
+            throw new IllegalArgumentException("Trying to add not registered executor to the inventory");
+        }
 
-		int slot = getInventory().firstEmpty();
+        int slot = getInventory().firstEmpty();
 
-		if(slot == -1) {
-			throw new IllegalArgumentException("No space left in the inventory");
-		}
+        if(slot == -1) {
+            throw new IllegalArgumentException("No space left in the inventory");
+        }
 
-		executor.setSlot(slot);
-		getInventory().setItem(slot, executor.getItem());
-	}
+        executor.setSlot(slot);
+        getInventory().setItem(slot, executor.getItem());
+    }
 
-	/**
-	 * Register an executor
-	 * and add it to the inventory
-	 *
-	 * @param executor executor
-	 */
-	protected void registerAndAdd(GUIInventory.Executor executor) {
-		registerExecutor(executor);
-		add(executor);
-	}
+    /**
+     * Register an executor
+     * and add it to the inventory
+     *
+     * @param executor executor
+     */
+    protected void registerAndAdd(GUIInventory.Executor executor) {
+        registerExecutor(executor);
+        add(executor);
+    }
 
-	/**
-	 * Reopens the GUI
-	 */
-	protected void reopen() {
-		close();
-		open(getViewer());
-	}
+    /**
+     * Reopens the GUI
+     */
+    protected void reopen() {
+        close();
+        open(getViewer());
+    }
 
-	/**
-	 * Regenerates GUI content
-	 */
-	protected void regenerate() {
-		inventory.clear();
-		getExecutors().clear();
-		generateContent();
-		ChestGUIUtils.addBackItem(this);
-	}
+    /**
+     * Regenerates GUI content
+     */
+    protected void regenerate() {
+        inventory.clear();
+        getExecutors().clear();
+        generateContent();
+        ChestGUIUtils.addBackItem(this);
+    }
 
-	public abstract class Executor implements GUIInventory.Executor {
-		private ItemStack itemStack;
-		private int slot;
+    public abstract class Executor implements GUIInventory.Executor {
+        private ItemStack itemStack;
+        private int slot;
 
-		/**
-		 * The constructor
-		 *
-		 * @param itemStack icon item
-		 */
-		public Executor(ItemStack itemStack) {
-			this.itemStack = itemStack;
-		}
+        /**
+         * The constructor
+         *
+         * @param itemStack icon item
+         */
+        public Executor(ItemStack itemStack) {
+            this.itemStack = itemStack;
+        }
 
-		/**
-		 * The constructor
-		 * ItemStack is generated from message
-		 *
-		 * @param messageWrapper message wrapper
-		 */
-		public Executor(MessageWrapper messageWrapper) {
-			this(messageWrapper.getItemStack());
-		}
+        /**
+         * The constructor
+         * ItemStack is generated from message
+         *
+         * @param messageWrapper message wrapper
+         */
+        public Executor(MessageWrapper messageWrapper) {
+            this(messageWrapper.getItemStack());
+        }
 
-		@Override
-		public ItemStack getItem() {
-			return itemStack;
-		}
+        @Override
+        public ItemStack getItem() {
+            return itemStack;
+        }
 
-		@Override
-		public int getSlot() {
-			return slot;
-		}
+        @Override
+        public int getSlot() {
+            return slot;
+        }
 
-		@Override
-		public void setSlot(int slot) {
-			this.slot = slot;
-		}
-	}
+        @Override
+        public void setSlot(int slot) {
+            this.slot = slot;
+        }
+    }
 
-	public class EmptyExecutor extends Executor {
+    public class EmptyExecutor extends Executor {
 
-		/**
-		 * The constructor
-		 *
-		 * @param itemStack icon item
-		 */
-		public EmptyExecutor(ItemStack itemStack) {
-			super(itemStack);
-		}
+        /**
+         * The constructor
+         *
+         * @param itemStack icon item
+         */
+        public EmptyExecutor(ItemStack itemStack) {
+            super(itemStack);
+        }
 
-		/**
-		 * The constructor
-		 * ItemStack is generated from message
-		 *
-		 * @param messageWrapper message wrapper
-		 */
-		public EmptyExecutor(MessageWrapper messageWrapper) {
-			super(messageWrapper);
-		}
+        /**
+         * The constructor
+         * ItemStack is generated from message
+         *
+         * @param messageWrapper message wrapper
+         */
+        public EmptyExecutor(MessageWrapper messageWrapper) {
+            super(messageWrapper);
+        }
 
-		@Override
-		public final void execute() {
+        @Override
+        public final void execute() {
 
-		}
-	}
+        }
+    }
 
-	public class CommandExecutor extends Executor {
-		private final String command;
-		private final boolean close;
+    public class CommandExecutor extends Executor {
+        private final String command;
+        private final boolean close;
 
-		/**
-		 * The constructor
-		 *
-		 * @param itemStack item
-		 * @param command   command string
-		 * @param close     close flag
-		 */
-		public CommandExecutor(ItemStack itemStack, String command, boolean close) {
-			super(itemStack);
-			this.command = command;
-			this.close = close;
-		}
+        /**
+         * The constructor
+         *
+         * @param itemStack item
+         * @param command   command string
+         * @param close     close flag
+         */
+        public CommandExecutor(ItemStack itemStack, String command, boolean close) {
+            super(itemStack);
+            this.command = command;
+            this.close = close;
+        }
 
-		/**
-		 * The constructor
-		 *
-		 * @param messageWrapper message wrapper
-		 * @param command        command string
-		 * @param close          close flag
-		 */
-		public CommandExecutor(MessageWrapper messageWrapper, String command, boolean close) {
-			this(messageWrapper.getItemStack(), command, close);
-		}
+        /**
+         * The constructor
+         *
+         * @param messageWrapper message wrapper
+         * @param command        command string
+         * @param close          close flag
+         */
+        public CommandExecutor(MessageWrapper messageWrapper, String command, boolean close) {
+            this(messageWrapper.getItemStack(), command, close);
+        }
 
-		@Override
-		public void execute() {
-			Bukkit.dispatchCommand(getViewer().getPlayer(), command);
+        @Override
+        public void execute() {
+            Bukkit.dispatchCommand(getViewer().getPlayer(), command);
 
-			if(close) {
-				close();
-			}
-		}
-	}
+            if(close) {
+                close();
+            }
+        }
+    }
 }

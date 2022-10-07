@@ -29,55 +29,55 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class PvpListener extends AbstractListener {
-	@EventHandler
-	public void onPlayerAttack(EntityDamageByEntityEvent event) {
-		if(event.getEntity() instanceof Player) {
-			Player attacker = null;
-			Player player = (Player) event.getEntity();
+    @EventHandler
+    public void onPlayerAttack(EntityDamageByEntityEvent event) {
+        if(event.getEntity() instanceof Player) {
+            Player attacker = null;
+            Player player = (Player) event.getEntity();
 
-			if(event.getDamager() instanceof Player) {
-				attacker = (Player) event.getDamager();
-			}
-			else if(event.getDamager().getType() == EntityType.ARROW) {
-				Arrow arrow = (Arrow) event.getDamager();
+            if(event.getDamager() instanceof Player) {
+                attacker = (Player) event.getDamager();
+            }
+            else if(event.getDamager().getType() == EntityType.ARROW) {
+                Arrow arrow = (Arrow) event.getDamager();
 
-				if(arrow.getShooter() instanceof Player) {
-					attacker = (Player) arrow.getShooter();
-				}
-			}
+                if(arrow.getShooter() instanceof Player) {
+                    attacker = (Player) arrow.getShooter();
+                }
+            }
 
-			if(attacker != null) {
-				NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-				NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
+            if(attacker != null) {
+                NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+                NovaPlayer nPlayerAttacker = PlayerManager.getPlayer(attacker);
 
-				//team pvp
-				if(!nPlayerAttacker.getName().equals(nPlayer.getName())) {
-					if(nPlayerAttacker.hasGuild() && nPlayer.hasGuild()) {
-						if(plugin.getPlayerManager().isGuildMate(player, attacker)) { //same guild
-							if(!nPlayer.getGuild().getFriendlyPvp()) {
-								Message.CHAT_PVP_TEAM.send(attacker);
-								event.setCancelled(true);
+                //team pvp
+                if(!nPlayerAttacker.getName().equals(nPlayer.getName())) {
+                    if(nPlayerAttacker.hasGuild() && nPlayer.hasGuild()) {
+                        if(plugin.getPlayerManager().isGuildMate(player, attacker)) { //same guild
+                            if(!nPlayer.getGuild().getFriendlyPvp()) {
+                                Message.CHAT_PVP_TEAM.send(attacker);
+                                event.setCancelled(true);
 
-								//remove the arrow
-								if(event.getDamager().getType() == EntityType.ARROW) {
-									event.getDamager().remove();
-								}
-							}
-						}
-						else if(plugin.getPlayerManager().isAlly(player, attacker)) { //ally
-							if(!(nPlayer.getGuild().getFriendlyPvp() && nPlayerAttacker.getGuild().getFriendlyPvp())) {
-								Message.CHAT_PVP_ALLY.send(attacker);
-								event.setCancelled(true);
+                                //remove the arrow
+                                if(event.getDamager().getType() == EntityType.ARROW) {
+                                    event.getDamager().remove();
+                                }
+                            }
+                        }
+                        else if(plugin.getPlayerManager().isAlly(player, attacker)) { //ally
+                            if(!(nPlayer.getGuild().getFriendlyPvp() && nPlayerAttacker.getGuild().getFriendlyPvp())) {
+                                Message.CHAT_PVP_ALLY.send(attacker);
+                                event.setCancelled(true);
 
-								//remove the arrow
-								if(event.getDamager().getType() == EntityType.ARROW) {
-									event.getDamager().remove();
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+                                //remove the arrow
+                                if(event.getDamager().getType() == EntityType.ARROW) {
+                                    event.getDamager().remove();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

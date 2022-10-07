@@ -32,67 +32,67 @@ import java.util.List;
 import java.util.UUID;
 
 public class ResourceManagerPlayerImpl extends AbstractYAMLResourceManager<NovaPlayer> {
-	/**
-	 * The constructor
-	 *
-	 * @param storage the storage
-	 */
-	public ResourceManagerPlayerImpl(Storage storage) {
-		super(storage, NovaPlayer.class, "users/");
-	}
+    /**
+     * The constructor
+     *
+     * @param storage the storage
+     */
+    public ResourceManagerPlayerImpl(Storage storage) {
+        super(storage, NovaPlayer.class, "users/");
+    }
 
-	@Override
-	public List<NovaPlayer> load() {
-		final List<NovaPlayer> list = new ArrayList<>();
+    @Override
+    public List<NovaPlayer> load() {
+        final List<NovaPlayer> list = new ArrayList<>();
 
-		for(File playerFile : getFiles()) {
-			if(!playerFile.isFile()) {
-				continue;
-			}
+        for(File playerFile : getFiles()) {
+            if(!playerFile.isFile()) {
+                continue;
+            }
 
-			FileConfiguration configuration = loadConfiguration(playerFile);
+            FileConfiguration configuration = loadConfiguration(playerFile);
 
-			if(configuration != null) {
-//				LoggerUtils.debug(playerFile.getName());
-				NovaPlayer nPlayer = new NovaPlayerImpl(UUID.fromString(configuration.getString("uuid")));
-				nPlayer.setAdded();
-				nPlayer.setName(configuration.getString("name"));
+            if(configuration != null) {
+//                LoggerUtils.debug(playerFile.getName());
+                NovaPlayer nPlayer = new NovaPlayerImpl(UUID.fromString(configuration.getString("uuid")));
+                nPlayer.setAdded();
+                nPlayer.setName(configuration.getString("name"));
 
-//				List<String> invitedToStringList = configuration.getStringList("invitedto");
-//				List<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
+//                List<String> invitedToStringList = configuration.getStringList("invitedto");
+//                List<NovaGuild> invitedToList = new UUIDOrNameToGuildConverterImpl().convert(invitedToStringList);
 
-//				nPlayer.setInvitedTo(invitedToList);
-				nPlayer.setPoints(configuration.getInt("points"));
-				nPlayer.setKills(configuration.getInt("kills"));
-				nPlayer.setDeaths(configuration.getInt("deaths"));
+//                nPlayer.setInvitedTo(invitedToList);
+                nPlayer.setPoints(configuration.getInt("points"));
+                nPlayer.setKills(configuration.getInt("kills"));
+                nPlayer.setDeaths(configuration.getInt("deaths"));
 
-				//Set the guild
-				NovaGuild guild = ((YamlStorageImpl) getStorage()).playerGuildMap.get(nPlayer.getName());
+                //Set the guild
+                NovaGuild guild = ((YamlStorageImpl) getStorage()).playerGuildMap.get(nPlayer.getName());
 
-				if(guild != null) {
-					guild.addPlayer(nPlayer);
-				}
+                if(guild != null) {
+                    guild.addPlayer(nPlayer);
+                }
 
-				nPlayer.setUnchanged();
-				list.add(nPlayer);
-			}
-		}
+                nPlayer.setUnchanged();
+                list.add(nPlayer);
+            }
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	public boolean save(NovaPlayer novaPlayer) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public boolean save(NovaPlayer novaPlayer) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	public boolean remove(NovaPlayer novaPlayer) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public boolean remove(NovaPlayer novaPlayer) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	public File getFile(NovaPlayer novaPlayer) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public File getFile(NovaPlayer novaPlayer) {
+        throw new IllegalArgumentException("Not supported");
+    }
 }

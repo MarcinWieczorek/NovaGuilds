@@ -34,55 +34,55 @@ import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
 public class ListenerManager {
-	private PacketListener packetListener;
-	private static final LoggedPluginManager loggedPluginManager = new LoggedPluginManager() {
-		@Override
-		protected void customHandler(Event event, Throwable e) {
-			LoggerUtils.exception(e);
-		}
-	};
+    private PacketListener packetListener;
+    private static final LoggedPluginManager loggedPluginManager = new LoggedPluginManager() {
+        @Override
+        protected void customHandler(Event event, Throwable e) {
+            LoggerUtils.exception(e);
+        }
+    };
 
-	/**
-	 * Returns the packet listener
-	 *
-	 * @return packet listener
-	 */
-	public PacketListener getPacketListener() {
-		return packetListener;
-	}
+    /**
+     * Returns the packet listener
+     *
+     * @return packet listener
+     */
+    public PacketListener getPacketListener() {
+        return packetListener;
+    }
 
-	/**
-	 * Registers the listeners
-	 */
-	public void registerListeners() {
-		new LoginListener();
-		new ToolListener();
-		new RegionInteractListener();
-		new MoveListener();
-		new ChatListener();
-		new PvpListener();
-		new DeathListener();
-		new PlayerInfoListener();
-		new ChestGUIListener();
-		packetListener = new PacketListener();
-	}
+    /**
+     * Registers the listeners
+     */
+    public void registerListeners() {
+        new LoginListener();
+        new ToolListener();
+        new RegionInteractListener();
+        new MoveListener();
+        new ChatListener();
+        new PvpListener();
+        new DeathListener();
+        new PlayerInfoListener();
+        new ChestGUIListener();
+        packetListener = new PacketListener();
+    }
 
-	/**
-	 * Gets PluginManager instance
-	 *
-	 * @return PluginManager instance
-	 */
-	public static LoggedPluginManager getLoggedPluginManager() {
-		return loggedPluginManager;
-	}
+    /**
+     * Gets PluginManager instance
+     *
+     * @return PluginManager instance
+     */
+    public static LoggedPluginManager getLoggedPluginManager() {
+        return loggedPluginManager;
+    }
 
-	public <T extends Listener> T getListener(Class<T> clazz) {
-		for(Listener listener : loggedPluginManager.getListeners()) {
-			if(listener.getClass().equals(clazz)) {
-				return (T) listener;
-			}
-		}
+    public <T extends Listener> T getListener(Class<T> clazz) {
+        for(Listener listener : loggedPluginManager.getListeners()) {
+            if(listener.getClass().equals(clazz)) {
+                return (T) listener;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

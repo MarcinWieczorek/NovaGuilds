@@ -36,80 +36,80 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandGuildKick extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayer.getGuild();
+        NovaGuild guild = nPlayer.getGuild();
 
-		if(!nPlayer.hasPermission(GuildPermission.KICK)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.KICK)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		if(args.length == 0) {
-			Message.CHAT_PLAYER_ENTERNAME.send(sender);
-			return;
-		}
+        if(args.length == 0) {
+            Message.CHAT_PLAYER_ENTERNAME.send(sender);
+            return;
+        }
 
-		NovaPlayer nPlayerKick = PlayerManager.getPlayer(args[0]);
+        NovaPlayer nPlayerKick = PlayerManager.getPlayer(args[0]);
 
-		if(nPlayerKick == null) {
-			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-			return;
-		}
+        if(nPlayerKick == null) {
+            Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+            return;
+        }
 
-		if(!nPlayerKick.hasGuild()) {
-			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
-			return;
-		}
+        if(!nPlayerKick.hasGuild()) {
+            Message.CHAT_PLAYER_HASNOGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayerKick.getGuild().getName().equalsIgnoreCase(guild.getName())) {
-			Message.CHAT_PLAYER_NOTINYOURGUILD.send(sender);
-			return;
-		}
+        if(!nPlayerKick.getGuild().getName().equalsIgnoreCase(guild.getName())) {
+            Message.CHAT_PLAYER_NOTINYOURGUILD.send(sender);
+            return;
+        }
 
-		if(nPlayer.getName().equalsIgnoreCase(nPlayerKick.getName())) {
-			Message.CHAT_GUILD_KICKYOURSELF.send(sender);
-			return;
-		}
+        if(nPlayer.getName().equalsIgnoreCase(nPlayerKick.getName())) {
+            Message.CHAT_GUILD_KICKYOURSELF.send(sender);
+            return;
+        }
 
-		//all passed
-		guild.removePlayer(nPlayerKick);
-		nPlayerKick.cancelToolProgress();
+        //all passed
+        guild.removePlayer(nPlayerKick);
+        nPlayerKick.cancelToolProgress();
 
-		if(nPlayerKick.isOnline()) {
-			guild.hideVaultHologram(nPlayerKick.getPlayer());
-		}
+        if(nPlayerKick.isOnline()) {
+            guild.hideVaultHologram(nPlayerKick.getPlayer());
+        }
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYER_NAME, nPlayerKick.getName());
-		vars.put(VarKey.GUILD_NAME, guild.getName());
-		Message.BROADCAST_GUILD_KICKED.clone().vars(vars).broadcast();
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.PLAYER_NAME, nPlayerKick.getName());
+        vars.put(VarKey.GUILD_NAME, guild.getName());
+        Message.BROADCAST_GUILD_KICKED.clone().vars(vars).broadcast();
 
-		//tab/tag
-		TagUtils.refresh();
-		TabUtils.refresh();
-	}
+        //tab/tag
+        TagUtils.refresh();
+        TabUtils.refresh();
+    }
 
-	@Override
-	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
-		Set<String> options = new HashSet<>();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+        Set<String> options = new HashSet<>();
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(nPlayer.hasGuild()) {
-			for(NovaPlayer guildMember : nPlayer.getGuild().getPlayers()) {
-				if(!guildMember.isLeader() && !guildMember.equals(nPlayer)) {
-					options.add(guildMember.getName());
-				}
-			}
-		}
+        if(nPlayer.hasGuild()) {
+            for(NovaPlayer guildMember : nPlayer.getGuild().getPlayers()) {
+                if(!guildMember.isLeader() && !guildMember.equals(nPlayer)) {
+                    options.add(guildMember.getName());
+                }
+            }
+        }
 
-		return options;
-	}
+        return options;
+    }
 }

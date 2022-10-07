@@ -19,29 +19,29 @@
 package co.marcin.novaguilds.exception;
 
 public class StorageConnectionFailedException extends Exception {
-	/**
-	 * The constructor
-	 */
-	public StorageConnectionFailedException() {
+    /**
+     * The constructor
+     */
+    public StorageConnectionFailedException() {
 
-	}
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param message exception message
-	 */
-	public StorageConnectionFailedException(String message) {
-		super(message);
-	}
+    /**
+     * The constructor
+     *
+     * @param message exception message
+     */
+    public StorageConnectionFailedException(String message) {
+        super(message);
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param message exception message
-	 * @param cause   cause
-	 */
-	public StorageConnectionFailedException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    /**
+     * The constructor
+     *
+     * @param message exception message
+     * @param cause   cause
+     */
+    public StorageConnectionFailedException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

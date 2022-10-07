@@ -28,30 +28,30 @@ import org.bukkit.Location;
 import java.lang.reflect.InvocationTargetException;
 
 public class PacketPlayOutOpenSignEditor extends AbstractPacket {
-	protected static Class<?> packetOpenSignEditorClass;
-	protected static Class<?> blockPositionClass;
+    protected static Class<?> packetOpenSignEditorClass;
+    protected static Class<?> blockPositionClass;
 
-	static {
-		try {
-			packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
-			blockPositionClass = Reflections.getCraftClass("BlockPosition");
-		}
-		catch(Exception e) {
-			LoggerUtils.exception(e);
-		}
-	}
+    static {
+        try {
+            packetOpenSignEditorClass = Reflections.getCraftClass("PacketPlayOutOpenSignEditor");
+            blockPositionClass = Reflections.getCraftClass("BlockPosition");
+        }
+        catch(Exception e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param location location
-	 * @throws NoSuchMethodException     when something goes wrong
-	 * @throws IllegalAccessException    when something goes wrong
-	 * @throws InvocationTargetException when something goes wrong
-	 * @throws InstantiationException    when something goes wrong
-	 */
-	public PacketPlayOutOpenSignEditor(Location location) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		BlockPositionWrapper blockPosition = new BlockPositionWrapperImpl(location);
-		packet = packetOpenSignEditorClass.getConstructor(blockPositionClass).newInstance(blockPosition.getBlockPosition());
-	}
+    /**
+     * The constructor
+     *
+     * @param location location
+     * @throws NoSuchMethodException     when something goes wrong
+     * @throws IllegalAccessException    when something goes wrong
+     * @throws InvocationTargetException when something goes wrong
+     * @throws InstantiationException    when something goes wrong
+     */
+    public PacketPlayOutOpenSignEditor(Location location) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        BlockPositionWrapper blockPosition = new BlockPositionWrapperImpl(location);
+        packet = packetOpenSignEditorClass.getConstructor(blockPositionClass).newInstance(blockPosition.getBlockPosition());
+    }
 }

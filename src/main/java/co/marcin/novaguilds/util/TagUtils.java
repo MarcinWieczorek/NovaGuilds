@@ -33,78 +33,78 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public final class TagUtils {
-	private TagUtils() {
-	}
+    private TagUtils() {
+    }
 
-	/**
-	 * Refreshes tag of a player
-	 *
-	 * @param p target player
-	 */
-	@SuppressWarnings("deprecation")
-	public static void refresh(Player p) {
-		if(!Config.TAGAPI_ENABLED.getBoolean()) {
-			return;
-		}
+    /**
+     * Refreshes tag of a player
+     *
+     * @param p target player
+     */
+    @SuppressWarnings("deprecation")
+    public static void refresh(Player p) {
+        if(!Config.TAGAPI_ENABLED.getBoolean()) {
+            return;
+        }
 
-		Scoreboard board = p.getScoreboard();
-		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
-			NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
+        Scoreboard board = p.getScoreboard();
+        for(Player player : CompatibilityUtils.getOnlinePlayers()) {
+            NovaPlayer nPlayerLoop = PlayerManager.getPlayer(player);
 
-			String tName = "ng_" + player.getName();
-			if(tName.length() > 16) {
-				tName = tName.substring(0, 16);
-			}
+            String tName = "ng_" + player.getName();
+            if(tName.length() > 16) {
+                tName = tName.substring(0, 16);
+            }
 
-			Team team = board.getTeam(tName);
+            Team team = board.getTeam(tName);
 
-			if(team == null) {
-				team = board.registerNewTeam(tName);
-				team.addPlayer(player);
-			}
+            if(team == null) {
+                team = board.registerNewTeam(tName);
+                team.addPlayer(player);
+            }
 
-			//Points
-			Objective pointsObjective = board.getObjective("points");
-			if(Config.POINTSBELOWNAME.getBoolean()) {
-				if(pointsObjective == null) {
-					pointsObjective = board.registerNewObjective("points", "dummy");
-					pointsObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
-					pointsObjective.setDisplayName(Message.MISC_POINTSBELOWNAME.get());
-				}
+            //Points
+            Objective pointsObjective = board.getObjective("points");
+            if(Config.POINTSBELOWNAME.getBoolean()) {
+                if(pointsObjective == null) {
+                    pointsObjective = board.registerNewObjective("points", "dummy");
+                    pointsObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+                    pointsObjective.setDisplayName(Message.MISC_POINTSBELOWNAME.get());
+                }
 
-				Score score = pointsObjective.getScore(player);
-				score.setScore(nPlayerLoop.getPoints());
-			}
-			else if(pointsObjective != null) {
-				pointsObjective.unregister();
-			}
+                Score score = pointsObjective.getScore(player);
+                score.setScore(nPlayerLoop.getPoints());
+            }
+            else if(pointsObjective != null) {
+                pointsObjective.unregister();
+            }
 
-			//set tag
-			PreparedTag tag = new PreparedTagScoreboardImpl(PlayerManager.getPlayer(player));
-			tag.setTagColorFor(PlayerManager.getPlayer(p));
-			team.setPrefix(tag.get());
-		}
-	}
+            //set tag
+            PreparedTag tag = new PreparedTagScoreboardImpl(PlayerManager.getPlayer(player));
+            tag.setTagColorFor(PlayerManager.getPlayer(p));
+            team.setPrefix(tag.get());
+        }
+    }
 
-	/**
-	 * Refreshes tags of all players online
-	 */
-	public static void refresh() {
-		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
-			refresh(player);
-		}
-	}
+    /**
+     * Refreshes tags of all players online
+     */
+    public static void refresh() {
+        for(Player player : CompatibilityUtils.getOnlinePlayers()) {
+            refresh(player);
+        }
+    }
 
-	/**
-	 * Refreshes tags of a whole guild
-	 *
-	 * @param guild target guild
-	 */
-	public static void refresh(NovaGuild guild) {
-		if(guild != null) {
-			for(Player player : guild.getOnlinePlayers()) {
-				refresh(player);
-			}
-		}
-	}
+    /**
+     * Refreshes tags of a whole guild
+     *
+     * @param guild target guild
+     */
+    public static void refresh(NovaGuild guild) {
+        if(guild != null) {
+            for(Player player : guild.getOnlinePlayers()) {
+                refresh(player);
+            }
+        }
+    }
 }

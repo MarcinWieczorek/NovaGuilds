@@ -35,50 +35,50 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
 public class ChestGUIListener extends AbstractListener {
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event) {
-		Inventory inventory = CompatibilityUtils.getClickedInventory(event);
-		if(inventory == null
-				|| event.getCurrentItem() == null
-				|| (!inventory.equals(event.getView().getTopInventory()) && event.getClick() != ClickType.SHIFT_LEFT && event.getClick() != ClickType.SHIFT_RIGHT)) {
-			return;
-		}
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        Inventory inventory = CompatibilityUtils.getClickedInventory(event);
+        if(inventory == null
+                || event.getCurrentItem() == null
+                || (!inventory.equals(event.getView().getTopInventory()) && event.getClick() != ClickType.SHIFT_LEFT && event.getClick() != ClickType.SHIFT_RIGHT)) {
+            return;
+        }
 
-		Player player = (Player) event.getWhoClicked();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(player);
-		GUIInventory guiInventory = nPlayer.getGuiInventory();
+        Player player = (Player) event.getWhoClicked();
+        NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+        GUIInventory guiInventory = nPlayer.getGuiInventory();
 
-		if(guiInventory != null) {
-			event.setCancelled(true);
+        if(guiInventory != null) {
+            event.setCancelled(true);
 
-			if(event.getSlot() == inventory.getSize() - 1 && event.getCurrentItem().equals(Message.INVENTORY_GUI_BACK.getItemStack())) {
-				player.closeInventory();
-				return;
-			}
+            if(event.getSlot() == inventory.getSize() - 1 && event.getCurrentItem().equals(Message.INVENTORY_GUI_BACK.getItemStack())) {
+                player.closeInventory();
+                return;
+            }
 
-			if(event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
-				guiInventory.onClick(event);
-			}
-		}
-	}
+            if(event.getCurrentItem() != null && event.getCurrentItem().getType() != Material.AIR) {
+                guiInventory.onClick(event);
+            }
+        }
+    }
 
-	@EventHandler
-	public void onInventoryClose(InventoryCloseEvent event) {
-		final NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
-		if(nPlayer.getGuiInventory() != null && !ChestGUIUtils.guiContinueList.contains(nPlayer)) {
-			if(nPlayer.getGuiInventoryHistory().size() == 1) {
-				nPlayer.setGuiInventory(null);
-			}
-			else {
-				nPlayer.removeLastGUIInventoryHistory();
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
+        final NovaPlayer nPlayer = PlayerManager.getPlayer(event.getPlayer());
+        if(nPlayer.getGuiInventory() != null && !ChestGUIUtils.guiContinueList.contains(nPlayer)) {
+            if(nPlayer.getGuiInventoryHistory().size() == 1) {
+                nPlayer.setGuiInventory(null);
+            }
+            else {
+                nPlayer.removeLastGUIInventoryHistory();
 
-				NovaGuilds.runTask(new Runnable() {
-					@Override
-					public void run() {
-						nPlayer.getGuiInventory().open(nPlayer);
-					}
-				});
-			}
-		}
-	}
+                NovaGuilds.runTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        nPlayer.getGuiInventory().open(nPlayer);
+                    }
+                });
+            }
+        }
+    }
 }

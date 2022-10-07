@@ -24,65 +24,65 @@ import java.util.Map;
 import java.util.Set;
 
 public interface CommandExecutor {
-	/**
-	 * Execute the command
-	 *
-	 * @param sender sender
-	 * @param args   arguments
-	 * @throws Exception bugs occur sometimes...
-	 */
-	void execute(CommandSender sender, String[] args) throws Exception;
+    /**
+     * Execute the command
+     *
+     * @param sender sender
+     * @param args   arguments
+     * @throws Exception bugs occur sometimes...
+     */
+    void execute(CommandSender sender, String[] args) throws Exception;
 
-	/**
-	 * Gets the command
-	 *
-	 * @return the command
-	 */
-	CommandWrapper getCommand();
+    /**
+     * Gets the command
+     *
+     * @return the command
+     */
+    CommandWrapper getCommand();
 
-	/**
-	 * Gets the commands map
-	 *
-	 * @return the map
-	 */
-	Map<String, CommandWrapper> getCommandsMap();
+    /**
+     * Gets the commands map
+     *
+     * @return the map
+     */
+    Map<String, CommandWrapper> getCommandsMap();
 
-	/**
-	 * Gets a set with subcommands
-	 *
-	 * @return set
-	 */
-	Set<CommandWrapper> getSubCommands();
+    /**
+     * Gets a set with subcommands
+     *
+     * @return set
+     */
+    Set<CommandWrapper> getSubCommands();
 
-	/**
-	 * Tab completer
-	 *
-	 * @param sender the sender
-	 * @param args arguments
-	 * @return tab complete set
-	 */
-	Set<String> onTabComplete(CommandSender sender, String[] args);
+    /**
+     * Tab completer
+     *
+     * @param sender the sender
+     * @param args arguments
+     * @return tab complete set
+     */
+    Set<String> onTabComplete(CommandSender sender, String[] args);
 
-	interface Reversed<T> extends CommandExecutor {
-		/**
-		 * Sets the parameter
-		 *
-		 * @param parameter the parameter
-		 */
-		void set(T parameter);
+    interface Reversed<T> extends CommandExecutor {
+        /**
+         * Sets the parameter
+         *
+         * @param parameter the parameter
+         */
+        void set(T parameter);
 
-		/**
-		 * Gets the parameter
-		 *
-		 * @return the parameter
-		 */
-		T getParameter();
+        /**
+         * Gets the parameter
+         *
+         * @return the parameter
+         */
+        T getParameter();
 
-		/**
-		 * Gets parameter type class
-		 *
-		 * @return parameter type
-		 */
-		Class<T> getParameterType();
-	}
+        /**
+         * Gets parameter type class
+         *
+         * @return parameter type
+         */
+        Class<T> getParameterType();
+    }
 }

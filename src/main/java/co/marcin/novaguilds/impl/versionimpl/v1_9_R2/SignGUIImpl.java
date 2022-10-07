@@ -39,75 +39,75 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SignGUIImpl extends AbstractSignGui {
-	/**
-	 * The constructor
-	 */
-	public SignGUIImpl() {
-		registerUpdateHandling();
-	}
+    /**
+     * The constructor
+     */
+    public SignGUIImpl() {
+        registerUpdateHandling();
+    }
 
-	@Override
-	public void open(Player player, String[] defaultText, SignGUIListener response) {
-		try {
-			final List<Packet> packets = new ArrayList<>();
-			Location location = player.getLocation().clone();
-			location.setY(0);
+    @Override
+    public void open(Player player, String[] defaultText, SignGUIListener response) {
+        try {
+            final List<Packet> packets = new ArrayList<>();
+            Location location = player.getLocation().clone();
+            location.setY(0);
 
-			if(defaultText != null) {
-				packets.add(new PacketPlayOutBlockChange(location, CompatibilityUtils.Mat.SIGN.get(), 0));
-				packets.add(PacketPlayOutTileEntityData.getSignChange(location, defaultText));
-			}
+            if(defaultText != null) {
+                packets.add(new PacketPlayOutBlockChange(location, CompatibilityUtils.Mat.SIGN.get(), 0));
+                packets.add(PacketPlayOutTileEntityData.getSignChange(location, defaultText));
+            }
 
-			packets.add(new PacketPlayOutOpenSignEditor(location));
+            packets.add(new PacketPlayOutOpenSignEditor(location));
 
-			if(defaultText != null) {
-				packets.add(new PacketPlayOutBlockChange(location, null, 0));
-			}
+            if(defaultText != null) {
+                packets.add(new PacketPlayOutBlockChange(location, null, 0));
+            }
 
-			signLocations.put(player.getUniqueId(), location);
-			listeners.put(player.getUniqueId(), response);
-			PacketSender.sendPacket(player, packets.toArray(new Packet[packets.size()]));
-		}
-		catch(NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+            signLocations.put(player.getUniqueId(), location);
+            listeners.put(player.getUniqueId(), response);
+            PacketSender.sendPacket(player, packets.toArray(new Packet[packets.size()]));
+        }
+        catch(NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	/**
-	 * Registers packet the handler
-	 */
-	protected void registerUpdateHandling() {
-		new AbstractPacketHandler("PacketPlayInUpdateSign", PacketExtension.PacketHandler.Direction.IN) {
-			@Override
-			public void handle(PacketEvent event) {
-				try {
-					final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
-					final Player player = event.getPlayer();
+    /**
+     * Registers packet the handler
+     */
+    protected void registerUpdateHandling() {
+        new AbstractPacketHandler("PacketPlayInUpdateSign", PacketExtension.PacketHandler.Direction.IN) {
+            @Override
+            public void handle(PacketEvent event) {
+                try {
+                    final PacketPlayInUpdateSign packetPlayInUpdateSign = new PacketPlayInUpdateSign(event.getPacket());
+                    final Player player = event.getPlayer();
 
-					Location v = getSignLocations().remove(player.getUniqueId());
+                    Location v = getSignLocations().remove(player.getUniqueId());
 
-					if(v == null
-							|| packetPlayInUpdateSign.getBlockPositionWrapper().getX() != v.getBlockX()
-							|| packetPlayInUpdateSign.getBlockPositionWrapper().getY() != v.getBlockY()
-							|| packetPlayInUpdateSign.getBlockPositionWrapper().getZ() != v.getBlockZ()) {
-						return;
-					}
+                    if(v == null
+                            || packetPlayInUpdateSign.getBlockPositionWrapper().getX() != v.getBlockX()
+                            || packetPlayInUpdateSign.getBlockPositionWrapper().getY() != v.getBlockY()
+                            || packetPlayInUpdateSign.getBlockPositionWrapper().getZ() != v.getBlockZ()) {
+                        return;
+                    }
 
-					final SignGUIListener response = getListeners().remove(player.getUniqueId());
+                    final SignGUIListener response = getListeners().remove(player.getUniqueId());
 
-					if(response != null) {
-						event.setCancelled(true);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-							public void run() {
-								response.onSignDone(player, packetPlayInUpdateSign.getLines());
-							}
-						});
-					}
-				}
-				catch(IllegalAccessException e) {
-					LoggerUtils.exception(e);
-				}
-			}
-		};
-	}
+                    if(response != null) {
+                        event.setCancelled(true);
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                            public void run() {
+                                response.onSignDone(player, packetPlayInUpdateSign.getLines());
+                            }
+                        });
+                    }
+                }
+                catch(IllegalAccessException e) {
+                    LoggerUtils.exception(e);
+                }
+            }
+        };
+    }
 }

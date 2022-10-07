@@ -33,65 +33,65 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
 public class CommandRegionEnlarge extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(nPlayer.getActiveSelection() != null) {
-			nPlayer.getActiveSelection().reset();
-		}
+        if(nPlayer.getActiveSelection() != null) {
+            nPlayer.getActiveSelection().reset();
+        }
 
-		NovaRegion region;
-		if(args.length == 0) {
-			region = nPlayer.getAtRegion();
-		}
-		else {
-			String indexString = args[0];
+        NovaRegion region;
+        if(args.length == 0) {
+            region = nPlayer.getAtRegion();
+        }
+        else {
+            String indexString = args[0];
 
-			if(!NumberUtils.isNumeric(indexString)) {
-				Message.CHAT_ENTERINTEGER.send(sender);
-				return;
-			}
+            if(!NumberUtils.isNumeric(indexString)) {
+                Message.CHAT_ENTERINTEGER.send(sender);
+                return;
+            }
 
-			int index = Integer.parseInt(indexString);
+            int index = Integer.parseInt(indexString);
 
-			region = nPlayer.getGuild().getRegion(index);
-		}
+            region = nPlayer.getGuild().getRegion(index);
+        }
 
-		if(region == null) {
-			Message.CHAT_REGION_NOTFOUND.send(sender);
-			return;
-		}
+        if(region == null) {
+            Message.CHAT_REGION_NOTFOUND.send(sender);
+            return;
+        }
 
-		RegionSelection selection = new RegionSelectionImpl(nPlayer, RegionSelection.Type.ENLARGE, region);
-		Location corner0 = selection.getCorner(0);
-		Location corner1 = selection.getCorner(1);
-		int diff = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.REGION_ENLARGE_BLOCKS);
+        RegionSelection selection = new RegionSelectionImpl(nPlayer, RegionSelection.Type.ENLARGE, region);
+        Location corner0 = selection.getCorner(0);
+        Location corner1 = selection.getCorner(1);
+        int diff = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.REGION_ENLARGE_BLOCKS);
 
-		if(corner0.getBlockX() < corner1.getBlockX()
-				&& corner0.getBlockZ() < corner1.getBlockZ()) {
-			corner0.add(-diff, 0, -diff);
-			corner1.subtract(-diff, 0, -diff);
-		}
+        if(corner0.getBlockX() < corner1.getBlockX()
+                && corner0.getBlockZ() < corner1.getBlockZ()) {
+            corner0.add(-diff, 0, -diff);
+            corner1.subtract(-diff, 0, -diff);
+        }
 
-		if(corner0.getBlockX() < corner1.getBlockX()
-				&& corner0.getBlockZ() > corner1.getBlockZ()) {
-			corner0.add(-diff, 0, diff);
-			corner1.subtract(-diff, 0, diff);
-		}
+        if(corner0.getBlockX() < corner1.getBlockX()
+                && corner0.getBlockZ() > corner1.getBlockZ()) {
+            corner0.add(-diff, 0, diff);
+            corner1.subtract(-diff, 0, diff);
+        }
 
-		if(corner0.getBlockX() > corner1.getBlockX()
-				&& corner0.getBlockZ() > corner1.getBlockZ()) {
-			corner0.add(diff, 0, diff);
-			corner1.subtract(diff, 0, diff);
-		}
+        if(corner0.getBlockX() > corner1.getBlockX()
+                && corner0.getBlockZ() > corner1.getBlockZ()) {
+            corner0.add(diff, 0, diff);
+            corner1.subtract(diff, 0, diff);
+        }
 
-		if(corner0.getBlockX() > corner1.getBlockX()
-				&& corner0.getBlockZ() < corner1.getBlockZ()) {
-			corner0.add(diff, 0, -diff);
-			corner1.subtract(diff, 0, -diff);
-		}
+        if(corner0.getBlockX() > corner1.getBlockX()
+                && corner0.getBlockZ() < corner1.getBlockZ()) {
+            corner0.add(diff, 0, -diff);
+            corner1.subtract(diff, 0, -diff);
+        }
 
-		Command.REGION_BUY.execute(sender, new String[0]);
-	}
+        Command.REGION_BUY.execute(sender, new String[0]);
+    }
 }

@@ -28,25 +28,25 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildOpenInvitation extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.OPENINVITATION)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.OPENINVITATION)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		final boolean status = !nPlayer.getGuild().isOpenInvitation();
-		nPlayer.getGuild().setOpenInvitation(status);
+        final boolean status = !nPlayer.getGuild().isOpenInvitation();
+        nPlayer.getGuild().setOpenInvitation(status);
 
-		Message.CHAT_GUILD_OPENINVITATION.clone().setVar(VarKey.STATUS, Message.getOnOff(status)).send(sender);
+        Message.CHAT_GUILD_OPENINVITATION.clone().setVar(VarKey.STATUS, Message.getOnOff(status)).send(sender);
 
-		TabUtils.refresh(nPlayer.getGuild());
-	}
+        TabUtils.refresh(nPlayer.getGuild());
+    }
 }

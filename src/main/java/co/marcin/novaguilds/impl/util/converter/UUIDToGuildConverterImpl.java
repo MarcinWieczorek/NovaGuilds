@@ -24,8 +24,8 @@ import co.marcin.novaguilds.manager.GuildManager;
 import java.util.UUID;
 
 public class UUIDToGuildConverterImpl extends AbstractConverter<UUID, NovaGuild> {
-	@Override
-	public NovaGuild convert(UUID uuid) {
-		return GuildManager.getGuild(uuid);
-	}
+    @Override
+    public NovaGuild convert(UUID uuid) {
+        return GuildManager.getGuild(uuid);
+    }
 }

@@ -22,58 +22,58 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 
 public interface PacketExtension {
-	/**
-	 * Registers a player
-	 *
-	 * @param player the player
-	 */
-	void registerPlayer(final Player player);
+    /**
+     * Registers a player
+     *
+     * @param player the player
+     */
+    void registerPlayer(final Player player);
 
-	/**
-	 * Unregisters the channel
-	 */
-	void unregisterChannel();
+    /**
+     * Unregisters the channel
+     */
+    void unregisterChannel();
 
-	/**
-	 * Sends a packet or more
-	 *
-	 * @param player  target player
-	 * @param packets packets
-	 */
-	void sendPacket(Player player, Object... packets);
+    /**
+     * Sends a packet or more
+     *
+     * @param player  target player
+     * @param packets packets
+     */
+    void sendPacket(Player player, Object... packets);
 
-	interface PacketHandler {
-		enum Direction {
-			IN,
-			OUT
-		}
+    interface PacketHandler {
+        enum Direction {
+            IN,
+            OUT
+        }
 
-		/**
-		 * Gets packet name
-		 *
-		 * @return packet name
-		 */
-		String getPacketName();
+        /**
+         * Gets packet name
+         *
+         * @return packet name
+         */
+        String getPacketName();
 
-		/**
-		 * Gets handler priority
-		 *
-		 * @return the priority
-		 */
-		EventPriority getPriority();
+        /**
+         * Gets handler priority
+         *
+         * @return the priority
+         */
+        EventPriority getPriority();
 
-		/**
-		 * Get the direction
-		 *
-		 * @return the direction
-		 */
-		Direction getDirection();
+        /**
+         * Get the direction
+         *
+         * @return the direction
+         */
+        Direction getDirection();
 
-		/**
-		 * Handles packet event
-		 *
-		 * @param event the event
-		 */
-		void handle(PacketEvent event);
-	}
+        /**
+         * Handles packet event
+         *
+         * @param event the event
+         */
+        void handle(PacketEvent event);
+    }
 }

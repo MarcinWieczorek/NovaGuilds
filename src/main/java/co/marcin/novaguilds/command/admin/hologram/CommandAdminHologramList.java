@@ -28,18 +28,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminHologramList extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		Message.CHAT_ADMIN_HOLOGRAM_LIST_HEADER.send(sender);
-		Map<VarKey, String> vars = new HashMap<>();
-		for(NovaHologram hologram : plugin.getHologramManager().getHolograms()) {
-			vars.clear();
-			vars.put(VarKey.NAME, hologram.getName());
-			vars.put(VarKey.X, String.valueOf(hologram.getLocation().getBlockX()));
-			vars.put(VarKey.Y, String.valueOf(hologram.getLocation().getBlockY()));
-			vars.put(VarKey.Z, String.valueOf(hologram.getLocation().getBlockZ()));
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        Message.CHAT_ADMIN_HOLOGRAM_LIST_HEADER.send(sender);
+        Map<VarKey, String> vars = new HashMap<>();
+        for(NovaHologram hologram : plugin.getHologramManager().getHolograms()) {
+            vars.clear();
+            vars.put(VarKey.NAME, hologram.getName());
+            vars.put(VarKey.X, String.valueOf(hologram.getLocation().getBlockX()));
+            vars.put(VarKey.Y, String.valueOf(hologram.getLocation().getBlockY()));
+            vars.put(VarKey.Z, String.valueOf(hologram.getLocation().getBlockZ()));
 
-			Message.CHAT_ADMIN_HOLOGRAM_LIST_ITEM.clone().vars(vars).prefix(false).send(sender);
-		}
-	}
+            Message.CHAT_ADMIN_HOLOGRAM_LIST_ITEM.clone().vars(vars).prefix(false).send(sender);
+        }
+    }
 }

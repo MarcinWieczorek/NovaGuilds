@@ -24,51 +24,51 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
 public class EnchantmentGlow extends Enchantment {
-	/**
-	 * Glow enchantment constructor
-	 * Registers it as 'ngglow'
-	 */
-	public EnchantmentGlow() {
-		super(NamespacedKey.minecraft("ngglow"));
-	}
+    /**
+     * Glow enchantment constructor
+     * Registers it as 'ngglow'
+     */
+    public EnchantmentGlow() {
+        super(NamespacedKey.minecraft("ngglow"));
+    }
 
-	@Override
-	public String getName() {
-		return null;
-	}
+    @Override
+    public String getName() {
+        return null;
+    }
 
-	@Override
-	public int getMaxLevel() {
-		return 1;
-	}
+    @Override
+    public int getMaxLevel() {
+        return 1;
+    }
 
-	@Override
-	public int getStartLevel() {
-		return 1;
-	}
+    @Override
+    public int getStartLevel() {
+        return 1;
+    }
 
-	@Override
-	public EnchantmentTarget getItemTarget() {
-		return null;
-	}
+    @Override
+    public EnchantmentTarget getItemTarget() {
+        return null;
+    }
 
-	@Override
-	public boolean isTreasure() {
-		return false;
-	}
+    @Override
+    public boolean isTreasure() {
+        return false;
+    }
 
-	@Override
-	public boolean isCursed() {
-		return false;
-	}
+    @Override
+    public boolean isCursed() {
+        return false;
+    }
 
-	@Override
-	public boolean conflictsWith(Enchantment enchantment) {
-		return false;
-	}
+    @Override
+    public boolean conflictsWith(Enchantment enchantment) {
+        return false;
+    }
 
-	@Override
-	public boolean canEnchantItem(ItemStack itemStack) {
-		return true;
-	}
+    @Override
+    public boolean canEnchantItem(ItemStack itemStack) {
+        return true;
+    }
 }

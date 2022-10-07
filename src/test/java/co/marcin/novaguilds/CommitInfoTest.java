@@ -27,19 +27,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class CommitInfoTest {
-	@Test
-	public void addCommitInfo() throws IOException {
-		File commitInfoFile = new File("./target/classes/commit.yml");
+    @Test
+    public void addCommitInfo() throws IOException {
+        File commitInfoFile = new File("./target/classes/commit.yml");
 
-		if(commitInfoFile.createNewFile()) {
-			Runtime rt = Runtime.getRuntime();
-			Process process = rt.exec("git rev-parse HEAD");
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			System.out.println("Latest commit:");
-			String commit = stdInput.readLine();
-			System.out.println(commit);
+        if(commitInfoFile.createNewFile()) {
+            Runtime rt = Runtime.getRuntime();
+            Process process = rt.exec("git rev-parse HEAD");
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            System.out.println("Latest commit:");
+            String commit = stdInput.readLine();
+            System.out.println(commit);
 
-			IOUtils.write(commitInfoFile, commit);
-		}
-	}
+            IOUtils.write(commitInfoFile, commit);
+        }
+    }
 }

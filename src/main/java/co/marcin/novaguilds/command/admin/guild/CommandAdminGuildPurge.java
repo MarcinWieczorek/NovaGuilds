@@ -32,28 +32,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildPurge extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(plugin.getGuildManager().getGuilds().isEmpty()) {
-			Message.CHAT_GUILD_NOGUILDS.send(sender);
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(plugin.getGuildManager().getGuilds().isEmpty()) {
+            Message.CHAT_GUILD_NOGUILDS.send(sender);
+            return;
+        }
 
-		for(NovaGuild guild : new ArrayList<>(plugin.getGuildManager().getGuilds())) {
-			//fire event
-			GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.ADMIN_ALL);
-			ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
+        for(NovaGuild guild : new ArrayList<>(plugin.getGuildManager().getGuilds())) {
+            //fire event
+            GuildAbandonEvent guildAbandonEvent = new GuildAbandonEvent(guild, AbandonCause.ADMIN_ALL);
+            ListenerManager.getLoggedPluginManager().callEvent(guildAbandonEvent);
 
-			//if event is not cancelled
-			if(!guildAbandonEvent.isCancelled()) {
-				//delete guild
-				plugin.getGuildManager().delete(guildAbandonEvent);
+            //if event is not cancelled
+            if(!guildAbandonEvent.isCancelled()) {
+                //delete guild
+                plugin.getGuildManager().delete(guildAbandonEvent);
 
-				Map<VarKey, String> vars = new HashMap<>();
-				vars.put(VarKey.PLAYER_NAME, sender.getName());
-				vars.put(VarKey.GUILD_NAME, guild.getName());
-				Message.BROADCAST_ADMIN_GUILD_ABANDON.clone().vars(vars).broadcast();
-			}
-		}
-	}
+                Map<VarKey, String> vars = new HashMap<>();
+                vars.put(VarKey.PLAYER_NAME, sender.getName());
+                vars.put(VarKey.GUILD_NAME, guild.getName());
+                Message.BROADCAST_ADMIN_GUILD_ABANDON.clone().vars(vars).broadcast();
+            }
+        }
+    }
 }

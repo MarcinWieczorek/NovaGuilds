@@ -41,144 +41,144 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandGuildWar extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_PLAYER_HASNOGUILD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayer.getGuild();
+        NovaGuild guild = nPlayer.getGuild();
 
-		if(args.length == 0) { //List wars
-			Message.CHAT_GUILD_WAR_LIST_WARSHEADER.send(sender);
-			MessageWrapper guildNameFormat = Message.CHAT_GUILD_WAR_LIST_ITEM;
+        if(args.length == 0) { //List wars
+            Message.CHAT_GUILD_WAR_LIST_WARSHEADER.send(sender);
+            MessageWrapper guildNameFormat = Message.CHAT_GUILD_WAR_LIST_ITEM;
 
-			if(!guild.getWars().isEmpty()) {
-				final Collection<MessageWrapper> warNamesSet = new HashSet<>();
-				for(NovaGuild guildLoop : guild.getWars()) {
-					warNamesSet.add(guildNameFormat.clone().setVar(VarKey.GUILD_NAME, guildLoop.getName()));
-				}
+            if(!guild.getWars().isEmpty()) {
+                final Collection<MessageWrapper> warNamesSet = new HashSet<>();
+                for(NovaGuild guildLoop : guild.getWars()) {
+                    warNamesSet.add(guildNameFormat.clone().setVar(VarKey.GUILD_NAME, guildLoop.getName()));
+                }
 
-				MessageManager.sendPrefixMessage(sender, StringUtils.join(warNamesSet, Message.CHAT_GUILD_WAR_LIST_SEPARATOR));
-			}
-			else {
-				Message.CHAT_GUILD_WAR_LIST_NOWARS.send(sender);
-			}
+                MessageManager.sendPrefixMessage(sender, StringUtils.join(warNamesSet, Message.CHAT_GUILD_WAR_LIST_SEPARATOR));
+            }
+            else {
+                Message.CHAT_GUILD_WAR_LIST_NOWARS.send(sender);
+            }
 
-			if(!guild.getNoWarInvitations().isEmpty()) {
-				Message.CHAT_GUILD_WAR_LIST_NOWARINVHEADER.send(sender);
-				final Collection<MessageWrapper> noWarInvitationNamesSet = new HashSet<>();
+            if(!guild.getNoWarInvitations().isEmpty()) {
+                Message.CHAT_GUILD_WAR_LIST_NOWARINVHEADER.send(sender);
+                final Collection<MessageWrapper> noWarInvitationNamesSet = new HashSet<>();
 
-				for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
-					noWarInvitationNamesSet.add(guildNameFormat.clone().setVar(VarKey.GUILD_NAME, guildLoop.getName()));
-				}
+                for(NovaGuild guildLoop : guild.getNoWarInvitations()) {
+                    noWarInvitationNamesSet.add(guildNameFormat.clone().setVar(VarKey.GUILD_NAME, guildLoop.getName()));
+                }
 
-				MessageManager.sendPrefixMessage(sender, StringUtils.join(noWarInvitationNamesSet, Message.CHAT_GUILD_WAR_LIST_SEPARATOR));
-			}
+                MessageManager.sendPrefixMessage(sender, StringUtils.join(noWarInvitationNamesSet, Message.CHAT_GUILD_WAR_LIST_SEPARATOR));
+            }
 
-			return;
-		}
+            return;
+        }
 
-		String guildName = args[0];
+        String guildName = args[0];
 
-		NovaGuild cmdGuild = GuildManager.getGuildFind(guildName);
+        NovaGuild cmdGuild = GuildManager.getGuildFind(guildName);
 
-		if(cmdGuild == null) {
-			Message.CHAT_GUILD_COULDNOTFIND.send(sender);
-			return;
-		}
+        if(cmdGuild == null) {
+            Message.CHAT_GUILD_COULDNOTFIND.send(sender);
+            return;
+        }
 
-		if(guild.isWarWith(cmdGuild)) { //no war inv
-			Map<VarKey, String> vars = new HashMap<>();
+        if(guild.isWarWith(cmdGuild)) { //no war inv
+            Map<VarKey, String> vars = new HashMap<>();
 
-			if(guild.isNoWarInvited(cmdGuild)) { //accepting no-war
-				if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_ACCEPT)) {
-					Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-					return;
-				}
+            if(guild.isNoWarInvited(cmdGuild)) { //accepting no-war
+                if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_ACCEPT)) {
+                    Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+                    return;
+                }
 
-				guild.removeNoWarInvitation(cmdGuild);
-				guild.removeWar(cmdGuild);
-				cmdGuild.removeWar(guild);
+                guild.removeNoWarInvitation(cmdGuild);
+                guild.removeWar(cmdGuild);
+                cmdGuild.removeWar(guild);
 
-				//broadcast
-				vars.put(VarKey.GUILD1, guild.getName());
-				vars.put(VarKey.GUILD2, cmdGuild.getName());
-				Message.BROADCAST_GUILD_NOWAR.vars(vars).broadcast();
-			}
-			else {
-				if(cmdGuild.isNoWarInvited(guild)) { //canceling invitation
-					if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_CANCEL)) {
-						Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-						return;
-					}
+                //broadcast
+                vars.put(VarKey.GUILD1, guild.getName());
+                vars.put(VarKey.GUILD2, cmdGuild.getName());
+                Message.BROADCAST_GUILD_NOWAR.vars(vars).broadcast();
+            }
+            else {
+                if(cmdGuild.isNoWarInvited(guild)) { //canceling invitation
+                    if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_CANCEL)) {
+                        Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+                        return;
+                    }
 
-					cmdGuild.removeNoWarInvitation(guild);
-					Message.CHAT_GUILD_WAR_NOWAR_CANCEL_SUCCESS.clone().setVar(VarKey.GUILD_NAME, cmdGuild.getName()).send(sender);
-					Message.CHAT_GUILD_WAR_NOWAR_CANCEL_NOTIFY.clone().setVar(VarKey.GUILD_NAME, guild.getName()).broadcast(cmdGuild);
-				}
-				else { //inviting to no-war
-					if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_SEND)) {
-						Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-						return;
-					}
+                    cmdGuild.removeNoWarInvitation(guild);
+                    Message.CHAT_GUILD_WAR_NOWAR_CANCEL_SUCCESS.clone().setVar(VarKey.GUILD_NAME, cmdGuild.getName()).send(sender);
+                    Message.CHAT_GUILD_WAR_NOWAR_CANCEL_NOTIFY.clone().setVar(VarKey.GUILD_NAME, guild.getName()).broadcast(cmdGuild);
+                }
+                else { //inviting to no-war
+                    if(!nPlayer.hasPermission(GuildPermission.WAR_INVITE_SEND)) {
+                        Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+                        return;
+                    }
 
-					cmdGuild.addNoWarInvitation(guild);
-					vars.put(VarKey.GUILD_NAME, cmdGuild.getName());
-					Message.CHAT_GUILD_WAR_NOWAR_INVITE_SUCCESS.vars(vars).send(sender);
+                    cmdGuild.addNoWarInvitation(guild);
+                    vars.put(VarKey.GUILD_NAME, cmdGuild.getName());
+                    Message.CHAT_GUILD_WAR_NOWAR_INVITE_SUCCESS.vars(vars).send(sender);
 
-					//notify the guild
-					vars.clear();
-					vars.put(VarKey.GUILD_NAME, guild.getName());
-					Message.CHAT_GUILD_WAR_NOWAR_INVITE_NOTIFY.vars(vars).broadcast(cmdGuild);
-				}
-			}
-		}
-		else { //new war
-			if(!nPlayer.hasPermission(GuildPermission.WAR_START)) {
-				Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-				return;
-			}
+                    //notify the guild
+                    vars.clear();
+                    vars.put(VarKey.GUILD_NAME, guild.getName());
+                    Message.CHAT_GUILD_WAR_NOWAR_INVITE_NOTIFY.vars(vars).broadcast(cmdGuild);
+                }
+            }
+        }
+        else { //new war
+            if(!nPlayer.hasPermission(GuildPermission.WAR_START)) {
+                Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+                return;
+            }
 
-			if(guild.getName().equalsIgnoreCase(cmdGuild.getName())) {
-				Message.CHAT_GUILD_WAR_YOURGUILDWAR.send(sender);
-				return;
-			}
+            if(guild.getName().equalsIgnoreCase(cmdGuild.getName())) {
+                Message.CHAT_GUILD_WAR_YOURGUILDWAR.send(sender);
+                return;
+            }
 
-			if(guild.isAlly(cmdGuild)) {
-				Message.CHAT_GUILD_WAR_ALLY.send(sender);
-				return;
-			}
+            if(guild.isAlly(cmdGuild)) {
+                Message.CHAT_GUILD_WAR_ALLY.send(sender);
+                return;
+            }
 
-			guild.addWar(cmdGuild);
-			cmdGuild.addWar(guild);
+            guild.addWar(cmdGuild);
+            cmdGuild.addWar(guild);
 
-			//broadcasts
-			Map<VarKey, String> vars = new HashMap<>();
-			vars.put(VarKey.GUILD1, guild.getName());
-			vars.put(VarKey.GUILD2, cmdGuild.getName());
-			Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
-			TagUtils.refresh();
-			TabUtils.refresh();
-			plugin.getRegionManager().checkRaidInit(nPlayer);
-		}
-	}
+            //broadcasts
+            Map<VarKey, String> vars = new HashMap<>();
+            vars.put(VarKey.GUILD1, guild.getName());
+            vars.put(VarKey.GUILD2, cmdGuild.getName());
+            Message.BROADCAST_GUILD_WAR.vars(vars).broadcast();
+            TagUtils.refresh();
+            TabUtils.refresh();
+            plugin.getRegionManager().checkRaidInit(nPlayer);
+        }
+    }
 
-	@Override
-	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
-		Set<String> options = new HashSet<>();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+        Set<String> options = new HashSet<>();
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		for(NovaGuild guild : NovaGuilds.getInstance().getGuildManager().getGuilds()) {
-			if(!nPlayer.hasGuild() || !guild.equals(nPlayer.getGuild())) {
-				options.add(guild.getTag().toLowerCase());
-				options.add(guild.getName().toLowerCase());
-			}
-		}
+        for(NovaGuild guild : NovaGuilds.getInstance().getGuildManager().getGuilds()) {
+            if(!nPlayer.hasGuild() || !guild.equals(nPlayer.getGuild())) {
+                options.add(guild.getTag().toLowerCase());
+                options.add(guild.getName().toLowerCase());
+            }
+        }
 
-		return options;
-	}
+        return options;
+    }
 }

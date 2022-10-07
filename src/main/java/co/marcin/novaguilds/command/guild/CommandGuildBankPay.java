@@ -30,44 +30,44 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandGuildBankPay extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayer.getGuild();
+        NovaGuild guild = nPlayer.getGuild();
 
-		if(!nPlayer.hasPermission(GuildPermission.BANK_PAY)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.BANK_PAY)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		if(args.length == 0 || !NumberUtils.isNumeric(args[0])) {
-			Message.CHAT_GUILD_BANK_ENTERAMOUNT.send(sender);
-			return;
-		}
+        if(args.length == 0 || !NumberUtils.isNumeric(args[0])) {
+            Message.CHAT_GUILD_BANK_ENTERAMOUNT.send(sender);
+            return;
+        }
 
-		Double money = Double.parseDouble(args[0]);
+        Double money = Double.parseDouble(args[0]);
 
-		money = NumberUtils.roundOffTo2DecPlaces(money);
+        money = NumberUtils.roundOffTo2DecPlaces(money);
 
-		if(money < 0) {
-			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
-			return;
-		}
+        if(money < 0) {
+            Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasMoney(money)) {
-			Message.CHAT_GUILD_BANK_PAY_NOTENOUGH.send(sender);
-			return;
-		}
+        if(!nPlayer.hasMoney(money)) {
+            Message.CHAT_GUILD_BANK_PAY_NOTENOUGH.send(sender);
+            return;
+        }
 
-		nPlayer.takeMoney(money);
-		guild.addMoney(money);
-		Message.CHAT_GUILD_BANK_PAY_PAID.clone().setVar(VarKey.AMOUNT, money).send(sender);
-		TabUtils.refresh(nPlayer.getGuild());
-	}
+        nPlayer.takeMoney(money);
+        guild.addMoney(money);
+        Message.CHAT_GUILD_BANK_PAY_PAID.clone().setVar(VarKey.AMOUNT, money).send(sender);
+        TabUtils.refresh(nPlayer.getGuild());
+    }
 }

@@ -19,20 +19,20 @@
 package co.marcin.novaguilds.api.util;
 
 public interface Changeable {
-	/**
-	 * Mark as changed
-	 */
-	void setChanged();
+    /**
+     * Mark as changed
+     */
+    void setChanged();
 
-	/**
-	 * Mark as unchanged
-	 */
-	void setUnchanged();
+    /**
+     * Mark as unchanged
+     */
+    void setUnchanged();
 
-	/**
-	 * Returns if the has been changed
-	 *
-	 * @return true if changed
-	 */
-	boolean isChanged();
+    /**
+     * Returns if the has been changed
+     *
+     * @return true if changed
+     */
+    boolean isChanged();
 }

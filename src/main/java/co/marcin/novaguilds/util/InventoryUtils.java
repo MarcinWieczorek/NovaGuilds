@@ -29,101 +29,101 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class InventoryUtils {
-	private InventoryUtils() {
+    private InventoryUtils() {
 
-	}
+    }
 
-	/**
-	 * Removes a list of items from player's inventory
-	 *
-	 * @param player the player
-	 * @param items  list of items
-	 */
-	public static void removeItems(Player player, List<ItemStack> items) {
-		for(ItemStack item : items) {
-			if(player.getGameMode() != GameMode.CREATIVE || item.hasItemMeta()) {
-				player.getInventory().removeItem(item);
-			}
-		}
-	}
+    /**
+     * Removes a list of items from player's inventory
+     *
+     * @param player the player
+     * @param items  list of items
+     */
+    public static void removeItems(Player player, List<ItemStack> items) {
+        for(ItemStack item : items) {
+            if(player.getGameMode() != GameMode.CREATIVE || item.hasItemMeta()) {
+                player.getInventory().removeItem(item);
+            }
+        }
+    }
 
-	/**
-	 * Checks if an inventory contains the list of items
-	 *
-	 * @param inventory the inventory
-	 * @param items     list of items
-	 * @return boolean
-	 */
-	public static boolean containsItems(Inventory inventory, List<ItemStack> items) {
-		return getMissingItems(inventory, items).isEmpty();
-	}
+    /**
+     * Checks if an inventory contains the list of items
+     *
+     * @param inventory the inventory
+     * @param items     list of items
+     * @return boolean
+     */
+    public static boolean containsItems(Inventory inventory, List<ItemStack> items) {
+        return getMissingItems(inventory, items).isEmpty();
+    }
 
-	/**
-	 * Gets a list of missing items
-	 *
-	 * @param inventory inventory
-	 * @param items     list of items
-	 * @return list of missing items
-	 */
-	public static List<ItemStack> getMissingItems(Inventory inventory, List<ItemStack> items) {
-		final List<ItemStack> missing = new ArrayList<>();
+    /**
+     * Gets a list of missing items
+     *
+     * @param inventory inventory
+     * @param items     list of items
+     * @return list of missing items
+     */
+    public static List<ItemStack> getMissingItems(Inventory inventory, List<ItemStack> items) {
+        final List<ItemStack> missing = new ArrayList<>();
 
-		if(items != null && inventory.getType() != InventoryType.CREATIVE) {
-			for(ItemStack item : items) {
-				if(!containsAtLeast(inventory, item, item.getAmount())) {
-					ItemStack missingItemStack = item.clone();
-					missingItemStack.setAmount(item.getAmount() - getTotalAmountOfItemStackInInventory(inventory, item));
-					missing.add(missingItemStack);
-				}
-			}
-		}
+        if(items != null && inventory.getType() != InventoryType.CREATIVE) {
+            for(ItemStack item : items) {
+                if(!containsAtLeast(inventory, item, item.getAmount())) {
+                    ItemStack missingItemStack = item.clone();
+                    missingItemStack.setAmount(item.getAmount() - getTotalAmountOfItemStackInInventory(inventory, item));
+                    missing.add(missingItemStack);
+                }
+            }
+        }
 
-		return missing;
-	}
+        return missing;
+    }
 
-	/**
-	 * Gets total amount of item
-	 *
-	 * @param inventory inventory
-	 * @param itemStack item
-	 * @return the amount
-	 */
-	public static int getTotalAmountOfItemStackInInventory(Inventory inventory, ItemStack itemStack) {
-		int amount = 0;
+    /**
+     * Gets total amount of item
+     *
+     * @param inventory inventory
+     * @param itemStack item
+     * @return the amount
+     */
+    public static int getTotalAmountOfItemStackInInventory(Inventory inventory, ItemStack itemStack) {
+        int amount = 0;
 
-		for(ItemStack item : inventory.getContents()) {
-			if(item != null && item.getType() != Material.AIR && ItemStackUtils.isSimilar(itemStack, item)) {
-				amount += item.getAmount();
-			}
-		}
+        for(ItemStack item : inventory.getContents()) {
+            if(item != null && item.getType() != Material.AIR && ItemStackUtils.isSimilar(itemStack, item)) {
+                amount += item.getAmount();
+            }
+        }
 
-		return amount;
-	}
+        return amount;
+    }
 
-	/**
-	 * Checks if an inventory is empty
-	 *
-	 * @param inventory inventory
-	 * @return boolean
-	 */
-	public static boolean isEmpty(Inventory inventory) {
-		for(ItemStack itemStack : inventory.getContents()) {
-			if(itemStack != null && itemStack.getType() != Material.AIR) {
-				return false;
-			}
-		}
-		return true;
-	}
+    /**
+     * Checks if an inventory is empty
+     *
+     * @param inventory inventory
+     * @return boolean
+     */
+    public static boolean isEmpty(Inventory inventory) {
+        for(ItemStack itemStack : inventory.getContents()) {
+            if(itemStack != null && itemStack.getType() != Material.AIR) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	/**
-	 * Checks if an inventory contains required amount of an item
-	 *
-	 * @param inventory inventory
-	 * @param itemStack item
-	 * @param amount    amount
-	 * @return boolean
-	 */
-	public static boolean containsAtLeast(Inventory inventory, ItemStack itemStack, int amount) {
-		return getTotalAmountOfItemStackInInventory(inventory, itemStack) >= amount;
-	}
+    /**
+     * Checks if an inventory contains required amount of an item
+     *
+     * @param inventory inventory
+     * @param itemStack item
+     * @param amount    amount
+     * @return boolean
+     */
+    public static boolean containsAtLeast(Inventory inventory, ItemStack itemStack, int amount) {
+        return getTotalAmountOfItemStackInInventory(inventory, itemStack) >= amount;
+    }
 }

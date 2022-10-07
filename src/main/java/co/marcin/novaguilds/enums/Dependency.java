@@ -25,76 +25,76 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum Dependency {
-	VAULT("Vault", true),
-	VANISHNOPACKET("VanishNoPacket", false),
-	ESSENTIALS("Essentials", false),
-	BOSSBARAPI("BossBarAPI", false),
-	BARAPI("BarAPI", false),
-	SCOREBOARDSTATS("ScoreboardStats", false),
-	WORLDGUARD("WorldGuard", false, new DependencyManager.WorldGuardFlagInjector()),
-	DYNMAP("dynmap", false),
-	HOLOGRAPHICDISPLAYS("HolographicDisplays", false, new DependencyManager.HolographicDisplaysAPIChecker());
+    VAULT("Vault", true),
+    VANISHNOPACKET("VanishNoPacket", false),
+    ESSENTIALS("Essentials", false),
+    BOSSBARAPI("BossBarAPI", false),
+    BARAPI("BarAPI", false),
+    SCOREBOARDSTATS("ScoreboardStats", false),
+    WORLDGUARD("WorldGuard", false, new DependencyManager.WorldGuardFlagInjector()),
+    DYNMAP("dynmap", false),
+    HOLOGRAPHICDISPLAYS("HolographicDisplays", false, new DependencyManager.HolographicDisplaysAPIChecker());
 
-	private final String name;
-	private final boolean hardDependency;
-	private final Set<DependencyManager.AdditionalTask> additionalTasks = new HashSet<>();
+    private final String name;
+    private final boolean hardDependency;
+    private final Set<DependencyManager.AdditionalTask> additionalTasks = new HashSet<>();
 
-	/**
-	 * The constructor
-	 *
-	 * @param name           the name
-	 * @param hardDependency true if required
-	 */
-	Dependency(String name, boolean hardDependency) {
-		this.name = name;
-		this.hardDependency = hardDependency;
-	}
+    /**
+     * The constructor
+     *
+     * @param name           the name
+     * @param hardDependency true if required
+     */
+    Dependency(String name, boolean hardDependency) {
+        this.name = name;
+        this.hardDependency = hardDependency;
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param name            the name
-	 * @param hardDependency  true if required
-	 * @param additionalTasks additional tasks
-	 */
-	Dependency(String name, boolean hardDependency, DependencyManager.AdditionalTask... additionalTasks) {
-		this(name, hardDependency);
-		Collections.addAll(this.additionalTasks, additionalTasks);
-	}
+    /**
+     * The constructor
+     *
+     * @param name            the name
+     * @param hardDependency  true if required
+     * @param additionalTasks additional tasks
+     */
+    Dependency(String name, boolean hardDependency, DependencyManager.AdditionalTask... additionalTasks) {
+        this(name, hardDependency);
+        Collections.addAll(this.additionalTasks, additionalTasks);
+    }
 
-	/**
-	 * Gets the name
-	 *
-	 * @return dependency name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Gets the name
+     *
+     * @return dependency name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * Checks if the dependency is required (hard)
-	 *
-	 * @return boolean
-	 */
-	public boolean isHardDependency() {
-		return hardDependency;
-	}
+    /**
+     * Checks if the dependency is required (hard)
+     *
+     * @return boolean
+     */
+    public boolean isHardDependency() {
+        return hardDependency;
+    }
 
-	/**
-	 * Checks if there are additional tasks
-	 *
-	 * @return boolean
-	 */
-	public boolean hasAdditionalTasks() {
-		return !additionalTasks.isEmpty();
-	}
+    /**
+     * Checks if there are additional tasks
+     *
+     * @return boolean
+     */
+    public boolean hasAdditionalTasks() {
+        return !additionalTasks.isEmpty();
+    }
 
-	/**
-	 * Gets additional tasks
-	 *
-	 * @return set of runnables
-	 */
-	public Set<DependencyManager.AdditionalTask> getAdditionalTasks() {
-		return additionalTasks;
-	}
+    /**
+     * Gets additional tasks
+     *
+     * @return set of runnables
+     */
+    public Set<DependencyManager.AdditionalTask> getAdditionalTasks() {
+        return additionalTasks;
+    }
 }

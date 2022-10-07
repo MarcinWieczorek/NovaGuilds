@@ -26,25 +26,25 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandGuildCompass extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		Player player = (Player) sender;
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        Player player = (Player) sender;
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(nPlayer.getPreferences().isCompassPointingGuild()) { //disable
-			nPlayer.getPreferences().setCompassPointingGuild(false);
-			player.setCompassTarget(player.getWorld().getSpawnLocation());
-			Message.CHAT_GUILD_COMPASSTARGET_OFF.send(sender);
-		}
-		else { //enable
-			nPlayer.getPreferences().setCompassPointingGuild(true);
-			player.setCompassTarget(nPlayer.getGuild().getHome());
-			Message.CHAT_GUILD_COMPASSTARGET_ON.send(sender);
-		}
-	}
+        if(nPlayer.getPreferences().isCompassPointingGuild()) { //disable
+            nPlayer.getPreferences().setCompassPointingGuild(false);
+            player.setCompassTarget(player.getWorld().getSpawnLocation());
+            Message.CHAT_GUILD_COMPASSTARGET_OFF.send(sender);
+        }
+        else { //enable
+            nPlayer.getPreferences().setCompassPointingGuild(true);
+            player.setCompassTarget(nPlayer.getGuild().getHome());
+            Message.CHAT_GUILD_COMPASSTARGET_ON.send(sender);
+        }
+    }
 }

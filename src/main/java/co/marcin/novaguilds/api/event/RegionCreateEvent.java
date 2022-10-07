@@ -25,74 +25,74 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class RegionCreateEvent extends Event implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	private final NovaRegion region;
-	private final NovaPlayer nPlayer;
-	private final boolean admin;
-	private boolean cancelled;
+    private static final HandlerList handlers = new HandlerList();
+    private final NovaRegion region;
+    private final NovaPlayer nPlayer;
+    private final boolean admin;
+    private boolean cancelled;
 
-	/**
-	 * The constructor
-	 *
-	 * @param region  region
-	 * @param nPlayer player
-	 * @param admin   true if executed in admin panel
-	 */
-	public RegionCreateEvent(NovaRegion region, NovaPlayer nPlayer, boolean admin) {
-		this.region = region;
-		this.nPlayer = nPlayer;
-		this.admin = admin;
-	}
+    /**
+     * The constructor
+     *
+     * @param region  region
+     * @param nPlayer player
+     * @param admin   true if executed in admin panel
+     */
+    public RegionCreateEvent(NovaRegion region, NovaPlayer nPlayer, boolean admin) {
+        this.region = region;
+        this.nPlayer = nPlayer;
+        this.admin = admin;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean cancel) {
-		cancelled = cancel;
-	}
+    @Override
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
+    }
 
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	/**
-	 * Gets the region
-	 *
-	 * @return region instance
-	 */
-	public NovaRegion getRegion() {
-		return region;
-	}
+    /**
+     * Gets the region
+     *
+     * @return region instance
+     */
+    public NovaRegion getRegion() {
+        return region;
+    }
 
-	/**
-	 * Gets the player who creates the region
-	 *
-	 * @return player
-	 */
-	public NovaPlayer getPlayer() {
-		return nPlayer;
-	}
+    /**
+     * Gets the player who creates the region
+     *
+     * @return player
+     */
+    public NovaPlayer getPlayer() {
+        return nPlayer;
+    }
 
-	/**
-	 * Checks if the event has been called
-	 * in the admin panel
-	 *
-	 * @return true if nga
-	 */
-	public boolean isAdmin() {
-		return admin;
-	}
+    /**
+     * Checks if the event has been called
+     * in the admin panel
+     *
+     * @return true if nga
+     */
+    public boolean isAdmin() {
+        return admin;
+    }
 
-	/**
-	 * Gets handler list
-	 *
-	 * @return the handler list
-	 */
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    /**
+     * Gets handler list
+     *
+     * @return the handler list
+     */
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

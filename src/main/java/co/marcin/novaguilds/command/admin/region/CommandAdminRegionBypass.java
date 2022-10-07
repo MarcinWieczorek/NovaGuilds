@@ -31,44 +31,44 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminRegionBypass extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		Map<VarKey, String> vars = new HashMap<>();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        Map<VarKey, String> vars = new HashMap<>();
 
-		if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {
-			if(!(sender instanceof Player)) {
-				Message.CHAT_CMDFROMCONSOLE.send(sender);
-				return;
-			}
+        if(args.length == 0 || args[0].equalsIgnoreCase(sender.getName())) {
+            if(!(sender instanceof Player)) {
+                Message.CHAT_CMDFROMCONSOLE.send(sender);
+                return;
+            }
 
-			NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+            NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-			nPlayer.getPreferences().toggleBypass();
-			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
-			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF.clone().vars(vars).send(sender);
-		}
-		else { //for other
-			if(!Permission.NOVAGUILDS_ADMIN_REGION_BYPASS_OTHER.has(sender)) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return;
-			}
+            nPlayer.getPreferences().toggleBypass();
+            vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
+            Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_SELF.clone().vars(vars).send(sender);
+        }
+        else { //for other
+            if(!Permission.NOVAGUILDS_ADMIN_REGION_BYPASS_OTHER.has(sender)) {
+                Message.CHAT_NOPERMISSIONS.send(sender);
+                return;
+            }
 
-			NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
+            NovaPlayer nPlayer = PlayerManager.getPlayer(args[0]);
 
-			if(nPlayer == null) {
-				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-				return;
-			}
+            if(nPlayer == null) {
+                Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+                return;
+            }
 
-			nPlayer.getPreferences().toggleBypass();
-			vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
-			vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
+            nPlayer.getPreferences().toggleBypass();
+            vars.put(VarKey.PLAYER_NAME, nPlayer.getName());
+            vars.put(VarKey.BYPASS, Message.getOnOff(nPlayer.getPreferences().getBypass()));
 
-			if(nPlayer.isOnline()) {
-				Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.clone().vars(vars).send(nPlayer);
-			}
+            if(nPlayer.isOnline()) {
+                Message.CHAT_ADMIN_REGION_BYPASS_NOTIFYOTHER.clone().vars(vars).send(nPlayer);
+            }
 
-			Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER.clone().vars(vars).send(sender);
-		}
-	}
+            Message.CHAT_ADMIN_REGION_BYPASS_TOGGLED_OTHER.clone().vars(vars).send(sender);
+        }
+    }
 }

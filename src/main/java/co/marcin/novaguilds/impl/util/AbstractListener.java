@@ -23,12 +23,12 @@ import co.marcin.novaguilds.manager.ListenerManager;
 import org.bukkit.event.Listener;
 
 public abstract class AbstractListener implements Listener {
-	protected final NovaGuilds plugin = NovaGuilds.getInstance();
+    protected final NovaGuilds plugin = NovaGuilds.getInstance();
 
-	/**
-	 * The constructor
-	 */
-	public AbstractListener() {
-		ListenerManager.getLoggedPluginManager().registerEvents(this, plugin);
-	}
+    /**
+     * The constructor
+     */
+    public AbstractListener() {
+        ListenerManager.getLoggedPluginManager().registerEvents(this, plugin);
+    }
 }

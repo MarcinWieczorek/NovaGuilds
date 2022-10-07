@@ -19,10 +19,10 @@
 package co.marcin.novaguilds.enums;
 
 public enum RegionValidity {
-	VALID,
-	TOOSMALL,
-	TOOBIG,
-	TOOCLOSE,
-	WORLDGUARD,
-	OVERLAPS
+    VALID,
+    TOOSMALL,
+    TOOBIG,
+    TOOCLOSE,
+    WORLDGUARD,
+    OVERLAPS
 }

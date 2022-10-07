@@ -19,28 +19,28 @@
 package co.marcin.novaguilds.api.basic;
 
 public interface NovaGroup {
-	interface Key<T> {
-		/**
-		 * Gets variable type
-		 *
-		 * @return the type
-		 */
-		Class<T> getType();
-	}
+    interface Key<T> {
+        /**
+         * Gets variable type
+         *
+         * @return the type
+         */
+        Class<T> getType();
+    }
 
-	/**
-	 * Get group's name
-	 *
-	 * @return name
-	 */
-	String getName();
+    /**
+     * Get group's name
+     *
+     * @return name
+     */
+    String getName();
 
-	/**
-	 * Gets a value
-	 *
-	 * @param key the key
-	 * @param <T> type parameter
-	 * @return value as object
-	 */
-	<T> T get(Key<T> key);
+    /**
+     * Gets a value
+     *
+     * @param key the key
+     * @param <T> type parameter
+     * @return value as object
+     */
+    <T> T get(Key<T> key);
 }

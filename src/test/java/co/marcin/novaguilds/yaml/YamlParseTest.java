@@ -28,44 +28,44 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class YamlParseTest {
-	public static final File resourcesDirectory = new File("./src/main/resources/");
+    public static final File resourcesDirectory = new File("./src/main/resources/");
 
-	@Test
-	public void testConfig() throws FileNotFoundException, InvalidConfigurationException {
-		File configFile = new File(resourcesDirectory, "config.yml");
+    @Test
+    public void testConfig() throws FileNotFoundException, InvalidConfigurationException {
+        File configFile = new File(resourcesDirectory, "config.yml");
 
-		if(!configFile.exists()) {
-			throw new FileNotFoundException("Config file does not exist.");
-		}
+        if(!configFile.exists()) {
+            throw new FileNotFoundException("Config file does not exist.");
+        }
 
-		try {
-			YamlConfiguration.loadConfiguration(configFile);
-		}
-		catch(NullPointerException e) {
-			throw new InvalidConfigurationException("Invalid YAML file (" + configFile.getPath() + ")");
-		}
-	}
+        try {
+            YamlConfiguration.loadConfiguration(configFile);
+        }
+        catch(NullPointerException e) {
+            throw new InvalidConfigurationException("Invalid YAML file (" + configFile.getPath() + ")");
+        }
+    }
 
-	@Test
-	public void testTranslations() throws NullPointerException, InvalidConfigurationException, IOException {
-		File langDir = new File(resourcesDirectory, "/lang");
+    @Test
+    public void testTranslations() throws NullPointerException, InvalidConfigurationException, IOException {
+        File langDir = new File(resourcesDirectory, "/lang");
 
-		if(langDir.isDirectory()) {
-			File[] list = langDir.listFiles();
+        if(langDir.isDirectory()) {
+            File[] list = langDir.listFiles();
 
-			if(list != null) {
-				for(File lang : list) {
-					try {
-						Lang.loadConfiguration(lang);
-					}
-					catch(NullPointerException e) {
-						throw new InvalidConfigurationException("Invalid YAML file (" + lang.getPath() + ")");
-					}
-				}
-			}
-		}
-		else {
-			throw new FileNotFoundException("Lang dir does not exist.");
-		}
-	}
+            if(list != null) {
+                for(File lang : list) {
+                    try {
+                        Lang.loadConfiguration(lang);
+                    }
+                    catch(NullPointerException e) {
+                        throw new InvalidConfigurationException("Invalid YAML file (" + lang.getPath() + ")");
+                    }
+                }
+            }
+        }
+        else {
+            throw new FileNotFoundException("Lang dir does not exist.");
+        }
+    }
 }

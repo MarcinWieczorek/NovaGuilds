@@ -26,182 +26,182 @@ import org.bukkit.command.TabCompleter;
 import java.util.Collection;
 
 public interface CommandWrapper {
-	enum Flag {
-		NOCONSOLE,
-		CONFIRM
-	}
+    enum Flag {
+        NOCONSOLE,
+        CONFIRM
+    }
 
-	/**
-	 * Gets the permission
-	 *
-	 * @return the permission string
-	 */
-	Permission getPermission();
+    /**
+     * Gets the permission
+     *
+     * @return the permission string
+     */
+    Permission getPermission();
 
-	/**
-	 * Sets the permission
-	 *
-	 * @param permission permission
-	 */
-	void setPermission(Permission permission);
+    /**
+     * Sets the permission
+     *
+     * @param permission permission
+     */
+    void setPermission(Permission permission);
 
-	/**
-	 * Checks if a sender has permission to execute the command
-	 *
-	 * @param sender the sender
-	 * @return boolean
-	 */
-	boolean hasPermission(CommandSender sender);
+    /**
+     * Checks if a sender has permission to execute the command
+     *
+     * @param sender the sender
+     * @return boolean
+     */
+    boolean hasPermission(CommandSender sender);
 
-	/**
-	 * Gets tab completer
-	 *
-	 * @return tab completer instance
-	 */
-	TabCompleter getTabCompleter();
+    /**
+     * Gets tab completer
+     *
+     * @return tab completer instance
+     */
+    TabCompleter getTabCompleter();
 
-	/**
-	 * Sets the tab completer
-	 *
-	 * @param tabCompleter tab completer
-	 */
-	void setTabCompleter(TabCompleter tabCompleter);
+    /**
+     * Sets the tab completer
+     *
+     * @param tabCompleter tab completer
+     */
+    void setTabCompleter(TabCompleter tabCompleter);
 
-	/**
-	 * Checks if the command has a tab completer
-	 *
-	 * @return boolean
-	 */
-	boolean hasTabCompleter();
+    /**
+     * Checks if the command has a tab completer
+     *
+     * @return boolean
+     */
+    boolean hasTabCompleter();
 
-	/**
-	 * Sets flags
-	 *
-	 * @param flags flags
-	 */
-	void setFlags(Flag... flags);
+    /**
+     * Sets flags
+     *
+     * @param flags flags
+     */
+    void setFlags(Flag... flags);
 
-	/**
-	 * Checks if the command has a flag
-	 *
-	 * @param flag flag
-	 * @return boolean
-	 */
-	boolean hasFlag(Flag flag);
+    /**
+     * Checks if the command has a flag
+     *
+     * @param flag flag
+     * @return boolean
+     */
+    boolean hasFlag(Flag flag);
 
-	/**
-	 * Gets the flags
-	 *
-	 * @return collections with flags
-	 */
-	Collection<Flag> getFlags();
+    /**
+     * Gets the flags
+     *
+     * @return collections with flags
+     */
+    Collection<Flag> getFlags();
 
-	/**
-	 * Sets the executor
-	 *
-	 * @param executor executor instance
-	 */
-	void setExecutor(CommandExecutor executor);
+    /**
+     * Sets the executor
+     *
+     * @param executor executor instance
+     */
+    void setExecutor(CommandExecutor executor);
 
-	/**
-	 * Gets the executor
-	 *
-	 * @return executor instance
-	 */
-	CommandExecutor getExecutor();
+    /**
+     * Gets the executor
+     *
+     * @return executor instance
+     */
+    CommandExecutor getExecutor();
 
-	/**
-	 * Gets executor's class
-	 *
-	 * @return the class
-	 */
-	Class<? extends CommandExecutor> getExecutorClass();
+    /**
+     * Gets executor's class
+     *
+     * @return the class
+     */
+    Class<? extends CommandExecutor> getExecutorClass();
 
-	/**
-	 * Checks if the executor is reversed
-	 *
-	 * @return boolean
-	 */
-	boolean isReversed();
+    /**
+     * Checks if the executor is reversed
+     *
+     * @return boolean
+     */
+    boolean isReversed();
 
-	/**
-	 * Executes the command
-	 *
-	 * @param sender sender
-	 * @param args   arguments
-	 */
-	void execute(CommandSender sender, String[] args);
+    /**
+     * Executes the command
+     *
+     * @param sender sender
+     * @param args   arguments
+     */
+    void execute(CommandSender sender, String[] args);
 
-	/**
-	 * Gets usage message
-	 *
-	 * @return the message
-	 */
-	MessageWrapper getUsageMessage();
+    /**
+     * Gets usage message
+     *
+     * @return the message
+     */
+    MessageWrapper getUsageMessage();
 
-	/**
-	 * Sets the usage message
-	 *
-	 * @param message message
-	 */
-	void setUsageMessage(MessageWrapper message);
+    /**
+     * Sets the usage message
+     *
+     * @param message message
+     */
+    void setUsageMessage(MessageWrapper message);
 
-	/**
-	 * Checks if a sender is allowed
-	 * (if is console)
-	 *
-	 * @param sender the sender
-	 * @return boolean
-	 */
-	boolean allowedSender(CommandSender sender);
+    /**
+     * Checks if a sender is allowed
+     * (if is console)
+     *
+     * @param sender the sender
+     * @return boolean
+     */
+    boolean allowedSender(CommandSender sender);
 
-	/**
-	 * Gets the executor variable
-	 *
-	 * @return the object
-	 */
-	Resource getExecutorVariable();
+    /**
+     * Gets the executor variable
+     *
+     * @return the object
+     */
+    Resource getExecutorVariable();
 
-	/**
-	 * Set the executor variable
-	 *
-	 * @param resource the object
-	 */
-	void executorVariable(Resource resource);
+    /**
+     * Set the executor variable
+     *
+     * @param resource the object
+     */
+    void executorVariable(Resource resource);
 
-	/**
-	 * Gets the name
-	 *
-	 * @return name string
-	 */
-	String getName();
+    /**
+     * Gets the name
+     *
+     * @return name string
+     */
+    String getName();
 
-	/**
-	 * Sets the name
-	 *
-	 * @param name string
-	 */
-	void setName(String name);
+    /**
+     * Sets the name
+     *
+     * @param name string
+     */
+    void setName(String name);
 
-	/**
-	 * Checks if the command has a generic command
-	 *
-	 * @return boolean
-	 */
-	boolean hasGenericCommand();
+    /**
+     * Checks if the command has a generic command
+     *
+     * @return boolean
+     */
+    boolean hasGenericCommand();
 
-	/**
-	 * Gets generic command string
-	 *
-	 * @return the string
-	 */
-	String getGenericCommand();
+    /**
+     * Gets generic command string
+     *
+     * @return the string
+     */
+    String getGenericCommand();
 
-	/**
-	 * Set the generic command
-	 * /g = "g"
-	 *
-	 * @param genericCommand generic command string
-	 */
-	void setGenericCommand(String genericCommand);
+    /**
+     * Set the generic command
+     * /g = "g"
+     *
+     * @param genericCommand generic command string
+     */
+    void setGenericCommand(String genericCommand);
 }

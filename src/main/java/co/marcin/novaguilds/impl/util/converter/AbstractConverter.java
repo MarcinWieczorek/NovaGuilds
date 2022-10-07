@@ -25,21 +25,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class AbstractConverter<K, V> implements IConverter<K, V> {
-	@Override
-	public Collection<V> convert(Collection<K> list) {
-		final Collection<V> convertedList = new ArrayList<>();
+    @Override
+    public Collection<V> convert(Collection<K> list) {
+        final Collection<V> convertedList = new ArrayList<>();
 
-		for(K k : list) {
-			V converted = convert(k);
+        for(K k : list) {
+            V converted = convert(k);
 
-			if(converted == null) {
-				LoggerUtils.debug("[" + getClass().getSimpleName() + "] Converted item: " + k.toString() + " is null", false);
-				continue;
-			}
+            if(converted == null) {
+                LoggerUtils.debug("[" + getClass().getSimpleName() + "] Converted item: " + k.toString() + " is null", false);
+                continue;
+            }
 
-			convertedList.add(converted);
-		}
+            convertedList.add(converted);
+        }
 
-		return convertedList;
-	}
+        return convertedList;
+    }
 }

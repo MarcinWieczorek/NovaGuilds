@@ -35,57 +35,57 @@ import java.util.Map;
 import java.util.Set;
 
 public class CommandAdminGuildKick extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(args.length == 0) { //no playername
-			Message.CHAT_PLAYER_ENTERNAME.send(sender);
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(args.length == 0) { //no playername
+            Message.CHAT_PLAYER_ENTERNAME.send(sender);
+            return;
+        }
 
-		NovaPlayer nPlayerKick = PlayerManager.getPlayer(args[0]);
+        NovaPlayer nPlayerKick = PlayerManager.getPlayer(args[0]);
 
-		if(nPlayerKick == null) { //no player
-			Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-			return;
-		}
+        if(nPlayerKick == null) { //no player
+            Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+            return;
+        }
 
-		if(!nPlayerKick.hasGuild()) {
-			Message.CHAT_PLAYER_HASNOGUILD.send(sender);
-			return;
-		}
+        if(!nPlayerKick.hasGuild()) {
+            Message.CHAT_PLAYER_HASNOGUILD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = nPlayerKick.getGuild();
+        NovaGuild guild = nPlayerKick.getGuild();
 
-		if(nPlayerKick.isLeader()) {
-			Message.CHAT_ADMIN_GUILD_KICK_LEADER.send(sender);
-			return;
-		}
+        if(nPlayerKick.isLeader()) {
+            Message.CHAT_ADMIN_GUILD_KICK_LEADER.send(sender);
+            return;
+        }
 
-		//all passed
-		guild.removePlayer(nPlayerKick);
+        //all passed
+        guild.removePlayer(nPlayerKick);
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.PLAYER_NAME, nPlayerKick.getName());
-		vars.put(VarKey.GUILD_NAME, guild.getName());
-		Message.BROADCAST_GUILD_KICKED.clone().vars(vars).broadcast();
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.PLAYER_NAME, nPlayerKick.getName());
+        vars.put(VarKey.GUILD_NAME, guild.getName());
+        Message.BROADCAST_GUILD_KICKED.clone().vars(vars).broadcast();
 
-		//tab/tag
-		TagUtils.refresh();
-		TabUtils.refresh();
-		nPlayerKick.cancelToolProgress();
-	}
+        //tab/tag
+        TagUtils.refresh();
+        TabUtils.refresh();
+        nPlayerKick.cancelToolProgress();
+    }
 
-	@Override
-	protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
-		Set<String> options = new HashSet<>();
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    protected Collection<String> tabCompleteOptions(CommandSender sender, String[] args) {
+        Set<String> options = new HashSet<>();
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		for(NovaPlayer guildMember : plugin.getPlayerManager().getOnlinePlayers()) {
-			if(!guildMember.isLeader() && !guildMember.equals(nPlayer)) {
-				options.add(guildMember.getName());
-			}
-		}
+        for(NovaPlayer guildMember : plugin.getPlayerManager().getOnlinePlayers()) {
+            if(!guildMember.isLeader() && !guildMember.equals(nPlayer)) {
+                options.add(guildMember.getName());
+            }
+        }
 
-		return options;
-	}
+        return options;
+    }
 }

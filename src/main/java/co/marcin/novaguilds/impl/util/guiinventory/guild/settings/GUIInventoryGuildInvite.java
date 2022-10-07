@@ -28,23 +28,23 @@ import co.marcin.novaguilds.util.CompatibilityUtils;
 import org.bukkit.entity.Player;
 
 public class GUIInventoryGuildInvite extends AbstractGUIInventory {
-	/**
-	 * The constructor
-	 */
-	public GUIInventoryGuildInvite() {
-		super(ChestGUIUtils.getChestSize(CompatibilityUtils.getOnlinePlayers().size()), Message.INVENTORY_GUI_SETTINGS_INVITE_TITLE);
-	}
+    /**
+     * The constructor
+     */
+    public GUIInventoryGuildInvite() {
+        super(ChestGUIUtils.getChestSize(CompatibilityUtils.getOnlinePlayers().size()), Message.INVENTORY_GUI_SETTINGS_INVITE_TITLE);
+    }
 
-	@Override
-	public void generateContent() {
-		for(Player player : CompatibilityUtils.getOnlinePlayers()) {
-			final NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+    @Override
+    public void generateContent() {
+        for(Player player : CompatibilityUtils.getOnlinePlayers()) {
+            final NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
-			if(nPlayer.hasGuild() || plugin.getPlayerManager().isVanished(player)) {
-				continue;
-			}
+            if(nPlayer.hasGuild() || plugin.getPlayerManager().isVanished(player)) {
+                continue;
+            }
 
-			registerAndAdd(new CommandExecutor(Message.INVENTORY_GUI_SETTINGS_INVITE_ITEM.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()), "novaguilds:guild invite " + nPlayer.getName(), false));
-		}
-	}
+            registerAndAdd(new CommandExecutor(Message.INVENTORY_GUI_SETTINGS_INVITE_ITEM.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()), "novaguilds:guild invite " + nPlayer.getName(), false));
+        }
+    }
 }

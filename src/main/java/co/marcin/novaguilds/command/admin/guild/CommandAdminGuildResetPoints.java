@@ -32,112 +32,112 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildResetPoints extends AbstractCommandExecutor {
-	private enum ConditionType {
-		LARGER,
-		SMALLER,
-		EQUAL,
-		ALL
-	}
+    private enum ConditionType {
+        LARGER,
+        SMALLER,
+        EQUAL,
+        ALL
+    }
 
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(args.length == 0) {
-			getCommand().getUsageMessage().send(sender);
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(args.length == 0) {
+            getCommand().getUsageMessage().send(sender);
+            return;
+        }
 
-		String condition = args[0];
-		ConditionType conditionType = null;
+        String condition = args[0];
+        ConditionType conditionType = null;
 
-		if(condition.equalsIgnoreCase("all")) {
-			conditionType = ConditionType.ALL;
-		}
-		else {
-			switch(condition.charAt(0)) {
-				case '<':
-					conditionType = ConditionType.SMALLER;
-					break;
-				case '>':
-					conditionType = ConditionType.LARGER;
-					break;
-				case '=':
-					conditionType = ConditionType.EQUAL;
-					break;
-			}
-		}
+        if(condition.equalsIgnoreCase("all")) {
+            conditionType = ConditionType.ALL;
+        }
+        else {
+            switch(condition.charAt(0)) {
+                case '<':
+                    conditionType = ConditionType.SMALLER;
+                    break;
+                case '>':
+                    conditionType = ConditionType.LARGER;
+                    break;
+                case '=':
+                    conditionType = ConditionType.EQUAL;
+                    break;
+            }
+        }
 
-		if(conditionType == null) {
-			Message.CHAT_ADMIN_GUILD_RESET_POINTS_INVALIDCONDITIONTYPE.send(sender);
-			return;
-		}
+        if(conditionType == null) {
+            Message.CHAT_ADMIN_GUILD_RESET_POINTS_INVALIDCONDITIONTYPE.send(sender);
+            return;
+        }
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.CHAR, String.valueOf(condition.charAt(0)));
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.CHAR, String.valueOf(condition.charAt(0)));
 
-		if(condition.length() == 1) {
-			Message.CHAT_ADMIN_GUILD_RESET_POINTS_NOVALUE.clone().vars(vars).send(sender);
-			return;
-		}
+        if(condition.length() == 1) {
+            Message.CHAT_ADMIN_GUILD_RESET_POINTS_NOVALUE.clone().vars(vars).send(sender);
+            return;
+        }
 
-		int value = 0;
-		if(conditionType != ConditionType.ALL) {
-			String valueString = StringUtils.substring(condition, 1);
+        int value = 0;
+        if(conditionType != ConditionType.ALL) {
+            String valueString = StringUtils.substring(condition, 1);
 
-			if(!NumberUtils.isNumeric(valueString)) {
-				Message.CHAT_ENTERINTEGER.send(sender);
-				return;
-			}
+            if(!NumberUtils.isNumeric(valueString)) {
+                Message.CHAT_ENTERINTEGER.send(sender);
+                return;
+            }
 
-			value = Integer.valueOf(valueString);
-		}
+            value = Integer.valueOf(valueString);
+        }
 
-		int count = 0;
-		for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
-			int points = guild.getPoints();
-			boolean passed = conditionType == ConditionType.ALL;
+        int count = 0;
+        for(NovaGuild guild : plugin.getGuildManager().getGuilds()) {
+            int points = guild.getPoints();
+            boolean passed = conditionType == ConditionType.ALL;
 
-			switch(conditionType) {
-				case SMALLER:
-					passed = points < value;
-					break;
-				case LARGER:
-					passed = points > value;
-					break;
-				case EQUAL:
-					passed = points == value;
-					break;
-			}
+            switch(conditionType) {
+                case SMALLER:
+                    passed = points < value;
+                    break;
+                case LARGER:
+                    passed = points > value;
+                    break;
+                case EQUAL:
+                    passed = points == value;
+                    break;
+            }
 
-			if(passed) {
-				int newPoints;
+            if(passed) {
+                int newPoints;
 
-				if(args.length == 2) {
-					String newPointsString = args[1];
+                if(args.length == 2) {
+                    String newPointsString = args[1];
 
-					if(!NumberUtils.isNumeric(newPointsString)) {
-						Message.CHAT_ENTERINTEGER.send(sender);
-						return;
-					}
+                    if(!NumberUtils.isNumeric(newPointsString)) {
+                        Message.CHAT_ENTERINTEGER.send(sender);
+                        return;
+                    }
 
-					newPoints = Integer.valueOf(newPointsString);
+                    newPoints = Integer.valueOf(newPointsString);
 
-					if(newPoints < 0) {
-						Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
-						return;
-					}
-				}
-				else {
-					newPoints = Config.GUILD_START_POINTS.getInt();
-				}
+                    if(newPoints < 0) {
+                        Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+                        return;
+                    }
+                }
+                else {
+                    newPoints = Config.GUILD_START_POINTS.getInt();
+                }
 
-				guild.setPoints(newPoints);
-				TabUtils.refresh(guild);
+                guild.setPoints(newPoints);
+                TabUtils.refresh(guild);
 
-				count++;
-			}
-		}
-		vars.put(VarKey.COUNT, String.valueOf(count));
+                count++;
+            }
+        }
+        vars.put(VarKey.COUNT, String.valueOf(count));
 
-		Message.CHAT_ADMIN_GUILD_RESET_POINTS_SUCCESS.clone().vars(vars).send(sender);
-	}
+        Message.CHAT_ADMIN_GUILD_RESET_POINTS_SUCCESS.clone().vars(vars).send(sender);
+    }
 }

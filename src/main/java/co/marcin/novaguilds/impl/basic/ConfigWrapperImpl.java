@@ -31,264 +31,264 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigWrapperImpl extends AbstractVarKeyApplicable<ConfigWrapper> implements ConfigWrapper {
-	public static class Typed<T> extends ConfigWrapperImpl implements ConfigWrapper.Typed<T> {
-		private final Class<T> type;
+    public static class Typed<T> extends ConfigWrapperImpl implements ConfigWrapper.Typed<T> {
+        private final Class<T> type;
 
-		/**
-		 * The constructor
-		 *
-		 * @param path      path
-		 * @param fixColors fix colors
-		 * @param type      type class
-		 */
-		public Typed(String path, boolean fixColors, Class<T> type) {
-			super(path, fixColors);
-			this.type = type;
-		}
+        /**
+         * The constructor
+         *
+         * @param path      path
+         * @param fixColors fix colors
+         * @param type      type class
+         */
+        public Typed(String path, boolean fixColors, Class<T> type) {
+            super(path, fixColors);
+            this.type = type;
+        }
 
-		/**
-		 * The constructor
-		 *
-		 * @param configWrapper config wrapper
-		 * @param type          type class
-		 */
-		public Typed(ConfigWrapper configWrapper, Class<T> type) {
-			super(configWrapper);
-			this.type = type;
-		}
+        /**
+         * The constructor
+         *
+         * @param configWrapper config wrapper
+         * @param type          type class
+         */
+        public Typed(ConfigWrapper configWrapper, Class<T> type) {
+            super(configWrapper);
+            this.type = type;
+        }
 
-		/**
-		 * The constructor
-		 * Empty typed wrapper
-		 *
-		 * @param type type
-		 */
-		public Typed(Class<T> type) {
-			super(null, false);
-			this.type = type;
-		}
+        /**
+         * The constructor
+         * Empty typed wrapper
+         *
+         * @param type type
+         */
+        public Typed(Class<T> type) {
+            super(null, false);
+            this.type = type;
+        }
 
-		/**
-		 * The constructor
-		 * This constructor inherits everything
-		 * from the config wrapper and sets the type
-		 * from the second parameter
-		 *
-		 * @param configWrapper config wrapper
-		 * @param typed         typed wrapper
-		 */
-		public Typed(ConfigWrapper configWrapper, ConfigWrapperImpl.Typed<T> typed) {
-			super(configWrapper);
-			this.type = typed.type;
-		}
+        /**
+         * The constructor
+         * This constructor inherits everything
+         * from the config wrapper and sets the type
+         * from the second parameter
+         *
+         * @param configWrapper config wrapper
+         * @param typed         typed wrapper
+         */
+        public Typed(ConfigWrapper configWrapper, ConfigWrapperImpl.Typed<T> typed) {
+            super(configWrapper);
+            this.type = typed.type;
+        }
 
-		@SuppressWarnings("unchecked")
-		@Override
-		public T get() {
-			T r = cM.isInCache(this)
-					? (T) cM.getEnumConfig(this)
-					: cM.get(this, type);
-			cM.putInCache(this, r);
-			return r;
-		}
+        @SuppressWarnings("unchecked")
+        @Override
+        public T get() {
+            T r = cM.isInCache(this)
+                    ? (T) cM.getEnumConfig(this)
+                    : cM.get(this, type);
+            cM.putInCache(this, r);
+            return r;
+        }
 
-		@Override
-		public Class<T> getType() {
-			return type;
-		}
+        @Override
+        public Class<T> getType() {
+            return type;
+        }
 
-		@SuppressWarnings("unchecked")
-		@Override
-		public boolean isEmpty() {
-			if(getType() == ConfigurationSection.class) {
-				return !(cM.getConfig().contains(getPath())
-						&& cM.getConfig().isConfigurationSection(getPath())
-						&& ((ConfigWrapper.Typed<ConfigurationSection>) this).get() != null);
-			}
+        @SuppressWarnings("unchecked")
+        @Override
+        public boolean isEmpty() {
+            if(getType() == ConfigurationSection.class) {
+                return !(cM.getConfig().contains(getPath())
+                        && cM.getConfig().isConfigurationSection(getPath())
+                        && ((ConfigWrapper.Typed<ConfigurationSection>) this).get() != null);
+            }
 
-			return super.isEmpty();
-		}
-	}
+            return super.isEmpty();
+        }
+    }
 
-	protected static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
-	protected String path;
-	protected boolean fixColors;
+    protected static final ConfigManager cM = NovaGuilds.getInstance() == null ? null : NovaGuilds.getInstance().getConfigManager();
+    protected String path;
+    protected boolean fixColors;
 
-	/**
-	 * The constructor
-	 *
-	 * @param path      yaml path
-	 * @param fixColors fix colors flag
-	 */
-	public ConfigWrapperImpl(String path, boolean fixColors) {
-		this.path = path;
-		this.fixColors = fixColors;
-	}
+    /**
+     * The constructor
+     *
+     * @param path      yaml path
+     * @param fixColors fix colors flag
+     */
+    public ConfigWrapperImpl(String path, boolean fixColors) {
+        this.path = path;
+        this.fixColors = fixColors;
+    }
 
-	/**
-	 * The constructor
-	 * copies the wrapper
-	 *
-	 * @param configWrapper wrapper
-	 */
-	public ConfigWrapperImpl(ConfigWrapper configWrapper) {
-		this(configWrapper.getPath(), configWrapper.isFixColors());
-	}
+    /**
+     * The constructor
+     * copies the wrapper
+     *
+     * @param configWrapper wrapper
+     */
+    public ConfigWrapperImpl(ConfigWrapper configWrapper) {
+        this(configWrapper.getPath(), configWrapper.isFixColors());
+    }
 
-	@Override
-	public String getName() {
-		return StringUtils.replace(path, ".", "_").toUpperCase();
-	}
+    @Override
+    public String getName() {
+        return StringUtils.replace(path, ".", "_").toUpperCase();
+    }
 
-	@Override
-	public String getPath() {
-		if(path == null) {
-			throw new IllegalArgumentException("Path has not been set!");
-		}
+    @Override
+    public String getPath() {
+        if(path == null) {
+            throw new IllegalArgumentException("Path has not been set!");
+        }
 
-		return path;
-	}
+        return path;
+    }
 
-	@Override
-	public boolean isFixColors() {
-		return fixColors;
-	}
+    @Override
+    public boolean isFixColors() {
+        return fixColors;
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return cM.getConfig().get(getPath()).equals("none");
-	}
+    @Override
+    public boolean isEmpty() {
+        return cM.getConfig().get(getPath()).equals("none");
+    }
 
-	@Override
-	public boolean isList() {
-		return cM.getConfig().isList(getPath());
-	}
+    @Override
+    public boolean isList() {
+        return cM.getConfig().isList(getPath());
+    }
 
-	@Override
-	public String getString() {
-		return cM.get(this, String.class);
-	}
+    @Override
+    public String getString() {
+        return cM.get(this, String.class);
+    }
 
-	@Override
-	public List<String> getStringList() {
-		List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path, vars, fixColors);
-		cM.putInCache(this, r);
-		return r;
-	}
+    @Override
+    public List<String> getStringList() {
+        List<String> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<String>) cM.getEnumConfig(this) : cM.getStringList(path, vars, fixColors);
+        cM.putInCache(this, r);
+        return r;
+    }
 
-	@Override
-	public List<ItemStack> getItemStackList() {
-		List<ItemStack> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path, vars);
-		cM.putInCache(this, r);
-		return r;
-	}
+    @Override
+    public List<ItemStack> getItemStackList() {
+        List<ItemStack> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<ItemStack>) cM.getEnumConfig(this) : cM.getItemStackList(path, vars);
+        cM.putInCache(this, r);
+        return r;
+    }
 
-	@Override
-	public List<Material> getMaterialList() {
-		List<Material> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path, vars);
-		cM.putInCache(this, r);
-		return r;
-	}
+    @Override
+    public List<Material> getMaterialList() {
+        List<Material> r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof List ? (List<Material>) cM.getEnumConfig(this) : cM.getMaterialList(path, vars);
+        cM.putInCache(this, r);
+        return r;
+    }
 
-	@Override
-	public long getLong() {
-		return cM.get(this, Long.class);
-	}
+    @Override
+    public long getLong() {
+        return cM.get(this, Long.class);
+    }
 
-	@Override
-	public double getDouble() {
-		return cM.get(this, Double.class);
-	}
+    @Override
+    public double getDouble() {
+        return cM.get(this, Double.class);
+    }
 
-	@Override
-	public int getInt() {
-		return cM.get(this, Integer.class);
-	}
+    @Override
+    public int getInt() {
+        return cM.get(this, Integer.class);
+    }
 
-	@Override
-	public boolean getBoolean() {
-		return cM.get(this, Boolean.class);
-	}
+    @Override
+    public boolean getBoolean() {
+        return cM.get(this, Boolean.class);
+    }
 
-	@Override
-	public int getSeconds() {
-		int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getSeconds(path);
-		cM.putInCache(this, r);
-		return r;
-	}
+    @Override
+    public int getSeconds() {
+        int r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Integer ? (int) cM.getEnumConfig(this) : cM.getSeconds(path);
+        cM.putInCache(this, r);
+        return r;
+    }
 
-	@Override
-	public ItemStack getItemStack() {
-		return cM.get(this, ItemStack.class);
-	}
+    @Override
+    public ItemStack getItemStack() {
+        return cM.get(this, ItemStack.class);
+    }
 
-	@Override
-	public Material getMaterial() {
-		return cM.get(this, Material.class);
-	}
+    @Override
+    public Material getMaterial() {
+        return cM.get(this, Material.class);
+    }
 
-	@Override
-	public byte getMaterialData() {
-		byte r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Byte ? (byte) cM.getEnumConfig(this) : cM.getMaterialData(path);
-		cM.putInCache(this, r);
-		return r;
-	}
+    @Override
+    public byte getMaterialData() {
+        byte r = cM.isInCache(this) && cM.getEnumConfig(this) instanceof Byte ? (byte) cM.getEnumConfig(this) : cM.getMaterialData(path);
+        cM.putInCache(this, r);
+        return r;
+    }
 
-	@Override
-	public double getPercent() {
-		return getDouble() / 100;
-	}
+    @Override
+    public double getPercent() {
+        return getDouble() / 100;
+    }
 
-	@Override
-	public Map<String, Object> getMap() {
-		return cM.getConfig().getConfigurationSection(getPath()).getValues(true);
-	}
+    @Override
+    public Map<String, Object> getMap() {
+        return cM.getConfig().getConfigurationSection(getPath()).getValues(true);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public ConfigurationSection getConfigurationSection() {
-		if(this instanceof ConfigWrapper.Typed
-				&& ((ConfigWrapper.Typed) this).getType() == ConfigurationSection.class) {
-			return ((ConfigWrapper.Typed<ConfigurationSection>) this).get();
-		}
-		else {
-			throw new IllegalArgumentException("Cannot get ConfigurationSection on this wrapper.");
-		}
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public ConfigurationSection getConfigurationSection() {
+        if(this instanceof ConfigWrapper.Typed
+                && ((ConfigWrapper.Typed) this).getType() == ConfigurationSection.class) {
+            return ((ConfigWrapper.Typed<ConfigurationSection>) this).get();
+        }
+        else {
+            throw new IllegalArgumentException("Cannot get ConfigurationSection on this wrapper.");
+        }
+    }
 
-	@Override
-	public void set(Object obj) {
-		cM.set(this, obj);
-	}
+    @Override
+    public void set(Object obj) {
+        cM.set(this, obj);
+    }
 
-	@Override
-	public void setPath(String path) {
-		if(this.path != null) {
-			throw new IllegalArgumentException("Path already set");
-		}
+    @Override
+    public void setPath(String path) {
+        if(this.path != null) {
+            throw new IllegalArgumentException("Path already set");
+        }
 
-		this.path = path;
-	}
+        this.path = path;
+    }
 
-	@Override
-	public void setFixColors(boolean b) {
-		this.fixColors = b;
-	}
+    @Override
+    public void setFixColors(boolean b) {
+        this.fixColors = b;
+    }
 
-	@Override
-	public <E extends Enum> E toEnum(Class<E> clazz) {
-		for(E enumConstant : clazz.getEnumConstants()) {
-			if(enumConstant.name().equalsIgnoreCase(getString())) {
-				return enumConstant;
-			}
-		}
+    @Override
+    public <E extends Enum> E toEnum(Class<E> clazz) {
+        for(E enumConstant : clazz.getEnumConstants()) {
+            if(enumConstant.name().equalsIgnoreCase(getString())) {
+                return enumConstant;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@SuppressWarnings("CloneDoesntCallSuperClone")
-	@Override
-	public ConfigWrapper clone() {
-		return new ConfigWrapperImpl(this);
-	}
+    @SuppressWarnings("CloneDoesntCallSuperClone")
+    @Override
+    public ConfigWrapper clone() {
+        return new ConfigWrapperImpl(this);
+    }
 }

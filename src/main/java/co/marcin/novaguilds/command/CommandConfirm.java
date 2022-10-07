@@ -26,16 +26,16 @@ import co.marcin.novaguilds.manager.PlayerManager;
 import org.bukkit.command.CommandSender;
 
 public class CommandConfirm extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		CommandExecutorHandler handler = nPlayer.getCommandExecutorHandler();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        CommandExecutorHandler handler = nPlayer.getCommandExecutorHandler();
 
-		if(handler == null) {
-			Message.CHAT_CONFIRM_NULLHANDLER.send(sender);
-			return;
-		}
+        if(handler == null) {
+            Message.CHAT_CONFIRM_NULLHANDLER.send(sender);
+            return;
+        }
 
-		handler.confirm();
-	}
+        handler.confirm();
+    }
 }

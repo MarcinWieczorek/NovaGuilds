@@ -34,66 +34,66 @@ import java.util.List;
 import java.util.Map;
 
 public class MigrantImpl implements Migrant {
-	private final Storage fromStorage;
-	private final Storage toStorage;
+    private final Storage fromStorage;
+    private final Storage toStorage;
 
-	/**
-	 * The constructor
-	 *
-	 * @param fromStorage from storage
-	 * @param toStorage   to storage
-	 */
-	public MigrantImpl(Storage fromStorage, Storage toStorage) {
-		this.fromStorage = fromStorage;
-		this.toStorage = toStorage;
-	}
+    /**
+     * The constructor
+     *
+     * @param fromStorage from storage
+     * @param toStorage   to storage
+     */
+    public MigrantImpl(Storage fromStorage, Storage toStorage) {
+        this.fromStorage = fromStorage;
+        this.toStorage = toStorage;
+    }
 
-	@Override
-	public Storage getFromStorage() {
-		return fromStorage;
-	}
+    @Override
+    public Storage getFromStorage() {
+        return fromStorage;
+    }
 
-	@Override
-	public Storage getToStorage() {
-		return toStorage;
-	}
+    @Override
+    public Storage getToStorage() {
+        return toStorage;
+    }
 
-	@Override
-	public void migrate() {
-		boolean deleteInvalidTemp = Config.DELETEINVALID.getBoolean();
-		Config.DELETEINVALID.set(false);
-		Map<Class<? extends Resource>, Collection<? extends Resource>> dataMap = new LinkedHashMap<>();
+    @Override
+    public void migrate() {
+        boolean deleteInvalidTemp = Config.DELETEINVALID.getBoolean();
+        Config.DELETEINVALID.set(false);
+        Map<Class<? extends Resource>, Collection<? extends Resource>> dataMap = new LinkedHashMap<>();
 
-		for(Map.Entry<Class<? extends Resource>, ResourceManager<? extends Resource>> fromResourceManagerEntry : getFromStorage().getResourceManagers().entrySet()) {
-			List<? extends Resource> data = fromResourceManagerEntry.getValue().load();
-			dataMap.put(fromResourceManagerEntry.getKey(), data);
-		}
+        for(Map.Entry<Class<? extends Resource>, ResourceManager<? extends Resource>> fromResourceManagerEntry : getFromStorage().getResourceManagers().entrySet()) {
+            List<? extends Resource> data = fromResourceManagerEntry.getValue().load();
+            dataMap.put(fromResourceManagerEntry.getKey(), data);
+        }
 
-		for(Map.Entry<Class<? extends Resource>, Collection<? extends Resource>> entry : dataMap.entrySet()) {
-			Collection<? extends Resource> data = entry.getValue();
-			ResourceManager toResourceManager = getToStorage().getResourceManager(entry.getKey());
+        for(Map.Entry<Class<? extends Resource>, Collection<? extends Resource>> entry : dataMap.entrySet()) {
+            Collection<? extends Resource> data = entry.getValue();
+            ResourceManager toResourceManager = getToStorage().getResourceManager(entry.getKey());
 
-			for(Resource resource : new ArrayList<>(data)) {
-				resource.setNotAdded();
+            for(Resource resource : new ArrayList<>(data)) {
+                resource.setNotAdded();
 
-				if(entry.getKey() == NovaGuild.class && !NovaGuilds.getInstance().getGuildManager().postCheck((NovaGuild) resource)) {
-					LoggerUtils.error(resource.getUUID() + " failed postCheck");
-					data.remove(resource);
-				}
-			}
+                if(entry.getKey() == NovaGuild.class && !NovaGuilds.getInstance().getGuildManager().postCheck((NovaGuild) resource)) {
+                    LoggerUtils.error(resource.getUUID() + " failed postCheck");
+                    data.remove(resource);
+                }
+            }
 
-			//noinspection unchecked
-			toResourceManager.addToSaveQueue(data);
-			LoggerUtils.info("Migrating " + data.size() + " of type " + entry.getKey().getSimpleName());
-		}
+            //noinspection unchecked
+            toResourceManager.addToSaveQueue(data);
+            LoggerUtils.info("Migrating " + data.size() + " of type " + entry.getKey().getSimpleName());
+        }
 
-		Config.DELETEINVALID.set(deleteInvalidTemp);
-	}
+        Config.DELETEINVALID.set(deleteInvalidTemp);
+    }
 
-	@Override
-	public void save() {
-		for(ResourceManager resourceManager : getToStorage().getResourceManagers().values()) {
-			resourceManager.executeSave();
-		}
-	}
+    @Override
+    public void save() {
+        for(ResourceManager resourceManager : getToStorage().getResourceManagers().values()) {
+            resourceManager.executeSave();
+        }
+    }
 }

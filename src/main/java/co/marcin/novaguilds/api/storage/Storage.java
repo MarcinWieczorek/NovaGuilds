@@ -21,45 +21,45 @@ package co.marcin.novaguilds.api.storage;
 import java.util.Map;
 
 public interface Storage {
-	/**
-	 * Set up the directories, connect to database etc.
-	 *
-	 * @return true if successful
-	 */
-	boolean setUp();
+    /**
+     * Set up the directories, connect to database etc.
+     *
+     * @return true if successful
+     */
+    boolean setUp();
 
-	/**
-	 * Gets resource manager
-	 *
-	 * @param clazz type class
-	 * @param <T>   type parameter
-	 * @return the manager
-	 */
-	<T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz);
+    /**
+     * Gets resource manager
+     *
+     * @param clazz type class
+     * @param <T>   type parameter
+     * @return the manager
+     */
+    <T extends Resource> ResourceManager<T> getResourceManager(Class<T> clazz);
 
-	/**
-	 * Gets all resource managers
-	 *
-	 * @return list of resource managers
-	 */
-	Map<Class<? extends Resource>, ResourceManager<? extends Resource>> getResourceManagers();
+    /**
+     * Gets all resource managers
+     *
+     * @return list of resource managers
+     */
+    Map<Class<? extends Resource>, ResourceManager<? extends Resource>> getResourceManagers();
 
-	/**
-	 * Registers resource manager
-	 *
-	 * @param clazz           type class
-	 * @param resourceManager the manager
-	 * @param <T>             type parameter
-	 */
-	<T extends Resource> void registerResourceManager(Class<T> clazz, ResourceManager<T> resourceManager);
+    /**
+     * Registers resource manager
+     *
+     * @param clazz           type class
+     * @param resourceManager the manager
+     * @param <T>             type parameter
+     */
+    <T extends Resource> void registerResourceManager(Class<T> clazz, ResourceManager<T> resourceManager);
 
-	/**
-	 * Registers managers
-	 */
-	void registerManagers();
+    /**
+     * Registers managers
+     */
+    void registerManagers();
 
-	/**
-	 * Saves all data
-	 */
-	void save();
+    /**
+     * Saves all data
+     */
+    void save();
 }

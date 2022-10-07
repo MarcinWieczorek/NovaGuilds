@@ -22,24 +22,24 @@ import co.marcin.novaguilds.api.storage.Resource;
 import co.marcin.novaguilds.api.storage.Storage;
 
 public abstract class AbstractDatabaseResourceManager<T extends Resource> extends co.marcin.novaguilds.impl.storage.managers.database.AbstractDatabaseResourceManager<T> {
-	/**
-	 * The constructor
-	 *
-	 * @param storage    the storage
-	 * @param clazz      type class
-	 * @param tableName  table name in the database
-	 */
-	protected AbstractDatabaseResourceManager(Storage storage, Class<T> clazz, String tableName) {
-		super(storage, clazz, tableName);
-	}
+    /**
+     * The constructor
+     *
+     * @param storage    the storage
+     * @param clazz      type class
+     * @param tableName  table name in the database
+     */
+    protected AbstractDatabaseResourceManager(Storage storage, Class<T> clazz, String tableName) {
+        super(storage, clazz, tableName);
+    }
 
-	@Override
-	protected void updateUUID(T resource, int id) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    protected void updateUUID(T resource, int id) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	protected final void updateUUID(T resource) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    protected final void updateUUID(T resource) {
+        throw new IllegalArgumentException("Not supported");
+    }
 }

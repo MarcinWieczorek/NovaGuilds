@@ -31,52 +31,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUIInventoryRequiredItems extends AbstractGUIInventory {
-	private final List<ItemStack> requiredItems = new ArrayList<>();
+    private final List<ItemStack> requiredItems = new ArrayList<>();
 
-	/**
-	 * The constructor
-	 *
-	 * @param itemStackList list of required items
-	 */
-	public GUIInventoryRequiredItems(List<ItemStack> itemStackList) {
-		super(ChestGUIUtils.getChestSize(itemStackList.size()), Message.INVENTORY_REQUIREDITEMS_NAME);
-		requiredItems.addAll(itemStackList);
-	}
+    /**
+     * The constructor
+     *
+     * @param itemStackList list of required items
+     */
+    public GUIInventoryRequiredItems(List<ItemStack> itemStackList) {
+        super(ChestGUIUtils.getChestSize(itemStackList.size()), Message.INVENTORY_REQUIREDITEMS_NAME);
+        requiredItems.addAll(itemStackList);
+    }
 
-	@Override
-	public void generateContent() {
-		for(ItemStack item : requiredItems) {
-			int amountInventory = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getInventory(), item);
-			int amountEnderChest = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getEnderChest(), item);
-			int needMore = item.getAmount() - amountEnderChest - amountInventory;
+    @Override
+    public void generateContent() {
+        for(ItemStack item : requiredItems) {
+            int amountInventory = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getInventory(), item);
+            int amountEnderChest = InventoryUtils.getTotalAmountOfItemStackInInventory(getViewer().getPlayer().getEnderChest(), item);
+            int needMore = item.getAmount() - amountEnderChest - amountInventory;
 
-			if(needMore < 0) {
-				needMore = 0;
-			}
+            if(needMore < 0) {
+                needMore = 0;
+            }
 
-			ItemMeta itemStackMeta = item.hasItemMeta()
-					? item.getItemMeta()
-					: Bukkit.getItemFactory().getItemMeta(item.getType());
+            ItemMeta itemStackMeta = item.hasItemMeta()
+                    ? item.getItemMeta()
+                    : Bukkit.getItemFactory().getItemMeta(item.getType());
 
-			List<String> lore = new ArrayList<>();
+            List<String> lore = new ArrayList<>();
 
-			if(itemStackMeta.hasLore()) {
-				lore.addAll(itemStackMeta.getLore());
-			}
+            if(itemStackMeta.hasLore()) {
+                lore.addAll(itemStackMeta.getLore());
+            }
 
-			lore.addAll(Message.INVENTORY_REQUIREDITEMS_LORE
-					.clone()
-					.setVar(VarKey.AMOUNT_AVAILABLE, amountInventory)
-					.setVar(VarKey.AMOUNT_AVAILABLE2, amountEnderChest)
-					.setVar(VarKey.AMOUNT_AVAILABLE3, amountInventory + amountEnderChest)
-					.setVar(VarKey.AMOUNT, item.getAmount())
-					.setVar(VarKey.NEEDMORE, needMore)
-					.getList());
+            lore.addAll(Message.INVENTORY_REQUIREDITEMS_LORE
+                    .clone()
+                    .setVar(VarKey.AMOUNT_AVAILABLE, amountInventory)
+                    .setVar(VarKey.AMOUNT_AVAILABLE2, amountEnderChest)
+                    .setVar(VarKey.AMOUNT_AVAILABLE3, amountInventory + amountEnderChest)
+                    .setVar(VarKey.AMOUNT, item.getAmount())
+                    .setVar(VarKey.NEEDMORE, needMore)
+                    .getList());
 
-			itemStackMeta.setLore(lore);
-			item.setItemMeta(itemStackMeta);
+            itemStackMeta.setLore(lore);
+            item.setItemMeta(itemStackMeta);
 
-			registerAndAdd(new EmptyExecutor(item));
-		}
-	}
+            registerAndAdd(new EmptyExecutor(item));
+        }
+    }
 }

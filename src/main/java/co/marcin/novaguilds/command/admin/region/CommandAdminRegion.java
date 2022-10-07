@@ -32,75 +32,75 @@ import co.marcin.novaguilds.util.StringUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminRegion extends AbstractCommandExecutor {
-	public CommandAdminRegion() {
-		commandsMap.put("bypass",   Command.ADMIN_REGION_BYPASS);
-		commandsMap.put("bp",       Command.ADMIN_REGION_BYPASS);
-		commandsMap.put("spectate", Command.ADMIN_REGION_SPECTATE);
-		commandsMap.put("delete",   Command.ADMIN_REGION_DELETE);
-		commandsMap.put("del",      Command.ADMIN_REGION_DELETE);
-		commandsMap.put("list",     Command.ADMIN_REGION_LIST);
-		commandsMap.put("teleport", Command.ADMIN_REGION_TELEPORT);
-		commandsMap.put("tp",       Command.ADMIN_REGION_TELEPORT);
-		commandsMap.put("buy",      Command.ADMIN_REGION_BUY);
-	}
+    public CommandAdminRegion() {
+        commandsMap.put("bypass",   Command.ADMIN_REGION_BYPASS);
+        commandsMap.put("bp",       Command.ADMIN_REGION_BYPASS);
+        commandsMap.put("spectate", Command.ADMIN_REGION_SPECTATE);
+        commandsMap.put("delete",   Command.ADMIN_REGION_DELETE);
+        commandsMap.put("del",      Command.ADMIN_REGION_DELETE);
+        commandsMap.put("list",     Command.ADMIN_REGION_LIST);
+        commandsMap.put("teleport", Command.ADMIN_REGION_TELEPORT);
+        commandsMap.put("tp",       Command.ADMIN_REGION_TELEPORT);
+        commandsMap.put("buy",      Command.ADMIN_REGION_BUY);
+    }
 
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(args.length == 0) {
-			Message.CHAT_COMMANDS_HEADER_ADMIN_REGION.send(sender);
-			for(CommandWrapper commandWrapper : getSubCommands()) {
-				commandWrapper.getUsageMessage().send(sender);
-			}
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(args.length == 0) {
+            Message.CHAT_COMMANDS_HEADER_ADMIN_REGION.send(sender);
+            for(CommandWrapper commandWrapper : getSubCommands()) {
+                commandWrapper.getUsageMessage().send(sender);
+            }
+            return;
+        }
 
-		CommandWrapper subCommand = getSubCommand(args);
+        CommandWrapper subCommand = getSubCommand(args);
 
-		if(subCommand == null) {
-			Message.CHAT_UNKNOWNCMD.send(sender);
-			return;
-		}
+        if(subCommand == null) {
+            Message.CHAT_UNKNOWNCMD.send(sender);
+            return;
+        }
 
-		if(subCommand.isReversed()) {
-			NovaGuild guild = GuildManager.getGuildFind(args[0]);
-			Resource resource = guild;
+        if(subCommand.isReversed()) {
+            NovaGuild guild = GuildManager.getGuildFind(args[0]);
+            Resource resource = guild;
 
-			if(guild == null) {
-				Message.CHAT_GUILD_COULDNOTFIND.send(sender);
-				return;
-			}
+            if(guild == null) {
+                Message.CHAT_GUILD_COULDNOTFIND.send(sender);
+                return;
+            }
 
-			if(((CommandExecutor.Reversed) subCommand.getExecutor()).getParameterType().equals(NovaRegion.class)) {
-				if(args.length < 3) {
-					Message.CHAT_ENTERINTEGER.send(sender);
-					return;
-				}
+            if(((CommandExecutor.Reversed) subCommand.getExecutor()).getParameterType().equals(NovaRegion.class)) {
+                if(args.length < 3) {
+                    Message.CHAT_ENTERINTEGER.send(sender);
+                    return;
+                }
 
-				String indexString = args[2];
+                String indexString = args[2];
 
-				if(!NumberUtils.isNumeric(indexString)) {
-					Message.CHAT_ENTERINTEGER.send(sender);
-					return;
-				}
+                if(!NumberUtils.isNumeric(indexString)) {
+                    Message.CHAT_ENTERINTEGER.send(sender);
+                    return;
+                }
 
-				int index = Integer.parseInt(indexString);
+                int index = Integer.parseInt(indexString);
 
-				if(index <= 0) {
-					Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
-					return;
-				}
+                if(index <= 0) {
+                    Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+                    return;
+                }
 
-				resource = guild.getRegion(index);
+                resource = guild.getRegion(index);
 
-				if(resource == null) {
-					Message.CHAT_REGION_NOTFOUND.send(sender);
-					return;
-				}
-			}
+                if(resource == null) {
+                    Message.CHAT_REGION_NOTFOUND.send(sender);
+                    return;
+                }
+            }
 
-			subCommand.executorVariable(resource);
-		}
+            subCommand.executorVariable(resource);
+        }
 
-		subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 3));
-	}
+        subCommand.execute(sender, StringUtils.parseArgs(args, !subCommand.isReversed() ? 1 : 3));
+    }
 }

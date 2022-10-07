@@ -28,35 +28,35 @@ import co.marcin.novaguilds.util.ChestGUIUtils;
 import org.apache.commons.lang.StringUtils;
 
 public class GUIInventoryGuildPlayerSettings extends AbstractGUIInventory {
-	private final NovaPlayer nPlayer;
+    private final NovaPlayer nPlayer;
 
-	/**
-	 * The constructor
-	 *
-	 * @param nPlayer the player who's settings are being edited
-	 */
-	public GUIInventoryGuildPlayerSettings(NovaPlayer nPlayer) {
-		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()));
-		this.nPlayer = nPlayer;
-	}
+    /**
+     * The constructor
+     *
+     * @param nPlayer the player who's settings are being edited
+     */
+    public GUIInventoryGuildPlayerSettings(NovaPlayer nPlayer) {
+        super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_PLAYERSETTINGS_TITLE.clone().setVar(VarKey.PLAYER_NAME, nPlayer.getName()));
+        this.nPlayer = nPlayer;
+    }
 
-	@Override
-	public void generateContent() {
-		if(!nPlayer.equals(getViewer())
-				&& (getViewer().hasPermission(GuildPermission.KICK) && Permission.NOVAGUILDS_GUILD_KICK.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_KICK.has(getViewer()))) {
-			registerAndAdd(new CommandExecutor(Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK, "novaguilds:guild kick " + nPlayer.getName(), true));
-		}
+    @Override
+    public void generateContent() {
+        if(!nPlayer.equals(getViewer())
+                && (getViewer().hasPermission(GuildPermission.KICK) && Permission.NOVAGUILDS_GUILD_KICK.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_KICK.has(getViewer()))) {
+            registerAndAdd(new CommandExecutor(Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_KICK, "novaguilds:guild kick " + nPlayer.getName(), true));
+        }
 
-		if(!nPlayer.equals(getViewer())
-				&& (getViewer().hasPermission(GuildPermission.RANK_SET) && Permission.NOVAGUILDS_GUILD_RANK_SET.has(getViewer())|| Permission.NOVAGUILDS_ADMIN_GUILD_RANK_SET.has(getViewer()))) {
-			registerAndAdd(new Executor(Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK
-					.clone()
-					.setVar(VarKey.RANKNAME, nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"))) {
-				@Override
-				public void execute() {
-					new GUIInventoryGuildPlayerSettingsRank(nPlayer).open(getViewer());
-				}
-			});
-		}
-	}
+        if(!nPlayer.equals(getViewer())
+                && (getViewer().hasPermission(GuildPermission.RANK_SET) && Permission.NOVAGUILDS_GUILD_RANK_SET.has(getViewer())|| Permission.NOVAGUILDS_ADMIN_GUILD_RANK_SET.has(getViewer()))) {
+            registerAndAdd(new Executor(Message.INVENTORY_GUI_PLAYERSETTINGS_ITEM_RANK
+                    .clone()
+                    .setVar(VarKey.RANKNAME, nPlayer.getGuildRank() == null ? "Invalid_rank" : StringUtils.replace(nPlayer.getGuildRank().getName(), " ", "_"))) {
+                @Override
+                public void execute() {
+                    new GUIInventoryGuildPlayerSettingsRank(nPlayer).open(getViewer());
+                }
+            });
+        }
+    }
 }

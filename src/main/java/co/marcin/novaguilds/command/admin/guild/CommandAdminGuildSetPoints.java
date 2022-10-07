@@ -27,37 +27,37 @@ import co.marcin.novaguilds.util.TabUtils;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminGuildSetPoints extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		if(Config.GUILD_PLAYERPOINTS.getBoolean()) {
-			Message.CHAT_UNKNOWNCMD.send(sender);
-			return;
-		}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        if(Config.GUILD_PLAYERPOINTS.getBoolean()) {
+            Message.CHAT_UNKNOWNCMD.send(sender);
+            return;
+        }
 
-		NovaGuild guild = getParameter();
+        NovaGuild guild = getParameter();
 
-		if(args.length != 1) { //no new name
-			getCommand().getUsageMessage().send(sender);
-			return;
-		}
+        if(args.length != 1) { //no new name
+            getCommand().getUsageMessage().send(sender);
+            return;
+        }
 
-		String points = args[0];
+        String points = args[0];
 
-		if(!NumberUtils.isNumeric(points)) {
-			Message.CHAT_ENTERINTEGER.send(sender);
-			return;
-		}
+        if(!NumberUtils.isNumeric(points)) {
+            Message.CHAT_ENTERINTEGER.send(sender);
+            return;
+        }
 
-		int pointsInteger = Integer.parseInt(points);
+        int pointsInteger = Integer.parseInt(points);
 
-		if(pointsInteger < 0) {
-			Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
-			return;
-		}
+        if(pointsInteger < 0) {
+            Message.CHAT_BASIC_NEGATIVENUMBER.send(sender);
+            return;
+        }
 
-		guild.setPoints(pointsInteger);
-		TabUtils.refresh(guild);
+        guild.setPoints(pointsInteger);
+        TabUtils.refresh(guild);
 
-		Message.CHAT_ADMIN_GUILD_SET_POINTS.send(sender);
-	}
+        Message.CHAT_ADMIN_GUILD_SET_POINTS.send(sender);
+    }
 }

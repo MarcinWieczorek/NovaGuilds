@@ -37,68 +37,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUIInventoryGuildRankList extends AbstractGUIInventory {
-	private final NovaGuild guild;
+    private final NovaGuild guild;
 
-	/**
-	 * The constructor
-	 * Displays the list of ranks
-	 * in a specified guild
-	 *
-	 * @param guild the guild
-	 */
-	public GUIInventoryGuildRankList(NovaGuild guild) {
-		super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE);
-		this.guild = guild;
-	}
+    /**
+     * The constructor
+     * Displays the list of ranks
+     * in a specified guild
+     *
+     * @param guild the guild
+     */
+    public GUIInventoryGuildRankList(NovaGuild guild) {
+        super(ChestGUIUtils.getChestSize(GuildPermission.values().length), Message.INVENTORY_GUI_RANKS_TITLE);
+        this.guild = guild;
+    }
 
-	@Override
-	public void generateContent() {
-		final List<NovaRank> ranks = new ArrayList<>();
-		ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
-		ranks.addAll(guild.getRanks());
+    @Override
+    public void generateContent() {
+        final List<NovaRank> ranks = new ArrayList<>();
+        ranks.addAll(NovaGuilds.getInstance().getRankManager().getGenericRanks());
+        ranks.addAll(guild.getRanks());
 
-		for(final NovaRank rank : ranks) {
-			if(guild.getCloneOfGenericRank(rank) != null) {
-				continue;
-			}
+        for(final NovaRank rank : ranks) {
+            if(guild.getCloneOfGenericRank(rank) != null) {
+                continue;
+            }
 
-			ItemStack itemStack = Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).getItemStack();
+            ItemStack itemStack = Message.INVENTORY_GUI_RANKS_ROWITEM.setVar(VarKey.RANKNAME, StringUtils.replace(rank.getName(), " ", "_")).getItemStack();
 
-			registerAndAdd(new Executor(itemStack) {
-				@Override
-				public void execute() {
-					GUIInventoryGuildRankSettings guiInventory = new GUIInventoryGuildRankSettings(rank);
-					guiInventory.open(getViewer());
-				}
-			});
-		}
+            registerAndAdd(new Executor(itemStack) {
+                @Override
+                public void execute() {
+                    GUIInventoryGuildRankSettings guiInventory = new GUIInventoryGuildRankSettings(rank);
+                    guiInventory.open(getViewer());
+                }
+            });
+        }
 
-		if((getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))
-				&& guild.getRanks().size() < Config.RANK_MAXAMOUNT.getInt()) {
-			registerAndAdd(new Executor(Message.INVENTORY_GUI_RANKS_ADDITEM) {
-				@Override
-				public void execute() {
-					String rankName = Message.INVENTORY_GUI_RANKS_DEFAULTNAME.get();
-					for(NovaRank rank : guild.getRanks()) {
-						if(rank.getName().equals(rankName)) {
-							rankName = rankName + " " + NumberUtils.randInt(1, 999);
-						}
-					}
+        if((getViewer().hasPermission(GuildPermission.RANK_EDIT) && Permission.NOVAGUILDS_GUILD_RANK_EDIT.has(getViewer()) || Permission.NOVAGUILDS_ADMIN_GUILD_RANK_EDIT.has(getViewer()))
+                && guild.getRanks().size() < Config.RANK_MAXAMOUNT.getInt()) {
+            registerAndAdd(new Executor(Message.INVENTORY_GUI_RANKS_ADDITEM) {
+                @Override
+                public void execute() {
+                    String rankName = Message.INVENTORY_GUI_RANKS_DEFAULTNAME.get();
+                    for(NovaRank rank : guild.getRanks()) {
+                        if(rank.getName().equals(rankName)) {
+                            rankName = rankName + " " + NumberUtils.randInt(1, 999);
+                        }
+                    }
 
-					NovaRank rank = new NovaRankImpl(rankName);
-					guild.addRank(rank);
-					reopen();
-				}
-			});
-		}
-	}
+                    NovaRank rank = new NovaRankImpl(rankName);
+                    guild.addRank(rank);
+                    reopen();
+                }
+            });
+        }
+    }
 
-	/**
-	 * Gets the guild
-	 *
-	 * @return the guild
-	 */
-	public NovaGuild getGuild() {
-		return guild;
-	}
+    /**
+     * Gets the guild
+     *
+     * @return the guild
+     */
+    public NovaGuild getGuild() {
+        return guild;
+    }
 }

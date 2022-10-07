@@ -40,202 +40,202 @@ import java.util.List;
 import java.util.UUID;
 
 public class ResourceManagerRegionImpl extends AbstractDatabaseResourceManager<NovaRegion> {
-	/**
-	 * The constructor
-	 *
-	 * @param storage the storage
-	 */
-	public ResourceManagerRegionImpl(Storage storage) {
-		super(storage, NovaRegion.class, "regions");
-	}
+    /**
+     * The constructor
+     *
+     * @param storage the storage
+     */
+    public ResourceManagerRegionImpl(Storage storage) {
+        super(storage, NovaRegion.class, "regions");
+    }
 
-	@Override
-	public List<NovaRegion> load() {
-		getStorage().connect();
-		final List<NovaRegion> list = new ArrayList<>();
+    @Override
+    public List<NovaRegion> load() {
+        getStorage().connect();
+        final List<NovaRegion> list = new ArrayList<>();
 
-		try {
-			PreparedStatement statement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_SELECT);
+        try {
+            PreparedStatement statement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_SELECT);
 
-			ResultSet res = statement.executeQuery();
-			while(res.next()) {
-				boolean forceSave = false;
-				boolean updateUUID = false;
-				World world;
+            ResultSet res = statement.executeQuery();
+            while(res.next()) {
+                boolean forceSave = false;
+                boolean updateUUID = false;
+                World world;
 
-				//Find the world
-				try {
-					world = plugin.getServer().getWorld(UUID.fromString(res.getString("world")));
-				}
-				catch(IllegalArgumentException e) {
-					world = plugin.getServer().getWorld(res.getString("world"));
-					forceSave = true;
-				}
+                //Find the world
+                try {
+                    world = plugin.getServer().getWorld(UUID.fromString(res.getString("world")));
+                }
+                catch(IllegalArgumentException e) {
+                    world = plugin.getServer().getWorld(res.getString("world"));
+                    forceSave = true;
+                }
 
-				//Find the guild
-				String guildString = res.getString("guild");
-				NovaGuild guild;
+                //Find the guild
+                String guildString = res.getString("guild");
+                NovaGuild guild;
 
-				try {
-					guild = GuildManager.getGuild(UUID.fromString(guildString));
-				}
-				catch(IllegalArgumentException e) {
-					guild = GuildManager.getGuildByName(guildString);
-					forceSave = true;
-				}
+                try {
+                    guild = GuildManager.getGuild(UUID.fromString(guildString));
+                }
+                catch(IllegalArgumentException e) {
+                    guild = GuildManager.getGuildByName(guildString);
+                    forceSave = true;
+                }
 
-				UUID regionUUID;
-				String regionUUIDString = res.getString("uuid");
+                UUID regionUUID;
+                String regionUUIDString = res.getString("uuid");
 
-				//Get region UUID or generate a new one
-				if(regionUUIDString != null && !regionUUIDString.isEmpty()) {
-					regionUUID = UUID.fromString(regionUUIDString);
-				}
-				else {
-					regionUUID = UUID.randomUUID();
-					updateUUID = true;
-				}
+                //Get region UUID or generate a new one
+                if(regionUUIDString != null && !regionUUIDString.isEmpty()) {
+                    regionUUID = UUID.fromString(regionUUIDString);
+                }
+                else {
+                    regionUUID = UUID.randomUUID();
+                    updateUUID = true;
+                }
 
-				NovaRegion region = new NovaRegionImpl(regionUUID);
+                NovaRegion region = new NovaRegionImpl(regionUUID);
 
-				Location corner1 = RegionUtils.deserializeLocation2D(res.getString("loc_1"));
-				Location corner2 = RegionUtils.deserializeLocation2D(res.getString("loc_2"));
-				corner1.setWorld(world);
-				corner2.setWorld(world);
+                Location corner1 = RegionUtils.deserializeLocation2D(res.getString("loc_1"));
+                Location corner2 = RegionUtils.deserializeLocation2D(res.getString("loc_2"));
+                corner1.setWorld(world);
+                corner2.setWorld(world);
 
-				region.setAdded();
-				region.setCorner(0, corner1);
-				region.setCorner(1, corner2);
-				region.setWorld(world);
-				region.setId(res.getInt("id"));
+                region.setAdded();
+                region.setCorner(0, corner1);
+                region.setCorner(1, corner2);
+                region.setWorld(world);
+                region.setId(res.getInt("id"));
 
-				if(forceSave) {
-					addToSaveQueue(region);
-				}
+                if(forceSave) {
+                    addToSaveQueue(region);
+                }
 
-				if(updateUUID) {
-					addToUpdateUUIDQueue(region);
-				}
+                if(updateUUID) {
+                    addToUpdateUUIDQueue(region);
+                }
 
-				if(guild == null) {
-					LoggerUtils.error("There's no guild matching region " + guildString);
+                if(guild == null) {
+                    LoggerUtils.error("There's no guild matching region " + guildString);
 
-					if(Config.DELETEINVALID.getBoolean()) {
-						addToRemovalQueue(region);
-					}
+                    if(Config.DELETEINVALID.getBoolean()) {
+                        addToRemovalQueue(region);
+                    }
 
-					continue;
-				}
+                    continue;
+                }
 
-				if(world == null) {
-					LoggerUtils.info("Failed loading region for guild " + guildString + ", world does not exist.");
+                if(world == null) {
+                    LoggerUtils.info("Failed loading region for guild " + guildString + ", world does not exist.");
 
-					if(Config.DELETEINVALID.getBoolean()) {
-						addToRemovalQueue(region);
-					}
+                    if(Config.DELETEINVALID.getBoolean()) {
+                        addToRemovalQueue(region);
+                    }
 
-					continue;
-				}
+                    continue;
+                }
 
-				guild.addRegion(region);
-				region.setUnchanged();
-				list.add(region);
-			}
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
+                guild.addRegion(region);
+                region.setUnchanged();
+                list.add(region);
+            }
+        }
+        catch(SQLException e) {
+            LoggerUtils.exception(e);
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	public boolean save(NovaRegion region) {
-		if(!region.isChanged() && !isInSaveQueue(region) || region.isUnloaded() || isInRemovalQueue(region)) {
-			return false;
-		}
+    @Override
+    public boolean save(NovaRegion region) {
+        if(!region.isChanged() && !isInSaveQueue(region) || region.isUnloaded() || isInRemovalQueue(region)) {
+            return false;
+        }
 
-		if(!region.isAdded()) {
-			add(region);
-			return true;
-		}
+        if(!region.isAdded()) {
+            add(region);
+            return true;
+        }
 
-		getStorage().connect();
+        getStorage().connect();
 
-		try {
-			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_UPDATE);
+        try {
+            PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_UPDATE);
 
-			String loc1 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(0));
-			String loc2 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(1));
+            String loc1 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(0));
+            String loc2 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(1));
 
-			preparedStatement.setString(1, loc1);                                   //corner 1
-			preparedStatement.setString(2, loc2);                                   //corner 2
-			preparedStatement.setString(3, region.getGuild().getUUID().toString()); //guild uuid
-			preparedStatement.setString(4, region.getWorld().getUID().toString());  //world uuid
-			preparedStatement.setString(5, region.getUUID().toString());            //region UUID
-			preparedStatement.executeUpdate();
+            preparedStatement.setString(1, loc1);                                   //corner 1
+            preparedStatement.setString(2, loc2);                                   //corner 2
+            preparedStatement.setString(3, region.getGuild().getUUID().toString()); //guild uuid
+            preparedStatement.setString(4, region.getWorld().getUID().toString());  //world uuid
+            preparedStatement.setString(5, region.getUUID().toString());            //region UUID
+            preparedStatement.executeUpdate();
 
-			region.setUnchanged();
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
+            region.setUnchanged();
+        }
+        catch(SQLException e) {
+            LoggerUtils.exception(e);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	@Override
-	public void add(NovaRegion region) {
-		getStorage().connect();
+    @Override
+    public void add(NovaRegion region) {
+        getStorage().connect();
 
-		try {
-			String loc1 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(0));
-			String loc2 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(1));
+        try {
+            String loc1 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(0));
+            String loc2 = StringUtils.parseDBLocationCoordinates2D(region.getCorner(1));
 
-			if(region.getWorld() == null) {
-				region.setWorld(Bukkit.getWorlds().get(0));
-			}
+            if(region.getWorld() == null) {
+                region.setWorld(Bukkit.getWorlds().get(0));
+            }
 
-			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_INSERT);
-			preparedStatement.setString(1, region.getUUID().toString());            //region uuid
-			preparedStatement.setString(2, loc1);                                   //corner 1
-			preparedStatement.setString(3, loc2);                                   //corner 2
-			preparedStatement.setString(4, region.getGuild().getUUID().toString()); //guild uuid
-			preparedStatement.setString(5, region.getWorld().getUID().toString());  //world uuid
-			preparedStatement.executeUpdate();
+            PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_INSERT);
+            preparedStatement.setString(1, region.getUUID().toString());            //region uuid
+            preparedStatement.setString(2, loc1);                                   //corner 1
+            preparedStatement.setString(3, loc2);                                   //corner 2
+            preparedStatement.setString(4, region.getGuild().getUUID().toString()); //guild uuid
+            preparedStatement.setString(5, region.getWorld().getUID().toString());  //world uuid
+            preparedStatement.executeUpdate();
 
-			region.setId(getStorage().returnGeneratedKey(preparedStatement));
-			region.setUnchanged();
-			region.setAdded();
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+            region.setId(getStorage().returnGeneratedKey(preparedStatement));
+            region.setUnchanged();
+            region.setAdded();
+        }
+        catch(SQLException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	@Override
-	public boolean remove(NovaRegion region) {
-		if(!region.isAdded()) {
-			return false;
-		}
+    @Override
+    public boolean remove(NovaRegion region) {
+        if(!region.isAdded()) {
+            return false;
+        }
 
-		getStorage().connect();
+        getStorage().connect();
 
-		try {
-			PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_DELETE);
-			preparedStatement.setString(1, region.getUUID().toString());
-			preparedStatement.executeUpdate();
-			return true;
-		}
-		catch(SQLException e) {
-			LoggerUtils.info("An error occurred while deleting a guild's region (" + region.getGuild().getName() + ")");
-			LoggerUtils.exception(e);
-			return false;
-		}
-	}
+        try {
+            PreparedStatement preparedStatement = getStorage().getPreparedStatement(PreparedStatements.REGIONS_DELETE);
+            preparedStatement.setString(1, region.getUUID().toString());
+            preparedStatement.executeUpdate();
+            return true;
+        }
+        catch(SQLException e) {
+            LoggerUtils.info("An error occurred while deleting a guild's region (" + region.getGuild().getName() + ")");
+            LoggerUtils.exception(e);
+            return false;
+        }
+    }
 
-	@Override
-	protected void updateUUID(NovaRegion resource) {
-		updateUUID(resource, resource.getId());
-	}
+    @Override
+    protected void updateUUID(NovaRegion resource) {
+        updateUUID(resource, resource.getId());
+    }
 }

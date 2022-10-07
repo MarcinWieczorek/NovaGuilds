@@ -21,7 +21,7 @@ package co.marcin.novaguilds.command.guild.rank;
 import co.marcin.novaguilds.command.admin.guild.rank.CommandAdminGuildRank;
 
 public class CommandGuildRank extends CommandAdminGuildRank {
-	public CommandGuildRank() {
-		super(false);
-	}
+    public CommandGuildRank() {
+        super(false);
+    }
 }

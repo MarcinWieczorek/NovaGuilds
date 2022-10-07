@@ -23,9 +23,9 @@ import co.marcin.novaguilds.enums.Message;
 import org.bukkit.command.CommandSender;
 
 public class CommandAdminConfigSave extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		plugin.getConfigManager().save();
-		Message.CHAT_ADMIN_CONFIG_SAVED.send(sender);
-	}
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        plugin.getConfigManager().save();
+        Message.CHAT_ADMIN_CONFIG_SAVED.send(sender);
+    }
 }

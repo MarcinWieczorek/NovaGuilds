@@ -38,83 +38,83 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class MySQLStorageImpl extends co.marcin.novaguilds.impl.storage.MySQLStorageImpl {
-	public Map<String, NovaGuild> guildMap = new HashMap<>();
+    public Map<String, NovaGuild> guildMap = new HashMap<>();
 
-	/**
-	 * Creates a new MySQL instance
-	 *
-	 * @param hostname Name of the host
-	 * @param port     Port number
-	 * @param database Database name
-	 * @param username Username
-	 * @param password Password
-	 * @throws StorageConnectionFailedException when something goes wrong
-	 */
-	public MySQLStorageImpl(String hostname, String port, String database, String username, String password) throws StorageConnectionFailedException {
-		super(hostname, port, database, username, password);
-	}
+    /**
+     * Creates a new MySQL instance
+     *
+     * @param hostname Name of the host
+     * @param port     Port number
+     * @param database Database name
+     * @param username Username
+     * @param password Password
+     * @throws StorageConnectionFailedException when something goes wrong
+     */
+    public MySQLStorageImpl(String hostname, String port, String database, String username, String password) throws StorageConnectionFailedException {
+        super(hostname, port, database, username, password);
+    }
 
-	@Override
-	public void registerManagers() {
-		new ResourceManagerGuildImpl(this);
-		new ResourceManagerPlayerImpl(this);
-		new ResourceManagerRegionImpl(this);
-		new AbstractResourceManager<NovaRank>(this, NovaRank.class) {
-			@Override
-			public List<NovaRank> load() {
-				return new ArrayList<>();
-			}
+    @Override
+    public void registerManagers() {
+        new ResourceManagerGuildImpl(this);
+        new ResourceManagerPlayerImpl(this);
+        new ResourceManagerRegionImpl(this);
+        new AbstractResourceManager<NovaRank>(this, NovaRank.class) {
+            @Override
+            public List<NovaRank> load() {
+                return new ArrayList<>();
+            }
 
-			@Override
-			public boolean save(NovaRank novaRank) {
-				throw new IllegalArgumentException("Not supported");
-			}
+            @Override
+            public boolean save(NovaRank novaRank) {
+                throw new IllegalArgumentException("Not supported");
+            }
 
-			@Override
-			public void add(NovaRank novaRank) {
-				throw new IllegalArgumentException("Not supported");
-			}
+            @Override
+            public void add(NovaRank novaRank) {
+                throw new IllegalArgumentException("Not supported");
+            }
 
-			@Override
-			public boolean remove(NovaRank novaRank) {
-				throw new IllegalArgumentException("Not supported");
-			}
-		};
-	}
+            @Override
+            public boolean remove(NovaRank novaRank) {
+                throw new IllegalArgumentException("Not supported");
+            }
+        };
+    }
 
-	@Override
-	protected void prepareStatements() {
-		try {
-			long nanoTime = System.nanoTime();
-			LoggerUtils.info("Preparing statements...");
-			preparedStatementMap.clear();
-			connect();
+    @Override
+    protected void prepareStatements() {
+        try {
+            long nanoTime = System.nanoTime();
+            LoggerUtils.info("Preparing statements...");
+            preparedStatementMap.clear();
+            connect();
 
-			//Guilds select
-			String guildsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "guilds`";
-			PreparedStatement guildsSelect = getConnection().prepareStatement(guildsSelectSQL);
-			addPreparedStatement(PreparedStatements.GUILDS_SELECT, guildsSelect);
+            //Guilds select
+            String guildsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "guilds`";
+            PreparedStatement guildsSelect = getConnection().prepareStatement(guildsSelectSQL);
+            addPreparedStatement(PreparedStatements.GUILDS_SELECT, guildsSelect);
 
-			//Players select
-			String playerSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "users`";
-			PreparedStatement playersSelect = getConnection().prepareStatement(playerSelectSQL);
-			addPreparedStatement(PreparedStatements.PLAYERS_SELECT, playersSelect);
+            //Players select
+            String playerSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "users`";
+            PreparedStatement playersSelect = getConnection().prepareStatement(playerSelectSQL);
+            addPreparedStatement(PreparedStatements.PLAYERS_SELECT, playersSelect);
 
-			//Regions select
-			String regionsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "regions`";
-			PreparedStatement regionsSelect = getConnection().prepareStatement(regionsSelectSQL);
-			addPreparedStatement(PreparedStatements.REGIONS_SELECT, regionsSelect);
+            //Regions select
+            String regionsSelectSQL = "SELECT * FROM `" + Config.MYSQL_PREFIX.getString() + "regions`";
+            PreparedStatement regionsSelect = getConnection().prepareStatement(regionsSelectSQL);
+            addPreparedStatement(PreparedStatements.REGIONS_SELECT, regionsSelect);
 
-			//Log
-			LoggerUtils.info("Statements prepared in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s");
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
-	}
+            //Log
+            LoggerUtils.info("Statements prepared in " + TimeUnit.MILLISECONDS.convert((System.nanoTime() - nanoTime), TimeUnit.NANOSECONDS) / 1000.0 + "s");
+        }
+        catch(SQLException e) {
+            LoggerUtils.exception(e);
+        }
+    }
 
-	@Override
-	protected void analyze() {
+    @Override
+    protected void analyze() {
 
-	}
+    }
 }

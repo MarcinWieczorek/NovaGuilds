@@ -33,64 +33,64 @@ import java.util.List;
 import java.util.UUID;
 
 public class ResourceManagerPlayerImpl extends AbstractDatabaseResourceManager<NovaPlayer> {
-	/**
-	 * The constructor
-	 *
-	 * @param storage the storage
-	 */
-	public ResourceManagerPlayerImpl(Storage storage) {
-		super(storage, NovaPlayer.class, "users");
-	}
+    /**
+     * The constructor
+     *
+     * @param storage the storage
+     */
+    public ResourceManagerPlayerImpl(Storage storage) {
+        super(storage, NovaPlayer.class, "users");
+    }
 
-	@Override
-	public List<NovaPlayer> load() {
-		getStorage().connect();
-		final List<NovaPlayer> list = new ArrayList<>();
+    @Override
+    public List<NovaPlayer> load() {
+        getStorage().connect();
+        final List<NovaPlayer> list = new ArrayList<>();
 
-		try {
-			ResultSet res = getStorage().getPreparedStatement(PreparedStatements.PLAYERS_SELECT).executeQuery();
-			while(res.next()) {
-				NovaPlayer nPlayer = new NovaPlayerImpl(UUID.fromString(res.getString("uuid")));
-				nPlayer.setAdded();
+        try {
+            ResultSet res = getStorage().getPreparedStatement(PreparedStatements.PLAYERS_SELECT).executeQuery();
+            while(res.next()) {
+                NovaPlayer nPlayer = new NovaPlayerImpl(UUID.fromString(res.getString("uuid")));
+                nPlayer.setAdded();
 
-				nPlayer.setName(res.getString("name"));
-				nPlayer.setPoints(res.getInt("points"));
-				nPlayer.setKills(res.getInt("kills"));
-				nPlayer.setDeaths(res.getInt("deaths"));
+                nPlayer.setName(res.getString("name"));
+                nPlayer.setPoints(res.getInt("points"));
+                nPlayer.setKills(res.getInt("kills"));
+                nPlayer.setDeaths(res.getInt("deaths"));
 
-				//Set the guild
-				String guildString = res.getString("guild");
-				if(guildString != null && !guildString.isEmpty()) {
-					NovaGuild guild = ((MySQLStorageImpl) getStorage()).guildMap.get(guildString);
+                //Set the guild
+                String guildString = res.getString("guild");
+                if(guildString != null && !guildString.isEmpty()) {
+                    NovaGuild guild = ((MySQLStorageImpl) getStorage()).guildMap.get(guildString);
 
-					if(guild != null) {
-						guild.addPlayer(nPlayer);
-					}
-				}
+                    if(guild != null) {
+                        guild.addPlayer(nPlayer);
+                    }
+                }
 
-				nPlayer.setUnchanged();
-				list.add(nPlayer);
-			}
-		}
-		catch(SQLException e) {
-			LoggerUtils.exception(e);
-		}
+                nPlayer.setUnchanged();
+                list.add(nPlayer);
+            }
+        }
+        catch(SQLException e) {
+            LoggerUtils.exception(e);
+        }
 
-		return list;
-	}
+        return list;
+    }
 
-	@Override
-	public boolean save(NovaPlayer guild) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public boolean save(NovaPlayer guild) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	public void add(NovaPlayer guild) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public void add(NovaPlayer guild) {
+        throw new IllegalArgumentException("Not supported");
+    }
 
-	@Override
-	public boolean remove(NovaPlayer guild) {
-		throw new IllegalArgumentException("Not supported");
-	}
+    @Override
+    public boolean remove(NovaPlayer guild) {
+        throw new IllegalArgumentException("Not supported");
+    }
 }

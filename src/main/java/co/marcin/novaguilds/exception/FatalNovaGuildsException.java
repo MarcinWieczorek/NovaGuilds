@@ -22,49 +22,49 @@ import co.marcin.novaguilds.NovaGuilds;
 import co.marcin.novaguilds.manager.ListenerManager;
 
 public class FatalNovaGuildsException extends Exception {
-	public static boolean fatal;
+    public static boolean fatal;
 
-	/**
-	 * The constructor
-	 */
-	public FatalNovaGuildsException() {
-		disable();
-	}
+    /**
+     * The constructor
+     */
+    public FatalNovaGuildsException() {
+        disable();
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param message exception message
-	 */
-	public FatalNovaGuildsException(String message) {
-		super(message);
-		disable();
-	}
+    /**
+     * The constructor
+     *
+     * @param message exception message
+     */
+    public FatalNovaGuildsException(String message) {
+        super(message);
+        disable();
+    }
 
-	/**
-	 * The constructor
-	 *
-	 * @param message exception message
-	 * @param cause   cause
-	 */
-	public FatalNovaGuildsException(String message, Throwable cause) {
-		super(message, cause);
-		disable();
-	}
+    /**
+     * The constructor
+     *
+     * @param message exception message
+     * @param cause   cause
+     */
+    public FatalNovaGuildsException(String message, Throwable cause) {
+        super(message, cause);
+        disable();
+    }
 
-	/**
-	 * Disables NovaGuilds
-	 */
-	private void disable() {
-		fatal = true;
+    /**
+     * Disables NovaGuilds
+     */
+    private void disable() {
+        fatal = true;
 
-		if(NovaGuilds.getInstance().isEnabled()) {
-			NovaGuilds.runTask(new Runnable() {
-				@Override
-				public void run() {
-					ListenerManager.getLoggedPluginManager().disablePlugin(NovaGuilds.getInstance());
-				}
-			});
-		}
-	}
+        if(NovaGuilds.getInstance().isEnabled()) {
+            NovaGuilds.runTask(new Runnable() {
+                @Override
+                public void run() {
+                    ListenerManager.getLoggedPluginManager().disablePlugin(NovaGuilds.getInstance());
+                }
+            });
+        }
+    }
 }

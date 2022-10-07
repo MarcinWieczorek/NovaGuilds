@@ -33,57 +33,57 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandAdminGuildTeleport extends AbstractCommandExecutor.Reversed<NovaGuild> {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaGuild guild = getParameter();
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaGuild guild = getParameter();
 
-		Location home = guild.getHome();
+        Location home = guild.getHome();
 
-		Player player;
-		boolean other = false;
+        Player player;
+        boolean other = false;
 
-		Map<VarKey, String> vars = new HashMap<>();
-		vars.put(VarKey.GUILD_NAME, guild.getName());
+        Map<VarKey, String> vars = new HashMap<>();
+        vars.put(VarKey.GUILD_NAME, guild.getName());
 
-		if(args.length == 1) {
-			if(!Permission.NOVAGUILDS_ADMIN_GUILD_TELEPORT_OTHER.has(sender)) {
-				Message.CHAT_NOPERMISSIONS.send(sender);
-				return;
-			}
+        if(args.length == 1) {
+            if(!Permission.NOVAGUILDS_ADMIN_GUILD_TELEPORT_OTHER.has(sender)) {
+                Message.CHAT_NOPERMISSIONS.send(sender);
+                return;
+            }
 
-			String playerName = args[0];
-			NovaPlayer nPlayerOther = PlayerManager.getPlayer(playerName);
+            String playerName = args[0];
+            NovaPlayer nPlayerOther = PlayerManager.getPlayer(playerName);
 
-			if(nPlayerOther == null) {
-				Message.CHAT_PLAYER_NOTEXISTS.send(sender);
-				return;
-			}
+            if(nPlayerOther == null) {
+                Message.CHAT_PLAYER_NOTEXISTS.send(sender);
+                return;
+            }
 
-			if(!nPlayerOther.isOnline()) {
-				Message.CHAT_PLAYER_NOTONLINE.send(sender);
-				return;
-			}
+            if(!nPlayerOther.isOnline()) {
+                Message.CHAT_PLAYER_NOTONLINE.send(sender);
+                return;
+            }
 
-			player = nPlayerOther.getPlayer();
-			other = true;
-		}
-		else {
-			if(!(sender instanceof Player)) {
-				Message.CHAT_CMDFROMCONSOLE.send(sender);
-				return;
-			}
+            player = nPlayerOther.getPlayer();
+            other = true;
+        }
+        else {
+            if(!(sender instanceof Player)) {
+                Message.CHAT_CMDFROMCONSOLE.send(sender);
+                return;
+            }
 
-			player = (Player) sender;
-		}
+            player = (Player) sender;
+        }
 
-		if(other) {
-			vars.put(VarKey.PLAYER_NAME, player.getName());
-			Message.CHAT_ADMIN_GUILD_TELEPORTED_OTHER.clone().vars(vars).send(sender);
-		}
-		else {
-			Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.clone().vars(vars).send(sender);
-		}
+        if(other) {
+            vars.put(VarKey.PLAYER_NAME, player.getName());
+            Message.CHAT_ADMIN_GUILD_TELEPORTED_OTHER.clone().vars(vars).send(sender);
+        }
+        else {
+            Message.CHAT_ADMIN_GUILD_TELEPORTED_SELF.clone().vars(vars).send(sender);
+        }
 
-		player.teleport(home);
-	}
+        player.teleport(home);
+    }
 }

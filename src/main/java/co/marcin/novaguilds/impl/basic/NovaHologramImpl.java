@@ -32,117 +32,117 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NovaHologramImpl extends AbstractResource implements NovaHologram {
-	private String name;
-	private Location location;
-	private final List<String> lines = new ArrayList<>();
-	private Hologram hologram;
-	private boolean isTop = false;
-	private boolean deleted = false;
+    private String name;
+    private Location location;
+    private final List<String> lines = new ArrayList<>();
+    private Hologram hologram;
+    private boolean isTop = false;
+    private boolean deleted = false;
 
-	/**
-	 * The constructor
-	 */
-	public NovaHologramImpl() {
-		super(null);
-	}
+    /**
+     * The constructor
+     */
+    public NovaHologramImpl() {
+        super(null);
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public Location getLocation() {
-		return location;
-	}
+    @Override
+    public Location getLocation() {
+        return location;
+    }
 
-	@Override
-	public List<String> getLines() {
-		return lines;
-	}
+    @Override
+    public List<String> getLines() {
+        return lines;
+    }
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public void setLocation(Location location) {
-		this.location = location;
-	}
+    @Override
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
-	@Override
-	public void addLine(String line) {
-		lines.add(line);
-	}
+    @Override
+    public void addLine(String line) {
+        lines.add(line);
+    }
 
-	@Override
-	public void clearLines() {
-		lines.clear();
-	}
+    @Override
+    public void clearLines() {
+        lines.clear();
+    }
 
-	@Override
-	public void addLine(List<String> lines) {
-		this.lines.addAll(lines);
-	}
+    @Override
+    public void addLine(List<String> lines) {
+        this.lines.addAll(lines);
+    }
 
-	@Override
-	public void refresh() {
-		hologram.clearLines();
+    @Override
+    public void refresh() {
+        hologram.clearLines();
 
-		if(isTop()) {
-			clearLines();
-			addLine(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
-			addLine(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
-		}
+        if(isTop()) {
+            clearLines();
+            addLine(Message.HOLOGRAPHICDISPLAYS_TOPGUILDS_HEADER.prefix(false).get());
+            addLine(NovaGuilds.getInstance().getGuildManager().getTopGuilds());
+        }
 
-		for(String line : lines) {
-			if(line.startsWith("[ITEM]")) {
-				String ItemStackLine = line.substring(6);
-				ItemStack is = ItemStackUtils.stringToItemStack(ItemStackLine);
+        for(String line : lines) {
+            if(line.startsWith("[ITEM]")) {
+                String ItemStackLine = line.substring(6);
+                ItemStack is = ItemStackUtils.stringToItemStack(ItemStackLine);
 
-				if(is != null) {
-					hologram.appendItemLine(is);
-				}
-			}
-			else {
-				hologram.appendTextLine(line);
-			}
-		}
-	}
+                if(is != null) {
+                    hologram.appendItemLine(is);
+                }
+            }
+            else {
+                hologram.appendTextLine(line);
+            }
+        }
+    }
 
-	@Override
-	public void teleport(Location location) {
-		hologram.teleport(location);
-		setLocation(location);
-	}
+    @Override
+    public void teleport(Location location) {
+        hologram.teleport(location);
+        setLocation(location);
+    }
 
-	@Override
-	public void create() {
-		hologram = HologramsAPI.createHologram(NovaGuilds.getInstance(), location);
-		refresh();
-	}
+    @Override
+    public void create() {
+        hologram = HologramsAPI.createHologram(NovaGuilds.getInstance(), location);
+        refresh();
+    }
 
-	@Override
-	public void delete() {
-		hologram.delete();
-		NovaGuilds.getInstance().getHologramManager().getHolograms().remove(this);
-		location.getWorld().playEffect(location, Effect.POTION_BREAK, 1000);
-		deleted = true;
-	}
+    @Override
+    public void delete() {
+        hologram.delete();
+        NovaGuilds.getInstance().getHologramManager().getHolograms().remove(this);
+        location.getWorld().playEffect(location, Effect.POTION_BREAK, 1000);
+        deleted = true;
+    }
 
-	@Override
-	public boolean isTop() {
-		return isTop;
-	}
+    @Override
+    public boolean isTop() {
+        return isTop;
+    }
 
-	@Override
-	public boolean isDeleted() {
-		return deleted || hologram.isDeleted();
-	}
+    @Override
+    public boolean isDeleted() {
+        return deleted || hologram.isDeleted();
+    }
 
-	@Override
-	public void setTop(boolean top) {
-		this.isTop = top;
-	}
+    @Override
+    public void setTop(boolean top) {
+        this.isTop = top;
+    }
 }

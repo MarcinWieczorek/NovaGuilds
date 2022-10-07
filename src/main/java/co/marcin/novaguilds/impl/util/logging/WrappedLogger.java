@@ -25,25 +25,25 @@ import org.bukkit.plugin.PluginLogger;
 import java.util.logging.Level;
 
 public class WrappedLogger extends PluginLogger {
-	/**
-	 * The constructor
-	 *
-	 * @param context plugin instance
-	 */
-	public WrappedLogger(Plugin context) {
-		super(context);
-	}
+    /**
+     * The constructor
+     *
+     * @param context plugin instance
+     */
+    public WrappedLogger(Plugin context) {
+        super(context);
+    }
 
-	@Override
-	public void log(Level level, String msg, Throwable thrown) {
-		if(level == Level.WARNING) {
-			StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-			if(ste[2].getClassName().endsWith("CraftScheduler")) {
-				LoggerUtils.exception(thrown);
-			}
-		}
-		else {
-			super.log(level, msg, thrown);
-		}
-	}
+    @Override
+    public void log(Level level, String msg, Throwable thrown) {
+        if(level == Level.WARNING) {
+            StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+            if(ste[2].getClassName().endsWith("CraftScheduler")) {
+                LoggerUtils.exception(thrown);
+            }
+        }
+        else {
+            super.log(level, msg, thrown);
+        }
+    }
 }

@@ -19,52 +19,52 @@
 package co.marcin.novaguilds.api.util;
 
 public interface BlockPositionWrapper {
-	/**
-	 * Gets x coordinate
-	 *
-	 * @return integer
-	 */
-	int getX();
+    /**
+     * Gets x coordinate
+     *
+     * @return integer
+     */
+    int getX();
 
-	/**
-	 * Gets y coordinate
-	 *
-	 * @return integer
-	 */
-	int getY();
+    /**
+     * Gets y coordinate
+     *
+     * @return integer
+     */
+    int getY();
 
-	/**
-	 * Gets z coordinate
-	 *
-	 * @return integer
-	 */
-	int getZ();
+    /**
+     * Gets z coordinate
+     *
+     * @return integer
+     */
+    int getZ();
 
-	/**
-	 * Sets x coordinate
-	 *
-	 * @param x integer
-	 */
-	void setX(int x);
+    /**
+     * Sets x coordinate
+     *
+     * @param x integer
+     */
+    void setX(int x);
 
-	/**
-	 * Sets y coordinate
-	 *
-	 * @param y integer
-	 */
-	void setY(int y);
+    /**
+     * Sets y coordinate
+     *
+     * @param y integer
+     */
+    void setY(int y);
 
-	/**
-	 * Sets z coordinate
-	 *
-	 * @param z integer
-	 */
-	void setZ(int z);
+    /**
+     * Sets z coordinate
+     *
+     * @param z integer
+     */
+    void setZ(int z);
 
-	/**
-	 * Gets BlockPosition object
-	 *
-	 * @return BlockPosition instance
-	 */
-	Object getBlockPosition();
+    /**
+     * Gets BlockPosition object
+     *
+     * @return BlockPosition instance
+     */
+    Object getBlockPosition();
 }

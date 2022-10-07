@@ -31,47 +31,47 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CommandGuildChatMode extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		ChatMode chatMode;
-		if(args.length == 0) {
-			chatMode = nPlayer.getPreferences().getChatMode().next();
-		}
-		else {
-			chatMode = ChatMode.fromString(args[0]);
-		}
+        ChatMode chatMode;
+        if(args.length == 0) {
+            chatMode = nPlayer.getPreferences().getChatMode().next();
+        }
+        else {
+            chatMode = ChatMode.fromString(args[0]);
+        }
 
-		if(chatMode == null) {
-			Message.CHAT_GUILD_CHATMODE_INVALID.send(sender);
-			return;
-		}
+        if(chatMode == null) {
+            Message.CHAT_GUILD_CHATMODE_INVALID.send(sender);
+            return;
+        }
 
-		if(ChatMode.NORMAL.next() == ChatMode.NORMAL || !chatMode.isEnabled()) {
-			Message.CHAT_NOPERMISSIONS.send(sender);
-			return;
-		}
+        if(ChatMode.NORMAL.next() == ChatMode.NORMAL || !chatMode.isEnabled()) {
+            Message.CHAT_NOPERMISSIONS.send(sender);
+            return;
+        }
 
-		nPlayer.getPreferences().setChatMode(chatMode);
+        nPlayer.getPreferences().setChatMode(chatMode);
 
-		Message.CHAT_GUILD_CHATMODE_SUCCESS.clone().setVar(VarKey.MODE, chatMode.getName().get()).send(sender);
-		TabUtils.refresh(nPlayer);
-	}
+        Message.CHAT_GUILD_CHATMODE_SUCCESS.clone().setVar(VarKey.MODE, chatMode.getName().get()).send(sender);
+        TabUtils.refresh(nPlayer);
+    }
 
-	@Override
-	public Set<String> tabCompleteOptions(CommandSender sender, String[] args) {
-		Set<String> options = new HashSet<>();
+    @Override
+    public Set<String> tabCompleteOptions(CommandSender sender, String[] args) {
+        Set<String> options = new HashSet<>();
 
-		for(ChatMode chatMode : ChatMode.valuesEnabled()) {
-			options.add(chatMode.name().toLowerCase());
-		}
+        for(ChatMode chatMode : ChatMode.valuesEnabled()) {
+            options.add(chatMode.name().toLowerCase());
+        }
 
-		return options;
-	}
+        return options;
+    }
 }

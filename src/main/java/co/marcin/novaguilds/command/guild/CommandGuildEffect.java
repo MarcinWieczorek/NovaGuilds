@@ -39,61 +39,61 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 
 public class CommandGuildEffect extends AbstractCommandExecutor {
-	@Override
-	public void execute(CommandSender sender, String[] args) throws Exception {
-		NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
-		Player player = (Player) sender;
+    @Override
+    public void execute(CommandSender sender, String[] args) throws Exception {
+        NovaPlayer nPlayer = PlayerManager.getPlayer(sender);
+        Player player = (Player) sender;
 
-		if(!nPlayer.hasGuild()) {
-			Message.CHAT_GUILD_NOTINGUILD.send(sender);
-			return;
-		}
+        if(!nPlayer.hasGuild()) {
+            Message.CHAT_GUILD_NOTINGUILD.send(sender);
+            return;
+        }
 
-		if(!nPlayer.hasPermission(GuildPermission.EFFECT)) {
-			Message.CHAT_GUILD_NOGUILDPERM.send(sender);
-			return;
-		}
+        if(!nPlayer.hasPermission(GuildPermission.EFFECT)) {
+            Message.CHAT_GUILD_NOGUILDPERM.send(sender);
+            return;
+        }
 
-		//Money
-		double money = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.EFFECT_MONEY);
-		if(!nPlayer.getGuild().hasMoney(money)) {
-			Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
-			return;
-		}
+        //Money
+        double money = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.EFFECT_MONEY);
+        if(!nPlayer.getGuild().hasMoney(money)) {
+            Message.CHAT_GUILD_NOTENOUGHMONEY.send(sender);
+            return;
+        }
 
-		//items
-		List<ItemStack> guildEffectItems = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.EFFECT_ITEMS);
-		if(!guildEffectItems.isEmpty()) {
-			List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), guildEffectItems);
+        //items
+        List<ItemStack> guildEffectItems = GroupManager.getGroup(sender).get(NovaGroupImpl.Key.EFFECT_ITEMS);
+        if(!guildEffectItems.isEmpty()) {
+            List<ItemStack> missingItems = InventoryUtils.getMissingItems(player.getInventory(), guildEffectItems);
 
-			if(!missingItems.isEmpty()) {
-				Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
-				sender.sendMessage(StringUtils.getItemList(missingItems));
-				return;
-			}
-		}
+            if(!missingItems.isEmpty()) {
+                Message.CHAT_CREATEGUILD_NOITEMS.send(sender);
+                sender.sendMessage(StringUtils.getItemList(missingItems));
+                return;
+            }
+        }
 
-		//Generate effect
-		List<PotionEffectType> potionEffects = plugin.getConfigManager().getGuildEffects();
-		int index = NumberUtils.randInt(0, potionEffects.size() - 1);
-		PotionEffectType effectType = potionEffects.get(index);
-		PotionEffect effect = effectType.createEffect(Config.GUILD_EFFECT_DURATION.getSeconds() * 20, 1);
+        //Generate effect
+        List<PotionEffectType> potionEffects = plugin.getConfigManager().getGuildEffects();
+        int index = NumberUtils.randInt(0, potionEffects.size() - 1);
+        PotionEffectType effectType = potionEffects.get(index);
+        PotionEffect effect = effectType.createEffect(Config.GUILD_EFFECT_DURATION.getSeconds() * 20, 1);
 
 
-		//add effect
-		for(Player gPlayer : nPlayer.getGuild().getOnlinePlayers()) {
-			if(gPlayer.hasPotionEffect(effectType)) {
-				gPlayer.removePotionEffect(effectType);
-			}
+        //add effect
+        for(Player gPlayer : nPlayer.getGuild().getOnlinePlayers()) {
+            if(gPlayer.hasPotionEffect(effectType)) {
+                gPlayer.removePotionEffect(effectType);
+            }
 
-			gPlayer.addPotionEffect(effect);
-		}
+            gPlayer.addPotionEffect(effect);
+        }
 
-		//remove money and items
-		nPlayer.getGuild().takeMoney(money);
-		InventoryUtils.removeItems(player, guildEffectItems);
+        //remove money and items
+        nPlayer.getGuild().takeMoney(money);
+        InventoryUtils.removeItems(player, guildEffectItems);
 
-		//message
-		Message.CHAT_GUILD_EFFECT_SUCCESS.clone().setVar(VarKey.EFFECTTYPE, effectType.getName()).send(sender);
-	}
+        //message
+        Message.CHAT_GUILD_EFFECT_SUCCESS.clone().setVar(VarKey.EFFECTTYPE, effectType.getName()).send(sender);
+    }
 }

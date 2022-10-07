@@ -28,27 +28,27 @@ import org.bukkit.event.EventHandler;
 import org.kitteh.vanish.event.VanishStatusChangeEvent;
 
 public class VanishListener extends AbstractListener {
-	/**
-	 * Support VanishNoPacket plugin
-	 *
-	 * @param event vanish status change event
-	 */
-	@EventHandler
-	public void onVanishStatusChange(VanishStatusChangeEvent event) {
-		Player player = event.getPlayer();
+    /**
+     * Support VanishNoPacket plugin
+     *
+     * @param event vanish status change event
+     */
+    @EventHandler
+    public void onVanishStatusChange(VanishStatusChangeEvent event) {
+        Player player = event.getPlayer();
 
-		if(event.isVanishing()) {
-			NovaPlayer nPlayer = PlayerManager.getPlayer(player);
+        if(event.isVanishing()) {
+            NovaPlayer nPlayer = PlayerManager.getPlayer(player);
 
-			if(nPlayer.getAtRegion() != null) {
-				plugin.getRegionManager().playerExitedRegion(player);
-			}
-		}
-		else {
-			NovaRegion region = RegionManager.get(player);
-			if(region != null) {
-				plugin.getRegionManager().playerEnteredRegion(player, region);
-			}
-		}
-	}
+            if(nPlayer.getAtRegion() != null) {
+                plugin.getRegionManager().playerExitedRegion(player);
+            }
+        }
+        else {
+            NovaRegion region = RegionManager.get(player);
+            if(region != null) {
+                plugin.getRegionManager().playerEnteredRegion(player, region);
+            }
+        }
+    }
 }

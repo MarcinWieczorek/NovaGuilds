@@ -21,53 +21,53 @@ package co.marcin.novaguilds.api.basic;
 import co.marcin.novaguilds.api.storage.Resource;
 
 public interface CommandExecutorHandler extends Runnable {
-	enum State {
-		WAITING,
-		CANCELED,
-		CONFIRMED
-	}
+    enum State {
+        WAITING,
+        CANCELED,
+        CONFIRMED
+    }
 
-	/**
-	 * Executes the command
-	 */
-	void execute();
+    /**
+     * Executes the command
+     */
+    void execute();
 
-	/**
-	 * Cancels the command
-	 */
-	void cancel();
+    /**
+     * Cancels the command
+     */
+    void cancel();
 
-	/**
-	 * Sets command status as confirmed
-	 * and executes it
-	 */
-	void confirm();
+    /**
+     * Sets command status as confirmed
+     * and executes it
+     */
+    void confirm();
 
-	/**
-	 * Gets the command
-	 *
-	 * @return the command enum
-	 */
-	CommandWrapper getCommand();
+    /**
+     * Gets the command
+     *
+     * @return the command enum
+     */
+    CommandWrapper getCommand();
 
-	/**
-	 * Gets execution status
-	 *
-	 * @return get the state
-	 */
-	State getState();
+    /**
+     * Gets execution status
+     *
+     * @return get the state
+     */
+    State getState();
 
-	/**
-	 * Gets executor variable
-	 *
-	 * @return the object
-	 */
-	Resource getExecutorVariable();
+    /**
+     * Gets executor variable
+     *
+     * @return the object
+     */
+    Resource getExecutorVariable();
 
-	/**
-	 * Sets executor variable
-	 *
-	 * @param executorVariable the object
-	 */
-	void executorVariable(Resource executorVariable);
+    /**
+     * Sets executor variable
+     *
+     * @param executorVariable the object
+     */
+    void executorVariable(Resource executorVariable);
 }
